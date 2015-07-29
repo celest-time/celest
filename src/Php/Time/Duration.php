@@ -106,20 +106,21 @@ use const Php\Time\SECONDS_PER_MINUTE;
  */
 final class Duration implements TemporalAmount
 {
+    /** @var Duration $ZERO */
     private static $ZERO;
 
-    public function init()
+    public static function init()
     {
         self::$ZERO = new Duration(0, 0);
     }
 
     /**
      * Constant for a duration of zero.
-     * @var Duration
+     * @return Duration
      */
     public function ZERO()
     {
-        return self::ZERO();
+        return self::$ZERO;
     }
 
     /**
