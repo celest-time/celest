@@ -64,6 +64,7 @@ namespace Php\Time;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\ValueRange;
 
 /**
  * A month-of-year, such as 'July'.

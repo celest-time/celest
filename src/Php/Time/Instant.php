@@ -71,6 +71,7 @@ use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\ValueRange;
 
 /**
  * An instantaneous point on the time-line.

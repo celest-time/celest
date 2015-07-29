@@ -66,6 +66,7 @@ namespace Php\Time;
  */
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\ValueRange;
 
 /**
  * A day-of-week, such as 'Tuesday'.
