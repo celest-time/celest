@@ -1344,3 +1344,4 @@ final class Duration implements TemporalAmount
     }
 }
 
+Duration::init();
