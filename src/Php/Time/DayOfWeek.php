@@ -64,6 +64,8 @@ namespace Php\Time;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+use Php\Time\Temporal\TemporalAdjuster;
+use Php\Time\Temporal\TemporalField;
 
 /**
  * A day-of-week, such as 'Tuesday'.

@@ -5,6 +5,15 @@ namespace Php\Time;
 /**
  * Hours per day.
  */
+use Php\Time\Temporal\ArithmeticException;
+use Php\Time\Temporal\Temporal;
+use Php\Time\Temporal\TemporalAdjuster;
+use Php\Time\Temporal\TemporalAmount;
+use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQuery;
+use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
+use Php\Time\Temporal\ValueRange;
 const HOURS_PER_DAY = 24;
 /**
  * Minutes per hour.
@@ -51,7 +60,7 @@ const NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
  */
 const NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
 
-final class LocalTime implements Temporal, TemporalAdjuster, Serializable
+final class LocalTime implements Temporal, TemporalAdjuster
 {
 
 }

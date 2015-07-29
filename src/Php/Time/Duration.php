@@ -66,6 +66,8 @@ use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
+use Php\Time\Temporal\TemporalAmount;
+use Php\Time\Temporal\TemporalUnit;
 
 /**
  * A time-based amount of time, such as '34.5 seconds'.
@@ -543,12 +545,12 @@ final class Duration implements TemporalAmount
      * This set can be used in conjunction with {@link #get(TemporalUnit)}
      * to access the entire state of the duration.
      *
-     * @return a list containing the seconds and nanos units, not null
+     * @return TemporalUnit[] a list containing the seconds and nanos units, not null
      */
-//public List<TemporalUnit > getUnits()
-//{
-//return DurationUnits->UNITS;
-//}
+    public function getUnits()
+    {
+        return [SECONDS, NANOS];
+    }
 
     /**
      * Private class to delay initialization of this list until needed.
