@@ -1,0 +1,9 @@
+- generics
+- function overloading
+- rounding errors
+- move default implementations
+- ENUMS
+- switches on ENUMS
+- get/getLong
+- query call
+- equals calls
