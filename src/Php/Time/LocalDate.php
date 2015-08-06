@@ -116,14 +116,24 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     /**
      * The minimum supported {@code LocalDate}, '-999999999-01-01'.
      * This could be used by an application as a "far past" date.
-     * @var LocalDate
+     * @return LocalDate
      */
+    public static function MIN()
+    {
+        return self::$MIN;
+    }
+    /** @var @var LocalDate */
     private static $MIN;
     /**
      * The maximum supported {@code LocalDate}, '+999999999-12-31'.
      * This could be used by an application as a "far future" date.
-     * @var LocalDate
+     * @return LocalDate
      */
+    public static function MAX()
+    {
+        return self::$MAX;
+    }
+    /** @var @var LocalDate */
     private static $MAX;
 
     /**
