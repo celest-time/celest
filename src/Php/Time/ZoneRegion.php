@@ -154,6 +154,7 @@ class ZoneRegion extends ZoneId
      */
     public function __construct($id, ZoneRules $rules)
     {
+        parent::__construct();
         $this->id = $id;
         $this->rules = $rules;
     }
