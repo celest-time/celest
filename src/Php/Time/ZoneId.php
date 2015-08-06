@@ -256,7 +256,7 @@ abstract class ZoneId
             return $offset;
         }
 
-        if ($prefix !== "GMT" && $prefix !== "UTC" && $prefix !=== "UT") {
+        if ($prefix !== "GMT" && $prefix !== "UTC" && $prefix !== "UT") {
             throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " . $prefix);
         }
 
