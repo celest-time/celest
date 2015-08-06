@@ -131,7 +131,7 @@ final class Duration implements TemporalAmount
     private static $BI_NANOS_PER_SECOND = NANOS_PER_SECOND;
     /**
      * The pattern for parsing.
-     * @var $PATTERN
+     * TODO
      */
     private static $PATTERN =
         "([-+]?)P(?:([-+]?[0-9]+)D)?" .
