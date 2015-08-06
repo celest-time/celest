@@ -199,7 +199,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * Constant for the 1970-01-01T00:00:00Z epoch instant.
      * @return Instant
      */
-    public function EPOCH()
+    public static function EPOCH()
     {
         return self::$EPOCH;
     }
