@@ -359,7 +359,7 @@ abstract class ZoneId
      * Constructor only accessible within the package.
      * TODO package visiblity
      */
-    public function __constructor()
+    public function __construct()
     {
         if (get_class() != 'Php\Time\ZoneOffset' && get_class() != 'Php\Time\ZoneRegion') {
             throw new AssertionError("Invalid subclass");
