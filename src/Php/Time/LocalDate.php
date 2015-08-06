@@ -1718,7 +1718,13 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         return $unit->between($this, $end);
     }
 
-    private function daysUntil(LocalDate $end)
+    /**
+     * TODO Should be package local
+     * @internal
+     * @param LocalDate $end
+     * @return int
+     */
+    function daysUntil(LocalDate $end)
     {
         return $end->toEpochDay() - $this->toEpochDay();  // no overflow
     }
@@ -1980,7 +1986,12 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         return ChronoLocalDate::compareTo($other);
     }
 
-    private function compareTo0(LocalDate $otherDate)
+    /**
+     * TODO internal
+     * @param LocalDate $otherDate
+     * @return int
+     */
+    function compareTo0(LocalDate $otherDate)
     {
         $cmp = ($this->year - $otherDate->year);
         if ($cmp == 0) {
