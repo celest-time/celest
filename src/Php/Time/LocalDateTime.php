@@ -488,7 +488,7 @@ final class LocalDateTime
      */
     public static function parse($text)
     {
-        return $this->parse($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME);
+        return self::parse($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME);
     }
 
     /**
