@@ -63,6 +63,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Chrono\ChronoPeriod;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAmount;
@@ -1039,7 +1040,7 @@ final class Period implements ChronoPeriod
      *
      * @return string a string representation of this period, not null
      */
-    public function toString()
+    public function __toString()
     {
         if ($this == self::$ZERO) {
             return "P0D";
