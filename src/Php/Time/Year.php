@@ -1112,3 +1112,4 @@ final class Year
 
 }
 
+Year::init();
