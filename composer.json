@@ -1,0 +1,14 @@
+{
+  "name": "Php.Time",
+  "autoload": {
+    "psr-0": {
+      "Php\\Time": "src/"
+    }
+  },
+  "require": {
+    "ext-gmp": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*"
+  }
+}
