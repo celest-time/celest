@@ -172,15 +172,6 @@ interface TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
     public function range(TemporalField $field);
-//if (field instanceof ChronoField) {
-//if (isSupported(field)) {
-//return field.range();
-//}
-//            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-//        }
-//        Objects.requireNonNull(field, "field");
-    //return field.rangeRefinedBy(this);
-    //}
 
     /**
      * Gets the value of the specified field as an {@code int}.
@@ -220,19 +211,6 @@ interface TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function get(TemporalField $field);
-//{
-//ValueRange range = range(field);
-//if (range.isIntValue() == false)
-//{
-//throw new UnsupportedTemporalTypeException("Invalid field " + field + " for get() method, use getLong() instead");
-//}
-
-//long value = getLong(field);
-//        if (range . isValidValue(value) == false) {
-//            throw new DateTimeException("Invalid value for " + field + " (valid values " + range + "): " + value);
-//        }
-//        return (int)value;
-//    }
 
     /**
      * Gets the value of the specified field as a {@code long}.
@@ -314,16 +292,4 @@ interface TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function query(TemporalQuery $query);
-//{
-//if (query == TemporalQueries . zoneId()
-//|| query == TemporalQueries . chronology()
-//|| query == TemporalQueries . precision()
-//)
-//{
-//return null;
-//}
-
-//return query . queryFrom(this);
-//}
-
 }

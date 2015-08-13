@@ -385,6 +385,4 @@ interface TemporalField
      * @return string the name of the field, not null
      */
     public function __toString();
-
-
 }

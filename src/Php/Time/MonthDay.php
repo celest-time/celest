@@ -63,6 +63,7 @@
 namespace Php\Time;
 
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\ValueRange;
 
@@ -381,7 +382,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             if ($field == DAY_OF_MONTH) {
                 return ValueRange::of(1, $this->getMonth()->minLength(), $this->getMonth()->maxLength());
             }
-        return TemporalAccessor::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**
@@ -603,7 +604,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             return IsoChronology::$INSTANCE;
         }
 
-        return TemporalAccessor::query($query);
+        return TemporalAccessorDefaults::query($this, $query);
     }
 
     /**

@@ -66,6 +66,7 @@ namespace Php\Time;
 
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\ValueRange;
 
@@ -594,7 +595,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function range(TemporalField $field)
     {
-        return TemporalAccessor::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**
@@ -691,7 +692,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             return $this;
         }
 
-        return TemporalAccessor::query($query);
+        return TemporalAccessorDefaults::query($this, $query);
     }
 
     /**

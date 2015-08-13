@@ -63,6 +63,7 @@
 namespace Php\Time;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\ValueRange;
@@ -334,7 +335,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $field->range();
         }
 
-        return TemporalAccessor::$super->range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**
@@ -368,7 +369,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $this->getValue();
         }
 
-        return TemporalAccessor::$super->get($field);
+        return TemporalAccessorDefaults::get($this, $field);
     }
 
     /**
@@ -606,7 +607,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             if ($query == TemporalQueries::precision()) {
                 return MONTHS;
             }
-        return TemporalAccessor::query($query);
+        return TemporalAccessorDefaults::query($this, $query);
     }
 
     /**

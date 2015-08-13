@@ -68,6 +68,7 @@ use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
 use Php\Time\Temporal\Temporal;
+use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalUnit;

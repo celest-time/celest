@@ -65,6 +65,8 @@ namespace Php\Time;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 use Php\Time\Temporal\Temporal;
+use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\ValueRange;
@@ -295,7 +297,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
         if ($field == DAY_OF_WEEK) {
             return $field->range();
         }
-        return TemporalAccessor::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**
@@ -327,7 +329,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
         if ($field == DAY_OF_WEEK) {
             return $this->getValue();
         }
-        return TemporalAccessor::get($field);
+        return TemporalAccessorDefaults::get($this, $field);
     }
 
     /**
@@ -419,7 +421,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
         if ($query == TemporalQueries::precision()) {
             return DAYS;
         }
-        return TemporalAccessor::query($query);
+        return TemporalAccessorDefaults::query($this, $query);
     }
 
     /**
