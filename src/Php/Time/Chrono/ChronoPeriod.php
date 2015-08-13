@@ -113,8 +113,6 @@ interface ChronoPeriod
      * @see ChronoLocalDate#until(ChronoLocalDate)
      */
     public static function between(ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive);
-//return startDateInclusive.until(endDateExclusive);
-
 
     //-----------------------------------------------------------------------
     /**
@@ -165,16 +163,6 @@ interface ChronoPeriod
      * @return bool true if this period is zero-length
      */
     function isZero();
-    /*{
-    for (TemporalUnit unit : getUnits())
-    {
-    if (get(unit) != 0)
-    {
-    return false;
-    }
-    }
-    return true;
-    }*/
 
     /**
      * Checks if any of the supported units of this period are negative.
@@ -182,17 +170,6 @@ interface ChronoPeriod
      * @return bool true if any unit of this period is negative
      */
     function isNegative();
-    /*{
-    for (TemporalUnit unit : getUnits())
-    {
-    if (get(unit) < 0)
-    {
-    return true;
-    }
-    }
-    return false;
-    }*/
-
 //-----------------------------------------------------------------------
     /**
      * Returns a copy of this period with the specified period added.
@@ -254,8 +231,6 @@ interface ChronoPeriod
      *  one of the units has the value {@code Long.MIN_VALUE}
      */
     function negated();
-//return multipliedBy(-1);
-
 
 //-----------------------------------------------------------------------
     /**
