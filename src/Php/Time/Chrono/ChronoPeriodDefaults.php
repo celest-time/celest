@@ -4,6 +4,8 @@ namespace Php\Time\Chrono;
 
 class ChronoPeriodDefaults
 {
+    private function __construct() {}
+
     public static function between(ChronoPeriod $_this, ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive)
     {
         return $startDateInclusive->until($endDateExclusive);

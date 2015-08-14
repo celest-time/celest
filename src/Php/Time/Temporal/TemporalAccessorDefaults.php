@@ -7,6 +7,8 @@ use Php\Time\UnsupportedTemporalTypeException;
 
 class TemporalAccessorDefaults
 {
+    private function __construct() {}
+
     public static function range(TemporalAccessor $_this, TemporalField $field)
     {
         if ($field instanceof ChronoField) {

@@ -19,6 +19,8 @@ use Php\Time\ZoneId;
 
 class ChronologyDefaults
 {
+    private function __construct() {}
+
     public static function from(TemporalAccessor $temporal)
     {
         $obj = $temporal->query(TemporalQueries::chronology());

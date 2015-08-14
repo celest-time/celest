@@ -12,6 +12,7 @@ use Php\Time\UnsupportedTemporalTypeException;
 
 class EraDefaults
 {
+    private function __construct() {}
 
     public static function isSupported(Era $_this, TemporalField $field)
     {

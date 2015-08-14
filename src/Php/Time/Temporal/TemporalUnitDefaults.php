@@ -8,6 +8,8 @@ use Php\Time\UnsupportedTemporalTypeException;
 
 class TemporalUnitDefaults
 {
+    private function __construct() {}
+
     public static function isSupportedBy(TemporalUnit $_this, Temporal $temporal)
     {
         if ($temporal instanceof LocalTime) {
