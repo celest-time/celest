@@ -63,6 +63,7 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\DateTimeException;
+use Php\Time\Format\ResolverStyle;
 use Php\Time\UnsupportedTemporalTypeException;
 
 /**
