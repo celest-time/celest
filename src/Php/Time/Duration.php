@@ -667,7 +667,7 @@ final class Duration implements TemporalAmount
     public
     function withNanos($nanoOfSecond)
     {
-        $NANO_OF_SECOND->checkValidIntValue($nanoOfSecond);
+        ChronoField::SECOND_OF_DAY()->checkValidIntValue($nanoOfSecond);
         return self::create($this->seconds, $nanoOfSecond);
     }
 
