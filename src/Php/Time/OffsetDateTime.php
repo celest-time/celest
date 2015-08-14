@@ -66,6 +66,7 @@ use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalField;
@@ -622,7 +623,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
 
             return $this->dateTime->get($field);
         }
-        return Temporal::get($field);
+        return TemporalAccessorDefaults::get($this, $field);
     }
 
     /**

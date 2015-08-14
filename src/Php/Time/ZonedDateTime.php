@@ -244,7 +244,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     public
     static function of(LocalDate $date, LocalTime $time, ZoneId $zone)
     {
-        return self::of(LocalDateTime->of($date, $time), $zone);
+        return self::of(LocalDateTime::of($date, $time), $zone);
 }
 
     /**
