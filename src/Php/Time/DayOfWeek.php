@@ -72,6 +72,7 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\ValueRange;
 
 /**
