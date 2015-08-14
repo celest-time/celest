@@ -20,7 +20,7 @@ class EraDefaults
         return $field != null && $field->isSupportedBy($_this);
     }
 
-    function range(Era $_this, TemporalField $field)
+    public static function range(Era $_this, TemporalField $field)
     {
         return TemporalAccessorDefaults::range($_this, $field);
     }
@@ -61,7 +61,7 @@ class EraDefaults
 
 //-----------------------------------------------------------------------
 
-    public function getDisplayName(Era $_this, TextStyle $style, Locale $locale)
+    public static function getDisplayName(Era $_this, TextStyle $style, Locale $locale)
     {
         return (new DateTimeFormatterBuilder())->appendText(ChronoField::ERA(), $style)->toFormatter($locale)->format($_this);
     }

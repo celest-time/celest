@@ -259,7 +259,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function ĺadjustInto(Temporal $temporal);
+    function adjustInto(Temporal $temporal);
 
 //-----------------------------------------------------------------------
     /**
