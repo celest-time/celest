@@ -7,6 +7,7 @@ use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQuery;
 use Php\Time\UnsupportedTemporalTypeException;
 
 class EraDefaults
@@ -51,7 +52,7 @@ class EraDefaults
             return ChronoUnit::ERAS();
         }
 
-        return TemporalAccessorDefaults::query($query);
+        return TemporalAccessorDefaults::query($_this, $query);
     }
 
     public static function adjustInto(Era $_this, Temporal $temporal)

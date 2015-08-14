@@ -65,6 +65,7 @@ namespace Php\Time\Chrono;
 use Php\Time\DateTimeException;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\Temporal;
+use Php\Time\Temporal\TemporalQuery;
 
 /**
  * An era in the ISO calendar system.
