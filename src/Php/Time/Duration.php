@@ -521,7 +521,7 @@ final class Duration implements TemporalAmount
      * {@link ChronoUnit#SECONDS SECONDS} and {@link ChronoUnit#NANOS NANOS}.
      * All other units throw an exception.
      *
-     * @param unit TemporalUnit the {@code TemporalUnit} for which to return the value
+     * @param $unit TemporalUnit the {@code TemporalUnit} for which to return the value
      * @return int the long value of the unit
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported

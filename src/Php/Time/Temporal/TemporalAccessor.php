@@ -292,4 +292,6 @@ interface TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function query(TemporalQuery $query);
+
+    public function __toString();
 }

@@ -65,6 +65,7 @@ namespace Php\Time;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 use Php\Time\Chrono\TextStyle;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -243,7 +244,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @return String the text value of the day-of-week, not null
      */
     public function getDisplayName(TextStyle $style, Locale $locale) {
-        return (new DateTimeFormatterBuilder())->appendText(ChronoField::DAY_OF_WEEK(), $style)->toFormatter($locale).format($this);
+        return (new DateTimeFormatterBuilder())->appendText(ChronoField::DAY_OF_WEEK(), $style)->toFormatter($locale)->format($this);
     }
 
     //-----------------------------------------------------------------------
