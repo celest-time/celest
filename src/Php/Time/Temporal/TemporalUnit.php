@@ -166,29 +166,6 @@ interface TemporalUnit
      * @return bool true if the unit is supported
      */
     public function isSupportedBy(Temporal $temporal);
-//if (temporal instanceof LocalTime) {
-//return isTimeBased();
-//}
-//        if (temporal instanceof ChronoLocalDate) {
-//            return isDateBased();
-//        }
-//        if (temporal instanceof ChronoLocalDateTime || temporal instanceof ChronoZonedDateTime) {
-//            return true;
-//        }
-//        try {
-//            temporal.plus(1, this);
-//            return true;
-//        } catch (UnsupportedTemporalTypeException ex) {
-//    return false;
-//} catch (RuntimeException ex) {
-//    try {
-//        temporal.plus(-1, this);
-//        return true;
-//    } catch (RuntimeException ex2) {
-//        return false;
-//    }
-//        }
-//    }
 
     /**
      * Returns a copy of the specified temporal object with the specified period added.
