@@ -225,7 +225,7 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with($field, $newValue);
+    public function with(TemporalField $field, $newValue);
 
     //-----------------------------------------------------------------------
     /**
