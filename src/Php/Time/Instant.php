@@ -63,6 +63,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Format\DateTimeFormatter;
 use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;

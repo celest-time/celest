@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
