@@ -64,6 +64,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -312,12 +313,12 @@ final class LocalTime
      */
     public static function of($hour, $minute)
     {
-        HOUR_OF_DAY::checkValidValue($hour);
+        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
         if ($minute == 0) {
             return self::$HOURS[$hour];  // for performance
         }
 
-        MINUTE_OF_HOUR::checkValidValue($minute);
+        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
         return new LocalTime($hour, $minute, 0, 0);
     }
 
@@ -335,13 +336,13 @@ final class LocalTime
      */
     public static function of($hour, $minute, $second)
     {
-        HOUR_OF_DAY::checkValidValue($hour);
+        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
         if (($minute | $second) == 0) {
             return self::$HOURS[$hour];  // for performance
         }
 
-        MINUTE_OF_HOUR::checkValidValue($minute);
-        SECOND_OF_MINUTE::checkValidValue($second);
+        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
+        ChronoField::SECOND_OF_MINUTE()->checkValidValue($second);
         return new LocalTime($hour, $minute, $second, 0);
     }
 
@@ -359,10 +360,10 @@ final class LocalTime
      */
     public static function of($hour, $minute, $second, $nanoOfSecond)
     {
-        HOUR_OF_DAY::checkValidValue($hour);
-        MINUTE_OF_HOUR::checkValidValue($minute);
-        SECOND_OF_MINUTE::checkValidValue($second);
-        NANO_OF_SECOND::checkValidValue($nanoOfSecond);
+        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
+        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
+        ChronoField::SECOND_OF_MINUTE()->checkValidValue($second);
+        ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
         return self::create($hour, $minute, $second, $nanoOfSecond);
     }
 
@@ -380,7 +381,7 @@ final class LocalTime
     public
     static function ofSecondOfDay($secondOfDay)
     {
-        SECOND_OF_DAY::checkValidValue($secondOfDay);
+        ChronoField::SECOND_OF_DAY()->checkValidValue($secondOfDay);
         $hours = (int)($secondOfDay / SECONDS_PER_HOUR);
         $secondOfDay -= $hours * SECONDS_PER_HOUR;
         $minutes = (int)($secondOfDay / SECONDS_PER_MINUTE);
@@ -400,7 +401,7 @@ final class LocalTime
     public
     static function ofNanoOfDay($nanoOfDay)
     {
-        NANO_OF_DAY::checkValidValue($nanoOfDay);
+        ChronoField::NANO_OF_DAY()->checkValidValue($nanoOfDay);
         $hours = (int)($nanoOfDay / NANOS_PER_HOUR);
         $nanoOfDay -= $hours * NANOS_PER_HOUR;
         $minutes = (int)($nanoOfDay / NANOS_PER_MINUTE);
@@ -685,11 +686,11 @@ final class LocalTime
     public function getLong(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == NANO_OF_DAY) {
+            if ($field == ChronoField::NANO_OF_DAY()) {
                 return $this->toNanoOfDay();
             }
 
-            if ($field == MICRO_OF_DAY) {
+            if ($field == ChronoField::MICRO_OF_DAY()) {
                 return $this->toNanoOfDay() / 1000;
             }
             return $this->get0($field);
@@ -700,36 +701,36 @@ final class LocalTime
     private function get0(TemporalField $field)
     {
         switch ($field) {
-            case NANO_OF_SECOND:
+            case ChronoField::NANO_OF_SECOND():
                 return $this->nano;
-            case NANO_OF_DAY:
+            case ChronoField::NANO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
-            case MICRO_OF_SECOND:
+            case ChronoField::MICRO_OF_SECOND():
                 return $this->nano / 1000;
-            case MICRO_OF_DAY:
+            case ChronoField::MICRO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
-            case MILLI_OF_SECOND:
+            case ChronoField::MILLI_OF_SECOND():
                 return $this->nano / 1000000;
-            case MILLI_OF_DAY:
+            case ChronoField::MILLI_OF_DAY():
                 return (int)($this->toNanoOfDay() / 1000000);
-            case SECOND_OF_MINUTE:
+            case ChronoField::SECOND_OF_MINUTE():
                 return $this->second;
-            case SECOND_OF_DAY:
+            case ChronoField::SECOND_OF_DAY():
                 return $this->toSecondOfDay();
-            case MINUTE_OF_HOUR:
+            case ChronoField::MINUTE_OF_HOUR():
                 return $this->minute;
-            case MINUTE_OF_DAY:
+            case ChronoField::MINUTE_OF_DAY():
                 return $this->hour * 60 + $this->minute;
-            case HOUR_OF_AMPM:
+            case ChronoField::HOUR_OF_AMPM():
                 return $this->hour % 12;
-            case CLOCK_HOUR_OF_AMPM:
+            case ChronoField::CLOCK_HOUR_OF_AMPM():
                 $ham = $this->hour % 12;
                 return ($ham % 12 == 0 ? 12 : $ham);
-            case HOUR_OF_DAY:
+            case ChronoField::HOUR_OF_DAY():
                 return $this->hour;
-            case CLOCK_HOUR_OF_DAY:
+            case ChronoField::CLOCK_HOUR_OF_DAY():
                 return ($this->hour == 0 ? 24 : $this->hour);
-            case AMPM_OF_DAY:
+            case ChronoField::AMPM_OF_DAY():
                 return $this->hour / 12;
         }
 
@@ -898,35 +899,35 @@ final class LocalTime
             $f = $field;
             $f->checkValidValue($newValue);
             switch ($f) {
-                case NANO_OF_SECOND:
+                case ChronoField::NANO_OF_SECOND():
                     return $this->withNano((int)$newValue);
-                case NANO_OF_DAY:
+                case ChronoField::NANO_OF_DAY():
                     return LocalTime::ofNanoOfDay($newValue);
-                case MICRO_OF_SECOND:
+                case ChronoField::MICRO_OF_SECOND():
                     return $this->withNano((int)$newValue * 1000);
-                case MICRO_OF_DAY:
+                case ChronoField::MICRO_OF_DAY():
                     return LocalTime::ofNanoOfDay($newValue * 1000);
-                case MILLI_OF_SECOND:
+                case ChronoField::MILLI_OF_SECOND():
                     return $this->withNano((int)$newValue * 1000000);
-                case MILLI_OF_DAY:
+                case ChronoField::MILLI_OF_DAY():
                     return LocalTime::ofNanoOfDay($newValue * 1000000);
-                case SECOND_OF_MINUTE:
+                case ChronoField::SECOND_OF_MINUTE():
                     return $this->withSecond((int)$newValue);
-                case SECOND_OF_DAY:
+                case ChronoField::SECOND_OF_DAY():
                     return $this->plusSeconds($newValue - $this->toSecondOfDay());
-                case MINUTE_OF_HOUR:
+                case ChronoField::MINUTE_OF_HOUR():
                     return $this->withMinute((int)$newValue);
-                case MINUTE_OF_DAY:
+                case ChronoField::MINUTE_OF_DAY():
                     return $this->plusMinutes($newValue - ($this->hour * 60 + $this->minute));
-                case HOUR_OF_AMPM:
+                case ChronoField::HOUR_OF_AMPM():
                     return $this->plusHours($newValue - ($this->hour % 12));
-                case CLOCK_HOUR_OF_AMPM:
+                case ChronoField::CLOCK_HOUR_OF_AMPM():
                     return $this->plusHours(($newValue == 12 ? 0 : $newValue) - ($this->hour % 12));
-                case HOUR_OF_DAY:
+                case ChronoField::HOUR_OF_DAY():
                     return $this->withHour((int)$newValue);
-                case CLOCK_HOUR_OF_DAY:
+                case ChronoField::CLOCK_HOUR_OF_DAY():
                     return $this->withHour((int)($newValue == 24 ? 0 : $newValue));
-                case AMPM_OF_DAY:
+                case ChronoField::AMPM_OF_DAY():
                     return $this->plusHours(($newValue - ($this->hour / 12)) * 12);
             }
 
@@ -951,7 +952,7 @@ final class LocalTime
             return $this;
         }
 
-        HOUR_OF_DAY::checkValidValue($hour);
+        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
         return $this->create($hour, $this->minute, $this->second, $this->nano);
     }
 
@@ -970,7 +971,7 @@ final class LocalTime
             return $this;
         }
 
-        MINUTE_OF_HOUR->checkValidValue($minute);
+        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
     return self::create($this->hour, $minute, $this->second, $this->nano);
 }
 
@@ -989,7 +990,7 @@ final class LocalTime
             return $this;
         }
 
-        SECOND_OF_MINUTE::checkValidValue($second);
+        ChronoField::SECOND_OF_MINUTE()->checkValidValue($second);
         return self::create($this->hour, $this->minute, $second, $this->nano);
     }
 
@@ -1008,7 +1009,7 @@ final class LocalTime
             return $this;
         }
 
-        NANO_OF_SECOND::checkValidValue($nanoOfSecond);
+        ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
         return self::create($this->hour, $this->minute, $this->second, $nanoOfSecond);
     }
 
@@ -1442,7 +1443,7 @@ final class LocalTime
      */
     public function adjustInto(Temporal $temporal)
     {
-        return $temporal->with(NANO_OF_DAY, $this->toNanoOfDay());
+        return $temporal->with(ChronoField::NANO_OF_DAY(), $this->toNanoOfDay());
     }
 
     /**

@@ -105,9 +105,9 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
-            ->appendValue(YEAR, 4, 10, SignStyle::EXCEEDS_PAD)
+            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD)
             ->appendLiteral('-')
-            ->appendValue(MONTH_OF_YEAR, 2)
+            ->appendValue(ChronoField::MONTH_OF_YEAR(), 2)
             ->toFormatter();
     }
 
@@ -206,8 +206,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public
     static function of($year, $month)
     {
-        YEAR::checkValidValue($year);
-        MONTH_OF_YEAR::checkValidValue($month);
+        ChronoField::YEAR()->checkValidValue($year);
+        ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
         return new YearMonth($year, $month);
     }
 
@@ -242,7 +242,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::of($temporal->get(YEAR), $temporal->get(MONTH_OF_YEAR));
+            return self::of($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain YearMonth from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -344,8 +344,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == YEAR || $field == MONTH_OF_YEAR ||
-            $field == PROLEPTIC_MONTH || $field == YEAR_OF_ERA || $field == ERA;
+            return $field == ChronoField::YEAR() || $field == ChronoField::MONTH_OF_YEAR() ||
+            $field == ChronoField::PROLEPTIC_MONTH() || $field == ChronoField::YEAR_OF_ERA() || $field == ChronoField::ERA();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -413,7 +413,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        if ($field == YEAR_OF_ERA) {
+        if ($field == ChronoField::YEAR_OF_ERA()) {
             return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
         }
 
@@ -479,15 +479,15 @@ final class YearMonth implements Temporal, TemporalAdjuster
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case MONTH_OF_YEAR:
+                case ChronoField::MONTH_OF_YEAR():
                     return $this->month;
-                case PROLEPTIC_MONTH:
+                case ChronoField::PROLEPTIC_MONTH():
                     return $this->getProlepticMonth();
-                case YEAR_OF_ERA:
+                case ChronoField::YEAR_OF_ERA():
                     return ($this->year < 1 ? 1 - $this->year : $this->year);
-                case YEAR:
+                case ChronoField::YEAR():
                     return $this->year;
-                case ERA:
+                case ChronoField::ERA():
                     return ($this->year < 1 ? 0 : 1);
             }
 
@@ -694,16 +694,16 @@ final class YearMonth implements Temporal, TemporalAdjuster
             $f = $field;
             $f->checkValidValue($newValue);
             switch ($f) {
-                case MONTH_OF_YEAR:
+                case ChronoField::MONTH_OF_YEAR():
                     return $this->withMonth((int)$newValue);
-                case PROLEPTIC_MONTH:
+                case ChronoField::PROLEPTIC_MONTH():
                     return $this->plusMonths($newValue - $this->getProlepticMonth());
-                case YEAR_OF_ERA:
+                case ChronoField::YEAR_OF_ERA():
                     return $this->withYear((int)($this->year < 1 ? 1 - $newValue : $newValue));
-                case YEAR:
+                case ChronoField::YEAR():
                     return $this->withYear((int)$newValue);
-                case ERA:
-                    return ($this->getLong(ERA) == $newValue ? $this : $this->withYear(1 - $this->year));
+                case ChronoField::ERA():
+                    return ($this->getLong(ChronoField::ERA()) == $newValue ? $this : $this->withYear(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -723,7 +723,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public function withYear($year)
     {
-        YEAR::checkValidValue($year);
+        ChronoField::YEAR()->checkValidValue($year);
         return with($year, $this->month);
     }
 
@@ -739,7 +739,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public
     function withMonth($month)
     {
-        MONTH_OF_YEAR::checkValidValue($month);
+        ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
         return with($this->year, $month);
     }
 
@@ -836,7 +836,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
                 case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
                 case ChronoUnit::ERAS():
-                    return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
+                    return $this->with(ChronoField::ERA(), Math::addExact($this->getLong(ChronoField::ERA()), $amountToAdd));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -858,7 +858,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         if ($yearsToAdd == 0) {
             return $this;
         }
-        $newYear = YEAR::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
+        $newYear = ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
         return $this->with($newYear, $this->month);
     }
 
@@ -878,7 +878,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         }
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
-        $newYear = YEAR::checkValidIntValue(Math::floorDiv($calcMonths, 12));
+        $newYear = ChronoField::YEAR()::checkValidIntValue(Math::floorDiv($calcMonths, 12));
         $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
         return $this->with($newYear, $newMonth);
     }
@@ -1023,7 +1023,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
-        return $temporal->with(PROLEPTIC_MONTH, $this->getProlepticMonth());
+        return $temporal->with(ChronoField::PROLEPTIC_MONTH(), $this->getProlepticMonth());
     }
 
     /**
@@ -1090,7 +1090,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
                 case ChronoUnit::MILLENNIA():
                     return $monthsUntil / 12000;
                 case ChronoUnit::ERAS():
-                    return $end->getLong(ERA) - $this->getLong(ERA);
+                    return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);

@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -426,7 +427,7 @@ final class LocalDateTime
     public
     static function ofEpochSecond($epochSecond, $nanoOfSecond, ZoneOffset $offset)
     {
-        NANO_OF_SECOND::checkValidValue($nanoOfSecond);
+        ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
         $localSecond = $epochSecond + $offset->getTotalSeconds();  // overflow caught later
         $localEpochDay = Math::floorDiv($localSecond, SECONDS_PER_DAY);
         $secsOfDay = (int)Math::floorMod($localSecond, SECONDS_PER_DAY);

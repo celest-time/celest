@@ -67,10 +67,12 @@ use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
+use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\Temporal\ValueRange;
@@ -385,8 +387,8 @@ final class Instant implements Temporal, TemporalAdjuster
         }
 
         try {
-            $instantSecs = $temporal->getLong(INSTANT_SECONDS);
-            $nanoOfSecond = $temporal->get(NANO_OF_SECOND);
+            $instantSecs = $temporal->getLong(ChronoField::INSTANT_SECONDS());
+            $nanoOfSecond = $temporal->get(ChronoField::NANO_OF_SECOND());
             return Instant::ofEpochSecond($instantSecs, $nanoOfSecond);
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain Instant from TemporalAccessor: " .
@@ -477,7 +479,7 @@ final class Instant implements Temporal, TemporalAdjuster
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == INSTANT_SECONDS || $field == NANO_OF_SECOND || $field == MICRO_OF_SECOND || $field == MILLI_OF_SECOND;
+            return $field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::NANO_OF_SECOND() || $field == ChronoField::MICRO_OF_SECOND() || $field == ChronoField::MILLI_OF_SECOND();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -581,14 +583,14 @@ final class Instant implements Temporal, TemporalAdjuster
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case NANO_OF_SECOND:
+                case ChronoField::NANO_OF_SECOND():
                     return $this->nanos;
-                case MICRO_OF_SECOND:
+                case ChronoField::MICRO_OF_SECOND():
                     return $this->nanos / 1000;
-                case MILLI_OF_SECOND:
+                case ChronoField::MILLI_OF_SECOND():
                     return $this->nanos / 1000000;
-                case INSTANT_SECONDS:
-                    INSTANT_SECONDS->checkValidIntValue($this->seconds);
+                case ChronoField::INSTANT_SECONDS():
+                    ChronoField::INSTANT_SECONDS()->checkValidIntValue($this->seconds);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -623,13 +625,13 @@ final class Instant implements Temporal, TemporalAdjuster
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case NANO_OF_SECOND:
+                case ChronoField::NANO_OF_SECOND():
                     return $this->nanos;
-                case MICRO_OF_SECOND:
+                case ChronoField::MICRO_OF_SECOND():
                     return $this->nanos / 1000;
-                case MILLI_OF_SECOND:
+                case ChronoField::MILLI_OF_SECOND():
                     return $this->nanos / 1000000;
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return seconds;
             }
 
@@ -741,18 +743,18 @@ final class Instant implements Temporal, TemporalAdjuster
             $f = $field;
             $f->checkValidValue($newValue);
             switch ($f) {
-                case MILLI_OF_SECOND: {
+                case ChronoField::MILLI_OF_SECOND(): {
                     $nval = (int)$newValue * 1000000;
                     return ($nval != $this->nanos ? self::create($this->seconds, $nval) : $this);
                 }
 
-                case MICRO_OF_SECOND: {
+                case ChronoField::MICRO_OF_SECOND(): {
                     $nval = (int)$newValue * 1000;
                     return ($nval != $this->nanos ? self::create($this->seconds, $nval) : $this);
                 }
-                case NANO_OF_SECOND:
+                case ChronoField::NANO_OF_SECOND():
                     return ($newValue != $this->nanos ? self::create($this->seconds, (int)$newValue) : $this);
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return ($newValue != $this->seconds ? self::create($newValue, $this->nanos) : $this);
             }
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -1157,7 +1159,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function adjustInto(Temporal $temporal)
     {
-        return $temporal->with(INSTANT_SECONDS, $this->seconds)->with(NANO_OF_SECOND, $this->nanos);
+        return $temporal->with(ChronoField::INSTANT_SECONDS(), $this->seconds)->with(ChronoField::NANO_OF_SECOND(), $this->nanos);
     }
 
     /**

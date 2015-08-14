@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -572,7 +573,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public function range(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == INSTANT_SECONDS || $field == OFFSET_SECONDS) {
+            if ($field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::OFFSET_SECONDS()) {
                 return $field->range();
             }
 
@@ -613,9 +614,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
-                case OFFSET_SECONDS:
+                case ChronoField::OFFSET_SECONDS():
                     return $this->getOffset()->getTotalSeconds();
             }
 
@@ -651,9 +652,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return $this->toEpochSecond();
-                case OFFSET_SECONDS:
+                case ChronoField::OFFSET_SECONDS():
                     return $this->getOffset()->getTotalSeconds();
             }
 
@@ -1009,9 +1010,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
         if ($field instanceof ChronoField) {
             $f = $field;
             switch ($f) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return $this->ofInstant(Instant::ofEpochSecond($newValue, $this->getNano()), $this->offset);
-                case OFFSET_SECONDS: {
+                case ChronoField::OFFSET_SECONDS(): {
                     return $this->with($this->dateTime, ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue)));
                 }
             }
@@ -1675,9 +1676,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
         // the offset is set after the date and time, as it is typically a small
         // tweak to the result, with ZonedDateTime frequently ignoring the offset
         return $temporal
-            ->with(EPOCH_DAY, $this->toLocalDate()->toEpochDay())
-            ->with(NANO_OF_DAY, $this->toLocalTime()->toNanoOfDay())
-            ->with(OFFSET_SECONDS, $this->getOffset()->getTotalSeconds());
+            ->with(ChronoField::EPOCH_DAY(), $this->toLocalDate()->toEpochDay())
+            ->with(ChronoField::NANO_OF_DAY(), $this->toLocalTime()->toNanoOfDay())
+            ->with(ChronoField::OFFSET_SECONDS(), $this->getOffset()->getTotalSeconds());
     }
 
     /**

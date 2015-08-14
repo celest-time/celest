@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -543,9 +544,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
 
         try {
             $zone = ZoneId::from($temporal);
-            if ($temporal->isSupported(INSTANT_SECONDS)) {
-                $epochSecond = $temporal->getLong(INSTANT_SECONDS);
-                $nanoOfSecond = $temporal->get(NANO_OF_SECOND);
+            if ($temporal->isSupported(ChronoField::INSTANT_SECONDS())) {
+                $epochSecond = $temporal->getLong(ChronoField::INSTANT_SECONDS());
+                $nanoOfSecond = $temporal->get(ChronoField::NANO_OF_SECOND());
                 return self::create($epochSecond, $nanoOfSecond, $zone);
             } else {
                 $date = LocalDate::from($temporal);
@@ -770,7 +771,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     public function range(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == INSTANT_SECONDS || $field == OFFSET_SECONDS) {
+            if ($field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::OFFSET_SECONDS()) {
                 return $field->range();
             }
 
@@ -811,9 +812,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
-                case OFFSET_SECONDS:
+                case ChronoField::OFFSET_SECONDS():
                     return $this->getOffset()->getTotalSeconds();
             }
 
@@ -849,9 +850,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return $this->toEpochSecond();
-                case OFFSET_SECONDS:
+                case ChronoField::OFFSET_SECONDS():
                     return $this->getOffset()->getTotalSeconds();
             }
             return $this->dateTime->getLong($field);
@@ -1316,9 +1317,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
         if ($field instanceof ChronoField) {
             $f = $field;
             switch ($f) {
-                case INSTANT_SECONDS:
+                case ChronoField::INSTANT_SECONDS():
                     return self::create($newValue, $this->getNano(), $this->zone);
-                case OFFSET_SECONDS:
+                case ChronoField::OFFSET_SECONDS():
                     $offset = ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue));
                     return $this->resolveOffset($this->offset);
             }

@@ -123,7 +123,7 @@ final class Year
     public static function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
-            ->appendValue(YEAR, 4, 10, SignStyle::EXCEEDS_PAD)
+            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD)
             ->toFormatter();
     }
 
@@ -207,7 +207,7 @@ final class Year
     public
     static function of($isoYear)
     {
-        YEAR::checkValidValue($isoYear);
+        ChronoField::YEAR()->checkValidValue($isoYear);
         return new Year($isoYear);
     }
 
@@ -241,7 +241,7 @@ final class Year
             if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::of($temporal->get(YEAR));
+            return self::of($temporal->get(ChronoField::YEAR()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain Year from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -359,7 +359,7 @@ final class Year
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == YEAR || $field == YEAR_OF_ERA || $field == ERA;
+            return $field == ChronoField::YEAR() || $field == ChronoField::YEAR_OF_ERA() || $field == ChronoField::ERA();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -426,7 +426,7 @@ final class Year
      */
     public function range(TemporalField $field)
     {
-        if ($field == YEAR_OF_ERA) {
+        if ($field == ChronoField::YEAR_OF_ERA()) {
             return ($this->year <= 0 ? ValueRange::of(1, self::MAX_VALUE + 1) : ValueRange::of(1, self::MAX_VALUE));
         }
 
@@ -491,11 +491,11 @@ final class Year
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
-                case YEAR_OF_ERA:
+                case ChronoField::YEAR_OF_ERA():
                     return ($this->year < 1 ? 1 - $this->year : $this->year);
-                case YEAR:
+                case ChronoField::YEAR():
                     return $this->year;
-                case ERA:
+                case ChronoField::ERA():
                     return ($this->year < 1 ? 0 : 1);
             }
 
@@ -625,12 +625,12 @@ final class Year
             $f = $field;
             $f->checkValidValue($newValue);
             switch ($f) {
-                case YEAR_OF_ERA:
+                case ChronoField::YEAR_OF_ERA():
                     return Year::of((int)($this->year < 1 ? 1 - $newValue : $newValue));
-                case YEAR:
+                case ChronoField::YEAR():
                     return Year::of((int)$newValue);
-                case ERA:
-                    return (getLong(ERA) == $newValue ? $this : Year::of(1 - $this->year));
+                case ChronoField::ERA():
+                    return (getLong(ChronoField::ERA()) == $newValue ? $this : Year::of(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -725,7 +725,7 @@ final class Year
                 case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
                 case ChronoUnit::ERAS():
-                    return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
+                    return $this->with(ChronoField::ERA(), Math::addExact($this->getLong(ChronoField::ERA()), $amountToAdd));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -748,7 +748,7 @@ final class Year
             return $this;
         }
 
-        return self::of(YEAR::checkValidIntValue($this->year + $yearsToAdd));  // overflow safe
+        return self::of(ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd));  // overflow safe
     }
 
     //-----------------------------------------------------------------------
@@ -878,7 +878,7 @@ final class Year
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
-        return $temporal->with(YEAR, $this->year);
+        return $temporal->with(ChronoField::YEAR(), $this->year);
     }
 
     /**
@@ -943,7 +943,7 @@ final class Year
                 case ChronoUnit::MILLENNIA():
                     return $yearsUntil / 1000;
                 case ChronoUnit::ERAS():
-                    return $end->getLong(ERA) - $this->getLong(ERA);
+                    return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);

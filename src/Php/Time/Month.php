@@ -239,7 +239,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::of($temporal->get(MONTH_OF_YEAR));
+            return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain Month from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -276,7 +276,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function getDisplayName(TextStyle $style, Locale $locale)
     {
-        return (new DateTimeFormatterBuilder())->appendText(MONTH_OF_YEAR, $style)->toFormatter($locale)->format($this);
+        return (new DateTimeFormatterBuilder())->appendText(ChronoField::MONTH_OF_YEAR(), $style)->toFormatter($locale)->format($this);
     }
 
     //-----------------------------------------------------------------------
@@ -302,7 +302,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == MONTH_OF_YEAR;
+            return $field == ChronoField::MONTH_OF_YEAR();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -332,7 +332,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        if ($field == MONTH_OF_YEAR) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $field->range();
         }
 
@@ -366,7 +366,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function get(TemporalField $field)
     {
-        if ($field == MONTH_OF_YEAR) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $this->getValue();
         }
 
@@ -397,7 +397,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function getLong(TemporalField $field)
     {
-        if ($field == MONTH_OF_YEAR) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $this->getValue();
         } else
             if ($field instanceof ChronoField) {
@@ -652,7 +652,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
-        return $temporal->with(MONTH_OF_YEAR, $this->getValue());
+        return $temporal->with(ChronoField::MONTH_OF_YEAR(), $this->getValue());
     }
 
 }

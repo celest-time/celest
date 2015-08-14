@@ -111,9 +111,9 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     {
         self::$PARSER = new DateTimeFormatterBuilder()
            ->appendLiteral("--")
-        ->appendValue(MONTH_OF_YEAR, 2)
+        ->appendValue(ChronoField::MONTH_OF_YEAR(), 2)
         ->appendLiteral('-')
-        ->appendValue(DAY_OF_MONTH, 2)
+        ->appendValue(ChronoField::DAY_OF_MONTH(), 2)
         ->toFormatter();
     }
 
@@ -205,7 +205,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public
     static function of(Month $month, $dayOfMonth)
     {
-        DAY_OF_MONTH::checkValidValue($dayOfMonth);
+        ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
         if ($dayOfMonth > $month->maxLength()) {
             throw new DateTimeException("Illegal value for DayOfMonth field, value " . $dayOfMonth .
                 " is not valid for month " . $month->name());
@@ -266,7 +266,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::of($temporal->get(MONTH_OF_YEAR), $temporal->get(DAY_OF_MONTH));
+            return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain MonthDay from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -345,7 +345,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == MONTH_OF_YEAR || $field == DAY_OF_MONTH;
+            return $field == ChronoField::MONTH_OF_YEAR() || $field == ChronoField::DAY_OF_MONTH();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -376,10 +376,10 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        if ($field == MONTH_OF_YEAR) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $field->range();
         } else
-            if ($field == DAY_OF_MONTH) {
+            if ($field == ChronoField::DAY_OF_MONTH()) {
                 return ValueRange::of(1, $this->getMonth()->minLength(), $this->getMonth()->maxLength());
             }
         return TemporalAccessorDefaults::range($this, $field);
@@ -444,9 +444,9 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
         if ($field instanceof ChronoField) {
             switch ($field) {
                 // alignedDOW and alignedWOM not supported because they cannot be set in with()
-                case DAY_OF_MONTH:
+                case ChronoField::DAY_OF_MONTH():
                     return $this->day;
-                case MONTH_OF_YEAR:
+                case ChronoField::MONTH_OF_YEAR():
                     return $this->month;
             }
 
@@ -640,8 +640,8 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
-        $temporal = $temporal->with(MONTH_OF_YEAR, $this->month);
-        return $temporal->with(DAY_OF_MONTH, Math::min($temporal->range(DAY_OF_MONTH)->getMaximum(), $this->day));
+        $temporal = $temporal->with(ChronoField::MONTH_OF_YEAR(), $this->month);
+        return $temporal->with(ChronoField::DAY_OF_MONTH(), Math::min($temporal->range(ChronoField::DAY_OF_MONTH())->getMaximum(), $this->day));
     }
 
     /**

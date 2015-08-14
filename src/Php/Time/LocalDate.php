@@ -63,6 +63,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -235,8 +236,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function of($year, Month $month, $dayOfMonth)
     {
-        YEAR::checkValidValue($year);
-        DAY_OF_MONTH::checkValidValue($dayOfMonth);
+        ChronoField::YEAR()->checkValidValue($year);
+        ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
         return self::create($year, $month->getValue(), $dayOfMonth);
     }
 
@@ -256,9 +257,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function of($year, $month, $dayOfMonth)
     {
-        YEAR::checkValidValue($year);
-        MONTH_OF_YEAR::checkValidValue($month);
-        DAY_OF_MONTH::checkValidValue($dayOfMonth);
+        ChronoField::YEAR()->checkValidValue($year);
+        ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
+        ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
         return self::create($year, $month, $dayOfMonth);
     }
 
@@ -278,8 +279,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function ofYearDay($year, $dayOfYear)
     {
-        YEAR::checkValidValue($year);
-        DAY_OF_YEAR::checkValidValue($dayOfYear);
+        ChronoField::YEAR()->checkValidValue($year);
+        ChronoField::DAY_OF_YEAR()->checkValidValue($dayOfYear);
         $leap = IsoChronology::$INSTANCE->isLeapYear($year);
         if ($dayOfYear == 366 && $leap == false) {
             throw new DateTimeException("Invalid date 'DayOfYear 366' as '" . $year . "' is not a leap year");
@@ -337,7 +338,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $yearEst += $marchMonth0 / 10;
 
         // check year now we are certain it is correct
-        $year = YEAR::checkValidIntValue($yearEst);
+        $year = ChronoField::YEAR()::checkValidIntValue($yearEst);
         return new LocalDate($year, $month, $dom);
     }
 
@@ -588,13 +589,13 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             $f = $field;
             if ($f->isDateBased()) {
                 switch ($f) {
-                    case DAY_OF_MONTH:
+                    case ChronoField::DAY_OF_MONTH():
                         return ValueRange::of(1, $this->lengthOfMonth());
-                    case DAY_OF_YEAR:
+                    case ChronoField::DAY_OF_YEAR():
                         return ValueRange::of(1, $this->lengthOfYear());
-                    case ALIGNED_WEEK_OF_MONTH:
+                    case ChronoField::ALIGNED_WEEK_OF_MONTH():
                         return ValueRange::of(1, $this->getMonth() == Month::FEBRUARY && $this->isLeapYear() == false ? 4 : 5);
-                    case YEAR_OF_ERA:
+                    case ChronoField::YEAR_OF_ERA():
                         return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
                 }
 
@@ -667,11 +668,11 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function getLong(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == EPOCH_DAY) {
+            if ($field == ChronoField::EPOCH_DAY()) {
                 return $this->toEpochDay();
             }
 
-            if ($field == PROLEPTIC_MONTH) {
+            if ($field == ChronoField::PROLEPTIC_MONTH()) {
                 return $this->getProlepticMonth();
             }
             return $this->get0($field);
@@ -682,31 +683,31 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     private function get0(TemporalField $field)
     {
         switch ($field) {
-            case DAY_OF_WEEK:
+            case ChronoField::DAY_OF_WEEK():
                 return $this->getDayOfWeek()->getValue();
-            case ALIGNED_DAY_OF_WEEK_IN_MONTH:
+            case ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH():
                 return (($this->day - 1) % 7) + 1;
-            case ALIGNED_DAY_OF_WEEK_IN_YEAR:
+            case ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR():
                 return (($this->getDayOfYear() - 1) % 7) + 1;
-            case DAY_OF_MONTH:
+            case ChronoField::DAY_OF_MONTH():
                 return $this->day;
-            case DAY_OF_YEAR:
+            case ChronoField::DAY_OF_YEAR():
                 return $this->getDayOfYear();
-            case EPOCH_DAY:
+            case ChronoField::EPOCH_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'EpochDay' for get() method, use getLong() instead");
-            case ALIGNED_WEEK_OF_MONTH:
+            case ChronoField::ALIGNED_WEEK_OF_MONTH():
                 return (($this->day - 1) / 7) + 1;
-            case ALIGNED_WEEK_OF_YEAR:
-                return ((getDayOfYear() - 1) / 7) + 1;
-            case MONTH_OF_YEAR:
+            case ChronoField::ALIGNED_WEEK_OF_YEAR():
+                return (($this->getDayOfYear() - 1) / 7) + 1;
+            case ChronoField::MONTH_OF_YEAR():
                 return $this->month;
-            case PROLEPTIC_MONTH:
+            case ChronoField::PROLEPTIC_MONTH():
                 throw new UnsupportedTemporalTypeException("Invalid field 'ProlepticMonth' for get() method, use getLong() instead");
-            case YEAR_OF_ERA:
+            case ChronoField::YEAR_OF_ERA():
                 return ($this->year >= 1 ? $this->year : 1 - $this->year);
-            case YEAR:
+            case ChronoField::YEAR():
                 return $this->year;
-            case ERA:
+            case ChronoField::ERA():
                 return ($this->year >= 1 ? 1 : 0);
         }
 
@@ -1069,32 +1070,32 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             $f = $field;
             $f->checkValidValue($newValue);
             switch ($f) {
-                case DAY_OF_WEEK:
+                case ChronoField::DAY_OF_WEEK():
                     return $this->plusDays($newValue - $this->getDayOfWeek()->getValue());
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                    return $this->plusDays($newValue - $this->getLong(ALIGNED_DAY_OF_WEEK_IN_MONTH));
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                    return $this->plusDays($newValue - $this->getLong(ALIGNED_DAY_OF_WEEK_IN_YEAR));
-                case DAY_OF_MONTH:
+                case ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH():
+                    return $this->plusDays($newValue - $this->getLong(ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH()));
+                case ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR():
+                    return $this->plusDays($newValue - $this->getLong(ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR()));
+                case ChronoField::DAY_OF_MONTH():
                     return $this->withDayOfMonth((int)$newValue);
-                case DAY_OF_YEAR:
+                case ChronoField::DAY_OF_YEAR():
                     return $this->withDayOfYear((int)$newValue);
-                case EPOCH_DAY:
+                case ChronoField::EPOCH_DAY():
                     return LocalDate::ofEpochDay($newValue);
-                case ALIGNED_WEEK_OF_MONTH:
-                    return $this->plusWeeks($newValue - $this->getLong(ALIGNED_WEEK_OF_MONTH));
-                case ALIGNED_WEEK_OF_YEAR:
-                    return $this->plusWeeks($newValue - $this->getLong(ALIGNED_WEEK_OF_YEAR));
-                case MONTH_OF_YEAR:
+                case ChronoField::ALIGNED_WEEK_OF_MONTH():
+                    return $this->plusWeeks($newValue - $this->getLong(ChronoField::ALIGNED_WEEK_OF_MONTH()));
+                case ChronoField::ALIGNED_WEEK_OF_YEAR():
+                    return $this->plusWeeks($newValue - $this->getLong(ChronoField::ALIGNED_WEEK_OF_YEAR()));
+                case ChronoField::MONTH_OF_YEAR():
                     return $this->withMonth((int)$newValue);
-                case PROLEPTIC_MONTH:
+                case ChronoField::PROLEPTIC_MONTH():
                     return $this->plusMonths($newValue - $this->getProlepticMonth());
-                case YEAR_OF_ERA:
+                case ChronoField::YEAR_OF_ERA():
                     return $this->withYear((int)($this->year >= 1 ? $newValue : 1 - $newValue));
-                case YEAR:
+                case ChronoField::YEAR():
                     return $this->withYear((int)$newValue);
-                case ERA:
-                    return ($this->getLong(ERA) == $newValue ? $this : $this->withYear(1 - $this->year));
+                case ChronoField::ERA():
+                    return ($this->getLong(ChronoField::ERA()) == $newValue ? $this : $this->withYear(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -1120,7 +1121,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        YEAR::checkValidValue($year);
+        ChronoField::YEAR()->checkValidValue($year);
         return self::resolvePreviousValid($year, $this->month, $this->day);
     }
 
@@ -1141,7 +1142,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        MONTH_OF_YEAR::checkValidValue($month);
+        ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
         return self::resolvePreviousValid($this->year, $month, $this->day);
     }
 
@@ -1320,7 +1321,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                 case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
                 case ChronoUnit::ERAS():
-                    return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
+                    return $this->with(ChronoField::ERA(), Math::addExact($this->getLong(ChronoField::ERA()), $amountToAdd));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1355,7 +1356,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        $newYear = YEAR::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
+        $newYear = ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
         return self::resolvePreviousValid($newYear, $this->month, $this->day);
     }
 
@@ -1387,7 +1388,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
 
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
-        $newYear = YEAR::checkValidIntValue(Math::floorDiv($calcMonths, 12));
+        $newYear = ChronoField::YEAR()::checkValidIntValue(Math::floorDiv($calcMonths, 12));
         $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
         return self::resolvePreviousValid($newYear, $newMonth, $this->day);
     }
@@ -1711,7 +1712,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                 case ChronoUnit::MILLENNIA():
                     return $this->monthsUntil($end) / 12000;
                 case ChronoUnit::ERAS():
-                    return $end->getLong(ERA) - $this->getLong(ERA);
+                    return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);

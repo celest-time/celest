@@ -407,7 +407,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field->isTimeBased() || $field == OFFSET_SECONDS;
+            return $field->isTimeBased() || $field == ChronoField::OFFSET_SECONDS();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -477,7 +477,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public function range(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == OFFSET_SECONDS) {
+            if ($field == ChronoField::OFFSET_SECONDS()) {
                 return $field->range();
             }
 
@@ -544,7 +544,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public function getLong(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($field == OFFSET_SECONDS) {
+            if ($field == ChronoField::OFFSET_SECONDS()) {
                 return $this->offset->getTotalSeconds();
             }
 
@@ -756,7 +756,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public function with(TemporalField $field, $newValue)
     {
         if ($field instanceof ChronoField) {
-            if ($field == OFFSET_SECONDS) {
+            if ($field == ChronoField::OFFSET_SECONDS()) {
                 $f = $field;
                 return $this->with($this->time, ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue)));
             }
@@ -1170,8 +1170,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public function adjustInto(Temporal $temporal)
     {
         return $temporal
-            ->with(NANO_OF_DAY, $this->time->toNanoOfDay())
-            ->with(OFFSET_SECONDS, $this->offset->getTotalSeconds());
+            ->with(ChronoField::NANO_OF_DAY(), $this->time->toNanoOfDay())
+            ->with(ChronoField::OFFSET_SECONDS(), $this->offset->getTotalSeconds());
     }
 
     /**

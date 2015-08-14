@@ -66,6 +66,7 @@ use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAmount;
@@ -470,7 +471,7 @@ final class Duration implements TemporalAmount
             $secs = $startInclusive->until($endExclusive, ChronoUnit::SECONDS());
             $nanos = 0;
             try {
-                $nanos = $endExclusive->getLong(NANO_OF_SECOND) - $startInclusive->getLong(NANO_OF_SECOND);
+                $nanos = $endExclusive->getLong(ChronoField::NANO_OF_SECOND()) - $startInclusive->getLong(ChronoField::NANO_OF_SECOND());
                 if ($secs > 0 && $nanos < 0) {
                     $secs++;
                 } else if ($secs < 0 && $nanos > 0) {

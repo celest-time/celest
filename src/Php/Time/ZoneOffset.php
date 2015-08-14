@@ -564,7 +564,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     public function isSupported(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            return $field == OFFSET_SECONDS;
+            return $field == ChronoField::OFFSET_SECONDS();
         }
 
         return $field != null && $field->isSupportedBy($this);
@@ -625,7 +625,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function get(TemporalField $field)
     {
-        if ($field == OFFSET_SECONDS) {
+        if ($field == ChronoField::OFFSET_SECONDS()) {
             return $this->totalSeconds;
         } else
             if ($field instanceof ChronoField) {
@@ -658,7 +658,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function getLong(TemporalField $field)
     {
-        if ($field == OFFSET_SECONDS) {
+        if ($field == ChronoField::OFFSET_SECONDS()) {
             return $this->totalSeconds;
         } else
             if ($field instanceof ChronoField) {
@@ -721,7 +721,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function adjustInto(Temporal $temporal)
     {
-        return $temporal->with(OFFSET_SECONDS, $this->totalSeconds);
+        return $temporal->with(ChronoField::OFFSET_SECONDS(), $this->totalSeconds);
     }
 
 //-----------------------------------------------------------------------

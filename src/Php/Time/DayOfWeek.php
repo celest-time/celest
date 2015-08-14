@@ -207,7 +207,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
             return $temporal;
         }
         try {
-            return self::of($temporal->get(DAY_OF_WEEK));
+            return self::of($temporal->get(ChronoField::DAY_OF_WEEK()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain DayOfWeek from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -242,7 +242,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @return String the text value of the day-of-week, not null
      */
     public function getDisplayName(TextStyle $style, Locale $locale) {
-        return (new DateTimeFormatterBuilder())->appendText(DAY_OF_WEEK, $style)->toFormatter($locale).format($this);
+        return (new DateTimeFormatterBuilder())->appendText(ChronoField::DAY_OF_WEEK(), $style)->toFormatter($locale).format($this);
     }
 
     //-----------------------------------------------------------------------
@@ -267,7 +267,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      */
     public function isSupported(TemporalField $field) {
         if ($field instanceof ChronoField) {
-            return $field == DAY_OF_WEEK;
+            return $field == ChronoField::DAY_OF_WEEK();
         }
         return $field != null && $field->isSupportedBy($this);
     }
@@ -295,7 +295,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
     public function range(TemporalField $field) {
-        if ($field == DAY_OF_WEEK) {
+        if ($field == ChronoField::DAY_OF_WEEK()) {
             return $field->range();
         }
         return TemporalAccessorDefaults::range($this, $field);
@@ -327,7 +327,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function get(TemporalField $field) {
-        if ($field == DAY_OF_WEEK) {
+        if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
         }
         return TemporalAccessorDefaults::get($this, $field);
@@ -356,7 +356,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function getLong(TemporalField $field) {
-        if ($field == DAY_OF_WEEK) {
+        if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
         } else if ($field instanceof ChronoField) {
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -465,7 +465,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function adjustInto(Temporal $temporal) {
-        return $temporal->with(DAY_OF_WEEK, $this->getValue());
+        return $temporal->with(ChronoField::DAY_OF_WEEK(), $this->getValue());
     }
 
 }
