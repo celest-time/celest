@@ -63,6 +63,7 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\DateTimeException;
+use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * Framework-level interface defining read-write access to a temporal object,
@@ -189,9 +190,6 @@ interface Temporal extends TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function with(TemporalAdjuster $adjuster);
-//default Temporal with(TemporalAdjuster adjuster) {
-//return adjuster.adjustInto(this);
-//}
 
     /**
      * Returns an object of the same type as this object with the specified field altered.
@@ -262,8 +260,6 @@ interface Temporal extends TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function plus(TemporalAmount $amount);
-//return amount.addTo(this);
-
 
     /**
      * Returns an object of the same type as this object with the specified period added.
@@ -334,8 +330,6 @@ interface Temporal extends TemporalAccessor
      * @throws ArithmeticException if numeric overflow occurs
      */
     public function minus(TemporalAmount $amount);
-    //return amount . subtractFrom(this);
-
 
     /**
      * Returns an object of the same type as this object with the specified period subtracted.

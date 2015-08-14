@@ -63,6 +63,8 @@
  */
 
 namespace Php\Time\Temporal;
+use Php\Time\DateTimeException;
+use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * Framework-level interface defining an amount of time, such as
@@ -209,7 +211,7 @@ interface TemporalAmount {
      * It must be thread-safe when invoked.
      *
      * @param $temporal Temporal the temporal object to subtract the amount from, not null
-     * @return an object of the same observable type with the subtraction made, not null
+     * @return Temporal an object of the same observable type with the subtraction made, not null
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
