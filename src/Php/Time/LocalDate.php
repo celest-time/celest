@@ -63,6 +63,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\ChronoLocalDate;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -1948,13 +1949,13 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $y = $this->year;
         $m = $this->month;
         $total = 0;
-        $total += 365 * y;
+        $total += 365 * $y;
         if ($y >= 0) {
-            $total += (y + 3) / 4 - (y + 99) / 100 + (y + 399) / 400;
+            $total += ($y + 3) / 4 - ($y + 99) / 100 + ($y + 399) / 400;
         } else {
-            $total -= y / -4 - y / -100 + y / -400;
+            $total -= $y / -4 - $y / -100 + $y / -400;
         }
-        $total += ((367 * m - 362) / 12);
+        $total += ((367 * $m - 362) / 12);
         $total += $this->day - 1;
         if ($m > 2) {
             $total--;
