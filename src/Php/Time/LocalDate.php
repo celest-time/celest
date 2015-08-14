@@ -63,6 +63,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -1304,21 +1305,21 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             /** @var ChronoUnit $f */
             $f = $unit;
             switch ($f) {
-                case DAYS:
+                case ChronoUnit::DAYS():
                     return $this->plusDays($amountToAdd);
-                case WEEKS:
+                case ChronoUnit::WEEKS():
                     return $this->plusWeeks($amountToAdd);
-                case MONTHS:
+                case ChronoUnit::MONTHS():
                     return $this->plusMonths($amountToAdd);
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $this->plusYears($amountToAdd);
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 10));
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 100));
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
             }
 
@@ -1695,21 +1696,21 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $end = LocalDate::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case DAYS:
+                case ChronoUnit::DAYS():
                     return $this->daysUntil($end);
-                case WEEKS:
+                case ChronoUnit::WEEKS():
                     return $this->daysUntil($end) / 7;
-                case MONTHS:
+                case ChronoUnit::MONTHS():
                     return $this->monthsUntil($end);
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $this->monthsUntil($end) / 12;
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $this->monthsUntil($end) / 120;
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $this->monthsUntil($end) / 1200;
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $this->monthsUntil($end) / 12000;
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $end->getLong(ERA) - $this->getLong(ERA);
             }
 

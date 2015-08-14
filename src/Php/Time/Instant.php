@@ -67,6 +67,7 @@ use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -514,7 +515,7 @@ final class Instant implements Temporal, TemporalAdjuster
     public function isSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $unit->isTimeBased() || $unit == DAYS;
+            return $unit->isTimeBased() || $unit == ChronoUnit::DAYS();
         }
 
         return $unit != null && $unit->isSupportedBy($this);
@@ -889,21 +890,21 @@ final class Instant implements Temporal, TemporalAdjuster
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $this->plus($amountToAdd / 1000000, ($amountToAdd % 1000000) * 1000);
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return $this->plusMillis($amountToAdd);
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_MINUTE));
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_HOUR));
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY / 2));
-                case DAYS:
+                case ChronoUnit::DAYS():
                     return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY));
             }
 
@@ -1116,7 +1117,7 @@ final class Instant implements Temporal, TemporalAdjuster
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::precision()) {
-            return NANOS;
+            return ChronoUnit::NANOS();
         }
 
 // inline TemporalAccessor.super.query(query) as an optimization
@@ -1209,21 +1210,21 @@ final class Instant implements Temporal, TemporalAdjuster
         if ($unit instanceof ChronoUnit) {
             $f = $unit;
             switch ($f) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $this->nanosUntil($end);
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $this->nanosUntil($end) / 1000;
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return Math::subtractExact($end->toEpochMilli(), $this->toEpochMilli());
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $this->secondsUntil($end);
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $this->secondsUntil($end) / SECONDS_PER_MINUTE;
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $this->secondsUntil($end) / SECONDS_PER_HOUR;
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $this->secondsUntil($end) / (12 * SECONDS_PER_HOUR);
-                case DAYS:
+                case ChronoUnit::DAYS():
                     return $this->secondsUntil($end) / (SECONDS_PER_DAY);
             }
 

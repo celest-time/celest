@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -380,7 +381,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public function isSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $unit == MONTHS || $unit == YEARS || $unit == DECADES || $unit == CENTURIES || $unit == MILLENNIA || $unit == ERAS;
+            return $unit == ChronoUnit::MONTHS() || $unit == ChronoUnit::YEARS() || $unit == ChronoUnit::DECADES() || $unit == ChronoUnit::CENTURIES() || $unit == ChronoUnit::MILLENNIA() || $unit == ChronoUnit::ERAS();
         }
 
         return $unit != null && $unit->isSupportedBy($this);
@@ -824,17 +825,17 @@ final class YearMonth implements Temporal, TemporalAdjuster
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case MONTHS:
+                case ChronoUnit::MONTHS():
                     return $this->plusMonths($amountToAdd);
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $this->plusYears($amountToAdd);
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 10));
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 100));
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
             }
 
@@ -985,7 +986,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             return IsoChronology::INSTANCE();
         } else
             if ($query == TemporalQueries::precision()) {
-                return MONTHS;
+                return ChronoUnit::MONTHS();
             }
         return Temporal::query(query);
     }
@@ -1078,17 +1079,17 @@ final class YearMonth implements Temporal, TemporalAdjuster
         if ($unit instanceof ChronoUnit) {
             $monthsUntil = $end->getProlepticMonth() - $this->getProlepticMonth();  // no overflow
             switch ($unit) {
-                case MONTHS:
+                case ChronoUnit::MONTHS():
                     return $monthsUntil;
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $monthsUntil / 12;
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $monthsUntil / 120;
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $monthsUntil / 1200;
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $monthsUntil / 12000;
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $end->getLong(ERA) - $this->getLong(ERA);
             }
 

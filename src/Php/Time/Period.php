@@ -64,9 +64,11 @@
 namespace Php\Time;
 
 use Php\Time\Chrono\ChronoPeriod;
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAmount;
+use Php\Time\Temporal\TemporalUnit;
 
 /**
  * A date-based amount of time in the ISO-8601 calendar system,
@@ -115,7 +117,7 @@ final class Period implements ChronoPeriod
     public static function init()
     {
         self::$ZERO = new Period(0, 0, 0);
-        self::$SUPPORTED_UNITS = [YEARS, MONTHS, DAYS];
+        self::$SUPPORTED_UNITS = [ChronoUnit::YEARS(), ChronoUnit::MONTHS(), ChronoUnit::DAYS()];
     }
 
     /**
@@ -260,7 +262,7 @@ final class Period implements ChronoPeriod
         }
 
         if ($amount instanceof ChronoPeriod) {
-            if (IsoChronology::INSTANCE()->equals(($amount)->getChronology()) == false) {
+            if (IsoChronology::INSTANCE()->equals($amount)->getChronology() == false) {
                 throw new DateTimeException("Period requires ISO chronology: " . $amount);
             }
         }
@@ -269,11 +271,11 @@ final class Period implements ChronoPeriod
         $days = 0;
         foreach ($amount->getUnits() as $unit) {
             $unitAmount = $amount->get($unit);
-            if ($unit == ChronoUnit::YEARS) {
+            if ($unit == ChronoUnit::YEARS()) {
                 $years = Math::toIntExact($unitAmount);
-            } else if ($unit == ChronoUnit::MONTHS) {
+            } else if ($unit == ChronoUnit::MONTHS()) {
                 $months = Math::toIntExact($unitAmount);
-            } else if ($unit == ChronoUnit::DAYS) {
+            } else if ($unit == ChronoUnit::DAYS()) {
                 $days = Math::toIntExact($unitAmount);
             } else {
                 throw new DateTimeException("Unit must be Years, Months or Days, but was " . $unit);
@@ -436,12 +438,12 @@ final class Period implements ChronoPeriod
      */
     public function get(TemporalUnit $unit)
     {
-        if ($unit == ChronoUnit::YEARS) {
+        if ($unit == ChronoUnit::YEARS()) {
             return $this->getYears();
         } else
-            if ($unit == ChronoUnit::MONTHS) {
+            if ($unit == ChronoUnit::MONTHS()) {
                 return $this->getMonths();
-            } else if ($unit == ChronoUnit::DAYS) {
+            } else if ($unit == ChronoUnit::DAYS()) {
                 return $this->getDays();
             } else {
                 throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -926,16 +928,16 @@ final class Period implements ChronoPeriod
         $this->validateChrono($temporal);
         if ($this->months == 0) {
             if ($this->years != 0) {
-                $temporal = $temporal->plus($this->years, YEARS);
+                $temporal = $temporal->plus($this->years, ChronoUnit::YEARS());
             }
         } else {
             $totalMonths = toTotalMonths();
             if ($totalMonths != 0) {
-                $temporal = $temporal->plus($totalMonths, MONTHS);
+                $temporal = $temporal->plus($totalMonths, ChronoUnit::MONTHS());
             }
         }
         if ($this->days != 0) {
-            $temporal = $temporal->plus($this->days, DAYS);
+            $temporal = $temporal->plus($this->days, ChronoUnit::DAYS());
         }
         return $temporal;
     }
@@ -979,16 +981,16 @@ final class Period implements ChronoPeriod
         $this->validateChrono($temporal);
         if ($this->months == 0) {
             if ($this->years != 0) {
-                $temporal = $temporal->minus($this->years, YEARS);
+                $temporal = $temporal->minus($this->years, ChronoUnit::YEARS());
             }
         } else {
             $totalMonths = $this->toTotalMonths();
             if ($totalMonths != 0) {
-                $temporal = $temporal->minus(totalMonths, MONTHS);
+                $temporal = $temporal->minus(totalMonths, ChronoUnit::MONTHS());
             }
         }
         if ($this->days != 0) {
-            $temporal = $temporal->minus($this->days, DAYS);
+            $temporal = $temporal->minus($this->days, ChronoUnit::DAYS());
         }
         return $temporal;
     }

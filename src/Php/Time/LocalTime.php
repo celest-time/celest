@@ -64,6 +64,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -1034,7 +1035,7 @@ final class LocalTime
      */
     public function truncatedTo(TemporalUnit $unit)
     {
-        if ($unit == ChronoUnit::NANOS) {
+        if ($unit == ChronoUnit::NANOS()) {
             return $this;
         }
 
@@ -1132,19 +1133,19 @@ final class LocalTime
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $this->plusNanos(($amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return $this->plusNanos(($amountToAdd % MILLIS_PER_DAY) * 1000000);
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $this->plusMinutes($amountToAdd);
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $this->plusHours($amountToAdd);
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $this->plusHours(($amountToAdd % 2) * 12);
             }
 
@@ -1408,7 +1409,7 @@ final class LocalTime
             } else if ($query == TemporalQueries::localDate()) {
                 return null;
             } else if ($query == TemporalQueries::precision()) {
-                return NANOS;
+                return ChronoUnit::NANOS();
             }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization
@@ -1497,19 +1498,19 @@ final class LocalTime
         if ($unit instanceof ChronoUnit) {
             $nanosUntil = $end->toNanoOfDay() - $this->toNanoOfDay();  // no overflow
             switch ($unit) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $nanosUntil;
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $nanosUntil / 1000;
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return $nanosUntil / 1000000;
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $nanosUntil / NANOS_PER_SECOND;
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $nanosUntil / NANOS_PER_MINUTE;
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $nanosUntil / NANOS_PER_HOUR;
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $nanosUntil / (12 * NANOS_PER_HOUR);
             }
 

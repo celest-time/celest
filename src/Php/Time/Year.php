@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -393,7 +394,7 @@ final class Year
     public function isSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $unit == YEARS || $unit == DECADES || $unit == CENTURIES || $unit == MILLENNIA || $unit == ERAS;
+            return $unit == ChronoUnit::YEARS() || $unit == ChronoUnit::DECADES() || $unit == ChronoUnit::CENTURIES() || $unit == ChronoUnit::MILLENNIA() || $unit == ChronoUnit::ERAS();
         }
 
         return $unit != null && $unit->isSupportedBy($this);
@@ -715,15 +716,15 @@ final class Year
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $this->plusYears($amountToAdd);
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 10));
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 100));
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $this->with(ERA, Math::addExact($this->getLong(ERA), $amountToAdd));
             }
 
@@ -840,7 +841,7 @@ final class Year
             return IsoChronology::$INSTANCE;
         } else
             if ($query == TemporalQueries::precision()) {
-                return YEARS;
+                return ChronoUnit::YEARS();
             }
         return Temporal::query($query);
     }
@@ -933,15 +934,15 @@ final class Year
         if ($unit instanceof ChronoUnit) {
             $yearsUntil = ($end->year) - $this->year;  // no overflow
             switch ($unit) {
-                case YEARS:
+                case ChronoUnit::YEARS():
                     return $yearsUntil;
-                case DECADES:
+                case ChronoUnit::DECADES():
                     return $yearsUntil / 10;
-                case CENTURIES:
+                case ChronoUnit::CENTURIES():
                     return $yearsUntil / 100;
-                case MILLENNIA:
+                case ChronoUnit::MILLENNIA():
                     return $yearsUntil / 1000;
-                case ERAS:
+                case ChronoUnit::ERAS():
                     return $end->getLong(ERA) - $this->getLong(ERA);
             }
 

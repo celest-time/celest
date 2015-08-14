@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -1133,7 +1134,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
         } else if ($query == TemporalQueries::localTime()) {
             return $this->time;
         } else if ($$query == TemporalQueries::precision()) {
-            return NANOS;
+            return ChronoUnit::NANOS();
         }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization
@@ -1229,19 +1230,19 @@ final class OffsetTime implements Temporal, TemporalAdjuster
         if ($unit instanceof ChronoUnit) {
             $nanosUntil = $end->toEpochNano() - $this->toEpochNano();  // no overflow
             switch ($unit) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $nanosUntil;
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $nanosUntil / 1000;
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return $nanosUntil / 1000000;
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $nanosUntil / NANOS_PER_SECOND;
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $nanosUntil / NANOS_PER_MINUTE;
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $nanosUntil / NANOS_PER_HOUR;
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $nanosUntil / (12 * NANOS_PER_HOUR);
             }
 

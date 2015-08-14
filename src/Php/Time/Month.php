@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Php\Time;
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
@@ -605,7 +606,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return IsoChronology::INSTANCE;
         } else
             if ($query == TemporalQueries::precision()) {
-                return MONTHS;
+                return ChronoUnit::MONTHS();
             }
         return TemporalAccessorDefaults::query($this, $query);
     }

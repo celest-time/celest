@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -1235,19 +1236,19 @@ final class LocalDateTime
         if ($unit instanceof ChronoUnit) {
             $f = $unit;
             switch ($f) {
-                case NANOS:
+                case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
-                case MICROS:
+                case ChronoUnit::MICROS():
                     return $this->plusDays($amountToAdd / MICROS_PER_DAY)->plusNanos(($amountToAdd % MICROS_PER_DAY) * 1000);
-                case MILLIS:
+                case ChronoUnit::MILLIS():
                     return $this->plusDays($amountToAdd / MILLIS_PER_DAY)->plusNanos(($amountToAdd % MILLIS_PER_DAY) * 1000000);
-                case SECONDS:
+                case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
-                case MINUTES:
+                case ChronoUnit::MINUTES():
                     return $this->plusMinutes($amountToAdd);
-                case HOURS:
+                case ChronoUnit::HOURS():
                     return $this->plusHours($amountToAdd);
-                case HALF_DAYS:
+                case ChronoUnit::HALF_DAYS():
                     return $this->plusDays($amountToAdd / 256)->plusHours(($amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
             }
             return $this->with($this->date->plus($amountToAdd, $unit), $this->time);
@@ -1772,30 +1773,30 @@ final class LocalDateTime
                     $timePart -= NANOS_PER_DAY;  // safe
                 }
                 switch ($unit) {
-                    case NANOS:
+                    case ChronoUnit::NANOS():
                         $amount = Math::multiplyExact($amount, NANOS_PER_DAY);
                         break;
-                    case MICROS:
+                    case ChronoUnit::MICROS():
                         $amount = Math::multiplyExact($amount, MICROS_PER_DAY);
                         $timePart = $timePart / 1000;
                         break;
-                    case MILLIS:
+                    case ChronoUnit::MILLIS():
                         $amount = Math::multiplyExact($amount, MILLIS_PER_DAY);
                         $timePart = $timePart / 1000000;
                         break;
-                    case SECONDS:
+                    case ChronoUnit::SECONDS():
                         $amount = Math::multiplyExact($amount, SECONDS_PER_DAY);
                         $timePart = $timePart / NANOS_PER_SECOND;
                         break;
-                    case MINUTES:
+                    case ChronoUnit::MINUTES():
                         $amount = Math::multiplyExact($amount, MINUTES_PER_DAY);
                         $timePart = $timePart / NANOS_PER_MINUTE;
                         break;
-                    case HOURS:
+                    case ChronoUnit::HOURS():
                         $amount = Math::multiplyExact($amount, HOURS_PER_DAY);
                         $timePart = $timePart / NANOS_PER_HOUR;
                         break;
-                    case HALF_DAYS:
+                    case ChronoUnit::HALF_DAYS():
                         $amount = Math::multiplyExact($amount, 2);
                         $timePart = $timePart / (NANOS_PER_HOUR * 12);
                         break;

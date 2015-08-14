@@ -66,6 +66,8 @@ use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
 use const Php\Time\SECONDS_PER_MINUTE;
+use Php\Time\Temporal\ChronoUnit;
+use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalUnit;
 
@@ -462,10 +464,10 @@ final class Duration implements TemporalAmount
     public function between(Temporal $startInclusive, Temporal $endExclusive)
     {
         try {
-            return self::ofNanos($startInclusive->until($endExclusive, NANOS));
+            return self::ofNanos($startInclusive->until($endExclusive, ChronoUnit::NANOS()));
         } catch
         (\Exception $ex) {
-            $secs = $startInclusive->until($endExclusive, SECONDS);
+            $secs = $startInclusive->until($endExclusive, ChronoUnit::SECONDS());
             $nanos = 0;
             try {
                 $nanos = $endExclusive->getLong(NANO_OF_SECOND) - $startInclusive->getLong(NANO_OF_SECOND);
@@ -525,10 +527,10 @@ final class Duration implements TemporalAmount
      */
     public function get(TemporalUnit $unit)
     {
-        if ($unit == SECONDS) {
+        if ($unit == ChronoUnit::SECONDS()) {
             return $this->seconds;
         } else
-            if ($unit == NANOS) {
+            if ($unit == ChronoUnit::NANOS()) {
                 return $this->nanos;
             } else {
                 throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -549,7 +551,7 @@ final class Duration implements TemporalAmount
      */
     public function getUnits()
     {
-        return [SECONDS, NANOS];
+        return [ChronoUnit::SECONDS(), ChronoUnit::NANOS()];
     }
 
     /**
@@ -699,10 +701,10 @@ final class Duration implements TemporalAmount
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, $unit)
+    public function plus($amountToAdd, TemporalUnit $unit)
     {
-        if ($unit == DAYS) {
-            return $this->plus(Math::multiplyExact(amountToAdd, SECONDS_PER_DAY), 0);
+        if ($unit == ChronoUnit::DAYS()) {
+            return $this->plus(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY), 0);
         }
 
         if ($unit->isDurationEstimated()) {
@@ -713,19 +715,19 @@ final class Duration implements TemporalAmount
         }
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-                case NANOS:
-                    return plusNanos($amountToAdd);
-                case MICROS:
-                    return plusSeconds(($amountToAdd / (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
-                case MILLIS:
-                    return plusMillis($amountToAdd);
-                case SECONDS:
-                    return plusSeconds($amountToAdd);
+                case ChronoUnit::NANOS():
+                    return $this->plusNanos($amountToAdd);
+                case ChronoUnit::MICROS():
+                    return $this->plusSeconds(($amountToAdd / (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
+                case ChronoUnit::MILLIS():
+                    return $this->plusMillis($amountToAdd);
+                case ChronoUnit::SECONDS():
+                    return $this->plusSeconds($amountToAdd);
             }
-            return plusSeconds(Math::multiplyExact($unit->getDuration()->seconds, $amountToAdd));
+            return $this->plusSeconds(Math::multiplyExact($unit->getDuration()->seconds, $amountToAdd));
         }
         $duration = $unit->getDuration()->multipliedBy($amountToAdd);
-        return plusSeconds($duration->getSeconds())->plusNanos($duration->getNano());
+        return $this->plusSeconds($duration->getSeconds())->plusNanos($duration->getNano());
     }
 
     //-----------------------------------------------------------------------
@@ -1109,11 +1111,11 @@ final class Duration implements TemporalAmount
     public function addTo(Temporal $temporal)
     {
         if ($this->seconds != 0) {
-            $temporal = $temporal->plus($this->seconds, SECONDS);
+            $temporal = $temporal->plus($this->seconds, ChronoUnit::SECONDS());
         }
 
         if ($this->nanos != 0) {
-            $temporal = $temporal->plus($this->nanos, NANOS);
+            $temporal = $temporal->plus($this->nanos, ChronoUnit::NANOS());
         }
         return $temporal;
     }
@@ -1145,11 +1147,11 @@ final class Duration implements TemporalAmount
     public function subtractFrom(Temporal $temporal)
     {
         if ($this->seconds != 0) {
-            $temporal = $temporal->minus($this->seconds, SECONDS);
+            $temporal = $temporal->minus($this->seconds, ChronoUnit::SECONDS());
         }
 
         if ($this->nanos != 0) {
-            $temporal = $temporal->minus($this->nanos, NANOS);
+            $temporal = $temporal->minus($this->nanos, ChronoUnit::NANOS());
         }
         return $temporal;
     }

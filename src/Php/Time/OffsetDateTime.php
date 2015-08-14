@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -538,7 +539,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public function isSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $unit != FOREVER;
+            return $unit != ChronoUnit::FOREVER();
         }
 
         return $unit != null && $unit->isSupportedBy($this);
@@ -1628,13 +1629,13 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
             if ($query == TemporalQueries::zoneId()) {
                 return null;
             } else if ($query == TemporalQueries::localDate()) {
-                return toLocalDate();
+                return $this->toLocalDate();
             } else if ($query == TemporalQueries::localTime()) {
                 return $this->toLocalTime();
             } else if ($query == TemporalQueries::chronology()) {
                 return IsoChronology->INSTANCE;
         } else if ($query == TemporalQueries::precision()) {
-                return NANOS;
+                return ChronoUnit::NANOS();
             }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization
