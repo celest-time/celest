@@ -64,6 +64,8 @@
 namespace Php\Time;
 
 use Php\Time\Chrono\ChronoLocalDate;
+use Php\Time\Chrono\ChronoLocalDateDefaults;
+use Php\Time\Chrono\Era;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -523,7 +525,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isSupported(TemporalField $field)
     {
-        return ChronoLocalDate::isSupported($field);
+        return ChronoLocalDateDefaults::isSupported($this, $field);
     }
 
     /**
@@ -557,7 +559,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isSupported(TemporalUnit $unit)
     {
-        return ChronoLocalDate::isSupported($unit);
+        return ChronoLocalDateDefaults::isSupported($this, $unit);
     }
 
 //-----------------------------------------------------------------------
@@ -641,7 +643,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->get0($field);
         }
 
-        return ChronoLocalDate::get($field);
+        return ChronoLocalDateDefaults::get($this, $field);
     }
 
     /**
@@ -758,7 +760,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function getEra()
     {
-        return ChronoLocalDate::getEra();
+        return ChronoLocalDateDefaults::getEra($this);
     }
 
     /**
@@ -1615,7 +1617,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        return ChronoLocalDate::query($query);
+        return ChronoLocalDateDefaults::query($this, $query);
     }
 
     /**
@@ -1644,7 +1646,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function adjustInto(Temporal $temporal)
     {
-        return ChronoLocalDate::adjustInto($temporal);
+        return ChronoLocalDateDefaults::adjustInto($this, $temporal);
     }
 
     /**
@@ -1987,7 +1989,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other);
         }
 
-        return ChronoLocalDate::compareTo($other);
+        return ChronoLocalDateDefaults::compareTo($this, $other);
     }
 
     /**
@@ -2034,7 +2036,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) > 0;
         }
 
-        return ChronoLocalDate::isAfter($other);
+        return ChronoLocalDateDefaults::isAfter($this, $other);
     }
 
     /**
@@ -2064,7 +2066,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) < 0;
         }
 
-        return ChronoLocalDate::isBefore($other);
+        return ChronoLocalDateDefaults::isBefore($this, $other);
     }
 
     /**
@@ -2094,7 +2096,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) == 0;
         }
 
-        return ChronoLocalDate::isEqual($other);
+        return ChronoLocalDateDefaults::isEqual($this, $other);
     }
 
     //-----------------------------------------------------------------------
