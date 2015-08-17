@@ -19,7 +19,9 @@ use Php\Time\ZoneId;
 
 class ChronologyDefaults
 {
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     public static function from(TemporalAccessor $temporal)
     {
@@ -125,6 +127,7 @@ class ChronologyDefaults
                        }
            };
            return new DateTimeFormatterBuilder()->appendChronologyText($style)->toFormatter($locale)->format($temporal);*/
+        return "";
     }
 
     public static function period(Chronology $_this, $years, $months, $days)

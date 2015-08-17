@@ -489,7 +489,7 @@ abstract class AbstractChronology implements Chronology
      * @param ChronoField $field
      * @return null|int
      */
-    private static function remove(&$array, ChronoField $field)
+    protected static function remove(&$array, ChronoField $field)
     {
         $id = $field->__toString();
         // Get null or the value
