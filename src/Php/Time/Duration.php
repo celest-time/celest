@@ -124,7 +124,7 @@ final class Duration implements TemporalAmount
      * Constant for a duration of zero.
      * @return Duration
      */
-    public function ZERO()
+    public static function ZERO()
     {
         return self::$ZERO;
     }
@@ -943,7 +943,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param secondsToSubtract int the seconds to subtract, positive or negative
+     * @param $secondsToSubtract int the seconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified seconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -957,7 +957,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param millisToSubtract int the milliseconds to subtract, positive or negative
+     * @param $millisToSubtract int the milliseconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified milliseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */

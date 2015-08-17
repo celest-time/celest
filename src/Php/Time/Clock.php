@@ -157,7 +157,7 @@ abstract class Clock
      */
     public static function systemUTC()
     {
-        return new SystemClock(ZoneOffset::UTC);
+        return new SystemClock(ZoneOffset::UTC());
     }
 
     /**
@@ -345,7 +345,7 @@ abstract class Clock
      */
     public static function offset(Clock $baseClock, Duration $offsetDuration)
     {
-        if ($offsetDuration->equals(Duration::ZERO)) {
+        if ($offsetDuration->equals(Duration::ZERO())) {
             return $baseClock;
         }
         return new OffsetClock($baseClock, $offsetDuration);
@@ -427,7 +427,7 @@ abstract class Clock
      * @param $obj mixed the object to check, null returns false
      * @return bool true if this is equal to the other clock
      */
-    public function equals($obj)
+    public function equals(/** @noinspection PhpUnusedParameterInspection */ $obj)
     {
         return true;
     }
