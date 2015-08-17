@@ -62,7 +62,11 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Temporal\ChronoField;
+use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
@@ -265,7 +269,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
         }
 
         try {
-            if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
@@ -638,7 +642,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      */
     public function  adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::$INSTANCE) == false) {
+        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

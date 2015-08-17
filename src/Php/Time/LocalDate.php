@@ -66,6 +66,7 @@ namespace Php\Time;
 use Php\Time\Chrono\ChronoLocalDate;
 use Php\Time\Chrono\ChronoLocalDateDefaults;
 use Php\Time\Chrono\Era;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
@@ -286,7 +287,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::DAY_OF_YEAR()->checkValidValue($dayOfYear);
-        $leap = IsoChronology::$INSTANCE->isLeapYear($year);
+        $leap = IsoChronology::INSTANCE()->isLeapYear($year);
         if ($dayOfYear == 366 && $leap == false) {
             throw new DateTimeException("Invalid date 'DayOfYear 366' as '" . $year . "' is not a leap year");
         }
@@ -426,7 +427,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             $dom = 31;
             switch ($month) {
                 case 2:
-                    $dom = (IsoChronology::$INSTANCE->isLeapYear($year) ? 29 : 28);
+                    $dom = (IsoChronology::INSTANCE()->isLeapYear($year) ? 29 : 28);
                     break;
                 case 4:
                 case 6:
@@ -460,7 +461,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         switch ($month) {
             case 2:
-                $day = Math::min($day, IsoChronology::$INSTANCE->isLeapYear($year) ? 29 : 28);
+                $day = Math::min($day, IsoChronology::INSTANCE()->isLeapYear($year) ? 29 : 28);
                 break;
             case 4:
             case 6:
@@ -738,7 +739,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function getChronology()
     {
-        return IsoChronology::INSTANCE;
+        return IsoChronology::INSTANCE();
     }
 
     /**
@@ -878,7 +879,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isLeapYear()
     {
-        return IsoChronology::$INSTANCE->isLeapYear($this->year);
+        return IsoChronology::INSTANCE()->isLeapYear($this->year);
     }
 
     /**

@@ -62,7 +62,10 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -240,7 +243,7 @@ final class Year
         }
 
         try {
-            if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::YEAR()));
@@ -840,7 +843,7 @@ final class Year
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::chronology()) {
-            return IsoChronology::$INSTANCE;
+            return IsoChronology::INSTANCE();
         } else
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::YEARS();
@@ -876,7 +879,7 @@ final class Year
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::$INSTANCE) == false) {
+        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

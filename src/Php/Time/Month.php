@@ -61,7 +61,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Php\Time;
+use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Chrono\TextStyle;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -238,7 +241,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $temporal;
         }
         try {
-            if (IsoChronology::$INSTANCE->equals(Chronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()));
@@ -605,7 +608,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::chronology()) {
-            return IsoChronology::INSTANCE;
+            return IsoChronology::INSTANCE();
         } else
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::MONTHS();
@@ -650,7 +653,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE) == false) {
+        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

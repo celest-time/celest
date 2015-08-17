@@ -62,7 +62,10 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;

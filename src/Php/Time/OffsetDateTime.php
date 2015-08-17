@@ -62,6 +62,7 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
@@ -1637,7 +1638,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
             } else if ($query == TemporalQueries::localTime()) {
                 return $this->toLocalTime();
             } else if ($query == TemporalQueries::chronology()) {
-                return IsoChronology->INSTANCE;
+                return IsoChronology::INSTANCE();
         } else if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::NANOS();
             }

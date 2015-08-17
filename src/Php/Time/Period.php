@@ -64,6 +64,7 @@
 namespace Php\Time;
 
 use Php\Time\Chrono\ChronoPeriod;
+use Php\Time\Chrono\IsoChronology;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
@@ -262,7 +263,7 @@ final class Period implements ChronoPeriod
         }
 
         if ($amount instanceof ChronoPeriod) {
-            if (IsoChronology::INSTANCE()->equals($amount)->getChronology() == false) {
+            if (IsoChronology::INSTANCE()->equals($amount->getChronology()) == false) {
                 throw new DateTimeException("Period requires ISO chronology: " . $amount);
             }
         }
@@ -479,7 +480,7 @@ final class Period implements ChronoPeriod
      */
     public function getChronology()
     {
-        return IsoChronology::$INSTANCE;
+        return IsoChronology::INSTANCE();
     }
 
 //-----------------------------------------------------------------------
@@ -1001,7 +1002,7 @@ final class Period implements ChronoPeriod
     private function validateChrono(TemporalAccessor $temporal)
     {
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
-        if ($temporalChrono != null && IsoChronology::$INSTANCE->equals($temporalChrono) == false) {
+        if ($temporalChrono != null && IsoChronology::INSTANCE()->equals($temporalChrono) == false) {
             throw new DateTimeException("Chronology mismatch, expected: ISO, actual: " . $temporalChrono->getId());
         }
     }
