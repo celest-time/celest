@@ -306,7 +306,7 @@ abstract class ZoneId
     {
         $prefix = substr($zoneId, 0, $prefixLength);
         if (strlen($zoneId) == $prefixLength) {
-            return self::ofOffset($prefix, ZoneOffset::UTC);
+            return self::ofOffset($prefix, ZoneOffset::UTC());
         }
 
         if ($zoneId[$prefixLength] != '+' && $zoneId[$prefixLength] != '-') {
@@ -314,7 +314,7 @@ abstract class ZoneId
         }
         try {
             $offset = ZoneOffset::of(substr($zoneId, $prefixLength));
-            if ($offset == ZoneOffset::UTC) {
+            if ($offset == ZoneOffset::UTC()) {
                 return self::ofOffset($prefix, $offset);
             }
             return self::ofOffset($prefix, $offset);
