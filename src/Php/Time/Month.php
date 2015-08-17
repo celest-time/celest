@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Php\Time;
+
 use Php\Time\Chrono\Chronology;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Chrono\TextStyle;
@@ -100,100 +101,211 @@ use Php\Time\Temporal\ValueRange;
  */
 final class Month implements TemporalAccessor, TemporalAdjuster
 {
+    /**
+     * @internal
+     */
+    public static function init()
+    {
+        self::$JANUARY = new Month(0, "January");
+        self::$FEBRUARY = new Month(1, "February");
+        self::$MARCH = new Month(2, "March");
+        self::$APRIL = new Month(3, "April");
+        self::$MAY = new Month(4, "May");
+        self::$JUNE = new Month(5, "June");
+        self::$JULY = new Month(6, "July");
+        self::$AUGUST = new Month(7, "August");
+        self::$SEPTEMBER = new Month(8, "September");
+        self::$OCTOBER = new Month(9, "October");
+        self::$NOVEMBER = new Month(10, "November");
+        self::$DECEMBER = new Month(11, "December");
+
+        self::$ENUMS = [
+            self::$JANUARY,
+            self::$FEBRUARY,
+            self::$MARCH,
+            self::$APRIL,
+            self::$MAY,
+            self::$JUNE,
+            self::$JULY,
+            self::$AUGUST,
+            self::$SEPTEMBER,
+            self::$OCTOBER,
+            self::$NOVEMBER,
+            self::$DECEMBER,
+        ];
+    }
 
     /**
      * The singleton instance for the month of January with 31 days.
      * This has the numeric value of {@code 1}.
+     * @return Month
      */
-    const JANUARY = 1;
+    public static function JANUARY()
+    {
+        return self::$JANUARY;
+    }
+
+    /** @var Month */
+    private static $JANUARY;
+
     /**
      * The singleton instance for the month of February with 28 days, or 29 in a leap year.
      * This has the numeric value of {@code 2}.
+     * @return Month
      */
-    const FEBRUARY = 2;
+    public static function FEBRUARY()
+    {
+        return self::$FEBRUARY;
+    }
+
+    /** @var Month */
+    private static $FEBRUARY;
+
     /**
      * The singleton instance for the month of March with 31 days.
      * This has the numeric value of {@code 3}.
+     * @return Month
      */
-    const MARCH = 3;
+    public static function MARCH()
+    {
+        return self::$MARCH;
+    }
+
+    /** @var Month */
+    private static $MARCH;
+
     /**
      * The singleton instance for the month of April with 30 days.
      * This has the numeric value of {@code 4}.
+     * @return Month
      */
-    const APRIL = 4;
+    public static function APRIL()
+    {
+        return self::$APRIL;
+    }
+
+    /** @var Month */
+    private static $APRIL;
+
     /**
      * The singleton instance for the month of May with 31 days.
      * This has the numeric value of {@code 5}.
+     * @return Month
      */
-    const MAY = 5;
+    public static function MAY()
+    {
+        return self::$MAY;
+    }
+
+    /** @var Month */
+    private static $MAY;
+
     /**
      * The singleton instance for the month of June with 30 days.
      * This has the numeric value of {@code 6}.
+     * @return Month
      */
-    const JUNE = 6;
+    public static function JUNE()
+    {
+        return self::$JUNE;
+    }
+
+    /** @var Month */
+    private static $JUNE;
+
     /**
      * The singleton instance for the month of July with 31 days.
      * This has the numeric value of {@code 7}.
+     * @return Month
      */
-    const JULY = 7;
+    public static function JULY()
+    {
+        return self::$JULY;
+    }
+
+    /** @var Month */
+    private static $JULY;
+
     /**
      * The singleton instance for the month of August with 31 days.
      * This has the numeric value of {@code 8}.
+     * @return Month
      */
-    const AUGUST = 8;
+    public static function AUGUST()
+    {
+        return self::$AUGUST;
+    }
+
+    /** @var Month */
+    private static $AUGUST;
+
     /**
      * The singleton instance for the month of September with 30 days.
      * This has the numeric value of {@code 9}.
+     * @return Month
      */
-    const SEPTEMBER = 9;
+    public static function SEPTEMBER()
+    {
+        return self::$SEPTEMBER;
+    }
+
+    /** @var Month */
+    private static $SEPTEMBER;
+
     /**
      * The singleton instance for the month of October with 31 days.
      * This has the numeric value of {@code 10}.
+     * @return Month
      */
-    const OCTOBER = 10;
+    public static function OCTOBER()
+    {
+        return self::$OCTOBER;
+    }
+
+    /** @var Month */
+    private static $OCTOBER;
+
     /**
      * The singleton instance for the month of November with 30 days.
      * This has the numeric value of {@code 11}.
+     * @return Month
      */
-    const NOVEMBER = 11;
+    public static function NOVEMBER()
+    {
+        return self::$NOVEMBER;
+    }
+
+    /** @var Month */
+    private static $NOVEMBER;
+
     /**
      * The singleton instance for the month of December with 31 days.
      * This has the numeric value of {@code 12}.
+     * @return Month
      */
-    const DECEMBER = 12;
+    public static function DECEMBER()
+    {
+        return self::$DECEMBER;
+    }
+
+    /** @var Month */
+    private static $DECEMBER;
+
     /**
      * Private cache of all the constants.
      * @var Month[]
      */
     private static $ENUMS;
 
-    public static function init()
-    {
-        if (self::$ENUMS !== null)
-            return;
-
-        self::$ENUMS = [
-            new Month(1),
-            new Month(2),
-            new Month(3),
-            new Month(4),
-            new Month(5),
-            new Month(6),
-            new Month(7),
-            new Month(8),
-            new Month(9),
-            new Month(10),
-            new Month(11),
-            new Month(12),
-        ];
-    }
-
     /** @var int */
     private $val;
+    /** @var string */
+    private $name;
 
-    private function __construct($val)
+    private function __construct($val, $name)
     {
         $this->val = $val;
+        $this->name = $name;
     }
 
     //-----------------------------------------------------------------------
@@ -426,7 +538,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     public function plus($months)
     {
         $amount = (int)($months % 12);
-        return self::$ENUMS[(ordinal() + ($amount + 12)) % 12];
+        return self::$ENUMS[($this->ordinal() + ($amount + 12)) % 12];
     }
 
     /**
@@ -463,12 +575,12 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     function length($leapYear)
     {
         switch ($this->val) {
-            case self::FEBRUARY:
+            case 2:
                 return ($leapYear ? 29 : 28);
-            case self::APRIL:
-            case self::JUNE:
-            case self::SEPTEMBER:
-            case self::NOVEMBER:
+            case 4:
+            case 6:
+            case 9:
+            case 11:
                 return 30;
             default:
                 return 31;
@@ -488,12 +600,12 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     function minLength()
     {
         switch ($this->val) {
-            case self::FEBRUARY:
+            case 2:
                 return 28;
-            case self::APRIL:
-            case self::JUNE:
-            case self::SEPTEMBER:
-            case self::NOVEMBER:
+            case 4:
+            case 6:
+            case 9:
+            case 11:
                 return 30;
             default:
                 return 31;
@@ -513,12 +625,12 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     function maxLength()
     {
         switch ($this->val) {
-            case self::FEBRUARY:
+            case 2:
                 return 29;
-            case self::APRIL:
-            case self::JUNE:
-            case self::SEPTEMBER:
-            case self::NOVEMBER:
+            case 4:
+            case 6:
+            case 9:
+            case 11:
                 return 30;
             default:
                 return 31;
@@ -540,29 +652,29 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     {
         $leap = $leapYear ? 1 : 0;
         switch ($this->val) {
-            case self::JANUARY:
+            case 1:
                 return 1;
-            case self::FEBRUARY:
+            case 2:
                 return 32;
-            case self::MARCH:
+            case 3:
                 return 60 + $leap;
-            case self::APRIL:
+            case 4:
                 return 91 + $leap;
-            case self::MAY:
+            case 5:
                 return 121 + $leap;
-            case self::JUNE:
+            case 6:
                 return 152 + $leap;
-            case self::JULY:
+            case 7:
                 return 182 + $leap;
-            case self::AUGUST:
+            case 8:
                 return 213 + $leap;
-            case self::SEPTEMBER:
+            case 9:
                 return 244 + $leap;
-            case self::OCTOBER:
+            case 10:
                 return 274 + $leap;
-            case self::NOVEMBER:
+            case 11:
                 return 305 + $leap;
-            case self::DECEMBER:
+            case 12:
             default:
                 return 335 + $leap;
         }
@@ -646,7 +758,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal Temporal the target object to be adjusted, not null
+     * @param $temporal Temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -660,4 +772,10 @@ final class Month implements TemporalAccessor, TemporalAdjuster
         return $temporal->with(ChronoField::MONTH_OF_YEAR(), $this->getValue());
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
+
+Month::init();
