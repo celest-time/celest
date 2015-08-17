@@ -9,6 +9,7 @@
 namespace Php\Time\Clocks;
 
 use Php\Time\Clock;
+use Php\Time\Helper\Math;
 use Php\Time\Instant;
 use Php\Time\ZoneId;
 
@@ -42,7 +43,8 @@ final class SystemClock extends Clock
 
     public function millis()
     {
-        return System::currentTimeMillis();
+        $tofd = \gettimeofday();
+        return $tofd['sec'] + Math::floorDiv($tofd['usec'], 1000);
     }
 
     public function instant()
