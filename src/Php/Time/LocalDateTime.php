@@ -62,6 +62,8 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\ChronoLocalDateTime;
+use Php\Time\Chrono\ChronoLocalDateTimeDefaults;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
@@ -112,8 +114,7 @@ use Php\Time\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDateTime
-    implements Temporal, TemporalAdjuster, ChronoLocalDateTime
+final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime
 {
 
     public static function init()
@@ -644,7 +645,7 @@ final class LocalDateTime
      */
     public function isSupported(TemporalUnit $unit)
     {
-        return ChronoLocalDateTime::isSupported($unit);
+        return ChronoLocalDateTimeDefaults::isSupported($this, $unit);
     }
 
 //-----------------------------------------------------------------------
@@ -716,7 +717,7 @@ final class LocalDateTime
             return ($f->isTimeBased() ? $this->time->get($field) : $this->date->get($field));
         }
 
-        return ChronoLocalDateTime::get($field);
+        return ChronoLocalDateTimeDefaults::get($this, $field);
     }
 
     /**
@@ -1677,7 +1678,7 @@ final class LocalDateTime
             return $this->date;
         }
 
-        return ChronoLocalDateTime::query($query);
+        return ChronoLocalDateTimeDefaults::query($this, $query);
     }
 
     /**
@@ -1707,7 +1708,7 @@ final class LocalDateTime
      */
     public function adjustInto(Temporal $temporal)
     {
-        return ChronoLocalDateTime::adjustInto($temporal);
+        return ChronoLocalDateTimeDefaults::adjustInto($this, $temporal);
     }
 
     /**
@@ -1903,7 +1904,7 @@ final class LocalDateTime
         if ($other instanceof LocalDateTime) {
             return $this->compareTo0($other);
         }
-        return ChronoLocalDateTime::compareTo($other);
+        return ChronoLocalDateTimeDefaults::compareTo($this, $other);
     }
 
     private function compareTo0(LocalDateTime $other)
@@ -1943,7 +1944,7 @@ final class LocalDateTime
             return $this->compareTo0($other) > 0;
         }
 
-        return ChronoLocalDateTime::isAfter($other);
+        return ChronoLocalDateTimeDefaults::isAfter($this, $other);
     }
 
     /**
@@ -1972,7 +1973,7 @@ final class LocalDateTime
         if ($other instanceof LocalDateTime) {
             return $this->compareTo0($other) < 0;
         }
-        return ChronoLocalDateTime::isBefore($other);
+        return ChronoLocalDateTimeDefaults::isBefore($this, $other);
     }
 
     /**
@@ -2003,7 +2004,7 @@ final class LocalDateTime
             return $this->compareTo0($other) == 0;
         }
 
-        return ChronoLocalDateTime::isEqual($other);
+        return ChronoLocalDateTimeDefaults::isEqual($this, $other);
     }
 
     //-----------------------------------------------------------------------

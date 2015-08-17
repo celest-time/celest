@@ -128,7 +128,7 @@ final class ChronoLocalDateTimeDefaults
         return $cmp;
     }
 
-    function isAfter(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
+    public static function isAfter(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
     {
         $thisEpDay = $_this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();
@@ -136,7 +136,7 @@ final class ChronoLocalDateTimeDefaults
         ($thisEpDay == $otherEpDay && $_this->toLocalTime()->toNanoOfDay() > $other->toLocalTime()->toNanoOfDay());
     }
 
-    function isBefore(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
+    public static function isBefore(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
     {
         $thisEpDay = $_this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();
@@ -144,7 +144,7 @@ final class ChronoLocalDateTimeDefaults
         ($thisEpDay == $otherEpDay && $_this->toLocalTime()->toNanoOfDay() < $other->toLocalTime()->toNanoOfDay());
     }
 
-    function isEqual(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
+    public static function isEqual(ChronoLocalDateTime $_this, ChronoLocalDateTime $other)
     {
         // Do the time check first, it is cheaper than computing EPOCH day.
         return $_this->toLocalTime()->toNanoOfDay() == $other->toLocalTime()->toNanoOfDay() &&
