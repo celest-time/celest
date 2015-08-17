@@ -5,7 +5,7 @@ namespace Php\Time\Temporal;
 
 use Php\Time\Helper\Long;
 
-class TemporalDefaults
+final class TemporalDefaults
 {
     private function __construct()
     {

@@ -17,7 +17,7 @@ use Php\Time\LocalTime;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\ZoneId;
 
-class ChronologyDefaults
+final class ChronologyDefaults
 {
     private function __construct()
     {

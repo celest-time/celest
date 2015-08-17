@@ -17,8 +17,12 @@ use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\UnsupportedTemporalTypeException;
 
-class ChronoLocalDateDefaults
+final class ChronoLocalDateDefaults
 {
+    private function __construct()
+    {
+    }
+
     public static function timeLineOrder()
     {
         return AbstractChronology::DATE_ORDER;

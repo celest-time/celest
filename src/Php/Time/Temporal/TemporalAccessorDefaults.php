@@ -5,7 +5,7 @@ namespace Php\Time\Temporal;
 use Php\Time\DateTimeException;
 use Php\Time\UnsupportedTemporalTypeException;
 
-class TemporalAccessorDefaults
+final class TemporalAccessorDefaults
 {
     private function __construct() {}
 

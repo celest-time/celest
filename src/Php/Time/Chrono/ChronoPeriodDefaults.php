@@ -2,7 +2,7 @@
 
 namespace Php\Time\Chrono;
 
-class ChronoPeriodDefaults
+final class ChronoPeriodDefaults
 {
     private function __construct() {}
 

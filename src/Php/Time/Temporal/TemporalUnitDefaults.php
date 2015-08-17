@@ -8,7 +8,7 @@ use Php\Time\Chrono\ChronoLocalDateTime;
 use Php\Time\LocalTime;
 use Php\Time\UnsupportedTemporalTypeException;
 
-class TemporalUnitDefaults
+final class TemporalUnitDefaults
 {
     private function __construct() {}
 

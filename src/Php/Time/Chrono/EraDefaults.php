@@ -10,7 +10,7 @@ use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\UnsupportedTemporalTypeException;
 
-class EraDefaults
+final class EraDefaults
 {
     private function __construct() {}
 
