@@ -32,4 +32,13 @@ class Integer
     {
         return (int)$str;
     }
+
+    /**
+     * @param $val int
+     * @return string
+     */
+    public static function toString($val)
+    {
+        return (string)$val;
+    }
 }

@@ -2049,6 +2049,6 @@ final class LocalDateTime
      */
     public function __toString()
     {
-        return $this->date->toString() . 'T' . $this->time->toString();
+        return $this->date->__toString() . 'T' . $this->time->__toString();
     }
 }

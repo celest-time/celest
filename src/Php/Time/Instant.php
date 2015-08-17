@@ -1401,7 +1401,7 @@ final class Instant implements Temporal, TemporalAdjuster
      *
      * @return string an ISO-8601 representation of this instant, not null
      */
-    public function toString()
+    public function __toString()
     {
         return DateTimeFormatter::ISO_INSTANT()->format($this);
     }

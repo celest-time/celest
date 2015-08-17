@@ -2001,7 +2001,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      *
      * @return string a string representation of this date-time, not null
      */
-    public function toString()
+    public function __toString()
     {
         return $this->dateTime->__toString() . $this->offset->__toString();
     }
