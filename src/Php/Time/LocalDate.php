@@ -600,7 +600,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                     case ChronoField::DAY_OF_YEAR():
                         return ValueRange::of(1, $this->lengthOfYear());
                     case ChronoField::ALIGNED_WEEK_OF_MONTH():
-                        return ValueRange::of(1, $this->getMonth() == Month::FEBRUARY && $this->isLeapYear() == false ? 4 : 5);
+                        return ValueRange::of(1, $this->getMonth() == Month::FEBRUARY() && $this->isLeapYear() == false ? 4 : 5);
                     case ChronoField::YEAR_OF_ERA():
                         return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
                 }
