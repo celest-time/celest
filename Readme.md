@@ -17,6 +17,8 @@
 - php7 anonymous classes for queries!
 - gmp operator overloading
 
+- map<TemporalField, long> use TemporalField->__toString as index.
+
 Useful regex:
 Add $ to phpdoc
 @param ([^$])
