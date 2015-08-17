@@ -103,70 +103,139 @@ use Php\Time\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
+final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
+{
+    /**
+     * @internal
+     */
+    public static function init()
+    {
+        self::$MONDAY = new DayOfWeek(0, "Monaday");
+        self::$TUESDAY = new DayOfWeek(1, "Tuesday");
+        self::$WEDNESDAY = new DayOfWeek(2, "Wednesday");
+        self::$THURSDAY = new DayOfWeek(3, "Thursday");
+        self::$FRIDAY = new DayOfWeek(4, "Friday");
+        self::$SATURDAY = new DayOfWeek(5, "Saturday");
+        self::$SUNDAY = new DayOfWeek(6, "Sunday");
+
+        self::$ENUMS = [
+            self::$MONDAY,
+            self::$TUESDAY,
+            self::$WEDNESDAY,
+            self::$THURSDAY,
+            self::$FRIDAY,
+            self::$SATURDAY,
+            self::$SUNDAY,
+        ];
+    }
 
     /**
      * The singleton instance for the day-of-week of Monday.
      * This has the numeric value of {@code 1}.
+     * @return DayOfWeek
      */
-    const MONDAY = 1;
+    public static function MONDAY()
+    {
+        return self::$MONDAY;
+    }
+
+    /** @var Month */
+    private static $MONDAY;
+
     /**
      * The singleton instance for the day-of-week of Tuesday.
      * This has the numeric value of {@code 2}.
+     * @return DayOfWeek
      */
-    const TUESDAY = 2;
+    public static function TUESDAY()
+    {
+        return self::$TUESDAY;
+    }
+
+    /** @var Month */
+    private static $TUESDAY;
+
     /**
      * The singleton instance for the day-of-week of Wednesday.
      * This has the numeric value of {@code 3}.
+     * @return DayOfWeek
      */
-    const WEDNESDAY = 3;
+    public static function WEDNESDAY()
+    {
+        return self::$WEDNESDAY;
+    }
+
+    /** @var Month */
+    private static $WEDNESDAY;
+
     /**
      * The singleton instance for the day-of-week of Thursday.
      * This has the numeric value of {@code 4}.
+     * @return DayOfWeek
      */
-    const THURSDAY = 4;
+    public static function THURSDAY()
+    {
+        return self::$THURSDAY;
+    }
+
+    /** @var Month */
+    private static $THURSDAY;
+
     /**
      * The singleton instance for the day-of-week of Friday.
      * This has the numeric value of {@code 5}.
+     * @return DayOfWeek
      */
-    const FRIDAY = 5;
+    public static function FRIDAY()
+    {
+        return self::$FRIDAY;
+    }
+
+    /** @var Month */
+    private static $FRIDAY;
+
     /**
      * The singleton instance for the day-of-week of Saturday.
      * This has the numeric value of {@code 6}.
+     * @return DayOfWeek
      */
-    const SATURDAY = 6;
+    public static function SATURDAY()
+    {
+        return self::$SATURDAY;
+    }
+
+    /** @var Month */
+    private static $SATURDAY;
+
     /**
      * The singleton instance for the day-of-week of Sunday.
      * This has the numeric value of {@code 7}.
+     * @return DayOfWeek
      */
-    const SUNDAY = 7;
+    public static function SUNDAY()
+    {
+        return self::$SUNDAY;
+    }
+
+    /** @var Month */
+    private static $SUNDAY;
+
+
     /**
      * Private cache of all the constants.
      * @var DayOfWeek[]
      */
     private static $ENUMS;
 
-    public static function init()
-    {
-        if(self::$ENUMS !== null)
-            return;
-
-        self::$ENUMS = [
-            new DayOfWeek(1),
-            new DayOfWeek(2),
-            new DayOfWeek(3),
-            new DayOfWeek(4),
-            new DayOfWeek(5),
-            new DayOfWeek(6),
-            new DayOfWeek(7),
-        ];
-    }
-
     /** @var int */
     private $val;
+    /** @var string */
+    private $name;
 
-    private function __construct($val) {
+    private function __construct($val, $name)
+    {
         $this->val = $val;
+        $this->name = $name;
     }
 
     //-----------------------------------------------------------------------
@@ -181,7 +250,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @return DayOfWeek the day-of-week singleton, not null
      * @throws DateTimeException if the day-of-week is invalid
      */
-    public static function of($dayOfWeek) {
+    public static function of($dayOfWeek)
+    {
         if ($dayOfWeek < 1 || $dayOfWeek > 7) {
             throw new DateTimeException("Invalid value for DayOfWeek: " . $dayOfWeek);
         }
@@ -205,7 +275,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @return DayOfWeek the day-of-week, not null
      * @throws DateTimeException if unable to convert to a {@code DayOfWeek}
      */
-    public static function from(TemporalAccessor $temporal) {
+    public static function from(TemporalAccessor $temporal)
+    {
         if ($temporal instanceof DayOfWeek) {
             return $temporal;
         }
@@ -226,7 +297,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      *
      * @return int the day-of-week, from 1 (Monday) to 7 (Sunday)
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->val;
     }
 
@@ -244,7 +316,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @param $locale Locale the locale to use, not null
      * @return String the text value of the day-of-week, not null
      */
-    public function getDisplayName(TextStyle $style, Locale $locale) {
+    public function getDisplayName(TextStyle $style, Locale $locale)
+    {
         return (new DateTimeFormatterBuilder())->appendText(ChronoField::DAY_OF_WEEK(), $style)->toFormatter($locale)->format($this);
     }
 
@@ -268,7 +341,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @param $field TemporalField the field to check, null returns false
      * @return boolean true if the field is supported on this day-of-week, false if not
      */
-    public function isSupported(TemporalField $field) {
+    public function isSupported(TemporalField $field)
+    {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::DAY_OF_WEEK();
         }
@@ -297,7 +371,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field) {
+    public function range(TemporalField $field)
+    {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $field->range();
         }
@@ -329,7 +404,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field) {
+    public function get(TemporalField $field)
+    {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
         }
@@ -358,7 +434,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field) {
+    public function getLong(TemporalField $field)
+    {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
         } else if ($field instanceof ChronoField) {
@@ -379,7 +456,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @param $days int the days to add, positive or negative
      * @return DayOfWeek the resulting day-of-week, not null
      */
-    public function plus($days) {
+    public function plus($days)
+    {
         $amount = $days % 7;
         return self::$ENUMS[(($this->val - 1) + ($amount + 7)) % 7];
     }
@@ -395,7 +473,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @param $days int the days to subtract, positive or negative
      * @return DayOfWeek the resulting day-of-week, not null
      */
-    public function minus($days) {
+    public function minus($days)
+    {
         return $this->plus(-($days % 7));
     }
 
@@ -421,7 +500,8 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
-    public function query(TemporalQuery $query) {
+    public function query(TemporalQuery $query)
+    {
         if ($query == TemporalQueries::precision()) {
             return ChronoUnit::DAYS();
         }
@@ -467,10 +547,15 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster {
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal) {
+    public function adjustInto(Temporal $temporal)
+    {
         return $temporal->with(ChronoField::DAY_OF_WEEK(), $this->getValue());
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
 
 DayOfWeek::init();
