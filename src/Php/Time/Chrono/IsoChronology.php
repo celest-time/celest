@@ -105,7 +105,7 @@ use Php\Time\Clock;
  *
  * @since 1.8
  */
-class IsoChronology extends AbstractChronology
+final class IsoChronology extends AbstractChronology
 {
     /**
      * Singleton instance of the ISO chronology.
