@@ -275,7 +275,7 @@ abstract class ZoneId
      *
      * @param $zoneId string the time-zone ID, not null
      * @param $checkAvailable bool whether to check if the zone ID is available
-     * @return the zone ID, not null
+     * @return ZoneID the zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
      */

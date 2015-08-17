@@ -64,6 +64,7 @@
 namespace Php\Time\Chrono;
 
 use Php\Time\Format\ResolverStyle;
+use Php\Time\Helper\Math;
 use Php\Time\LocalDate;
 use Php\Time\DateTimeException;
 use Php\Time\Month;

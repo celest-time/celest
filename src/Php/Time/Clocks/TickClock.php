@@ -3,6 +3,9 @@
 namespace Php\Time\Clocks;
 
 use Php\Time\Clock;
+use Php\Time\Duration;
+use Php\Time\Helper\Math;
+use Php\Time\Instant;
 use Php\Time\ZoneId;
 
 
@@ -66,8 +69,8 @@ final class TickClock extends Clock
         }
     }
 
-    public function toString()
+    public function __toString()
     {
-        return "TickClock[" + $this->baseClock + "," + Duration::ofNanos($this->tickNanos) + "]";
+        return "TickClock[" . $this->baseClock . "," . Duration::ofNanos($this->tickNanos) . "]";
     }
 }

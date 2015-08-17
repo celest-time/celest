@@ -753,7 +753,7 @@ final class Year
             return $this;
         }
 
-        return self::of(ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd));  // overflow safe
+        return self::of(ChronoField::YEAR()->checkValidIntValue($this->year + $yearsToAdd));  // overflow safe
     }
 
     //-----------------------------------------------------------------------

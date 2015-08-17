@@ -9,6 +9,7 @@
 namespace Php\Time\Clocks;
 
 use Php\Time\Clock;
+use Php\Time\Instant;
 use Php\Time\ZoneId;
 
 

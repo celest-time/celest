@@ -68,6 +68,7 @@ use Php\Time\Chrono\ChronoLocalDateDefaults;
 use Php\Time\Chrono\Era;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -344,7 +345,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $yearEst += $marchMonth0 / 10;
 
         // check year now we are certain it is correct
-        $year = ChronoField::YEAR()::checkValidIntValue($yearEst);
+        $year = ChronoField::YEAR()->checkValidIntValue($yearEst);
         return new LocalDate($year, $month, $dom);
     }
 
@@ -1362,7 +1363,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        $newYear = ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
+        $newYear = ChronoField::YEAR()->checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
         return self::resolvePreviousValid($newYear, $this->month, $this->day);
     }
 
@@ -1394,7 +1395,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
 
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
-        $newYear = ChronoField::YEAR()::checkValidIntValue(Math::floorDiv($calcMonths, 12));
+        $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
         $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
         return self::resolvePreviousValid($newYear, $newMonth, $this->day);
     }
@@ -1786,7 +1787,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             $calcDate = $this->plusMonths($totalMonths);
             $days = (int)($end->toEpochDay() - $calcDate->toEpochDay());  // safe
         } else
-            if ($totalMonths < 0 && days > 0) {
+            if ($totalMonths < 0 && $days > 0) {
                 $totalMonths++;
                 $days -= $end->lengthOfMonth();
             }

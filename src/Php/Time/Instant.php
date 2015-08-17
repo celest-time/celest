@@ -64,6 +64,7 @@
 namespace Php\Time;
 
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Math;
 use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
 use const Php\Time\SECONDS_PER_HOUR;
@@ -1401,7 +1402,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function toString()
     {
-        return DateTimeFormatter::$ISO_INSTANT->format($this);
+        return DateTimeFormatter::ISO_INSTANT()->format($this);
     }
 
 // -----------------------------------------------------------------------

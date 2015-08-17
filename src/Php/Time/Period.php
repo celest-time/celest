@@ -65,6 +65,7 @@ namespace Php\Time;
 
 use Php\Time\Chrono\ChronoPeriod;
 use Php\Time\Chrono\IsoChronology;
+use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;

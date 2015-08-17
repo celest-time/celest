@@ -64,6 +64,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Helper\Math;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;

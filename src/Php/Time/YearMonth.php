@@ -65,6 +65,7 @@ namespace Php\Time;
 use Php\Time\Chrono\Chronology;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -863,7 +864,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         if ($yearsToAdd == 0) {
             return $this;
         }
-        $newYear = ChronoField::YEAR()::checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
+        $newYear = ChronoField::YEAR()->checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
         return $this->with($newYear, $this->month);
     }
 
@@ -883,7 +884,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         }
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
-        $newYear = ChronoField::YEAR()::checkValidIntValue(Math::floorDiv($calcMonths, 12));
+        $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
         $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
         return $this->with($newYear, $newMonth);
     }
@@ -1232,7 +1233,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      *
      * @return string a string representation of this year-month, not null
      */
-    public function toString()
+    public function __toString()
     {
         $absYear = Math::abs($this->year);
         $buf = '';
