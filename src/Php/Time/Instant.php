@@ -64,6 +64,7 @@
 namespace Php\Time;
 
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
 use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;

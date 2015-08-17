@@ -68,6 +68,7 @@ use Php\Time\Chrono\ChronoLocalDateDefaults;
 use Php\Time\Chrono\Era;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
@@ -1592,7 +1593,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function minusDays($daysToSubtract)
     {
-        return (daysToSubtract == Long->MIN_VALUE ? $this->plusDays(Long->MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
+        return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
 }
 
     //-----------------------------------------------------------------------

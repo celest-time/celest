@@ -3,6 +3,7 @@
 namespace Php\Time;
 
 
+use Php\Time\Helper\Long;
 use PHPUnit_Framework_TestCase;
 
 class MiscTest extends PHPUnit_Framework_TestCase
@@ -20,5 +21,9 @@ class MiscTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse($f == $x);
         $this->assertFalse($f === $x);
+    }
+
+    public function testLong() {
+        $this->assertTrue(Long::MAX === PHP_INT_MAX);
     }
 }

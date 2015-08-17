@@ -63,6 +63,7 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\DateTimeException;
+use Php\Time\Helper\Integer;
 
 /**
  * The range of valid values for a date-time field.

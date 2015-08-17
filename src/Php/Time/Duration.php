@@ -62,6 +62,8 @@
 */
 namespace Php\Time;
 
+use Php\Time\Helper\Integer;
+use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
 use const Php\Time\NANOS_PER_SECOND;
 use const Php\Time\SECONDS_PER_DAY;
@@ -410,14 +412,14 @@ final class Duration implements TemporalAmount
             $val = Long::parseLong($parsed);
             return Math::multiplyExact($val, $multiplier);
         } catch (\Exception $ex) {
-            throw (new DateTimeParseException("Text cannot be parsed to a Duration: " . $errorText, $text, 0))->initCause(ex);
+            throw (new DateTimeParseException("Text cannot be parsed to a Duration: " . $errorText, $text, 0))->initCause($ex);
         }
     }
 
     private static function parseFraction($text, $parsed, $negate)
     {
         // regex limits to [0-9]{0,9}
-        if ($parsed == null || $parsed->length() == 0) {
+        if ($parsed === null || strlen($parsed) === 0) {
             return 0;
         }
 
@@ -882,7 +884,7 @@ final class Duration implements TemporalAmount
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------

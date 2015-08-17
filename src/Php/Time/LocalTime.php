@@ -65,6 +65,8 @@
 namespace Php\Time;
 
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Integer;
+use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
