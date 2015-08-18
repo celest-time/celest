@@ -62,9 +62,11 @@
  */
 namespace Php\Time;
 
+use Php\Time\Chrono\ChronoZonedDateTime;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Long;
 use Php\Time\Temporal\ChronoField;
+use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
@@ -1324,7 +1326,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
                     return self::create($newValue, $this->getNano(), $this->zone);
                 case ChronoField::OFFSET_SECONDS():
                     $offset = ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue));
-                    return $this->resolveOffset($this->offset);
+                    return $this->resolveOffset($offset);
             }
 
             return $this->resolveLocal($this->dateTime->with($field, $newValue));
