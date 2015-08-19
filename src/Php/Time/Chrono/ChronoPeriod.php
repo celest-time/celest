@@ -99,7 +99,7 @@ interface ChronoPeriod
      * Obtains a {@code ChronoPeriod} consisting of amount of time between two dates.
      * <p>
      * The start date is included, but the end date is not.
-     * The period is calculated using {@link ChronoLocalDate#until(ChronoLocalDate)}.
+     * The period is calculated using {@link ChronoLocalDate#untilDate(ChronoLocalDate)}.
      * As such, the calculation is chronology specific.
      * <p>
      * The chronology of the first date is used.
@@ -112,7 +112,7 @@ interface ChronoPeriod
      * @param $startDateInclusive ChronoLocalDate the start date, inclusive, specifying the chronology of the calculation, not null
      * @param $endDateExclusive ChronoLocalDate the end date, exclusive, in any chronology, not null
      * @return ChronoPeriod the period between this date and the end date, not null
-     * @see ChronoLocalDate#until(ChronoLocalDate)
+     * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
     public static function between(ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive);
 

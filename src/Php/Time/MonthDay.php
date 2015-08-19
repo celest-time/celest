@@ -389,7 +389,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             return $field->range();
         } else
             if ($field == ChronoField::DAY_OF_MONTH()) {
-                return ValueRange::of(1, $this->getMonth()->minLength(), $this->getMonth()->maxLength());
+                return ValueRange::ofVariable(1, $this->getMonth()->minLength(), $this->getMonth()->maxLength());
             }
         return TemporalAccessorDefaults::range($this, $field);
     }

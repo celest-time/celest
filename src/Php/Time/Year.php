@@ -535,7 +535,7 @@ final class Year
      */
     public function isLeap()
     {
-        return Year::isLeap($this->year);
+        return Year::isLeapYear($this->year);
     }
 
     /**

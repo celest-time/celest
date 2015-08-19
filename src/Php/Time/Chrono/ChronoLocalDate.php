@@ -543,7 +543,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws DateTimeException if the period cannot be calculated
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function until(ChronoLocalDate $endDateExclusive);
+    function untilDate(ChronoLocalDate $endDateExclusive);
 
     /**
      * Formats this date using the specified formatter.

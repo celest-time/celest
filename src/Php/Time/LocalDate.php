@@ -1779,7 +1779,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $endDateExclusive ChronoLocalDate the end date, exclusive, which may be in any chronology, not null
      * @return Period the period between this date and the end date, not null
      */
-    public function until(ChronoLocalDate $endDateExclusive)
+    public function untilDate(ChronoLocalDate $endDateExclusive)
     {
         $end = LocalDate::from($endDateExclusive);
         $totalMonths = $end->getProlepticMonth() - $this->getProlepticMonth();  // safe

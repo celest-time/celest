@@ -387,7 +387,7 @@ final class Period implements ChronoPeriod
      * @param $startDateInclusive LocalDate the start date, inclusive, not null
      * @param $endDateExclusive LocalDate the end date, exclusive, not null
      * @return Period the period between this date and the end date, not null
-     * @see ChronoLocalDate#until(ChronoLocalDate)
+     * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
     public static function between(LocalDate $startDateInclusive, LocalDate $endDateExclusive)
     {

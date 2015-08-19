@@ -608,7 +608,7 @@ abstract class AbstractChronology implements Chronology
             $months = Math::subtractExact(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()), 1);
             $weeks = Math::subtractExact(self::remove($fieldValues, ChronoField::ALIGNED_WEEK_OF_MONTH()), 1);
             $dow = Math::subtractExact(self::remove($fieldValues, ChronoField::DAY_OF_WEEK()), 1);
-            return $this->resolveAligned(date($y, 1, 1), $months, $weeks, $dow);
+            return $this->resolveAligned($this->date($y, 1, 1), $months, $weeks, $dow);
         }
 
         $moy = $this->range(ChronoField::MONTH_OF_YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()), ChronoField::MONTH_OF_YEAR());

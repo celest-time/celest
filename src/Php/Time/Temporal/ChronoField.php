@@ -104,7 +104,7 @@ class ChronoField implements TemporalField
         self::$DAY_OF_MONTH = new ChronoField(18, "DayOfMonth", ChronoUnit::DAYS(), ChronoUnit::MONTHS(), ValueRange::ofVariable(1, 28, 31), "day");
         self::$DAY_OF_YEAR = new ChronoField(19, "DayOfYear", ChronoUnit::DAYS(), ChronoUnit::YEARS(), ValueRange::ofVariable(1, 365, 366));
         self::$EPOCH_DAY = new ChronoField(20, "EpochDay", ChronoUnit::DAYS(), ChronoUnit::FOREVER(), ValueRange::of((Year::MIN_VALUE * 365.25), (Year::MAX_VALUE * 365.25)));
-        self::$ALIGNED_WEEK_OF_MONTH = new ChronoField(21, "AlignedWeekOfMonth", ChronoUnit::WEEKS(), ChronoUnit::MONTHS(), ValueRange::of(1, 4, 5));
+        self::$ALIGNED_WEEK_OF_MONTH = new ChronoField(21, "AlignedWeekOfMonth", ChronoUnit::WEEKS(), ChronoUnit::MONTHS(), ValueRange::ofVariable(1, 4, 5));
         self::$ALIGNED_WEEK_OF_YEAR = new ChronoField(22, "AlignedWeekOfYear", ChronoUnit::WEEKS(), ChronoUnit::YEARS(), ValueRange::of(1, 53));
         self::$MONTH_OF_YEAR = new ChronoField(23, "MonthOfYear", ChronoUnit::MONTHS(), ChronoUnit::YEARS(), ValueRange::of(1, 12), "month");
         self::$PROLEPTIC_MONTH = new ChronoField(24, "ProlepticMonth", ChronoUnit::MONTHS(), ChronoUnit::FOREVER(), ValueRange::of(Year::MIN_VALUE * 12, Year::MAX_VALUE * 12 + 11));
