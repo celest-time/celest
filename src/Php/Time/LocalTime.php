@@ -305,52 +305,6 @@ final class LocalTime implements Temporal, TemporalAdjuster
 
 //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code LocalTime} from an hour and minute.
-     * <p>
-     * This returns a {@code LocalTime} with the specified hour and minute.
-     * The second and nanosecond fields will be set to zero.
-     *
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @return LocalTime the local time, not null
-     * @throws DateTimeException if the value of any field is out of range
-     */
-    public static function of($hour, $minute)
-    {
-        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
-        if ($minute == 0) {
-            return self::$HOURS[$hour];  // for performance
-        }
-
-        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
-        return new LocalTime($hour, $minute, 0, 0);
-    }
-
-    /**
-     * Obtains an instance of {@code LocalTime} from an hour, minute and second.
-     * <p>
-     * This returns a {@code LocalTime} with the specified hour, minute and second.
-     * The nanosecond field will be set to zero.
-     *
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @return LocalTime the local time, not null
-     * @throws DateTimeException if the value of any field is out of range
-     */
-    public static function of($hour, $minute, $second)
-    {
-        ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
-        if (($minute | $second) == 0) {
-            return self::$HOURS[$hour];  // for performance
-        }
-
-        ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
-        ChronoField::SECOND_OF_MINUTE()->checkValidValue($second);
-        return new LocalTime($hour, $minute, $second, 0);
-    }
-
-    /**
      * Obtains an instance of {@code LocalTime} from an hour, minute, second and nanosecond.
      * <p>
      * This returns a {@code LocalTime} with the specified hour, minute, second and nanosecond.
@@ -362,8 +316,12 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
-    public static function of($hour, $minute, $second, $nanoOfSecond)
+    public static function of($hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
+        if (($minute | $second | $nanoOfSecond) == 0) {
+            return self::$HOURS[$hour];  // for performance
+        }
+
         ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
         ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
         ChronoField::SECOND_OF_MINUTE()->checkValidValue($second);

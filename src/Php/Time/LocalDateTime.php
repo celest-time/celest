@@ -221,59 +221,6 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
 //-----------------------------------------------------------------------
     /**
      * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour and minute, setting the second and nanosecond to zero.
-     * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour and minute.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The second and nanosecond fields will be set to zero.
-     *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month Month the month-of-year to represent, not null
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @return LocalDateTime the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public
-    static function of($year, Month $month, $dayOfMonth, $hour, $minute)
-    {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
-        $time = LocalTime::of($hour, $minute);
-        return new LocalDateTime($date, $time);
-    }
-
-    /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute and second, setting the nanosecond to zero.
-     * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute and second.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The nanosecond field will be set to zero.
-     *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month Month the month-of-year to represent, not null
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @return LocalDateTime the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public
-    static function of($year, Month $month, $dayOfMonth, $hour, $minute, $second)
-    {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
-        $time = LocalTime::of($hour, $minute, $second);
-        return new LocalDateTime($date, $time);
-    }
-
-    /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
      * day, hour, minute, second and nanosecond.
      * <p>
      * This returns a {@code LocalDateTime} with the specified year, month,
@@ -292,67 +239,13 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, Month $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond)
+    static function of($year, Month $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         $date = LocalDate::of($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
         return new LocalDateTime($date, $time);
     }
 
-//-----------------------------------------------------------------------
-    /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour and minute, setting the second and nanosecond to zero.
-     * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour and minute.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The second and nanosecond fields will be set to zero.
-     *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @return LocalDateTime he local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public
-    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute)
-    {
-        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
-        $time = LocalTime::of($hour, $minute);
-        return new LocalDateTime($date, $time);
-    }
-
-    /**
-     * Obtains an instance of {@code LocalDateTime} from year, month,
-     * day, hour, minute and second, setting the nanosecond to zero.
-     * <p>
-     * This returns a {@code LocalDateTime} with the specified year, month,
-     * day-of-month, hour, minute and second.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * The nanosecond field will be set to zero.
-     *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @return LocalDateTime the local date-time, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public
-    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second)
-    {
-        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
-        $time = LocalTime::of($hour, $minute, $second);
-        return new LocalDateTime($date, $time);
-    }
-
     /**
      * Obtains an instance of {@code LocalDateTime} from year, month,
      * day, hour, minute, second and nanosecond.
@@ -373,7 +266,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond)
+    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
