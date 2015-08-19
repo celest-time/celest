@@ -294,7 +294,7 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function plus($amountToAdd, $unit);
+    function plus($amountToAdd, TemporalUnit $unit);
 
     //-----------------------------------------------------------------------
     /**
