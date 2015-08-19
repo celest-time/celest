@@ -330,7 +330,7 @@ interface Temporal extends TemporalAccessor
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(TemporalAmount $amount);
+    public function minusAmount(TemporalAmount $amount);
 
     /**
      * Returns an object of the same type as this object with the specified period subtracted.

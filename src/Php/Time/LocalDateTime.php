@@ -1437,7 +1437,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract)
     {
         if ($amountToSubtract instanceof Period) {
             $periodToSubtract = $amountToSubtract;

@@ -855,7 +855,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified duration subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(Duration $duration)
+    public function minusAmount(Duration $duration)
     {
         $secsToSubtract = $duration->getSeconds();
         $nanosToSubtract = $duration->getNano();

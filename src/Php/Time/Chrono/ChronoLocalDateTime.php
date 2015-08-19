@@ -263,7 +263,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDateTime
      */
-    function minus(TemporalAmount $amount);
+    function minusAmount(TemporalAmount $amount);
 
     /**
      * {@inheritDoc}

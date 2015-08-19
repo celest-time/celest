@@ -1013,7 +1013,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract)
     {
         return $amountToSubtract->subtractFrom($this);
     }

@@ -1843,11 +1843,11 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract)
     {
         if ($amountToSubtract instanceof Period) {
             $periodToSubtract = $amountToSubtract;
-            return $this->resolveLocal($this->dateTime->minus($periodToSubtract));
+            return $this->resolveLocal($this->dateTime->minusAmount($periodToSubtract));
         }
 
         return $amountToSubtract->subtractFrom($this);

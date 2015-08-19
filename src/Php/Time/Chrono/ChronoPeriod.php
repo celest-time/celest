@@ -201,7 +201,7 @@ interface ChronoPeriod
      * @return ChronoPeriod a {@code ChronoPeriod} based on this period with the requested period subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function minus(TemporalAmount $amountToSubtract);
+    function minusAmount(TemporalAmount $amountToSubtract);
 
     //-----------------------------------------------------------------------
     /**

@@ -742,7 +742,7 @@ final class Period implements ChronoPeriod
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract)
     {
         $isoAmount = Period::from($amountToSubtract);
         return $this->create(
