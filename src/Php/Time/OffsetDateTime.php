@@ -440,7 +440,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @param $offset ZoneOffset the zone offset to create with, not null
      * @return OffsetDateTime
      */
-    private function with(LocalDateTime $dateTime, ZoneOffset $offset)
+    private function _with(LocalDateTime $dateTime, ZoneOffset $offset)
     {
         if ($this->dateTime == $dateTime && $this->offset->equals($offset)) {
             return $this;
@@ -701,7 +701,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function withOffsetSameLocal(ZoneOffset $offset)
     {
-        return $this->with($this->dateTime, $offset);
+        return $this->_with($this->dateTime, $offset);
     }
 
     /**
@@ -955,12 +955,12 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     {
         // optimizations
         if ($adjuster instanceof LocalDate || $adjuster instanceof LocalTime || $adjuster instanceof LocalDateTime) {
-            return $this->with($this->dateTime->adjust($adjuster), $this->offset);
+            return $this->_with($this->dateTime->adjust($adjuster), $this->offset);
         } else
             if ($adjuster instanceof Instant) {
                 return $this->ofInstant($adjuster, $this->offset);
             } else if ($adjuster instanceof ZoneOffset) {
-                return $this->with($this->dateTime, $adjuster);
+                return $this->_with($this->dateTime, $adjuster);
             } else if ($adjuster instanceof OffsetDateTime) {
                 return $adjuster;
             }
@@ -1019,10 +1019,10 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
                 case ChronoField::INSTANT_SECONDS():
                     return $this->ofInstant(Instant::ofEpochSecond($newValue, $this->getNano()), $this->offset);
                 case ChronoField::OFFSET_SECONDS(): {
-                    return $this->with($this->dateTime, ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue)));
+                    return $this->_with($this->dateTime, ZoneOffset::ofTotalSeconds($f->checkValidIntValue($newValue)));
                 }
             }
-            return $this->with($this->dateTime->with($field, $newValue), $this->offset);
+            return $this->_with($this->dateTime->with($field, $newValue), $this->offset);
         }
         return $field->adjustInto($this, $newValue);
     }
@@ -1042,7 +1042,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function withYear($year)
     {
-        return $this->with($this->dateTime->withYear($year), $this->offset);
+        return $this->_with($this->dateTime->withYear($year), $this->offset);
     }
 
     /**
@@ -1060,7 +1060,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withMonth($month)
     {
-        return $this->with($this->dateTime->withMonth($month), $this->offset);
+        return $this->_with($this->dateTime->withMonth($month), $this->offset);
     }
 
     /**
@@ -1079,7 +1079,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withDayOfMonth($dayOfMonth)
     {
-        return $this->with($this->dateTime->withDayOfMonth($dayOfMonth), $this->offset);
+        return $this->_with($this->dateTime->withDayOfMonth($dayOfMonth), $this->offset);
     }
 
     /**
@@ -1098,7 +1098,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withDayOfYear($dayOfYear)
     {
-        return $this->with($this->dateTime->withDayOfYear($dayOfYear), $this->offset);
+        return $this->_with($this->dateTime->withDayOfYear($dayOfYear), $this->offset);
     }
 
 //-----------------------------------------------------------------------
@@ -1116,7 +1116,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withHour($hour)
     {
-        return $this->with($this->dateTime->withHour($hour), $this->offset);
+        return $this->_with($this->dateTime->withHour($hour), $this->offset);
     }
 
     /**
@@ -1133,7 +1133,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withMinute($minute)
     {
-        return $this->with($this->dateTime->withMinute($minute), $this->offset);
+        return $this->_with($this->dateTime->withMinute($minute), $this->offset);
     }
 
     /**
@@ -1150,7 +1150,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withSecond($second)
     {
-        return $this->with($this->dateTime->withSecond($second), $this->offset);
+        return $this->_with($this->dateTime->withSecond($second), $this->offset);
     }
 
     /**
@@ -1167,7 +1167,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function withNano($nanoOfSecond)
     {
-        return $this->with($this->dateTime->withNano($nanoOfSecond), $this->offset);
+        return $this->_with($this->dateTime->withNano($nanoOfSecond), $this->offset);
     }
 
 //-----------------------------------------------------------------------
@@ -1196,7 +1196,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function truncatedTo(TemporalUnit $unit)
     {
-        return $this->with($this->dateTime->truncatedTo($unit), $this->offset);
+        return $this->_with($this->dateTime->truncatedTo($unit), $this->offset);
     }
 
     //-----------------------------------------------------------------------
@@ -1253,7 +1253,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public function plus($amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $this->with($this->dateTime->plus($amountToAdd, $unit), $this->offset);
+            return $this->_with($this->dateTime->plus($amountToAdd, $unit), $this->offset);
         }
         return $unit->addTo($this, $amountToAdd);
     }
@@ -1281,7 +1281,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusYears($years)
     {
-        return $this->with($this->dateTime->plusYears($years), $this->offset);
+        return $this->_with($this->dateTime->plusYears($years), $this->offset);
     }
 
     /**
@@ -1306,7 +1306,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusMonths($months)
     {
-        return $this->with($this->dateTime->plusMonths($months), $this->offset);
+        return $this->_with($this->dateTime->plusMonths($months), $this->offset);
     }
 
     /**
@@ -1326,7 +1326,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusWeeks($weeks)
     {
-        return $this->with($this->dateTime->plusWeeks($weeks), $this->offset);
+        return $this->_with($this->dateTime->plusWeeks($weeks), $this->offset);
     }
 
     /**
@@ -1346,7 +1346,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusDays($days)
     {
-        return $this->with($this->dateTime->plusDays($days), $this->offset);
+        return $this->_with($this->dateTime->plusDays($days), $this->offset);
     }
 
     /**
@@ -1360,7 +1360,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusHours($hours)
     {
-        return $this->with($this->dateTime->plusHours($hours), $this->offset);
+        return $this->_with($this->dateTime->plusHours($hours), $this->offset);
     }
 
     /**
@@ -1374,7 +1374,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusMinutes($minutes)
     {
-        return $this->with($this->dateTime->plusMinutes($minutes), $this->offset);
+        return $this->_with($this->dateTime->plusMinutes($minutes), $this->offset);
     }
 
     /**
@@ -1388,7 +1388,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusSeconds($seconds)
     {
-        return $this->with($this->dateTime->plusSeconds($seconds), $this->offset);
+        return $this->_with($this->dateTime->plusSeconds($seconds), $this->offset);
     }
 
     /**
@@ -1402,7 +1402,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function plusNanos($nanos)
     {
-        return $this->with($this->dateTime->plusNanos($nanos), $this->offset);
+        return $this->_with($this->dateTime->plusNanos($nanos), $this->offset);
     }
 
     //-----------------------------------------------------------------------

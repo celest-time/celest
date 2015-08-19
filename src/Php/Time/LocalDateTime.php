@@ -539,7 +539,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $newTime LocalTime the time of the new date-time, not null
      * @return LocalDateTime the date-time, not null
      */
-    public function with(LocalDate $newDate, LocalTime $newTime)
+    public function _with(LocalDate $newDate, LocalTime $newTime)
     {
         if ($this->date == $newDate && $this->time == $newTime) {
             return $this;
@@ -964,10 +964,10 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {
-            return $this->with($adjuster, $this->time);
+            return $this->_with($adjuster, $this->time);
         } else
             if ($adjuster instanceof LocalTime) {
-                return $this->with($this->date, $adjuster);
+                return $this->_with($this->date, $adjuster);
             } else if ($adjuster instanceof LocalDateTime) {
                 return $adjuster;
             }
@@ -1013,9 +1013,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         if ($field instanceof ChronoField) {
             $f = $field;
             if ($f->isTimeBased()) {
-                return $this->with($this->date, $this->time->with($field, $newValue));
+                return $this->_with($this->date, $this->time->with($field, $newValue));
             } else {
-                return $this->with($this->date->with($field, $newValue), $this->time);
+                return $this->_with($this->date->with($field, $newValue), $this->time);
             }
         }
         return $field->adjustInto($this, $newValue);
@@ -1036,7 +1036,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function withYear($year)
     {
-        return $this->with($this->date->withYear($year), $this->time);
+        return $this->_with($this->date->withYear($year), $this->time);
     }
 
     /**
@@ -1054,7 +1054,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function withMonth($month)
     {
-        return $this->with($this->date->withMonth($month), $this->time);
+        return $this->_with($this->date->withMonth($month), $this->time);
     }
 
     /**
@@ -1073,7 +1073,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function withDayOfMonth($dayOfMonth)
     {
-        return $this->with($this->date->withDayOfMonth($dayOfMonth), $this->time);
+        return $this->_with($this->date->withDayOfMonth($dayOfMonth), $this->time);
     }
 
     /**
@@ -1091,7 +1091,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function withDayOfYear($dayOfYear)
     {
-        return $this->with($this->date->withDayOfYear($dayOfYear), $this->time);
+        return $this->_with($this->date->withDayOfYear($dayOfYear), $this->time);
     }
 
     //-----------------------------------------------------------------------
@@ -1107,7 +1107,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function withHour($hour)
     {
         $newTime = $this->time->withHour($hour);
-        return $this->with($this->date, $newTime);
+        return $this->_with($this->date, $newTime);
     }
 
     /**
@@ -1123,7 +1123,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     function withMinute($minute)
     {
         $newTime = $this->time->withMinute($minute);
-        return $this->with($this->date, $newTime);
+        return $this->_with($this->date, $newTime);
     }
 
     /**
@@ -1139,7 +1139,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     function withSecond($second)
     {
         $newTime = $this->time->withSecond($second);
-        return $this->with($this->date, $newTime);
+        return $this->_with($this->date, $newTime);
     }
 
     /**
@@ -1154,7 +1154,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function withNano($nanoOfSecond)
     {
         $newTime = $this->time->withNano($nanoOfSecond);
-        return $this->with($this->date, $newTime);
+        return $this->_with($this->date, $newTime);
     }
 
     //-----------------------------------------------------------------------
@@ -1180,7 +1180,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function truncatedTo(TemporalUnit $unit)
     {
-        return $this->with($this->date, $this->time->truncatedTo($unit));
+        return $this->_with($this->date, $this->time->truncatedTo($unit));
     }
 
     //-----------------------------------------------------------------------
@@ -1208,7 +1208,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         if ($amountToAdd instanceof Period) {
             $periodToAdd = $amountToAdd;
-            return $this->with($this->date->plusAmount($periodToAdd), $this->time);
+            return $this->_with($this->date->plusAmount($periodToAdd), $this->time);
         }
         return $amountToAdd->addTo($this);
     }
@@ -1259,7 +1259,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
                 case ChronoUnit::HALF_DAYS():
                     return $this->plusDays($amountToAdd / 256)->plusHours(($amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
             }
-            return $this->with($this->date->plus($amountToAdd, $unit), $this->time);
+            return $this->_with($this->date->plus($amountToAdd, $unit), $this->time);
         }
         return $unit->addTo($this, $amountToAdd);
     }
@@ -1288,7 +1288,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function plusYears($years)
     {
         $newDate = $this->date->plusYears($years);
-        return $this->with($newDate, $this->time);
+        return $this->_with($newDate, $this->time);
     }
 
     /**
@@ -1314,7 +1314,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function plusMonths($months)
     {
         $newDate = $this->date->plusMonths($months);
-        return $this->with($newDate, $this->time);
+        return $this->_with($newDate, $this->time);
     }
 
     /**
@@ -1335,7 +1335,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function plusWeeks($weeks)
     {
         $newDate = $this->date->plusWeeks($weeks);
-        return $this->with($newDate, $this->time);
+        return $this->_with($newDate, $this->time);
     }
 
     /**
@@ -1356,7 +1356,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function plusDays($days)
     {
         $newDate = $this->date->plusDays($days);
-        return $this->with($newDate, $this->time);
+        return $this->_with($newDate, $this->time);
     }
 
     //-----------------------------------------------------------------------
@@ -1441,7 +1441,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         if ($amountToSubtract instanceof Period) {
             $periodToSubtract = $amountToSubtract;
-            return $this->with($this->date->minus($periodToSubtract), $this->time);
+            return $this->_with($this->date->minus($periodToSubtract), $this->time);
         }
         return $amountToSubtract->subtractFrom($this);
     }
@@ -1636,7 +1636,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         // 9223372036854775808 long, 2147483648 int
         if (($hours | $minutes | $seconds | $nanos) == 0) {
-            return $this->with($newDate, $this->time);
+            return $this->_with($newDate, $this->time);
         }
         $totDays = $nanos / NANOS_PER_DAY +             //   max/24*60*60*1B
             $seconds / SECONDS_PER_DAY +                //   max/24*60*60
@@ -1652,7 +1652,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         $totDays += Math::floorDiv($totNanos, NANOS_PER_DAY);
         $newNoD = Math::floorMod($totNanos, NANOS_PER_DAY);
         $newTime = ($newNoD == $curNoD ? $this->time : LocalTime::ofNanoOfDay($newNoD));
-        return $this->with($newDate->plusDays($totDays), $newTime);
+        return $this->_with($newDate->plusDays($totDays), $newTime);
     }
 
     //-----------------------------------------------------------------------
