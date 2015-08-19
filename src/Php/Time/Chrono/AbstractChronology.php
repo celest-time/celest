@@ -280,10 +280,10 @@ abstract class AbstractChronology implements Chronology
      * Obtains an instance of {@code Chronology} from a chronology ID or
      * calendar system type.
      *
-     * @param $id Chronology the chronology ID or calendar system type, not null
+     * @param $id string the chronology ID or calendar system type, not null
      * @return string the chronology with the identifier requested, or {@code null} if not found
      */
-    private static function  of0($id)
+    private static function of0($id)
     {
         $chrono = self::$CHRONOS_BY_ID->get($id);
         if ($chrono == null) {

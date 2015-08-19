@@ -8,7 +8,7 @@ final class ChronoPeriodDefaults
 
     public static function between(ChronoPeriod $_this, ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive)
     {
-        return $startDateInclusive->until($endDateExclusive);
+        return $startDateInclusive->untilDate($endDateExclusive);
     }
 
     public static function isZero(ChronoPeriod $_this)

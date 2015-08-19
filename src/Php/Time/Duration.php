@@ -860,7 +860,7 @@ final class Duration implements TemporalAmount
         $secsToSubtract = $duration->getSeconds();
         $nanosToSubtract = $duration->getNano();
         if ($secsToSubtract == Long::MIN_VALUE) {
-            return $this->_plus(Long::MAX_VALUE, -$nanosToSubtract)->plus(1, 0);
+            return $this->_plus(Long::MAX_VALUE, -$nanosToSubtract)->_plus(1, 0);
         }
 
         return $this->_plus(-$secsToSubtract, -$nanosToSubtract);
