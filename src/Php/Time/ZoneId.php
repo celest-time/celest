@@ -236,7 +236,7 @@ abstract class ZoneId
     public
     static function of($zoneId)
     {
-        return self::of($zoneId, true);
+        return self::_of($zoneId, true);
     }
 
     /**
@@ -280,7 +280,7 @@ abstract class ZoneId
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
      */
-    public static function of($zoneId, $checkAvailable)
+    public static function _of($zoneId, $checkAvailable)
     {
         if (strlen($zoneId) <= 1 || $zoneId->startsWith("+") || $zoneId->startsWith("-")) {
             return ZoneOffset::of($zoneId);
