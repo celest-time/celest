@@ -11,17 +11,17 @@ final class TemporalDefaults
     {
     }
 
-    public static function with(Temporal $_this, TemporalAdjuster $adjuster)
+    public static function adjust(Temporal $_this, TemporalAdjuster $adjuster)
     {
         return $adjuster->adjustInto($_this);
     }
 
-    public static function plus(Temporal $_this, TemporalAmount $amount)
+    public static function plusAmount(Temporal $_this, TemporalAmount $amount)
     {
         return $amount->addTo($_this);
     }
 
-    public static function minus(Temporal $_this, TemporalAmount $amount)
+    public static function minusAmount(Temporal $_this, TemporalAmount $amount)
     {
         return $amount->subtractFrom($_this);
     }

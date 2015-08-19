@@ -61,14 +61,14 @@ final class ChronoLocalDateTimeDefaults
         return ChronoLocalDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::with($_this, $adjuster));
     }
 
-    public static function plus(ChronoLocalDateTime $_this, TemporalAmount $amount)
+    public static function plusAmount(ChronoLocalDateTime $_this, TemporalAmount $amount)
     {
-        return ChronoLocalDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::plus($_this, $amount));
+        return ChronoLocalDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::plusAmount($_this, $amount));
     }
 
-    public static function minus(ChronoLocalDateTime $_this, TemporalAmount $amount)
+    public static function minusAmount(ChronoLocalDateTime $_this, TemporalAmount $amount)
     {
-        return ChronoLocalDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minus($_this, $amount));
+        return ChronoLocalDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minusAmount($_this, $amount));
     }
 
     public static function minus(ChronoLocalDateTime $_this, $amountToSubtract, TemporalUnit $unit)

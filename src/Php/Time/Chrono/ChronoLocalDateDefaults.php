@@ -75,9 +75,9 @@ final class ChronoLocalDateDefaults
         return $unit != null && $unit->isSupportedBy($_this);
     }
 
-    public static function with(ChronoLocalDate $_this, TemporalAdjuster $adjuster)
+    public static function adjust(ChronoLocalDate $_this, TemporalAdjuster $adjuster)
     {
-        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::with($_this, $adjuster));
+        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::adjust($_this, $adjuster));
     }
 
     public static function with(ChronoLocalDate $_this, TemporalField $field, $newValue)
@@ -89,9 +89,9 @@ final class ChronoLocalDateDefaults
         return ChronoLocalDateImpl::ensureValid($_this->getChronology(), $field->adjustInto($_this, $newValue));
     }
 
-    public static function plus(ChronoLocalDate $_this, TemporalAmount $amount)
+    public static function plusAmount(ChronoLocalDate $_this, TemporalAmount $amount)
     {
-        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::plus($_this, $amount));
+        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::plusAmount($_this, $amount));
     }
 
     public static function plus(ChronoLocalDate $_this, $amountToAdd, TemporalUnit $unit)
@@ -102,9 +102,9 @@ final class ChronoLocalDateDefaults
         return ChronoLocalDateImpl::ensureValid($_this->getChronology(), $unit->addTo($_this, $amountToAdd));
     }
 
-    public static function minus(ChronoLocalDate $_this, TemporalAmount $amount)
+    public static function minusAmount(ChronoLocalDate $_this, TemporalAmount $amount)
     {
-        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::minus($_this, $amount));
+        return ChronoLocalDateImpl::ensureValid($_this->getChronology(), TemporalDefaults::minusAmount($_this, $amount));
     }
 
     public static function minus(ChronoLocalDate $_this, $amountToSubtract, TemporalUnit $unit)

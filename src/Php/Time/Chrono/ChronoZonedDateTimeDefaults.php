@@ -104,19 +104,19 @@ final class ChronoZonedDateTimeDefaults
         return $unit != null && $unit->isSupportedBy($_this);
     }
 
-    public static function with(ChronoZonedDateTime $_this, TemporalAdjuster $adjuster)
+    public static function adjust(ChronoZonedDateTime $_this, TemporalAdjuster $adjuster)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::with($_this, $adjuster));
+        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::adjust($_this, $adjuster));
 }
 
-    public static function plus(ChronoZonedDateTime $_this, TemporalAmount $amount)
+    public static function plusAmount(ChronoZonedDateTime $_this, TemporalAmount $amount)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::plus($_this, $amount));
+        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::plusAmount($_this, $amount));
 }
 
-    public static function minus(ChronoZonedDateTime $_this, TemporalAmount $amount)
+    public static function minusAmount(ChronoZonedDateTime $_this, TemporalAmount $amount)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minus($_this, $amount));
+        return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minusAmount($_this, $amount));
 }
 
     public static function minus(ChronoZonedDateTime $_this, $amountToSubtract, TemporalUnit $unit)
