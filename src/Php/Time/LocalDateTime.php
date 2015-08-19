@@ -321,7 +321,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function of($year, $month, $dayOfMonth, $hour, $minute)
     {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
+        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute);
         return new LocalDateTime($date, $time);
     }
@@ -348,7 +348,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function of($year, $month, $dayOfMonth, $hour, $minute, $second)
     {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
+        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second);
         return new LocalDateTime($date, $time);
     }
@@ -375,7 +375,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond)
     {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
+        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
         return new LocalDateTime($date, $time);
     }

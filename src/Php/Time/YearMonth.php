@@ -1142,7 +1142,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public
     function atDay($dayOfMonth)
     {
-        return LocalDate::of($this->year, $this->month, $dayOfMonth);
+        return LocalDate::ofNumerical($this->year, $this->month, $dayOfMonth);
     }
 
     /**
@@ -1161,7 +1161,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public function atEndOfMonth()
     {
-        return LocalDate::of($this->year, $this->month, $this->lengthOfMonth());
+        return LocalDate::ofNumerical($this->year, $this->month, $this->lengthOfMonth());
     }
 
 //-----------------------------------------------------------------------

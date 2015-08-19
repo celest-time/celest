@@ -685,7 +685,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public
     function atYear($year)
     {
-        return LocalDate::of($year, $this->month, self::isValidYear($year) ? $this->day : 28);
+        return LocalDate::ofNumerical($year, $this->month, self::isValidYear($year) ? $this->day : 28);
     }
 
 //-----------------------------------------------------------------------

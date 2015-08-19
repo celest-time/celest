@@ -120,8 +120,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
 {
     public static function init()
     {
-        self::$MIN = LocalDate::of(Year::MIN_VALUE, 1, 1);
-        self::$MAX = LocalDate::of(Year::MAX_VALUE, 12, 31);
+        self::$MIN = LocalDate::ofNumerical(Year::MIN_VALUE, 1, 1);
+        self::$MAX = LocalDate::ofNumerical(Year::MAX_VALUE, 12, 31);
     }
 
     /**
@@ -264,7 +264,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, $month, $dayOfMonth)
+    static function ofNumerical($year, $month, $dayOfMonth)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -1173,7 +1173,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        return self::of($this->year, $this->month, $dayOfMonth);
+        return self::ofNumerical($this->year, $this->month, $dayOfMonth);
     }
 
     /**

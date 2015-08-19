@@ -215,7 +215,7 @@ final class IsoChronology extends AbstractChronology
      */
     public function date($prolepticYear, $month, $dayOfMonth)
     {
-        return LocalDate::of($prolepticYear, $month, $dayOfMonth);
+        return LocalDate::ofNumerical($prolepticYear, $month, $dayOfMonth);
     }
 
     /**
@@ -563,7 +563,7 @@ final class IsoChronology extends AbstractChronology
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $months = Math::subtractExact(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()), 1);
             $days = Math::subtractExact(self::remove($fieldValues, ChronoField::DAY_OF_MONTH()), 1);
-            return LocalDate::of($y, 1, 1)->plusMonths($months)->plusDays($days);
+            return LocalDate::ofNumerical($y, 1, 1)->plusMonths($months)->plusDays($days);
         }
 
         $moy = ChronoField::MONTH_OF_YEAR()->checkValidIntValue(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()));
@@ -576,7 +576,7 @@ final class IsoChronology extends AbstractChronology
 
             }
         }
-        return LocalDate::of($y, $moy, $dom);
+        return LocalDate::ofNumerical($y, $moy, $dom);
     }
 
     //-----------------------------------------------------------------------
