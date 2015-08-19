@@ -138,7 +138,7 @@ final class ChronoZonedDateTimeDefaults
         }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization
-        return $query->queryFrom($this);
+        return $query->queryFrom($_this);
     }
 
     function format(ChronoZonedDateTime $_this, DateTimeFormatter $formatter)
