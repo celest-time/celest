@@ -143,9 +143,9 @@ final class ValueRange
      *     the minimum is greater than the smallest maximum,
      *  or the smallest maximum is greater than the largest maximum
      */
-    public static function of($min, $maxSmallest, $maxLargest)
+    public static function ofVariable($min, $maxSmallest, $maxLargest)
     {
-        return self::of($min, $min, $maxSmallest, $maxLargest);
+        return self::ofFullyVariable($min, $min, $maxSmallest, $maxLargest);
     }
 
     /**
@@ -163,7 +163,7 @@ final class ValueRange
      *  or the smallest maximum is greater than the largest maximum
      *  or the largest minimum is greater than the largest maximum
      */
-    public static function of($minSmallest, $minLargest, $maxSmallest, $maxLargest)
+    public static function ofFullyVariable($minSmallest, $minLargest, $maxSmallest, $maxLargest)
     {
         if ($minSmallest > $minLargest) {
             throw new IllegalArgumentException("Smallest minimum value must be less than largest minimum value");

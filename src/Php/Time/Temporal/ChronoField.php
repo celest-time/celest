@@ -101,14 +101,14 @@ class ChronoField implements TemporalField
         self::$DAY_OF_WEEK = new ChronoField(15, "DayOfWeek", ChronoUnit::DAYS(), ChronoUnit::WEEKS(), ValueRange::of(1, 7), "weekday");
         self::$ALIGNED_DAY_OF_WEEK_IN_MONTH = new ChronoField(16, "AlignedDayOfWeekInMonth", ChronoUnit::DAYS(), ChronoUnit::WEEKS(), ValueRange::of(1, 7));
         self::$ALIGNED_DAY_OF_WEEK_IN_YEAR = new ChronoField(17, "AlignedDayOfWeekInYear", ChronoUnit::DAYS(), ChronoUnit::WEEKS(), ValueRange::of(1, 7));
-        self::$DAY_OF_MONTH = new ChronoField(18, "DayOfMonth", ChronoUnit::DAYS(), ChronoUnit::MONTHS(), ValueRange::of(1, 28, 31), "day");
-        self::$DAY_OF_YEAR = new ChronoField(19, "DayOfYear", ChronoUnit::DAYS(), ChronoUnit::YEARS(), ValueRange::of(1, 365, 366));
+        self::$DAY_OF_MONTH = new ChronoField(18, "DayOfMonth", ChronoUnit::DAYS(), ChronoUnit::MONTHS(), ValueRange::ofVariable(1, 28, 31), "day");
+        self::$DAY_OF_YEAR = new ChronoField(19, "DayOfYear", ChronoUnit::DAYS(), ChronoUnit::YEARS(), ValueRange::ofVariable(1, 365, 366));
         self::$EPOCH_DAY = new ChronoField(20, "EpochDay", ChronoUnit::DAYS(), ChronoUnit::FOREVER(), ValueRange::of((Year::MIN_VALUE * 365.25), (Year::MAX_VALUE * 365.25)));
         self::$ALIGNED_WEEK_OF_MONTH = new ChronoField(21, "AlignedWeekOfMonth", ChronoUnit::WEEKS(), ChronoUnit::MONTHS(), ValueRange::of(1, 4, 5));
         self::$ALIGNED_WEEK_OF_YEAR = new ChronoField(22, "AlignedWeekOfYear", ChronoUnit::WEEKS(), ChronoUnit::YEARS(), ValueRange::of(1, 53));
         self::$MONTH_OF_YEAR = new ChronoField(23, "MonthOfYear", ChronoUnit::MONTHS(), ChronoUnit::YEARS(), ValueRange::of(1, 12), "month");
         self::$PROLEPTIC_MONTH = new ChronoField(24, "ProlepticMonth", ChronoUnit::MONTHS(), ChronoUnit::FOREVER(), ValueRange::of(Year::MIN_VALUE * 12, Year::MAX_VALUE * 12 + 11));
-        self::$YEAR_OF_ERA = new ChronoField(25, "YearOfEra", ChronoUnit::YEARS(), ChronoUnit::FOREVER(), ValueRange::of(1, Year::MAX_VALUE, Year::MAX_VALUE + 1));
+        self::$YEAR_OF_ERA = new ChronoField(25, "YearOfEra", ChronoUnit::YEARS(), ChronoUnit::FOREVER(), ValueRange::ofVariable(1, Year::MAX_VALUE, Year::MAX_VALUE + 1));
         self::$YEAR = new ChronoField(26, "Year", ChronoUnit::YEARS(), ChronoUnit::FOREVER(), ValueRange::of(Year::MIN_VALUE, Year::MAX_VALUE), "year");
         self::$ERA = new ChronoField(27, "Era", ChronoUnit::ERAS(), ChronoUnit::FOREVER(), ValueRange::of(0, 1), "era");
         self::$INSTANT_SECONDS = new ChronoField(28, "InstantSeconds", ChronoUnit::SECONDS(), ChronoUnit::FOREVER(), ValueRange::of(Long::MIN_VALUE, Long::MAX_VALUE));
