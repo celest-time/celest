@@ -855,15 +855,15 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified duration subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($duration)
+    public function minus(Duration $duration)
     {
         $secsToSubtract = $duration->getSeconds();
         $nanosToSubtract = $duration->getNano();
         if ($secsToSubtract == Long::MIN_VALUE) {
-            return $this->plus(Long::MAX_VALUE, -$nanosToSubtract)->plus(1, 0);
+            return $this->_plus(Long::MAX_VALUE, -$nanosToSubtract)->plus(1, 0);
         }
 
-        return $this->plus(-$secsToSubtract, -$nanosToSubtract);
+        return $this->_plus(-$secsToSubtract, -$nanosToSubtract);
     }
 
     /**
