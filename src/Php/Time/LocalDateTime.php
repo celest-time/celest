@@ -1334,7 +1334,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         if ($amountToSubtract instanceof Period) {
             $periodToSubtract = $amountToSubtract;
-            return $this->_with($this->date->minus($periodToSubtract), $this->time);
+            return $this->_with($this->date->minusAmount($periodToSubtract), $this->time);
         }
         return $amountToSubtract->subtractFrom($this);
     }

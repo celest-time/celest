@@ -1859,7 +1859,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function atOffsetTime(OffsetTime $time)
     {
-        return OffsetDateTime::of(LocalDateTime::of($this, $time->toLocalTime()), $time->getOffset());
+        return OffsetDateTime::of(LocalDateTime::ofDateAndTime($this, $time->toLocalTime()), $time->getOffset());
     }
 
     /**
