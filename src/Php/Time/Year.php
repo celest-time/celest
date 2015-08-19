@@ -310,7 +310,7 @@ final class Year
      * @param $year int the year to check
      * @return bool true if the year is leap, false otherwise
      */
-    public static function isLeap($year)
+    public static function isLeapYear($year)
     {
         return (($year & 3) == 0) && (($year % 100) != 0 || ($year % 400) == 0);
     }

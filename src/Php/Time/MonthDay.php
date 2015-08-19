@@ -522,7 +522,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public
     function isValidYear($year)
     {
-        return ($this->day == 29 && $this->month == 2 && Year::isLeap($year) == false) == false;
+        return ($this->day == 29 && $this->month == 2 && Year::isLeapYear($year) == false) == false;
     }
 
 //-----------------------------------------------------------------------

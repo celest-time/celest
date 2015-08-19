@@ -572,7 +572,7 @@ final class IsoChronology extends AbstractChronology
             if ($moy == 4 || $moy == 6 || $moy == 9 || $moy == 11) {
                 $dom = Math::min($dom, 30);
             } else if ($moy == 2) {
-                $dom = Math::min($dom, Month::FEBRUARY()->length(Year::isLeap($y)));
+                $dom = Math::min($dom, Month::FEBRUARY()->length(Year::isLeapYear($y)));
 
             }
         }
