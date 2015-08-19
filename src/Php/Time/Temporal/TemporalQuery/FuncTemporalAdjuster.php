@@ -4,15 +4,15 @@ namespace Php\Time\Temporal\TemporalQuery;
 
 
 use Php\Time\IllegalArgumentException;
-use Php\Time\Temporal\TemporalAccessor;
-use Php\Time\Temporal\TemporalQuery;
+use Php\Time\Temporal\Temporal;
+use Php\Time\Temporal\TemporalAdjuster;
 
-final class FuncTemporalQuery implements TemporalQuery
+final class FuncTemporalAdjuster implements TemporalAdjuster
 {
     private $func;
 
     /**
-     * @param $func callable TemporalAccessor->mixed
+     * @param $func callable Temporal->Temporal
      */
     public function __construct($func) {
         if(!is_callable($func)) {
@@ -24,7 +24,7 @@ final class FuncTemporalQuery implements TemporalQuery
     /**
      * @inheritdoc
      */
-    function queryFrom(TemporalAccessor $temporal)
+    public function adjustInto(Temporal $temporal)
     {
         return call_user_func($this->func, $temporal);
     }
