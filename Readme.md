@@ -23,3 +23,29 @@ Useful regex:
 Add $ to phpdoc
 @param ([^$])
 @param \\$$1
+
+Overloaded functions:
+\Php\Time\Temporal\Temporal::with(TemporalAdjuster $adjuster)
+adjust
+\Php\Time\Temporal\Temporal::with(TemporalField $field, $newValue)
+with
+
+\Php\Time\Temporal\TemporalAccessor::isSupported(TemporalField $field) : bool
+isSupported
+\Php\Time\Temporal\Temporal::isSupported(TemporalUnit $unit) : bool
+isUnitSupported
+
+\Php\Time\Temporal\Temporal::plus(TemporalAmount $amount);
+plusAmount
+\Php\Time\Temporal\Temporal::plus($amountToAdd, TemporalUnit $unit);
+plus
+
+
+
+\Php\Time\Temporal\ValueRange::of
+$min, $max
+$min, $maxSmallest, $maxLargest
+($minSmallest, $minLargest, $maxSmallest, $maxLargest)
+rearrange and merge?
+
+\Php\Time\Chrono\AbstractChronology::registerChrono
