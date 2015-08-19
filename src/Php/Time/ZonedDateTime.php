@@ -246,7 +246,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @param $date LocalDate the local date, not null
      * @param $time LocalTime the local time, not null
      * @param $zone ZoneId the time-zone, not null
-     * @return the offset date-time, not null
+     * @return ZonedDateTime the offset date-time, not null
      */
     public
     static function of(LocalDate $date, LocalTime $time, ZoneId $zone)
@@ -318,7 +318,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @param $hour int the hour-of-day to represent, from 0 to 23
      * @param $minute int the minute-of-hour to represent, from 0 to 59
      * @param $second int the second-of-minute to represent, from 0 to 59
-     * @param $nanoOfSecond  the nano-of-second to represent, from 0 to 999,999,999
+     * @param $nanoOfSecond int the nano-of-second to represent, from 0 to 999,999,999
      * @param $zone ZoneId the time-zone, not null
      * @return ZonedDateTime the offset date-time, not null
      * @throws DateTimeException if the value of any field is out of range, or

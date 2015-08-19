@@ -62,6 +62,7 @@
  */
 namespace Php\Time\Chrono;
 
+use Php\Time\ArithmeticException;
 use Php\Time\DateTimeException;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\LocalTime;

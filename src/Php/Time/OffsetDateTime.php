@@ -1599,7 +1599,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanos  the nanos to subtract, may be negative
+     * @param $nanos int the nanos to subtract, may be negative
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the nanoseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */

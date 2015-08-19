@@ -16,7 +16,7 @@ class FuncTemporalQuery implements TemporalQuery
      */
     public function __construct($func) {
         if(!is_callable($func)) {
-            return new IllegalArgumentException('The supplied function is not callable.' . $func);
+            new IllegalArgumentException('The supplied function is not callable.' . $func);
         }
         $this->func = $func;
     }

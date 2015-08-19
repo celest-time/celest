@@ -63,10 +63,12 @@
  */
 namespace Php\Time\Chrono;
 
+use Php\Time\ArithmeticException;
 use Php\Time\DateTimeException;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * A date-based amount of time, such as '3 years, 4 months and 5 days' in an

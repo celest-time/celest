@@ -408,7 +408,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public
-    static function parse(CharSequence $text, DateTimeFormatter $formatter)
+    static function parse($text, DateTimeFormatter $formatter)
     {
         return $formatter->parse($text, LocalDate::from);
     }

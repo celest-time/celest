@@ -74,6 +74,7 @@ use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalField;
@@ -415,7 +416,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public static function parse($text)
     {
-        return DateTimeFormatter::$ISO_INSTANT->parse($text, Instant::from);
+        return DateTimeFormatter::ISO_INSTANT()->parse($text, Instant::from);
     }
 
 //-----------------------------------------------------------------------
@@ -554,7 +555,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        return Temporal::super->range($field);
+        return TemporalAccessorDefaults::range($this, $field);
 }
 
     /**
@@ -637,7 +638,7 @@ final class Instant implements Temporal, TemporalAdjuster
                 case ChronoField::MILLI_OF_SECOND():
                     return $this->nanos / 1000000;
                 case ChronoField::INSTANT_SECONDS():
-                    return seconds;
+                    return $this->seconds;
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -792,19 +793,19 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function truncatedTo(TemporalUnit $unit)
     {
-        if ($unit == ChronoUnit::$NANOS) {
+        if ($unit == ChronoUnit::NANOS()) {
             return $this;
         }
 
         $unitDur = $unit->getDuration();
-        if ($unitDur->getSeconds() > LocalTime::SECONDS_PER_DAY) {
+        if ($unitDur->getSeconds() > SECONDS_PER_DAY) {
             throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
         }
         $dur = $unitDur->toNanos();
-        if ((LocalTime::NANOS_PER_DAY % $dur) != 0) {
+        if ((NANOS_PER_DAY % $dur) != 0) {
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
-        $nod = ($this->seconds % LocalTime::SECONDS_PER_DAY) * LocalTime::NANOS_PER_SECOND + $this->nanos;
+        $nod = ($this->seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND + $this->nanos;
         $result = ($nod / $dur) * $dur;
         return $this->plusNanos($result - $nod);
     }

@@ -622,7 +622,7 @@ abstract class AbstractChronology implements Chronology
         $moy = $this->range(ChronoField::MONTH_OF_YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()), ChronoField::MONTH_OF_YEAR());
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_MONTH())->checkValidIntValue(self::remove($fieldValues, ChronoField::ALIGNED_WEEK_OF_MONTH()), ChronoField::ALIGNED_WEEK_OF_MONTH());
         $dow = $this->range(ChronoField::DAY_OF_WEEK())->checkValidIntValue(self::remove($fieldValues, ChronoField::DAY_OF_WEEK()), ChronoField::DAY_OF_WEEK());
-        $date = $this->date($y, $moy, 1)->plus(($aw - 1) * 7, ChronoUnit::DAYS())->with(TemporalAdjuster::nextOrSame(DayOfWeek::of($dow)));
+        $date = $this->date($y, $moy, 1)->plus(($aw - 1) * 7, ChronoUnit::DAYS())->with(TemporalAdjusters::nextOrSame(DayOfWeek::of($dow)));
         if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::MONTH_OF_YEAR()) != $moy) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
         }
@@ -658,7 +658,7 @@ abstract class AbstractChronology implements Chronology
         }
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::ALIGNED_WEEK_OF_YEAR()), ChronoField::ALIGNED_WEEK_OF_YEAR());
         $dow = $this->range(ChronoField::DAY_OF_WEEK())->checkValidIntValue(self::remove($fieldValues, ChronoField::DAY_OF_WEEK()), ChronoField::DAY_OF_WEEK());
-        $date = $this->dateYearDay($y, 1)->plus(($aw - 1) * 7, DAYS)->with(TemporalAdjuster::nextOrSame(DayOfWeek::of($dow)));
+        $date = $this->dateYearDay($y, 1)->plus(($aw - 1) * 7, ChronoUnit::DAYS())->with(TemporalAdjusters::nextOrSame(DayOfWeek::of($dow)));
         if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::YEAR()) != $y) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
         }
@@ -676,7 +676,7 @@ abstract class AbstractChronology implements Chronology
             $date = $date->plus(Math::subtractExact($dow, 7) / 7, ChronoUnit::WEEKS());
             $dow = (($dow + 6) % 7) + 1;
         }
-        return $date->with(TemporalAdjuster::nextOrSame(DayOfWeek::of((int)$dow)));
+        return $date->with(TemporalAdjusters::nextOrSame(DayOfWeek::of((int)$dow)));
     }
 
     /**

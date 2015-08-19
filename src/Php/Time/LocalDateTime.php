@@ -967,7 +967,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         } else
             if ($adjuster instanceof LocalTime) {
                 return $this->with($this->date, $adjuster);
-            } else if (adjuster instanceof LocalDateTime) {
+            } else if ($adjuster instanceof LocalDateTime) {
                 return $adjuster;
             }
         return $adjuster->adjustInto($this);

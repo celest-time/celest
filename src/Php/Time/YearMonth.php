@@ -507,7 +507,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
 
     private function getProlepticMonth()
     {
-        return (year * 12 + month - 1);
+        return ($this->year * 12 + $this->month - 1);
     }
 
 //-----------------------------------------------------------------------
@@ -554,7 +554,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public function getMonth()
     {
-        return Month::of(month);
+        return Month::of($this->month);
     }
 
 //-----------------------------------------------------------------------
@@ -733,7 +733,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public function withYear($year)
     {
         ChronoField::YEAR()->checkValidValue($year);
-        return with($year, $this->month);
+        return $this->with($year, $this->month);
     }
 
     /**
@@ -749,7 +749,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     function withMonth($month)
     {
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
-        return with($this->year, $month);
+        return $this->with($this->year, $month);
     }
 
 //-----------------------------------------------------------------------

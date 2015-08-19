@@ -936,7 +936,7 @@ final class Period implements ChronoPeriod
                 $temporal = $temporal->plus($this->years, ChronoUnit::YEARS());
             }
         } else {
-            $totalMonths = toTotalMonths();
+            $totalMonths = $this->toTotalMonths();
             if ($totalMonths != 0) {
                 $temporal = $temporal->plus($totalMonths, ChronoUnit::MONTHS());
             }
@@ -991,7 +991,7 @@ final class Period implements ChronoPeriod
         } else {
             $totalMonths = $this->toTotalMonths();
             if ($totalMonths != 0) {
-                $temporal = $temporal->minus(totalMonths, ChronoUnit::MONTHS());
+                $temporal = $temporal->minus($totalMonths, ChronoUnit::MONTHS());
             }
         }
         if ($this->days != 0) {

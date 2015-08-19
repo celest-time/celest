@@ -27,7 +27,7 @@ final class ChronoLocalDateDefaults
 
     public static function timeLineOrder()
     {
-        return AbstractChronology::DATE_ORDER;
+        return AbstractChronology::DATE_ORDER();
     }
 
     public static function from(TemporalAccessor $temporal)

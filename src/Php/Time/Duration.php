@@ -472,7 +472,6 @@ final class Duration implements TemporalAmount
         } catch
         (\Exception $ex) {
             $secs = $startInclusive->until($endExclusive, ChronoUnit::SECONDS());
-            $nanos = 0;
             try {
                 $nanos = $endExclusive->getLong(ChronoField::NANO_OF_SECOND()) - $startInclusive->getLong(ChronoField::NANO_OF_SECOND());
                 if ($secs > 0 && $nanos < 0) {
@@ -920,7 +919,7 @@ final class Duration implements TemporalAmount
     public
     function minusHours($hoursToSubtract)
     {
-        return (hoursToSubtract == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-hoursToSubtract));
+        return ($hoursToSubtract == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hoursToSubtract));
     }
 
     /**

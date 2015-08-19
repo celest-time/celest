@@ -160,10 +160,7 @@ const NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
  *
  * @since 1.8
  */
-public
-
-final class LocalTime
-    implements Temporal, TemporalAdjuster
+final class LocalTime implements Temporal, TemporalAdjuster
 {
 
     public static function init()
@@ -442,7 +439,7 @@ final class LocalTime
         $time = $temporal->query(TemporalQueries::localTime());
         if ($time == null) {
             throw new DateTimeException("Unable to obtain LocalTime from TemporalAccessor: " .
-                $temporal . " of type " . get_class($temporal);
+                $temporal . " of type " . get_class($temporal));
         }
 
         return $time;
@@ -1399,7 +1396,7 @@ final class LocalTime
      * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
      * specified query passing {@code this} as the argument.
      *
-     * @param r the type of the result
+     * @param <r> the type of the result
      * @param $query TemporalQuery the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)

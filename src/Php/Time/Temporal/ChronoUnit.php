@@ -58,6 +58,7 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\Duration;
+use Php\Time\Helper\Long;
 
 /**
  * A standard set of date periods units.

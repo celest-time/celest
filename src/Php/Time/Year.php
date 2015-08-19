@@ -67,6 +67,7 @@ use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Integer;
 use Php\Time\Helper\Long;
+use Php\Time\Helper\Math;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -74,7 +75,6 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
-use Php\Time\Temporal\TemporalDefaults;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
@@ -271,7 +271,7 @@ final class Year
      */
     public static function parse($text)
     {
-        return self::parse($text, PARSER);
+        return self::parse($text, self::PARSER);
     }
 
     /**
@@ -640,7 +640,7 @@ final class Year
                 case ChronoField::YEAR():
                     return Year::of((int)$newValue);
                 case ChronoField::ERA():
-                    return (getLong(ChronoField::ERA()) == $newValue ? $this : Year::of(1 - $this->year));
+                    return ($this->getLong(ChronoField::ERA()) == $newValue ? $this : Year::of(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -808,7 +808,7 @@ final class Year
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
     /**
@@ -816,7 +816,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToSubtract  the years to subtract, may be negative
+     * @param $yearsToSubtract int the years to subtract, may be negative
      * @return Year a {@code Year} based on this year with the year subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */

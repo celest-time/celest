@@ -70,6 +70,7 @@ use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
+use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
@@ -117,7 +118,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
 {
     public static function init()
     {
-        self::$PARSER = new DateTimeFormatterBuilder()
+        self::$PARSER = (new DateTimeFormatterBuilder())
            ->appendLiteral("--")
         ->appendValue(ChronoField::MONTH_OF_YEAR(), 2)
         ->appendLiteral('-')
@@ -294,7 +295,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      */
     public static function parse($text)
     {
-        return self::parse($text, PARSER);
+        return self::parse($text, self::PARSER);
     }
 
     /**
