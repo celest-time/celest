@@ -120,8 +120,8 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
 
     public static function init()
     {
-        self::$MIN = LocalDateTime::of(LocalDate::MIN(), LocalTime::MIN());
-        self::$MAX = LocalDateTime::of(LocalDate::MAX(), LocalTime::MAX());
+        self::$MIN = LocalDateTime::ofDateAndTime(LocalDate::MIN(), LocalTime::MIN());
+        self::$MAX = LocalDateTime::ofDateAndTime(LocalDate::MAX(), LocalTime::MAX());
     }
 
     /**
@@ -319,7 +319,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, $month, $dayOfMonth, $hour, $minute)
+    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute)
     {
         $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute);
@@ -346,7 +346,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, $month, $dayOfMonth, $hour, $minute, $second)
+    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second)
     {
         $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second);
@@ -373,7 +373,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond)
+    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond)
     {
         $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
@@ -388,7 +388,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @return LocalDateTime the local date-time, not null
      */
     public
-    static function of(LocalDate $date, LocalTime $time)
+    static function ofDateAndTime(LocalDate $date, LocalTime $time)
     {
         return new LocalDateTime($date, $time);
     }

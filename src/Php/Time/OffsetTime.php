@@ -242,9 +242,9 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the value of any field is out of range
      */
     public
-    static function of($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
+    static function ofNumerical($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
-        return new OffsetTime(LocalTime::of($hour, $minute, $second, $nanoOfSecond), $offset);
+        return new OffsetTime(LocalTime::ofNumerical($hour, $minute, $second, $nanoOfSecond), $offset);
     }
 
 //-----------------------------------------------------------------------
@@ -1285,7 +1285,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public
     function atDate(LocalDate $date)
     {
-        return OffsetDateTime::of($date, $this->time, $this->offset);
+        return OffsetDateTime::ofDateAndTime($date, $this->time, $this->offset);
     }
 
     //-----------------------------------------------------------------------

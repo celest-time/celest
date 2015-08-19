@@ -249,9 +249,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @return ZonedDateTime the offset date-time, not null
      */
     public
-    static function of(LocalDate $date, LocalTime $time, ZoneId $zone)
+    static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone)
     {
-        return self::of(LocalDateTime::of($date, $time), $zone);
+        return self::of(LocalDateTime::ofDateAndTime($date, $time), $zone);
 }
 
     /**
@@ -325,11 +325,11 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      *  if the day-of-month is invalid for the month-year
      */
     public
-    static function of(
+    static function ofNumerical(
         $year, $month, $dayOfMonth,
         $hour, $minute, $second, $nanoOfSecond, ZoneId $zone)
     {
-        $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
+        $dt = LocalDateTime::ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return self::ofLocal($dt, $zone, null);
     }
 
@@ -558,7 +558,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             } else {
                 $date = LocalDate::from($temporal);
                 $time = LocalTime::from($temporal);
-                return self::of($date, $time, $zone);
+                return self::ofDateAndTime($date, $time, $zone);
             }
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain ZonedDateTime from TemporalAccessor: " .
@@ -1249,10 +1249,10 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {
-            return $this->resolveLocal(LocalDateTime::of($adjuster, $this->dateTime->toLocalTime()));
+            return $this->resolveLocal(LocalDateTime::ofDateAndTime($adjuster, $this->dateTime->toLocalTime()));
         } else
             if ($adjuster instanceof LocalTime) {
-                return $this->resolveLocal(LocalDateTime::of($this->dateTime->toLocalDate(), $adjuster));
+                return $this->resolveLocal(LocalDateTime::ofDateAndTime($this->dateTime->toLocalDate(), $adjuster));
             } else if ($adjuster instanceof LocalDateTime) {
                 return $this->resolveLocal($adjuster);
             } else if ($adjuster instanceof OffsetDateTime) {

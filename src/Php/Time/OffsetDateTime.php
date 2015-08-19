@@ -266,9 +266,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @return OffsetDateTime the offset date-time, not null
      */
     public
-    static function of(LocalDate $date, LocalTime $time, ZoneOffset $offset)
+    static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneOffset $offset)
     {
-        $dt = LocalDateTime::of($date, $time);
+        $dt = LocalDateTime::ofDateAndTime($date, $time);
         return new OffsetDateTime($dt, $offset);
     }
 
@@ -312,10 +312,10 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      *  if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, $month, $dayOfMonth,
+    static function ofNumerical($year, $month, $dayOfMonth,
                        $hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
-        $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
+        $dt = LocalDateTime::ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return new OffsetDateTime($dt, $offset);
     }
 
@@ -374,8 +374,8 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
             $offset = ZoneOffset::from($temporal);
             $date = $temporal->query(TemporalQueries::localDate());
             $time = $temporal->query(TemporalQueries::localTime());
-            if ($date != null && $time != null) {
-                return OffsetDateTime::of($date, $time, $offset);
+            if ($date !== null && $time !== null) {
+                return OffsetDateTime::ofDateAndTime($date, $time, $offset);
             } else {
                 $instant = Instant::from($temporal);
                 return OffsetDateTime::ofInstant($instant, $offset);

@@ -1551,7 +1551,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
     public
     function atDate(LocalDate $date)
     {
-        return LocalDateTime::of($date, $this);
+        return LocalDateTime::ofDateAndTime($date, $this);
     }
 
     /**

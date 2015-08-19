@@ -1824,7 +1824,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function atTime(LocalTime $time)
     {
-        return LocalDateTime::of($this, $time);
+        return LocalDateTime::ofDateAndTime($this, $time);
     }
 
     /**
@@ -1912,7 +1912,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function atStartOfDay()
     {
-        return LocalDateTime::of($this, LocalTime::MIDNIGHT);
+        return LocalDateTime::ofDateAndTime($this, LocalTime::MIDNIGHT());
     }
 
     /**
@@ -1939,7 +1939,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         // need to handle case where there is a gap from 11:30 to 00:30
         // standard ZDT factory would result in 01:00 rather than 00:30
-        $ldt = $this->atTime(LocalTime::MIDNIGHT);
+        $ldt = $this->atTime(LocalTime::MIDNIGHT());
         if ($zone instanceof ZoneOffset == false) {
             $rules = $zone->getRules();
             $trans = $rules->getTransition($ldt);
