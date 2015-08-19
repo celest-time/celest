@@ -107,8 +107,8 @@ use Php\Time\ZoneId;
  * The date classes are used to manipulate specific dates.
  * <ul>
  * <li> {@link #dateNow() dateNow()}
- * <li> {@link #dateNow(Clock) dateNow(clock)}
- * <li> {@link #dateNow(ZoneId) dateNow(zone)}
+ * <li> {@link #dateNowOf(Clock) dateNowOf(clock)}
+ * <li> {@link #dateNowIn(ZoneId) dateNowIn(zone)}
  * <li> {@link #date(int, int, int) date(yearProleptic, month, day)}
  * <li> {@link #date(Era, int, int, int) date(era, yearOfEra, month, day)}
  * <li> {@link #dateYearDay(int, int) dateYearDay(yearProleptic, dayOfYear)}
@@ -352,7 +352,7 @@ interface Chronology
      * because the clock is hard-coded.
      *
      * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
+     * The default implementation invokes {@link #dateNowOf(Clock)}.
      *
      * @return ChronoLocalDate the current local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
@@ -369,13 +369,13 @@ interface Chronology
      * because the clock is hard-coded.
      *
      * @implSpec
-     * The default implementation invokes {@link #dateNow(Clock)}.
+     * The default implementation invokes {@link #dateNowOf(Clock)}.
      *
      * @param $zone ZoneId the zone ID to use, not null
      * @return ChronoLocalDate the current local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    function dateNow(ZoneId $zone);
+    function dateNowIn(ZoneId $zone);
 
     /**
      * Obtains the current local date in this chronology from the specified clock.
@@ -391,7 +391,7 @@ interface Chronology
      * @return ChronoLocalDate the current local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    function dateNow(Clock $clock);
+    function dateNowOf(Clock $clock);
 
     //-----------------------------------------------------------------------
     /**

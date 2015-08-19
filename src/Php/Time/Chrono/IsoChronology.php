@@ -334,7 +334,7 @@ final class IsoChronology extends AbstractChronology
      */
     public function dateNow()
     {
-        return $this->dateNow(Clock::systemDefaultZone());
+        return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
     /**
@@ -349,9 +349,9 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the current ISO local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateNow(ZoneId $zone)
+    public function dateNowIn(ZoneId $zone)
     {
-        return $this->dateNow(Clock::system($zone));
+        return $this->dateNowOf(Clock::system($zone));
     }
 
     /**
@@ -365,9 +365,9 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the current ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateNow(Clock $clock)
+    public function dateNowOf(Clock $clock)
     {
-        return $this->date(LocalDate::now($clock));
+        return $this->date(LocalDate::nowOf($clock));
     }
 
 //-----------------------------------------------------------------------

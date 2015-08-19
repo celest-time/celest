@@ -57,17 +57,17 @@ final class ChronologyDefaults
 
     public static function dateNow(Chronology $_this)
     {
-        return $_this->dateNow(Clock::systemDefaultZone());
+        return $_this->dateNowOf(Clock::systemDefaultZone());
     }
 
-    public static function dateNow(Chronology $_this, ZoneId $zone)
+    public static function dateNowIn(Chronology $_this, ZoneId $zone)
     {
-        return $_this->dateNow(Clock::system($zone));
+        return $_this->dateNowOf(Clock::system($zone));
     }
 
-    public static function dateNow(Chronology $_this, Clock $clock)
+    public static function dateNowOf(Chronology $_this, Clock $clock)
     {
-        return $_this->date(LocalDate::now($clock));
+        return $_this->date(LocalDate::nowOf($clock));
     }
 
     public static function localDateTime(Chronology $_this, TemporalAccessor $temporal)
