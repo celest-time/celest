@@ -1782,7 +1782,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public function atZoneSameInstant(ZoneId $zone)
     {
-        return ZonedDateTime::ofInstant($this->dateTime, $this->offset, $zone);
+        return ZonedDateTime::ofInstantWithOffset($this->dateTime, $this->offset, $zone);
     }
 
     /**

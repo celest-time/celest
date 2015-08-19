@@ -424,7 +424,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @return ZonedDateTime the zoned date-time, not null
      */
     public
-    static function ofInstant(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    static function ofInstantWithOffset(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
         if ($zone->getRules()->isValidOffset($localDateTime, $offset)) {
             return new ZonedDateTime($localDateTime, $offset, $zone);
@@ -633,7 +633,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      */
     private function resolveInstant(LocalDateTime $newDateTime)
     {
-        return self::ofInstant($newDateTime, $this->offset, $this->zone);
+        return self::ofInstantWithOffset($newDateTime, $this->offset, $this->zone);
     }
 
     /**
