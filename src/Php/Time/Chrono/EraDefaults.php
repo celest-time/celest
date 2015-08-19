@@ -7,6 +7,7 @@ use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\UnsupportedTemporalTypeException;
 

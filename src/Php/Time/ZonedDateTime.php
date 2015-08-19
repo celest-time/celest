@@ -63,6 +63,7 @@
 namespace Php\Time;
 
 use Php\Time\Chrono\ChronoZonedDateTime;
+use Php\Time\Chrono\ChronoZonedDateTimeDefaults;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Long;
 use Php\Time\Temporal\ChronoField;
@@ -72,6 +73,7 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\Temporal\ValueRange;
@@ -2102,7 +2104,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             return $this->toLocalDate();
         }
 
-        return ChronoZonedDateTime::query($query);
+        return ChronoZonedDateTimeDefaults::query($this, $query);
     }
 
     /**

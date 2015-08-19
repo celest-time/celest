@@ -71,6 +71,7 @@ use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\ValueRange;
 
@@ -608,7 +609,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::chronology()) {
-            return IsoChronology::$INSTANCE;
+            return IsoChronology::INSTANCE();
         }
 
         return TemporalAccessorDefaults::query($this, $query);

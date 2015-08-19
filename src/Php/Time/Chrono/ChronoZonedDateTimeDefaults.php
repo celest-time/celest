@@ -15,6 +15,7 @@ use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\UnsupportedTemporalTypeException;
@@ -94,7 +95,7 @@ final class ChronoZonedDateTimeDefaults
         return $_this->toLocalDate()->getChronology();
     }
 
-    function isSupported(ChronoZonedDateTime $_this, TemporalUnit $unit)
+    public static function isSupported(ChronoZonedDateTime $_this, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit != ChronoUnit::FOREVER();
@@ -103,27 +104,27 @@ final class ChronoZonedDateTimeDefaults
         return $unit != null && $unit->isSupportedBy($_this);
     }
 
-    function with(ChronoZonedDateTime $_this, TemporalAdjuster $adjuster)
+    public static function with(ChronoZonedDateTime $_this, TemporalAdjuster $adjuster)
     {
         return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::with($_this, $adjuster));
 }
 
-    function plus(ChronoZonedDateTime $_this, TemporalAmount $amount)
+    public static function plus(ChronoZonedDateTime $_this, TemporalAmount $amount)
     {
         return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::plus($_this, $amount));
 }
 
-    function minus(ChronoZonedDateTime $_this, TemporalAmount $amount)
+    public static function minus(ChronoZonedDateTime $_this, TemporalAmount $amount)
     {
         return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minus($_this, $amount));
 }
 
-    function minus(ChronoZonedDateTime $_this, $amountToSubtract, TemporalUnit $unit)
+    public static function minus(ChronoZonedDateTime $_this, $amountToSubtract, TemporalUnit $unit)
     {
         return ChronoZonedDateTimeImpl::ensureValid($_this->getChronology(), TemporalDefaults::minus($_this, $amountToSubtract, $unit));
 }
 
-    function query(ChronoZonedDateTime $_this, TemporalQuery $query)
+    public static function query(ChronoZonedDateTime $_this, TemporalQuery $query)
     {
         if ($query == TemporalQueries::zone() || $query == TemporalQueries::zoneId()) {
             return $_this->getZone();
@@ -141,17 +142,17 @@ final class ChronoZonedDateTimeDefaults
         return $query->queryFrom($_this);
     }
 
-    function format(ChronoZonedDateTime $_this, DateTimeFormatter $formatter)
+    public static function format(ChronoZonedDateTime $_this, DateTimeFormatter $formatter)
     {
         return $formatter->format($_this);
     }
 
-    function toInstant(ChronoZonedDateTime $_this)
+    public static function toInstant(ChronoZonedDateTime $_this)
     {
         return Instant::ofEpochSecond($_this->toEpochSecond(), $_this->toLocalTime()->getNano());
     }
 
-    function toEpochSecond(ChronoZonedDateTime $_this)
+    public static function toEpochSecond(ChronoZonedDateTime $_this)
     {
         $epochDay = $_this->toLocalDate()->toEpochDay();
         $secs = $epochDay * 86400 + $_this->toLocalTime()->toSecondOfDay();
@@ -159,7 +160,7 @@ final class ChronoZonedDateTimeDefaults
         return $secs;
     }
 
-    function compareTo(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
+    public static function compareTo(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
     {
         $cmp = Long::compare($_this->toEpochSecond(), $other->toEpochSecond());
         if ($cmp == 0) {
@@ -177,7 +178,7 @@ final class ChronoZonedDateTimeDefaults
         return $cmp;
     }
 
-    function isBefore(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
+    public static function isBefore(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
     {
         $thisEpochSec = $_this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
@@ -185,7 +186,7 @@ final class ChronoZonedDateTimeDefaults
         ($thisEpochSec == $otherEpochSec && $_this->toLocalTime()->getNano() < $other->toLocalTime()->getNano());
     }
 
-    function isAfter(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
+    public static function isAfter(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
     {
         $thisEpochSec = $_this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
@@ -193,7 +194,7 @@ final class ChronoZonedDateTimeDefaults
         ($thisEpochSec == $otherEpochSec && $_this->toLocalTime()->getNano() > $other->toLocalTime()->getNano());
     }
 
-    function isEqual(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
+    public static function isEqual(ChronoZonedDateTime $_this, ChronoZonedDateTime $other)
     {
         return $_this->toEpochSecond() == $other->toEpochSecond() &&
         $_this->toLocalTime()->getNano() == $other->toLocalTime()->getNano();

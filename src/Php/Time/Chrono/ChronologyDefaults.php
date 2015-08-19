@@ -15,6 +15,7 @@ use Php\Time\Instant;
 use Php\Time\LocalDate;
 use Php\Time\LocalTime;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\ZoneId;
 
 final class ChronologyDefaults

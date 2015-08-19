@@ -72,6 +72,7 @@ use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAmount;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalUnit;
 
 /**

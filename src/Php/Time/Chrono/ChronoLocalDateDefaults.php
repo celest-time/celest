@@ -4,6 +4,7 @@ namespace Php\Time\Chrono;
 
 use Php\Time\DateTimeException;
 use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Helper\Long;
 use Php\Time\LocalTime;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
@@ -13,6 +14,7 @@ use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\UnsupportedTemporalTypeException;
@@ -124,7 +126,7 @@ final class ChronoLocalDateDefaults
             }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization
-        return $query::queryFrom($_this);
+        return $query->queryFrom($_this);
     }
 
     public static function adjustInto(ChronoLocalDate $_this, Temporal $temporal)

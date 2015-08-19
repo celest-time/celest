@@ -71,9 +71,12 @@ use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalAmount;
+use Php\Time\Temporal\TemporalDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\Temporal\ValueRange;
@@ -850,7 +853,7 @@ final class Year
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::YEARS();
             }
-        return Temporal::query($query);
+        return TemporalAccessorDefaults::query($this, $query);
     }
 
     /**

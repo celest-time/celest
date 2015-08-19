@@ -65,6 +65,7 @@ namespace Php\Time;
 
 use Php\Time\Chrono\TextStyle;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalQueries;
 
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
