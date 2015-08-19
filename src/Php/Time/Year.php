@@ -1030,9 +1030,9 @@ final class Year
      * @throws DateTimeException if the month is invalid
      */
     public
-    function atMonth($month)
+    function atMonthNumerical($month)
     {
-        return YearMonth::of($this->year, $month);
+        return YearMonth::ofNumerical($this->year, $month);
     }
 
     /**

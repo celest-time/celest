@@ -201,7 +201,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public
     static function of($year, Month $month)
     {
-        return self::of($year, $month->getValue());
+        return self::ofNumerical($year, $month->getValue());
     }
 
     /**
@@ -213,7 +213,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @throws DateTimeException if either field value is invalid
      */
     public
-    static function of($year, $month)
+    static function ofNumerical($year, $month)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -251,7 +251,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::of($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
+            return self::ofNumerical($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain YearMonth from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -313,7 +313,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @param $newMonth int the month-of-year to represent, validated not null
      * @return YearMonth the year-month, not null
      */
-    private function with($newYear, $newMonth)
+    private function _with($newYear, $newMonth)
     {
         if ($this->year == $newYear && $this->month == $newMonth) {
             return $this;
@@ -733,7 +733,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public function withYear($year)
     {
         ChronoField::YEAR()->checkValidValue($year);
-        return $this->with($year, $this->month);
+        return $this->_with($year, $this->month);
     }
 
     /**
@@ -749,7 +749,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     function withMonth($month)
     {
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
-        return $this->with($this->year, $month);
+        return $this->_with($this->year, $month);
     }
 
 //-----------------------------------------------------------------------
@@ -868,7 +868,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             return $this;
         }
         $newYear = ChronoField::YEAR()->checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
-        return $this->with($newYear, $this->month);
+        return $this->_with($newYear, $this->month);
     }
 
     /**
@@ -889,7 +889,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
         $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
         $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
-        return $this->with($newYear, $newMonth);
+        return $this->_with($newYear, $newMonth);
     }
 
     //-----------------------------------------------------------------------
