@@ -457,8 +457,8 @@ final class Duration implements TemporalAmount
      * The result of this method can be a negative period if the end is before the start.
      * To guarantee to obtain a positive duration call {@link #abs()} on the result.
      *
-     * @param startInclusive Temporal the start instant, inclusive, not null
-     * @param endExclusive Temporal the end instant, exclusive, not null
+     * @param $startInclusive Temporal the start instant, inclusive, not null
+     * @param $endExclusive Temporal the end instant, exclusive, not null
      * @return Duration a {@code Duration}, not null
      * @throws DateTimeException if the seconds between the temporals cannot be obtained
      * @throws ArithmeticException if the calculation exceeds the capacity of {@code Duration}

@@ -391,7 +391,7 @@ final class Period implements ChronoPeriod
      */
     public static function between(LocalDate $startDateInclusive, LocalDate $endDateExclusive)
     {
-        return $startDateInclusive->until($endDateExclusive);
+        return $startDateInclusive->untilDate($endDateExclusive);
     }
 
 //-----------------------------------------------------------------------
