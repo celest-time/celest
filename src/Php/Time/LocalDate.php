@@ -188,7 +188,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public static function now()
     {
-        return self::now(Clock::systemDefaultZone());
+        return self::nowOf(Clock::systemDefaultZone());
     }
 
     /**

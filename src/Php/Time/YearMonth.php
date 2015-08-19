@@ -151,7 +151,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public static function now()
     {
-        return self::now(Clock::systemDefaultZone());
+        return self::nowOf(Clock::systemDefaultZone());
     }
 
     /**
