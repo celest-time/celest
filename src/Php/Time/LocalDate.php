@@ -1831,45 +1831,6 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * Combines this date with a time to create a {@code LocalDateTime}.
      * <p>
      * This returns a {@code LocalDateTime} formed from this date at the
-     * specified hour and minute.
-     * The seconds and nanosecond fields will be set to zero.
-     * The individual time fields must be within their valid range.
-     * All possible combinations of date and time are valid.
-     *
-     * @param $hour int the hour-of-day to use, from 0 to 23
-     * @param $minute int the minute-of-hour to use, from 0 to 59
-     * @return LocalDateTime the local date-time formed from this date and the specified time, not null
-     * @throws DateTimeException if the value of any field is out of range
-     */
-    public function atTime($hour, $minute)
-    {
-        return $this->atTime(LocalTime::of($hour, $minute));
-    }
-
-    /**
-     * Combines this date with a time to create a {@code LocalDateTime}.
-     * <p>
-     * This returns a {@code LocalDateTime} formed from this date at the
-     * specified hour, minute and second.
-     * The nanosecond field will be set to zero.
-     * The individual time fields must be within their valid range.
-     * All possible combinations of date and time are valid.
-     *
-     * @param $hour int the hour-of-day to use, from 0 to 23
-     * @param $minute int the minute-of-hour to use, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @return LocalDateTime the local date-time formed from this date and the specified time, not null
-     * @throws DateTimeException if the value of any field is out of range
-     */
-    public function atTime($hour, $minute, $second)
-    {
-        return $this->atTime(LocalTime::of($hour, $minute, $second));
-    }
-
-    /**
-     * Combines this date with a time to create a {@code LocalDateTime}.
-     * <p>
-     * This returns a {@code LocalDateTime} formed from this date at the
      * specified hour, minute, second and nanosecond.
      * The individual time fields must be within their valid range.
      * All possible combinations of date and time are valid.
@@ -1881,7 +1842,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @return LocalDateTime the local date-time formed from this date and the specified time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
-    public function atTime($hour, $minute, $second, $nanoOfSecond)
+    public function atTimeNumerical($hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         return $this->atTime(LocalTime::of($hour, $minute, $second, $nanoOfSecond));
     }
@@ -1896,7 +1857,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @return OffsetDateTime the offset date-time formed from this date and the specified time, not null
      */
     public
-    function atTime(OffsetTime $time)
+    function atOffsetTime(OffsetTime $time)
     {
         return OffsetDateTime::of(LocalDateTime::of($this, $time->toLocalTime()), $time->getOffset());
     }
@@ -1935,12 +1896,12 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $zone ZoneId the zone ID to use, not null
      * @return ZonedDateTime the zoned date-time formed from this date and the earliest valid time for the zone, not null
      */
-    public function atStartOfDay(ZoneId $zone)
+    public function atStartOfDayWithZone(ZoneId $zone)
     {
         // need to handle case where there is a gap from 11:30 to 00:30
         // standard ZDT factory would result in 01:00 rather than 00:30
         $ldt = $this->atTime(LocalTime::MIDNIGHT());
-        if ($zone instanceof ZoneOffset == false) {
+        if ($zone instanceof ZoneOffset === false) {
             $rules = $zone->getRules();
             $trans = $rules->getTransition($ldt);
             if ($trans != null && $trans->isGap()) {
