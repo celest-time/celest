@@ -295,7 +295,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      */
     public static function parse($text)
     {
-        return self::parse($text, self::PARSER);
+        return self::parseWith($text, self::PARSER);
     }
 
     /**
@@ -309,7 +309,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public
-    static function parse($text, DateTimeFormatter $formatter)
+    static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parse($text, MonthDay::from);
     }

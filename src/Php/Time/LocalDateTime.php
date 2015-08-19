@@ -496,7 +496,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public static function parse($text)
     {
-        return self::parse($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME);
     }
 
     /**
@@ -510,7 +510,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public
-    static function parse($text, DateTimeFormatter $formatter)
+    static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parse($text, LocalDateTime::from);
     }

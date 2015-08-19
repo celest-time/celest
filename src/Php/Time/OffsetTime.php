@@ -323,7 +323,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      */
     public static function parse($text)
     {
-        return self::parse($text, DateTimeFormatter::ISO_OFFSET_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_TIME);
     }
 
     /**
@@ -337,7 +337,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * @throws DateTimeParseException if the text cannot be parsed
      */
     public
-    static function parse($text, DateTimeFormatter $formatter)
+    static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parse($text, OffsetTime::from);
     }
