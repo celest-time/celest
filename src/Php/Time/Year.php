@@ -177,9 +177,9 @@ final class Year
      * @param $zone ZoneId the zone ID to use, not null
      * @return Year the current year using the system clock, not null
      */
-    public static function now(ZoneId $zone)
+    public static function nowIn(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -193,9 +193,9 @@ final class Year
      * @return Year the current year, not null
      */
     public
-    static function now(Clock $clock)
+    static function nowOf(Clock $clock)
     {
-        $now = LocalDate::now($clock);  // called once
+        $now = LocalDate::nowOf($clock);  // called once
         return Year::of($now->getYear());
     }
 

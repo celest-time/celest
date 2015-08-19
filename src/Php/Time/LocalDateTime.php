@@ -179,7 +179,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public static function now()
     {
-        return self::now(Clock::systemDefaultZone());
+        return self::nowOf(Clock::systemDefaultZone());
     }
 
     /**
@@ -195,9 +195,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @return LocalDateTime the current date-time using the system clock, not null
      */
     public
-    static function now(ZoneId $zone)
+    static function nowIn(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -211,7 +211,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @return LocalDateTime the current date-time, not null
      */
     public
-    static function now(Clock $clock)
+    static function nowOf(Clock $clock)
     {
         $now = $clock->instant();  // called once
         $offset = $clock->getZone()->getRules()->getOffset($now);

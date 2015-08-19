@@ -300,7 +300,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @param $clock Clock the clock to use, not null
      * @return Instant the current instant, not null
      */
-    public static function now(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         return $clock->instant();
     }

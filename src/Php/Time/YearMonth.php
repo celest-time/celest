@@ -167,9 +167,9 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @return YearMonth the current year-month using the system clock, not null
      */
     public
-    static function now(ZoneId $zone)
+    static function nowIn(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -183,9 +183,9 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @return YearMonth the current year-month, not null
      */
     public
-    static function now(Clock $clock)
+    static function nowOf(Clock $clock)
     {
-        $now = LocalDate::now($clock);  // called once
+        $now = LocalDate::nowOf($clock);  // called once
         return YearMonth::of($now->getYear(), $now->getMonth());
     }
 

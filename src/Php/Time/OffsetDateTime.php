@@ -230,9 +230,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @return OffsetDateTime the current date-time using the system clock, not null
      */
     public
-    static function now(ZoneId $zone)
+    static function nowIn(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -248,7 +248,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @return OffsetDateTime the current date-time, not null
      */
     public
-    static function now($clock)
+    static function nowOf($clock)
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone()->getRules()->getOffset($now));

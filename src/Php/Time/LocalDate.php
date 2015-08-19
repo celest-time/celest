@@ -203,9 +203,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $zone ZoneId the zone ID to use, not null
      * @return LocalDate the current date using the system clock, not null
      */
-    public static function now(ZoneId $zone)
+    public static function nowFrom(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -218,7 +218,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $clock Clock the clock to use, not null
      * @return LocalDate the current date, not null
      */
-    public static function now(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         // inline to avoid creating object and Instant checks
         $now = $clock->instant();  // called once

@@ -277,9 +277,9 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * @param $zone ZoneId the zone ID to use, not null
      * @return LocalTime the current time using the system clock, not null
      */
-    public static function now(ZoneId $zone)
+    public static function nowIn(ZoneId $zone)
     {
-        return self::now(Clock::system($zone));
+        return self::nowOf(Clock::system($zone));
     }
 
     /**
@@ -293,7 +293,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * @return LocalTime the current time, not null
      */
     public
-    static function now(Clock $clock)
+    static function nowOf(Clock $clock)
     {
         // inline OffsetTime factory to avoid creating object and InstantProvider checks
         $now = $clock->instant();  // called once
