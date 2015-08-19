@@ -134,29 +134,20 @@ abstract class AbstractChronology implements Chronology
     private static $CHRONOS_BY_TYPE = [];
 
     /**
-     * Register a Chronology by its ID and type for lookup by {@link #of(String)}.
-     * Chronologies must not be registered until they are completely constructed.
-     * Specifically, not in the constructor of Chronology.
-     *
-     * @param $chrono Chronology the chronology to register; not null
-     * @return Chronology the already registered Chronology if any, may be null
-     */
-    static function registerChrono(Chronology $chrono)
-    {
-        return self::registerChrono($chrono, $chrono->getId());
-    }
-
-    /**
      * Register a Chronology by ID and type for lookup by {@link #of(String)}.
      * Chronos must not be registered until they are completely constructed.
      * Specifically, not in the constructor of Chronology.
      *
      * @param $chrono Chronology the chronology to register; not null
-     * @param $id string the ID to register the chronology; not null
+     * @param $id null|string the ID to register the chronology
      * @return Chronology the already registered Chronology if any, may be null
      */
-    static function registerChrono(Chronology $chrono, $id)
+    static function registerChrono(Chronology $chrono, $id = null)
     {
+        if($id === null) {
+            $id = $chrono->getId();
+        }
+
         $prev = self::$CHRONOS_BY_ID->putIfAbsent($id, $chrono);
         if ($prev == null) {
             $type = $chrono->getCalendarType();
