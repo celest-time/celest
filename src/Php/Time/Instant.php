@@ -308,21 +308,6 @@ final class Instant implements Temporal, TemporalAdjuster
     //-----------------------------------------------------------------------
     /**
      * Obtains an instance of {@code Instant} using seconds from the
-     * epoch of 1970-01-01T00:00:00Z.
-     * <p>
-     * The nanosecond field is set to zero.
-     *
-     * @param $epochSecond int the number of seconds from 1970-01-01T00:00:00Z
-     * @return Instant an instant, not null
-     * @throws DateTimeException if the instant exceeds the maximum or minimum instant
-     */
-    public static function ofEpochSecond($epochSecond)
-    {
-        return self::create($epochSecond, 0);
-    }
-
-    /**
-     * Obtains an instance of {@code Instant} using seconds from the
      * epoch of 1970-01-01T00:00:00Z and nanosecond fraction of second.
      * <p>
      * This method allows an arbitrary number of nanoseconds to be passed in.
@@ -341,8 +326,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    static function ofEpochSecond($epochSecond, $nanoAdjustment)
+    public static function ofEpochSecond($epochSecond, $nanoAdjustment = 0)
     {
         $secs = Math::addExact($epochSecond, Math::floorDiv($nanoAdjustment, NANOS_PER_SECOND));
         $nos = (int)Math::floorMod($nanoAdjustment, NANOS_PER_SECOND);
