@@ -47,7 +47,7 @@ final class ChronoLocalDateTimeDefaults
         return $_this->toLocalDate()->getChronology();
     }
 
-    public static function isSupported(ChronoLocalDateTime $_this, TemporalUnit $unit)
+    public static function isUnitSupported(ChronoLocalDateTime $_this, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit != ChronoUnit::FOREVER();

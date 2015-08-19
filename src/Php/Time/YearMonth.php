@@ -385,9 +385,9 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * Whether the unit is supported is determined by the unit.
      *
      * @param $unit TemporalUnit the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit == ChronoUnit::MONTHS() || $unit == ChronoUnit::YEARS() || $unit == ChronoUnit::DECADES() || $unit == ChronoUnit::CENTURIES() || $unit == ChronoUnit::MILLENNIA() || $unit == ChronoUnit::ERAS();

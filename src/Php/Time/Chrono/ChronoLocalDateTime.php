@@ -221,7 +221,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param $unit TemporalUnit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    function isSupported(TemporalUnit $unit);
+    function isUnitSupported(TemporalUnit $unit);
 
 //-----------------------------------------------------------------------
 // override for covariant return type

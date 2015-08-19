@@ -543,7 +543,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @param $unit TemporalUnit  the unit to check, null returns false
      * @return bool if the unit can be added/subtracted, false if not
      */
-    public function isSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit != ChronoUnit::FOREVER();

@@ -66,7 +66,7 @@ final class ChronoLocalDateDefaults
         return $field != null && $field->isSupportedBy($_this);
     }
 
-    public static function isSupported(ChronoLocalDate $_this, TemporalUnit $unit)
+    public static function isUnitSupported(ChronoLocalDate $_this, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit->isDateBased();

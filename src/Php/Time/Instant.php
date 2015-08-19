@@ -517,10 +517,10 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit TemporalUnit the unit to check, null returns false
+     * @param $unit TemporalUnit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $unit->isTimeBased() || $unit == ChronoUnit::DAYS();

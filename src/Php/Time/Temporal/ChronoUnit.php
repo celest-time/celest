@@ -413,7 +413,7 @@ class ChronoUnit implements TemporalUnit
 //-----------------------------------------------------------------------
     public function isSupportedBy(Temporal $temporal)
     {
-        return $temporal->isSupported($this);
+        return $temporal->isUnitSupported($this);
     }
 
     public function addTo($temporal, $amount)

@@ -645,9 +645,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $unit TemporalUnit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit)
     {
-        return ChronoLocalDateTimeDefaults::isSupported($this, $unit);
+        return ChronoLocalDateTimeDefaults::isUnitSupported($this, $unit);
     }
 
 //-----------------------------------------------------------------------

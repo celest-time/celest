@@ -338,7 +338,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param $unit TemporalUnit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    function isSupported(TemporalUnit $unit);
+    function isUnitSupported(TemporalUnit $unit);
 
 
     //-----------------------------------------------------------------------
