@@ -683,9 +683,9 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(Duration $duration)
+    public function plusAmount(Duration $duration)
     {
-        return $this->plus($duration->getSeconds(), $duration->getNano());
+        return $this->_plus($duration->getSeconds(), $duration->getNano());
     }
 
     /**
@@ -707,7 +707,7 @@ final class Duration implements TemporalAmount
     public function plus($amountToAdd, TemporalUnit $unit)
     {
         if ($unit == ChronoUnit::DAYS()) {
-            return $this->plus(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY), 0);
+            return $this->_plus(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY), 0);
         }
 
         if ($unit->isDurationEstimated()) {
@@ -748,7 +748,7 @@ final class Duration implements TemporalAmount
      */
     public function plusDays($daysToAdd)
     {
-        return $this->plus(Math::multiplyExact($daysToAdd, SECONDS_PER_DAY), 0);
+        return $this->_plus(Math::multiplyExact($daysToAdd, SECONDS_PER_DAY), 0);
     }
 
     /**
@@ -763,7 +763,7 @@ final class Duration implements TemporalAmount
     public
     function plusHours($hoursToAdd)
     {
-        return $this->plus(Math::multiplyExact($hoursToAdd, SECONDS_PER_HOUR), 0);
+        return $this->_plus(Math::multiplyExact($hoursToAdd, SECONDS_PER_HOUR), 0);
     }
 
     /**
@@ -777,7 +777,7 @@ final class Duration implements TemporalAmount
      */
     public function plusMinutes($minutesToAdd)
     {
-        return $this->plus(Math::multiplyExact($minutesToAdd, SECONDS_PER_MINUTE), 0);
+        return $this->_plus(Math::multiplyExact($minutesToAdd, SECONDS_PER_MINUTE), 0);
     }
 
     /**
@@ -791,7 +791,7 @@ final class Duration implements TemporalAmount
      */
     public function plusSeconds($secondsToAdd)
     {
-        return $this->plus($secondsToAdd, 0);
+        return $this->_plus($secondsToAdd, 0);
     }
 
     /**
@@ -805,7 +805,7 @@ final class Duration implements TemporalAmount
      */
     public function plusMillis($millisToAdd)
     {
-        return $this->plus($millisToAdd / 1000, ($millisToAdd % 1000) * 1000000);
+        return $this->_plus($millisToAdd / 1000, ($millisToAdd % 1000) * 1000000);
     }
 
     /**
@@ -819,7 +819,7 @@ final class Duration implements TemporalAmount
      */
     public function plusNanos($nanosToAdd)
     {
-        return $this->plus(0, $nanosToAdd);
+        return $this->_plus(0, $nanosToAdd);
     }
 
     /**
@@ -832,7 +832,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified seconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private function plus($secondsToAdd, $nanosToAdd)
+    private function _plus($secondsToAdd, $nanosToAdd)
     {
         if (($secondsToAdd | $nanosToAdd) == 0) {
             return $this;
