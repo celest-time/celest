@@ -831,7 +831,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd)
     {
         return $amountToAdd->addTo($this);
     }

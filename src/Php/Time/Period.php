@@ -647,7 +647,7 @@ final class Period implements ChronoPeriod
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd)
     {
         $isoAmount = Period::from($amountToAdd);
         return self::create(
@@ -902,11 +902,11 @@ final class Period implements ChronoPeriod
      * If the temporal has a chronology, it must be the ISO chronology.
      * <p>
      * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * {@link Temporal#plusAmount(TemporalAmount)}.
      * <pre>
      *   // these two lines are equivalent, but the second approach is recommended
      *   dateTime = thisPeriod.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisPeriod);
+     *   dateTime = dateTime.plusAmount(thisPeriod);
      * </pre>
      * <p>
      * The calculation operates as follows.

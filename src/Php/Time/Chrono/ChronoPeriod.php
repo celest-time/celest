@@ -186,7 +186,7 @@ interface ChronoPeriod
      * @return ChronoPeriod a {@code ChronoPeriod} based on this period with the requested period added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function plus(TemporalAmount $amountToAdd);
+    function plusAmount(TemporalAmount $amountToAdd);
 
     /**
      * Returns a copy of this period with the specified period subtracted.
@@ -259,11 +259,11 @@ interface ChronoPeriod
      * with this period added.
      * <p>
      * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * {@link Temporal#plusAmount(TemporalAmount)}.
      * <pre>
      *   // these two lines are equivalent, but the second approach is recommended
      *   dateTime = thisPeriod.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisPeriod);
+     *   dateTime = dateTime.plusAmount(thisPeriod);
      * </pre>
      * <p>
      * The specified temporal must have the same chronology as this period.

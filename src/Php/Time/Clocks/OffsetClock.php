@@ -42,7 +42,7 @@ final class OffsetClock extends Clock
 
     public function instant()
     {
-        return $this->baseClock->instant()->plus($this->offset);
+        return $this->baseClock->instant()->plusAmount($this->offset);
     }
 
     public function equals($obj)

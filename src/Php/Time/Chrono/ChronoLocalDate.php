@@ -400,7 +400,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDate
      */
-    public function plus(TemporalAmount $amount);
+    public function plusAmount(TemporalAmount $amount);
 
     /**
      * {@inheritDoc}

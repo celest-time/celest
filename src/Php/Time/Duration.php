@@ -1094,11 +1094,11 @@ final class Duration implements TemporalAmount
      * with this duration added.
      * <p>
      * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#plus(TemporalAmount)}.
+     * {@link Temporal#plusAmount(TemporalAmount)}.
      * <pre>
      *   // these two lines are equivalent, but the second approach is recommended
      *   dateTime = thisDuration.addTo(dateTime);
-     *   dateTime = dateTime.plus(thisDuration);
+     *   dateTime = dateTime.plusAmount(thisDuration);
      * </pre>
      * <p>
      * The calculation will add the seconds, then nanos.

@@ -1582,11 +1582,11 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd)
     {
         if ($amountToAdd instanceof Period) {
             $periodToAdd = $amountToAdd;
-            return $this->resolveLocal($this->dateTime->plus($periodToAdd));
+            return $this->resolveLocal($this->dateTime->plusAmount($periodToAdd));
         }
 
         return $amountToAdd->addTo($this);

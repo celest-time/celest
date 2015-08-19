@@ -1204,11 +1204,11 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd)
     {
         if ($amountToAdd instanceof Period) {
             $periodToAdd = $amountToAdd;
-            return $this->with($this->date->plus($periodToAdd), $this->time);
+            return $this->with($this->date->plusAmount($periodToAdd), $this->time);
         }
         return $amountToAdd->addTo($this);
     }

@@ -64,6 +64,7 @@
 
 namespace Php\Time\Temporal;
 
+use Php\Time\ArithmeticException;
 use Php\Time\Duration;
 use Php\Time\DateTimeException;
 use Php\Time\UnsupportedTemporalTypeException;
@@ -181,9 +182,9 @@ interface TemporalUnit
      * <pre>
      *   // these two lines are equivalent, but the second approach is recommended
      *   temporal = thisUnit.addTo(temporal);
-     *   temporal = temporal.plus(thisUnit);
+     *   temporal = temporal.plusAmount(thisUnit);
      * </pre>
-     * It is recommended to use the second approach, {@code plus(TemporalUnit)},
+     * It is recommended to use the second approach, {@code plusAmount(TemporalUnit)},
      * as it is a lot clearer to read in code.
      * <p>
      * Implementations should perform any queries or calculations using the units
@@ -195,13 +196,13 @@ interface TemporalUnit
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
      * @param <R>  the type of the Temporal object
-     * @param temporal mixed the temporal object to adjust, not null
+     * @param $temporal Temporal mixed the temporal object to adjust, not null
      * @param $amount int  the amount of this unit to add, positive or negative
      * @return mixed the adjusted temporal object, not null
      * @throws DateTimeException if the amount cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal
      */
-    public function addTo($temporal, $amount);
+    public function addTo(Temporal $temporal, $amount);
 
     //-----------------------------------------------------------------------
     /**

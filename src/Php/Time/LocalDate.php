@@ -1218,7 +1218,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd)
     {
         if ($amountToAdd instanceof Period) {
             $periodToAdd = $amountToAdd;

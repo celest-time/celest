@@ -365,7 +365,7 @@ interface ChronoZonedDateTime extends Temporal
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoZonedDateTime
      */
-    function plus(TemporalAmount $amount);
+    function plusAmount(TemporalAmount $amount);
 
     /**
      * {@inheritDoc}

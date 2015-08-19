@@ -236,9 +236,9 @@ interface Temporal extends TemporalAccessor
      * <p>
      * Some example code indicating how and why this method is used:
      * <pre>
-     *  date = date.plus(period);                // add a Period instance
-     *  date = date.plus(duration);              // add a Duration instance
-     *  date = date.plus(workingDays(6));        // example user-written workingDays method
+     *  date = date.plusAmount(period);                // add a Period instance
+     *  date = date.plusAmount(duration);              // add a Duration instance
+     *  date = date.plusAmount(workingDays(6));        // example user-written workingDays method
      * </pre>
      * <p>
      * Note that calling {@code plus} followed by {@code minus} is not guaranteed to
@@ -260,7 +260,7 @@ interface Temporal extends TemporalAccessor
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus(TemporalAmount $amount);
+    public function plusAmount(TemporalAmount $amount);
 
     /**
      * Returns an object of the same type as this object with the specified period added.
