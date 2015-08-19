@@ -186,7 +186,7 @@ final class Period implements ChronoPeriod
      * The resulting period will have the specified months.
      * The years and days units will be zero.
      *
-     * @param $months  the number of months, positive or negative
+     * @param $months int the number of months, positive or negative
      * @return Period the period of months, not null
      */
     public
