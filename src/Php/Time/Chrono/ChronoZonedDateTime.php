@@ -349,7 +349,7 @@ interface ChronoZonedDateTime extends Temporal
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoZonedDateTime
      */
-    function with(TemporalAdjuster $adjuster);
+    function adjust(TemporalAdjuster $adjuster);
 
     /**
      * {@inheritDoc}

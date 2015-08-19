@@ -583,7 +583,7 @@ final class Year
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         return $adjuster->adjustInto($this);
     }

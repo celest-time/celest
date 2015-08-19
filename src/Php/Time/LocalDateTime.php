@@ -960,7 +960,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {

@@ -190,7 +190,7 @@ interface Temporal extends TemporalAccessor
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster);
+    public function adjust(TemporalAdjuster $adjuster);
 
     /**
      * Returns an object of the same type as this object with the specified field altered.

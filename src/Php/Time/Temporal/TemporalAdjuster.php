@@ -76,13 +76,13 @@ use Php\Time\DateTimeException;
  * <p>
  * There are two equivalent ways of using a {@code TemporalAdjuster}.
  * The first is to invoke the method on this interface directly.
- * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+ * The second is to use {@link Temporal#adjust(TemporalAdjuster)}:
  * <pre>
  *   // these two lines are equivalent, but the second approach is recommended
  *   temporal = thisAdjuster.adjustInto(temporal);
- *   temporal = temporal.with(thisAdjuster);
+ *   temporal = temporal.adjust(thisAdjuster);
  * </pre>
- * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
+ * It is recommended to use the second approach, {@code adjust(TemporalAdjuster)},
  * as it is a lot clearer to read in code.
  * <p>
  * The {@link TemporalAdjusters} class contains a standard set of adjusters,
@@ -117,13 +117,13 @@ interface TemporalAdjuster
      * <p>
      * There are two equivalent ways of using this method.
      * The first is to invoke this method directly.
-     * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+     * The second is to use {@link Temporal#adjust(TemporalAdjuster)}:
      * <pre>
      *   // these two lines are equivalent, but the second approach is recommended
      *   temporal = thisAdjuster.adjustInto(temporal);
-     *   temporal = temporal.with(thisAdjuster);
+     *   temporal = temporal.adjust(thisAdjuster);
      * </pre>
-     * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
+     * It is recommended to use the second approach, {@code adjust(TemporalAdjuster)},
      * as it is a lot clearer to read in code.
      *
      * @implSpec

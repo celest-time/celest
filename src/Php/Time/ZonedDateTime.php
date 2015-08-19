@@ -1245,7 +1245,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {

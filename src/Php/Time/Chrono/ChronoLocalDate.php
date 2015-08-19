@@ -383,7 +383,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDate
      */
-    public function with(TemporalAdjuster $adjuster);
+    public function adjust(TemporalAdjuster $adjuster);
 
     /**
      * {@inheritDoc}

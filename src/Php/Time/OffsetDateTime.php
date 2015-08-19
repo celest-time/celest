@@ -951,11 +951,11 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         // optimizations
         if ($adjuster instanceof LocalDate || $adjuster instanceof LocalTime || $adjuster instanceof LocalDateTime) {
-            return $this->with($this->dateTime->with($adjuster), $this->offset);
+            return $this->with($this->dateTime->adjust($adjuster), $this->offset);
         } else
             if ($adjuster instanceof Instant) {
                 return $this->ofInstant($adjuster, $this->offset);

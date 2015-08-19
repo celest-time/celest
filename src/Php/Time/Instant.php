@@ -694,7 +694,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         return $adjuster->adjustInto($this);
     }
@@ -743,7 +743,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with($field, $newValue)
+    public function with(TemporalField $field, $newValue)
     {
         if ($field instanceof ChronoField) {
             $f = $field;

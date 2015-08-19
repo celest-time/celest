@@ -77,13 +77,13 @@ use Php\Time\Temporal\TemporalQuery\FuncTemporalAdjuster;
  * <p>
  * There are two equivalent ways of using a {@code TemporalAdjuster}.
  * The first is to invoke the method on the interface directly.
- * The second is to use {@link Temporal#with(TemporalAdjuster)}:
+ * The second is to use {@link Temporal#adjust(TemporalAdjuster)}:
  * <pre>
  *   // these two lines are equivalent, but the second approach is recommended
  *   temporal = thisAdjuster.adjustInto(temporal);
- *   temporal = temporal.with(thisAdjuster);
+ *   temporal = temporal.adjust(thisAdjuster);
  * </pre>
- * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
+ * It is recommended to use the second approach, {@code adjust(TemporalAdjuster)},
  * as it is a lot clearer to read in code.
  * <p>
  * This class contains a standard set of adjusters, available as static methods.
@@ -131,10 +131,10 @@ final class TemporalAdjusters
      * The input 2011-01-15 will return 2011-01-01.<br>
      * The input 2011-02-15 will return 2011-02-01.
      * <p>
-     * The behavior is suitable for use with most calendar systems.
+     * The behavior is suitable for use adjust most calendar systems.
      * It is equivalent to:
      * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1);
+     *  temporal.adjust(DAY_OF_MONTH, 1);
      * </pre>
      *
      * @return TemporalAdjuster the first day-of-month adjuster, not null
@@ -160,7 +160,7 @@ final class TemporalAdjusters
      * It is equivalent to:
      * <pre>
      *  long lastDay = temporal.range(DAY_OF_MONTH).getMaximum();
-     *  temporal.with(DAY_OF_MONTH, lastDay);
+     *  temporal.adjust(DAY_OF_MONTH, lastDay);
      * </pre>
      *
      * @return TemporalAdjuster the last day-of-month adjuster, not null
@@ -183,7 +183,7 @@ final class TemporalAdjusters
      * The behavior is suitable for use with most calendar systems.
      * It is equivalent to:
      * <pre>
-     *  temporal.with(DAY_OF_MONTH, 1).plus(1, MONTHS);
+     *  temporal.adjust(DAY_OF_MONTH, 1).plus(1, MONTHS);
      * </pre>
      *
      * @return TemporalAdjuster the first day of next month adjuster, not null
@@ -207,7 +207,7 @@ final class TemporalAdjusters
      * The behavior is suitable for use with most calendar systems.
      * It is equivalent to:
      * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1);
+     *  temporal.adjust(DAY_OF_YEAR, 1);
      * </pre>
      *
      * @return TemporalAdjuster the first day-of-year adjuster, not null
@@ -231,7 +231,7 @@ final class TemporalAdjusters
      * It is equivalent to:
      * <pre>
      *  long lastDay = temporal.range(DAY_OF_YEAR).getMaximum();
-     *  temporal.with(DAY_OF_YEAR, lastDay);
+     *  temporal.adjust(DAY_OF_YEAR, lastDay);
      * </pre>
      *
      * @return TemporalAdjuster the last day-of-year adjuster, not null
@@ -253,7 +253,7 @@ final class TemporalAdjusters
      * The behavior is suitable for use with most calendar systems.
      * It is equivalent to:
      * <pre>
-     *  temporal.with(DAY_OF_YEAR, 1).plus(1, YEARS);
+     *  temporal.adjust(DAY_OF_YEAR, 1).plus(1, YEARS);
      * </pre>
      *
      * @return TemporalAdjuster the first day of next month adjuster, not null

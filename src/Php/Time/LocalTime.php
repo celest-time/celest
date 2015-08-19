@@ -805,7 +805,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster)
     {
         // optimizations
         if ($adjuster instanceof LocalTime) {
