@@ -426,7 +426,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
         }
 
-        return Temporal::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**

@@ -440,7 +440,7 @@ final class Year
             return ($this->year <= 0 ? ValueRange::of(1, self::MAX_VALUE + 1) : ValueRange::of(1, self::MAX_VALUE));
         }
 
-        return Temporal::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**

@@ -430,7 +430,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             return new ZonedDateTime($localDateTime, $offset, $zone);
         }
 
-        return self::create(localDateTime::toEpochSecond($offset), $localDateTime->getNano(), $zone);
+        return self::create($localDateTime->toEpochSecond($offset), $localDateTime->getNano(), $zone);
     }
 
     /**
@@ -748,7 +748,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      */
     public function isSupported(TemporalUnit $unit)
     {
-        return ChronoZonedDateTime::isSupported($unit);
+        return ChronoZonedDateTimeDefaults::isSupported($this, $unit);
     }
 
 //-----------------------------------------------------------------------
@@ -827,7 +827,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
 
             return $this->dateTime->get($field);
         }
-        return ChronoZonedDateTime::get($field);
+        return ChronoZonedDateTimeDefaults::get($this, $field);
     }
 
     /**
@@ -853,7 +853,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong($field)
+    public function getLong(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
             switch ($field) {

@@ -625,7 +625,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        return Temporal::range($field);
+        return TemporalAccessorDefaults::range($this, $field);
     }
 
     /**

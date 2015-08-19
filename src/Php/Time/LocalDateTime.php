@@ -533,12 +533,13 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      * Returns a copy of this date-time with the new date and time, checking
      * to see if a new object is in fact required.
      *
+     * TODO package visibility
+     *
      * @param $newDate LocalDate the date of the new date-time, not null
      * @param $newTime LocalTime the time of the new date-time, not null
      * @return LocalDateTime the date-time, not null
      */
-    private
-    function with(LocalDate $newDate, LocalTime $newTime)
+    public function with(LocalDate $newDate, LocalTime $newTime)
     {
         if ($this->date == $newDate && $this->time == $newTime) {
             return $this;
@@ -963,7 +964,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {
-            return $this->with(($adjuster, $this->time);
+            return $this->with($adjuster, $this->time);
         } else
             if ($adjuster instanceof LocalTime) {
                 return $this->with($this->date, $adjuster);
