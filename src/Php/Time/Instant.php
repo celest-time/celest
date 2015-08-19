@@ -901,7 +901,7 @@ final class Instant implements Temporal, TemporalAdjuster
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plus($amountToAdd / 1000000, ($amountToAdd % 1000000) * 1000);
+                    return $this->_plus($amountToAdd / 1000000, ($amountToAdd % 1000000) * 1000);
                 case ChronoUnit::MILLIS():
                     return $this->plusMillis($amountToAdd);
                 case ChronoUnit::SECONDS():
@@ -934,7 +934,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function plusSeconds($secondsToAdd)
     {
-        return $this->plus($secondsToAdd, 0);
+        return $this->_plus($secondsToAdd, 0);
     }
 
     /**
@@ -950,7 +950,7 @@ final class Instant implements Temporal, TemporalAdjuster
     public
     function plusMillis($millisToAdd)
     {
-        return $this->plus($millisToAdd / 1000, ($millisToAdd % 1000) * 1000000);
+        return $this->_plus($millisToAdd / 1000, ($millisToAdd % 1000) * 1000000);
     }
 
     /**
@@ -965,7 +965,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function plusNanos($nanosToAdd)
     {
-        return $this->plus(0, $nanosToAdd);
+        return $this->_plus(0, $nanosToAdd);
     }
 
     /**
@@ -979,7 +979,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private function plus($secondsToAdd, $nanosToAdd)
+    private function _plus($secondsToAdd, $nanosToAdd)
     {
         if (($secondsToAdd | $nanosToAdd) == 0) {
             return $this;
