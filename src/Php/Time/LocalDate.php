@@ -296,7 +296,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             throw new DateTimeException("Invalid date 'DayOfYear 366' as '" . $year . "' is not a leap year");
         }
 
-        $moy = Month::of(($dayOfYear - 1) / 31 + 1);
+        $moy = Month::of(Math::div(($dayOfYear - 1), 31) + 1);
         $monthEnd = $moy->firstDayOfYear($leap) + $moy->length($leap) - 1;
         if ($dayOfYear > $monthEnd) {
             $moy = $moy->plus(1);
@@ -2120,9 +2120,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             $buf .= $yearValue;
         }
         return $buf
-        . $monthValue < 10 ? "-0" : "-"
+        . ($monthValue < 10 ? "-0" : "-")
         . $monthValue
-        . $dayValue < 10 ? "-0" : "-"
+        . ($dayValue < 10 ? "-0" : "-")
             . $dayValue;
     }
 
@@ -2134,3 +2134,5 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         return ChronoLocalDateDefaults::timeLineOrder();
     }
 }
+
+LocalDate::init();
