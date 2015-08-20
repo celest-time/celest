@@ -107,18 +107,18 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public static function init()
     {
-        self::$JANUARY = new Month(0, "January");
-        self::$FEBRUARY = new Month(1, "February");
-        self::$MARCH = new Month(2, "March");
-        self::$APRIL = new Month(3, "April");
-        self::$MAY = new Month(4, "May");
-        self::$JUNE = new Month(5, "June");
-        self::$JULY = new Month(6, "July");
-        self::$AUGUST = new Month(7, "August");
-        self::$SEPTEMBER = new Month(8, "September");
-        self::$OCTOBER = new Month(9, "October");
-        self::$NOVEMBER = new Month(10, "November");
-        self::$DECEMBER = new Month(11, "December");
+        self::$JANUARY = new Month(1, "January");
+        self::$FEBRUARY = new Month(2, "February");
+        self::$MARCH = new Month(3, "March");
+        self::$APRIL = new Month(4, "April");
+        self::$MAY = new Month(5, "May");
+        self::$JUNE = new Month(6, "June");
+        self::$JULY = new Month(7, "July");
+        self::$AUGUST = new Month(8, "August");
+        self::$SEPTEMBER = new Month(9, "September");
+        self::$OCTOBER = new Month(10, "October");
+        self::$NOVEMBER = new Month(11, "November");
+        self::$DECEMBER = new Month(12, "December");
 
         self::$ENUMS = [
             self::$JANUARY,
