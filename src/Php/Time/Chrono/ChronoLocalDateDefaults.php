@@ -17,7 +17,7 @@ use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
-use Php\Time\UnsupportedTemporalTypeException;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 
 final class ChronoLocalDateDefaults
 {

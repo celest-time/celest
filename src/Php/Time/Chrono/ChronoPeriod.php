@@ -68,7 +68,7 @@ use Php\Time\DateTimeException;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalUnit;
-use Php\Time\UnsupportedTemporalTypeException;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 
 /**
  * A date-based amount of time, such as '3 years, 4 months and 5 days' in an

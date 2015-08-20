@@ -67,7 +67,6 @@ namespace Php\Time\Temporal;
 
 use Php\Time\ArithmeticException;
 use Php\Time\DateTimeException;
-use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * Framework-level interface defining read-only access to a temporal object,

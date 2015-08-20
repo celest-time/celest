@@ -7,7 +7,6 @@ use Php\Time\Chrono\ChronoLocalDate;
 use Php\Time\Chrono\ChronoLocalDateTime;
 use Php\Time\Chrono\ChronoZonedDateTime;
 use Php\Time\LocalTime;
-use Php\Time\UnsupportedTemporalTypeException;
 
 final class TemporalUnitDefaults
 {

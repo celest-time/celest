@@ -70,6 +70,7 @@ use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 
 /**
  * A time-based amount of time, such as '34.5 seconds'.

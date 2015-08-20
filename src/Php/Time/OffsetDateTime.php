@@ -76,6 +76,7 @@ use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 
 /**
  * A date-time with an offset from UTC/Greenwich in the ISO-8601 calendar system,

@@ -1,9 +1,11 @@
 <?php
 
-namespace Php\Time;
+namespace Php\Time\Temporal;
 
 
-class UnsupportedTemporalTypeException extends \Exception
+use Php\Time\DateTimeException;
+
+class UnsupportedTemporalTypeException extends DateTimeException
 {
     /**
      * UnsupportedTemporalTypeException constructor.
@@ -12,7 +14,7 @@ class UnsupportedTemporalTypeException extends \Exception
      */
     public function __construct($message, \Exception $e = null)
     {
-        parent::__construct($message, 0, $e);
+        parent::__construct($message, $e);
     }
 
 }

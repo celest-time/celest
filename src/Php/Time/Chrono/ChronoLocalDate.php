@@ -71,7 +71,7 @@ use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
-use Php\Time\UnsupportedTemporalTypeException;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 use SebastianBergmann\Comparator\Comparator;
 use Php\Time\Temporal\Temporal;
 use Php\Time\Temporal\TemporalAdjuster;

@@ -67,7 +67,6 @@ namespace Php\Time\Temporal;
 use Php\Time\ArithmeticException;
 use Php\Time\Duration;
 use Php\Time\DateTimeException;
-use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * A unit of date-time, such as Days or Hours.

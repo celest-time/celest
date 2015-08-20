@@ -74,6 +74,7 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAmount;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 
 /**
  * A date-based amount of time in the ISO-8601 calendar system,

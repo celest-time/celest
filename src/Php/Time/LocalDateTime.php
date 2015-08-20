@@ -64,6 +64,7 @@ namespace Php\Time;
 
 use Php\Time\Chrono\ChronoLocalDateTime;
 use Php\Time\Chrono\ChronoLocalDateTimeDefaults;
+use Php\Time\Chrono\Comparator;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
@@ -77,6 +78,7 @@ use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 use Php\Time\Temporal\ValueRange;
 
 /**
@@ -1946,5 +1948,37 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function __toString()
     {
         return $this->date->__toString() . 'T' . $this->time->__toString();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    static function timeLineOrder()
+    {
+        return ChronoLocalDateTimeDefaults::timeLineOrder();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function getChronology()
+    {
+        return ChronoLocalDateTimeDefaults::getChronology($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function toInstant(ZoneOffset $offset)
+    {
+        return ChronoLocalDateTimeDefaults::toInstant($this, $offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function toEpochSecond(ZoneOffset $offset)
+    {
+        return ChronoLocalDateTimeDefaults::toEpochSecond($this, $offset);
     }
 }

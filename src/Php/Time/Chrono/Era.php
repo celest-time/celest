@@ -69,8 +69,8 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQuery;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 use Php\Time\Temporal\ValueRange;
-use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * An era of the time-line.

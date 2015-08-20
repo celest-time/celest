@@ -65,7 +65,6 @@ namespace Php\Time\Temporal;
 use Php\Time\ArithmeticException;
 use Php\Time\DateTimeException;
 use Php\Time\Format\ResolverStyle;
-use Php\Time\UnsupportedTemporalTypeException;
 
 /**
  * A field of date-time, such as month-of-year or hour-of-minute.

@@ -65,6 +65,7 @@ namespace Php\Time;
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 use Php\Time\Chrono\TextStyle;
+use Php\Time\Format\DateTimeFormatterBuilder;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -74,6 +75,7 @@ use Php\Time\Temporal\TemporalAdjuster;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
+use Php\Time\Temporal\UnsupportedTemporalTypeException;
 use Php\Time\Temporal\ValueRange;
 
 /**

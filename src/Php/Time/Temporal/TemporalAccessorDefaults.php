@@ -3,7 +3,6 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\DateTimeException;
-use Php\Time\UnsupportedTemporalTypeException;
 
 final class TemporalAccessorDefaults
 {
