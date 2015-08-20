@@ -81,6 +81,7 @@ use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalUnit;
 use Php\Time\Temporal\ValueRange;
+use SebastianBergmann\Comparator\Comparator;
 
 
 /**
@@ -2123,5 +2124,13 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         . $monthValue
         . $dayValue < 10 ? "-0" : "-"
             . $dayValue;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    static function timeLineOrder()
+    {
+        return ChronoLocalDateDefaults::timeLineOrder();
     }
 }
