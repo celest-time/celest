@@ -45,7 +45,7 @@ final class ChronologyDefaults
         return AbstractChronology::getAvailableChronologies();
     }
 
-    public static function date(Chronology $_this, Era $era, $yearOfEra, $month, $dayOfMonth)
+    public static function dateEra(Chronology $_this, Era $era, $yearOfEra, $month, $dayOfMonth)
     {
         return $_this->date($_this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -67,20 +67,20 @@ final class ChronologyDefaults
 
     public static function dateNowOf(Chronology $_this, Clock $clock)
     {
-        return $_this->date(LocalDate::nowOf($clock));
+        return $_this->dateFrom(LocalDate::nowOf($clock));
     }
 
     public static function localDateTime(Chronology $_this, TemporalAccessor $temporal)
     {
         try {
-            return $_this->date($temporal)->atTime(LocalTime::from($temporal));
+            return $_this->dateFrom($temporal)->atTime(LocalTime::from($temporal));
         } catch
         (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " . get_class($temporal), $ex);
         }
     }
 
-    public static function zonedDateTime(Chronology $_this, TemporalAccessor $temporal)
+    public static function zonedDateTimeFrom(Chronology $_this, TemporalAccessor $temporal)
     {
         try {
             $zone = ZoneId::from($temporal);

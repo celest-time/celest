@@ -110,10 +110,10 @@ use Php\Time\ZoneId;
  * <li> {@link #dateNowOf(Clock) dateNowOf(clock)}
  * <li> {@link #dateNowIn(ZoneId) dateNowIn(zone)}
  * <li> {@link #date(int, int, int) date(yearProleptic, month, day)}
- * <li> {@link #date(Era, int, int, int) date(era, yearOfEra, month, day)}
+ * <li> {@link #dateEra(Era, int, int, int) date(era, yearOfEra, month, day)}
  * <li> {@link #dateYearDay(int, int) dateYearDay(yearProleptic, dayOfYear)}
  * <li> {@link #dateYearDay(Era, int, int) dateYearDay(era, yearOfEra, dayOfYear)}
- * <li> {@link #date(TemporalAccessor) date(TemporalAccessor)}
+ * <li> {@link #dateFrom(TemporalAccessor) date(TemporalAccessor)}
  * </ul>
  *
  * <h3 id="addcalendars">Adding New Calendars</h3>
@@ -287,7 +287,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
      */
-    function date(Era $era, $yearOfEra, $month, $dayOfMonth);
+    function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth);
 
     /**
      * Obtains a local date in this chronology from the proleptic-year,
@@ -316,7 +316,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
      */
-    function dateYearDay(Era $era, $yearOfEra, $dayOfYear);
+    function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear);
 
     /**
      * Obtains a local date in this chronology from the proleptic-year and
@@ -412,7 +412,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date
      * @see ChronoLocalDate#from(TemporalAccessor)
      */
-    function date(TemporalAccessor $temporal);
+    function dateFrom(TemporalAccessor $temporal);
 
     /**
      * Obtains a local date-time in this chronology from another temporal object.
@@ -461,7 +461,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date-time
      * @see ChronoZonedDateTime#from(TemporalAccessor)
      */
-    function zonedDateTime(TemporalAccessor $temporal);
+    function zonedDateTimeFrom(TemporalAccessor $temporal);
 
     /**
      * Obtains a {@code ChronoZonedDateTime} in this chronology from an {@code Instant}.

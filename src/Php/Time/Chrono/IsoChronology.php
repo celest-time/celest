@@ -196,7 +196,7 @@ final class IsoChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the type of {@code era} is not {@code IsoEra}
      */
-    public function date(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -227,7 +227,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
@@ -271,7 +271,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function date(TemporalAccessor $temporal)
+    public function dateFrom(TemporalAccessor $temporal)
     {
         return LocalDate::from($temporal);
     }
@@ -299,7 +299,7 @@ final class IsoChronology extends AbstractChronology
      * @return ZonedDateTime the ISO zoned date-time, not null
      * @throws DateTimeException if unable to create the date-time
      */
-    public function zonedDateTime(TemporalAccessor $temporal)
+    public function zonedDateTimeFrom(TemporalAccessor $temporal)
     {
         return ZonedDateTime::from($temporal);
     }
@@ -367,7 +367,7 @@ final class IsoChronology extends AbstractChronology
      */
     public function dateNowOf(Clock $clock)
     {
-        return $this->date(LocalDate::nowOf($clock));
+        return $this->dateFrom(LocalDate::nowOf($clock));
     }
 
 //-----------------------------------------------------------------------
