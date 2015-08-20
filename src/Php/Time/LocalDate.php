@@ -134,8 +134,10 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         return self::$MIN;
     }
+
     /** @var @var LocalDate */
     private static $MIN;
+
     /**
      * The maximum supported {@code LocalDate}, '+999999999-12-31'.
      * This could be used by an application as a "far future" date.
@@ -145,6 +147,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         return self::$MAX;
     }
+
     /** @var @var LocalDate */
     private static $MAX;
 
@@ -326,26 +329,26 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $adjust = 0;
         if ($zeroDay < 0) {
             // adjust negative years to positive for calculation
-            $adjustCycles = ($zeroDay + 1) / self::DAYS_PER_CYCLE - 1;
+            $adjustCycles = Math::div($zeroDay + 1, self::DAYS_PER_CYCLE) - 1;
             $adjust = $adjustCycles * 400;
             $zeroDay += -$adjustCycles * self::DAYS_PER_CYCLE;
         }
 
-        $yearEst = (400 * $zeroDay + 591) / self::DAYS_PER_CYCLE;
-        $doyEst = $zeroDay - (365 * $yearEst + $yearEst / 4 - $yearEst / 100 + $yearEst / 400);
+        $yearEst = Math::div(400 * $zeroDay + 591, self::DAYS_PER_CYCLE);
+        $doyEst = $zeroDay - (365 * $yearEst + Math::div($yearEst, 4) - Math::div($yearEst, 100) + Math::div($yearEst, 400));
         if ($doyEst < 0) {
             // fix estimate
             $yearEst--;
-            $doyEst = $zeroDay - (365 * $yearEst + $yearEst / 4 - $yearEst / 100 + $yearEst / 400);
+            $doyEst = $zeroDay - (365 * $yearEst + Math::div($yearEst, 4) - Math::div($yearEst, 100) + Math::div($yearEst, 400));
         }
         $yearEst += $adjust;  // reset any negative year
-        $marchDoy0 = (int)$doyEst;
+        $marchDoy0 = $doyEst;
 
         // convert march-based values back to january-based
-        $marchMonth0 = ($marchDoy0 * 5 + 2) / 153;
+        $marchMonth0 = Math::div($marchDoy0 * 5 + 2, 153);
         $month = ($marchMonth0 + 2) % 12 + 1;
-        $dom = $marchDoy0 - ($marchMonth0 * 306 + 5) / 10 + 1;
-        $yearEst += $marchMonth0 / 10;
+        $dom = $marchDoy0 - Math::div($marchMonth0 * 306 + 5, 10) + 1;
+        $yearEst += Math::div($marchMonth0, 10);
 
         // check year now we are certain it is correct
         $year = ChronoField::YEAR()->checkValidIntValue($yearEst);
@@ -706,9 +709,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             case ChronoField::EPOCH_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'EpochDay' for get() method, use getLong() instead");
             case ChronoField::ALIGNED_WEEK_OF_MONTH():
-                return (($this->day - 1) / 7) + 1;
+                return Math::div($this->day - 1, 7) + 1;
             case ChronoField::ALIGNED_WEEK_OF_YEAR():
-                return (($this->getDayOfYear() - 1) / 7) + 1;
+                return Math::div($this->getDayOfYear() - 1, 7) + 1;
             case ChronoField::MONTH_OF_YEAR():
                 return $this->month;
             case ChronoField::PROLEPTIC_MONTH():
@@ -1596,7 +1599,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function minusDays($daysToSubtract)
     {
         return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
-}
+    }
 
     //-----------------------------------------------------------------------
     /**
@@ -1920,11 +1923,11 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $total = 0;
         $total += 365 * $y;
         if ($y >= 0) {
-            $total += ($y + 3) / 4 - ($y + 99) / 100 + ($y + 399) / 400;
+            $total += Math::div($y + 3, 4) - Math::div($y + 99, 100) + Math::div($y + 399, 400);
         } else {
-            $total -= $y / -4 - $y / -100 + $y / -400;
+            $total -= Math::div($y, -4) - Math::div($y, -100) + Math::div($y, -400);
         }
-        $total += ((367 * $m - 362) / 12);
+        $total += Math::div(367 * $m - 362, 12);
         $total += $this->day - 1;
         if ($m > 2) {
             $total--;
@@ -2123,7 +2126,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         . ($monthValue < 10 ? "-0" : "-")
         . $monthValue
         . ($dayValue < 10 ? "-0" : "-")
-            . $dayValue;
+        . $dayValue;
     }
 
     /**
