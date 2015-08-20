@@ -66,10 +66,6 @@ namespace Php\Time;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
-use const Php\Time\NANOS_PER_SECOND;
-use const Php\Time\SECONDS_PER_DAY;
-use const Php\Time\SECONDS_PER_HOUR;
-use const Php\Time\SECONDS_PER_MINUTE;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -328,8 +324,8 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public static function ofEpochSecond($epochSecond, $nanoAdjustment = 0)
     {
-        $secs = Math::addExact($epochSecond, Math::floorDiv($nanoAdjustment, NANOS_PER_SECOND));
-        $nos = (int)Math::floorMod($nanoAdjustment, NANOS_PER_SECOND);
+        $secs = Math::addExact($epochSecond, Math::floorDiv($nanoAdjustment, LocalTime::NANOS_PER_SECOND));
+        $nos = (int)Math::floorMod($nanoAdjustment, LocalTime::NANOS_PER_SECOND);
         return self::create($secs, $nos);
     }
 
@@ -434,7 +430,6 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     private function __construct($epochSecond, $nanos)
     {
-        parent::__construct();
         $this->seconds = $epochSecond;
         $this->nanos = $nanos;
     }
@@ -782,14 +777,14 @@ final class Instant implements Temporal, TemporalAdjuster
         }
 
         $unitDur = $unit->getDuration();
-        if ($unitDur->getSeconds() > SECONDS_PER_DAY) {
+        if ($unitDur->getSeconds() > LocalTime::SECONDS_PER_DAY) {
             throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
         }
         $dur = $unitDur->toNanos();
-        if ((NANOS_PER_DAY % $dur) != 0) {
+        if ( (LocalTime::NANOS_PER_DAY % $dur) != 0) {
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
-        $nod = ($this->seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND + $this->nanos;
+        $nod = ($this->seconds % LocalTime::SECONDS_PER_DAY) * LocalTime::NANOS_PER_SECOND + $this->nanos;
         $result = ($nod / $dur) * $dur;
         return $this->plusNanos($result - $nod);
     }
@@ -891,13 +886,13 @@ final class Instant implements Temporal, TemporalAdjuster
                 case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
                 case ChronoUnit::MINUTES():
-                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_MINUTE));
+                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_MINUTE));
                 case ChronoUnit::HOURS():
-                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_HOUR));
+                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_HOUR));
                 case ChronoUnit::HALF_DAYS():
-                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY / 2));
+                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_DAY / 2));
                 case ChronoUnit::DAYS():
-                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY));
+                    return $this->plusSeconds(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_DAY));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -970,9 +965,9 @@ final class Instant implements Temporal, TemporalAdjuster
         }
 
         $epochSec = Math::addExact($this->seconds, $secondsToAdd);
-        $epochSec = Math::addExact($epochSec, $nanosToAdd / NANOS_PER_SECOND);
-        $nanosToAdd = $nanosToAdd % NANOS_PER_SECOND;
-        $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int+NANOS_PER_SECOND
+        $epochSec = Math::addExact($epochSec, $nanosToAdd / LocalTime::NANOS_PER_SECOND);
+        $nanosToAdd = $nanosToAdd % LocalTime::NANOS_PER_SECOND;
+        $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int LocalTime::NANOS_PER_SECOND
         return self::ofEpochSecond($epochSec, $nanoAdjustment);
     }
 
@@ -1211,13 +1206,13 @@ final class Instant implements Temporal, TemporalAdjuster
                 case ChronoUnit::SECONDS():
                     return $this->secondsUntil($end);
                 case ChronoUnit::MINUTES():
-                    return $this->secondsUntil($end) / SECONDS_PER_MINUTE;
+                    return $this->secondsUntil($end) / LocalTime::SECONDS_PER_MINUTE;
                 case ChronoUnit::HOURS():
-                    return $this->secondsUntil($end) / SECONDS_PER_HOUR;
+                    return $this->secondsUntil($end) / LocalTime::SECONDS_PER_HOUR;
                 case ChronoUnit::HALF_DAYS():
-                    return $this->secondsUntil($end) / (12 * SECONDS_PER_HOUR);
+                    return $this->secondsUntil($end) / (12 * LocalTime::SECONDS_PER_HOUR);
                 case ChronoUnit::DAYS():
-                    return $this->secondsUntil($end) / (SECONDS_PER_DAY);
+                    return $this->secondsUntil($end) /  LocalTime::SECONDS_PER_DAY;
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1228,7 +1223,7 @@ final class Instant implements Temporal, TemporalAdjuster
     private function nanosUntil(Instant $end)
     {
         $secsDiff = Math::subtractExact($end->seconds, $this->seconds);
-        $totalNanos = Math::multiplyExact($secsDiff, NANOS_PER_SECOND);
+        $totalNanos = Math::multiplyExact($secsDiff, LocalTime::NANOS_PER_SECOND);
         return Math::addExact($totalNanos, $end->nanos - $this->nanos);
     }
 

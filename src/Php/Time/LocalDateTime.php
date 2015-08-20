@@ -328,10 +328,10 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
         $localSecond = $epochSecond + $offset->getTotalSeconds();  // overflow caught later
-        $localEpochDay = Math::floorDiv($localSecond, SECONDS_PER_DAY);
-        $secsOfDay = (int)Math::floorMod($localSecond, SECONDS_PER_DAY);
+        $localEpochDay = Math::floorDiv($localSecond, LocalTime::SECONDS_PER_DAY);
+        $secsOfDay = (int)Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
         $date = LocalDate::ofEpochDay($localEpochDay);
-        $time = LocalTime::ofNanoOfDay($secsOfDay * NANOS_PER_SECOND + $nanoOfSecond);
+        $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $nanoOfSecond);
         return new LocalDateTime($date, $time);
     }
 
@@ -1140,9 +1140,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plusDays($amountToAdd / MICROS_PER_DAY)->plusNanos(($amountToAdd % MICROS_PER_DAY) * 1000);
+                    return $this->plusDays($amountToAdd / LocalTime::MICROS_PER_DAY)->plusNanos(($amountToAdd % LocalTime::MICROS_PER_DAY) * 1000);
                 case ChronoUnit::MILLIS():
-                    return $this->plusDays($amountToAdd / MILLIS_PER_DAY)->plusNanos(($amountToAdd % MILLIS_PER_DAY) * 1000000);
+                    return $this->plusDays($amountToAdd / LocalTime::MILLIS_PER_DAY)->plusNanos(($amountToAdd % LocalTime::MILLIS_PER_DAY) * 1000000);
                 case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
                 case ChronoUnit::MINUTES():
@@ -1531,19 +1531,19 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         if (($hours | $minutes | $seconds | $nanos) == 0) {
             return $this->_with($newDate, $this->time);
         }
-        $totDays = $nanos / NANOS_PER_DAY +             //   max/24*60*60*1B
-            $seconds / SECONDS_PER_DAY +                //   max/24*60*60
-            $minutes / MINUTES_PER_DAY +                //   max/24*60
-            $hours / HOURS_PER_DAY;                     //   max/24
+        $totDays = $nanos / LocalTime::NANOS_PER_DAY +             //   max/24*60*60*1B
+            $seconds / LocalTime::SECONDS_PER_DAY +                //   max/24*60*60
+            $minutes / LocalTime::MINUTES_PER_DAY +                //   max/24*60
+            $hours / LocalTime::HOURS_PER_DAY;                     //   max/24
         $totDays *= $sign;                                   // total max*0.4237...
-        $totNanos = $nanos % NANOS_PER_DAY +                    //   max  86400000000000
-            ($seconds % SECONDS_PER_DAY) * NANOS_PER_SECOND +   //   max  86400000000000
-            ($minutes % MINUTES_PER_DAY) * NANOS_PER_MINUTE +   //   max  86400000000000
-            ($hours % HOURS_PER_DAY) * NANOS_PER_HOUR;          //   max  86400000000000
+        $totNanos = $nanos % LocalTime::NANOS_PER_DAY +                    //   max  86400000000000
+            ($seconds % LocalTime::SECONDS_PER_DAY) * LocalTime::NANOS_PER_SECOND +   //   max  86400000000000
+            ($minutes % LocalTime::MINUTES_PER_DAY) * LocalTime::NANOS_PER_MINUTE +   //   max  86400000000000
+            ($hours % LocalTime::HOURS_PER_DAY) * LocalTime::NANOS_PER_HOUR;          //   max  86400000000000
         $curNoD = $this->time->toNanoOfDay();                       //   max  86400000000000
         $totNanos = $totNanos * $sign + $curNoD;                    // total 432000000000000
-        $totDays += Math::floorDiv($totNanos, NANOS_PER_DAY);
-        $newNoD = Math::floorMod($totNanos, NANOS_PER_DAY);
+        $totDays += Math::floorDiv($totNanos, LocalTime::NANOS_PER_DAY);
+        $newNoD = Math::floorMod($totNanos, LocalTime::NANOS_PER_DAY);
         $newTime = ($newNoD == $curNoD ? $this->time : LocalTime::ofNanoOfDay($newNoD));
         return $this->_with($newDate->plusDays($totDays), $newTime);
     }
@@ -1668,38 +1668,38 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
                 $timePart = $end->time->toNanoOfDay() - $this->time->toNanoOfDay();
                 if ($amount > 0) {
                     $amount--;  // safe
-                    $timePart += NANOS_PER_DAY;  // safe
+                    $timePart += LocalTime::NANOS_PER_DAY;  // safe
                 } else {
                     $amount++;  // safe
-                    $timePart -= NANOS_PER_DAY;  // safe
+                    $timePart -= LocalTime::NANOS_PER_DAY;  // safe
                 }
                 switch ($unit) {
                     case ChronoUnit::NANOS():
-                        $amount = Math::multiplyExact($amount, NANOS_PER_DAY);
+                        $amount = Math::multiplyExact($amount, LocalTime::NANOS_PER_DAY);
                         break;
                     case ChronoUnit::MICROS():
-                        $amount = Math::multiplyExact($amount, MICROS_PER_DAY);
+                        $amount = Math::multiplyExact($amount, LocalTime::MICROS_PER_DAY);
                         $timePart = $timePart / 1000;
                         break;
                     case ChronoUnit::MILLIS():
-                        $amount = Math::multiplyExact($amount, MILLIS_PER_DAY);
+                        $amount = Math::multiplyExact($amount, LocalTime::MILLIS_PER_DAY);
                         $timePart = $timePart / 1000000;
                         break;
                     case ChronoUnit::SECONDS():
-                        $amount = Math::multiplyExact($amount, SECONDS_PER_DAY);
-                        $timePart = $timePart / NANOS_PER_SECOND;
+                        $amount = Math::multiplyExact($amount, LocalTime::SECONDS_PER_DAY);
+                        $timePart = $timePart / LocalTime::NANOS_PER_SECOND;
                         break;
                     case ChronoUnit::MINUTES():
-                        $amount = Math::multiplyExact($amount, MINUTES_PER_DAY);
-                        $timePart = $timePart / NANOS_PER_MINUTE;
+                        $amount = Math::multiplyExact($amount, LocalTime::MINUTES_PER_DAY);
+                        $timePart = $timePart / LocalTime::NANOS_PER_MINUTE;
                         break;
                     case ChronoUnit::HOURS():
-                        $amount = Math::multiplyExact($amount, HOURS_PER_DAY);
-                        $timePart = $timePart / NANOS_PER_HOUR;
+                        $amount = Math::multiplyExact($amount, LocalTime::HOURS_PER_DAY);
+                        $timePart = $timePart / LocalTime::NANOS_PER_HOUR;
                         break;
                     case ChronoUnit::HALF_DAYS():
                         $amount = Math::multiplyExact($amount, 2);
-                        $timePart = $timePart / (NANOS_PER_HOUR * 12);
+                        $timePart = $timePart /  (LocalTime::NANOS_PER_HOUR * 12);
                         break;
                 }
                 return Math::addExact($amount, $timePart);

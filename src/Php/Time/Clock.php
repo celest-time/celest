@@ -63,9 +63,6 @@
 
 namespace Php\Time;
 
-use const Php\Time\NANOS_PER_MINUTE;
-use const Php\Time\NANOS_PER_SECOND;
-
 use Php\Time\Clocks\TickClock;
 use Php\Time\Clocks\FixedClock;
 use Php\Time\Clocks\OffsetClock;
@@ -226,7 +223,7 @@ abstract class Clock
      */
     public static function tickSeconds(ZoneId $zone)
     {
-        return new TickClock(self::system($zone), NANOS_PER_SECOND);
+        return new TickClock(self::system($zone), LocalTime::NANOS_PER_SECOND);
     }
 
     /**
@@ -250,7 +247,7 @@ abstract class Clock
      */
     public static function tickMinutes(ZoneId $zone)
     {
-        return new TickClock(self::system($zone), NANOS_PER_MINUTE);
+        return new TickClock(self::system($zone), LocalTime::NANOS_PER_MINUTE);
     }
 
     /**

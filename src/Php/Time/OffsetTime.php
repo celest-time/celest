@@ -244,7 +244,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     public
     static function ofNumerical($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
-        return new OffsetTime(LocalTime::ofNumerical($hour, $minute, $second, $nanoOfSecond), $offset);
+        return new OffsetTime(LocalTime::of($hour, $minute, $second, $nanoOfSecond), $offset);
     }
 
 //-----------------------------------------------------------------------
@@ -269,8 +269,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
         $rules = $zone->getRules();
         $offset = $rules->getOffset($instant);
         $localSecond = $instant->getEpochSecond() + $offset->getTotalSeconds();  // overflow caught later
-        $secsOfDay = (int)Math::floorMod($localSecond, SECONDS_PER_DAY);
-        $time = LocalTime::ofNanoOfDay($secsOfDay * NANOS_PER_SECOND + $instant->getNano());
+        $secsOfDay = (int)Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
+        $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $instant->getNano());
         return new OffsetTime($time, $offset);
     }
 
@@ -1244,13 +1244,13 @@ final class OffsetTime implements Temporal, TemporalAdjuster
                 case ChronoUnit::MILLIS():
                     return $nanosUntil / 1000000;
                 case ChronoUnit::SECONDS():
-                    return $nanosUntil / NANOS_PER_SECOND;
+                    return $nanosUntil / LocalTime::NANOS_PER_SECOND;
                 case ChronoUnit::MINUTES():
-                    return $nanosUntil / NANOS_PER_MINUTE;
+                    return $nanosUntil / LocalTime::NANOS_PER_MINUTE;
                 case ChronoUnit::HOURS():
-                    return $nanosUntil / NANOS_PER_HOUR;
+                    return $nanosUntil / LocalTime::NANOS_PER_HOUR;
                 case ChronoUnit::HALF_DAYS():
-                    return $nanosUntil / (12 * NANOS_PER_HOUR);
+                    return $nanosUntil / (12 * LocalTime::NANOS_PER_HOUR);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1297,7 +1297,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     private function toEpochNano()
     {
         $nod = $this->time->toNanoOfDay();
-        $offsetNanos = $this->offset->getTotalSeconds() * NANOS_PER_SECOND;
+        $offsetNanos = $this->offset->getTotalSeconds() * LocalTime::NANOS_PER_SECOND;
         return $nod - $offsetNanos;
     }
 

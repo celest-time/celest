@@ -224,7 +224,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         $now = $clock->instant();  // called once
         $offset = $clock->getZone()->getRules()->getOffset($now);
         $epochSec = $now->getEpochSecond() + $offset->getTotalSeconds();  // overflow caught later
-        $epochDay = Math::floorDiv($epochSec, SECONDS_PER_DAY);
+        $epochDay = Math::floorDiv($epochSec, LocalTime::SECONDS_PER_DAY);
         return LocalDate::ofEpochDay($epochDay);
     }
 
@@ -444,7 +444,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                 if ($dayOfMonth == 29) {
                     throw new DateTimeException("Invalid date 'February 29' as '" . $year . "' is not a leap year");
                 } else {
-                    throw new DateTimeException("Invalid date '" . Month::of($month)->name() . " " . $dayOfMonth . "'");
+                    throw new DateTimeException("Invalid date '" . Month::of($month) . " " . $dayOfMonth . "'");
                 }
             }
         }
@@ -1120,7 +1120,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param year int the year to set in the result, from MIN_YEAR to MAX_YEAR
+     * @param $year int the year to set in the result, from MIN_YEAR to MAX_YEAR
      * @return LocalDate a {@code LocalDate} based on this date with the requested year, not null
      * @throws DateTimeException if the year value is invalid
      */

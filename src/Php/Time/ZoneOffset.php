@@ -135,7 +135,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * The abs maximum seconds.
      */
-    const MAX_SECONDS = 18 * SECONDS_PER_HOUR;
+    const MAX_SECONDS = 18 * LocalTime::SECONDS_PER_HOUR;
 
     /**
      * The time-zone offset for UTC, with an ID of 'Z'.
@@ -429,7 +429,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     private
     static function totalSeconds($hours, $minutes, $seconds)
     {
-        return $hours * SECONDS_PER_HOUR + $minutes * SECONDS_PER_MINUTE + $seconds;
+        return $hours * LocalTime::SECONDS_PER_HOUR + $minutes * LocalTime::SECONDS_PER_MINUTE + $seconds;
     }
 
 //-----------------------------------------------------------------------
@@ -449,7 +449,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
         }
 
-        if ($totalSeconds % (15 * SECONDS_PER_MINUTE) == 0) {
+        if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) == 0) {
             $totalSecs = $totalSeconds;
             // TODO undefined
             $result = self::$SECONDS_CACHE->get($totalSecs);
@@ -486,12 +486,12 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         } else {
             $absTotalSeconds = Math::abs($totalSeconds);
             $buf = '';
-            $absHours = $absTotalSeconds / SECONDS_PER_HOUR;
-            $absMinutes = ($absTotalSeconds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
+            $absHours = $absTotalSeconds / LocalTime::SECONDS_PER_HOUR;
+            $absMinutes = ($absTotalSeconds / LocalTime::SECONDS_PER_MINUTE) % LocalTime::MINUTES_PER_HOUR;
             $buf .= $totalSeconds < 0 ? "-" : "+"
             . $absHours < 10 ? "0" : "" . $absHours
             . $absMinutes < 10 ? ":0" : ":" . $absMinutes;
-            $absSeconds = $absTotalSeconds % SECONDS_PER_MINUTE;
+            $absSeconds = $absTotalSeconds % LocalTime::SECONDS_PER_MINUTE;
             if ($absSeconds != 0) {
                 $buf .= $absSeconds < 10 ? ":0" : ":" . $absSeconds;
             }

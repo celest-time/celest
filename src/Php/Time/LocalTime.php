@@ -82,55 +82,6 @@ use Php\Time\Temporal\TemporalUnit;
 use Php\Time\Temporal\ValueRange;
 
 /**
- * Hours per day.
- */
-const HOURS_PER_DAY = 24;
-/**
- * Minutes per hour.
- */
-const MINUTES_PER_HOUR = 60;
-/**
- * Minutes per day.
- */
-const MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY;
-/**
- * Seconds per minute.
- */
-const SECONDS_PER_MINUTE = 60;
-/**
- * Seconds per hour.
- */
-const SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
-/**
- * Seconds per day.
- */
-const SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY;
-/**
- * Milliseconds per day.
- */
-const MILLIS_PER_DAY = SECONDS_PER_DAY * 1000;
-/**
- * Microseconds per day.
- */
-const MICROS_PER_DAY = SECONDS_PER_DAY * 1000000;
-/**
- * Nanos per second.
- */
-const NANOS_PER_SECOND = 1000000000;
-/**
- * Nanos per minute.
- */
-const NANOS_PER_MINUTE = NANOS_PER_SECOND * SECONDS_PER_MINUTE;
-/**
- * Nanos per hour.
- */
-const NANOS_PER_HOUR = NANOS_PER_MINUTE * MINUTES_PER_HOUR;
-/**
- * Nanos per day.
- */
-const NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
-
-/**
  * A time without a time-zone in the ISO-8601 calendar system,
  * such as {@code 10:15:30}.
  * <p>
@@ -162,6 +113,54 @@ const NANOS_PER_DAY = NANOS_PER_HOUR * HOURS_PER_DAY;
  */
 final class LocalTime implements Temporal, TemporalAdjuster
 {
+    /**
+     * Hours per day.
+     */
+    const HOURS_PER_DAY = 24;
+    /**
+     * Minutes per hour.
+     */
+    const MINUTES_PER_HOUR = 60;
+    /**
+     * Minutes per day.
+     */
+    const MINUTES_PER_DAY = self::MINUTES_PER_HOUR * self::HOURS_PER_DAY;
+    /**
+     * Seconds per minute.
+     */
+    const SECONDS_PER_MINUTE = 60;
+    /**
+     * Seconds per hour.
+     */
+    const SECONDS_PER_HOUR = self::SECONDS_PER_MINUTE * self::MINUTES_PER_HOUR;
+    /**
+     * Seconds per day.
+     */
+    const SECONDS_PER_DAY = self::SECONDS_PER_HOUR * self::HOURS_PER_DAY;
+    /**
+     * Milliseconds per day.
+     */
+    const MILLIS_PER_DAY = self::SECONDS_PER_DAY * 1000;
+    /**
+     * Microseconds per day.
+     */
+    const MICROS_PER_DAY = self::SECONDS_PER_DAY * 1000000;
+    /**
+     * Nanos per second.
+     */
+    const NANOS_PER_SECOND = 1000000000;
+    /**
+     * Nanos per minute.
+     */
+    const NANOS_PER_MINUTE = self::NANOS_PER_SECOND * self::SECONDS_PER_MINUTE;
+    /**
+     * Nanos per hour.
+     */
+    const NANOS_PER_HOUR = self::NANOS_PER_MINUTE * self::MINUTES_PER_HOUR;
+    /**
+     * Nanos per day.
+     */
+    const NANOS_PER_DAY = self::NANOS_PER_HOUR * self::HOURS_PER_DAY;
 
     public static function init()
     {
@@ -299,8 +298,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
         $now = $clock->instant();  // called once
         $offset = $clock->getZone()->getRules()->getOffset($now);
         $localSecond = $now->getEpochSecond() + $offset->getTotalSeconds();  // overflow caught later
-        $secsOfDay = (int)Math::floorMod($localSecond, SECONDS_PER_DAY);
-        return self::ofNanoOfDay($secsOfDay * NANOS_PER_SECOND + $now->getNano());
+        $secsOfDay = (int)Math::floorMod($localSecond, self::SECONDS_PER_DAY);
+        return self::ofNanoOfDay($secsOfDay * self::NANOS_PER_SECOND + $now->getNano());
     }
 
 //-----------------------------------------------------------------------
@@ -344,10 +343,10 @@ final class LocalTime implements Temporal, TemporalAdjuster
     static function ofSecondOfDay($secondOfDay)
     {
         ChronoField::SECOND_OF_DAY()->checkValidValue($secondOfDay);
-        $hours = (int)($secondOfDay / SECONDS_PER_HOUR);
-        $secondOfDay -= $hours * SECONDS_PER_HOUR;
-        $minutes = (int)($secondOfDay / SECONDS_PER_MINUTE);
-        $secondOfDay -= $minutes * SECONDS_PER_MINUTE;
+        $hours = (int)($secondOfDay / self::SECONDS_PER_HOUR);
+        $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
+        $minutes = (int)($secondOfDay / self::SECONDS_PER_MINUTE);
+        $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
         return self::create($hours, $minutes, (int)$secondOfDay, 0);
     }
 
@@ -364,12 +363,12 @@ final class LocalTime implements Temporal, TemporalAdjuster
     static function ofNanoOfDay($nanoOfDay)
     {
         ChronoField::NANO_OF_DAY()->checkValidValue($nanoOfDay);
-        $hours = (int)($nanoOfDay / NANOS_PER_HOUR);
-        $nanoOfDay -= $hours * NANOS_PER_HOUR;
-        $minutes = (int)($nanoOfDay / NANOS_PER_MINUTE);
-        $nanoOfDay -= $minutes * NANOS_PER_MINUTE;
-        $seconds = (int)($nanoOfDay / NANOS_PER_SECOND);
-        $nanoOfDay -= $seconds * NANOS_PER_SECOND;
+        $hours = (int)($nanoOfDay / self::NANOS_PER_HOUR);
+        $nanoOfDay -= $hours * self::NANOS_PER_HOUR;
+        $minutes = (int)($nanoOfDay / self::NANOS_PER_MINUTE);
+        $nanoOfDay -= $minutes * self::NANOS_PER_MINUTE;
+        $seconds = (int)($nanoOfDay / self::NANOS_PER_SECOND);
+        $nanoOfDay -= $seconds * self::NANOS_PER_SECOND;
         return self::create($hours, $minutes, $seconds, (int)$nanoOfDay);
     }
 
@@ -385,7 +384,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * on extracting the {@link ChronoField#NANO_OF_DAY NANO_OF_DAY} field.
      * <p>
      * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code LocalTime::from}.
+     * allowing it to be used as a query via method reference, {@code self::from}.
      *
      * @param $temporal TemporalAccessor the temporal object to convert, not null
      * @return LocalTime the local time, not null
@@ -433,7 +432,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, LocalTime::from);
+        return $formatter->parse($text, self::from);
     }
 
     //-----------------------------------------------------------------------
@@ -864,15 +863,15 @@ final class LocalTime implements Temporal, TemporalAdjuster
                 case ChronoField::NANO_OF_SECOND():
                     return $this->withNano((int)$newValue);
                 case ChronoField::NANO_OF_DAY():
-                    return LocalTime::ofNanoOfDay($newValue);
+                    return self::ofNanoOfDay($newValue);
                 case ChronoField::MICRO_OF_SECOND():
                     return $this->withNano((int)$newValue * 1000);
                 case ChronoField::MICRO_OF_DAY():
-                    return LocalTime::ofNanoOfDay($newValue * 1000);
+                    return self::ofNanoOfDay($newValue * 1000);
                 case ChronoField::MILLI_OF_SECOND():
                     return $this->withNano((int)$newValue * 1000000);
                 case ChronoField::MILLI_OF_DAY():
-                    return LocalTime::ofNanoOfDay($newValue * 1000000);
+                    return self::ofNanoOfDay($newValue * 1000000);
                 case ChronoField::SECOND_OF_MINUTE():
                     return $this->withSecond((int)$newValue);
                 case ChronoField::SECOND_OF_DAY():
@@ -934,8 +933,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
         }
 
         ChronoField::MINUTE_OF_HOUR()->checkValidValue($minute);
-    return self::create($this->hour, $minute, $this->second, $this->nano);
-}
+        return self::create($this->hour, $minute, $this->second, $this->nano);
+    }
 
     /**
      * Returns a copy of this {@code LocalTime} with the second-of-minute altered.
@@ -1003,11 +1002,11 @@ final class LocalTime implements Temporal, TemporalAdjuster
         }
 
         $unitDur = $unit->getDuration();
-        if ($unitDur->getSeconds() > SECONDS_PER_DAY) {
+        if ($unitDur->getSeconds() > self::SECONDS_PER_DAY) {
             throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
         }
         $dur = $unitDur->toNanos();
-        if ((NANOS_PER_DAY % $dur) != 0) {
+        if ((self::NANOS_PER_DAY % $dur) != 0) {
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
         $nod = $this->toNanoOfDay();
@@ -1099,9 +1098,9 @@ final class LocalTime implements Temporal, TemporalAdjuster
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plusNanos(($amountToAdd % MICROS_PER_DAY) * 1000);
+                    return $this->plusNanos(($amountToAdd % self::MICROS_PER_DAY) * 1000);
                 case ChronoUnit::MILLIS():
-                    return $this->plusNanos(($amountToAdd % MILLIS_PER_DAY) * 1000000);
+                    return $this->plusNanos(($amountToAdd % self::MILLIS_PER_DAY) * 1000000);
                 case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
                 case ChronoUnit::MINUTES():
@@ -1135,7 +1134,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
             return $this;
         }
 
-        $newHour = ((int)($hoursToAdd % HOURS_PER_DAY) + $this->hour + HOURS_PER_DAY) % HOURS_PER_DAY;
+        $newHour = ((int)($hoursToAdd % self::HOURS_PER_DAY) + $this->hour + self::HOURS_PER_DAY) % self::HOURS_PER_DAY;
         return $this->create($newHour, $this->minute, $this->second, $this->nano);
     }
 
@@ -1156,13 +1155,13 @@ final class LocalTime implements Temporal, TemporalAdjuster
             return $this;
         }
 
-        $mofd = $this->hour * MINUTES_PER_HOUR + $this->minute;
-        $newMofd = ((int)($minutesToAdd % MINUTES_PER_DAY) + $mofd + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+        $mofd = $this->hour * self::MINUTES_PER_HOUR + $this->minute;
+        $newMofd = ((int)($minutesToAdd % self::MINUTES_PER_DAY) + $mofd + self::MINUTES_PER_DAY) % self::MINUTES_PER_DAY;
         if ($mofd == $newMofd) {
             return $this;
         }
-        $newHour = $newMofd / MINUTES_PER_HOUR;
-        $newMinute = $newMofd % MINUTES_PER_HOUR;
+        $newHour = $newMofd / self::MINUTES_PER_HOUR;
+        $newMinute = $newMofd % self::MINUTES_PER_HOUR;
         return self::create($newHour, $newMinute, $this->second, $this->nano);
     }
 
@@ -1183,15 +1182,15 @@ final class LocalTime implements Temporal, TemporalAdjuster
             return $this;
         }
 
-        $sofd = $this->hour * SECONDS_PER_HOUR +
-            $this->minute * SECONDS_PER_MINUTE + $this->second;
-        $newSofd = ((int)($secondstoAdd % SECONDS_PER_DAY) + $sofd + SECONDS_PER_DAY) % SECONDS_PER_DAY;
+        $sofd = $this->hour * self::SECONDS_PER_HOUR +
+            $this->minute * self::SECONDS_PER_MINUTE + $this->second;
+        $newSofd = ((int)($secondstoAdd % self::SECONDS_PER_DAY) + $sofd + self::SECONDS_PER_DAY) % self::SECONDS_PER_DAY;
         if ($sofd == $newSofd) {
             return $this;
         }
-        $newHour = $newSofd / SECONDS_PER_HOUR;
-        $newMinute = ($newSofd / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
-        $newSecond = $newSofd % SECONDS_PER_MINUTE;
+        $newHour = $newSofd / self::SECONDS_PER_HOUR;
+        $newMinute = ($newSofd / self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $newSecond = $newSofd % self::SECONDS_PER_MINUTE;
         return self::create($newHour, $newMinute, $newSecond, $this->nano);
     }
 
@@ -1213,14 +1212,14 @@ final class LocalTime implements Temporal, TemporalAdjuster
         }
 
         $nofd = $this->toNanoOfDay();
-        $newNofd = (($nanosToAdd % NANOS_PER_DAY) + $nofd + NANOS_PER_DAY) % NANOS_PER_DAY;
+        $newNofd = (($nanosToAdd % self::NANOS_PER_DAY) + $nofd + self::NANOS_PER_DAY) % self::NANOS_PER_DAY;
         if ($nofd == $newNofd) {
             return $this;
         }
-        $newHour = (int)($newNofd / NANOS_PER_HOUR);
-        $newMinute = (int)(($newNofd / NANOS_PER_MINUTE) % MINUTES_PER_HOUR);
-        $newSecond = (int)(($newNofd / NANOS_PER_SECOND) % SECONDS_PER_MINUTE);
-        $newNano = (int)($newNofd % NANOS_PER_SECOND);
+        $newHour = (int)($newNofd / self::NANOS_PER_HOUR);
+        $newMinute = (int)(($newNofd / self::NANOS_PER_MINUTE) % self::MINUTES_PER_HOUR);
+        $newSecond = (int)(($newNofd / self::NANOS_PER_SECOND) % self::SECONDS_PER_MINUTE);
+        $newNano = (int)($newNofd % self::NANOS_PER_SECOND);
         return self::create($newHour, $newMinute, $newSecond, $newNano);
     }
 
@@ -1289,7 +1288,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
     public
     function minusHours($hoursToSubtract)
     {
-        return $this->plusHours(-($hoursToSubtract % HOURS_PER_DAY));
+        return $this->plusHours(-($hoursToSubtract % self::HOURS_PER_DAY));
     }
 
     /**
@@ -1306,7 +1305,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
     public
     function minusMinutes($minutesToSubtract)
     {
-        return $this->plusMinutes(-($minutesToSubtract % MINUTES_PER_DAY));
+        return $this->plusMinutes(-($minutesToSubtract % self::MINUTES_PER_DAY));
     }
 
     /**
@@ -1322,7 +1321,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function minusSeconds($secondsToSubtract)
     {
-        return $this->plusSeconds(-($secondsToSubtract % SECONDS_PER_DAY));
+        return $this->plusSeconds(-($secondsToSubtract % self::SECONDS_PER_DAY));
     }
 
     /**
@@ -1338,7 +1337,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function minusNanos($nanosToSubtract)
     {
-        return $this->plusNanos(-($nanosToSubtract % NANOS_PER_DAY));
+        return $this->plusNanos(-($nanosToSubtract % self::NANOS_PER_DAY));
     }
 
 //-----------------------------------------------------------------------
@@ -1457,7 +1456,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function until(Temporal $endExclusive, TemporalUnit $unit)
     {
-        $end = LocalTime::from($endExclusive);
+        $end = self::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
             $nanosUntil = $end->toNanoOfDay() - $this->toNanoOfDay();  // no overflow
             switch ($unit) {
@@ -1468,13 +1467,13 @@ final class LocalTime implements Temporal, TemporalAdjuster
                 case ChronoUnit::MILLIS():
                     return $nanosUntil / 1000000;
                 case ChronoUnit::SECONDS():
-                    return $nanosUntil / NANOS_PER_SECOND;
+                    return $nanosUntil / self::NANOS_PER_SECOND;
                 case ChronoUnit::MINUTES():
-                    return $nanosUntil / NANOS_PER_MINUTE;
+                    return $nanosUntil / self::NANOS_PER_MINUTE;
                 case ChronoUnit::HOURS():
-                    return $nanosUntil / NANOS_PER_HOUR;
+                    return $nanosUntil / self::NANOS_PER_HOUR;
                 case ChronoUnit::HALF_DAYS():
-                    return $nanosUntil / (12 * NANOS_PER_HOUR);
+                    return $nanosUntil / (12 * self::NANOS_PER_HOUR);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1535,8 +1534,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function toSecondOfDay()
     {
-        $total = $this->hour * SECONDS_PER_HOUR;
-        $total += $this->minute * SECONDS_PER_MINUTE;
+        $total = $this->hour * self::SECONDS_PER_HOUR;
+        $total += $this->minute * self::SECONDS_PER_MINUTE;
         $total += $this->second;
         return $total;
     }
@@ -1549,9 +1548,9 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function toNanoOfDay()
     {
-        $total = $this->hour * NANOS_PER_HOUR;
-        $total += $this->minute * NANOS_PER_MINUTE;
-        $total += $this->second * NANOS_PER_SECOND;
+        $total = $this->hour * self::NANOS_PER_HOUR;
+        $total += $this->minute * self::NANOS_PER_MINUTE;
+        $total += $this->second * self::NANOS_PER_SECOND;
         $total += $this->nano;
         return $total;
     }

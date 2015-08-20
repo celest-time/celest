@@ -65,10 +65,6 @@ namespace Php\Time;
 use Php\Time\Helper\Integer;
 use Php\Time\Helper\Long;
 use Php\Time\Helper\Math;
-use const Php\Time\NANOS_PER_SECOND;
-use const Php\Time\SECONDS_PER_DAY;
-use const Php\Time\SECONDS_PER_HOUR;
-use const Php\Time\SECONDS_PER_MINUTE;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\ChronoUnit;
 use Php\Time\Temporal\Temporal;
@@ -132,9 +128,10 @@ final class Duration implements TemporalAmount
     }
 
     /**
+     * TODO should be bigint?
      * @var int
      */
-    private static $BI_NANOS_PER_SECOND = NANOS_PER_SECOND;
+    private static $BI_NANOS_PER_SECOND = LocalTime::NANOS_PER_SECOND;
     /**
      * The pattern for parsing.
      * TODO
@@ -169,7 +166,7 @@ final class Duration implements TemporalAmount
      */
     public static function ofDays($days)
     {
-        return self::create(Math::multiplyExact($days, SECONDS_PER_DAY), 0);
+        return self::create(Math::multiplyExact($days,LocalTime::SECONDS_PER_DAY), 0);
     }
 
     /**
@@ -186,7 +183,7 @@ final class Duration implements TemporalAmount
     public
     static function ofHours($hours)
     {
-        return self::create(Math::multiplyExact($hours, SECONDS_PER_HOUR), 0);
+        return self::create(Math::multiplyExact($hours,LocalTime::SECONDS_PER_HOUR), 0);
     }
 
     /**
@@ -203,7 +200,7 @@ final class Duration implements TemporalAmount
     public
     static function ofMinutes($minutes)
     {
-        return self::create(Math::multiplyExact($minutes, SECONDS_PER_MINUTE), 0);
+        return self::create(Math::multiplyExact($minutes,LocalTime::SECONDS_PER_MINUTE), 0);
     }
 
     //-----------------------------------------------------------------------
@@ -228,8 +225,8 @@ final class Duration implements TemporalAmount
      */
     public static function ofSeconds($seconds, $nanoAdjustment = 0)
     {
-        $secs = Math::addExact($seconds, Math::floorDiv($nanoAdjustment, NANOS_PER_SECOND));
-        $nos = Math::floorMod($nanoAdjustment, NANOS_PER_SECOND);
+        $secs = Math::addExact($seconds, Math::floorDiv($nanoAdjustment, LocalTime::NANOS_PER_SECOND));
+        $nos = Math::floorMod($nanoAdjustment, LocalTime::NANOS_PER_SECOND);
         return self::create($secs, $nos);
     }
 
@@ -264,10 +261,10 @@ final class Duration implements TemporalAmount
      */
     public static function ofNanos($nanos)
     {
-        $secs = $nanos / NANOS_PER_SECOND;
-        $nos = $nanos % NANOS_PER_SECOND;
+        $secs = $nanos / LocalTime::NANOS_PER_SECOND;
+        $nos = $nanos % LocalTime::NANOS_PER_SECOND;
         if ($nos < 0) {
-            $nos += NANOS_PER_SECOND;
+            $nos += LocalTime::NANOS_PER_SECOND;
             $secs--;
         }
         return self::create($secs, $nos);
@@ -385,9 +382,9 @@ final class Duration implements TemporalAmount
                 $secondMatch = $matcher->group(6);
                 $fractionMatch = $matcher->group(7);
                 if ($dayMatch != null || $hourMatch != null || $minuteMatch != null || $secondMatch != null) {
-                    $daysAsSecs = self::parseNumber($text, $dayMatch, SECONDS_PER_DAY, "days");
-                    $hoursAsSecs = self::parseNumber($text, $hourMatch, SECONDS_PER_HOUR, "hours");
-                    $minsAsSecs = self::parseNumber($text, $minuteMatch, SECONDS_PER_MINUTE, "minutes");
+                    $daysAsSecs = self::parseNumber($text, $dayMatch, LocalTime::SECONDS_PER_DAY, "days");
+                    $hoursAsSecs = self::parseNumber($text, $hourMatch, LocalTime::SECONDS_PER_HOUR, "hours");
+                    $minsAsSecs = self::parseNumber($text, $minuteMatch, LocalTime::SECONDS_PER_MINUTE, "minutes");
                     $seconds = self::parseNumber($text, $secondMatch, 1, "seconds");
                     $nanos = self::parseFraction($text, $fractionMatch, $seconds < 0 ? -1 : 1);
                     try {
@@ -707,7 +704,7 @@ final class Duration implements TemporalAmount
     public function plus($amountToAdd, TemporalUnit $unit)
     {
         if ($unit == ChronoUnit::DAYS()) {
-            return $this->_plus(Math::multiplyExact($amountToAdd, SECONDS_PER_DAY), 0);
+            return $this->_plus(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_DAY), 0);
         }
 
         if ($unit->isDurationEstimated()) {
@@ -748,7 +745,7 @@ final class Duration implements TemporalAmount
      */
     public function plusDays($daysToAdd)
     {
-        return $this->_plus(Math::multiplyExact($daysToAdd, SECONDS_PER_DAY), 0);
+        return $this->_plus(Math::multiplyExact($daysToAdd, LocalTime::SECONDS_PER_DAY), 0);
     }
 
     /**
@@ -763,7 +760,7 @@ final class Duration implements TemporalAmount
     public
     function plusHours($hoursToAdd)
     {
-        return $this->_plus(Math::multiplyExact($hoursToAdd, SECONDS_PER_HOUR), 0);
+        return $this->_plus(Math::multiplyExact($hoursToAdd, LocalTime::SECONDS_PER_HOUR), 0);
     }
 
     /**
@@ -777,7 +774,7 @@ final class Duration implements TemporalAmount
      */
     public function plusMinutes($minutesToAdd)
     {
-        return $this->_plus(Math::multiplyExact($minutesToAdd, SECONDS_PER_MINUTE), 0);
+        return $this->_plus(Math::multiplyExact($minutesToAdd, LocalTime::SECONDS_PER_MINUTE), 0);
     }
 
     /**
@@ -839,9 +836,9 @@ final class Duration implements TemporalAmount
         }
 
         $epochSec = Math::addExact($this->seconds, $secondsToAdd);
-        $epochSec = Math::addExact($epochSec, $nanosToAdd / NANOS_PER_SECOND);
-        $nanosToAdd = $nanosToAdd % NANOS_PER_SECOND;
-        $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int+NANOS_PER_SECOND
+        $epochSec = Math::addExact($epochSec, $nanosToAdd / LocalTime::NANOS_PER_SECOND);
+        $nanosToAdd = $nanosToAdd % LocalTime::NANOS_PER_SECOND;
+        $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int LocalTime::NANOS_PER_SECOND
         return self::ofSeconds($epochSec, $nanoAdjustment);
     }
 
@@ -1173,7 +1170,7 @@ final class Duration implements TemporalAmount
      */
     public function toDays()
     {
-        return $this->seconds / SECONDS_PER_DAY;
+        return $this->seconds / LocalTime::SECONDS_PER_DAY;
     }
 
     /**
@@ -1188,7 +1185,7 @@ final class Duration implements TemporalAmount
      */
     public function toHours()
     {
-        return $this->seconds / SECONDS_PER_HOUR;
+        return $this->seconds / LocalTime::SECONDS_PER_HOUR;
     }
 
     /**
@@ -1203,7 +1200,7 @@ final class Duration implements TemporalAmount
      */
     public function toMinutes()
     {
-        return $this->seconds / SECONDS_PER_MINUTE;
+        return $this->seconds / LocalTime::SECONDS_PER_MINUTE;
     }
 
     /**
@@ -1237,7 +1234,7 @@ final class Duration implements TemporalAmount
      */
     public function  toNanos()
     {
-        $totalNanos = Math::multiplyExact($this->seconds, NANOS_PER_SECOND);
+        $totalNanos = Math::multiplyExact($this->seconds, LocalTime::NANOS_PER_SECOND);
         $totalNanos = Math::addExact($totalNanos, $this->nanos);
         return $totalNanos;
     }
@@ -1313,9 +1310,9 @@ final class Duration implements TemporalAmount
         if ($this == self::$ZERO) {
             return "PT0S";
         }
-        $hours = $this->seconds / SECONDS_PER_HOUR;
-        $minutes = (int)(($this->seconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
-        $secs = (int)($this->seconds % SECONDS_PER_MINUTE);
+        $hours = $this->seconds / LocalTime::SECONDS_PER_HOUR;
+        $minutes = (int)(($this->seconds % LocalTime::SECONDS_PER_HOUR) / LocalTime::SECONDS_PER_MINUTE);
+        $secs = (int)($this->seconds % LocalTime::SECONDS_PER_MINUTE);
         $buf = '';
         $buf .= "PT";
         if ($hours != 0) {
@@ -1339,9 +1336,9 @@ final class Duration implements TemporalAmount
         if ($this->nanos > 0) {
             $pos = strlen($buf);
             if ($secs < 0) {
-                $buf .= 2 * NANOS_PER_SECOND - $this->nanos;
+                $buf .= 2 * LocalTime::NANOS_PER_SECOND - $this->nanos;
             } else {
-                $buf .= $this->nanos + NANOS_PER_SECOND;
+                $buf .= $this->nanos + LocalTime::NANOS_PER_SECOND;
             }
             rtrim($buf, "0");
             $buf[$pos] = '.';
