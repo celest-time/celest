@@ -86,4 +86,9 @@ final class Math
     {
         return $val;
     }
+
+    public static function div($dividend, $divisor)
+    {
+        return (int)($dividend / $divisor);
+    }
 }
