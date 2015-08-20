@@ -439,3 +439,5 @@ class ChronoUnit implements TemporalUnit
         return $this->duration->compareTo($other->duration);
     }
 }
+
+ChronoUnit::init();
