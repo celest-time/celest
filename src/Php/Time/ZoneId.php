@@ -65,6 +65,7 @@ namespace Php\Time;
 
 use Php\Time\Chrono\TextStyle;
 use Php\Time\Format\DateTimeFormatterBuilder;
+use Php\Time\Helper\StringHelper;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalQueries;
 
@@ -174,7 +175,7 @@ abstract class ZoneId
      */
     public static function systemDefault()
     {
-        return TimeZone::getDefault()->toZoneId();
+        return ZoneId::_of(date_default_timezone_get(), true);
     }
 
     /**
@@ -283,12 +284,12 @@ abstract class ZoneId
      */
     public static function _of($zoneId, $checkAvailable)
     {
-        if (strlen($zoneId) <= 1 || $zoneId->startsWith("+") || $zoneId->startsWith("-")) {
+        if (strlen($zoneId) <= 1 || StringHelper::startsWith("+", $zoneId) || StringHelper::startsWith("-", $zoneId)) {
             return ZoneOffset::of($zoneId);
         } else
-            if ($zoneId->startsWith("UTC") || $zoneId->startsWith("GMT")) {
+            if (StringHelper::startsWith("UTC", $zoneId) || StringHelper::startsWith("GMT", $zoneId)) {
                 return self::ofWithPrefix($zoneId, 3, $checkAvailable);
-            } else if ($zoneId->startsWith("UT")) {
+            } else if (StringHelper::startsWith("UT", $zoneId)) {
                 return self::ofWithPrefix($zoneId, 2, $checkAvailable);
             }
         return ZoneRegion::ofId($zoneId, $checkAvailable);
