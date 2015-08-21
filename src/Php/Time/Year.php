@@ -62,7 +62,7 @@
  */
 namespace Php\Time;
 
-use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\ChronologyDefaults;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Format\DateTimeFormatter;
 use Php\Time\Format\DateTimeFormatterBuilder;
@@ -251,7 +251,7 @@ final class Year
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::YEAR()));
@@ -274,7 +274,7 @@ final class Year
      */
     public static function parse($text)
     {
-        return self::parseWith($text, self::PARSER);
+        return self::parseWith($text, self::$PARSER);
     }
 
     /**
@@ -290,7 +290,10 @@ final class Year
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, Year::from);
+        if (!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+        return $formatter->parse($text, TemporalQueries::fromCallable([get_class(), 'from']));
     }
 
     //-------------------------------------------------------------------------
@@ -547,11 +550,11 @@ final class Year
      * This method checks whether this year and the input month and day form
      * a valid date.
      *
-     * @param $monthDay MonthDay the month-day to validate, null returns false
+     * @param $monthDay MonthDay|null the month-day to validate, null returns false
      * @return true if the month and day are valid for this year
      */
     public
-    function isValidMonthDay(MonthDay $monthDay)
+    function isValidMonthDay($monthDay)
     {
         return $monthDay != null && $monthDay->isValidYear($this->year);
     }
@@ -887,7 +890,7 @@ final class Year
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
@@ -950,11 +953,11 @@ final class Year
                 case ChronoUnit::YEARS():
                     return $yearsUntil;
                 case ChronoUnit::DECADES():
-                    return $yearsUntil / 10;
+                    return Math::div($yearsUntil, 10);
                 case ChronoUnit::CENTURIES():
-                    return $yearsUntil / 100;
+                    return Math::div($yearsUntil, 100);
                 case ChronoUnit::MILLENNIA():
-                    return $yearsUntil / 1000;
+                    return Math::div($yearsUntil, 1000);
                 case ChronoUnit::ERAS():
                     return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }

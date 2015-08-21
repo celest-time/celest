@@ -18,7 +18,11 @@ class DateTimeFormatterBuilder
         return $this;
     }
 
+    /**
+     * @return DateTimeFormatter
+     */
     public function toFormatter()
     {
+        return new DateTimeFormatter();
     }
 }

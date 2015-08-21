@@ -63,6 +63,7 @@
 
 namespace Php\Time;
 
+use Php\Time\Chrono\ChronoLocalDate;
 use Php\Time\Chrono\ChronoPeriod;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Helper\Integer;
@@ -385,12 +386,14 @@ final class Period implements ChronoPeriod
      * The result of this method can be a negative period if the end is before the start.
      * The negative sign will be the same in each of year, month and day.
      *
+     * TODO better Name
+     *
      * @param $startDateInclusive LocalDate the start date, inclusive, not null
      * @param $endDateExclusive LocalDate the end date, exclusive, not null
      * @return Period the period between this date and the end date, not null
      * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
-    public static function between(LocalDate $startDateInclusive, LocalDate $endDateExclusive)
+    public static function between(ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive)
     {
         return $startDateInclusive->untilDate($endDateExclusive);
     }
@@ -1067,3 +1070,5 @@ final class Period implements ChronoPeriod
         }
     }
 }
+
+Period::init();

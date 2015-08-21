@@ -191,7 +191,7 @@ class IsoEra implements Era
      */
     function isSupported(TemporalField $field)
     {
-        EraDefaults::isSupported($this, $field);
+        return EraDefaults::isSupported($this, $field);
     }
 
     /**
@@ -199,7 +199,7 @@ class IsoEra implements Era
      */
     function range(TemporalField $field)
     {
-        EraDefaults::range($this, $field);
+        return EraDefaults::range($this, $field);
     }
 
     /**
@@ -207,7 +207,7 @@ class IsoEra implements Era
      */
     function get(TemporalField $field)
     {
-        EraDefaults::get($this, $field);
+        return EraDefaults::get($this, $field);
     }
 
     /**
@@ -215,7 +215,7 @@ class IsoEra implements Era
      */
     function getLong(TemporalField $field)
     {
-        EraDefaults::getLong($this, $field);
+        return EraDefaults::getLong($this, $field);
     }
 
     /**
@@ -223,7 +223,7 @@ class IsoEra implements Era
      */
     function query(TemporalQuery $query)
     {
-        EraDefaults::query($this, $query);
+        return EraDefaults::query($this, $query);
     }
 
     /**
@@ -231,7 +231,7 @@ class IsoEra implements Era
      */
     function adjustInto(Temporal $temporal)
     {
-        EraDefaults::adjustInto($this, $temporal);
+        return EraDefaults::adjustInto($this, $temporal);
     }
 
     /**
@@ -239,7 +239,7 @@ class IsoEra implements Era
      */
     function getDisplayName(TextStyle $style, Locale $locale)
     {
-        EraDefaults::getDisplayName($this, $style, $locale);
+        return EraDefaults::getDisplayName($this, $style, $locale);
     }
 
     public function __toString()
@@ -247,3 +247,5 @@ class IsoEra implements Era
         return $this->val === 0 ? 'BCE' : 'CE';
     }
 }
+
+IsoEra::init();

@@ -541,7 +541,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     public function plus($months)
     {
         $amount = (int)($months % 12);
-        return self::$ENUMS[($this->ordinal() + ($amount + 12)) % 12];
+        return self::$ENUMS[($this->val + ($amount + 11)) % 12];
     }
 
     /**
