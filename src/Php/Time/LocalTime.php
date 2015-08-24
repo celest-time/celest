@@ -1681,3 +1681,5 @@ final class LocalTime implements Temporal, TemporalAdjuster
         return $buf;
     }
 }
+
+LocalTime::init();

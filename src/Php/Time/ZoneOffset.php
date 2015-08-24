@@ -120,7 +120,7 @@ use Php\Time\Zone\ZoneRules;
  */
 final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjuster
 {
-    public function init()
+    public static function init()
     {
         self::$UTC = ZoneOffset::ofTotalSeconds(0);
         self::$MIN = ZoneOffset::ofTotalSeconds(-self::MAX_SECONDS);
@@ -129,9 +129,15 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         self::$ID_CACHE = [];
     }
 
-    /** Cache of time-zone offset by offset in seconds. */
+    /**
+     * Cache of time-zone offset by offset in seconds.
+     * @var ZoneOffset[]
+     */
     private static $SECONDS_CACHE;
-    /** Cache of time-zone offset by ID. */
+    /**
+     * Cache of time-zone offset by ID.
+     * @var ZoneOffset[]
+     */
     private static $ID_CACHE;
 
     /**
@@ -454,12 +460,12 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) == 0) {
             $totalSecs = $totalSeconds;
             // TODO undefined
-            $result = self::$SECONDS_CACHE->get($totalSecs);
-            if ($result == null) {
+            $result = @self::$SECONDS_CACHE[$totalSecs];
+            if ($result === null) {
                 $result = new ZoneOffset($totalSeconds);
-                self::$SECONDS_CACHE->putIfAbsent($totalSecs, $result);
-                $result = self::$SECONDS_CACHE->get($totalSecs);
-                self::$ID_CACHE->putIfAbsent($result->getId(), $result);
+                self::$SECONDS_CACHE[$totalSecs] = $result;
+                $result = self::$SECONDS_CACHE[$totalSecs];
+                self::$ID_CACHE[$result->getId()] =  $result;
             }
             return $result;
         } else {
@@ -783,3 +789,5 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         return $this->id;
     }
 }
+
+ZoneOffset::init();

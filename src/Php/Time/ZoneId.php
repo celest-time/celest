@@ -367,7 +367,7 @@ abstract class ZoneId
      */
     public function __construct()
     {
-        if (get_class() != 'Php\Time\ZoneOffset' && get_class() != 'Php\Time\ZoneRegion') {
+        if (get_class($this) != 'Php\Time\ZoneOffset' && get_class($this) != 'Php\Time\ZoneRegion') {
             throw new AssertionError("Invalid subclass");
         }
     }

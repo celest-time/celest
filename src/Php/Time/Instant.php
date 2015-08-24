@@ -326,7 +326,7 @@ final class Instant implements Temporal, TemporalAdjuster
     public static function ofEpochSecond($epochSecond, $nanoAdjustment = 0)
     {
         $secs = Math::addExact($epochSecond, Math::floorDiv($nanoAdjustment, LocalTime::NANOS_PER_SECOND));
-        $nos = (int)Math::floorMod($nanoAdjustment, LocalTime::NANOS_PER_SECOND);
+        $nos = Math::floorMod($nanoAdjustment, LocalTime::NANOS_PER_SECOND);
         return self::create($secs, $nos);
     }
 

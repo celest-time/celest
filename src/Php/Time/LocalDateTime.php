@@ -1533,10 +1533,10 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         if (($hours | $minutes | $seconds | $nanos) == 0) {
             return $this->_with($newDate, $this->time);
         }
-        $totDays = $nanos / LocalTime::NANOS_PER_DAY +             //   max/24*60*60*1B
-            $seconds / LocalTime::SECONDS_PER_DAY +                //   max/24*60*60
-            $minutes / LocalTime::MINUTES_PER_DAY +                //   max/24*60
-            $hours / LocalTime::HOURS_PER_DAY;                     //   max/24
+        $totDays = Math::div($nanos, LocalTime::NANOS_PER_DAY) +             //   max/24*60*60*1B
+            Math::div($seconds, LocalTime::SECONDS_PER_DAY) +                //   max/24*60*60
+            Math::div($minutes, LocalTime::MINUTES_PER_DAY) +                //   max/24*60
+            Math::div($hours, LocalTime::HOURS_PER_DAY);                     //   max/24
         $totDays *= $sign;                                   // total max*0.4237...
         $totNanos = $nanos % LocalTime::NANOS_PER_DAY +                    //   max  86400000000000
             ($seconds % LocalTime::SECONDS_PER_DAY) * LocalTime::NANOS_PER_SECOND +   //   max  86400000000000
@@ -1546,7 +1546,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         $totNanos = $totNanos * $sign + $curNoD;                    // total 432000000000000
         $totDays += Math::floorDiv($totNanos, LocalTime::NANOS_PER_DAY);
         $newNoD = Math::floorMod($totNanos, LocalTime::NANOS_PER_DAY);
-        $newTime = ($newNoD == $curNoD ? $this->time : LocalTime::ofNanoOfDay($newNoD));
+        $newTime = ($newNoD === $curNoD ? $this->time : LocalTime::ofNanoOfDay($newNoD));
         return $this->_with($newDate->plusDays($totDays), $newTime);
     }
 

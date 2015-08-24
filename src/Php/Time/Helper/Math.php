@@ -29,7 +29,7 @@ final class Math
     }
 
     /**
-     * @param $r int
+     * @param $l int
      * @param $r int
      * @return int
      */
@@ -45,7 +45,12 @@ final class Math
      */
     public static function floorMod($dividend, $divisor)
     {
-        return (int)$dividend % (int)$divisor;
+        $res = (int)$dividend % (int)$divisor;
+        if($res < 0) {
+            return $res + $divisor;
+        } else {
+            return $res;
+        }
     }
 
     /**
@@ -55,11 +60,11 @@ final class Math
      */
     public static function floorDiv($dividend, $divisor)
     {
-        return (int)($dividend / $divisor);
+        return (int)floor($dividend / $divisor);
     }
 
     /**
-     * @param $r int
+     * @param $l int
      * @param $r int
      * @return int
      */
