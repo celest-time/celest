@@ -88,12 +88,12 @@ class TimeDefinition
     public function createDateTime(LocalDateTime $dateTime, ZoneOffset $standardOffset, ZoneOffset $wallOffset)
     {
         switch ($this->val) {
-            case self::$UTC: {
+            case 0: {
                 $difference = $wallOffset->getTotalSeconds() - ZoneOffset::UTC()->getTotalSeconds();
                 return $dateTime->plusSeconds($difference);
             }
 
-            case self::$STANDARD: {
+            case 1: {
                 $difference = $wallOffset->getTotalSeconds() - $standardOffset->getTotalSeconds();
                 return $dateTime->plusSeconds($difference);
             }
