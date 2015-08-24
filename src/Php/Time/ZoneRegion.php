@@ -58,6 +58,7 @@
 namespace Php\Time;
 use Php\Time\Zone\ZoneRulesException;
 use Php\Time\Zone\ZoneRules;
+use Php\Time\Zone\ZoneRulesProvider;
 
 /**
  * A geographical region where the same time-zone rules apply.

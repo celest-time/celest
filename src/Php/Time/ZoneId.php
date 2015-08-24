@@ -70,6 +70,7 @@ use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Zone\ZoneRules;
 use Php\Time\Zone\ZoneRulesException;
+use Php\Time\Zone\ZoneRulesProvider;
 
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
