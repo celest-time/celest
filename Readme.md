@@ -16,6 +16,7 @@
 - PHP5.6 use const
 - php7 anonymous classes for queries!
 - gmp operator overloading
+- Serializable
 
 - map<TemporalField, long> use TemporalField->__toString as index.
 

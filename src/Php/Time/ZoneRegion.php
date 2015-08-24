@@ -56,6 +56,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Php\Time;
+use Php\Time\Zone\ZoneRulesException;
 
 /**
  * A geographical region where the same time-zone rules apply.
