@@ -299,7 +299,7 @@ final class ZoneRules
 
         // using historic rules
         // TODO binary search
-        $index = Arrays::binarySearch($this->savingsInstantTransitions, $epochSec);
+        $index = Math::binarySearch($this->savingsInstantTransitions, $epochSec);
         if ($index < 0) {
             // switch negative insert position to start of matched range
             $index = -$index - 2;
@@ -536,9 +536,8 @@ final class ZoneRules
      */
     private function findTransitionArray($year)
     {
-        $yearObj = $year;  // should use Year class, but this saves a class load
         /** @var ZoneOffsetTransition[] $transArray */
-        $transArray = $this->lastRulesCache[$year];
+        $transArray = @$this->lastRulesCache[$year];
         if ($transArray != null) {
             return $transArray;
         }
@@ -551,7 +550,7 @@ final class ZoneRules
             $transArray[$i] = $ruleArray[$i]->createTransition($year);
         }
         if ($year < self::LAST_CACHED_YEAR) {
-            $this->lastRulesCache->putIfAbsent($yearObj, $transArray);
+            $this->lastRulesCache[$year] = $transArray;
         }
         return $transArray;
     }
@@ -575,7 +574,7 @@ final class ZoneRules
         }
 
         $epochSec = $instant->getEpochSecond();
-        $index = Arrays::binarySearch($this->standardTransitions, $epochSec);
+        $index = Math::binarySearch($this->standardTransitions, $epochSec);
         if ($index < 0) {
             // switch negative insert position to start of matched range
             $index = -$index - 2;
@@ -668,12 +667,12 @@ final class ZoneRules
 
         $epochSec = $instant->getEpochSecond();
         // check if using last rules
-        if ($epochSec >= $this->savingsInstantTransitions[count($this->savingsInstantTransitions)]) {
-            if (empty($lastRules)) {
+        if ($epochSec >= $this->savingsInstantTransitions[count($this->savingsInstantTransitions) - 1]) {
+            if (empty($this->lastRules)) {
                 return null;
             }
             // search year the instant is in
-            $year = $this->findYear($epochSec, $this->wallOffsets[count($this->wallOffsets)]);
+            $year = $this->findYear($epochSec, $this->wallOffsets[count($this->wallOffsets) - 1]);
             $transArray = $this->findTransitionArray($year);
             foreach ($transArray as $trans) {
                 if ($epochSec < $trans->toEpochSecond()) {
@@ -689,7 +688,7 @@ final class ZoneRules
         }
 
         // using historic rules
-        $index = Arrays::binarySearch($this->savingsInstantTransitions, $epochSec);
+        $index = Math::binarySearch($this->savingsInstantTransitions, $epochSec);
         if ($index < 0) {
             $index = -$index - 1;  // switched value is the next transition
         } else {
@@ -742,7 +741,7 @@ final class ZoneRules
         }
 
         // using historic rules
-        $index = Arrays::binarySearch($$this->savingsInstantTransitions, $epochSec);
+        $index = Math::binarySearch($this->savingsInstantTransitions, $epochSec);
         if ($index < 0) {
             $index = -$index - 1;
         }

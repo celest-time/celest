@@ -8,6 +8,24 @@ final class Math
     {
     }
 
+    public static function binarySearch(array $a, $key) {
+        $low = 0;
+        $high = count($a) - 1;
+
+        while ($low <= $high) {
+            $mid = ($low + $high) >> 1;
+            $midVal = $a[$mid];
+
+            if ($midVal < $key)
+                $low = $mid + 1;
+            else if ($midVal > $key)
+                $high = $mid - 1;
+            else
+                return $mid; // key found
+        }
+        return -($low + 1);  // key not found.
+    }
+
     /**
      * @param $val int
      * @return int
