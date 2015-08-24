@@ -1982,3 +1982,5 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         return ChronoLocalDateTimeDefaults::toEpochSecond($this, $offset);
     }
 }
+
+LocalDateTime::init();
