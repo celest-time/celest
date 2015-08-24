@@ -68,6 +68,7 @@ use Php\Time\Format\DateTimeFormatterBuilder;
 use Php\Time\Helper\StringHelper;
 use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalQueries;
+use Php\Time\Zone\ZoneRules;
 use Php\Time\Zone\ZoneRulesException;
 
 /**

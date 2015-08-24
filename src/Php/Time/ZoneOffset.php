@@ -75,6 +75,7 @@ use Php\Time\Temporal\TemporalQueries;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\UnsupportedTemporalTypeException;
 use Php\Time\Temporal\ValueRange;
+use Php\Time\Zone\ZoneRules;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as {@code +02:00}.
@@ -544,7 +545,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function  getRules()
     {
-        return ZoneRules::of($this);
+        return ZoneRules::ofOffset($this);
     }
 
 //-----------------------------------------------------------------------

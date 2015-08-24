@@ -448,7 +448,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     {
         $rules = $zone->getRules();
         $instant = Instant::ofEpochSecond($epochSecond, $nanoOfSecond);  // TODO: rules should be queryable by epochSeconds
-        $offset = $rules::getOffset($instant);
+        $offset = $rules->getOffset($instant);
         $ldt = LocalDateTime::ofEpochSecond($epochSecond, $nanoOfSecond, $offset);
         return new ZonedDateTime($ldt, $offset, $zone);
     }

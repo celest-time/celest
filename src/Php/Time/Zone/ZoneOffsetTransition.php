@@ -134,6 +134,19 @@ final class ZoneOffsetTransition
     }
 
     /**
+     * Creates an instance from epoch-second and offsets.
+     *
+     * @param $epochSecond int the transition epoch-second
+     * @param $offsetBefore ZoneOffset the offset before the transition, not null
+     * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
+     * @return ZoneOffsetTransition
+     */
+    public static function ofEpoch($epochSecond, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
+    {
+        return self::of(LocalDateTime::ofEpochSecond($epochSecond, 0, $offsetBefore), $offsetBefore, $offsetAfter);
+    }
+
+    /**
      * Creates an instance defining a transition between two offsets.
      *
      * @param $transition LocalDateTime the transition date-time with the offset before the transition, not null
@@ -143,22 +156,6 @@ final class ZoneOffsetTransition
     private function __construct(LocalDateTime $transition, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
     {
         $this->transition = $transition;
-        $this->offsetBefore = $offsetBefore;
-        $this->offsetAfter = $offsetAfter;
-    }
-
-    /**
-     * Creates an instance from epoch-second and offsets.
-     *
-     * TODO check usage
-     *
-     * @param $epochSecond int the transition epoch-second
-     * @param $offsetBefore ZoneOffset the offset before the transition, not null
-     * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
-     */
-    private function __construct2($epochSecond, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
-    {
-        $this->transition = LocalDateTime::ofEpochSecond($epochSecond, 0, $offsetBefore);
         $this->offsetBefore = $offsetBefore;
         $this->offsetAfter = $offsetAfter;
     }
