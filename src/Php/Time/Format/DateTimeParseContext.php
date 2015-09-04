@@ -463,7 +463,7 @@ final class DateTimeParseContext
     public
     function __toString()
     {
-        return $this->currentParsed()->toString();
+        return $this->currentParsed()->__toString();
     }
 
 }
