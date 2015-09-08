@@ -128,7 +128,7 @@ interface TemporalAccessor
      * @param $field TemporalField the field to check, null returns false
      * @return bool true if this date-time can be queried for the field, false if not
      */
-    function isSupported(TemporalField $field);
+    public function isSupported(TemporalField $field);
 
     /**
      * Gets the range of valid values for the specified field.
