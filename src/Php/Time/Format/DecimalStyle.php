@@ -85,7 +85,7 @@ final class DecimalStyle
      * <p>
      * This uses standard ASCII characters for zero, positive, negative and a dot for the decimal point.
      */
-    public function STANDARD()
+    public static function STANDARD()
     {
         return self::$STANDARD;
     }
