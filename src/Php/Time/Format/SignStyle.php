@@ -130,12 +130,12 @@ class SignStyle
      * In lenient parsing, any sign will be accepted unless the width is fixed.
      * @return SignStyle
      */
-    public static function NON_NEGATIVE()
+    public static function NOT_NEGATIVE()
     {
-        return self::$NON_NEGATIVE;
+        return self::$NOT_NEGATIVE;
     }
     /** @var SignStyle */
-    private static $NON_NEGATIVE;
+    private static $NOT_NEGATIVE;
 
     /**
      * Style to always output the sign if the value exceeds the pad width.
