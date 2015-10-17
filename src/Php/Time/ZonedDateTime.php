@@ -608,7 +608,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @param $offset ZoneOffset the zone offset, validated as not null
      * @param $zone ZoneId the time-zone, validated as not null
      */
-    private function __constrcut(LocalDateTime $dateTime, ZoneOffset $offset, ZoneId $zone)
+    private function __construct(LocalDateTime $dateTime, ZoneOffset $offset, ZoneId $zone)
     {
         $this->dateTime = $dateTime;
         $this->offset = $offset;
