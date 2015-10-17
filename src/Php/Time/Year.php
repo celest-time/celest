@@ -136,7 +136,7 @@ final class Year
     public static function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
-            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD)
+            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
             ->toFormatter();
     }
 
