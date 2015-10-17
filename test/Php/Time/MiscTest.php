@@ -24,6 +24,6 @@ class MiscTest extends PHPUnit_Framework_TestCase
     }
 
     public function testLong() {
-        $this->assertTrue(Long::MAX === PHP_INT_MAX);
+        $this->assertTrue(Long::MAX_VALUE === PHP_INT_MAX);
     }
 }
