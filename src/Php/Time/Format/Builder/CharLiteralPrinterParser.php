@@ -1,55 +1,53 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:08
- */
 
 namespace Php\Time\Format\Builder;
-
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Format\DateTimeParseContext;
 
 /**
  * Prints or parses a character literal.
  */
-static final class CharLiteralPrinterParser implements DateTimePrinterParser
+final class CharLiteralPrinterParser implements DateTimePrinterParser
 {
-private final char literal;
+    /** @var string */
+    private $literal;
 
-CharLiteralPrinterParser(char literal)
-{
-this.literal = literal;
-}
-
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    buf->append(literal);
-    return true;
-}
-
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    int length = text->length();
-            if (position == length) {
-                return ~position;
-            }
-            char ch = text->charAt(position);
-            if (ch != literal) {
-                if (context->isCaseSensitive() ||
-                (Character->toUpperCase(ch) != Character->toUpperCase(literal) &&
-                Character->toLowerCase(ch) != Character->toLowerCase(literal))
-                ) {
-                    return ~position;
-                }
-            }
-            return position + 1;
-        }
-
-        @Override
-        public String toString(){
-            if (literal == '\'') {
-                return "''";
-            }
-            return "'" + literal + "'";
-        }
+    public function __construct($literal)
+    {
+        $this->literal = $literal;
     }
+
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        $buf .= $this->literal;
+        return true;
+    }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        $length = strlen($text);
+        if ($position == $length) {
+            return ~$position;
+        }
+
+        $ch = $text[$position];
+        if ($ch !== $this->literal) {
+            if ($context->isCaseSensitive() ||
+                (strtoupper($ch) !== strtoupper($this->literal) &&
+                    strtolower($ch) != strtolower($this->literal))
+            ) {
+                return ~$position;
+            }
+        }
+        return $position + 1;
+    }
+
+    public function __toString()
+    {
+        if ($this->literal == '\'') {
+            return "''";
+        }
+
+        return "'" . $this->literal . "'";
+    }
+}
