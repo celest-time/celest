@@ -63,7 +63,7 @@
 namespace Php\Time\Format;
 use Php\Time\Chrono\Chronology;
 use Php\Time\Chrono\IsoChronology;
-use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalField;
 use Php\Time\ZoneId;
 
 /**
@@ -120,7 +120,7 @@ final class DateTimeParseContext
     public function __construct(DateTimeFormatter $formatter)
     {
         $this->formatter = $formatter;
-        $parsed = [new Parsed()];
+        $this->parsed = [new Parsed()];
     }
 
     /**

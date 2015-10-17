@@ -1,172 +1,181 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:09
- */
 
 namespace Php\Time\Format\Builder;
-
+use Php\Time\Chrono\ChronoLocalDate;
+use Php\Time\Temporal\TemporalField;
+use Php\Time\IllegalArgumentException;
+use Php\Time\Helper\Integer;
+use Php\Time\DateTimeException;
+use Php\Time\Format\SignStyle;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Helper\Math;
+use Php\Time\Chrono\Chronology;
+use Php\Time\Format\DateTimeParseContext;
 
 /**
  * Prints and parses a reduced numeric date-time field.
  */
-static final class ReducedPrinterParser extends NumberPrinterParser
+final class ReducedPrinterParser extends NumberPrinterParser
 {
     /**
      * The base date for reduced value parsing.
      */
-static final LocalDate BASE_DATE = LocalDate.of(2000, 1, 1);
+//static final LocalDate BASE_DATE = LocalDate.of(2000, 1, 1);
 
-private final int baseValue;
-private final ChronoLocalDate baseDate;
+    /** @var int */
+    private $baseValue;
+    /** @var ChronoLocalDate */
+    private $baseDate;
 
     /**
      * Constructor.
      *
-     * @param $field  the field to format, validated not null
-     * @param $minWidth  the minimum field width, from 1 to 10
-     * @param $maxWidth  the maximum field width, from 1 to 10
-     * @param $baseValue  the base value
-     * @param $baseDate  the base date
+     * @param $field TemporalField the field to format, validated not null
+     * @param $minWidth int the minimum field width, from 1 to 10
+     * @param $maxWidth int the maximum field width, from 1 to 10
+     * @param $baseValue int the base value
+     * @param $baseDate ChronoLocalDate the base date
      */
-ReducedPrinterParser(TemporalField field, int minWidth, int maxWidth,
-int baseValue, ChronoLocalDate baseDate)
-{
-this(field, minWidth, maxWidth, baseValue, baseDate, 0);
-if (minWidth < 1 || minWidth > 10)
-{
-throw new IllegalArgumentException("The minWidth must be from 1 to 10 inclusive but was " + minWidth);
-}
-            if (maxWidth < 1 || maxWidth > 10) {
-                throw new IllegalArgumentException("The maxWidth must be from 1 to 10 inclusive but was " + minWidth);
-            }
-            if (maxWidth < minWidth) {
-                throw new IllegalArgumentException("Maximum width must exceed or equal the minimum width but " +
-                    maxWidth + " < " + minWidth);
-            }
-            if (baseDate == null) {
-                if (field->range()->isValidValue(baseValue) == false) {
-                    throw new IllegalArgumentException("The base value must be within the range of the field");
-                }
-                if ((((long) baseValue) +EXCEED_POINTS[maxWidth]) > Integer->MAX_VALUE) {
-                    throw new DateTimeException("Unable to add printer-parser as the range exceeds the capacity of an int");
-                }
-            }
+    public function __construct(TemporalField $field, $minWidth, $maxWidth,
+                                $baseValue, ChronoLocalDate $baseDate)
+    {
+        parent::__construct($field, $minWidth, $maxWidth, $baseValue, $baseDate, 0);
+        if ($minWidth < 1 || $minWidth > 10) {
+            throw new IllegalArgumentException("The minWidth must be from 1 to 10 inclusive but was " . $minWidth);
         }
 
-        /**
-         * Constructor.
-         * The arguments have already been checked.
-         *
-         * @param $field  the field to format, validated not null
-         * @param $minWidth  the minimum field width, from 1 to 10
-         * @param $maxWidth  the maximum field width, from 1 to 10
-         * @param $baseValue  the base value
-         * @param $baseDate  the base date
-         * @param $subsequentWidth the subsequentWidth for this instance
-         */
-        private ReducedPrinterParser(TemporalField field, int minWidth, int maxWidth,
-                int baseValue, ChronoLocalDate baseDate, int subsequentWidth) {
-    super(field, minWidth, maxWidth, SignStyle::NOT_NEGATIVE(), subsequentWidth);
-    this->baseValue = baseValue;
-    this->baseDate = baseDate;
-}
-
-        @Override
-        long getValue(DateTimePrintContext context, long value) {
-    long absValue = Math->abs(value);
-            int baseValue = this->baseValue;
-            if (baseDate != null) {
-                Chronology chrono = Chronology->from(context->getTemporal());
-                baseValue = chrono->date(baseDate)->get(field);
-            }
-            if (value >= baseValue && value < baseValue + EXCEED_POINTS[minWidth]) {
-        // Use the reduced value if it fits in minWidth
-        return absValue % EXCEED_POINTS[minWidth];
-            }
-            // Otherwise truncate to fit in maxWidth
-            return absValue % EXCEED_POINTS[maxWidth];
+        if ($maxWidth < 1 || $maxWidth > 10) {
+            throw new IllegalArgumentException("The maxWidth must be from 1 to 10 inclusive but was " . $minWidth);
         }
-
-        @Override
-        int setValue(DateTimeParseContext context, long value, int errorPos, int successPos) {
-    int baseValue = this->baseValue;
-            if (baseDate != null) {
-                Chronology chrono = context->getEffectiveChronology();
-                baseValue = chrono->date(baseDate)->get(field);
-
-                // In case the Chronology is changed later, add a callback when/if it changes
-                final long initialValue = value;
-                context->addChronoChangedListener(
-                    (_unused)->{
-                /* Repeat the set of the field using the current Chronology
-                 * The success/error position is ignored because the value is
-                 * intentionally being overwritten.
-                 */
-                setValue(context, initialValue, errorPos, successPos);
-                        });
-            }
-            int parseLen = successPos - errorPos;
-            if (parseLen == minWidth && value >= 0) {
-                long range = EXCEED_POINTS[minWidth];
-                long lastPart = baseValue % range;
-                long basePart = baseValue - lastPart;
-                if (baseValue > 0) {
-                    value = basePart + value;
-                } else {
-                    value = basePart - value;
-                }
-                if (value < baseValue) {
-                    value += range;
-                }
-            }
-            return context->setParsedField(field, value, errorPos, successPos);
+        if ($maxWidth < $minWidth) {
+            throw new IllegalArgumentException("Maximum width must exceed or equal the minimum width but " .
+                $maxWidth . " < " . $minWidth);
         }
-
-        /**
-         * Returns a new instance with fixed width flag set.
-         *
-         * @return a new updated printer-parser, not null
-         */
-        @Override
-        ReducedPrinterParser withFixedWidth(){
-            if (subsequentWidth == -1) {
-                return $this;
+        if ($baseDate == null) {
+            if ($field->range()->isValidValue($baseValue) == false) {
+                throw new IllegalArgumentException("The base value must be within the range of the field");
             }
-            return new ReducedPrinterParser(field, minWidth, maxWidth, baseValue, baseDate, -1);
-        }
-
-        /**
-         * Returns a new instance with an updated subsequent width.
-         *
-         * @param $subsequentWidth  the width of subsequent non-negative numbers, 0 or greater
-         * @return a new updated printer-parser, not null
-         */
-        @Override
-        ReducedPrinterParser withSubsequentWidth(int subsequentWidth) {
-    return new ReducedPrinterParser(field, minWidth, maxWidth, baseValue, baseDate,
-        this->subsequentWidth + subsequentWidth);
-}
-
-        /**
-         * For a ReducedPrinterParser, fixed width is false if the mode is strict,
-         * otherwise it is set as for NumberPrinterParser.
-         * @param $context the context
-         * @return if the field is fixed width
-         * @see DateTimeFormatterBuilder#appendValueReduced(java.time.temporal.TemporalField, int, int, int)
-         */
-        @Override
-        boolean isFixedWidth(DateTimeParseContext context) {
-    if (context->isStrict() == false) {
-        return false;
-    }
-    return super->isFixedWidth(context);
-}
-
-        @Override
-        public String toString(){
-            return "ReducedValue(" + field + "," + minWidth + "," + maxWidth + "," + (baseDate != null ? baseDate : baseValue) + ")";
+            if ((($baseValue) + self::$EXCEED_POINTS[$maxWidth]) > Integer::MAX_VALUE) {
+                throw new DateTimeException("Unable to add printer-parser as the range exceeds the capacity of an int");
+            }
         }
     }
+
+    /**
+     * Constructor.
+     * The arguments have already been checked.
+     *
+     * @param $field TemporalField the field to format, validated not null
+     * @param $minWidth int the minimum field width, from 1 to 10
+     * @param $maxWidth int the maximum field width, from 1 to 10
+     * @param $baseValue int the base value
+     * @param $baseDate ChronoLocalDate the base date
+     * @param $subsequentWidth int the subsequentWidth for this instance
+     */
+    protected function __construct2(TemporalField $field, $minWidth, $maxWidth,
+                                  $baseValue, ChronoLocalDate $baseDate, $subsequentWidth)
+    {
+        parent::__construct($field, $minWidth, $maxWidth, SignStyle::NOT_NEGATIVE(), $subsequentWidth);
+        $this->baseValue = $baseValue;
+        $this->baseDate = $baseDate;
+    }
+
+    public function getValue(DateTimePrintContext $context, $value)
+    {
+        $absValue = Math::abs($value);
+        $baseValue = $this->baseValue;
+        if ($this->baseDate != null) {
+            $chrono = Chronology::from($context->getTemporal());
+            $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
+        }
+
+        if ($value >= $baseValue && $value < $baseValue + self::$EXCEED_POINTS[$this->minWidth]) {
+            // Use the reduced value if it fits in minWidth
+            return $absValue % self::$EXCEED_POINTS[$this->minWidth];
+        }
+        // Otherwise truncate to fit in maxWidth
+        return $absValue % self::$EXCEED_POINTS[$this->maxWidth];
+    }
+
+    public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)
+    {
+        $baseValue = $this->baseValue;
+        if ($this->baseDate != null) {
+            $chrono = $context->getEffectiveChronology();
+            $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
+
+            // In case the Chronology is changed later, add a callback when/if it changes
+            $initialValue = $value;
+            $context->addChronoChangedListener(
+                function ($_) use ($context, $initialValue, $errorPos, $successPos) {
+                    /* Repeat the set of the field using the current Chronology
+                     * The success/error position is ignored because the value is
+                     * intentionally being overwritten.
+                     */
+                    $this->setValue($context, $initialValue, $errorPos, $successPos);
+                });
+        }
+        $parseLen = $successPos - $errorPos;
+        if ($parseLen == $this->minWidth && $value >= 0) {
+            $range = self::$EXCEED_POINTS[$this->minWidth];
+            $lastPart = $baseValue % $range;
+            $basePart = $baseValue - $lastPart;
+            if ($baseValue > 0) {
+                $value = $basePart + $value;
+            } else {
+                $value = $basePart - $value;
+            }
+            if ($value < $baseValue) {
+                $value += $range;
+            }
+        }
+        return $context->setParsedField($this->field, $value, $errorPos, $successPos);
+    }
+
+    /**
+     * Returns a new instance with fixed width flag set.
+     *
+     * @return ReducedPrinterParser a new updated printer-parser, not null
+     */
+    public function withFixedWidth()
+    {
+        if ($this->subsequentWidth == -1) {
+            return $this;
+        }
+
+        return new ReducedPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->baseValue, $this->baseDate, -1);
+    }
+
+    /**
+     * Returns a new instance with an updated subsequent width.
+     *
+     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater
+     * @return ReducedPrinterParser a new updated printer-parser, not null
+     */
+    public function withSubsequentWidth($subsequentWidth)
+    {
+        return new ReducedPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->baseValue, $this->baseDate,
+            $this->subsequentWidth + $subsequentWidth);
+    }
+
+    /**
+     * For a ReducedPrinterParser, fixed width is false if the mode is strict,
+     * otherwise it is set as for NumberPrinterParser.
+     * @param $context DateTimeParseContext the context
+     * @return bool if the field is fixed width
+     * @see DateTimeFormatterBuilder#appendValueReduced(java.time.temporal.TemporalField, int, int, int)
+     */
+    public function isFixedWidth(DateTimeParseContext $context)
+    {
+        if ($context->isStrict() == false) {
+            return false;
+        }
+
+        return parent::isFixedWidth($context);
+    }
+
+    public function __toString()
+    {
+        return "ReducedValue(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . ($this->baseDate != null ? $this->baseDate : $this->baseValue) . ")";
+    }
+}

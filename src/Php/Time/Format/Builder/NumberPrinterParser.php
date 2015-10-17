@@ -1,295 +1,313 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:09
- */
 
 namespace Php\Time\Format\Builder;
 
+use Php\Time\Temporal\TemporalField;
+use Php\Time\Format\SignStyle;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\DateTimeException;
+use Php\Time\Helper\Math;
+use Php\Time\Format\DateTimeParseContext;
 
 /**
  * Prints and parses a numeric date-time field with optional padding.
  */
-static class NumberPrinterParser implements DateTimePrinterParser
+class NumberPrinterParser implements DateTimePrinterParser
 {
 
     /**
      * Array of 10 to the power of n.
+     * @var int[]
      */
-static final long[] EXCEED_POINTS = new long[]
-{
-0L,
-10L,
-100L,
-1000L,
-10000L,
-100000L,
-1000000L,
-10000000L,
-100000000L,
-1000000000L,
-10000000000L,
-};
+    static $EXCEED_POINTS =
+        [
+            0,
+            10,
+            100,
+            1000,
+            10000,
+            100000,
+            1000000,
+            10000000,
+            100000000,
+            1000000000,
+            10000000000,
+        ];
 
-        final TemporalField field;
-        final int minWidth;
-        final int maxWidth;
-        private final SignStyle signStyle;
-        final int subsequentWidth;
+    /** @var TemporalField */
+    public $field;
+    /** @var int */
+    public $minWidth;
+    /** @var int */
+    public $maxWidth;
+    /** @var SignStyle */
+    private $signStyle;
+    /** @var int */
+    public $subsequentWidth;
 
-        /**
-         * Constructor.
-         *
-         * @param $field  the field to format, not null
-         * @param $minWidth  the minimum field width, from 1 to 19
-         * @param $maxWidth  the maximum field width, from minWidth to 19
-         * @param $signStyle  the positive/negative sign style, not null
-         */
-        NumberPrinterParser(TemporalField field, int minWidth, int maxWidth, SignStyle signStyle) {
-    // validated by caller
-    this->field = field;
-    this->minWidth = minWidth;
-    this->maxWidth = maxWidth;
-    this->signStyle = signStyle;
-    this->subsequentWidth = 0;
-}
-
-        /**
-         * Constructor.
-         *
-         * @param $field  the field to format, not null
-         * @param $minWidth  the minimum field width, from 1 to 19
-         * @param $maxWidth  the maximum field width, from minWidth to 19
-         * @param $signStyle  the positive/negative sign style, not null
-         * @param $subsequentWidth  the width of subsequent non-negative numbers, 0 or greater,
-         *  -1 if fixed width due to active adjacent parsing
-         */
-        protected NumberPrinterParser(TemporalField field, int minWidth, int maxWidth, SignStyle signStyle, int subsequentWidth) {
-    // validated by caller
-    this->field = field;
-    this->minWidth = minWidth;
-    this->maxWidth = maxWidth;
-    this->signStyle = signStyle;
-    this->subsequentWidth = subsequentWidth;
-}
-
-        /**
-         * Returns a new instance with fixed width flag set.
-         *
-         * @return a new updated printer-parser, not null
-         */
-        NumberPrinterParser withFixedWidth(){
-            if (subsequentWidth == -1) {
-                return $this;
-            }
-            return new NumberPrinterParser(field, minWidth, maxWidth, signStyle, -1);
-        }
-
-        /**
-         * Returns a new instance with an updated subsequent width.
-         *
-         * @param $subsequentWidth  the width of subsequent non-negative numbers, 0 or greater
-         * @return a new updated printer-parser, not null
-         */
-        NumberPrinterParser withSubsequentWidth(int subsequentWidth) {
-    return new NumberPrinterParser(field, minWidth, maxWidth, signStyle, this->subsequentWidth + subsequentWidth);
-}
-
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    Long valueLong = context->getValue(field);
-            if (valueLong == null) {
-                return false;
-            }
-            long value = getValue(context, valueLong);
-            DecimalStyle decimalStyle = context->getDecimalStyle();
-            String str = (value == Long->MIN_VALUE ? "9223372036854775808" : Long->toString(Math->abs(value)));
-            if (str->length() > maxWidth) {
-        throw new DateTimeException("Field " + field +
-            " cannot be printed as the value " + value +
-            " exceeds the maximum print width of " + maxWidth);
+    /**
+     * Constructor.
+     *
+     * @param $field TemporalField the field to format, not null
+     * @param $minWidth int the minimum field width, from 1 to 19
+     * @param $maxWidth int the maximum field width, from minWidth to 19
+     * @param $signStyle SignStyle the positive/negative sign style, not null
+     */
+    public function __construct(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
+    {
+        // validated by caller
+        $this->field = $field;
+        $this->minWidth = $minWidth;
+        $this->maxWidth = $maxWidth;
+        $this->signStyle = $signStyle;
+        $this->subsequentWidth = 0;
     }
-            str = decimalStyle->convertNumberToI18N(str);
 
-            if (value >= 0) {
-                switch (signStyle) {
-                    case EXCEEDS_PAD:
-                        if (minWidth < 19 && value >= EXCEED_POINTS[minWidth]) {
-                        buf->append(decimalStyle->getPositiveSign());
-                    }
-                        break;
-                    case ALWAYS:
-                        buf->append(decimalStyle->getPositiveSign());
-                        break;
-                }
-            } else {
-                switch (signStyle) {
-                    case NORMAL:
-                    case EXCEEDS_PAD:
-                    case ALWAYS:
-                        buf->append(decimalStyle->getNegativeSign());
-                        break;
-                    case NOT_NEGATIVE:
-                        throw new DateTimeException("Field " + field +
-                            " cannot be printed as the value " + value +
-                            " cannot be negative according to the SignStyle");
-                }
-            }
-            for (int i = 0; i < minWidth - str->length(); i++) {
-        buf->append(decimalStyle->getZeroDigit());
+    /**
+     * Constructor.
+     *
+     * @param $field TemporalField the field to format, not null
+     * @param $minWidth int the minimum field width, from 1 to 19
+     * @param $maxWidth int the maximum field width, from minWidth to 19
+     * @param $signStyle SignStyle the positive/negative sign style, not null
+     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater,
+     *  -1 if fixed width due to active adjacent parsing
+     */
+    protected function __construct2(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle, $subsequentWidth)
+    {
+        // validated by caller
+        $this->field = $field;
+        $this->minWidth = $minWidth;
+        $this->maxWidth = $maxWidth;
+        $this->signStyle = $signStyle;
+        $this->subsequentWidth = $subsequentWidth;
     }
-            buf->append(str);
-            return true;
+
+    /**
+     * Returns a new instance with fixed width flag set.
+     *
+     * @return NumberPrinterParser a new updated printer-parser, not null
+     */
+    public function withFixedWidth()
+    {
+        if ($this->subsequentWidth == -1) {
+            return $this;
         }
 
-        /**
-         * Gets the value to output.
-         *
-         * @param $context  the context
-         * @param $value  the value of the field, not null
-         * @return the value
-         */
-        long getValue(DateTimePrintContext context, long value) {
-    return value;
-}
+        return new NumberPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->signStyle, -1);
+    }
 
-        /**
-         * For NumberPrinterParser, the width is fixed depending on the
-         * minWidth, maxWidth, signStyle and whether subsequent fields are fixed.
-         * @param $context the context
-         * @return true if the field is fixed width
-         * @see DateTimeFormatterBuilder#appendValue(java.time.temporal.TemporalField, int)
-         */
-        boolean isFixedWidth(DateTimeParseContext context) {
-    return subsequentWidth == -1 ||
-    (subsequentWidth > 0 && minWidth == maxWidth && signStyle == SignStyle::NOT_NEGATIVE());
-}
+    /**
+     * Returns a new instance with an updated subsequent width.
+     *
+     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater
+     * @return NumberPrinterParser a new updated printer-parser, not null
+     */
+    public function withSubsequentWidth($subsequentWidth)
+    {
+        return new NumberPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->signStyle, $this->subsequentWidth + $subsequentWidth);
+    }
 
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    int length = text->length();
-            if (position == length) {
-                return ~position;
-            }
-            char sign = text->charAt(position);  // IOOBE if invalid position
-            boolean negative = false;
-            boolean positive = false;
-            if (sign == context->getDecimalStyle()->getPositiveSign()) {
-        if (signStyle->parse(true, context->isStrict(), minWidth == maxWidth) == false) {
-            return ~position;
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        $valueLong = $context->getValue($this->field);
+        if ($valueLong == null) {
+            return false;
         }
-                positive = true;
-                position++;
-            } else if (sign == context->getDecimalStyle()->getNegativeSign()) {
-        if (signStyle->parse(false, context->isStrict(), minWidth == maxWidth) == false) {
-            return ~position;
+
+        $value = $this->getValue($context, $valueLong);
+        $decimalStyle = $context->getDecimalStyle();
+        $str = ($value == Long::MIN_VALUE ? "9223372036854775808" : Long::toString(Math::abs($value)));
+        if (strlen($str) > $this->maxWidth) {
+            throw new DateTimeException("Field " . $this->field .
+                " cannot be printed as the value " . $value .
+                " exceeds the maximum print width of " . $this->maxWidth);
         }
-                negative = true;
-                position++;
-            } else {
-        if (signStyle == SignStyle::ALWAYS() && context->isStrict()) {
-            return ~position;
-        }
-            }
-            int effMinWidth = (context->isStrict() || isFixedWidth(context) ? minWidth : 1);
-            int minEndPos = position + effMinWidth;
-            if (minEndPos > length) {
-                return ~position;
-            }
-            int effMaxWidth = (context->isStrict() || isFixedWidth(context) ? maxWidth : 9) +Math->max(subsequentWidth, 0);
-            long total = 0;
-            BigInteger totalBig = null;
-            int pos = position;
-            for (int pass = 0; pass < 2; pass++) {
-        int maxEndPos = Math->min(pos + effMaxWidth, length);
-                while (pos < maxEndPos) {
-                    char ch = text->charAt(pos++);
-                    int digit = context->getDecimalStyle()->convertToDigit(ch);
-                    if (digit < 0) {
-                        pos--;
-                        if (pos < minEndPos) {
-                            return ~position;  // need at least min width digits
-                        }
-                        break;
+        $str = $decimalStyle->convertNumberToI18N($str);
+
+        if ($value >= 0) {
+            switch ($this->signStyle) {
+                case SignStyle::EXCEEDS_PAD():
+                    if ($this->minWidth < 19 && $value >= self::$EXCEED_POINTS[$this->minWidth]) {
+                        $buf->append($decimalStyle->getPositiveSign());
                     }
-                    if ((pos - position) > 18) {
-                        if (totalBig == null) {
-                            totalBig = BigInteger->valueOf(total);
-                        }
-                        totalBig = totalBig->multiply(BigInteger->TEN)->add(BigInteger->valueOf(digit));
-                    } else {
-                        total = total * 10 + digit;
+                    break;
+                case SignStyle::ALWAYS():
+                    $buf .= $decimalStyle->getPositiveSign();
+                    break;
+            }
+        } else {
+            switch ($this->signStyle) {
+                case SignStyle::NORMAL():
+                case SignStyle::EXCEEDS_PAD():
+                case SignStyle::ALWAYS():
+                    $buf .= $decimalStyle->getNegativeSign();
+                    break;
+                case SignStyle::NOT_NEGATIVE():
+                    throw new DateTimeException("Field " . $this->field .
+                        " cannot be printed as the value " . $value .
+                        " cannot be negative according to the SignStyle");
+            }
+        }
+        for ($i = 0; $i < $this->minWidth - strlen($str); $i++) {
+            $buf .= $decimalStyle->getZeroDigit();
+    }
+        $buf .= $str;
+        return true;
+    }
+
+    /**
+     * Gets the value to output.
+     *
+     * @param $context DateTimePrintContext  the context
+     * @param $value int the value of the field, not null
+     * @return int the value
+     */
+    public function getValue(DateTimePrintContext $context, $value)
+    {
+        return $value;
+    }
+
+    /**
+     * For NumberPrinterParser, the width is fixed depending on the
+     * minWidth, maxWidth, signStyle and whether subsequent fields are fixed.
+     * @param $context DateTimeParseContext the context
+     * @return true if the field is fixed width
+     * @see DateTimeFormatterBuilder#appendValue(java.time.temporal.TemporalField, int)
+     */
+    public function isFixedWidth(DateTimeParseContext $context)
+    {
+        return $this->subsequentWidth == -1 ||
+        ($this->subsequentWidth > 0 && $this->minWidth == $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE());
+    }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        $length = strlen($text);
+        if ($position == $length) {
+            return ~$position;
+        }
+
+        // TODO check
+        $sign = $text[$position];  // IOOBE if invalid position
+        $negative = false;
+        $positive = false;
+        if ($sign == $context->getDecimalStyle()->getPositiveSign()) {
+            if ($this->signStyle->parse(true, $context->isStrict(), $this->minWidth == $this->maxWidth) == false) {
+                return ~$position;
+            }
+            $positive = true;
+            $position++;
+        } else if ($sign == $context->getDecimalStyle()->getNegativeSign()) {
+            if ($this->signStyle->parse(false, $context->isStrict(), $this->minWidth == $this->maxWidth) == false) {
+                return ~$position;
+            }
+            $negative = true;
+            $position++;
+        } else {
+            if ($this->signStyle == SignStyle::ALWAYS() && $context->isStrict()) {
+                return ~$position;
+            }
+        }
+        $effMinWidth = ($context->isStrict() || $this->isFixedWidth($context) ? $this->minWidth : 1);
+        $minEndPos = $position + $effMinWidth;
+        if ($minEndPos > $length) {
+            return ~$position;
+        }
+        $effMaxWidth = ($context->isStrict() || $this->isFixedWidth($context) ? $this->maxWidth : 9) + Math::max($this->subsequentWidth, 0);
+        $total = 0;
+        $totalBig = null;
+        $pos = $position;
+        for ($pass = 0; $pass < 2; $pass++) {
+            $maxEndPos = Math::min($pos + $effMaxWidth, $length);
+            while ($pos < $maxEndPos) {
+                $ch = $text[$pos++];
+                $digit = $context->getDecimalStyle()->convertToDigit($ch);
+                if ($digit < 0) {
+                    $pos--;
+                    if ($pos < $minEndPos) {
+                        return ~$position;  // need at least min width digits
                     }
-                }
-                if (subsequentWidth > 0 && pass == 0) {
-                    // re-parse now we know the correct width
-                    int parseLen = pos - position;
-                    effMaxWidth = Math->max(effMinWidth, parseLen - subsequentWidth);
-                    pos = position;
-                    total = 0;
-                    totalBig = null;
-                } else {
                     break;
                 }
-            }
-            if (negative) {
-                if (totalBig != null) {
-                    if (totalBig->equals(BigInteger->ZERO) && context->isStrict()) {
-                        return ~(position - 1);  // minus zero not allowed
+                if (($pos - $position) > 18) {
+                    if ($totalBig == null) {
+                        $totalBig = BigInteger::valueOf($total);
                     }
-                    totalBig = totalBig->negate();
+                    $totalBig = $totalBig->multiply(BigInteger::TEN)->add(BigInteger::valueOf($digit));
                 } else {
-                    if (total == 0 && context->isStrict()) {
-                        return ~(position - 1);  // minus zero not allowed
-                    }
-                    total = -total;
-                }
-            } else if (signStyle == SignStyle::EXCEEDS_PAD() && context->isStrict()) {
-        int parseLen = pos - position;
-                if (positive) {
-                    if (parseLen <= minWidth) {
-                        return ~(position - 1);  // '+' only parsed if minWidth exceeded
-                    }
-                } else {
-                    if (parseLen > minWidth) {
-                        return ~position;  // '+' must be parsed if minWidth exceeded
-                    }
+                    $total = $total * 10 + $digit;
                 }
             }
-            if (totalBig != null) {
-                if (totalBig->bitLength() > 63) {
-                    // overflow, parse 1 less digit
-                    totalBig = totalBig->divide(BigInteger->TEN);
-                    pos--;
-                }
-                return setValue(context, totalBig->longValue(), position, pos);
+            if ($this->subsequentWidth > 0 && $pass == 0) {
+                // re-parse now we know the correct width
+                $parseLen = $pos - $position;
+                $effMaxWidth = Math::max($effMinWidth, $parseLen - $this->subsequentWidth);
+                $pos = $position;
+                $total = 0;
+                $totalBig = null;
+            } else {
+                break;
             }
-            return setValue(context, total, position, pos);
         }
-
-        /**
-         * Stores the value.
-         *
-         * @param $context  the context to store into, not null
-         * @param $value  the value
-         * @param $errorPos  the position of the field being parsed
-         * @param $successPos  the position after the field being parsed
-         * @return the new position
-         */
-        int setValue(DateTimeParseContext context, long value, int errorPos, int successPos) {
-    return context->setParsedField(field, value, errorPos, successPos);
-}
-
-        @Override
-        public String toString(){
-            if (minWidth == 1 && maxWidth == 19 && signStyle == SignStyle::NORMAL()) {
-                return "Value(" + field + ")";
+        if ($negative) {
+            if ($totalBig != null) {
+                if ($totalBig->equals(BigInteger::ZERO) && $context->isStrict()) {
+                    return ~($position - 1);  // minus zero not allowed
+                }
+                $totalBig = $totalBig->negate();
+            } else {
+                if ($total == 0 && $context->isStrict()) {
+                    return ~($position - 1);  // minus zero not allowed
+                }
+                $total = -$total;
             }
-            if (minWidth == maxWidth && signStyle == SignStyle::NOT_NEGATIVE()) {
-                return "Value(" + field + "," + minWidth + ")";
+        } else if ($this->signStyle == SignStyle::EXCEEDS_PAD() && $context->isStrict()) {
+            $parseLen = $pos - $position;
+            if ($positive) {
+                if ($parseLen <= $this->minWidth) {
+                    return ~($position - 1);  // '+' only parsed if minWidth exceeded
+                }
+            } else {
+                if ($parseLen > $this->minWidth) {
+                    return ~$position;  // '+' must be parsed if minWidth exceeded
+                }
             }
-            return "Value(" + field + "," + minWidth + "," + maxWidth + "," + signStyle + ")";
         }
+        if ($totalBig != null) {
+            if ($totalBig->bitLength() > 63) {
+                // overflow, parse 1 less digit
+                $totalBig = $totalBig->divide(BigInteger::TEN);
+                $pos--;
+            }
+            return $this->setValue($context, $totalBig->longValue(), $position, $pos);
+        }
+        return $this->setValue($context, $total, $position, $pos);
     }
+
+    /**
+     * Stores the value.
+     *
+     * @param $context DateTimeParseContext the context to store into, not null
+     * @param $value int the value
+     * @param $errorPos int the position of the field being parsed
+     * @param $successPos int the position after the field being parsed
+     * @return int the new position
+     */
+    public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)
+    {
+        return $context->setParsedField($this->field, $value, $errorPos, $successPos);
+    }
+
+    public function __toString()
+    {
+        if ($this->minWidth == 1 && $this->maxWidth == 19 && $this->signStyle == SignStyle::NORMAL()) {
+            return "Value(" . $this->field . ")";
+        }
+
+        if ($this->minWidth == $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE()) {
+            return "Value(" . $this->field . "," . $this->minWidth . ")";
+        }
+        return "Value(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . $this->signStyle . ")";
+    }
+}

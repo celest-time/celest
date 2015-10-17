@@ -1,78 +1,85 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:14
- */
 
 namespace Php\Time\Format\Builder;
+use Php\Time\Format\FormatStyle;
+use Php\Time\Format\DateTimeFormatter;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Chrono\Chronology;
+use Php\Time\Format\DateTimeParseContext;
+use Php\Time\IllegalArgumentException;
+use Php\Time\Format\DateTimeFormatterBuilder;
 
 
 /**
  * Prints or parses a localized pattern.
  */
-static final class LocalizedPrinterParser implements DateTimePrinterParser
+final class LocalizedPrinterParser implements DateTimePrinterParser
 {
-    /** Cache of formatters. */
-private static final ConcurrentMap<String, DateTimeFormatter> FORMATTER_CACHE = new ConcurrentHashMap<>(16, 0.75f, 2);
+    /** Cache of formatters.
+     * @var DateTimeFormatter[]
+     */
+    private static $FORMATTER_CACHE = [];
 
-private final FormatStyle dateStyle;
-private final FormatStyle timeStyle;
+    /** @var FormatStyle */
+    private $dateStyle;
+    /** @var FormatStyle */
+    private $timeStyle;
 
     /**
      * Constructor.
      *
-     * @param $dateStyle  the date style to use, may be null
-     * @param $timeStyle  the time style to use, may be null
+     * @param $dateStyle FormatStyle the date style to use, may be null
+     * @param $timeStyle FormatStyle the time style to use, may be null
      */
-LocalizedPrinterParser(FormatStyle dateStyle, FormatStyle timeStyle)
-{
-    // validated by caller
-this.dateStyle = dateStyle;
-this.timeStyle = timeStyle;
-}
-
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    Chronology chrono = Chronology->from(context->getTemporal());
-            return formatter(context->getLocale(), chrono)->toPrinterParser(false)->format(context, buf);
-        }
-
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    Chronology chrono = context->getEffectiveChronology();
-            return formatter(context->getLocale(), chrono)->toPrinterParser(false)->parse(context, text, position);
-        }
-
-        /**
-         * Gets the formatter to use.
-         * <p>
-         * The formatter will be the most appropriate to use for the date and time style in the locale.
-         * For example, some locales will use the month name while others will use the number.
-         *
-         * @param $locale  the locale to use, not null
-         * @param $chrono  the chronology to use, not null
-         * @return the formatter, not null
-         * @throws IllegalArgumentException if the formatter cannot be found
-         */
-        private DateTimeFormatter formatter(Locale locale, Chronology chrono) {
-    String key = chrono->getId() + '|' + locale->toString() + '|' + dateStyle + timeStyle;
-            DateTimeFormatter formatter = FORMATTER_CACHE->get(key);
-            if (formatter == null) {
-                String pattern = getLocalizedDateTimePattern(dateStyle, timeStyle, chrono, locale);
-                formatter = new DateTimeFormatterBuilder()->appendPattern(pattern)->toFormatter(locale);
-                DateTimeFormatter old = FORMATTER_CACHE->putIfAbsent(key, formatter);
-                if (old != null) {
-                    formatter = old;
-                }
-            }
-            return formatter;
-        }
-
-        @Override
-        public String toString(){
-            return "Localized(" + (dateStyle != null ? dateStyle : "") + "," +
-            (timeStyle != null ? timeStyle : "") + ")";
-        }
+    public function __construct($dateStyle, $timeStyle)
+    {
+        // validated by caller
+        $this->dateStyle = $dateStyle;
+        $this->timeStyle = $timeStyle;
     }
+
+    public function format(DateTimePrintContext $context, $buf)
+    {
+        $chrono = Chronology::from($context->getTemporal());
+        return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->format($context, $buf);
+    }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        $chrono = $context->getEffectiveChronology();
+        return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->parse($context, $text, $position);
+    }
+
+    /**
+     * Gets the formatter to use.
+     * <p>
+     * The formatter will be the most appropriate to use for the date and time style in the locale.
+     * For example, some locales will use the month name while others will use the number.
+     *
+     * @param $locale Locale the locale to use, not null
+     * @param $chrono Chronology the chronology to use, not null
+     * @return DateTimeFormatter the formatter, not null
+     * @throws IllegalArgumentException if the formatter cannot be found
+     */
+    private
+    function formatter(Locale $locale, Chronology $chrono)
+    {
+        $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . $this->timeStyle;
+        $formatter = self::$FORMATTER_CACHE[$key];
+        if ($formatter == null) {
+            $pattern = $this->getLocalizedDateTimePattern($this->dateStyle, $this->timeStyle, $chrono, $locale);
+            $formatter = (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter($locale);
+            $old = self::$FORMATTER_CACHE->putIfAbsent($key, $formatter);
+            if ($old != null) {
+                $formatter = $old;
+            }
+        }
+        return $formatter;
+    }
+
+    public function __toString()
+    {
+        return "Localized(" . ($this->dateStyle != null ? $this->dateStyle : "") . "," .
+        ($this->timeStyle != null ? $this->timeStyle : "") . ")";
+    }
+}

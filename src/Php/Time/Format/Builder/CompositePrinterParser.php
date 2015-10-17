@@ -1,100 +1,98 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:06
- */
 
 namespace Php\Time\Format\Builder;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Format\DateTimeParseContext;
 
 /**
  * Composite printer and parser.
  */
-static final class CompositePrinterParser implements DateTimePrinterParser
+final class CompositePrinterParser implements DateTimePrinterParser
 {
-private final DateTimePrinterParser[] printerParsers;
-private final boolean optional;
+    /** @var DateTimePrinterParser[] */
+    private $printerParsers;
+    /** @var bool */
+    private $optional;
 
-CompositePrinterParser(List<DateTimePrinterParser> printerParsers, boolean optional)
-{
-this(printerParsers.toArray(new DateTimePrinterParser[printerParsers.size()]), optional);
-}
-
-        CompositePrinterParser(DateTimePrinterParser[] printerParsers, boolean optional) {
-    this->printerParsers = printerParsers;
-    this->optional = optional;
-}
-
-        /**
-         * Returns a copy of this printer-parser with the optional flag changed.
-         *
-         * @param $optional  the optional flag to set in the copy
-         * @return the new printer-parser, not null
-         */
-        public CompositePrinterParser withOptional(boolean optional) {
-    if (optional == this->optional) {
-        return $this;
+    public function __construct($printerParsers, $optional)
+    {
+        $this->printerParsers = $printerParsers;
+        $this->optional = $optional;
     }
-    return new CompositePrinterParser(printerParsers, optional);
-}
 
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    int length = buf->length();
-            if (optional) {
-                context->startOptional();
-            }
-            try {
-                for (DateTimePrinterParser pp : printerParsers) {
-                    if (pp->format(context, buf) == false) {
-                        buf->setLength(length);  // reset buffer
-                        return true;
-                    }
-                }
-            } finally {
-                if (optional) {
-                    context->endOptional();
-                }
-            }
-            return true;
+    /**
+     * Returns a copy of this printer-parser with the optional flag changed.
+     *
+     * @param $optional bool the optional flag to set in the copy
+     * @return CompositePrinterParser the new printer-parser, not null
+     */
+    public function withOptional($optional)
+    {
+        if ($optional == $this->optional) {
+            return $this;
         }
 
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    if (optional) {
-        context->startOptional();
-        int pos = position;
-                for (DateTimePrinterParser pp : printerParsers) {
-                    pos = pp->parse(context, text, pos);
-                    if (pos < 0) {
-                        context->endOptional(false);
-                        return position;  // return original position
-                    }
-                }
-                context->endOptional(true);
-                return pos;
-            } else {
-        for (DateTimePrinterParser pp : printerParsers) {
-            position = pp->parse(context, text, position);
-            if (position < 0) {
-                break;
-            }
-        }
-                return position;
-            }
+        return new CompositePrinterParser($this->printerParsers, $optional);
+    }
+
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        $length = strlen($buf);
+        if ($this->optional) {
+            $context->startOptional();
         }
 
-        @Override
-        public String toString(){
-StringBuilder buf = new StringBuilder();
-            if (printerParsers != null) {
-                buf->append(optional ? "[" : "(");
-                for (DateTimePrinterParser pp : printerParsers) {
-                    buf->append(pp);
+        try {
+            foreach ($this->printerParsers as $pp) {
+                if ($pp->format($context, $buf) == false) {
+                    $buf->setLength($length);  // reset buffer
+                    return true;
                 }
-                buf->append(optional ? "]" : ")");
             }
-            return buf->toString();
+        } finally {
+            if ($this->optional) {
+                $context->endOptional();
+            }
+        }
+        return true;
+    }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        if ($this->optional) {
+            $context->startOptional();
+            $pos = $position;
+            foreach ($this->printerParsers as $pp) {
+                $pos = $pp->parse($context, $text, $pos);
+                if ($pos < 0) {
+                    $context->endOptional(false);
+                    return $position;  // return original position
+                }
+            }
+            $context->endOptional(true);
+            return $pos;
+        } else {
+            foreach ($this->printerParsers as $pp) {
+                $position = $pp->parse($context, $text, $position);
+                if ($position < 0) {
+                    break;
+                }
+            }
+            return $position;
         }
     }
+
+    public function __toString()
+    {
+        $buf = '';
+        if ($this->printerParsers != null) {
+            $buf .= $this->optional ? "[" : "(";
+            foreach ($this->printerParsers as $pp) {
+                $buf .= $pp;
+            }
+
+            $buf .= $this->optional ? "]" : ")";
+            }
+        return $buf;
+    }
+}

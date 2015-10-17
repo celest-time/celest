@@ -48,7 +48,7 @@ interface DateTimePrinterParser
      * @return bool false if unable to query the value from the date-time, true otherwise
      * @throws DateTimeException if the date-time cannot be printed successfully
      */
-    function format(DateTimePrintContext $context, $buf);
+    function format(DateTimePrintContext $context, &$buf);
 
     /**
      * Parses text into date-time information.
@@ -65,4 +65,6 @@ interface DateTimePrinterParser
      * @throws IndexOutOfBoundsException if the position is invalid
      */
     function parse(DateTimeParseContext $context, $text, $position);
+
+    function __toString();
 }

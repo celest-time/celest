@@ -1,108 +1,118 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:10
- */
 
 namespace Php\Time\Format\Builder;
 
+use Php\Time\Format\DateTimeParseContext;
+use Php\Time\Format\DateTimeTextProvider;
+use Php\Time\Temporal\TemporalField;
+use Php\Time\Format\TextStyle;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Format\SignStyle;
+use Php\Time\Temporal\TemporalQueries;
+use Php\Time\Chrono\IsoChronology;
 
-**
-* Prints or parses field text.
-     */
-    static final class TextPrinterParser implements DateTimePrinterParser
+/**
+ * Prints or parses field text.
+ */
+final class TextPrinterParser implements DateTimePrinterParser
 {
-private final TemporalField field;
-private final TextStyle textStyle;
-private final DateTimeTextProvider provider;
+    /** @var TemporalField */
+    private $field;
+    /** @var TextStyle */
+    private $textStyle;
+    /** @var DateTimeTextProvider */
+    private $provider;
     /**
      * The cached number printer parser.
      * Immutable and volatile, so no synchronization needed.
+     * @var NumberPrinterParser
      */
-private volatile NumberPrinterParser numberPrinterParser;
+
+    private $numberPrinterParser;
 
     /**
      * Constructor.
      *
-     * @param $field  the field to output, not null
-     * @param $textStyle  the text style, not null
-     * @param $provider  the text provider, not null
+     * @param $field TemporalField the field to output, not null
+     * @param $textStyle TextStyle the text style, not null
+     * @param $provider DateTimeTextProvider the text provider, not null
      */
-TextPrinterParser(TemporalField field, TextStyle textStyle, DateTimeTextProvider provider)
-{
-    // validated by caller
-this.field = field;
-this.textStyle = textStyle;
-this.provider = provider;
-}
+    public function __construct(TemporalField $field, TextStyle $textStyle, DateTimeTextProvider $provider)
+    {
+        // validated by caller
+        $this->field = $field;
+        $this->textStyle = $textStyle;
+        $this->provider = $provider;
+    }
 
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    Long value = context->getValue(field);
-            if (value == null) {
-                return false;
-            }
-            String text;
-            Chronology chrono = context->getTemporal()->query(TemporalQueries->chronology());
-            if (chrono == null || chrono == IsoChronology->INSTANCE) {
-        text = provider->getText(field, value, textStyle, context->getLocale());
-            } else {
-        text = provider->getText(chrono, field, value, textStyle, context->getLocale());
-            }
-            if (text == null) {
-                return numberPrinterParser()->format(context, buf);
-            }
-            buf->append(text);
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        $value = $context->getValue($this->field);
+        if ($value == null) {
+            return false;
+        }
+
+        $text = null;
+        $chrono = $context->getTemporal()->query(TemporalQueries::chronology());
+        if ($chrono == null || $chrono == IsoChronology::INSTANCE()) {
+            $text = $this->provider->getText($this->field, $value, $this->textStyle, $context->getLocale());
+        } else {
+            $text = $this->provider->getText($chrono, $this->field, $value, $this->textStyle, $context->getLocale());
+        }
+        if ($text == null) {
+            return $this->numberPrinterParser()->format($context, $buf);
+        }
+        $buf .= $text;
             return true;
         }
 
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence parseText, int position) {
-    int length = parseText->length();
-            if (position < 0 || position > length) {
-                throw new IndexOutOfBoundsException();
-            }
-            TextStyle style = (context->isStrict() ? textStyle : null);
-            Chronology chrono = context->getEffectiveChronology();
-            Iterator < Entry<String, Long >> it;
-            if (chrono == null || chrono == IsoChronology->INSTANCE) {
-        it = provider->getTextIterator(field, style, context->getLocale());
-            } else {
-        it = provider->getTextIterator(chrono, field, style, context->getLocale());
-            }
-            if (it != null) {
-                while (it->hasNext()) {
-                    Entry < String, Long > entry = it->next();
-                    String itText = entry->getKey();
-                    if (context->subSequenceEquals(itText, 0, parseText, position, itText->length())) {
-                        return context->setParsedField(field, entry->getValue(), position, position + itText->length());
-                    }
-                }
-                if (context->isStrict()) {
-                    return ~position;
-                }
-            }
-            return numberPrinterParser()->parse(context, parseText, position);
+    public function parse(DateTimeParseContext $context, $parseText, $position)
+    {
+        $length = strlen($parseText);
+        if ($position < 0 || $position > $length) {
+            throw new IndexOutOfBoundsException();
         }
 
-        /**
-         * Create and cache a number printer parser.
-         * @return the number printer parser for this field, not null
-         */
-        private NumberPrinterParser numberPrinterParser(){
-            if (numberPrinterParser == null) {
-                numberPrinterParser = new NumberPrinterParser(field, 1, 19, SignStyle::NORMAL());
-            }
-            return numberPrinterParser;
+        $style = ($context->isStrict() ? $this->textStyle : null);
+        $chrono = $context->getEffectiveChronology();
+        $it = null;
+        if ($chrono == null || $chrono == IsoChronology::INSTANCE()) {
+            $it = $this->provider->getTextIterator($this->field, $style, $context->getLocale());
+        } else {
+            $it = $this->provider->getTextIterator($chrono, $this->field, $style, $context->getLocale());
         }
-
-        @Override
-        public String toString(){
-            if (textStyle == TextStyle::FULL()) {
-                return "Text(" + field + ")";
+        if ($it != null) {
+            while ($it->hasNext()) {
+                $entry = $it->next();
+                $itText = $entry->getKey();
+                if ($context->subSequenceEquals($itText, 0, $parseText, $position, strlen($itText))) {
+                    return $context->setParsedField($this->field, $entry->getValue(), $position, $position + strlen($itText));
+                }
             }
-            return "Text(" + field + "," + textStyle + ")";
+            if ($context->isStrict()) {
+                return ~$position;
+            }
         }
+        return $this->numberPrinterParser()->parse($context, $parseText, $position);
     }
+
+    /**
+     * Create and cache a number printer parser.
+     * @return NumberPrinterParser the number printer parser for this field, not null
+     */
+    private function numberPrinterParser()
+    {
+        if ($this->numberPrinterParser == null) {
+            $this->numberPrinterParser = new NumberPrinterParser($this->field, 1, 19, SignStyle::NORMAL());
+        }
+        return $this->numberPrinterParser;
+    }
+
+    public function __toString()
+    {
+        if ($this->textStyle == TextStyle::FULL()) {
+            return "Text(" . $this->field . ")";
+        }
+        return "Text(" . $this->field . "," . $this->textStyle . ")";
+    }
+}

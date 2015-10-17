@@ -1,47 +1,44 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:08
- */
 
 namespace Php\Time\Format\Builder;
-
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Format\DateTimeParseContext;
 
 /**
  * Prints or parses a string literal.
  */
-static final class StringLiteralPrinterParser implements DateTimePrinterParser
+final class StringLiteralPrinterParser implements DateTimePrinterParser
 {
-private final String literal;
+    /** @var string */
+    private $literal;
 
-StringLiteralPrinterParser(String literal)
-{
-this.literal = literal;  // validated by caller
-}
-
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    buf->append(literal);
-    return true;
-}
-
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    int length = text->length();
-            if (position > length || position < 0) {
-                throw new IndexOutOfBoundsException();
-            }
-            if (context->subSequenceEquals(text, position, literal, 0, literal->length()) == false) {
-        return ~position;
+    public function __construct($literal)
+    {
+        $this->literal = $literal;  // validated by caller
     }
-            return position + literal->length();
+
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        $buf .= $this->literal;
+        return true;
+    }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        $length = strlen($text);
+        if ($position > $length || $position < 0) {
+            throw new IndexOutOfBoundsException();
         }
 
-        @Override
-        public String toString(){
-String converted = literal->replace("'", "''");
-            return "'" + converted + "'";
+        if ($context->subSequenceEquals($text, $position, $this->literal, 0, strlen($this->literal)) == false) {
+            return ~$position;
         }
+        return $position + strlen($this->literal);
     }
+
+    public function __toString()
+    {
+        $converted = str_replace("'", "''", $this->literal);
+        return "'" . $converted . "'";
+    }
+}

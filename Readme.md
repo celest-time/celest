@@ -20,6 +20,8 @@
 
 - map<TemporalField, long> use TemporalField->__toString as index.
 
+Disable Autocompletion in IDE for easier adding of $ ;)
+
 Useful regex:
 Add $ to phpdoc
 @param ([^$])

@@ -1,35 +1,38 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:08
- */
 
 namespace Php\Time\Format\Builder;
+
+use Php\Time\Format\DateTimeParseContext;
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Temporal\TemporalField;
 
 /**
  * Defaults a value into the parse if not currently present.
  */
-static class DefaultValueParser implements DateTimePrinterParser
+class DefaultValueParser implements DateTimePrinterParser
 {
-private final TemporalField field;
-private final long value;
+    /** @var TemporalField */
+    private $field;
+    /** @var int */
+    private $value;
 
-DefaultValueParser(TemporalField field, long value)
-{
-this.field = field;
-this.value = value;
-}
-
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    return true;
-}
-
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    if (context->getParsed(field) == null) {
-        context->setParsedField(field, value, position, position);
+    public function __construct(TemporalField $field, $value)
+    {
+        $this->field = $field;
+        $this->value = $value;
     }
-    return position;
-}
+
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        return true;
     }
+
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        if ($context->getParsed($this->field) == null) {
+            $context->setParsedField($this->field, $this->value, $position, $position);
+        }
+
+        return $position;
+    }
+}

@@ -1,12 +1,11 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:15
- */
 
 namespace Php\Time\Format\Builder;
+
+use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Format\DateTimeParseContext;
+use Php\Time\Format\SignStyle;
+use Php\Time\IllegalArgumentException;
 
 /**
  * Prints or parses a localized pattern from a localized field.
@@ -15,101 +14,105 @@ namespace Php\Time\Format\Builder;
  * The locale is needed to select the proper WeekFields from which
  * the field for day-of-week, week-of-month, or week-of-year is selected.
  */
-static final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
+final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
 {
-private char chr;
-private int count;
+    /** @var string */
+    private $chr;
+    /** @var int */
+    private $count;
 
     /**
      * Constructor.
      *
-     * @param $chr the pattern format letter that added this PrinterParser.
-     * @param $count the repeat count of the format letter
+     * @param $chr string the pattern format letter that added this PrinterParser.
+     * @param $count int the repeat count of the format letter
      */
-WeekBasedFieldPrinterParser(char chr, int count)
-{
-this.chr = chr;
-this.count = count;
-}
+    public function __construct($chr, $count)
+    {
+        $this->chr = $chr;
+        $this->count = $count;
+    }
 
-        @Override
-        public boolean format(DateTimePrintContext context, StringBuilder buf) {
-    return printerParser(context->getLocale())->format(context, buf);
-}
+    public function format(DateTimePrintContext $context, &$buf)
+    {
+        return $this->printerParser($context->getLocale())->format($context, $buf);
+    }
 
-        @Override
-        public int parse(DateTimeParseContext context, CharSequence text, int position) {
-    return printerParser(context->getLocale())->parse(context, text, position);
-}
+    public function parse(DateTimeParseContext $context, $text, $position)
+    {
+        return $this->printerParser($context->getLocale())->parse($context, $text, $position);
+    }
 
-        /**
-         * Gets the printerParser to use based on the field and the locale.
-         *
-         * @param $locale  the locale to use, not null
-         * @return the formatter, not null
-         * @throws IllegalArgumentException if the formatter cannot be found
-         */
-        private DateTimePrinterParser printerParser(Locale locale) {
-    WeekFields weekDef = WeekFields->of(locale);
-            TemporalField field = null;
-            switch (chr) {
-                case 'Y':
-                    field = weekDef->weekBasedYear();
-                    if (count == 2) {
-                        return new ReducedPrinterParser(field, 2, 2, 0, ReducedPrinterParser->BASE_DATE, 0);
-                    } else {
-                        return new NumberPrinterParser(field, count, 19,
-                            (count < 4) ? SignStyle::NORMAL() : SignStyle::EXCEEDS_PAD(), -1);
-                    }
-                case 'e':
+    /**
+     * Gets the printerParser to use based on the field and the locale.
+     *
+     * @param $locale Locale the locale to use, not null
+     * @return DateTimePrinterParser the formatter, not null
+     * @throws IllegalArgumentException if the formatter cannot be found
+     */
+    private function printerParser(Locale $locale)
+    {
+        $weekDef = WeekFields::of($locale);
+        $field = null;
+        switch ($this->chr) {
+            case 'Y':
+                $field = $weekDef->weekBasedYear();
+                if ($this->count == 2) {
+                    return new ReducedPrinterParser($field, 2, 2, 0, ReducedPrinterParser::BASE_DATE, 0);
+                } else {
+                    return new NumberPrinterParser($field, $this->count, 19,
+                        ($this->count < 4) ? SignStyle::NORMAL() : SignStyle::EXCEEDS_PAD(), -1);
+                }
+            case
+            'e':
+            case 'c':
+                $field = $weekDef->dayOfWeek();
+                break;
+            case 'w':
+                $field = $weekDef->weekOfWeekBasedYear();
+                break;
+            case 'W':
+                $field = $weekDef->weekOfMonth();
+                break;
+            default:
+                throw new IllegalStateException("unreachable");
+        }
+        return new NumberPrinterParser($field, ($this->count == 2 ? 2 : 1), 2, SignStyle::NOT_NEGATIVE());
+    }
+
+    public function __toString()
+    {
+        $sb = "Localized(";
+        if ($this->chr === 'Y') {
+            if ($this->count == 1) {
+                $sb .= "WeekBasedYear";
+            } else
+                if ($this->count == 2) {
+                    $sb .= "ReducedValue(WeekBasedYear,2,2,2000-01-01)";
+                } else {
+                    $sb .= "WeekBasedYear," . $this->count . ","
+                        . 19 . ","
+                        . (($this->count < 4) ? SignStyle::NORMAL() : SignStyle::EXCEEDS_PAD());
+                }
+        } else {
+            switch ($this->chr) {
                 case 'c':
-                    field = weekDef->dayOfWeek();
+                case 'e':
+                    $sb .= "DayOfWeek";
                     break;
                 case 'w':
-                    field = weekDef->weekOfWeekBasedYear();
+                    $sb .= "WeekOfWeekBasedYear";
                     break;
                 case 'W':
-                    field = weekDef->weekOfMonth();
+                    $sb .= "WeekOfMonth";
                     break;
                 default:
-                    throw new IllegalStateException("unreachable");
+                    break;
             }
-            return new NumberPrinterParser(field, (count == 2 ? 2 : 1), 2, SignStyle::NOT_NEGATIVE());
+            $sb .= ",";
+            $sb .= $this->count;
         }
-
-        @Override
-        public String toString(){
-StringBuilder sb = new StringBuilder(30);
-            sb->append("Localized(");
-            if (chr == 'Y') {
-                if (count == 1) {
-                    sb->append("WeekBasedYear");
-                } else if (count == 2) {
-                    sb->append("ReducedValue(WeekBasedYear,2,2,2000-01-01)");
-                } else {
-                    sb->append("WeekBasedYear,")->append(count)->append(",")
-                        ->append(19)->append(",")
-                        ->append((count < 4) ? SignStyle::NORMAL() : SignStyle::EXCEEDS_PAD());
-                }
-            } else {
-                switch (chr) {
-                    case 'c':
-                    case 'e':
-                        sb->append("DayOfWeek");
-                        break;
-                    case 'w':
-                        sb->append("WeekOfWeekBasedYear");
-                        break;
-                    case 'W':
-                        sb->append("WeekOfMonth");
-                        break;
-                    default:
-                        break;
-                }
-                sb->append(",");
-                sb->append(count);
-            }
-            sb->append(")");
-            return sb->toString();
-        }
+        $sb .= ")";
+        return $sb;
     }
+}
