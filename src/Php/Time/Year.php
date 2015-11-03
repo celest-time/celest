@@ -133,11 +133,14 @@ final class Year
      */
     const MAX_VALUE = 999999999;
 
-    public static function init()
-    {
-        self::$PARSER = (new DateTimeFormatterBuilder())
-            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
-            ->toFormatter();
+    private static function PARSER() {
+        if(self::$PARSER === null) {
+            self::$PARSER = (new DateTimeFormatterBuilder())
+                ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
+                ->toFormatter();
+        }
+
+        return self::$PARSER;
     }
 
     /**
@@ -274,7 +277,7 @@ final class Year
      */
     public static function parse($text)
     {
-        return self::parseWith($text, self::$PARSER);
+        return self::parseWith($text, self::PARSER());
     }
 
     /**
@@ -1128,5 +1131,3 @@ final class Year
     }
 
 }
-
-Year::init();
