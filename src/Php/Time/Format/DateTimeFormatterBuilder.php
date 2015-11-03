@@ -76,6 +76,7 @@ use Php\Time\Format\Builder\NumberPrinterParser;
 use Php\Time\Format\Builder\OffsetIdPrinterParser;
 use Php\Time\Format\Builder\PadPrinterParserDecorator;
 use Php\Time\Format\Builder\ReducedPrinterParser;
+use Php\Time\Format\Builder\SettingsParser;
 use Php\Time\Format\Builder\StringLiteralPrinterParser;
 use Php\Time\Format\Builder\TextPrinterParser;
 use Php\Time\Format\Builder\WeekBasedFieldPrinterParser;
@@ -485,7 +486,7 @@ final class DateTimeFormatterBuilder
                 $maxWidth . " < " . $minWidth);
         }
         $pp = new NumberPrinterParser($field, $minWidth, $maxWidth, $signStyle);
-        $this->appendValue($pp);
+        $this->appendValue4($pp);
         return $this;
     }
 
