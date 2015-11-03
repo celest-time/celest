@@ -78,6 +78,11 @@ class SignStyle
 {
     public static function init()
     {
+        self::$NORMAL = new SignStyle();
+        self::$ALWAYS = new SignStyle();
+        self::$NEVER = new SignStyle();
+        self::$NOT_NEGATIVE = new SignStyle();
+        self::$EXCEEDS_PAD = new SignStyle();
     }
 
     /**
