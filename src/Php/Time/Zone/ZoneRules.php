@@ -187,7 +187,7 @@ final class ZoneRules
      */
     public static function ofOffset(ZoneOffset $offset)
     {
-        return new ZoneRules($offset, $offset, self::$EMPTY_LONG_ARRAY, [$offset], self::$EMPTY_LASTRULES);
+        return new ZoneRules($offset, $offset, self::$EMPTY_LONG_ARRAY, [], self::$EMPTY_LASTRULES);
     }
 
     /**
