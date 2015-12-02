@@ -31,9 +31,9 @@ final class ChronoPrinterParser implements DateTimePrinterParser
         }
 
         if ($this->textStyle == null) {
-            $buf .= $chrono->getId());
+            $buf .= $chrono->getId();
             } else {
-            $buf .= $this->getChronologyName($chrono, $context->getLocale()));
+            $buf .= $this->getChronologyName($chrono, $context->getLocale());
             }
         return true;
     }
@@ -83,5 +83,10 @@ final class ChronoPrinterParser implements DateTimePrinterParser
         $key = "calendarname." . $chrono->getCalendarType();
         $name = DateTimeTextProvider::getLocalizedResource($key, $locale);
         return $name != null ? $name : $chrono->getId();
+    }
+
+    function __toString()
+    {
+        return (string)$this->textStyle;
     }
 }

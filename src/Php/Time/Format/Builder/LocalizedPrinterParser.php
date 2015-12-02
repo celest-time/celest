@@ -38,7 +38,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
         $this->timeStyle = $timeStyle;
     }
 
-    public function format(DateTimePrintContext $context, $buf)
+    public function format(DateTimePrintContext $context, &$buf)
     {
         $chrono = Chronology::from($context->getTemporal());
         return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->format($context, $buf);

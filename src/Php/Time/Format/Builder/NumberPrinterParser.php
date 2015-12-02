@@ -41,7 +41,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     /** @var int */
     public $maxWidth;
     /** @var SignStyle */
-    private $signStyle;
+    public $signStyle;
     /** @var int */
     public $subsequentWidth;
 

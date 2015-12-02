@@ -67,6 +67,7 @@ use Php\Time\Chrono\Chronology;
 use Php\Time\Format\Builder\CharLiteralPrinterParser;
 use Php\Time\Format\Builder\ChronoPrinterParser;
 use Php\Time\Format\Builder\CompositePrinterParser;
+use Php\Time\Format\Builder\DateTimePrinterParser;
 use Php\Time\Format\Builder\DefaultValueParser;
 use Php\Time\Format\Builder\FractionPrinterParser;
 use Php\Time\Format\Builder\InstantPrinterParser;
@@ -777,6 +778,9 @@ final class DateTimeFormatterBuilder
             return store->getTextIterator(style);
         }
         };*/
+
+        $provider = null;
+
         $this->appendInternal(new TextPrinterParser($field, TextStyle::FULL(), $provider));
         return $this;
     }
@@ -2100,8 +2104,8 @@ final class DateTimeFormatterBuilder
      * Completes this builder by creating the formatter.
      * This uses the default locale.
      *
-     * @param $resolverStyle  the resolver style to use, not null
-     * @return the created formatter, not null
+     * @param $resolverStyle ResolverStyle the resolver style to use, not null
+     * @return Chronology the created formatter, not null
      */
     public function toFormatter3(ResolverStyle $resolverStyle, Chronology $chrono)
     {
