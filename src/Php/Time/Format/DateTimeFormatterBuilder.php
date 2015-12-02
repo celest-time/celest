@@ -84,6 +84,7 @@ use Php\Time\Format\Builder\WeekBasedFieldPrinterParser;
 use Php\Time\Format\Builder\ZoneIdPrinterParser;
 use Php\Time\Format\Builder\ZoneTextPrinterParser;
 use Php\Time\IllegalArgumentException;
+use Php\Time\Locale;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
@@ -2074,7 +2075,7 @@ final class DateTimeFormatterBuilder
      */
     public function toFormatter()
     {
-        return $this->toFormatter(Locale::getDefault(Locale::$Category->FORMAT));
+        return $this->toFormatter2(Locale::getDefault(Locale::$Category->FORMAT));
     }
 
     /**
@@ -2097,7 +2098,7 @@ final class DateTimeFormatterBuilder
     public
     function toFormatter2(Locale $locale)
     {
-        return $this->toFormatter($locale, ResolverStyle::SMART(), null);
+        return $this->toFormatter4($locale, ResolverStyle::SMART(), null);
     }
 
     /**
@@ -2109,7 +2110,7 @@ final class DateTimeFormatterBuilder
      */
     public function toFormatter3(ResolverStyle $resolverStyle, Chronology $chrono)
     {
-        return $this->toFormatter(Locale::getDefault(Locale::$Category->FORMAT), $resolverStyle, $chrono);
+        return $this->toFormatter4(Locale::getDefault(Locale::$Category->FORMAT), $resolverStyle, $chrono);
     }
 
     /**
