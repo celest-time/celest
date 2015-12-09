@@ -1,14 +1,16 @@
 {
-  "name": "Php.Time",
+  "name": "php/time",
+  "description": "A port of JSR310 to PHP",
+  "license": "GPL-2.0",
   "autoload": {
-    "psr-0": {
-      "Php\\Time": "src/"
+    "psr-4": {
+      "Php\\Time\\": "src/Php/Time"
     }
   },
   "require": {
     "ext-gmp": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "4.8.*"
+    "phpunit/phpunit": ">=4.8"
   }
 }
