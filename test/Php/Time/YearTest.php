@@ -1263,8 +1263,10 @@ class YearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // equals() / hashCode()
     //-----------------------------------------------------------------------
-    /** TODO enable */
-    public function equals()
+    /**
+     * @group long
+     */
+    public function test_equals()
     {
         for ($i = -4; $i <= 2104;
              $i++) {

@@ -67,6 +67,7 @@ use Php\Time\Chrono\Chronology;
 use Php\Time\Format\Builder\CharLiteralPrinterParser;
 use Php\Time\Format\Builder\ChronoPrinterParser;
 use Php\Time\Format\Builder\CompositePrinterParser;
+use Php\Time\Format\Builder\DateTimePrinterParser;
 use Php\Time\Format\Builder\DefaultValueParser;
 use Php\Time\Format\Builder\FractionPrinterParser;
 use Php\Time\Format\Builder\InstantPrinterParser;
@@ -83,6 +84,7 @@ use Php\Time\Format\Builder\WeekBasedFieldPrinterParser;
 use Php\Time\Format\Builder\ZoneIdPrinterParser;
 use Php\Time\Format\Builder\ZoneTextPrinterParser;
 use Php\Time\IllegalArgumentException;
+use Php\Time\Locale;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQueries;
@@ -777,6 +779,9 @@ final class DateTimeFormatterBuilder
             return store->getTextIterator(style);
         }
         };*/
+
+        $provider = null;
+
         $this->appendInternal(new TextPrinterParser($field, TextStyle::FULL(), $provider));
         return $this;
     }
@@ -2070,7 +2075,7 @@ final class DateTimeFormatterBuilder
      */
     public function toFormatter()
     {
-        return $this->toFormatter(Locale::getDefault(Locale::$Category->FORMAT));
+        return $this->toFormatter2(Locale::getDefault(Locale::$Category->FORMAT));
     }
 
     /**
@@ -2093,19 +2098,19 @@ final class DateTimeFormatterBuilder
     public
     function toFormatter2(Locale $locale)
     {
-        return $this->toFormatter($locale, ResolverStyle::SMART(), null);
+        return $this->toFormatter4($locale, ResolverStyle::SMART(), null);
     }
 
     /**
      * Completes this builder by creating the formatter.
      * This uses the default locale.
      *
-     * @param $resolverStyle  the resolver style to use, not null
-     * @return the created formatter, not null
+     * @param $resolverStyle ResolverStyle the resolver style to use, not null
+     * @return Chronology the created formatter, not null
      */
     public function toFormatter3(ResolverStyle $resolverStyle, Chronology $chrono)
     {
-        return $this->toFormatter(Locale::getDefault(Locale::$Category->FORMAT), $resolverStyle, $chrono);
+        return $this->toFormatter4(Locale::getDefault(Locale::$Category->FORMAT), $resolverStyle, $chrono);
     }
 
     /**
