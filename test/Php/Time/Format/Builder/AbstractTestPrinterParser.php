@@ -2,7 +2,6 @@
 
 namespace Php\Time\Format\Builder;
 
-
 use Php\Time\DateTimeException;
 use Php\Time\Format\DateTimeFormatterBuilder;
 use Php\Time\Format\DecimalStyle;
@@ -11,16 +10,50 @@ use Php\Time\Format\TextStyle;
 use Php\Time\LocalDateTime;
 use Php\Time\Locale;
 use Php\Time\Temporal\TemporalAccessor;
+use Php\Time\Temporal\TemporalAccessorDefaults;
 use Php\Time\Temporal\TemporalField;
+use Php\Time\Temporal\TemporalQuery;
 use Php\Time\ZonedDateTime;
 use Php\Time\ZoneId;
 use PHPUnit_Framework_TestCase;
 
+class TemporalTest implements TemporalAccessor {
+
+    public function isSupported(TemporalField $field)
+    {
+        return true;
+    }
+
+
+    public function range(TemporalField $field)
+    {
+        return TemporalAccessorDefaults::range($this, $field);
+    }
+
+    public function get(TemporalField $field)
+    {
+        return TemporalAccessorDefaults::get($this, $field);
+    }
+
+    public function getLong(TemporalField $field)
+    {
+        return TemporalAccessorDefaults::get($this, $field);
+    }
+
+    public function query(TemporalQuery $query)
+    {
+        return TemporalAccessorDefaults::query($this, $query);
+    }
+
+    public function __toString()
+    {
+        return '';
+    }
+}
+
 class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
 {
 
-    /** @var string */
-    protected $buf;
     /** @var DateTimeFormatterBuilder */
     protected $builder;
     /** @var TemporalAccessor */
@@ -30,13 +63,11 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
     /** @var DecimalStyle */
     protected $decimalStyle;
 
-
     /**
      * @setUp
      */
     public function setUp()
     {
-        $this->buf = '';
         $this->builder = new DateTimeFormatterBuilder();
         $this->dta = ZonedDateTime::of(LocalDateTime::ofNumerical(2011, 6, 30, 12, 30, 40, 0), ZoneId::of("Europe/Paris"));
         // TODO Locale $this->locale = Locale . ENGLISH;
@@ -111,27 +142,14 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
         return $this->builder->appendPattern($pattern)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    /* TODO
-        protected
-        static function EMPTY_DTA()
-        {
-            return TemporalAccessorDefaults::class;
-    } = new TemporalAccessor()
+    protected static function EMPTY_DTA()
     {
-    public
-    boolean isSupported(TemporalField field)
-    {
-    return true;
+        return new TemporalTest();
     }
-    */
 
     public
     function getLong(TemporalField $field)
     {
         throw new DateTimeException("Mock");
     }
-}
-
-;
-
 }

@@ -2,37 +2,41 @@
 
 namespace Php\Time\Format\Builder;
 
-
-use PHPUnit_Framework_TestCase;
-
 class CharLiteralPrinterTest extends AbstractTestPrinterParser
 {
     //-----------------------------------------------------------------------
-public function test_print_emptyCalendrical()  {
-buf.append("EXISTING");
-getFormatter('a').formatTo(EMPTY_DTA, buf);
-assertEquals(buf.toString(), "EXISTINGa");
-}
+    public function test_print_emptyCalendrical()
+    {
+        $buf = "EXISTING";
+        $this->getFormatterChar('a')->formatTo(self::EMPTY_DTA(), $buf);
+        $this->assertEquals($buf, "EXISTINGa");
+    }
 
-public void test_print_dateTime()  {
-    buf.append("EXISTING");
-    getFormatter('a').formatTo(dta, buf);
-    assertEquals(buf.toString(), "EXISTINGa");
-}
+    public function test_print_dateTime()
+    {
+        $buf = "EXISTING";
+        $this->getFormatterChar('a')->formatTo($this->dta, $buf);
+        $this->assertEquals($buf, "EXISTINGa");
+    }
 
-    public void test_print_emptyAppendable() {
-    getFormatter('a').formatTo(dta, buf);
-    assertEquals(buf.toString(), "a");
-}
+    public
+    function test_print_emptyAppendable()
+    {
+        $buf = '';
+        $this->getFormatterChar('a')->formatTo($this->dta, $buf);
+        $this->assertEquals($buf, "a");
+    }
 
     //-----------------------------------------------------------------------
-    public void test_toString() {
-    assertEquals(getFormatter('a').toString(), "'a'");
-}
+    public function test_toString()
+    {
+        $this->assertEquals($this->getFormatterChar('a'), "'a'");
+    }
 
     //-----------------------------------------------------------------------
-    public void test_toString_apos() {
-    assertEquals(getFormatter('\'').toString(), "''");
-}
+    public function test_toString_apos()
+    {
+        $this->assertEquals($this->getFormatterChar('\''), "''");
+    }
 
 }

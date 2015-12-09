@@ -66,6 +66,7 @@ namespace Php\Time\Format;
 use Php\Time\Chrono\Chronology;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\DateTimeException;
+use Php\Time\DateTimeParseException;
 use Php\Time\Format\Builder\CompositePrinterParser;
 use Php\Time\IllegalArgumentException;
 use Php\Time\Locale;
@@ -76,6 +77,7 @@ use Php\Time\Temporal\TemporalField;
 use Php\Time\Temporal\TemporalQuery;
 use Php\Time\Temporal\TemporalQuery\FuncTemporalQuery;
 use Php\Time\ZoneId;
+use RuntimeException;
 
 /**
  * Formatter for printing and parsing date-time objects.
@@ -498,7 +500,7 @@ class DateTimeFormatter
      */
     private $zone;
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Creates a formatter using the specified pattern.
      * <p>
@@ -662,7 +664,7 @@ class DateTimeFormatter
      * @return DateTimeFormatter the date, time or date-time formatter, not null
      */
     public
-    static function ofLocalizedDateTime(FormatStyle $dateStyle, FormatStyle $timeStyle)
+    static function ofLocalizedDateTimeSplit(FormatStyle $dateStyle, FormatStyle $timeStyle)
     {
         return (new DateTimeFormatterBuilder())->appendLocalized($dateStyle, $timeStyle)
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
@@ -889,7 +891,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), null);
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO date-time formatter that formats or parses a date-time without
      * an offset, such as '2011-12-03T10:15:30'.
@@ -919,7 +921,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO date-time formatter that formats or parses a date-time with an
      * offset, such as '2011-12-03T10:15:30+01:00'.
@@ -949,7 +951,7 @@ class DateTimeFormatter
             ->toFormatter(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO-like date-time formatter that formats or parses a date-time with
      * offset and zone, such as '2011-12-03T10:15:30+01:00[Europe/Paris]'.
@@ -986,7 +988,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO-like date-time formatter that formats or parses a date-time with
      * the offset and zone if available, such as '2011-12-03T10:15:30',
@@ -1031,7 +1033,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO date formatter that formats or parses the ordinal date
      * without an offset, such as '2012-337'.
@@ -1073,7 +1075,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO date formatter that formats or parses the week-based date
      * without an offset, such as '2012-W48-6'.
@@ -1121,7 +1123,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO instant formatter that formats or parses an instant in UTC,
      * such as '2011-12-03T10:15:30Z'.
@@ -1162,7 +1164,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), null);
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The ISO date formatter that formats or parses a date without an
      * offset, such as '20111203'.
@@ -1204,7 +1206,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * The RFC-1123 date-time formatter, such as 'Tue, 3 Jun 2008 11:05:30 GMT'.
      * <p>
@@ -1302,7 +1304,7 @@ class DateTimeFormatter
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * A query that provides access to the excess days that were parsed.
      * <p>
@@ -1401,7 +1403,7 @@ class DateTimeFormatter
 
     private static $PARSED_LEAP_SECOND;
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Constructor.
      *
@@ -1462,7 +1464,7 @@ class DateTimeFormatter
         return new DateTimeFormatter($this->printerParser, $locale, $this->decimalStyle, $this->resolverStyle, $this->resolverFields, $this->chrono, $this->zone);
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Gets the DecimalStyle to be used during formatting.
      *
@@ -1549,7 +1551,7 @@ class DateTimeFormatter
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $this->resolverFields, $chrono, $this->zone);
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Gets the overriding zone to be used during formatting.
      * <p>
@@ -1655,7 +1657,7 @@ class DateTimeFormatter
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $resolverStyle, $this->resolverFields, $this->chrono, $this->zone);
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Gets the resolver fields to use during parsing.
      * <p>
@@ -1710,7 +1712,7 @@ class DateTimeFormatter
      * @param $resolverFields TemporalField[] the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
-    // TODO better way?
+// TODO better way?
     public
     function withResolverFields(array $resolverFields)
     {
@@ -1764,18 +1766,18 @@ class DateTimeFormatter
      * @param $resolverFields \SplObjectStorage TemporalField the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
-    // TODO same as above?
+// TODO same as above?
     public
-    function  withResolverFields($resolverFields)
+    function  withResolverFields2($resolverFields)
     {
-        if (Objects . equals(this . resolverFields, resolverFields)) {
+        /*if (Objects . equals(this . resolverFields, resolverFields)) {
             return this;
         }
 
         if (resolverFields != null) {
             resolverFields = Collections . unmodifiableSet(new HashSet <> (resolverFields));
         }
-        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);
+        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);*/
     }
 
 //-----------------------------------------------------------------------
@@ -1808,36 +1810,17 @@ class DateTimeFormatter
      * Although {@code Appendable} methods throw an {@code IOException}, this method does not.
      * Instead, any {@code IOException} is wrapped in a runtime exception.
      *
-     * @param $temporal  the temporal object to format, not null
-     * @param $appendable  the appendable to format to, not null
+     * @param $temporal TemporalAccessor the temporal object to format, not null
+     * @param $appendable string the appendable to format to, not null
      * @throws DateTimeException if an error occurs during formatting
      */
-public
-function formatTo(TemporalAccessor tempora => Appendable appendable)
-{
-Objects . requireNonNull(tempora => "temporal");
-Objects . requireNonNull(appendable, "appendable");
-try
-{
-DateTimePrintContext context = new DateTimePrintContext(tempora => this);
-if (appendable instanceof StringBuilder)
-{
-printerParser . format(context, (StringBuilder) appendable);
-}
-
-else {
-    // buffer output to avoid writing to appendable in case of error
-    StringBuilder buf = new StringBuilder(32);
-                printerParser . format(context, buf);
-                appendable . append(buf);
-            }
-} catch
-(IOException ex) {
-    throw new DateTimeException(ex . getMessage(), ex);
-}
+    public
+    function formatTo(TemporalAccessor $temporal, &$appendable)
+    {
+        $context = new DateTimePrintContext($temporal, $this);
+        $this->printerParser->format($context, $appendable);
     }
-
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Fully parses the text producing a temporal object.
      * <p>
@@ -1849,19 +1832,21 @@ else {
      * If the parse completes without reading the entire length of the text,
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
-     * @param $text  the text to parse, not null
-     * @return the parsed temporal object, not null
+     * @param $text string the text to parse, not null
+     * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public TemporalAccessor parse(CharSequence text) {
-    Objects . requireNonNull(text, "text");
-    try {
-        return parseResolved0(text, null);
-    } catch (DateTimeParseException ex) {
-        throw ex;
-    } catch (RuntimeException ex) {
-        throw createError(text, ex);
-    }
+    public
+    function parse($text)
+    {
+        try {
+            return $this->parseResolved0($text, null);
+        } catch
+        (DateTimeParseException $ex) {
+            throw $ex;
+        } catch (RuntimeException $ex) {
+            throw $this->createError($text, $ex);
+        }
     }
 
     /**
@@ -1887,26 +1872,26 @@ else {
      * If the formatter parses the same field more than once with different values,
      * the result will be an error.
      *
-     * @param $text  the text to parse, not null
-     * @param $position  the position to parse from, updated with length parsed
+     * @param $text string the text to parse, not null
+     * @param $position ParsePosition the position to parse from, updated with length parsed
      *  and the index of any error, not null
-     * @return the parsed temporal object, not null
+     * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    public TemporalAccessor parse(CharSequence text, ParsePosition position) {
-    Objects . requireNonNull(text, "text");
-    Objects . requireNonNull(position, "position");
-    try {
-        return parseResolved0(text, position);
-    } catch (DateTimeParseException | IndexOutOfBoundsException ex) {
-        throw ex;
-    } catch (RuntimeException ex) {
-        throw createError(text, ex);
-    }
+    public function parsePos($text, ParsePosition $position)
+    {
+        try {
+            return $this->parseResolved0($text, $position);
+        } catch
+        (DateTimeParseException $ex) {
+            throw $ex;
+        } catch (RuntimeException $ex) {
+            throw $this->createError($text, $ex);
+        }
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Fully parses the text producing an object of the specified type.
      * <p>
@@ -1920,22 +1905,22 @@ else {
      * If the parse completes without reading the entire length of the text,
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
-     * @param $<T> the type of the parsed date-time
-     * @param $text  the text to parse, not null
-     * @param $query  the query defining the type to parse to, not null
-     * @return the parsed date-time, not null
+     * @param <T> the type of the parsed date-time
+     * @param $text string the text to parse, not null
+     * @param $query TemporalQuery the query defining the type to parse to, not null
+     * @return mixed the parsed date-time, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public <T > T parse(CharSequence text, TemporalQuery < T> query) {
-    Objects . requireNonNull(text, "text");
-    Objects . requireNonNull(query, "query");
-    try {
-        return parseResolved0(text, null) . query(query);
-    } catch (DateTimeParseException ex) {
-        throw ex;
-    } catch (RuntimeException ex) {
-        throw createError(text, ex);
-    }
+    public function parseQuery($text, TemporalQuery $query)
+    {
+        try {
+            return $this->parseResolved0($text, null)->query($query);
+        } catch
+        (DateTimeParseException $ex) {
+            throw $ex;
+        } catch (RuntimeException $ex) {
+            throw $this->createError($text, $ex);
+        }
     }
 
     /**
@@ -1962,80 +1947,82 @@ else {
      * If the parse completes without reading the entire length of the text,
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
-     * @param $text  the text to parse, not null
-     * @param $queries  the queries defining the types to attempt to parse to,
+     * @param $text string the text to parse, not null
+     * @param $queries TemporalQuery[] the queries defining the types to attempt to parse to,
      *  must implement {@code TemporalAccessor}, not null
-     * @return the parsed date-time, not null
-     * @throws IllegalArgumentException if less than 2 types are specified
+     * @return TemporalAccessor the parsed date-time, not null
+     * @throws DateTimeException
      * @throws DateTimeParseException if unable to parse the requested result
+     * @throws IllegalArgumentException if less than 2 types are specified
      */
-    public TemporalAccessor parseBest(CharSequence text, TemporalQuery <?>... queries) {
-Objects.requireNonNull(text, "text");
-Objects.requireNonNull(queries, "queries");
-if (queries.length < 2) {
-throw new IllegalArgumentException("At least two queries must be specified");
-}
-try {
-TemporalAccessor resolved = parseResolved0(text, null);
-for (TemporalQuery<? > query :
-queries) {
-    try {
-        return (TemporalAccessor) resolved . query(query);
-                } catch (RuntimeException ex) {
-        // continue
-    }
+    public function parseBest($text, array $queries)
+    {
+        if (count($queries) < 2) {
+            throw new IllegalArgumentException("At least two queries must be specified");
+        }
+        try {
+            $resolved = $this->parseResolved0($text, null);
+            foreach ($queries as $query) {
+                try {
+                    return $resolved->query($query);
+                } catch
+                (RuntimeException $ex) {
+                    // continue
+                }
             }
             throw new DateTimeException("Unable to convert parsed text using any of the specified queries");
-        } catch (DateTimeParseException ex) {
-    throw ex;
-} catch (RuntimeException ex) {
-    throw createError(text, ex);
-}
-    }
-
-    private DateTimeParseException createError(CharSequence text, RuntimeException ex) {
-    String abbr;
-        if (text . length() > 64) {
-            abbr = text . subSequence(0, 64) . toString() + "...";
-        } else {
-            abbr = text . toString();
+        } catch (DateTimeParseException $ex) {
+            throw $ex;
+        } catch
+        (RuntimeException $ex) {
+            throw $this->createError($text, $ex);
         }
-        return new DateTimeParseException("Text '" + abbr + "' could not be parsed: " + ex . getMessage(), text, 0, ex);
     }
 
-    //-----------------------------------------------------------------------
+    private function createError($text, RuntimeException $ex)
+    {
+        $abbr = '';
+        if (strlen($text) > 64) {
+            $abbr = substr($text, 0, 64) . '...';
+        } else {
+            $abbr = $text;
+        }
+        return new DateTimeParseException("Text '" . $abbr . "' could not be parsed: " . $ex->getMessage(), $text, 0, $ex);
+    }
+
+//-----------------------------------------------------------------------
     /**
      * Parses and resolves the specified text.
      * <p>
      * This parses to a {@code TemporalAccessor} ensuring that the text is fully parsed.
      *
-     * @param $text  the text to parse, not null
-     * @param $position  the position to parse from, updated with length parsed
+     * @param $text string the text to parse, not null
+     * @param $position ParsePosition the position to parse from, updated with length parsed
      *  and the index of any error, null if parsing whole string
-     * @return the resolved result of the parse, not null
+     * @return TemporalAccessor the resolved result of the parse, not null
      * @throws DateTimeParseException if the parse fails
      * @throws DateTimeException if an error occurs while resolving the date or time
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    private TemporalAccessor parseResolved0(final CharSequence text, final ParsePosition position) {
-    ParsePosition pos = (position != null ? position : new ParsePosition(0));
-        DateTimeParseContext context = parseUnresolved0(text, pos);
-        if (context == null || pos . getErrorIndex() >= 0 || (position == null && pos . getIndex() < text . length())) {
-            String abbr;
-            if (text . length() > 64) {
-                abbr = text . subSequence(0, 64) . toString() + "...";
+    private function parseResolved0($text, ParsePosition $position)
+    {
+        $pos = ($position != null ? $position : new ParsePosition(0));
+        $context = $this->parseUnresolved0($text, $pos);
+        if ($context == null || $pos->getErrorIndex() >= 0 || ($position == null && $pos->getIndex() < strlen($text))) {
+            if (strlen($text) > 64) {
+                $abbr = substr($text, 0, 64) . "...";
             } else {
-                abbr = text . toString();
+                $abbr = $text;
             }
-            if (pos . getErrorIndex() >= 0) {
-                throw new DateTimeParseException("Text '" + abbr + "' could not be parsed at index " +
-                    pos . getErrorIndex(), text, pos . getErrorIndex());
+            if ($pos->getErrorIndex() >= 0) {
+                throw new DateTimeParseException("Text '" . $abbr . "' could not be parsed at index " .
+                    $pos->getErrorIndex(), $text, $pos->getErrorIndex());
             } else {
-                throw new DateTimeParseException("Text '" + abbr + "' could not be parsed, unparsed text found at index " +
-                    pos . getIndex(), text, pos . getIndex());
+                throw new DateTimeParseException("Text '" . $abbr . "' could not be parsed, unparsed text found at index " .
+                    $pos->getIndex(), $text, $pos->getIndex());
             }
         }
-        return context . toResolved(resolverStyle, resolverFields);
+        return $context->toResolved($this->resolverStyle, $this->resolverFields);
     }
 
     /**
@@ -2070,184 +2057,65 @@ queries) {
      * internal state during parsing. Typical application code should use
      * {@link #parse(CharSequence, TemporalQuery)} or the parse method on the target type.
      *
-     * @param $text  the text to parse, not null
-     * @param $position  the position to parse from, updated with length parsed
+     * @param $text string the text to parse, not null
+     * @param $position ParsePosition the position to parse from, updated with length parsed
      *  and the index of any error, not null
-     * @return the parsed text, null if the parse results in an error
+     * @return TemporalAccessor the parsed text, null if the parse results in an error
      * @throws DateTimeException if some problem occurs during parsing
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    public TemporalAccessor parseUnresolved(CharSequence text, ParsePosition position) {
-    DateTimeParseContext context = parseUnresolved0(text, position);
-        if (context == null) {
+    public function parseUnresolved($text, ParsePosition $position)
+    {
+        $context = $this->parseUnresolved0($text, $position);
+        if ($context == null) {
             return null;
         }
-        return context . toUnresolved();
+
+        return $context->toUnresolved();
     }
 
-    private DateTimeParseContext parseUnresolved0(CharSequence text, ParsePosition position) {
-    Objects . requireNonNull(text, "text");
-    Objects . requireNonNull(position, "position");
-    DateTimeParseContext context = new DateTimeParseContext(this);
-        int pos = position . getIndex();
-        pos = printerParser . parse(context, text, pos);
-        if (pos < 0) {
-            position . setErrorIndex(~pos);  // index not updated from input
+    private
+    function parseUnresolved0($text, ParsePosition $position)
+    {
+        $context = new DateTimeParseContext($this);
+        $pos = $position->getIndex();
+        $pos = $this->printerParser->parse($context, $text, $pos);
+        if ($pos < 0) {
+            $position->setErrorIndex(~$pos);  // index not updated from input
             return null;
         }
-        position . setIndex(pos);  // errorIndex not updated from input
-        return context;
+
+        $position->setIndex($pos);  // errorIndex not updated from input
+        return $context;
     }
 
-    //-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
     /**
      * Returns the formatter as a composite printer parser.
      *
-     * @param $optional  whether the printer/parser should be optional
-     * @return the printer/parser, not null
+     * @param $optional bool whether the printer/parser should be optional
+     * @return CompositePrinterParser the printer/parser, not null
      */
-    CompositePrinterParser toPrinterParser(boolean optional) {
-    return printerParser . withOptional(optional);
-}
-
-    /**
-     * Returns this formatter as a {@code java.text.Format} instance.
-     * <p>
-     * The returned {@link Format} instance will format any {@link TemporalAccessor}
-     * and parses to a resolved {@link TemporalAccessor}.
-     * <p>
-     * Exceptions will follow the definitions of {@code Format}, see those methods
-     * for details about {@code IllegalArgumentException} during formatting and
-     * {@code ParseException} or null during parsing.
-     * The format does not support attributing of the returned format string.
-     *
-     * @return this formatter as a classic format instance, not null
-     */
-    public Format toFormat(){
-        return new ClassicFormat(this, null);
+    function toPrinterParser($optional)
+    {
+        return $this->printerParser->withOptional($optional);
     }
 
-    /**
-     * Returns this formatter as a {@code java.text.Format} instance that will
-     * parse using the specified query.
-     * <p>
-     * The returned {@link Format} instance will format any {@link TemporalAccessor}
-     * and parses to the type specified.
-     * The type must be one that is supported by {@link #parse}.
-     * <p>
-     * Exceptions will follow the definitions of {@code Format}, see those methods
-     * for details about {@code IllegalArgumentException} during formatting and
-     * {@code ParseException} or null during parsing.
-     * The format does not support attributing of the returned format string.
-     *
-     * @param $parseQuery  the query defining the type to parse to, not null
-     * @return this formatter as a classic format instance, not null
-     */
-    public Format toFormat(TemporalQuery <?> parseQuery) {
-Objects.requireNonNull(parseQuery, "parseQuery");
-return new ClassicFormat(this, parseQuery);
-}
-
 //-----------------------------------------------------------------------
-/**
-* Returns a description of the underlying formatters.
-*
-* @return a description of this formatter, not null
-*/
-@Override
-public String toString() {
-String pattern = printerParser.toString();
-pattern = pattern.startsWith("[") ? pattern : pattern.substring(1, pattern.length() - 1);
-return pattern;
+    /**
+     * Returns a description of the underlying formatters.
+     *
+     * @return string a description of this formatter, not null
+     */
+    public function toString()
+    {
+        $pattern = $this->printerParser->toString();
+        $pattern = $pattern->startsWith("[") ? $pattern : substr($pattern, 1, strlen($pattern) - 1);
+        return $pattern;
 // TODO: Fix tests to not depend on toString()
 //        return "DateTimeFormatter[" + locale +
 //                (chrono != null ? "," + chrono : "") +
 //                (zone != null ? "," + zone : "") +
 //                pattern + "]";
+    }
 }
-
-//-----------------------------------------------------------------------
-/**
-* Implements the classic Java Format API.
-* @serial exclude
-*/
-@SuppressWarnings("serial")  // not actually serializable
-static class ClassicFormat extends Format {
-/** The formatter. */
-private final DateTimeFormatter formatter;
-/** The type to be parsed. */
-private final TemporalQuery<? >
-parseType;
-/** Constructor. */
-public
-ClassicFormat(DateTimeFormatter formatter, TemporalQuery <?> parseType) {
-this.formatter = formatter;
-this.parseType = parseType;
-}
-
-@Override
-public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-Objects.requireNonNull(obj, "obj");
-Objects.requireNonNull(toAppendTo, "toAppendTo");
-Objects.requireNonNull(pos, "pos");
-if (obj instanceof TemporalAccessor == false) {
-throw new IllegalArgumentException("Format target must implement TemporalAccessor");
-}
-pos.setBeginIndex(0);
-pos.setEndIndex(0);
-try {
-formatter.formatTo((TemporalAccessor) obj, toAppendTo);
-} catch (RuntimeException ex) {
-throw new IllegalArgumentException(ex.getMessage(), ex);
-}
-return toAppendTo;
-}
-@Override
-public Object parseObject(String text) throws ParseException {
-Objects.requireNonNull(text, "text");
-try {
-if (parseType == null) {
-return formatter.parseResolved0(text, null);
-}
-return formatter.parse(text, parseType);
-} catch (DateTimeParseException ex) {
-throw new ParseException(ex.getMessage(), ex.getErrorIndex());
-} catch (RuntimeException ex) {
-throw (ParseException) new ParseException(ex.getMessage(), 0).initCause(ex);
-}
-}
-@Override
-public Object parseObject(String text, ParsePosition pos) {
-Objects.requireNonNull(text, "text");
-DateTimeParseContext context;
-try {
-context = formatter.parseUnresolved0(text, pos);
-} catch (IndexOutOfBoundsException ex) {
-if (pos.getErrorIndex() < 0) {
-pos.setErrorIndex(0);
-}
-return null;
-}
-if (context == null) {
-if (pos.getErrorIndex() < 0) {
-pos.setErrorIndex(0);
-}
-return null;
-}
-try {
-TemporalAccessor resolved = context.toResolved(formatter.resolverStyle, formatter.resolverFields);
-if (parseType == null) {
-return resolved;
-}
-return resolved.query(parseType);
-} catch (RuntimeException ex) {
-pos.setErrorIndex(0);
-return null;
-}
-}
-}
-
-}
-
-use Php\Time\Format\Builder\CompositePrinterParser;
-use Php\Time\Format\Builder\CompositePrinterParser;use Php\Time\Locale;
