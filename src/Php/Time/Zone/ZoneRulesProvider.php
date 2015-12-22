@@ -126,7 +126,7 @@ abstract class ZoneRulesProvider
 
     public static function init()
     {
-        // TODO
+        self::registerProvider(new DummyZoneRulesProvider());
     }
 
     //-------------------------------------------------------------------------
