@@ -355,11 +355,11 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      *
      * @param $localDateTime LocalDateTime the local date-time, not null
      * @param $zone ZoneId the time-zone, not null
-     * @param $preferredOffset ZoneOffset the zone offset, null if no preference
+     * @param $preferredOffset ZoneOffset|null the zone offset, null if no preference
      * @return ZonedDateTime the zoned date-time, not null
      */
     public
-    static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, ZoneOffset $preferredOffset)
+    static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, $preferredOffset)
     {
         if ($zone instanceof ZoneOffset) {
             return new ZonedDateTime($localDateTime, $zone, $zone);

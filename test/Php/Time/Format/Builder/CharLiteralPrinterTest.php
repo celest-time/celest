@@ -30,13 +30,13 @@ class CharLiteralPrinterTest extends AbstractTestPrinterParser
     //-----------------------------------------------------------------------
     public function test_toString()
     {
-        $this->assertEquals($this->getFormatterChar('a'), "'a'");
+        $this->assertEquals($this->getFormatterChar('a')->__toString(), "'a'");
     }
 
     //-----------------------------------------------------------------------
     public function test_toString_apos()
     {
-        $this->assertEquals($this->getFormatterChar('\''), "''");
+        $this->assertEquals($this->getFormatterChar('\'')->__toString(), "''");
     }
 
 }

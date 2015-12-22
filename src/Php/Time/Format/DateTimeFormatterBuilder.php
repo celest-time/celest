@@ -214,6 +214,7 @@ final class DateTimeFormatterBuilder
     {
         $this->parent = null;
         $this->optional = false;
+        $this->active = $this;
     }
 
     /**
@@ -1750,8 +1751,7 @@ final class DateTimeFormatterBuilder
                         $this->appendValue($field, $count, 19, SignStyle::EXCEEDS_PAD());
                     }
                 break;
-            case
-            'c':
+            case 'c':
                 if ($count == 2) {
                     throw new IllegalArgumentException("Invalid pattern \"cc\"");
                 }
@@ -2117,10 +2117,10 @@ final class DateTimeFormatterBuilder
      * Completes this builder by creating the formatter.
      *
      * @param $locale Locale the locale to use for formatting, not null
-     * @param $chrono Chronology the chronology to use, may be null
+     * @param $chrono Chronology|null the chronology to use, may be null
      * @return DateTimeFormatter the created formatter, not null
      */
-    private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, Chronology $chrono)
+    private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, $chrono)
     {
         while ($this->active->parent != null) {
             $this->optionalEnd();

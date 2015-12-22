@@ -68,6 +68,7 @@ use Php\Time\Chrono\IsoChronology;
 use Php\Time\DateTimeException;
 use Php\Time\DateTimeParseException;
 use Php\Time\Format\Builder\CompositePrinterParser;
+use Php\Time\Helper\StringHelper;
 use Php\Time\IllegalArgumentException;
 use Php\Time\Locale;
 use Php\Time\Period;
@@ -1411,14 +1412,14 @@ class DateTimeFormatter
      * @param $locale Locale the locale to use, not null
      * @param $decimalStyle DecimalStyle the DecimalStyle to use, not null
      * @param $resolverStyle ResolverStyle the resolver style to use, not null
-     * @param $resolverFields \SplObjectStorage TemporalField the fields to use during resolving, null for all fields
-     * @param $chrono Chronology the chronology to use, null for no override
-     * @param $zone ZoneId the zone to use, null for no override
+     * @param $resolverFields \SplObjectStorage|null TemporalField the fields to use during resolving, null for all fields
+     * @param $chrono Chronology|null the chronology to use, null for no override
+     * @param $zone ZoneId|null the zone to use, null for no override
      */
     public function __construct(CompositePrinterParser $printerParser,
                                 Locale $locale, DecimalStyle $decimalStyle,
-                                ResolverStyle $resolverStyle, \SplObjectStorage $resolverFields,
-                                Chronology $chrono, ZoneId $zone)
+                                ResolverStyle $resolverStyle, $resolverFields,
+                                $chrono, $zone)
     {
         $this->printerParser = $printerParser;
         $this->resolverFields = $resolverFields;
@@ -2107,10 +2108,10 @@ class DateTimeFormatter
      *
      * @return string a description of this formatter, not null
      */
-    public function toString()
+    public function __toString()
     {
-        $pattern = $this->printerParser->toString();
-        $pattern = $pattern->startsWith("[") ? $pattern : substr($pattern, 1, strlen($pattern) - 1);
+        $pattern = $this->printerParser->__toString();
+        $pattern = StringHelper::startsWith($pattern, "[") ? $pattern : substr($pattern, 1, strlen($pattern) - 2);
         return $pattern;
 // TODO: Fix tests to not depend on toString()
 //        return "DateTimeFormatter[" + locale +

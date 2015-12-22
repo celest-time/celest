@@ -333,7 +333,7 @@ final class DateTimePrintContext
     {
         $result = $this->temporal->query($query);
         if ($result == null && $this->optional == 0) {
-            throw new DateTimeException("Unable to extract value: " . get_class($this->temporal);
+            throw new DateTimeException("Unable to extract value: " . get_class($this->temporal));
         }
 
         return $result;
@@ -349,7 +349,7 @@ final class DateTimePrintContext
      * @throws DateTimeException if the field is not available and the section is not optional
      */
     public
-    function getValue(TemporalField $field)
+    function getValueField(TemporalField $field)
     {
         try {
             return $this->temporal->getLong($field);
