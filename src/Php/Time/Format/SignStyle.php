@@ -188,6 +188,12 @@ class SignStyle
         }
     }
 
+    function __toString()
+    {
+        return get_class($this);
+    }
+
+
 }
 
 SignStyle::init();

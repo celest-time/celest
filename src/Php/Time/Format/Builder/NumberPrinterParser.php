@@ -2,6 +2,7 @@
 
 namespace Php\Time\Format\Builder;
 
+use Php\Time\Helper\Long;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\Format\SignStyle;
 use Php\Time\Format\DateTimePrintContext;
@@ -110,14 +111,14 @@ class NumberPrinterParser implements DateTimePrinterParser
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $valueLong = $context->getValue($this->field);
+        $valueLong = $context->getValueField($this->field);
         if ($valueLong == null) {
             return false;
         }
 
         $value = $this->getValue($context, $valueLong);
         $decimalStyle = $context->getDecimalStyle();
-        $str = ($value == Long::MIN_VALUE ? "9223372036854775808" : Long::toString(Math::abs($value)));
+        $str = ($value == Long::MIN_VALUE ? "9223372036854775808" : strval(Math::abs($value)));
         if (strlen($str) > $this->maxWidth) {
             throw new DateTimeException("Field " . $this->field .
                 " cannot be printed as the value " . $value .
@@ -129,7 +130,7 @@ class NumberPrinterParser implements DateTimePrinterParser
             switch ($this->signStyle) {
                 case SignStyle::EXCEEDS_PAD():
                     if ($this->minWidth < 19 && $value >= self::$EXCEED_POINTS[$this->minWidth]) {
-                        $buf->append($decimalStyle->getPositiveSign());
+                        $buf .= $decimalStyle->getPositiveSign();
                     }
                     break;
                 case SignStyle::ALWAYS():
@@ -151,7 +152,7 @@ class NumberPrinterParser implements DateTimePrinterParser
         }
         for ($i = 0; $i < $this->minWidth - strlen($str); $i++) {
             $buf .= $decimalStyle->getZeroDigit();
-    }
+        }
         $buf .= $str;
         return true;
     }
