@@ -26,7 +26,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
     public function parse(DateTimeParseContext $context, $text, $position)
     {
         $length = strlen($text);
-        if ($position == $length) {
+        if ($position === $length) {
             return ~$position;
         }
 
@@ -34,7 +34,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
         if ($ch !== $this->literal) {
             if ($context->isCaseSensitive() ||
                 (strtoupper($ch) !== strtoupper($this->literal) &&
-                    strtolower($ch) != strtolower($this->literal))
+                    strtolower($ch) !== strtolower($this->literal))
             ) {
                 return ~$position;
             }

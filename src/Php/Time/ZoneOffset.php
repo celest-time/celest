@@ -226,7 +226,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     {
         // "Z" is always in the cache
         // TODO check not undefined
-        $offset = self::$ID_CACHE[$offsetId];
+        $offset = @self::$ID_CACHE[$offsetId];
         if ($offset != null) {
             return $offset;
         }
@@ -291,12 +291,12 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         }
 
         $ch1 = $offsetId[$pos];
-        $ch2 = $offsetId[$pos];
+        $ch2 = $offsetId[$pos + 1];
         if ($ch1 < '0' || $ch1 > '9' || $ch2 < '0' || $ch2 > '9') {
             throw new DateTimeException("Invalid ID for ZoneOffset, non numeric characters found: " . $offsetId);
         }
         // TODO check conversion
-        return ($ch1 - 48) * 10 + ($ch2 - 48);
+        return (ord($ch1) - 48) * 10 + (ord($ch2) - 48);
     }
 
     //-----------------------------------------------------------------------

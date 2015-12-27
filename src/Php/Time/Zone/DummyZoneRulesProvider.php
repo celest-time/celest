@@ -28,7 +28,7 @@ class DummyZoneRulesProvider extends ZoneRulesProvider
      */
     protected function provideZoneIds()
     {
-        return ['Europe/Paris'];
+        return ['Europe/Paris', 'Europe/Berlin', 'UTC'];
     }
 
     /**

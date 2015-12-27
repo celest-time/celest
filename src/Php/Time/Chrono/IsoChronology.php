@@ -520,7 +520,7 @@ final class IsoChronology extends AbstractChronology
     }
 
 // override for enhanced behaviour
-    protected function resolveYearOfEra($fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYearOfEra(array $fieldValues, ResolverStyle $resolverStyle)
     {
         $yoeLong = self::remove($fieldValues, ChronoField::YEAR_OF_ERA());
         if ($yoeLong != null) {
@@ -550,8 +550,8 @@ final class IsoChronology extends AbstractChronology
             } else {
                 throw new DateTimeException("Invalid value for era: " . $era);
             }
-        } else if ($fieldValues->containsKey(ChronoField::ERA())) {
-            ChronoField::ERA()->checkValidValue($fieldValues->get(ChronoField::ERA()));  // always validated
+        } else if (array_key_exists(ChronoField::ERA()->__toString(), $fieldValues)) {
+            ChronoField::ERA()->checkValidValue($fieldValues[ChronoField::ERA()->__toString()][1]);  // always validated
         }
         return null;
     }

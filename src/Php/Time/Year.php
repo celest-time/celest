@@ -296,7 +296,7 @@ final class Year
         if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
-        return $formatter->parse($text, TemporalQueries::fromCallable([get_class(), 'from']));
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([get_class(), 'from']));
     }
 
     //-------------------------------------------------------------------------

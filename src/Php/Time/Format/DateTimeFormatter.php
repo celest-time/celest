@@ -1915,7 +1915,7 @@ class DateTimeFormatter
     public function parseQuery($text, TemporalQuery $query)
     {
         try {
-            return $this->parseResolved0($text, null)->query($query);
+            return $this->parseResolved0($text, new ParsePosition(0))->query($query);
         } catch
         (DateTimeParseException $ex) {
             throw $ex;

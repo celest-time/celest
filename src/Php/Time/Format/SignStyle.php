@@ -78,11 +78,11 @@ class SignStyle
 {
     public static function init()
     {
-        self::$NORMAL = new SignStyle();
-        self::$ALWAYS = new SignStyle();
-        self::$NEVER = new SignStyle();
-        self::$NOT_NEGATIVE = new SignStyle();
-        self::$EXCEEDS_PAD = new SignStyle();
+        self::$NORMAL = new SignStyle(0);
+        self::$ALWAYS = new SignStyle(1);
+        self::$NEVER = new SignStyle(2);
+        self::$NOT_NEGATIVE = new SignStyle(3);
+        self::$EXCEEDS_PAD = new SignStyle(4);
     }
 
     /**
@@ -158,6 +158,13 @@ class SignStyle
     /** @var SignStyle */
     private static $EXCEEDS_PAD;
 
+    private $ordinal;
+
+    private function __construct($ordinal)
+    {
+        $this->ordinal = $ordinal;
+    }
+
     /**
      * Parse helper.
      *
@@ -168,7 +175,7 @@ class SignStyle
      */
     public function parse($positive, $strict, $fixedWidth)
     {
-        switch ($this->ordinal()) {
+        switch ($this->ordinal) {
             case 0: // NORMAL
                 // valid if negative or (positive and lenient)
                 return !$positive || !$strict;

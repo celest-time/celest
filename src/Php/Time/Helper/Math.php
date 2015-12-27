@@ -114,4 +114,9 @@ final class Math
     {
         return (int)($dividend / $divisor);
     }
+
+    public static function max($a, $b)
+    {
+        return max($a, $b);
+    }
 }

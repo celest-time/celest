@@ -328,7 +328,7 @@ final class DateTimeParseContext
     private
     function currentParsed()
     {
-        return $this->parsed[count($this->parsed)];
+        return $this->parsed[count($this->parsed) - 1];
     }
 
     /**
@@ -371,7 +371,7 @@ final class DateTimeParseContext
      */
     public function getParsed(TemporalField $field)
     {
-        return $this->currentParsed()->fieldValues[$field];
+        return $this->currentParsed()->fieldValues[$field->__toString()][1];
     }
 
     /**
@@ -388,9 +388,8 @@ final class DateTimeParseContext
      */
     public function setParsedField(TemporalField $field, $value, $errorPos, $successPos)
     {
-        // TODO check old
-        $old = $this->currentParsed()->fieldValues[$field] = $value;
-        return ($old != null && $old->longValue() != $value) ? ~$errorPos : $successPos;
+        $old = ($this->currentParsed()->fieldValues[$field->__toString()] = [$field, $value]);
+        return ($old !== null && $old != $value) ? ~$errorPos : $successPos;
     }
 
     /**

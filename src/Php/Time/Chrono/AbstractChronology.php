@@ -474,7 +474,6 @@ abstract class AbstractChronology implements Chronology
     private static function contains($array, ChronoField $field)
     {
         return array_key_exists($field->__toString(), $array);
-
     }
 
     /**
@@ -482,7 +481,7 @@ abstract class AbstractChronology implements Chronology
      * @param ChronoField $field
      * @return null|int
      */
-    protected static function remove(&$array, ChronoField $field)
+    protected static function remove($array, ChronoField $field)
     {
         $id = $field->__toString();
         // Get null or the value
@@ -522,13 +521,13 @@ abstract class AbstractChronology implements Chronology
                 $eraObj = $this->eraOf($this->range(ChronoField::ERA())->checkValidIntValue($eraLong, ChronoField::ERA()));
                 self::addFieldValue($fieldValues, ChronoField::YEAR(), $this->prolepticYear($eraObj, $yoe));
             } else if (self::contains($fieldValues, ChronoField::YEAR())) {
-                $year = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues[ChronoField::YEAR()->__toString()], ChronoField::YEAR());
+                $year = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues[ChronoField::YEAR()->__toString()][1], ChronoField::YEAR());
                 $chronoDate = $this->dateYearDay($year, 1);
                 self::addFieldValue($fieldValues, ChronoField::YEAR(), $this->prolepticYear($chronoDate->getEra(), $yoe));
             } else if ($resolverStyle == ResolverStyle::STRICT()) {
                 // do not invent era if strict
                 // reinstate the field removed earlier, no cross-check issues
-                $fieldValues[ChronoField::YEAR_OF_ERA()->__toString()] = $yoeLong;
+                $fieldValues[ChronoField::YEAR_OF_ERA()->__toString()][1] = $yoeLong;
             } else {
                 $eras = $this->eras();
                 if (empty($eras)) {
@@ -539,7 +538,7 @@ abstract class AbstractChronology implements Chronology
                 }
             }
         } else if (self::contains($fieldValues, ChronoField::ERA())) {
-            $this->range(ChronoField::ERA())->checkValidValue($fieldValues[ChronoField::ERA()->__toString()], ChronoField::ERA());  // always validated
+            $this->range(ChronoField::ERA())->checkValidValue($fieldValues[ChronoField::ERA()->__toString()][1], ChronoField::ERA());  // always validated
         }
 
         return null;
@@ -687,11 +686,11 @@ abstract class AbstractChronology implements Chronology
     protected
     static function addFieldValue(&$fieldValues, ChronoField $field, $value)
     {
-        $old = self::contains($fieldValues, $field) ? $fieldValues[$field->__toString()] : null;  // check first for better error message
+        $old = self::contains($fieldValues, $field) ? $fieldValues[$field->__toString()][1] : null;  // check first for better error message
         if ($old !== null && $old !== $value) {
             throw new DateTimeException("Conflict found: " . $field . " " . $old . " differs from " . $field . " " . $value);
         }
-        $fieldValues[$field->__toString()] = $value;
+        $fieldValues[$field->__toString()] = [$field, $value];
     }
 
     //-----------------------------------------------------------------------
