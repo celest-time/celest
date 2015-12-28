@@ -1605,7 +1605,8 @@ final class DateTimeFormatterBuilder
              $pos < strlen($pattern);
              $pos++) {
             $cur = $pattern[$pos];
-            if (($cur >= 'A' && $cur <= 'Z') || ($cur >= 'a' && $cur <= 'z')) {
+            $ord = ord($cur);
+            if (($ord >= ord('A') && $ord <= ord('Z')) || ($ord >= ord('a') && $ord <= ord('z'))) {
                 $start = $pos++;
                 for (;
                     $pos < strlen($pattern) && $pattern[$pos] == $cur;
@@ -1616,7 +1617,8 @@ final class DateTimeFormatterBuilder
                     $pad = 0;
                     if ($pos < strlen($pattern)) {
                         $cur = $pattern[$pos];
-                        if (($cur >= 'A' && $cur <= 'Z') || ($cur >= 'a' && $cur <= 'z')) {
+                        $ord = ord($cur);
+                        if (($ord >= ord('A') && $ord <= ord('Z')) || ($ord >= ord('a') && $ord <= ord('z'))) {
                             $pad = $count;
                             $start = $pos++;
                             for (;
@@ -1860,15 +1862,15 @@ final class DateTimeFormatterBuilder
         }
     }
 
-    private static function init()
+    public static function init()
     {
         self::$FIELD_MAP = [
             // SDF = SimpleDateFormat
             'G' => ChronoField::ERA(),                       // SDF, LDML (different to both for 1/2 chars)
             'y' => ChronoField::YEAR_OF_ERA(),               // SDF, LDML
             'u' => ChronoField::YEAR(),                      // LDML (different in SDF)
-            'Q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (removed quarter from 310)
-            'q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (stand-alone)
+            // TODO ENABLE 'Q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (removed quarter from 310)
+            //'q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (stand-alone)
             'M' => ChronoField::MONTH_OF_YEAR(),             // SDF, LDML
             'L' => ChronoField::MONTH_OF_YEAR(),             // SDF, LDML (stand-alone)
             'D' => ChronoField::DAY_OF_YEAR(),               // SDF, LDML
@@ -2144,3 +2146,4 @@ return str1->length() == str2->length() ? str1->compareTo(str2) : str1->length()
 }
 };*/
 }
+DateTimeFormatterBuilder::init();
