@@ -253,7 +253,7 @@ class NumberPrinterParser implements DateTimePrinterParser
         }
         if ($negative) {
             if ($totalBig !== null) {
-                if ($totalBig === \gmp_init("0") && $context->isStrict()) {
+                if (\gmp_cmp($totalBig, "0") === 0 && $context->isStrict()) {
                     return ~($position - 1);  // minus zero not allowed
                 }
                 $totalBig = \gmp_neg($totalBig);
