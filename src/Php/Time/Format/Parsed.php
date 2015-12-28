@@ -273,6 +273,7 @@ final class Parsed implements TemporalAccessor
             outer:
             while ($changedCount < 50) {
                 foreach ($this->fieldValues as $key => $entry) {
+                    /** @var ChronoField $targetField */
                     $targetField = $entry[0];
                     $resolvedObject = $targetField->resolve($this->fieldValues, $this, $this->resolverStyle);
                     if ($resolvedObject != null) {
@@ -305,7 +306,7 @@ final class Parsed implements TemporalAccessor
                         }
                         throw new DateTimeException("Method resolve() can only return ChronoZonedDateTime, " .
                             "ChronoLocalDateTime, ChronoLocalDate or LocalTime");
-                    } else if ($this->fieldValues->containsKey($targetField) == false) {
+                    } else if (array_key_exists($targetField->__toString(), $this->fieldValues) === false) {
                         $changedCount++;
                         continue 2;  // have to restart to avoid concurrent modification
                     }

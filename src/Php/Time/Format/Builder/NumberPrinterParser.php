@@ -258,7 +258,7 @@ class NumberPrinterParser implements DateTimePrinterParser
             }
         }
         if ($totalBig !== null) {
-            if (gmp_scan0($totalBig, 64) > 64) {
+            if (gmp_cmp($totalBig, "-9223372036854775808") < 0 || gmp_cmp($totalBig, "9223372036854775807") > 0) {
                 // overflow, parse 1 less digit
             $totalBig = gmp_div($totalBig, "10");
             $pos--;
