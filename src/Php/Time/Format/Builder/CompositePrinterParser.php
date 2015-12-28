@@ -44,8 +44,8 @@ final class CompositePrinterParser implements DateTimePrinterParser
 
         try {
             foreach ($this->printerParsers as $pp) {
-                if ($pp->format($context, $buf) == false) {
-                    $buf->setLength($length);  // reset buffer
+                if ($pp->format($context, $buf) === false) {
+                    $buf = substr($buf, 0, $length);  // reset buffer
                     return true;
                 }
             }

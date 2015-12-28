@@ -200,7 +200,7 @@ class YearTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provider_badParseData
-     * @expectedException     \Php\Time\DateTimeException
+     * @expectedException     \Php\Time\DateTimeParseException
      */
     public function test_factory_parse_fail($text, $pos)
     {

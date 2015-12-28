@@ -37,7 +37,7 @@ class TemporalTest implements TemporalAccessor {
 
     public function getLong(TemporalField $field)
     {
-        return TemporalAccessorDefaults::get($this, $field);
+        throw new DateTimeException("Mock");
     }
 
     public function query(TemporalQuery $query)
@@ -145,11 +145,5 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
     protected static function EMPTY_DTA()
     {
         return new TemporalTest();
-    }
-
-    public
-    function getLong(TemporalField $field)
-    {
-        throw new DateTimeException("Mock");
     }
 }

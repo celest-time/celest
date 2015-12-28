@@ -94,7 +94,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     public function format(DateTimePrintContext $context, &$buf)
     {
         $valueLong = $context->getValueField($this->field);
-        if ($valueLong == null) {
+        if ($valueLong === null) {
             return false;
         }
 

@@ -190,7 +190,20 @@ class SignStyle
 
     function __toString()
     {
-        return get_class($this);
+        switch($this->ordinal) {
+            case 0:
+                return 'NORMAL';
+            case 1:
+                return 'ALWAYS';
+            case 2:
+                return 'NEVER';
+            case 3:
+                return 'NOT_NEGATIVE';
+            case 4:
+                return 'EXCEEDS_PAD';
+        }
+
+        return '';
     }
 
 
