@@ -53,28 +53,10 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @param $minWidth int the minimum field width, from 1 to 19
      * @param $maxWidth int the maximum field width, from minWidth to 19
      * @param $signStyle SignStyle the positive/negative sign style, not null
-     */
-    public function __construct(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
-    {
-        // validated by caller
-        $this->field = $field;
-        $this->minWidth = $minWidth;
-        $this->maxWidth = $maxWidth;
-        $this->signStyle = $signStyle;
-        $this->subsequentWidth = 0;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param $field TemporalField the field to format, not null
-     * @param $minWidth int the minimum field width, from 1 to 19
-     * @param $maxWidth int the maximum field width, from minWidth to 19
-     * @param $signStyle SignStyle the positive/negative sign style, not null
      * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater,
      *  -1 if fixed width due to active adjacent parsing
      */
-    protected function __construct2(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle, $subsequentWidth)
+    public function __construct(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle, $subsequentWidth = 0)
     {
         // validated by caller
         $this->field = $field;
@@ -91,7 +73,7 @@ class NumberPrinterParser implements DateTimePrinterParser
      */
     public function withFixedWidth()
     {
-        if ($this->subsequentWidth == -1) {
+        if ($this->subsequentWidth === -1) {
             return $this;
         }
 
@@ -118,7 +100,7 @@ class NumberPrinterParser implements DateTimePrinterParser
 
         $value = $this->getValue($context, $valueLong);
         $decimalStyle = $context->getDecimalStyle();
-        $str = ($value == Long::MIN_VALUE ? "9223372036854775808" : strval(Math::abs($value)));
+        $str = ($value === Long::MIN_VALUE ? "9223372036854775808" : strval(Math::abs($value)));
         if (strlen($str) > $this->maxWidth) {
             throw new DateTimeException("Field " . $this->field .
                 " cannot be printed as the value " . $value .
@@ -178,8 +160,8 @@ class NumberPrinterParser implements DateTimePrinterParser
      */
     public function isFixedWidth(DateTimeParseContext $context)
     {
-        return $this->subsequentWidth == -1 ||
-        ($this->subsequentWidth > 0 && $this->minWidth == $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE());
+        return $this->subsequentWidth === -1 ||
+        ($this->subsequentWidth > 0 && $this->minWidth === $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE());
     }
 
     public function parse(DateTimeParseContext $context, $text, $position)
