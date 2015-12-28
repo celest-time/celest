@@ -388,8 +388,10 @@ final class DateTimeParseContext
      */
     public function setParsedField(TemporalField $field, $value, $errorPos, $successPos)
     {
-        $old = ($this->currentParsed()->fieldValues[$field->__toString()] = [$field, $value]);
-        return ($old !== null && $old != $value) ? ~$errorPos : $successPos;
+        $fieldValues = &$this->currentParsed()->fieldValues;
+        $old = @$fieldValues[$field->__toString()];
+        $fieldValues[$field->__toString()] = [$field, $value];
+        return ($old !== null && $old[1] !== $value) ? ~$errorPos : $successPos;
     }
 
     /**

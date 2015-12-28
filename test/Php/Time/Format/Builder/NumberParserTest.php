@@ -452,12 +452,12 @@ class NumberParserTest extends AbstractTestPrinterParser
         $pos = new ParsePosition(0);
         $parsed = $this->getFormatterWidth(ChronoField::DAY_OF_MONTH(), $min, $max, $style)->parseUnresolved($input, $pos);
         if ($pos->getErrorIndex() != -1) {
-            assertEquals($pos->getErrorIndex(), $parseLen);
+            $this->assertEquals($pos->getErrorIndex(), $parseLen);
         } else {
-            assertEquals($pos->getIndex(), $parseLen);
-            assertEquals($parsed->getLong(ChronoField::DAY_OF_MONTH()), $parseVal);
-            assertEquals($parsed->query(TemporalQueries::chronology()), null);
-            assertEquals($parsed->query(TemporalQueries::zoneId()), null);
+            $this->assertEquals($pos->getIndex(), $parseLen);
+            $this->assertEquals($parsed->getLong(ChronoField::DAY_OF_MONTH()), $parseVal);
+            $this->assertEquals($parsed->query(TemporalQueries::chronology()), null);
+            $this->assertEquals($parsed->query(TemporalQueries::zoneId()), null);
         }
     }
 
@@ -848,7 +848,7 @@ class NumberParserTest extends AbstractTestPrinterParser
             ->appendValue3(ChronoField::MONTH_OF_YEAR(), 1, 2, SignStyle::NORMAL())
             ->appendValue2(ChronoField::DAY_OF_MONTH(), 2)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
         $parsed = $f->parseUnresolved($input, $pos);
-        if ($pos->getErrorIndex() != -1) {
+        if ($pos->getErrorIndex() !== -1) {
             $this->assertEquals($pos->getErrorIndex(), $parseLen);
         } else {
             $this->assertEquals($pos->getIndex(), $parseLen);

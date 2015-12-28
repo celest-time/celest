@@ -376,7 +376,7 @@ final class DateTimeFormatterBuilder
     public
     function appendValue(TemporalField $field)
     {
-        $this->appendValue(new NumberPrinterParser($field, 1, 19, SignStyle::NORMAL()));
+        $this->appendValue4(new NumberPrinterParser($field, 1, 19, SignStyle::NORMAL()));
         return $this;
     }
 
@@ -436,7 +436,7 @@ final class DateTimeFormatterBuilder
         }
 
         $pp = new NumberPrinterParser($field, $width, $width, SignStyle::NOT_NEGATIVE());
-        $this->appendValue($pp);
+        $this->appendValue4($pp);
         return $this;
     }
 
@@ -621,7 +621,7 @@ final class DateTimeFormatterBuilder
             $activeValueParser = $this->active->valueParserIndex;
 
             // adjacent parsing mode, update setting in previous parsers
-            $basePP = $this->active->printerParsers->get($activeValueParser);
+            $basePP = $this->active->printerParsers[$activeValueParser];
             if ($pp->minWidth == $pp->maxWidth && $pp->signStyle == SignStyle::NOT_NEGATIVE()) {
                 // Append the width to the subsequentWidth of the active parser
                 $basePP = $basePP->withSubsequentWidth($pp->maxWidth);
@@ -636,7 +636,7 @@ final class DateTimeFormatterBuilder
                 $this->active->valueParserIndex = $this->appendInternal($pp);
             }
 // Replace the modified parser with the updated one
-            $this->active->printerParsers->set($activeValueParser, $basePP);
+            $this->active->printerParsers[$activeValueParser] = $basePP;
         } else {
             // The new Parser becomes the active parser
             $this->active->valueParserIndex = $this->appendInternal($pp);

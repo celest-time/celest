@@ -2068,7 +2068,7 @@ class DateTimeFormatter
     public function parseUnresolved($text, ParsePosition $position)
     {
         $context = $this->parseUnresolved0($text, $position);
-        if ($context == null) {
+        if ($context === null) {
             return null;
         }
 

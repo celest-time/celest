@@ -185,7 +185,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     public function parse(DateTimeParseContext $context, $text, $position)
     {
         $length = strlen($text);
-        if ($position == $length) {
+        if ($position === $length) {
             return ~$position;
         }
 
@@ -193,14 +193,14 @@ class NumberPrinterParser implements DateTimePrinterParser
         $sign = $text[$position];  // IOOBE if invalid position
         $negative = false;
         $positive = false;
-        if ($sign == $context->getDecimalStyle()->getPositiveSign()) {
-            if ($this->signStyle->parse(true, $context->isStrict(), $this->minWidth == $this->maxWidth) == false) {
+        if ($sign === $context->getDecimalStyle()->getPositiveSign()) {
+            if ($this->signStyle->parse(true, $context->isStrict(), $this->minWidth === $this->maxWidth) === false) {
                 return ~$position;
             }
             $positive = true;
             $position++;
-        } else if ($sign == $context->getDecimalStyle()->getNegativeSign()) {
-            if ($this->signStyle->parse(false, $context->isStrict(), $this->minWidth == $this->maxWidth) == false) {
+        } else if ($sign === $context->getDecimalStyle()->getNegativeSign()) {
+            if ($this->signStyle->parse(false, $context->isStrict(), $this->minWidth === $this->maxWidth) === false) {
                 return ~$position;
             }
             $negative = true;
@@ -232,15 +232,15 @@ class NumberPrinterParser implements DateTimePrinterParser
                     break;
                 }
                 if (($pos - $position) > 18) {
-                    if ($totalBig == null) {
-                        $totalBig = BigInteger::valueOf($total);
+                    if ($totalBig === null) {
+                        $totalBig = \gmp_init($total);
                     }
-                    $totalBig = $totalBig->multiply(BigInteger::TEN)->add(BigInteger::valueOf($digit));
+                    $totalBig = \gmp_add(\gmp_mul($totalBig, "10"), \gmp_init($digit));
                 } else {
                     $total = $total * 10 + $digit;
                 }
             }
-            if ($this->subsequentWidth > 0 && $pass == 0) {
+            if ($this->subsequentWidth > 0 && $pass === 0) {
                 // re-parse now we know the correct width
                 $parseLen = $pos - $position;
                 $effMaxWidth = Math::max($effMinWidth, $parseLen - $this->subsequentWidth);
@@ -252,13 +252,13 @@ class NumberPrinterParser implements DateTimePrinterParser
             }
         }
         if ($negative) {
-            if ($totalBig != null) {
-                if ($totalBig->equals(BigInteger::ZERO) && $context->isStrict()) {
+            if ($totalBig !== null) {
+                if ($totalBig === \gmp_init("0") && $context->isStrict()) {
                     return ~($position - 1);  // minus zero not allowed
                 }
-                $totalBig = $totalBig->negate();
+                $totalBig = \gmp_neg($totalBig);
             } else {
-                if ($total == 0 && $context->isStrict()) {
+                if ($total === 0 && $context->isStrict()) {
                     return ~($position - 1);  // minus zero not allowed
                 }
                 $total = -$total;
@@ -275,13 +275,13 @@ class NumberPrinterParser implements DateTimePrinterParser
                 }
             }
         }
-        if ($totalBig != null) {
-            if ($totalBig->bitLength() > 63) {
+        if ($totalBig !== null) {
+            if (gmp_scan0($totalBig, 64) > 64) {
                 // overflow, parse 1 less digit
-                $totalBig = $totalBig->divide(BigInteger::TEN);
-                $pos--;
-            }
-            return $this->setValue($context, $totalBig->longValue(), $position, $pos);
+            $totalBig = gmp_div($totalBig, "10");
+            $pos--;
+        }
+            return $this->setValue($context, gmp_intval($totalBig), $position, $pos);
         }
         return $this->setValue($context, $total, $position, $pos);
     }

@@ -194,14 +194,14 @@ final class Parsed implements TemporalAccessor
     public function getLong(TemporalField $field)
     {
         $value = @$this->fieldValues[$field->__toString()][1];
-        if ($value != null) {
+        if ($value !== null) {
             return $value;
         }
 
-        if ($this->date != null && $this->date->isSupported($field)) {
+        if ($this->date !== null && $this->date->isSupported($field)) {
             return $this->date->getLong($field);
         }
-        if ($this->time != null && $this->time->isSupported($field)) {
+        if ($this->time !== null && $this->time->isSupported($field)) {
             return $this->time->getLong($field);
         }
         if ($field instanceof ChronoField) {
