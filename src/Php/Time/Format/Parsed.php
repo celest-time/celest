@@ -272,7 +272,7 @@ final class Parsed implements TemporalAccessor
             $changedCount = 0;
             outer:
             while ($changedCount < 50) {
-                foreach ($this->fieldValues as $key => $entry) {
+                foreach ($this->fieldValues as $entry) {
                     /** @var ChronoField $targetField */
                     $targetField = $entry[0];
                     $resolvedObject = $targetField->resolve($this->fieldValues, $this, $this->resolverStyle);
@@ -411,7 +411,7 @@ final class Parsed implements TemporalAccessor
             }
             $this->updateCheckConflict3(ChronoField::CLOCK_HOUR_OF_AMPM(), ChronoField::HOUR_OF_AMPM(), $ch == 12 ? 0 : $ch);
         }
-        if (array_key_exists(ChronoField::AMPM_OF_DAY()->__toString(), $this->fieldValues) && $this->fieldValues->containsKey(ChronoField::HOUR_OF_AMPM())) {
+        if (array_key_exists(ChronoField::AMPM_OF_DAY()->__toString(), $this->fieldValues) && array_key_exists(ChronoField::HOUR_OF_AMPM()->__toString(), $this->fieldValues)) {
             $ap = $this->fieldValues->remove(ChronoField::AMPM_OF_DAY());
             $hap = $this->fieldValues->remove(ChronoField::HOUR_OF_AMPM());
             if ($this->resolverStyle == ResolverStyle::LENIENT()) {
@@ -472,7 +472,7 @@ final class Parsed implements TemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 ChronoField::NANO_OF_SECOND()->checkValidValue($nos);
             }
-            if ($this->fieldValues->containsKey(ChronoField::MICRO_OF_SECOND())) {
+            if (array_key_exists(ChronoField::MICRO_OF_SECOND()->__toString(), $this->fieldValues)) {
                 $cos = $this->fieldValues->remove(ChronoField::MICRO_OF_SECOND());
                 if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                     ChronoField::MICRO_OF_SECOND()->checkValidValue($cos);
@@ -480,7 +480,7 @@ final class Parsed implements TemporalAccessor
                 $nos = $cos * 1000 + ($nos % 1000);
                 $this->updateCheckConflict3(ChronoField::MICRO_OF_SECOND(), ChronoField::NANO_OF_SECOND(), $nos);
             }
-            if ($this->fieldValues->containsKey(ChronoField::MILLI_OF_SECOND())) {
+            if (array_key_exists(ChronoField::MILLI_OF_SECOND()->__toString(), $this->fieldValues)) {
                 $los = $this->fieldValues->remove(ChronoField::MILLI_OF_SECOND());
                 if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                     ChronoField::MILLI_OF_SECOND()->checkValidValue($los);
@@ -510,9 +510,9 @@ final class Parsed implements TemporalAccessor
 
         if ($this->time == null) {
 // ChronoField::NANO_OF_SECOND() merged with MILLI/MICRO above
-            if ($this->fieldValues->containsKey(ChronoField::MILLI_OF_SECOND())) {
+            if (array_key_exists(ChronoField::MILLI_OF_SECOND()->__toString(), $this->fieldValues)) {
                 $los = $this->fieldValues->remove(ChronoField::MILLI_OF_SECOND());
-                if ($this->fieldValues->containsKey(ChronoField::MICRO_OF_SECOND())) {
+                if (array_key_exists(ChronoField::MICRO_OF_SECOND()->__toString(), $this->fieldValues)) {
 // merge milli-of-second and micro-of-second for better error message
                     $cos = $los * 1000 + ($this->fieldValues->get(ChronoField::MICRO_OF_SECOND()) % 1000);
                     $this->updateCheckConflict(ChronoField::MILLI_OF_SECOND(), ChronoField::MICRO_OF_SECOND(), $cos);
@@ -523,18 +523,18 @@ final class Parsed implements TemporalAccessor
                     $this->fieldValues->put(ChronoField::NANO_OF_SECOND(), $los * 1000000);
                 }
             } else
-                if ($this->fieldValues->containsKey(ChronoField::MICRO_OF_SECOND())) {
+                if (array_key_exists(ChronoField::MICRO_OF_SECOND()->__toString(), $this->fieldValues)) {
 // convert micro-of-second to nano-of-second
                     $cos = $this->fieldValues->remove(ChronoField::MICRO_OF_SECOND());
                     $this->fieldValues->put(ChronoField::NANO_OF_SECOND(), $cos * 1000);
                 }
 
 // merge hour/minute/second/nano leniently
-            $hod = $this->fieldValues->get(ChronoField::HOUR_OF_DAY());
-            if ($hod != null) {
-                $moh = $this->fieldValues->get(ChronoField::MINUTE_OF_HOUR());
-                $som = $this->fieldValues->get(ChronoField::SECOND_OF_MINUTE());
-                $nos = $this->fieldValues->get(ChronoField::NANO_OF_SECOND());
+            $hod = @$this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()][1];
+            if ($hod !== null) {
+                $moh = $this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()][1];
+                $som = $this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()][1];
+                $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
 
 // check for invalid combinations that cannot be defaulted
                 if (($moh == null && ($som != null || $nos != null)) ||
@@ -556,11 +556,11 @@ final class Parsed implements TemporalAccessor
         }
 
 // validate remaining
-        if ($this->resolverStyle != ResolverStyle::LENIENT() && $this->fieldValues->size() > 0) {
-            foreach ($this->fieldValues->entrySet() as $entry) {
-                $field = $entry->getKey();
+        if ($this->resolverStyle != ResolverStyle::LENIENT() && !empty($this->fieldValues)) {
+            foreach ($this->fieldValues as $entry) {
+                $field = $entry[0];
                 if ($field instanceof ChronoField && $field->isTimeBased()) {
-                    $field->checkValidValue($entry->getValue());
+                    $field->checkValidValue($entry[1]);
                 }
             }
         }
@@ -607,11 +607,11 @@ final class Parsed implements TemporalAccessor
 // ensure fractional seconds available as ChronoField requires
 // resolveTimeLenient() will have merged ChronoField::MICRO_OF_SECOND()/MILLI_OF_SECOND to NANO_OF_SECOND
         if ($this->time == null &&
-            ($this->fieldValues->containsKey(ChronoField::INSTANT_SECONDS()) ||
-                $this->fieldValues->containsKey(ChronoField::SECOND_OF_DAY()) ||
-                $this->fieldValues->containsKey(ChronoField::SECOND_OF_MINUTE()))
+            (array_key_exists(ChronoField::INSTANT_SECONDS()->__toString(), $this->fieldValues) ||
+                array_key_exists(ChronoField::SECOND_OF_DAY()->__toString(), $this->fieldValues) ||
+                array_key_exists(ChronoField::SECOND_OF_MINUTE()->__toString(), $this->fieldValues))
         ) {
-            if ($this->fieldValues->containsKey(ChronoField::NANO_OF_SECOND())) {
+            if (array_key_exists(ChronoField::NANO_OF_SECOND()->__toString(), $this->fieldValues)) {
                 $nos = $this->fieldValues->get(ChronoField::NANO_OF_SECOND());
                 $this->fieldValues->put(ChronoField::MICRO_OF_SECOND(), $nos / 1000);
                 $this->fieldValues->put(ChronoField::MILLI_OF_SECOND(), $nos / 1000000);
@@ -702,7 +702,13 @@ final class Parsed implements TemporalAccessor
 //-----------------------------------------------------------------------
     public function __toString()
     {
-        $buf = $this->fieldValues . ',' . $this->chrono;
+        $buf = '[';
+        $sep = '';
+        foreach($this->fieldValues as $entry) {
+            $buf .= $entry[0] . '=' . $entry[1] . $sep;
+            $sep = ',';
+        }
+        $buf .= '],' . $this->chrono;
         if ($this->zone != null) {
             $buf .= ',' . $this->zone;
         }
