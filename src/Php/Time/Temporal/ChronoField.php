@@ -931,7 +931,7 @@ class ChronoField implements TemporalField
      */
     public function isDateBased()
     {
-        return $this->ordinal >= self::$DAY_OF_WEEK->ordinal() && $this->ordinal <= self::$ERA->ordinal();
+        return $this->ordinal >= self::$DAY_OF_WEEK->ordinal && $this->ordinal <= self::$ERA->ordinal;
     }
 
     /**
@@ -943,7 +943,7 @@ class ChronoField implements TemporalField
      */
     public function isTimeBased()
     {
-        return $this->ordinal < self::$DAY_OF_WEEK->ordinal();
+        return $this->ordinal < self::$DAY_OF_WEEK->ordinal;
     }
 
     //-----------------------------------------------------------------------
