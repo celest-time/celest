@@ -474,8 +474,8 @@ final class DateTimeFormatterBuilder
     public function appendValue3(
         TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
     {
-        if ($minWidth === $maxWidth && $signStyle === SignStyle::NOT_NEGATIVE()) {
-            return $this->appendValue($field, $maxWidth);
+        if ($minWidth === $maxWidth && $signStyle == SignStyle::NOT_NEGATIVE()) {
+            return $this->appendValue2($field, $maxWidth);
         }
 
         if ($minWidth < 1 || $minWidth > 19) {
