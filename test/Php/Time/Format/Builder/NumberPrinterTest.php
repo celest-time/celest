@@ -70,7 +70,7 @@ use Php\Time\Temporal\MockFieldValue;
 /**
  * Test SimpleNumberPrinterParser.
  */
-class TestNumberPrinter extends AbstractTestPrinterParser
+class NumberPrinterTest extends AbstractTestPrinterParser
 {
 
     //-----------------------------------------------------------------------
