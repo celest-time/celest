@@ -109,7 +109,7 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
     protected
     function getFormatterString($s)
     {
-        return $this->builder->appendLiteral($s)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
+        return $this->builder->appendLiteral2($s)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
     protected

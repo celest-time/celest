@@ -85,7 +85,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
     public function __toString()
     {
         $buf = '';
-        if ($this->printerParsers != null) {
+        if ($this->printerParsers !== null) {
             $buf .= $this->optional ? "[" : "(";
             foreach ($this->printerParsers as $pp) {
                 $buf .= $pp;
