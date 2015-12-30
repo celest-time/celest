@@ -45,7 +45,7 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
                 "Cannot print as output of " . $len . " characters exceeds pad width of " . $this->padWidth);
         }
         for ($i = 0; $i < $this->padWidth - $len; $i++) {
-            $buf = substr_replace($buf, $this->padChar, $preLen, null);
+            $buf = substr_replace($buf, $this->padChar, $preLen, 0);
         }
         return true;
     }
