@@ -215,6 +215,7 @@ final class DateTimeFormatterBuilder
         $this->parent = null;
         $this->optional = false;
         $this->active = $this;
+        $this->printerParsers = [];
     }
 
     /**
@@ -536,7 +537,7 @@ final class DateTimeFormatterBuilder
                                        $width, $maxWidth, $baseValue)
     {
         $pp = new ReducedPrinterParser($field, $width, $maxWidth, $baseValue, null);
-        $this->appendValue($pp);
+        $this->appendValue4($pp);
         return $this;
     }
 
@@ -597,7 +598,7 @@ final class DateTimeFormatterBuilder
         TemporalField $field, $width, $maxWidth, ChronoLocalDate $baseDate)
     {
         $pp = new ReducedPrinterParser($field, $width, $maxWidth, 0, $baseDate);
-        $this->appendValue($pp);
+        $this->appendValue4($pp);
         return $this;
     }
 
@@ -1609,11 +1610,11 @@ final class DateTimeFormatterBuilder
             if (($ord >= ord('A') && $ord <= ord('Z')) || ($ord >= ord('a') && $ord <= ord('z'))) {
                 $start = $pos++;
                 for (;
-                    $pos < strlen($pattern) && $pattern[$pos] == $cur;
+                    $pos < strlen($pattern) && $pattern[$pos] === $cur;
                     $pos++) ;  // short loop
                 $count = $pos - $start;
                 // padding
-                if ($cur == 'p') {
+                if ($cur === 'p') {
                     $pad = 0;
                     if ($pos < strlen($pattern)) {
                         $cur = $pattern[$pos];
@@ -1635,7 +1636,7 @@ final class DateTimeFormatterBuilder
                 }
 // main rules
                 $field = self::$FIELD_MAP[$cur];
-                if ($field != null) {
+                if ($field !== null) {
                     $this->parseField($cur, $count, $field);
                 } else if ($cur == 'z') {
                     if ($count > 4) {
@@ -1744,17 +1745,17 @@ final class DateTimeFormatterBuilder
         switch ($cur) {
             case 'u':
             case 'y':
-                if ($count == 2) {
-                    $this->appendValueReduced($field, 2, 2, ReducedPrinterParser::BASE_DATE());
+                if ($count === 2) {
+                    $this->appendValueReduced2($field, 2, 2, ReducedPrinterParser::BASE_DATE());
                 } else
                     if ($count < 4) {
-                        $this->appendValue($field, $count, 19, SignStyle::NORMAL());
+                        $this->appendValue3($field, $count, 19, SignStyle::NORMAL());
                     } else {
-                        $this->appendValue($field, $count, 19, SignStyle::EXCEEDS_PAD());
+                        $this->appendValue3($field, $count, 19, SignStyle::EXCEEDS_PAD());
                     }
                 break;
             case 'c':
-                if ($count == 2) {
+                if ($count === 2) {
                     throw new IllegalArgumentException("Invalid pattern \"cc\"");
                 }
             /*fallthrough*/
@@ -1774,10 +1775,10 @@ final class DateTimeFormatterBuilder
                         } else if ($cur == 'E') {
                             $this->appendText($field, TextStyle::SHORT());
                         } else {
-                            if ($count == 1) {
+                            if ($count === 1) {
                                 $this->appendValue($field);
                             } else {
-                                $this->appendValue($field, 2);
+                                $this->appendValue2($field, 2);
                             }
                         }
                         break;
@@ -1835,10 +1836,10 @@ final class DateTimeFormatterBuilder
             case 'K':
             case 'm':
             case 's':
-                if ($count == 1) {
+                if ($count === 1) {
                     $this->appendValue($field);
-                } else if ($count == 2) {
-                    $this->appendValue($field, $count);
+                } else if ($count === 2) {
+                    $this->appendValue2($field, $count);
                 } else {
                     throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                 }
@@ -1847,7 +1848,7 @@ final class DateTimeFormatterBuilder
                 if ($count == 1) {
                     $this->appendValue($field);
                 } else if ($count <= 3) {
-                    $this->appendValue($field, $count);
+                    $this->appendValue2($field, $count);
                 } else {
                     throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                 }
@@ -1856,7 +1857,7 @@ final class DateTimeFormatterBuilder
                 if ($count == 1) {
                     $this->appendValue($field);
                 } else {
-                    $this->appendValue($field, $count);
+                    $this->appendValue2($field, $count);
                 }
                 break;
         }
@@ -2124,7 +2125,7 @@ final class DateTimeFormatterBuilder
      */
     private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, $chrono)
     {
-        while ($this->active->parent != null) {
+        while ($this->active->parent !== null) {
             $this->optionalEnd();
         }
 

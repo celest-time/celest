@@ -1,7 +1,10 @@
 <?php
 
 namespace Php\Time\Format\Builder;
+
 use Php\Time\Chrono\ChronoLocalDate;
+use Php\Time\Chrono\ChronologyDefaults;
+use Php\Time\LocalDate;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\IllegalArgumentException;
 use Php\Time\Helper\Integer;
@@ -17,10 +20,22 @@ use Php\Time\Format\DateTimeParseContext;
  */
 final class ReducedPrinterParser extends NumberPrinterParser
 {
+
+    /** @var LocalDate */
+    private static $BASE_DATE;
+
     /**
      * The base date for reduced value parsing.
+     * @return LocalDate
      */
-//static final LocalDate BASE_DATE = LocalDate.of(2000, 1, 1);
+    public static function BASE_DATE()
+    {
+        if (self::$BASE_DATE === null) {
+            self::$BASE_DATE = LocalDate::ofNumerical(2000, 1, 1);
+        }
+        return self::$BASE_DATE;
+    }
+
 
     /** @var int */
     private $baseValue;
@@ -34,12 +49,20 @@ final class ReducedPrinterParser extends NumberPrinterParser
      * @param $minWidth int the minimum field width, from 1 to 10
      * @param $maxWidth int the maximum field width, from 1 to 10
      * @param $baseValue int the base value
-     * @param $baseDate ChronoLocalDate the base date
+     * @param $baseDate ChronoLocalDate|null the base date
+     * @param $subsequentWidth int the subsequentWidth for this instance
+     * @throws DateTimeException
+     * @throws IllegalArgumentException
      */
     public function __construct(TemporalField $field, $minWidth, $maxWidth,
-                                $baseValue, ChronoLocalDate $baseDate)
+                                $baseValue, $baseDate, $subsequentWidth = 0)
     {
-        parent::__construct($field, $minWidth, $maxWidth, $baseValue, $baseDate, 0);
+        parent::__construct($field, $minWidth, $maxWidth, SignStyle::NOT_NEGATIVE(), $subsequentWidth);
+
+
+        $this->baseValue = $baseValue;
+        $this->baseDate = $baseDate;
+
         if ($minWidth < 1 || $minWidth > 10) {
             throw new IllegalArgumentException("The minWidth must be from 1 to 10 inclusive but was " . $minWidth);
         }
@@ -51,8 +74,8 @@ final class ReducedPrinterParser extends NumberPrinterParser
             throw new IllegalArgumentException("Maximum width must exceed or equal the minimum width but " .
                 $maxWidth . " < " . $minWidth);
         }
-        if ($baseDate == null) {
-            if ($field->range()->isValidValue($baseValue) == false) {
+        if ($baseDate === null) {
+            if ($field->range()->isValidValue($baseValue) === false) {
                 throw new IllegalArgumentException("The base value must be within the range of the field");
             }
             if ((($baseValue) + self::$EXCEED_POINTS[$maxWidth]) > Integer::MAX_VALUE) {
@@ -61,31 +84,12 @@ final class ReducedPrinterParser extends NumberPrinterParser
         }
     }
 
-    /**
-     * Constructor.
-     * The arguments have already been checked.
-     *
-     * @param $field TemporalField the field to format, validated not null
-     * @param $minWidth int the minimum field width, from 1 to 10
-     * @param $maxWidth int the maximum field width, from 1 to 10
-     * @param $baseValue int the base value
-     * @param $baseDate ChronoLocalDate the base date
-     * @param $subsequentWidth int the subsequentWidth for this instance
-     */
-    protected function __construct2(TemporalField $field, $minWidth, $maxWidth,
-                                  $baseValue, ChronoLocalDate $baseDate, $subsequentWidth)
-    {
-        parent::__construct($field, $minWidth, $maxWidth, SignStyle::NOT_NEGATIVE(), $subsequentWidth);
-        $this->baseValue = $baseValue;
-        $this->baseDate = $baseDate;
-    }
-
     public function getValue(DateTimePrintContext $context, $value)
     {
         $absValue = Math::abs($value);
         $baseValue = $this->baseValue;
         if ($this->baseDate != null) {
-            $chrono = Chronology::from($context->getTemporal());
+            $chrono = ChronologyDefaults::from($context->getTemporal());
             $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
         }
 

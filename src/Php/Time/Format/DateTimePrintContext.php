@@ -213,13 +213,13 @@ final class DateTimePrintContext
 // ensure minimal change (early return is an optimization)
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
         $temporalZone = $temporal->query(TemporalQueries::zoneId());
-        if (Objects::equals($overrideChrono, $temporalChrono)) {
+        if ($temporalChrono !== null && $temporalChrono->equals($overrideChrono)) {
             $overrideChrono = null;
         }
-        if (Objects::equals($overrideZone, $temporalZone)) {
+        if ($temporalZone !== null && $temporalZone->equals($overrideZone)) {
             $overrideZone = null;
         }
-        if ($overrideChrono == null && $overrideZone == null) {
+        if ($overrideChrono === null && $overrideZone === null) {
             return $temporal;
         }
 
