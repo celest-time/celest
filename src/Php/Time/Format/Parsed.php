@@ -107,7 +107,7 @@ final class Parsed implements TemporalAccessor
 
     /**
      * The parsed fields.
-     * @var int[] TemporalField->int
+     * @var array TemporalField->int
      */
     public $fieldValues = [];
     /**
@@ -276,10 +276,10 @@ final class Parsed implements TemporalAccessor
                     /** @var ChronoField $targetField */
                     $targetField = $entry[0];
                     $resolvedObject = $targetField->resolve($this->fieldValues, $this, $this->resolverStyle);
-                    if ($resolvedObject != null) {
+                    if ($resolvedObject !== null) {
                         if ($resolvedObject instanceof ChronoZonedDateTime) {
                             $czdt = $resolvedObject;
-                            if ($this->zone == null) {
+                            if ($this->zone === null) {
                                 $this->zone = $czdt->getZone();
                             } else
                                 if ($this->zone->equals($czdt->getZone()) == false) {
@@ -313,7 +313,7 @@ final class Parsed implements TemporalAccessor
                 }
                 break;
             }
-            if ($changedCount == 50) {  // catch infinite loops
+            if ($changedCount === 50) {  // catch infinite loops
                 throw new DateTimeException("One of the parsed fields has an incorrectly implemented resolve method");
             }
             // if something changed then have to redo ChronoField resolve
@@ -532,26 +532,26 @@ final class Parsed implements TemporalAccessor
 // merge hour/minute/second/nano leniently
             $hod = @$this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()][1];
             if ($hod !== null) {
-                $moh = $this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()][1];
-                $som = $this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()][1];
-                $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
+                $moh = @$this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()][1];
+                $som = @$this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()][1];
+                $nos = @$this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
 
 // check for invalid combinations that cannot be defaulted
-                if (($moh == null && ($som != null || $nos != null)) ||
-                    ($moh != null && $som == null && $nos != null)
+                if (($moh === null && ($som !== null || $nos !== null)) ||
+                    ($moh !== null && $som === null && $nos !== null)
                 ) {
                     return;
                 }
 
 // default as necessary and build time
-                $mohVal = ($moh != null ? $moh : 0);
-                $somVal = ($som != null ? $som : 0);
-                $nosVal = ($nos != null ? $nos : 0);
+                $mohVal = ($moh !== null ? $moh : 0);
+                $somVal = ($som !== null ? $som : 0);
+                $nosVal = ($nos !== null ? $nos : 0);
                 $this->resolveTime($hod, $mohVal, $somVal, $nosVal);
-                $this->fieldValues->remove(ChronoField::HOUR_OF_DAY());
-                $this->fieldValues->remove(ChronoField::MINUTE_OF_HOUR());
-                $this->fieldValues->remove(ChronoField::SECOND_OF_MINUTE());
-                $this->fieldValues->remove(ChronoField::NANO_OF_SECOND());
+                unset($this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()]);
+                unset($this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()]);
+                unset($this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()]);
+                unset($this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()]);
             }
         }
 
@@ -612,13 +612,13 @@ final class Parsed implements TemporalAccessor
                 array_key_exists(ChronoField::SECOND_OF_MINUTE()->__toString(), $this->fieldValues))
         ) {
             if (array_key_exists(ChronoField::NANO_OF_SECOND()->__toString(), $this->fieldValues)) {
-                $nos = $this->fieldValues->get(ChronoField::NANO_OF_SECOND());
-                $this->fieldValues->put(ChronoField::MICRO_OF_SECOND(), $nos / 1000);
-                $this->fieldValues->put(ChronoField::MILLI_OF_SECOND(), $nos / 1000000);
+                $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()];
+                $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()] = $nos / 1000;
+                $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()] = $nos / 1000000;
             } else {
-                $this->fieldValues->put(ChronoField::NANO_OF_SECOND(), 0);
-                $this->fieldValues->put(ChronoField::MICRO_OF_SECOND(), 0);
-                $this->fieldValues->put(ChronoField::MILLI_OF_SECOND(), 0);
+                $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()] = 0;
+                $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()] = 0;
+                $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()] = 0;
             }
         }
     }
@@ -632,9 +632,9 @@ final class Parsed implements TemporalAccessor
                 $instant = $this->date->atTime($this->time)->atZone($this->zone)->getLong(ChronoField::INSTANT_SECONDS());
                 $this->fieldValues->put(ChronoField::INSTANT_SECONDS(), $this->instant);
             } else {
-                $offsetSecs = $this->fieldValues->get(ChronoField::OFFSET_SECONDS());
-                if ($offsetSecs != null) {
-                    $offset = ZoneOffset::ofTotalSeconds($offsetSecs->intValue());
+                $offsetSecs = @$this->fieldValues[ChronoField::OFFSET_SECONDS()->__toString()];
+                if ($offsetSecs !== null) {
+                    $offset = ZoneOffset::ofTotalSeconds($offsetSecs);
                     $instant = $this->date->atTime($this->time)->atZone($offset)->getLong(ChronoField::INSTANT_SECONDS());
                     $this->fieldValues->put(ChronoField::INSTANT_SECONDS(), $instant);
                 }
@@ -666,12 +666,12 @@ final class Parsed implements TemporalAccessor
     {
 // only cross-check date, time and date-time
 // avoid object creation if possible
-        if ($this->date != null) {
+        if ($this->date !== null) {
             $this->crossCheck1($this->date);
         }
-        if ($this->time != null) {
+        if ($this->time !== null) {
             $this->crossCheck1($this->time);
-            if ($this->date != null && count($this->fieldValues) > 0) {
+            if ($this->date !== null && count($this->fieldValues) > 0) {
                 $this->crossCheck1($this->date->atTime($this->time));
             }
         }
@@ -680,21 +680,22 @@ final class Parsed implements TemporalAccessor
     private
     function crossCheck1(TemporalAccessor $target)
     {
-        for ($it = $this->fieldValues->entrySet()->iterator(); $it->hasNext();) {
-            $entry = $it->next();
-            $field = $entry->getKey();
+        foreach ($this->fieldValues as $key => $it) {
+            /** @var ChronoField $field */
+            $field = $it[0];
+            $entry = $it[1];
             if ($target->isSupported($field)) {
                 try {
                     $val1 = $target->getLong($field);
                 } catch (\RuntimeException $ex) {
                     continue;
                 }
-                $val2 = $entry->getValue();
-                if ($val1 != $val2) {
+                $val2 = $entry;
+                if ($val1 !== $val2) {
                     throw new DateTimeException("Conflict found: Field " . $field . " " . $val1 .
-                        " differs from " . $field . " " . $$val2 . " derived from " . $target);
+                        " differs from " . $field . " " . $val2 . " derived from " . $target);
                 }
-                $it->remove();
+                unset($this->fieldValues[$key]);
             }
         }
     }

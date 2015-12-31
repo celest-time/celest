@@ -591,13 +591,13 @@ interface Chronology
      * The default implementation, which explains typical resolve behaviour,
      * is provided in {@link AbstractChronology}.
      *
-     * @param $fieldValues int[] (TemporalField=>int) the map of fields to values, which can be updated, not null
+     * @param $fieldValues array (TemporalField=>int) the map of fields to values, which can be updated, not null
      * @param $resolverStyle ResolverStyle the requested type of resolve, not null
      * @return ChronoLocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    function resolveDate($fieldValues, ResolverStyle $resolverStyle);
+    function resolveDate(array &$fieldValues, ResolverStyle $resolverStyle);
 
     //-----------------------------------------------------------------------
     /**

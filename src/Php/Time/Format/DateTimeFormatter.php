@@ -487,7 +487,7 @@ class DateTimeFormatter
     private $resolverStyle;
     /**
      * The fields to use in resolving, null for all fields.
-     * @var \SplObjectStorage TemporalField
+     * @var array TemporalField
      */
     private $resolverFields;
     /**
@@ -1459,7 +1459,7 @@ class DateTimeFormatter
     public
     function withLocale(Locale $locale)
     {
-        if ($this->locale->equals($locale)) {
+        if ($this->locale == $locale) {
             return $this;
         }
         return new DateTimeFormatter($this->printerParser, $locale, $this->decimalStyle, $this->resolverStyle, $this->resolverFields, $this->chrono, $this->zone);
@@ -1998,14 +1998,14 @@ class DateTimeFormatter
      * This parses to a {@code TemporalAccessor} ensuring that the text is fully parsed.
      *
      * @param $text string the text to parse, not null
-     * @param $position ParsePosition the position to parse from, updated with length parsed
+     * @param $position ParsePosition|null the position to parse from, updated with length parsed
      *  and the index of any error, null if parsing whole string
      * @return TemporalAccessor the resolved result of the parse, not null
      * @throws DateTimeParseException if the parse fails
      * @throws DateTimeException if an error occurs while resolving the date or time
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    private function parseResolved0($text, ParsePosition $position)
+    private function parseResolved0($text, $position)
     {
         $pos = ($position != null ? $position : new ParsePosition(0));
         $context = $this->parseUnresolved0($text, $pos);

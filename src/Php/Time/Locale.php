@@ -15,4 +15,9 @@ class Locale
     {
         return new Locale();
     }
+
+    public static function ENGLISH()
+    {
+        return new Locale();
+    }
 }

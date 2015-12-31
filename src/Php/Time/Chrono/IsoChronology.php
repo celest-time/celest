@@ -500,13 +500,13 @@ final class IsoChronology extends AbstractChronology
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    public function resolveDate($fieldValues, ResolverStyle $resolverStyle)
+    public function resolveDate(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         return parent::resolveDate($fieldValues, $resolverStyle);
     }
 
 // override for better proleptic algorithm
-    protected function resolveProlepticMonth($fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveProlepticMonth(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $pMonth = self::remove($fieldValues, ChronoField::PROLEPTIC_MONTH());
         if ($pMonth != null) {
@@ -520,20 +520,20 @@ final class IsoChronology extends AbstractChronology
     }
 
 // override for enhanced behaviour
-    protected function resolveYearOfEra(array $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYearOfEra(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $yoeLong = self::remove($fieldValues, ChronoField::YEAR_OF_ERA());
-        if ($yoeLong != null) {
+        if ($yoeLong !== null) {
             if ($resolverStyle != ResolverStyle::LENIENT()) {
                 ChronoField::YEAR_OF_ERA()->checkValidValue($yoeLong);
             }
 
             $era = self::remove($fieldValues, ChronoField::ERA());
-            if ($era == null) {
-                $year = $fieldValues->get(ChronoField::YEAR());
+            if ($era === null) {
+                $year = @$fieldValues[ChronoField::YEAR()->__toString()];
                 if ($resolverStyle == ResolverStyle::STRICT()) {
                     // do not invent era if strict, but do cross-check with year
-                    if ($year != null) {
+                    if ($year !== null) {
                         $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                     } else {
                         // reinstate the field removed earlier, no cross-check issues
@@ -543,9 +543,9 @@ final class IsoChronology extends AbstractChronology
                     // invent era
                     $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year == null || $year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                 }
-            } else if ($era->longValue() == 1) {
+            } else if ($era === 1) {
                 $this->addFieldValue($fieldValues, ChronoField::YEAR(), $yoeLong);
-            } else if ($era->longValue() == 0) {
+            } else if ($era === 0) {
                 $this->addFieldValue($fieldValues, ChronoField::YEAR(), Math::subtractExact(1, $yoeLong));
             } else {
                 throw new DateTimeException("Invalid value for era: " . $era);

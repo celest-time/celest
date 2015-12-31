@@ -63,6 +63,7 @@
 namespace Php\Time;
 
 use Php\Time\Chrono\Chronology;
+use Php\Time\Chrono\ChronologyDefaults;
 use Php\Time\Chrono\IsoChronology;
 use Php\Time\Chrono\TextStyle;
 use Php\Time\Format\DateTimeFormatterBuilder;
@@ -356,7 +357,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $temporal;
         }
         try {
-            if (IsoChronology::INSTANCE()->equals(Chronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()));

@@ -414,13 +414,13 @@ abstract class AbstractChronology implements Chronology
      * has the value 1, that first day-of-year has the value 1, and that the
      * first of the month and year always exists.
      *
-     * @param $fieldValues int[] TemporalField=>int the map of fields to values, which can be updated, not null
+     * @param $fieldValues array TemporalField=>int the map of fields to values, which can be updated, not null
      * @param $resolverStyle ResolverStyle the requested type of resolve, not null
      * @return ChronoLocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    public function resolveDate($fieldValues, ResolverStyle $resolverStyle)
+    public function resolveDate(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         // check epoch-day before inventing era
         if (self::contains($fieldValues, ChronoField::EPOCH_DAY())) {
@@ -432,7 +432,7 @@ abstract class AbstractChronology implements Chronology
 
 // invent era if necessary to resolve year-of-era
         $resolved = $this->resolveYearOfEra($fieldValues, $resolverStyle);
-        if ($resolved != null) {
+        if ($resolved !== null) {
             return $resolved;
         }
 
@@ -487,7 +487,7 @@ abstract class AbstractChronology implements Chronology
         // Get null or the value
         $val = @$array[$id];
         unset ($array[$id]);
-        return $val;
+        return $val[1];
     }
 
     protected function resolveProlepticMonth($fieldValues, ResolverStyle $resolverStyle)

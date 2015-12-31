@@ -323,7 +323,7 @@ final class ValueRange
      */
     public function checkValidValue($value, TemporalField $field)
     {
-        if ($this->isValidValue($value) == false) {
+        if ($this->isValidValue($value) === false) {
             throw new DateTimeException($this->genInvalidFieldMessage($field, $value));
         }
 
