@@ -557,7 +557,7 @@ final class IsoChronology extends AbstractChronology
     }
 
     // override for performance
-    function resolveYMD($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMD(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = ChronoField::YEAR()->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()));
         if ($resolverStyle == ResolverStyle::LENIENT()) {

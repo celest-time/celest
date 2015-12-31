@@ -471,7 +471,7 @@ abstract class AbstractChronology implements Chronology
      * @param ChronoField $field
      * @return bool
      */
-    private static function contains($array, ChronoField $field)
+    private static function contains(array $array, ChronoField $field)
     {
         return array_key_exists($field->__toString(), $array);
     }
@@ -481,7 +481,7 @@ abstract class AbstractChronology implements Chronology
      * @param ChronoField $field
      * @return null|int
      */
-    protected static function remove($array, ChronoField $field)
+    protected static function remove(array &$array, ChronoField $field)
     {
         $id = $field->__toString();
         // Get null or the value
@@ -490,7 +490,7 @@ abstract class AbstractChronology implements Chronology
         return $val[1];
     }
 
-    protected function resolveProlepticMonth($fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveProlepticMonth(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $pMonth = self::remove($fieldValues, ChronoField::PROLEPTIC_MONTH());
         if ($pMonth != null) {
@@ -545,7 +545,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYMD($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMD(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -568,7 +568,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYD($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYD(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -580,7 +580,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYMAA($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMAA(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -600,7 +600,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYMAD($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMAD(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -621,7 +621,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYAA($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYAA(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -639,7 +639,7 @@ abstract class AbstractChronology implements Chronology
     }
 
     protected
-    function resolveYAD($fieldValues, ResolverStyle $resolverStyle)
+    function resolveYAD(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -684,7 +684,7 @@ abstract class AbstractChronology implements Chronology
      * @throws DateTimeException
      */
     protected
-    static function addFieldValue(&$fieldValues, ChronoField $field, $value)
+    static function addFieldValue(array &$fieldValues, ChronoField $field, $value)
     {
         $old = self::contains($fieldValues, $field) ? $fieldValues[$field->__toString()][1] : null;  // check first for better error message
         if ($old !== null && $old !== $value) {
