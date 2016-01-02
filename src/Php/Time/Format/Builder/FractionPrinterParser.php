@@ -74,7 +74,10 @@ final class FractionPrinterParser implements DateTimePrinterParser
             }
         } else {
             $outputScale = Math::min(Math::max(9, $this->minWidth), $this->maxWidth);
-            // TODO adjust scale if outputscale !== 9 $fraction = $fraction->setScale($outputScale, RoundingMode::FLOOR);
+            if($outputScale !== 9) {
+                $div = 1 . str_repeat('0', 9 - $outputScale);
+                $fraction = gmp_div($fraction, $div);
+            }
             $str = gmp_strval($fraction);
             $pad = $outputScale - strlen($str);
             $str = str_repeat('0', $pad) . $str;
