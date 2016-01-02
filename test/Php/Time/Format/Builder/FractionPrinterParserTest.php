@@ -60,9 +60,7 @@
  */
 namespace Php\Time\Format\Builder;
 
-use Php\Time\DateTimeException;
 use Php\Time\Format\ParsePosition;
-use Php\Time\Helper\Math;
 use Php\Time\LocalTime;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\Temporal\MockFieldValue;
@@ -97,7 +95,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $buf = "EXISTING";
         $this->getFormatter(ChronoField::NANO_OF_SECOND(), 0, 9, true)->formatTo(LocalTime::of(12, 30, 40, 3), $buf);
-        $this->assertEquals($buf, "EXISTING.000000003");
+        $this->assertEquals("EXISTING.000000003", $buf);
     }
 
 //-----------------------------------------------------------------------
@@ -105,69 +103,6 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         return
             [
-                [
-                    0, 9, 0, ""
-                ],
-                [
-                    0, 9, 2, ".000000002"],
-                [
-                    0, 9, 20, ".00000002"],
-                [
-                    0, 9, 200, ".0000002"],
-                [
-                    0, 9, 2000, ".000002"],
-                [
-                    0, 9, 20000, ".00002"],
-                [
-                    0, 9, 200000, ".0002"],
-                [
-                    0, 9, 2000000, ".002"],
-                [
-                    0, 9, 20000000, ".02"],
-                [
-                    0, 9, 200000000, ".2"],
-                [
-                    0, 9, 1, ".000000001"],
-                [
-                    0, 9, 12, ".000000012"],
-                [
-                    0, 9, 123, ".000000123"],
-                [
-                    0, 9, 1234, ".000001234"],
-                [
-                    0, 9, 12345, ".000012345"],
-                [
-                    0, 9, 123456, ".000123456"],
-                [
-                    0, 9, 1234567, ".001234567"],
-                [
-                    0, 9, 12345678, ".012345678"],
-                [
-                    0, 9, 123456789, ".123456789"],
-
-                [
-                    1, 9, 0, ".0"],
-                [
-                    1, 9, 2, ".000000002"],
-                [
-                    1, 9, 20, ".00000002"],
-                [
-                    1, 9, 200, ".0000002"],
-                [
-                    1, 9, 2000, ".000002"],
-                [
-                    1, 9, 20000, ".00002"],
-                [
-                    1, 9, 200000, ".0002"],
-                [
-                    1, 9, 2000000, ".002"],
-                [
-                    1, 9, 20000000, ".02"],
-                [
-                    1, 9, 200000000, ".2"],
-
-                [
-                    2, 3, 0, ".00"],
                 [
                     2, 3, 2, ".000"],
                 [
@@ -257,7 +192,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals($buf, $result);
+        $this->assertEquals($result, $buf);
     }
 
     /**
@@ -270,7 +205,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals($buf, (@$result[0] === "." ? substr($result, 1) : $result));
+        $this->assertEquals((@$result[0] === "." ? substr($result, 1) : $result), $buf);
     }
 
 //-----------------------------------------------------------------------
@@ -278,9 +213,6 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         return
             [
-                [
-                    0, 9, 0, ""
-                ],
                 [
                     0, 9, 3, ".05"],
                 [
@@ -326,7 +258,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals($buf, $result);
+        $this->assertEquals($result, $buf);
     }
 
     /**
@@ -339,21 +271,21 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals($buf, ($result[0] === "." ? substr($result, 1) : $result));
+        $this->assertEquals((@$result[0] === "." ? substr($result, 1) : $result), $buf);
     }
 
 //-----------------------------------------------------------------------
 // parse
 //-----------------------------------------------------------------------
     /**
-     * @dataProvider provider_seconds
+     * @dataProvider provider_nanos
      */
     public function test_reverseParse($minWidth, $maxWidth, $value, $result)
     {
         $pos = new ParsePosition(0);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
         $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
-        $this->assertEquals($pos->getIndex(), strlen($result));
+        $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
 
@@ -364,7 +296,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $pos = new ParsePosition(@$result[0] === "." ? 1 : 0);
         $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->parseUnresolved($result, $pos);
-        $this->assertEquals($pos->getIndex(), strlen($result));
+        $this->assertEquals(strlen($result), $pos->getIndex());
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
@@ -378,7 +310,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
         $pos = new ParsePosition(0);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
         $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result . " ", $pos);
-        $this->assertEquals($pos->getIndex(), strlen($result));
+        $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
 
@@ -400,7 +332,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
         $pos = new ParsePosition(1);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
         $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved(" " . $result, $pos);
-        $this->assertEquals($pos->getIndex(), strlen($result));
+        $this->assertEquals(strlen($result) + 1, $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
 
@@ -408,7 +340,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         if ($maxWidth < 9) {
             $power = (int)pow(10, (9 - $maxWidth));
-            $value = ($value / $power) * $power;
+            $value = (int)($value / $power) * $power;
         }
 
         return $value;
@@ -422,7 +354,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $pos = new ParsePosition(0);
         $parsed = $this->getFormatter(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
-        $this->assertEquals($pos->getIndex(), strlen($result));
+        $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::SECOND_OF_MINUTE(), $value == 0 && $minWidth == 0 ? null : $value);
     }
 
@@ -430,10 +362,10 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     function assertParsed(TemporalAccessor $parsed, TemporalField $field, $value)
     {
         if ($value === null) {
-            $this->assertEquals($parsed->isSupported($field), false);
+            $this->assertEquals(false, $parsed->isSupported($field));
         } else {
-            $this->assertEquals($parsed->isSupported($field), true);
-            $this->assertEquals($parsed->getLong($field), $value);
+            $this->assertEquals(true, $parsed->isSupported($field));
+            $this->assertEquals($value, $parsed->getLong($field));
         }
     }
 
@@ -466,21 +398,21 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $ppos = new ParsePosition($pos);
         $parsed = $this->getFormatter($field, $min, $max, $decimalPoint)->parseUnresolved($text, $ppos);
-        $this->assertEquals($ppos->getErrorIndex(), $expected);
-        $this->assertEquals($parsed, null);
+        $this->assertEquals($expected, $ppos->getErrorIndex());
+        $this->assertEquals(null, $parsed);
     }
 
 //-----------------------------------------------------------------------
     public
     function test_toString()
     {
-        $this->assertEquals($this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, true)->__toString(), "Fraction(NanoOfSecond,3,6,DecimalPoint)");
+        $this->assertEquals("Fraction(NanoOfSecond,3,6,DecimalPoint)", $this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, true)->__toString());
     }
 
     public
     function test_toString_noDecimalPoint()
     {
-        $this->assertEquals($this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, false)->__toString(), "Fraction(NanoOfSecond,3,6)");
+        $this->assertEquals("Fraction(NanoOfSecond,3,6)", $this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, false)->__toString());
     }
 
 }

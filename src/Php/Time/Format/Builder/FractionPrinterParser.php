@@ -133,7 +133,8 @@ final class FractionPrinterParser implements DateTimePrinterParser
             }
             $total = $total * 10 + $digit;
         }
-        $fraction = gmp_div(gmp_init($total), ($pos - $position) * 10);
+        $div = 1 . str_repeat('0', 9 - ($pos - $position));
+        $fraction = gmp_mul($total, $div);
         $value = $this->convertFromFraction($fraction);
         return $context->setParsedField($this->field, $value, $position, $pos);
     }
@@ -186,7 +187,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
         $range = $this->field->range();
         $minBD = gmp_init($range->getMinimum());
         $rangeBD = gmp_add(gmp_sub($range->getMaximum(), $minBD), 1);
-        $valueBD = gmp_add(gmp_mul($fraction, $rangeBD), $minBD);
+        $valueBD = gmp_add(gmp_div(gmp_mul($fraction, $rangeBD), 1000000000), $minBD);
         return gmp_intval($valueBD);
     }
 
