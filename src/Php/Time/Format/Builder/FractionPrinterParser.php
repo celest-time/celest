@@ -74,13 +74,20 @@ final class FractionPrinterParser implements DateTimePrinterParser
             }
         } else {
             $outputScale = Math::min(Math::max(9, $this->minWidth), $this->maxWidth);
-            if($outputScale !== 9) {
+            if ($outputScale !== 9) {
                 $div = 1 . str_repeat('0', 9 - $outputScale);
                 $fraction = gmp_div($fraction, $div);
             }
             $str = gmp_strval($fraction);
             $pad = $outputScale - strlen($str);
+
             $str = str_repeat('0', $pad) . $str;
+
+            // trim trailing zeros
+            while (strlen($str) > $this->minWidth && $str[strlen($str) - 1] === '0') {
+                $str = substr($str, 0, strlen($str) - 1);
+            }
+
             $str = $decimalStyle->convertNumberToI18N($str);
             if ($this->decimalPoint) {
                 $buf .= $decimalStyle->getDecimalSeparator();
@@ -155,7 +162,6 @@ final class FractionPrinterParser implements DateTimePrinterParser
         $rangeBD = gmp_add(gmp_sub($range->getMaximum(), $minBD), 1);
         $valueBD = gmp_sub($value, $minBD);
         $fraction = gmp_div(gmp_mul($valueBD, 1000000000), $rangeBD, GMP_ROUND_MINUSINF);
-        // stripTrailingZeros bug
         return $fraction;
     }
 
