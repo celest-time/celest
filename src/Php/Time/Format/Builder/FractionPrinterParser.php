@@ -7,6 +7,7 @@ use Php\Time\Format\DateTimeParseContext;
 use Php\Time\Helper\Math;
 use Php\Time\IllegalArgumentException;
 use Php\Time\Format\DateTimePrintContext;
+use Php\Time\Temporal\TemporalField;
 
 /**
  * Prints and parses a numeric date-time field with optional padding.
@@ -54,14 +55,14 @@ final class FractionPrinterParser implements DateTimePrinterParser
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $value = $context->getValue($this->field);
-        if ($value == null) {
+        $value = $context->getValueField($this->field);
+        if ($value === null) {
             return false;
         }
 
         $decimalStyle = $context->getDecimalStyle();
         $fraction = $this->convertToFraction($value);
-        if ($fraction->scale() === 0) {  // scale is zero if value is zero
+        if (gmp_cmp($fraction, 0) === 0) {  // scale is zero if value is zero
             if ($this->minWidth > 0) {
                 if ($this->decimalPoint) {
                     $buf .= $decimalStyle->getDecimalSeparator();
@@ -69,15 +70,17 @@ final class FractionPrinterParser implements DateTimePrinterParser
                 for ($i = 0; $i < $this->minWidth;
                      $i++) {
                     $buf .= $decimalStyle->getZeroDigit();
-                    }
+                }
             }
         } else {
-            $outputScale = Math::min(Math::max($fraction->scale(), $this->minWidth), $this->maxWidth);
-            $fraction = $fraction->setScale($outputScale, RoundingMode::FLOOR);
-            $str = $fraction->toPlainString()->substring(2);
+            $outputScale = Math::min(Math::max(9, $this->minWidth), $this->maxWidth);
+            // TODO adjust scale if outputscale !== 9 $fraction = $fraction->setScale($outputScale, RoundingMode::FLOOR);
+            $str = gmp_strval($fraction);
+            $pad = $outputScale - strlen($str);
+            $str = str_repeat('0', $pad) . $str;
             $str = $decimalStyle->convertNumberToI18N($str);
             if ($this->decimalPoint) {
-                $buf->append($decimalStyle->getDecimalSeparator());
+                $buf .= $decimalStyle->getDecimalSeparator();
             }
             $buf .= $str;
         }
@@ -120,7 +123,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
             }
             $total = $total * 10 + $digit;
         }
-        $fraction = (new BigDecimal($total))->movePointLeft($pos - $position);
+        $fraction = gmp_div(gmp_init($total), ($pos - $position) * 10);
         $value = $this->convertFromFraction($fraction);
         return $context->setParsedField($this->field, $value, $position, $pos);
     }
@@ -145,12 +148,12 @@ final class FractionPrinterParser implements DateTimePrinterParser
     {
         $range = $this->field->range();
         $range->checkValidValue($value, $this->field);
-        $minBD = BigDecimal::valueOf($range->getMinimum());
-        $rangeBD = BigDecimal::valueOf($range->getMaximum())->subtract($minBD)->add(BigDecimal::ONE);
-        $valueBD = BigDecimal::valueOf($value)->subtract($minBD);
-        $fraction = $valueBD->divide($rangeBD, 9, RoundingMode::FLOOR);
+        $minBD = gmp_init($range->getMinimum());
+        $rangeBD = gmp_add(gmp_sub($range->getMaximum(), $minBD), 1);
+        $valueBD = gmp_sub($value, $minBD);
+        $fraction = gmp_div(gmp_mul($valueBD, 1000000000), $rangeBD, GMP_ROUND_MINUSINF);
         // stripTrailingZeros bug
-        return $fraction->compareTo(BigDecimal::ZERO) == 0 ? BigDecimal::ZERO : $fraction->stripTrailingZeros();
+        return $fraction;
     }
 
     /**
@@ -165,17 +168,17 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * For example, the fractional second-of-minute of 0.25 would be converted to 15,
      * assuming the standard definition of 60 seconds in a minute.
      *
-     * @param $fraction BigDecimal TODO the fraction to convert, not null
+     * @param $fraction mixed TODO the fraction to convert, not null
      * @return int the value of the field, valid for this rule
      * @throws DateTimeException if the value cannot be converted
      */
-    private function convertFromFraction(BigDecimal $fraction)
+    private function convertFromFraction($fraction)
     {
         $range = $this->field->range();
-        $minBD = BigDecimal::valueOf($range->getMinimum());
-        $rangeBD = BigDecimal::valueOf($range->getMaximum())->subtract($minBD)->add(BigDecimal::ONE);
-        $valueBD = $fraction->multiply($rangeBD)->setScale(0, RoundingMode::FLOOR)->add($minBD);
-        return $valueBD->longValueExact();
+        $minBD = gmp_init($range->getMinimum());
+        $rangeBD = gmp_add(gmp_sub($range->getMaximum(), $minBD), 1);
+        $valueBD = gmp_add(gmp_mul($fraction, $rangeBD), $minBD);
+        return gmp_intval($valueBD);
     }
 
     public function __toString()

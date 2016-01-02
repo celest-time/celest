@@ -362,7 +362,7 @@ final class DecimalStyle
      */
     public function convertNumberToI18N($numericText)
     {
-        if ($this->zeroDigit == '0') {
+        if ($this->zeroDigit === '0') {
             return $numericText;
         }
 
