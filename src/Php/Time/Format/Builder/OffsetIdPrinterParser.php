@@ -113,12 +113,12 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         $sign = $text[$position];  // IOOBE if invalid position
         if ($sign === '+' || $sign === '-') {
             // starts
-            $negative = ($sign == '-' ? -1 : 1);
-            $array = [];
+            $negative = ($sign === '-' ? -1 : 1);
+            $array = [0, 0, 0, 0];
             $array[0] = $position + 1;
             if (($this->parseNumber($array, 1, $text, true) ||
                     $this->parseNumber($array, 2, $text, $this->type >= 3) ||
-                    $this->parseNumber($array, 3, $text, false)) == false
+                    $this->parseNumber($array, 3, $text, false)) === false
             ) {
                 // success
                 $offsetSecs = $negative * ($array[1] * 3600 + $array[2] * 60 + $array[3]);
@@ -141,7 +141,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
      * @param $required bool whether this number is required
      * @return bool true if an error occurred
      */
-    private function parseNumber(array $array, $arrayIndex, $parseText, $required)
+    private function parseNumber(array &$array, $arrayIndex, $parseText, $required)
     {
         if (($this->type + 3) / 2 < $arrayIndex) {
             return false;  // ignore seconds/minutes
@@ -156,9 +156,9 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         if ($pos + 2 > strlen($parseText)) {
             return $required;
         }
-        $ch1 = $parseText[$pos++];
-        $ch2 = $parseText[$pos++];
-        if ($ch1 < '0' || $ch1 > '9' || $ch2 < '0' || $ch2 > '9') {
+        $ch1 = ord($parseText[$pos++]);
+        $ch2 = ord($parseText[$pos++]);
+        if ($ch1 < ord('0') || $ch1 > ord('9') || $ch2 < ord('0') || $ch2 > ord('9')) {
             return $required;
         }
         $value = ($ch1 - 48) * 10 + ($ch2 - 48);

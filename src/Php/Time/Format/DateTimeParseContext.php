@@ -223,7 +223,7 @@ final class DateTimeParseContext
                  $i++) {
                 $ch1 = $cs1[$offset1 + $i];
                 $ch2 = $cs2[$offset2 + $i];
-                if ($ch1 != $ch2) {
+                if ($ch1 !== $ch2) {
                     return false;
                 }
             }
