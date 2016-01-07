@@ -74,7 +74,7 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
     public function provider_dataSuccess()
     {
         return [
-          /*  // match
+            // match
             [
                 'a', true, "a", 0, 1
             ],
@@ -97,13 +97,14 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
             [
                 'a', true, "OTHERbOTHER", 5, 5],
             [
-                'a', true, "OTHERb", 5, 5],*/
+                'a', true, "OTHERb", 5, 5],
 
 // case insensitive
             [
                 'a', false, "a", 0, 1],
             [
-                'a', false, "A", 0, 1],];
+                'a', false, "A", 0, 1],
+        ];
     }
 
     /**
@@ -140,7 +141,6 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
 
     /**
      * @dataProvider provider_dataError
-     * @expectedException
      */
     public
     function test_parse_error($c, $text, $pos, $expected)
