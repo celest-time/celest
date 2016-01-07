@@ -507,7 +507,7 @@ abstract class AbstractChronology implements Chronology
         }
     }
 
-    protected function resolveYearOfEra(array $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYearOfEra(array &$fieldValues, ResolverStyle $resolverStyle)
     {
         $yoeLong = self::remove($fieldValues, ChronoField::YEAR_OF_ERA());
         if ($yoeLong != null) {
