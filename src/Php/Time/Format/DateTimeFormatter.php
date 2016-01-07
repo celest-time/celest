@@ -1915,7 +1915,7 @@ class DateTimeFormatter
     public function parseQuery($text, TemporalQuery $query)
     {
         try {
-            return $this->parseResolved0($text, new ParsePosition(0))->query($query);
+            return $this->parseResolved0($text, null)->query($query);
         } catch
         (DateTimeParseException $ex) {
             throw $ex;
@@ -2007,9 +2007,9 @@ class DateTimeFormatter
      */
     private function parseResolved0($text, $position)
     {
-        $pos = ($position != null ? $position : new ParsePosition(0));
+        $pos = ($position !== null ? $position : new ParsePosition(0));
         $context = $this->parseUnresolved0($text, $pos);
-        if ($context == null || $pos->getErrorIndex() >= 0 || ($position == null && $pos->getIndex() < strlen($text))) {
+        if ($context === null || $pos->getErrorIndex() >= 0 || ($position === null && $pos->getIndex() < strlen($text))) {
             if (strlen($text) > 64) {
                 $abbr = substr($text, 0, 64) . "...";
             } else {
