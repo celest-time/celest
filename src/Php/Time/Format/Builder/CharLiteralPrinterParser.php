@@ -30,6 +30,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
             return ~$position;
         }
 
+        if($position < 0 || $position >= $length) throw new \OutOfRangeException();
         $ch = $text[$position];
         if ($ch !== $this->literal) {
             if ($context->isCaseSensitive() ||

@@ -125,10 +125,10 @@ class TestReducedParser extends AbstractTestPrinterParser
         return
             [
                 [
-                    ChronoField::YEAR(), 2, 2010, "12", -1, \PHPUnit_Framework_Error_Notice::class
+                    ChronoField::YEAR(), 2, 2010, "12", -1, \OutOfRangeException::class
                 ],
                 [
-                    ChronoField::YEAR(), 2, 2010, "12", 3, \PHPUnit_Framework_Error_Notice::class],
+                    ChronoField::YEAR(), 2, 2010, "12", 3, \OutOfRangeException::class],
             ];
     }
 

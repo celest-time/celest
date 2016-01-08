@@ -80,9 +80,9 @@ class NumberParserTest extends AbstractTestPrinterParser
     {
         return [
             [
-                ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER(), "12", -1, \PHPUnit_Framework_Error_Notice::class],
+                ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER(), "12", -1, \OutOfRangeException::class],
             [
-                ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER(), "12", 3, \PHPUnit_Framework_Error_Notice::class],
+                ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER(), "12", 3, \OutOfRangeException::class],
         ];
     }
 
@@ -94,8 +94,7 @@ class NumberParserTest extends AbstractTestPrinterParser
         try {
             $this->getFormatterWidth($field, $min, $max, $style)->parseUnresolved($text, new ParsePosition($pos));
             $this->fail();
-        } catch
-        (\RuntimeException $ex) {
+        } catch (\Exception $ex) {
             $this->assertInstanceOf($expected, $ex);
         }
     }

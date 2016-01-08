@@ -133,9 +133,9 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
     {
         return [
             [
-                'a', "a", -1, \PHPUnit_Framework_Error::class],
+                'a', "a", -1, \OutOfRangeException::class],
             [
-                'a', "a", 2, \PHPUnit_Framework_Error::class],
+                'a', "a", 2, \OutOfRangeException::class],
         ];
     }
 

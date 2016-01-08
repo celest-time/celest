@@ -171,8 +171,8 @@ class NumberPrinterParser implements DateTimePrinterParser
             return ~$position;
         }
 
-        // TODO check
-        $sign = $text[$position];  // IOOBE if invalid position
+        if($position < 0 || $position >= $length) throw new \OutOfRangeException();
+        $sign = $text[$position];
         $negative = false;
         $positive = false;
         if ($sign === $context->getDecimalStyle()->getPositiveSign()) {
