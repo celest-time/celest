@@ -142,6 +142,11 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
         return $this->builder->appendPattern($pattern)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
+    protected function getFormatterFraction(TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
+    {
+        return $this->builder->appendFraction($field, $minWidth, $maxWidth, $decimalPoint)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
+    }
+
     protected static function EMPTY_DTA()
     {
         return new TemporalTest();

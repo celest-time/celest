@@ -73,11 +73,6 @@ use Php\Time\Temporal\TemporalField;
 class TestFractionPrinterParser extends AbstractTestPrinterParser
 {
 
-    protected function getFormatter(TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
-    {
-        return $this->builder->appendFraction($field, $minWidth, $maxWidth, $decimalPoint)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
-    }
-
     //-----------------------------------------------------------------------
     // print
     //-----------------------------------------------------------------------
@@ -87,14 +82,14 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     public function test_print_emptyCalendrical()
     {
         $buf = '';
-        $this->getFormatter(ChronoField::NANO_OF_SECOND(), 0, 9, true)->formatTo(self::EMPTY_DTA(), $buf);
+        $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), 0, 9, true)->formatTo(self::EMPTY_DTA(), $buf);
     }
 
     public
     function test_print_append()
     {
         $buf = "EXISTING";
-        $this->getFormatter(ChronoField::NANO_OF_SECOND(), 0, 9, true)->formatTo(LocalTime::of(12, 30, 40, 3), $buf);
+        $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), 0, 9, true)->formatTo(LocalTime::of(12, 30, 40, 3), $buf);
         $this->assertEquals("EXISTING.000000003", $buf);
     }
 
@@ -250,7 +245,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     public function test_print_nanos($minWidth, $maxWidth, $value, $result)
     {
         $buf = '';
-        $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->formatTo(new MockFieldValue(ChronoField::NANO_OF_SECOND(), $value), $buf);
+        $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->formatTo(new MockFieldValue(ChronoField::NANO_OF_SECOND(), $value), $buf);
         if ($result === null) {
             $this->fail("Expected exception");
         }
@@ -263,7 +258,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
      */
     public function test_print_nanos_noDecimalPoint($minWidth, $maxWidth, $value, $result)
     {
-        $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->formatTo(new MockFieldValue(ChronoField::NANO_OF_SECOND(), $value), $buf);
+        $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->formatTo(new MockFieldValue(ChronoField::NANO_OF_SECOND(), $value), $buf);
         if ($result === null) {
             $this->fail("Expected exception");
         }
@@ -319,7 +314,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     public function test_print_seconds($minWidth, $maxWidth, $value, $result)
     {
         $buf = '';
-        $this->getFormatter(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, true)->formatTo(new MockFieldValue(ChronoField::SECOND_OF_MINUTE(), $value), $buf);
+        $this->getFormatterFraction(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, true)->formatTo(new MockFieldValue(ChronoField::SECOND_OF_MINUTE(), $value), $buf);
         if ($result === null) {
             $this->fail("Expected exception");
         }
@@ -332,7 +327,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
      */
     public function test_print_seconds_noDecimalPoint($minWidth, $maxWidth, $value, $result)
     {
-        $this->getFormatter(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, false)->formatTo(new MockFieldValue(ChronoField::SECOND_OF_MINUTE(), $value), $buf);
+        $this->getFormatterFraction(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, false)->formatTo(new MockFieldValue(ChronoField::SECOND_OF_MINUTE(), $value), $buf);
         if ($result === null) {
             $this->fail("Expected exception");
         }
@@ -350,7 +345,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $pos = new ParsePosition(0);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
-        $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
+        $parsed = $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
         $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
@@ -361,7 +356,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     public function test_reverseParse_noDecimalPoint($minWidth, $maxWidth, $value, $result)
     {
         $pos = new ParsePosition(@$result[0] === "." ? 1 : 0);
-        $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->parseUnresolved($result, $pos);
+        $parsed = $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->parseUnresolved($result, $pos);
         $this->assertEquals(strlen($result), $pos->getIndex());
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
@@ -375,7 +370,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $pos = new ParsePosition(0);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
-        $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result . " ", $pos);
+        $parsed = $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved($result . " ", $pos);
         $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
@@ -397,7 +392,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     {
         $pos = new ParsePosition(1);
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
-        $parsed = $this->getFormatter(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved(" " . $result, $pos);
+        $parsed = $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, true)->parseUnresolved(" " . $result, $pos);
         $this->assertEquals(strlen($result) + 1, $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::NANO_OF_SECOND(), $value == 0 && $minWidth == 0 ? null : $expectedValue);
     }
@@ -419,7 +414,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     function test_reverseParse_seconds($minWidth, $maxWidth, $value, $result)
     {
         $pos = new ParsePosition(0);
-        $parsed = $this->getFormatter(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
+        $parsed = $this->getFormatterFraction(ChronoField::SECOND_OF_MINUTE(), $minWidth, $maxWidth, true)->parseUnresolved($result, $pos);
         $this->assertEquals(strlen($result), $pos->getIndex());
         $this->assertParsed($parsed, ChronoField::SECOND_OF_MINUTE(), $value == 0 && $minWidth == 0 ? null : $value);
     }
@@ -463,7 +458,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     function test_parse_nothing(TemporalField $field, $min, $max, $decimalPoint, $text, $pos, $expected)
     {
         $ppos = new ParsePosition($pos);
-        $parsed = $this->getFormatter($field, $min, $max, $decimalPoint)->parseUnresolved($text, $ppos);
+        $parsed = $this->getFormatterFraction($field, $min, $max, $decimalPoint)->parseUnresolved($text, $ppos);
         $this->assertEquals($expected, $ppos->getErrorIndex());
         $this->assertEquals(null, $parsed);
     }
@@ -472,13 +467,13 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
     public
     function test_toString()
     {
-        $this->assertEquals("Fraction(NanoOfSecond,3,6,DecimalPoint)", $this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, true)->__toString());
+        $this->assertEquals("Fraction(NanoOfSecond,3,6,DecimalPoint)", $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), 3, 6, true)->__toString());
     }
 
     public
     function test_toString_noDecimalPoint()
     {
-        $this->assertEquals("Fraction(NanoOfSecond,3,6)", $this->getFormatter(ChronoField::NANO_OF_SECOND(), 3, 6, false)->__toString());
+        $this->assertEquals("Fraction(NanoOfSecond,3,6)", $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), 3, 6, false)->__toString());
     }
 
 }
