@@ -45,12 +45,11 @@ class YearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // now(ZoneId)
     //-----------------------------------------------------------------------
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_now_ZoneId_nullZoneId()
     {
-        Year::nowIn(null);
+        TestHelper::assertNullException($this, function() {
+            Year::nowIn(null);
+        });
     }
 
     public function test_now_ZoneId()
@@ -79,12 +78,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->getValue(), 2010);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_now_Clock_nullClock()
     {
-        Year::nowOf(null);
+        TestHelper::assertNullException($this, function() {
+            Year::nowOf(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -127,12 +125,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         Year::from(LocalTime::of(12, 30));
     }
 
-    /**
-     * @expectedException     \PHPUnit_Framework_Error
-     */
     public function test_from_TemporalAccessor_null()
     {
-        Year::from(null);
+        TestHelper::assertNullException($this, function() {
+            Year::from(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -214,12 +211,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException     \InvalidArgumentException
-     */
     public function test_factory_parse_nullText()
     {
-        Year::parse(null);
+        TestHelper::assertNullException($this, function() {
+            Year::parse(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -343,12 +339,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($query->queryFrom($temporal), $expected);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_query_null()
     {
-        self::$TEST_2008->query(null);
+        TestHelper::assertNullException($this, function() {
+            self::$TEST_2008->query(null);
+        });
     }
 
 //-----------------------------------------------------------------------
@@ -444,12 +439,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         self::$TEST_2008->plusAmount($amount);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_plus_null()
     {
-        self::$TEST_2008->plusAmount(null);
+        TestHelper::assertNullException($this, function() {
+            self::$TEST_2008->plusAmount(null);
+        });
     }
 
 //-----------------------------------------------------------------------
@@ -637,12 +631,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         self::$TEST_2008->minusAmount($amount);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_minus_null()
     {
-        self::$TEST_2008->minusAmount(null);
+        TestHelper::assertNullException($this, function() {
+            self::$TEST_2008->minusAmount(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -785,14 +778,13 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->adjustInto(LocalDate::ofNumerical(2012, 2, 29)), LocalDate::ofNumerical(2011, 2, 28));
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public
     function test_adjustDate_nullLocalDate()
     {
-        $test = Year::of(1);
-        $test->adjustInto(null);
+        TestHelper::assertNullException($this, function() {
+            $test = Year::of(1);
+            $test->adjustInto(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -1056,20 +1048,18 @@ class YearTest extends PHPUnit_Framework_TestCase
         self::$TEST_2008->until(self::$TEST_2008, ChronoUnit::MONTHS());
     }
 
-    /**
-     * @expectedException     \PHPUnit_Framework_Error
-     */
     public function test_until_TemporalUnit_nullEnd()
     {
-        self::$TEST_2008->until(null, ChronoUnit::DAYS());
+        TestHelper::assertNullException($this, function() {
+            self::$TEST_2008->until(null, ChronoUnit::DAYS());
+        });
     }
 
-    /**
-     * @expectedException     \PHPUnit_Framework_Error
-     */
     public function test_until_TemporalUnit_nullUnit()
     {
-        self::$TEST_2008->until(self::$TEST_2008, null);
+        TestHelper::assertNullException($this, function() {
+            self::$TEST_2008->until(self::$TEST_2008, null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -1082,12 +1072,11 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($t, "2010");
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_format_formatter_null()
     {
-        Year::of(2010)->format(null);
+        TestHelper::assertNullException($this, function() {
+            Year::of(2010)->format(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -1099,13 +1088,12 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->atMonth(Month::JUNE()), YearMonth::ofNumerical(2008, 6));
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_atMonth_nullMonth()
     {
-        $test = Year::of(2008);
-        $test->atMonth(null);
+        TestHelper::assertNullException($this, function() {
+            $test = Year::of(2008);
+            $test->atMonth(null);
+        });
     }
 
     //-----------------------------------------------------------------------
@@ -1149,14 +1137,13 @@ class YearTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($year->atMonthDay($monthDay), $expected);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public
     function test_atMonthDay_nullMonthDay()
     {
-        $test = Year::of(2008);
-        $test->atMonthDay(null);
+        TestHelper::assertNullException($this, function() {
+            $test = Year::of(2008);
+            $test->atMonthDay(null);
+        });
     }
 
 //-----------------------------------------------------------------------
@@ -1251,14 +1238,13 @@ class YearTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_compareTo_nullYear()
     {
-        $doy = null;
-        $test = Year::of(1);
-        $test->compareTo($doy);
+        TestHelper::assertNullException($this, function() {
+            $doy = null;
+            $test = Year::of(1);
+            $test->compareTo($doy);
+        });
     }
     //-----------------------------------------------------------------------
     // equals() / hashCode()

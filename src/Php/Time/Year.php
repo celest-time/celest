@@ -277,6 +277,9 @@ final class Year
      */
     public static function parse($text)
     {
+        if (!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
         return self::parseWith($text, self::PARSER());
     }
 
