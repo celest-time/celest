@@ -155,7 +155,7 @@ final class ZoneOffsetTransitionRule
      * @param $dayOfMonthIndicator int the day of the month-day of the cutover week, positive if the week is that
      *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
      *  from -28 to 31 excluding 0
-     * @param $dayOfWeek DayOfWeek the required day-of-week, null if the month-day should not be changed
+     * @param $dayOfWeek DayOfWeek|null the required day-of-week, null if the month-day should not be changed
      * @param $time LocalTime the cutover time in the 'before' offset, not null
      * @param $timeEndOfDay bool whether the time is midnight at the end of day
      * @param $timeDefnition TimeDefinition how to interpret the cutover
@@ -169,7 +169,7 @@ final class ZoneOffsetTransitionRule
     public static function of(
         Month $month,
         $dayOfMonthIndicator,
-        DayOfWeek $dayOfWeek,
+        $dayOfWeek,
         LocalTime $time,
         $timeEndOfDay,
         TimeDefinition $timeDefnition,
@@ -194,7 +194,7 @@ final class ZoneOffsetTransitionRule
      * @param $dayOfMonthIndicator int the day of the month-day of the cutover week, positive if the week is that
      *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
      *  from -28 to 31 excluding 0
-     * @param $dayOfWeek DayOfWeek the required day-of-week, null if the month-day should not be changed
+     * @param $dayOfWeek|null DayOfWeek the required day-of-week, null if the month-day should not be changed
      * @param $time LocalTime the cutover time in the 'before' offset, not null
      * @param $timeEndOfDay bool whether the time is midnight at the end of day
      * @param $timeDefinition TimeDefinition how to interpret the cutover
@@ -207,7 +207,7 @@ final class ZoneOffsetTransitionRule
     private function __construct(
         Month $month,
         $dayOfMonthIndicator,
-        DayOfWeek $dayOfWeek,
+        $dayOfWeek,
         LocalTime $time,
         $timeEndOfDay,
         TimeDefinition $timeDefinition,

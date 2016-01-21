@@ -268,11 +268,11 @@ final class ZoneRules
      * one valid offset for each instant.
      * This method returns that offset.
      *
-     * @param $instant Instant the instant to find the offset for, not null, but null
+     * @param $instant Instant|null the instant to find the offset for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the offset, not null
      */
-    public function getOffset(Instant $instant)
+    public function getOffset($instant)
     {
         if (empty($this->savingsInstantTransitions)) {
             return $this->standardOffsets[0];
@@ -331,11 +331,11 @@ final class ZoneRules
      * about the correct offset should use a combination of this method,
      * {@link #getValidOffsets(LocalDateTime)} and {@link #getTransition(LocalDateTime)}.
      *
-     * @param $localDateTime LocalDateTime the local date-time to query, not null, but null
+     * @param $localDateTime LocalDateTime|null the local date-time to query, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the best available offset for the local date-time, not null
      */
-    public function getOffsetDateTime(LocalDateTime $localDateTime)
+    public function getOffsetDateTime($localDateTime)
     {
         $info = $this->getOffsetInfo($localDateTime);
         if ($info instanceof ZoneOffsetTransition) {
@@ -383,11 +383,11 @@ final class ZoneRules
      * This has never happened in the history of time-zones and thus has no special handling.
      * However, if it were to happen, then the list would return more than 2 entries.
      *
-     * @param $localDateTime LocalDateTime the local date-time to query for valid offsets, not null, but null
+     * @param $localDateTime LocalDateTime|null the local date-time to query for valid offsets, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset[] the list of valid offsets, may be immutable, not null
      */
-    public function getValidOffsets(LocalDateTime $localDateTime)
+    public function getValidOffsets($localDateTime)
     {
         // should probably be optimized
         $info = $this->getOffsetInfo($localDateTime);
@@ -428,18 +428,22 @@ final class ZoneRules
      *  }
      * </pre>
      *
-     * @param $localDateTime  LocalDateTime the local date-time to query for offset transition, not null, but null
+     * @param $localDateTime |null  LocalDateTime the local date-time to query for offset transition, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition the offset transition, null if the local date-time is not in transition
      */
-    public function getTransition(LocalDateTime $localDateTime)
+    public function getTransition($localDateTime)
     {
         $info = $this->getOffsetInfo($localDateTime);
         return ($info instanceof ZoneOffsetTransition ? $info : null);
     }
 
-    private
-    function getOffsetInfo(LocalDateTime $dt)
+    /**
+     * @param LocalDateTime|null $dt
+     * @return null|ZoneOffsetTransition|ZoneOffset
+     * @throws IllegalArgumentException
+     */
+    private function getOffsetInfo($dt)
     {
         if (empty($this->savingsInstantTransitions)) {
             return $this->standardOffsets[0];
@@ -563,11 +567,11 @@ final class ZoneRules
      * The standard offset is the offset before any daylight saving time is applied.
      * This is typically the offset applicable during winter.
      *
-     * @param $instant Instant the instant to find the offset information for, not null, but null
+     * @param $instant Instant|null the instant to find the offset information for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the standard offset, not null
      */
-    public function getStandardOffset(Instant $instant)
+    public function getStandardOffset($instant)
     {
         if (empty($this->savingsInstantTransitions)) {
             return $this->standardOffsets[0];
@@ -595,11 +599,11 @@ final class ZoneRules
      * {@link #getOffset(java.time.Instant) actual} and
      * {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param $instant Instant the instant to find the daylight savings for, not null, but null
+     * @param $instant Instant|null the instant to find the daylight savings for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return Duration the difference between the standard and actual offset, not null
      */
-    public function getDaylightSavings(Instant $instant)
+    public function getDaylightSavings($instant)
     {
         if (empty($this->savingsInstantTransitions)) {
             return Duration::ZERO();
@@ -620,11 +624,11 @@ final class ZoneRules
      * This default implementation compares the {@link #getOffset(java.time.Instant) actual}
      * and {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param $instant Instant the instant to find the offset information for, not null, but null
+     * @param $instant |null Instant the instant to find the offset information for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return bool the standard offset, not null
      */
-    public function isDaylightSavings(Instant $instant)
+    public function isDaylightSavings($instant)
     {
         return ($this->getStandardOffset($instant)->equals($this->getOffset($instant)) == false);
     }
@@ -645,7 +649,7 @@ final class ZoneRules
      */
     public function isValidOffset($localDateTime, $offset)
     {
-        return $this->getValidOffsets($localDateTime)->contains($offset);
+        return in_array($offset, $this->getValidOffsets($localDateTime));
     }
 
     /**
@@ -655,11 +659,11 @@ final class ZoneRules
      * For example, if the instant represents a point where "Summer" daylight savings time
      * applies, then the method will return the transition to the next "Winter" time.
      *
-     * @param $instant Instant the instant to get the next transition after, not null, but null
+     * @param $instant Instant|null the instant to get the next transition after, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition|null the next transition after the specified instant, null if this is after the last transition
      */
-    public function nextTransition(Instant $instant)
+    public function nextTransition($instant)
     {
         if (empty($this->savingsInstantTransitions)) {
             return null;
@@ -704,11 +708,11 @@ final class ZoneRules
      * For example, if the instant represents a point where "summer" daylight saving time
      * applies, then the method will return the transition from the previous "winter" time.
      *
-     * @param $instant Instant the instant to get the previous transition after, not null, but null
+     * @param $instant Instant|null the instant to get the previous transition after, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition the previous transition after the specified instant, null if this is before the first transition
      */
-    public function previousTransition(Instant $instant)
+    public function previousTransition($instant)
     {
         if (empty($this->savingsInstantTransitions)) {
             return null;
@@ -826,11 +830,11 @@ final class ZoneRules
         }
         if ($otherRules instanceof ZoneRules) {
             $other = $otherRules;
-            return Arrays::equals($this->standardTransitions, $other->standardTransitions) &&
-            Arrays::equals($this->standardOffsets, $other->standardOffsets) &&
-            Arrays::equals($this->savingsInstantTransitions, $other->savingsInstantTransitions) &&
-            Arrays::equals($this->wallOffsets, $other->wallOffsets) &&
-            Arrays::equals($this->lastRules, $other->lastRules);
+            return $this->standardTransitions == $other->standardTransitions &&
+            $this->standardOffsets == $other->standardOffsets &&
+            $this->savingsInstantTransitions == $other->savingsInstantTransitions &&
+            $this->wallOffsets == $other->wallOffsets &&
+            $this->lastRules == $other->lastRules;
         }
         return false;
     }
