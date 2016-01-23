@@ -93,7 +93,7 @@ class TimeDefinition
                 return $dateTime->plusSeconds($difference);
             }
 
-            case 1: {
+            case 2: {
                 $difference = $wallOffset->getTotalSeconds() - $standardOffset->getTotalSeconds();
                 return $dateTime->plusSeconds($difference);
             }

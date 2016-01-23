@@ -413,7 +413,7 @@ final class TemporalAdjusters
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {
             $calDow = $temporal->get(ChronoField::DAY_OF_WEEK());
-            if ($calDow == $dowValue) {
+            if ($calDow === $dowValue) {
                 return $temporal;
             }
 

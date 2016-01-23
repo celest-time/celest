@@ -113,13 +113,13 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
      */
     public static function init()
     {
-        self::$MONDAY = new DayOfWeek(0, "Monaday");
-        self::$TUESDAY = new DayOfWeek(1, "Tuesday");
-        self::$WEDNESDAY = new DayOfWeek(2, "Wednesday");
-        self::$THURSDAY = new DayOfWeek(3, "Thursday");
-        self::$FRIDAY = new DayOfWeek(4, "Friday");
-        self::$SATURDAY = new DayOfWeek(5, "Saturday");
-        self::$SUNDAY = new DayOfWeek(6, "Sunday");
+        self::$MONDAY = new DayOfWeek(0, "MONDAY");
+        self::$TUESDAY = new DayOfWeek(1, "TUESDAY");
+        self::$WEDNESDAY = new DayOfWeek(2, "WEDNESDAY");
+        self::$THURSDAY = new DayOfWeek(3, "THURSDAY");
+        self::$FRIDAY = new DayOfWeek(4, "FRIDAY");
+        self::$SATURDAY = new DayOfWeek(5, "SATURDAY");
+        self::$SUNDAY = new DayOfWeek(6, "SUNDAY");
 
         self::$ENUMS = [
             self::$MONDAY,

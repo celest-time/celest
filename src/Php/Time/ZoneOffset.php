@@ -489,19 +489,19 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     private
     static function buildId($totalSeconds)
     {
-        if ($totalSeconds == 0) {
+        if ($totalSeconds === 0) {
             return "Z";
         } else {
             $absTotalSeconds = Math::abs($totalSeconds);
             $buf = '';
             $absHours = $absTotalSeconds / LocalTime::SECONDS_PER_HOUR;
             $absMinutes = ($absTotalSeconds / LocalTime::SECONDS_PER_MINUTE) % LocalTime::MINUTES_PER_HOUR;
-            $buf .= $totalSeconds < 0 ? "-" : "+"
-            . $absHours < 10 ? "0" : "" . $absHours
-            . $absMinutes < 10 ? ":0" : ":" . $absMinutes;
+            $buf .= ($totalSeconds < 0 ? "-" : "+")
+            . ($absHours < 10 ? "0" : "") . $absHours
+            . ($absMinutes < 10 ? ":0" : ":") . $absMinutes;
             $absSeconds = $absTotalSeconds % LocalTime::SECONDS_PER_MINUTE;
-            if ($absSeconds != 0) {
-                $buf .= $absSeconds < 10 ? ":0" : ":" . $absSeconds;
+            if ($absSeconds !== 0) {
+                $buf .= ($absSeconds < 10 ? ":0" : ":") . $absSeconds;
             }
             return $buf;
         }

@@ -68,6 +68,9 @@ use Php\Time\OffsetDateTime;
 use Php\Time\ZoneOffset;
 use PHPUnit_Framework_TestCase;
 
+/**
+ * TODO incomplete
+ */
 class ZoneRulesTest extends PHPUnit_Framework_TestCase
 {
 

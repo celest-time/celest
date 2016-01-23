@@ -365,12 +365,12 @@ final class ZoneOffsetTransitionRule
     {
         if ($this->dom < 0) {
             $date = LocalDate::of($year, $this->month, $this->month->length(IsoChronology::INSTANCE()->isLeapYear($year)) + 1 + $this->dom);
-            if ($this->dow != null) {
+            if ($this->dow !== null) {
                 $date = $date->adjust(TemporalAdjusters::previousOrSame($this->dow));
             }
         } else {
             $date = LocalDate::of($year, $this->month, $this->dom);
-            if ($this->dow != null) {
+            if ($this->dow !== null) {
                 $date = $date->adjust(TemporalAdjusters::nextOrSame($this->dow));
             }
         }
