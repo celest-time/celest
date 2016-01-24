@@ -61,10 +61,14 @@
 namespace Php\Time\Zone;
 
 use Php\Time\DayOfWeek;
+use Php\Time\Duration;
 use Php\Time\LocalDateTime;
 use Php\Time\LocalTime;
 use Php\Time\Month;
 use Php\Time\OffsetDateTime;
+use Php\Time\Year;
+use Php\Time\ZonedDateTime;
+use Php\Time\ZoneId;
 use Php\Time\ZoneOffset;
 use PHPUnit_Framework_TestCase;
 
@@ -73,6 +77,434 @@ use PHPUnit_Framework_TestCase;
  */
 class ZoneRulesTest extends PHPUnit_Framework_TestCase
 {
+    private static $OFFSET_ZERO;
+    private static $OFFSET_PONE;
+    private static $OFFSET_PTWO;
+    public static $LATEST_TZDB = "2009b";
+    private static $OVERLAP = 2;
+    private static $GAP = 0;
+
+    protected function setUp()
+    {
+        self::$OFFSET_ZERO = ZoneOffset::ofHours(0);
+        self::$OFFSET_PONE = ZoneOffset::ofHours(1);
+        self::$OFFSET_PTWO = ZoneOffset::ofHours(2);
+    }
+
+    private function europeLondon()
+    {
+        return ZoneId::of("Europe/London")->getRules();
+    }
+
+    public function test_London()
+    {
+        $test = $this->europeLondon();
+        $this->assertEquals($test->isFixedOffset(), false);
+    }
+
+    public
+    function test_London_preTimeZones()
+    {
+        $test = $this->europeLondon();
+        $old = $this->createZDT(1800, 1, 1, ZoneOffset::UTC());
+        $instant = $old->toInstant();
+        $offset = ZoneOffset::ofHoursMinutesSeconds(0, -1, -15);
+        $this->assertEquals($test->getOffset($instant), $offset);
+        $this->checkOffset($test, $old->toLocalDateTime(), $offset, 1);
+        $this->assertEquals($test->getStandardOffset($instant), $offset);
+        $this->assertEquals($test->getDaylightSavings($instant), Duration::ZERO());
+        $this->assertEquals($test->isDaylightSavings($instant), false);
+    }
+
+    public
+    function test_London_getOffset()
+    {
+        $test = $this->europeLondon();
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 1, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 2, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 4, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 5, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 6, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 7, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 8, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 9, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 1, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 11, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 12, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+    }
+
+    public function test_London_getOffset_toDST()
+    {
+        $test = $this->europeLondon();
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 24, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 25, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 26, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 27, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 28, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 29, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 30, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 3, 31, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        // cutover at 01:00Z
+        $this->assertEquals($test->getOffset($this->createInstant8(2008, 3, 30, 0, 59, 59, 999999999, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant8(2008, 3, 30, 1, 0, 0, 0, ZoneOffset::UTC())), self::$OFFSET_PONE);
+    }
+
+    public function test_London_getOffset_fromDST()
+    {
+        $test = $this->europeLondon();
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 24, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 25, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 26, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 27, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 28, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 29, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 30, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        $this->assertEquals($test->getOffset($this->createInstant(2008, 10, 31, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+        // cutover at 01:00Z
+        $this->assertEquals($test->getOffset($this->createInstant8(2008, 10, 26, 0, 59, 59, 999999999, ZoneOffset::UTC())), self::$OFFSET_PONE);
+        $this->assertEquals($test->getOffset($this->createInstant8(2008, 10, 26, 1, 0, 0, 0, ZoneOffset::UTC())), self::$OFFSET_ZERO);
+    }
+
+    public function test_London_getOffsetInfo()
+    {
+        $test = $this->europeLondon();
+        //$this->checkOffset($test, $this->createLDT(2008, 1, 1), self::$OFFSET_ZERO, 1);
+        //$this->checkOffset($test, $this->createLDT(2008, 2, 1), self::$OFFSET_ZERO, 1);
+        //$this->checkOffset($test, $this->createLDT(2008, 3, 1), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 4, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 5, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 6, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 7, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 8, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 9, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 1), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 11, 1), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 12, 1), self::$OFFSET_ZERO, 1);
+    }
+
+    public function test_London_getOffsetInfo_toDST()
+    {
+        $test = $this->europeLondon();
+        $this->checkOffset($test, $this->createLDT(2008, 3, 24), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 25), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 26), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 27), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 28), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 29), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 30), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 31), self::$OFFSET_PONE, 1);
+        // cutover at 01:00Z
+        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 0, 59, 59, 999999999), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 2, 0, 0, 0), self::$OFFSET_PONE, 1);
+    }
+
+    public function test_London_getOffsetInfo_fromDST()
+    {
+        $test = $this->europeLondon();
+        $this->checkOffset($test, $this->createLDT(2008, 10, 24), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 25), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 26), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 27), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 28), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 29), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 30), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 10, 31), self::$OFFSET_ZERO, 1);
+        // cutover at 01:00Z
+        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 0, 59, 59, 999999999), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 2, 0, 0, 0), self::$OFFSET_ZERO, 1);
+    }
+
+    public function test_London_getOffsetInfo_gap()
+    {
+        $test = $this->europeLondon();
+        $dateTime = LocalDateTime::ofNumerical(2008, 3, 30, 1, 0, 0, 0);
+        $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_ZERO, self::$GAP);
+        $this->assertEquals($trans->isGap(), true);
+        $this->assertEquals($trans->isOverlap(), false);
+        $this->assertEquals($trans->getOffsetBefore(), self::$OFFSET_ZERO);
+        $this->assertEquals($trans->getOffsetAfter(), self::$OFFSET_PONE);
+        $this->assertEquals($trans->getInstant(), $this->createInstant6(2008, 3, 30, 1, 0, ZoneOffset::UTC()));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 3, 30, 1, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 3, 30, 2, 0));
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_ZERO), false);
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_PONE), false);
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_PTWO), false);
+        $this->assertEquals($trans->__toString(), "Transition[Gap at 2008-03-30T01:00Z to +01:00]");
+
+        $this->assertFalse($trans->equals(null));
+        $this->assertFalse($trans->equals(self::$OFFSET_ZERO));
+        $this->assertTrue($trans->equals($trans));
+
+        $otherTrans = $test->getTransition($dateTime);
+        $this->assertTrue($trans->equals($otherTrans));
+        //$this->assertEquals($trans->hashCode(), $otherTrans->hashCode());
+    }
+
+    public function test_London_getOffsetInfo_overlap()
+    {
+        $test = $this->europeLondon();
+
+        $dateTime = LocalDateTime::ofNumerical(2008, 10, 26, 1, 0, 0, 0);
+        $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_PONE, self::$OVERLAP);
+        $this->assertEquals($trans->isGap(), false);
+        $this->assertEquals($trans->isOverlap(), true);
+        $this->assertEquals($trans->getOffsetBefore(), self::$OFFSET_PONE);
+        $this->assertEquals($trans->getOffsetAfter(), self::$OFFSET_ZERO);
+        $this->assertEquals($trans->getInstant(), $this->createInstant6(2008, 10, 26, 1, 0, ZoneOffset::UTC()));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 10, 26, 2, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 10, 26, 1, 0));
+        $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(-1)), false);
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_ZERO), true);
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_PONE), true);
+        $this->assertEquals($trans->isValidOffset(self::$OFFSET_PTWO), false);
+        $this->assertEquals($trans->__toString(), "Transition[Overlap at 2008-10-26T02:00+01:00 to Z]");
+
+        $this->assertFalse($trans->equals(null));
+        $this->assertFalse($trans->equals(self::$OFFSET_PONE));
+        $this->assertTrue($trans->equals($trans));
+
+        $otherTrans = $test->getTransition($dateTime);
+        $this->assertTrue($trans->equals($otherTrans));
+        //$this->assertEquals($trans->hashCode(), $otherTrans->hashCode());
+    }
+
+    public function test_London_getStandardOffset()
+    {
+        $test = $this->europeLondon();
+        $zdt = $this->createZDT(1840, 1, 1, ZoneOffset::UTC());
+        while ($zdt->getYear() < 2010) {
+            $instant = $zdt->toInstant();
+            if ($zdt->getYear() < 1848) {
+                $this->assertEquals($test->getStandardOffset($instant), ZoneOffset::ofHoursMinutesSeconds(0, -1, -15));
+            } else if ($zdt->getYear() >= 1969 && $zdt->getYear() < 1972) {
+                $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_PONE);
+            } else {
+                $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_ZERO);
+            }
+            $zdt = $zdt->plusMonths(6);
+        }
+    }
+
+    public function test_London_getTransitions()
+    {
+        $test = $this->europeLondon();
+        $trans = $test->getTransitions();
+
+        $first = $trans[0];
+        $this->assertEquals($first->getDateTimeBefore(), LocalDateTime::ofNumerical(1847, 12, 1, 0, 0));
+        $this->assertEquals($first->getOffsetBefore(), ZoneOffset::ofHoursMinutesSeconds(0, -1, -15));
+        $this->assertEquals($first->getOffsetAfter(), self::$OFFSET_ZERO);
+
+        $spring1916 = $trans[1];
+        $this->assertEquals($spring1916->getDateTimeBefore(), LocalDateTime::ofNumerical(1916, 5, 21, 2, 0));
+        $this->assertEquals($spring1916->getOffsetBefore(), self::$OFFSET_ZERO);
+        $this->assertEquals($spring1916->getOffsetAfter(), self::$OFFSET_PONE);
+
+        $autumn1916 = $trans[2];
+        $this->assertEquals($autumn1916->getDateTimeBefore(), LocalDateTime::ofNumerical(1916, 10, 1, 3, 0));
+        $this->assertEquals($autumn1916->getOffsetBefore(), self::$OFFSET_PONE);
+        $this->assertEquals($autumn1916->getOffsetAfter(), self::$OFFSET_ZERO);
+
+        $zot = null;
+        $it = new \CachingIterator(new \ArrayIterator($trans));
+        while ($it->hasNext()) {
+            $it->next();
+            $zot = $it->current();
+            if ($zot->getDateTimeBefore()->getYear() === 1990) {
+                break;
+            }
+        }
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1990, 3, 25, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1990, 10, 28, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1991, 3, 31, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1991, 10, 27, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1992, 3, 29, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1992, 10, 25, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1993, 3, 28, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1993, 10, 24, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1994, 3, 27, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1994, 10, 23, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1995, 3, 26, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1995, 10, 22, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1996, 3, 31, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1996, 10, 27, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1997, 3, 30, 1, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
+        $it->next();
+        $zot = $it->current();
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1997, 10, 26, 2, 0));
+        $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
+        $this->assertEquals($it->hasNext(), false);
+    }
+
+    public function test_London_getTransitionRules()
+    {
+        $test = $this->europeLondon();
+        $rules = $test->getTransitionRules();
+        $this->assertEquals(count($rules), 2);
+
+        $in = $rules[0];
+        $this->assertEquals($in->getMonth(), Month::MARCH());
+        $this->assertEquals($in->getDayOfMonthIndicator(), 25);  // optimized from -1
+        $this->assertEquals($in->getDayOfWeek(), DayOfWeek::SUNDAY());
+        $this->assertEquals($in->getLocalTime(), LocalTime::of(1, 0));
+        $this->assertEquals($in->getTimeDefinition(), TimeDefinition::UTC());
+        $this->assertEquals($in->getStandardOffset(), self::$OFFSET_ZERO);
+        $this->assertEquals($in->getOffsetBefore(), self::$OFFSET_ZERO);
+        $this->assertEquals($in->getOffsetAfter(), self::$OFFSET_PONE);
+
+        $out = $rules[1];
+        $this->assertEquals($out->getMonth(), Month::OCTOBER());
+        $this->assertEquals($out->getDayOfMonthIndicator(), 25);  // optimized from -1
+        $this->assertEquals($out->getDayOfWeek(), DayOfWeek::SUNDAY());
+        $this->assertEquals($out->getLocalTime(), LocalTime::of(1, 0));
+        $this->assertEquals($out->getTimeDefinition(), TimeDefinition::UTC());
+        $this->assertEquals($out->getStandardOffset(), self::$OFFSET_ZERO);
+        $this->assertEquals($out->getOffsetBefore(), self::$OFFSET_PONE);
+        $this->assertEquals($out->getOffsetAfter(), self::$OFFSET_ZERO);
+    }
+
+    //-----------------------------------------------------------------------
+    public function test_London_nextTransition_historic()
+    {
+        $test = $this->europeLondon();
+        $trans = $test->getTransitions();
+
+        $first = $trans[0];
+        $this->assertEquals($test->nextTransition($first->getInstant()->minusNanos(1)), $first);
+
+        for ($i = 0; $i < count($trans) - 1; $i++) {
+            $cur = $trans[$i];
+            $next = $trans[$i + 1];
+
+            $this->assertEquals($test->nextTransition($cur->getInstant()), $next);
+            $this->assertEquals($test->nextTransition($next->getInstant()->minusNanos(1)), $next);
+        }
+    }
+
+    public function test_London_nextTransition_rulesBased()
+    {
+        $test = $this->europeLondon();
+        $rules = $test->getTransitionRules();
+        $trans = $test->getTransitions();
+
+        $last = $trans[count($trans) - 1];
+        $this->assertEquals($test->nextTransition($last->getInstant()), $rules[0]->createTransition(1998));
+
+        for ($year = 1998; $year < 2010; $year++) {
+            $a = $rules[0]->createTransition($year);
+            $b = $rules[1]->createTransition($year);
+            $c = $rules[0]->createTransition($year + 1);
+
+            $this->assertEquals($test->nextTransition($a->getInstant()), $b);
+            $this->assertEquals($test->nextTransition($b->getInstant()->minusNanos(1)), $b);
+
+            $this->assertEquals($test->nextTransition($b->getInstant()), $c);
+            $this->assertEquals($test->nextTransition($c->getInstant()->minusNanos(1)), $c);
+        }
+    }
+
+    public function test_London_nextTransition_lastYear()
+    {
+        $test = $this->europeLondon();
+        $rules = $test->getTransitionRules();
+        $zot = $rules[1]->createTransition(Year::MAX_VALUE);
+        $this->assertEquals($test->nextTransition($zot->getInstant()), null);
+    }
+
+    //-----------------------------------------------------------------------
+    public function test_London_previousTransition_historic()
+    {
+        $test = $this->europeLondon();
+        $trans = $test->getTransitions();
+
+        $first = $trans[0];
+        $this->assertEquals($test->previousTransition($first->getInstant()), null);
+        $this->assertEquals($test->previousTransition($first->getInstant()->minusNanos(1)), null);
+
+        for ($i = 0; $i < count($trans) - 1; $i++) {
+            $prev = $trans[$i];
+            $cur = $trans[$i + 1];
+
+            $this->assertEquals($test->previousTransition($cur->getInstant()), $prev);
+            $this->assertEquals($test->previousTransition($prev->getInstant()->plusSeconds(1)), $prev);
+            $this->assertEquals($test->previousTransition($prev->getInstant()->plusNanos(1)), $prev);
+        }
+    }
+
+    public function test_London_previousTransition_rulesBased()
+    {
+        $test = $this->europeLondon();
+        $rules = $test->getTransitionRules();
+        $trans = $test->getTransitions();
+
+        $last = $trans[count($trans) - 1];
+        $this->assertEquals($test->previousTransition($last->getInstant()->plusSeconds(1)), $last);
+        $this->assertEquals($test->previousTransition($last->getInstant()->plusNanos(1)), $last);
+
+        // Jan 1st of year between transitions and rules
+        $odt = ZonedDateTime::ofInstant($last->getInstant(), $last->getOffsetAfter());
+        $odt = $odt->withDayOfYear(1)->plusYears(1)->adjust(LocalTime::MIDNIGHT());
+        $this->assertEquals($test->previousTransition($odt->toInstant()), $last);
+
+        // later years
+        for ($year = 1998; $year < 2010; $year++) {
+            $a = $rules[0]->createTransition($year);
+            $b = $rules[1]->createTransition($year);
+            $c = $rules[0]->createTransition($year + 1);
+
+            $this->assertEquals($test->previousTransition($c->getInstant()), $b);
+            $this->assertEquals($test->previousTransition($b->getInstant()->plusSeconds(1)), $b);
+            $this->assertEquals($test->previousTransition($b->getInstant()->plusNanos(1)), $b);
+
+            $this->assertEquals($test->previousTransition($b->getInstant()), $a);
+            $this->assertEquals($test->previousTransition($a->getInstant()->plusSeconds(1)), $a);
+            $this->assertEquals($test->previousTransition($a->getInstant()->plusNanos(1)), $a);
+        }
+    }
 
     //-----------------------------------------------------------------------
     // of()
@@ -150,4 +582,47 @@ class ZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($zoneRule->nextTransition($after_time_of_wallOffsetTransition3->toInstant()), $rule1->createTransition(2014));
     }
 
+    private function createInstant($year, $month, $day, ZoneOffset $offset)
+    {
+        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0)->toInstant($offset);
+    }
+
+    private function createInstant6($year, $month, $day, $hour, $min, ZoneOffset $offset)
+    {
+        return LocalDateTime::ofNumerical($year, $month, $day, $hour, $min)->toInstant($offset);
+    }
+
+    private function createInstant8($year, $month, $day, $hour, $min, $sec, $nano, ZoneOffset $offset)
+    {
+        return LocalDateTime::ofNumerical($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
+    }
+
+    private function createZDT($year, $month, $day, ZoneId $zone)
+    {
+        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0)->atZone($zone);
+    }
+
+    private function createLDT($year, $month, $day)
+    {
+        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0);
+    }
+
+    private
+    function checkOffset(ZoneRules $rules, LocalDateTime $dateTime, ZoneOffset $offset, $type)
+    {
+        $validOffsets = $rules->getValidOffsets($dateTime);
+        $this->assertEquals(count($validOffsets), $type);
+        $this->assertEquals($rules->getOffsetDateTime($dateTime), $offset);
+        if ($type === 1) {
+            $this->assertEquals($validOffsets[0], $offset);
+            return null;
+        } else {
+            $zot = $rules->getTransition($dateTime);
+            $this->assertNotNull($zot);
+            $this->assertEquals($zot->isOverlap(), $type == 2);
+            $this->assertEquals($zot->isGap(), $type == 0);
+            $this->assertEquals($zot->isValidOffset($offset), $type == 2);
+            return $zot;
+        }
+    }
 }

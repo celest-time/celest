@@ -724,8 +724,8 @@ final class ZoneRules
         }
 
         // check if using last rules
-        $lastHistoric = $this->savingsInstantTransitions[count($this->savingsInstantTransitions)];
-        if (!empty($lastRules) && $epochSec > $lastHistoric) {
+        $lastHistoric = $this->savingsInstantTransitions[count($this->savingsInstantTransitions) - 1];
+        if (!empty($this->lastRules) && $epochSec > $lastHistoric) {
             // search year the instant is in
             $lastHistoricOffset = $this->wallOffsets[count($this->wallOffsets) - 1];
             $year = $this->findYear($epochSec, $lastHistoricOffset);

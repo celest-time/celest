@@ -1154,9 +1154,13 @@ class DateTimeFormatter
      * <p>
      * The returned formatter has no override chronology or zone.
      * It uses the {@link ResolverStyle#STRICT STRICT} resolver style.
+     * @var DateTimeFormatter
      */
     private static $ISO_INSTANT;
 
+    /**
+     * @return DateTimeFormatter
+     */
     public static function ISO_INSTANT()
     {
         return self::$ISO_INSTANT = (new DateTimeFormatterBuilder())
