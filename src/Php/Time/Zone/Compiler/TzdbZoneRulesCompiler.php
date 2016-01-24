@@ -224,24 +224,40 @@ final class TzdbZoneRulesCompiler
                         array $builtZones,
                         array $links)
     {
-        $baseDir = $dstDir . '/' . $version . '/';
+        $baseDir = $dstDir . '/';
 
         foreach($builtZones as $name => $zone) {
+            if(array_key_exists($name, $links))
+                continue;
+
             $p = explode('/', $name);
             if(count($p) > 1) {
                 @mkdir(\dirname($baseDir . $name), 0777, true);
             }
             $file = fopen($baseDir . $name . '.php', 'w');
-            if(array_key_exists($name, $links)) {
-                fwrite($file, "<?php\ninclude __DIR__ . '/" . str_repeat('../', count($p) - 1) . $links[$name] . ".php';\n");
-            } else {
-                fwrite($file, "<?php\nreturn ");
-                fwrite($file, var_export($zone, true));
-                fwrite($file, ";\n");
-            }
-
+            fwrite($file, "<?php\nreturn '");
+            fwrite($file, serialize($zone));
+            fwrite($file, "';\n");
             fclose($file);
         }
+
+        $file = fopen($baseDir . 'links.php', 'w');
+        fwrite($file, "<?php\nreturn ");
+        fwrite($file, var_export($links, true));
+        fwrite($file, ";\n");
+        fclose($file);
+
+        $file = fopen($baseDir . 'provides.php', 'w');
+        fwrite($file, "<?php\nreturn ");
+        fwrite($file, var_export(array_keys($builtZones), true));
+        fwrite($file, ";\n");
+        fclose($file);
+
+        $file = fopen($baseDir . 'version.php', 'w');
+        fwrite($file, "<?php\nreturn ");
+        fwrite($file, var_export($version, true));
+        fwrite($file, ";\n");
+        fclose($file);
 
         echo 'build';
 

@@ -467,8 +467,8 @@ final class ZoneRules
         }
 
         // using historic rules
-        $index = Arrays::binarySearch($this->savingsLocalTransitions, $dt);
-        if ($index == -1) {
+        $index = Math::binarySearch($this->savingsLocalTransitions, $dt);
+        if ($index === -1) {
             // before first transition
             return $this->wallOffsets[0];
         }
@@ -481,7 +481,7 @@ final class ZoneRules
             // handle overlap immediately following gap
             $index++;
         }
-        if (($index & 1) == 0) {
+        if (($index & 1) === 0) {
             // gap or overlap
             $dtBefore = $this->savingsLocalTransitions[$index];
             $dtAfter = $this->savingsLocalTransitions[$index + 1];

@@ -178,6 +178,6 @@ class ZoneRegion extends ZoneId
     {
         // additional query for group provider when null allows for possibility
         // that the provider was updated after the ZoneId was created
-        return ($this->rules != null ? $this->rules : ZoneRulesProvider::getRules($this->id, false));
+        return ($this->rules !== null ? $this->rules : ZoneRulesProvider::getRules($this->id, false));
     }
 }

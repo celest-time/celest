@@ -126,7 +126,7 @@ abstract class ZoneRulesProvider
 
     public static function init()
     {
-        self::registerProvider(new DummyZoneRulesProvider());
+        self::registerProvider(new TZDBZoneRulesProvider());
     }
 
     //-------------------------------------------------------------------------

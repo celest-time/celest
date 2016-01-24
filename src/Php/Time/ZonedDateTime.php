@@ -369,7 +369,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
         /** @var ZoneOffset[] */
         $validOffsets = $rules->getValidOffsets($localDateTime);
         $offset = null;
-        if (count($validOffsets) == 1) {
+        if (count($validOffsets) === 1) {
             $offset = $validOffsets[0];
         } else if (count($validOffsets) === 0) {
             $trans = $rules->getTransition($localDateTime);
