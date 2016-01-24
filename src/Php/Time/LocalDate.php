@@ -277,6 +277,10 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
         return self::create($year, $month, $dayOfMonth);
     }
 
+    public static function fromQuery() {
+        return TemporalQueries::fromCallable([self::class, 'from']);
+    }
+
 //-----------------------------------------------------------------------
     /**
      * Obtains an instance of {@code LocalDate} from a year and day-of-year.
