@@ -73,10 +73,7 @@ use Php\Time\ZoneId;
 use Php\Time\ZoneOffset;
 use PHPUnit_Framework_TestCase;
 
-/**
- * TODO incomplete
- */
-class ZoneRulesTest extends PHPUnit_Framework_TestCase
+class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
 {
     private static $OFFSET_ZERO;
     private static $OFFSET_PONE;
@@ -173,9 +170,9 @@ class ZoneRulesTest extends PHPUnit_Framework_TestCase
     public function test_London_getOffsetInfo()
     {
         $test = $this->europeLondon();
-        //$this->checkOffset($test, $this->createLDT(2008, 1, 1), self::$OFFSET_ZERO, 1);
-        //$this->checkOffset($test, $this->createLDT(2008, 2, 1), self::$OFFSET_ZERO, 1);
-        //$this->checkOffset($test, $this->createLDT(2008, 3, 1), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 1, 1), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 2, 1), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, $this->createLDT(2008, 3, 1), self::$OFFSET_ZERO, 1);
         $this->checkOffset($test, $this->createLDT(2008, 4, 1), self::$OFFSET_PONE, 1);
         $this->checkOffset($test, $this->createLDT(2008, 5, 1), self::$OFFSET_PONE, 1);
         $this->checkOffset($test, $this->createLDT(2008, 6, 1), self::$OFFSET_PONE, 1);
