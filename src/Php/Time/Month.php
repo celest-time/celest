@@ -780,6 +780,11 @@ final class Month implements TemporalAccessor, TemporalAdjuster
     {
         return $this->name;
     }
+
+    public function compareTo(Month $other)
+    {
+        return $this->val - $other->val;
+    }
 }
 
 Month::init();

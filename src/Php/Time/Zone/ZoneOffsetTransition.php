@@ -152,8 +152,10 @@ final class ZoneOffsetTransition
      * @param $transition LocalDateTime the transition date-time with the offset before the transition, not null
      * @param $offsetBefore ZoneOffset the offset before the transition, not null
      * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
+     *
+     * TODO make private, RulesCompiler kinda needs  access
      */
-    private function __construct(LocalDateTime $transition, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
+    public function __construct(LocalDateTime $transition, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
     {
         $this->transition = $transition;
         $this->offsetBefore = $offsetBefore;
