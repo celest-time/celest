@@ -379,7 +379,9 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             if ($preferredOffset != null && $validOffsets->contains($preferredOffset)) {
                 $offset = $preferredOffset;
             } else {
-                $offset = Objects::requireNonNull($validOffsets[0], "offset");  // protect against bad ZoneRules
+                $offset = $validOffsets[0];  // protect against bad ZoneRules
+                if($offset === null)
+                    throw new \InvalidArgumentException('offset');
             }
         }
         return new ZonedDateTime($localDateTime, $offset, $zone);
