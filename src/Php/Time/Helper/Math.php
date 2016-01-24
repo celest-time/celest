@@ -112,6 +112,9 @@ final class Math
 
     public static function div($dividend, $divisor)
     {
+        if(function_exists('\intdiv')) {
+            return \intdiv($dividend, $divisor);
+        }
         return (int)($dividend / $divisor);
     }
 
