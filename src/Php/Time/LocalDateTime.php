@@ -117,7 +117,7 @@ use Php\Time\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime
+final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime, \Serializable
 {
 
     public static function init()
@@ -1701,7 +1701,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
                         break;
                     case ChronoUnit::HALF_DAYS():
                         $amount = Math::multiplyExact($amount, 2);
-                        $timePart = $timePart /  (LocalTime::NANOS_PER_HOUR * 12);
+                        $timePart = $timePart / (LocalTime::NANOS_PER_HOUR * 12);
                         break;
                 }
                 return Math::addExact($amount, $timePart);
@@ -1948,6 +1948,25 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function __toString()
     {
         return $this->date->__toString() . 'T' . $this->time->__toString();
+    }
+
+    public function serialize()
+    {
+        return
+            $this->date->getYear() . ':' .
+            $this->date->getMonthValue() . ':' .
+            $this->date->getDayOfMonth() . ':' .
+            $this->time->getHour() . ':' .
+            $this->time->getMinute() . ':' .
+            $this->time->getSecond() . ':' .
+            $this->time->getNano();
+    }
+
+    public function unserialize($serialized)
+    {
+        $v = explode(':', $serialized);
+        $this->date = LocalDate::ofNumerical($v[0], $v[1], $v[2]);
+        $this->time = LocalTime::of($v[3], $v[4], $v[5]);
     }
 
     /**
