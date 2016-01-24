@@ -331,7 +331,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
         $localSecond = $epochSecond + $offset->getTotalSeconds();  // overflow caught later
         $localEpochDay = Math::floorDiv($localSecond, LocalTime::SECONDS_PER_DAY);
-        $secsOfDay = (int)Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
+        $secsOfDay = Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
         $date = LocalDate::ofEpochDay($localEpochDay);
         $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $nanoOfSecond);
         return new LocalDateTime($date, $time);

@@ -1204,8 +1204,10 @@ class YearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // compareTo()
     //-----------------------------------------------------------------------
-    /** TODO enable */
-    public function compareTo()
+    /**
+     * @group long
+     */
+    public function test_compareTo()
     {
         for ($i = -4; $i <= 2104;
              $i++) {

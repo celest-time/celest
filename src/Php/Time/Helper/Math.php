@@ -8,7 +8,8 @@ final class Math
     {
     }
 
-    public static function binarySearch(array $a, $key) {
+    public static function binarySearch(array $a, $key)
+    {
         $low = 0;
         $high = count($a) - 1;
 
@@ -32,7 +33,7 @@ final class Math
      */
     public static function abs($val)
     {
-        return abs((int)$val);
+        return \abs((int)$val);
     }
 
     /**
@@ -63,12 +64,7 @@ final class Math
      */
     public static function floorMod($dividend, $divisor)
     {
-        $res = (int)$dividend % (int)$divisor;
-        if($res < 0) {
-            return $res + $divisor;
-        } else {
-            return $res;
-        }
+        return (($dividend % $divisor) + $divisor) % $divisor;
     }
 
     /**
@@ -78,7 +74,10 @@ final class Math
      */
     public static function floorDiv($dividend, $divisor)
     {
-        return (int)floor($dividend / $divisor);
+        if (\function_exists('\intdiv')) {
+            return $dividend >= 0 ? \intdiv($dividend, $divisor) : \intdiv($dividend + 1, $divisor) - 1;
+        }
+        return $dividend >= 0 ?  Math::div($dividend, $divisor) : Math::div($dividend + 1, $divisor) - 1;
     }
 
     /**
@@ -98,7 +97,7 @@ final class Math
      */
     public static function min($a, $b)
     {
-        return min($a, $b);
+        return \min($a, $b);
     }
 
     /**
@@ -107,19 +106,19 @@ final class Math
      */
     public static function toIntExact($val)
     {
-        return $val;
+        return (int)$val;
     }
 
     public static function div($dividend, $divisor)
     {
-        if(function_exists('\intdiv')) {
+        if (\function_exists('\intdiv')) {
             return \intdiv($dividend, $divisor);
         }
-        return (int)($dividend / $divisor);
+        return \gmp_intval(\gmp_div($dividend, $divisor));
     }
 
     public static function max($a, $b)
     {
-        return max($a, $b);
+        return \max($a, $b);
     }
 }
