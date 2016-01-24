@@ -530,7 +530,7 @@ final class TzdbZoneRulesCompiler
         if (preg_match(self::$DOW, $str, $mr)) {
             for ($dow = 1; $dow < 8 && $dow < count($mr);
                  $dow++) {
-                if ($mr[$dow] !== null) {
+                if ($mr[$dow] !== '') {
                     return DayOfWeek::of($dow);
                 }
             }
