@@ -352,7 +352,7 @@ final class DateTimeParseContext
     {
         $parsed = $this->currentParsed();
         $parsed->chrono = $this->getEffectiveChronology();
-        $parsed->zone = ($parsed->zone != null ? $parsed->zone : $this->formatter->getZone());
+        $parsed->zone = ($parsed->zone !== null ? $parsed->zone : $this->formatter->getZone());
         return $parsed->resolve($resolverStyle, $resolverFields);
     }
 
@@ -371,7 +371,7 @@ final class DateTimeParseContext
      */
     public function getParsed(TemporalField $field)
     {
-        return $this->currentParsed()->fieldValues[$field->__toString()][1];
+        return @$this->currentParsed()->fieldValues[$field->__toString()][1];
     }
 
     /**

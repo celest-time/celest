@@ -152,6 +152,11 @@ class ResolverStyle
     {
         $this->val = $val;
     }
+
+    public static function values()
+    {
+        return [self::STRICT(), self::LENIENT(), self::SMART()];
+    }
 }
 
 ResolverStyle::init();

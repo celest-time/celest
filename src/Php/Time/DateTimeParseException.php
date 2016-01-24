@@ -3,7 +3,7 @@
 namespace Php\Time;
 
 
-class DateTimeParseException extends \Exception
+class DateTimeParseException extends DateTimeException
 {
     /**
      * The text that was being parsed.
@@ -24,7 +24,7 @@ class DateTimeParseException extends \Exception
      */
     public function __construct($message, $parsedData, $errorIndex, $cause = null)
     {
-        parent::__construct($message, $cause ? $cause->code : 0, $cause);
+        parent::__construct($message, $cause);
         $this->parsedString = $parsedData;
         $this->errorIndex = $errorIndex;
     }

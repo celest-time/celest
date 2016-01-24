@@ -1,6 +1,7 @@
 <?php
 
 namespace Php\Time\Format\Builder;
+
 use Php\Time\Format\DateTimePrintContext;
 use Php\Time\Temporal\ChronoField;
 use Php\Time\ZoneOffset;
@@ -40,11 +41,11 @@ final class InstantPrinterParser implements DateTimePrinterParser
             $inNanos = $context->getTemporal()->getLong(ChronoField::NANO_OF_SECOND());
         }
 
-        if ($inSecs == null) {
+        if ($inSecs === null) {
             return false;
         }
         $inSec = $inSecs;
-        $inNano = ChronoField::NANO_OF_SECOND()->checkValidIntValue($inNanos != null ? $inNanos : 0);
+        $inNano = ChronoField::NANO_OF_SECOND()->checkValidIntValue($inNanos !== null ? $inNanos : 0);
         // format mostly using LocalDateTime.toString
         if ($inSec >= -self::SECONDS_0000_TO_1970) {
             // current era
@@ -56,7 +57,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
                 $buf .= '+' . $hi;
             }
             $buf .= $ldt;
-            if ($ldt->getSecond() == 0) {
+            if ($ldt->getSecond() === 0) {
                 $buf .= ":00";
             }
         } else {
@@ -66,17 +67,17 @@ final class InstantPrinterParser implements DateTimePrinterParser
             $lo = $zeroSecs % self::SECONDS_PER_10000_YEARS;
             $ldt = LocalDateTime::ofEpochSecond($lo - self::SECONDS_0000_TO_1970, 0, ZoneOffset::UTC());
             $pos = strlen($buf);
-            $buf->append($ldt);
+            $buf .= $ldt;
             if ($ldt->getSecond() === 0) {
                 $buf .= ":00";
             }
             if ($hi < 0) {
-                if ($ldt->getYear() == -10000) {
-                    $buf->replace($pos, $pos + 2, ($hi - 1));
-                } else if ($lo == 0) {
-                    $buf->insert($pos, $hi);
+                if ($ldt->getYear() === -10000) {
+                    $buf = substr_replace($buf, $hi - 1, $pos, 2);
+                } else if ($lo === 0) {
+                    $buf = substr_replace($buf, $hi, $pos, 0);
                 } else {
-                    $buf->insert($pos + 1, Math::abs($hi));
+                    $buf = substr_replace($buf, Math::abs($hi), $pos + 1, 0);
                 }
             }
         }
@@ -84,13 +85,13 @@ final class InstantPrinterParser implements DateTimePrinterParser
         if (($this->fractionalDigits < 0 && $inNano > 0) || $this->fractionalDigits > 0) {
             $buf .= '.';
             $div = 100000000;
-            for ($i = 0; (($this->fractionalDigits == -1 && $inNano > 0) ||
-                ($this->fractionalDigits == -2 && ($inNano > 0 || ($i % 3) != 0)) ||
+            for ($i = 0; (($this->fractionalDigits === -1 && $inNano > 0) ||
+                ($this->fractionalDigits === -2 && ($inNano > 0 || ($i % 3) !== 0)) ||
                 $i < $this->fractionalDigits); $i++) {
-                $digit = $inNano / $div;
-                $buf .= $digit + '0';
+                $digit = Math::div($inNano, $div);
+                $buf .= $digit;
                 $inNano = $inNano - ($digit * $div);
-                $div = $div / 10;
+                $div = Math::div($div, 10);
             }
         }
         $buf .= 'Z';
@@ -99,6 +100,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
 
     public function parse(DateTimeParseContext $context, $text, $position)
     {
+        // TODO cache formatter
         // new context to avoid overwriting fields like year/month/day
         $minDigits = ($this->fractionalDigits < 0 ? 0 : $this->fractionalDigits);
         $maxDigits = ($this->fractionalDigits < 0 ? 9 : $this->fractionalDigits);
@@ -119,27 +121,27 @@ final class InstantPrinterParser implements DateTimePrinterParser
 // parser restricts most fields to 2 digits, so definitely int
 // correctly parsed nano is also guaranteed to be valid
         $yearParsed = $newContext->getParsed(ChronoField::YEAR());
-        $month = $newContext->getParsed(ChronoField::MONTH_OF_YEAR())->intValue();
-        $day = $newContext->getParsed(ChronoField::DAY_OF_MONTH())->intValue();
-        $hour = $newContext->getParsed(ChronoField::HOUR_OF_DAY())->intValue();
-        $min = $newContext->getParsed(ChronoField::MINUTE_OF_HOUR())->intValue();
+        $month = $newContext->getParsed(ChronoField::MONTH_OF_YEAR());
+        $day = $newContext->getParsed(ChronoField::DAY_OF_MONTH());
+        $hour = $newContext->getParsed(ChronoField::HOUR_OF_DAY());
+        $min = $newContext->getParsed(ChronoField::MINUTE_OF_HOUR());
         $secVal = $newContext->getParsed(ChronoField::SECOND_OF_MINUTE());
         $nanoVal = $newContext->getParsed(ChronoField::NANO_OF_SECOND());
-        $sec = ($secVal != null ? $secVal->intValue() : 0);
-        $nano = ($nanoVal != null ? $nanoVal->intValue() : 0);
+        $sec = ($secVal !== null ? $secVal : 0);
+        $nano = ($nanoVal !== null ? $nanoVal : 0);
         $days = 0;
-        if ($hour == 24 && $min == 0 && $sec == 0 && $nano == 0) {
+        if ($hour === 24 && $min === 0 && $sec === 0 && $nano === 0) {
             $hour = 0;
             $days = 1;
-        } else if ($hour == 23 && $min == 59 && $sec == 60) {
+        } else if ($hour === 23 && $min === 59 && $sec === 60) {
             $context->setParsedLeapSecond();
             $sec = 59;
         }
-        $year = (int)$yearParsed % 10000;
+        $year = $yearParsed % 10000;
         try {
-            $ldt = LocalDateTime::of($year, $month, $day, $hour, $min, $sec, 0)->plusDays($days);
+            $ldt = LocalDateTime::ofNumerical($year, $month, $day, $hour, $min, $sec, 0)->plusDays($days);
             $instantSecs = $ldt->toEpochSecond(ZoneOffset::UTC());
-            $instantSecs += Math::multiplyExact($yearParsed / 10000, self::SECONDS_PER_10000_YEARS);
+            $instantSecs += Math::multiplyExact(Math::div($yearParsed, 10000), self::SECONDS_PER_10000_YEARS);
         } catch (RuntimeException $ex) {
             // TODO What do we actually catch here and why
             return ~$position;

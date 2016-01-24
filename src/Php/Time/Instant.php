@@ -232,7 +232,7 @@ final class Instant implements Temporal, TemporalAdjuster
      *
      * @return Instant
      */
-    public function MIN()
+    public static function MIN()
     {
         return self::$MIN;
     }
@@ -251,7 +251,7 @@ final class Instant implements Temporal, TemporalAdjuster
      *
      * @return Instant
      */
-    public function MAX()
+    public static function MAX()
     {
         return self::$MAX;
     }
@@ -348,7 +348,11 @@ final class Instant implements Temporal, TemporalAdjuster
         return self::create($secs, $mos * 1000000);
     }
 
-//-----------------------------------------------------------------------
+    public static function fromQuery() {
+        return TemporalQueries::fromCallable([self::class, 'from']);
+    }
+
+    //-----------------------------------------------------------------------
     /**
      * Obtains an instance of {@code Instant} from a temporal object.
      * <p>
@@ -366,8 +370,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * @return Instant the instant, not null
      * @throws DateTimeException if unable to convert to an Instant {@code Instant}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof Instant) {
             return $temporal;

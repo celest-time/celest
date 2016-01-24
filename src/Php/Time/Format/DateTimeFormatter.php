@@ -701,7 +701,7 @@ class DateTimeFormatter
     /**
      * @return DateTimeFormatter
      */
-    public function ISO_LOCAL_DATE()
+    public static function ISO_LOCAL_DATE()
     {
         return self::$ISO_LOCAL_DATE = (new DateTimeFormatterBuilder())
             ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
@@ -1916,7 +1916,7 @@ class DateTimeFormatter
      * @return mixed the parsed date-time, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public function parseQuery($text, TemporalQuery $query)
+    public function parseQuery($text, $query)
     {
         try {
             return $this->parseResolved0($text, null)->query($query);

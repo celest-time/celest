@@ -320,7 +320,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * @param $epochDay int the Epoch Day to convert, based on the epoch 1970-01-01
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the epoch day exceeds the supported date range
-     * TODO check rounding
+     * TODO check rounding, add Check
      */
     public static function ofEpochDay($epochDay)
     {
