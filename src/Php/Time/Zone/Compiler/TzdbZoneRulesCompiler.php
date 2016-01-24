@@ -258,9 +258,6 @@ final class TzdbZoneRulesCompiler
         fwrite($file, var_export($version, true));
         fwrite($file, ";\n");
         fclose($file);
-
-        echo 'build';
-
     }
 
     private static $YEAR = "/(?i)(?<min>min)|(?<max>max)|(?<only>only)|(?<year>[0-9]+)/";

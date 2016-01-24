@@ -1,5 +1,7 @@
 .PHONY: default all build test test-php56 test-php70
 
+TZVERSION=2015g
+
 default: all
 
 all: build test
@@ -29,3 +31,16 @@ test-php70:
 
 test-php70-long:
 	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/phpunit --group long
+
+tzdata$(TZVERSION).tar.gz:
+	wget 'ftp://ftp.iana.org/tz/releases/tzdata$(TZVERSION).tar.gz' -O tzdata$(TZVERSION).tar.gz
+
+tzdata$(TZVERSION): tzdata$(TZVERSION).tar.gz
+	mkdir tzdata$(TZVERSION)
+	tar -xzf tzdata$(TZVERSION).tar.gz -C tzdata$(TZVERSION)
+
+tzdata/version.php: tzdata$(TZVERSION)
+	mkdir tzdata
+	php src/Php/Time/Zone/Compiler/TzdbZoneRulesCompiler.php -verbose -srcdir tzdata$(TZVERSION) -dstdir tzdata
+
+tzdata: tzdata/version.php
