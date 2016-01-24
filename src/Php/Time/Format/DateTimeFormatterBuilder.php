@@ -2109,11 +2109,12 @@ final class DateTimeFormatterBuilder
      * This uses the default locale.
      *
      * @param $resolverStyle ResolverStyle the resolver style to use, not null
-     * @return Chronology the created formatter, not null
+     * @return DateTimeFormatter the created formatter, not null
      */
-    public function toFormatter3(ResolverStyle $resolverStyle, Chronology $chrono)
+    public function toFormatter3(ResolverStyle $resolverStyle, $chrono)
     {
-        return $this->toFormatter4(Locale::getDefault(Locale::$Category->FORMAT), $resolverStyle, $chrono);
+        // TODO fix Locale use
+        return $this->toFormatter4(Locale::getDefault(null), $resolverStyle, $chrono);
     }
 
     /**

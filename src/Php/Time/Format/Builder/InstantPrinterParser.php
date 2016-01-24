@@ -34,7 +34,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
     public function format(DateTimePrintContext $context, &$buf)
     {
         // use INSTANT_SECONDS, thus this code is not bound by Instant.MAX
-        $inSecs = $context->getValue(ChronoField::INSTANT_SECONDS());
+        $inSecs = $context->getValueField(ChronoField::INSTANT_SECONDS());
         $inNanos = null;
         if ($context->getTemporal()->isSupported(ChronoField::NANO_OF_SECOND())) {
             $inNanos = $context->getTemporal()->getLong(ChronoField::NANO_OF_SECOND());
