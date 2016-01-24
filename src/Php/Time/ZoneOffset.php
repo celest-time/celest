@@ -457,7 +457,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
         }
 
-        if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) == 0) {
+        if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) === 0) {
             $totalSecs = $totalSeconds;
             // TODO undefined
             $result = @self::$SECONDS_CACHE[$totalSecs];
@@ -494,8 +494,8 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         } else {
             $absTotalSeconds = Math::abs($totalSeconds);
             $buf = '';
-            $absHours = $absTotalSeconds / LocalTime::SECONDS_PER_HOUR;
-            $absMinutes = ($absTotalSeconds / LocalTime::SECONDS_PER_MINUTE) % LocalTime::MINUTES_PER_HOUR;
+            $absHours = Math::div($absTotalSeconds, LocalTime::SECONDS_PER_HOUR);
+            $absMinutes = Math::div($absTotalSeconds, LocalTime::SECONDS_PER_MINUTE) % LocalTime::MINUTES_PER_HOUR;
             $buf .= ($totalSeconds < 0 ? "-" : "+")
             . ($absHours < 10 ? "0" : "") . $absHours
             . ($absMinutes < 10 ? ":0" : ":") . $absMinutes;
