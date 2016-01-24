@@ -450,7 +450,7 @@ final class ZoneRules
         }
 
 // check if using last rules
-        if (empty($this->lastRules) &&
+        if (!empty($this->lastRules) &&
             $dt->isAfter($this->savingsLocalTransitions[count($this->savingsLocalTransitions) - 1]
             )
         ) {
