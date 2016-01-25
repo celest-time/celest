@@ -232,15 +232,6 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @throws \Php\Time\IllegalArgumentException
-     */
-    public function test_getTransitions_immutable()
-    {
-        $test = self::make(self::OFFSET_PTWO());
-        $test->getTransitions()[] = ZoneOffsetTransition::of(self::LDT(), self::OFFSET_PONE(), self::OFFSET_PTWO());
-    }
-
-    /**
      * @dataProvider provider_rules
      */
     public function test_getTransitionRules(ZoneRules $test, ZoneOffset $expectedOffset)
