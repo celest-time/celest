@@ -80,7 +80,7 @@ class ParsePosition
     /**
      * Set the current parse position.
      *
-     * @param $index int the current parse position
+     * @param int $index the current parse position
      */
     public function setIndex($index)
     {
@@ -90,7 +90,7 @@ class ParsePosition
     /**
      * Create a new ParsePosition with the given initial index.
      *
-     * @param $index int initial index
+     * @param int $index initial index
      */
     public
     function __construct($index)
@@ -103,7 +103,7 @@ class ParsePosition
      * should set this before returning an error code from their
      * parseObject method.  The default value is -1 if this is not set.
      *
-     * @param $ei int the index at which an error occurred
+     * @param int $ei the index at which an error occurred
      * @since 1.2
      */
     public

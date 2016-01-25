@@ -144,7 +144,7 @@ interface TemporalAdjuster
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same observable type with the adjustment made, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs

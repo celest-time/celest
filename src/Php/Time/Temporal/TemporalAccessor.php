@@ -125,7 +125,7 @@ interface TemporalAccessor
      * Implementations must ensure that no observable state is altered when this
      * read-only method is invoked.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if this date-time can be queried for the field, false if not
      */
     public function isSupported(TemporalField $field);
@@ -166,7 +166,7 @@ interface TemporalAccessor
      *  return field.rangeRefinedBy(this);
      * </pre>
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -202,7 +202,7 @@ interface TemporalAccessor
      *  throw new UnsupportedTemporalTypeException("Invalid field " + field + " + for get() method, use getLong() instead");
      * </pre>
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field, within the valid range of values
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -232,7 +232,7 @@ interface TemporalAccessor
      * Implementations must ensure that no observable state is altered when this
      * read-only method is invoked.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -286,7 +286,7 @@ interface TemporalAccessor
      * read-only method is invoked.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query
      * @throws ArithmeticException if numeric overflow occurs

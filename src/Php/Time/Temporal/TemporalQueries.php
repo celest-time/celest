@@ -129,7 +129,7 @@ final class TemporalQueries
     }
 
     /**
-     * @param $func callable
+     * @param callable $func
      * @return TemporalQuery
      */
     public static function fromCallable($func)

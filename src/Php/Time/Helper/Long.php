@@ -14,7 +14,7 @@ class Long
     }
 
     /**
-     * @param $str string
+     * @param string $str
      * @return int
      */
     public static function parseLong($str)

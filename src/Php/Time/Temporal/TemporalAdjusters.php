@@ -114,7 +114,7 @@ final class TemporalAdjusters
     }
 
     /**
-     * @param $func callable
+     * @param callable $func
      * @return TemporalAdjuster
      */
     public static function fromCallable($func)
@@ -279,7 +279,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
      * and the {@code DAYS} unit, and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the first in month adjuster, not null
      */
     public static function firstInMonth(DayOfWeek $dayOfWeek)
@@ -300,7 +300,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
      * and the {@code DAYS} unit, and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the first in month adjuster, not null
      */
     public
@@ -337,8 +337,8 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} and {@code DAY_OF_MONTH} fields
      * and the {@code DAYS} unit, and assumes a seven day week.
      *
-     * @param $ordinal int the week within the month, unbounded but typically from -5 to 5
-     * @param $dayOfWeek DayOfWeek the day-of-week, not null
+     * @param int $ordinal the week within the month, unbounded but typically from -5 to 5
+     * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the day-of-week in month adjuster, not null
      */
     public static function dayOfWeekInMonth($ordinal, DayOfWeek $dayOfWeek)
@@ -378,7 +378,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
      * and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week to move the date to, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week to move the date to, not null
      * @return TemporalAdjuster the next day-of-week adjuster, not null
      */
     public static function next(DayOfWeek $dayOfWeek)
@@ -405,7 +405,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
      * and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week to check for or move the date to, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week to check for or move the date to, not null
      * @return TemporalAdjuster the next-or-same day-of-week adjuster, not null
      */
     public static function nextOrSame(DayOfWeek $dayOfWeek)
@@ -435,7 +435,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
      * and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week to move the date to, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week to move the date to, not null
      * @return TemporalAdjuster the previous day-of-week adjuster, not null
      */
     public static function previous(DayOfWeek $dayOfWeek)
@@ -462,7 +462,7 @@ final class TemporalAdjusters
      * It uses the {@code DAY_OF_WEEK} field and the {@code DAYS} unit,
      * and assumes a seven day week.
      *
-     * @param $dayOfWeek DayOfWeek the day-of-week to check for or move the date to, not null
+     * @param DayOfWeek $dayOfWeek the day-of-week to check for or move the date to, not null
      * @return TemporalAdjuster the previous-or-same day-of-week adjuster, not null
      */
     public

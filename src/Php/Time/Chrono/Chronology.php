@@ -159,7 +159,7 @@ interface Chronology
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code Chronology::from}.
      *
-     * @param $temporal TemporalAccessor the temporal to convert, not null
+     * @param TemporalAccessor $temporal the temporal to convert, not null
      * @return Chronology the chronology, not null
      * @throws DateTimeException if unable to convert to an {@code Chronology}
      */
@@ -202,7 +202,7 @@ interface Chronology
      * Thus, there is no difference in behavior between this method and
      * {@code Calendar#getInstance(Locale)}.
      *
-     * @param $locale Locale the locale to use to obtain the calendar system, not null
+     * @param Locale $locale the locale to use to obtain the calendar system, not null
      * @return Chronology the calendar system associated with the locale, not null
      * @throws DateTimeException if the locale-specified calendar cannot be found
      */
@@ -225,7 +225,7 @@ interface Chronology
      * to the default customization. For example, the Gregorian calendar can have multiple
      * cutover dates from the Julian, but the lookup only provides the default cutover date.
      *
-     * @param $id string the chronology ID or calendar system type, not null
+     * @param string $id the chronology ID or calendar system type, not null
      * @return Chronology the chronology with the identifier requested, not null
      * @throws DateTimeException if the chronology cannot be found
      */
@@ -279,10 +279,10 @@ interface Chronology
      * The default implementation combines the era and year-of-era into a proleptic
      * year before calling {@link #date(int, int, int)}.
      *
-     * @param $era Era the era of the correct type for the chronology, not null
-     * @param $yearOfEra int the chronology year-of-era
-     * @param $month int the chronology month-of-year
-     * @param $dayOfMonth int the chronology day-of-month
+     * @param Era $era the era of the correct type for the chronology, not null
+     * @param int $yearOfEra the chronology year-of-era
+     * @param int $month the chronology month-of-year
+     * @param int $dayOfMonth the chronology day-of-month
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
@@ -293,9 +293,9 @@ interface Chronology
      * Obtains a local date in this chronology from the proleptic-year,
      * month-of-year and day-of-month fields.
      *
-     * @param $prolepticYear int the chronology proleptic-year
-     * @param $month int the chronology month-of-year
-     * @param $dayOfMonth int the chronology day-of-month
+     * @param int $prolepticYear the chronology proleptic-year
+     * @param int $month the chronology month-of-year
+     * @param int $dayOfMonth the chronology day-of-month
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -309,9 +309,9 @@ interface Chronology
      * The default implementation combines the era and year-of-era into a proleptic
      * year before calling {@link #dateYearDay(int, int)}.
      *
-     * @param $era Era the era of the correct type for the chronology, not null
-     * @param $yearOfEra int the chronology year-of-era
-     * @param $dayOfYear int the chronology day-of-year
+     * @param Era $era the era of the correct type for the chronology, not null
+     * @param int $yearOfEra the chronology year-of-era
+     * @param int $dayOfYear the chronology day-of-year
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
@@ -322,8 +322,8 @@ interface Chronology
      * Obtains a local date in this chronology from the proleptic-year and
      * day-of-year fields.
      *
-     * @param $prolepticYear int the chronology proleptic-year
-     * @param $dayOfYear int the chronology day-of-year
+     * @param int $prolepticYear the chronology proleptic-year
+     * @param int $dayOfYear the chronology day-of-year
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -335,7 +335,7 @@ interface Chronology
      * The definition of {@link ChronoField#EPOCH_DAY EPOCH_DAY} is the same
      * for all calendar systems, thus it can be used for conversion.
      *
-     * @param $epochDay int the epoch day
+     * @param int $epochDay the epoch day
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -371,7 +371,7 @@ interface Chronology
      * @implSpec
      * The default implementation invokes {@link #dateNowOf(Clock)}.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return ChronoLocalDate the current local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -387,7 +387,7 @@ interface Chronology
      * @implSpec
      * The default implementation invokes {@link #date(TemporalAccessor)}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return ChronoLocalDate the current local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -407,7 +407,7 @@ interface Chronology
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code aChronology::date}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      * @see ChronoLocalDate#from(TemporalAccessor)
@@ -430,7 +430,7 @@ interface Chronology
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code aChronology::localDateTime}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ChronoLocalDateTime the local date-time in this chronology, not null
      * @throws DateTimeException if unable to create the date-time
      * @see ChronoLocalDateTime#from(TemporalAccessor)
@@ -456,7 +456,7 @@ interface Chronology
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code aChronology::zonedDateTime}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ChronoZonedDateTime the zoned date-time in this chronology, not null
      * @throws DateTimeException if unable to create the date-time
      * @see ChronoZonedDateTime#from(TemporalAccessor)
@@ -468,8 +468,8 @@ interface Chronology
      * <p>
      * This obtains a zoned date-time with the same instant as that specified.
      *
-     * @param $instant Instant the instant to create the date-time from, not null
-     * @param $zone ZoneId the time-zone, not null
+     * @param Instant $instant the instant to create the date-time from, not null
+     * @param ZoneId $zone the time-zone, not null
      * @return ChronoZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -486,7 +486,7 @@ interface Chronology
      * <li>a chronology that does not support the concept of a year must return false.
      * </ul>
      *
-     * @param $prolepticYear int the proleptic-year to check, not validated for range
+     * @param int $prolepticYear the proleptic-year to check, not validated for range
      * @return bool true if the year is a leap year
      */
     function isLeapYear($prolepticYear);
@@ -500,8 +500,8 @@ interface Chronology
      * then the year-of-era will be validated against the era.
      * For other chronologies, validation is optional.
      *
-     * @param $era Era the era of the correct type for the chronology, not null
-     * @param $yearOfEra int the chronology year-of-era
+     * @param Era $era the era of the correct type for the chronology, not null
+     * @param int $yearOfEra the chronology year-of-era
      * @return int the proleptic-year
      * @throws DateTimeException if unable to convert to a proleptic-year,
      *  such as if the year is invalid for the era
@@ -524,7 +524,7 @@ interface Chronology
      * <p>
      * This method returns the singleton era of the correct type for the specified era value.
      *
-     * @param $eraValue int the era value
+     * @param int $eraValue the era value
      * @return Era the calendar system era, not null
      * @throws DateTimeException if unable to create the era
      */
@@ -554,7 +554,7 @@ interface Chronology
      * <p>
      * This method will return a result whether or not the chronology supports the field.
      *
-     * @param $field ChronoField the field to get the range for, not null
+     * @param ChronoField $field the field to get the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      */
@@ -572,8 +572,8 @@ interface Chronology
      * The default implementation behaves as though the formatter was used to
      * format the chronology textual name.
      *
-     * @param $style TextStyle the style of the text required, not null
-     * @param $locale Locale the locale to use, not null
+     * @param TextStyle $style the style of the text required, not null
+     * @param Locale $locale the locale to use, not null
      * @return string the text value of the chronology, not null
      */
     function getDisplayName(TextStyle $style, Locale $locale);
@@ -591,8 +591,8 @@ interface Chronology
      * The default implementation, which explains typical resolve behaviour,
      * is provided in {@link AbstractChronology}.
      *
-     * @param $fieldValues array (TemporalField=>int) the map of fields to values, which can be updated, not null
-     * @param $resolverStyle ResolverStyle the requested type of resolve, not null
+     * @param array $fieldValues (TemporalField=>int) the map of fields to values, which can be updated, not null
+     * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return ChronoLocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
@@ -622,9 +622,9 @@ interface Chronology
      * <p>
      * The returned period is immutable and thread-safe.
      *
-     * @param $years int the number of years, may be negative
-     * @param $months int the number of years, may be negative
-     * @param $days int the number of years, may be negative
+     * @param int $years the number of years, may be negative
+     * @param int $months the number of years, may be negative
+     * @param int $days the number of years, may be negative
      * @return ChronoPeriod the period in terms of this chronology, not null
      */
     function period($years, $months, $days);
@@ -637,7 +637,7 @@ interface Chronology
      * additional information specific to the subclass.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other Chronology the other chronology to compare to, not null
+     * @param Chronology $other the other chronology to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     function compareTo(Chronology $other);
@@ -647,7 +647,7 @@ interface Chronology
      * <p>
      * The comparison is based on the entire state of the object.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other chronology
      */
     function equals($obj);

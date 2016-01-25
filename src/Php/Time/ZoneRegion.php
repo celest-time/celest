@@ -98,8 +98,8 @@ class ZoneRegion extends ZoneId
      *
      * TODO package visiblity
      *
-     * @param $zoneId string the time-zone ID, not null
-     * @param $checkAvailable bool  whether to check if the zone ID is available
+     * @param string $zoneId the time-zone ID, not null
+     * @param bool $checkAvailable  whether to check if the zone ID is available
      * @return ZoneRegion the zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
@@ -123,7 +123,7 @@ class ZoneRegion extends ZoneId
     /**
      * Checks that the given string is a legal ZondId name.
      *
-     * @param $zoneId string the time-zone ID, not null
+     * @param string $zoneId the time-zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      */
     private static function checkName($zoneId)
@@ -152,8 +152,8 @@ class ZoneRegion extends ZoneId
     /**
      * Constructor.
      * TODO Package visiblity
-     * @param $id string the time-zone ID, not null
-     * @param $rules ZoneRules the rules, null for lazy lookup
+     * @param string $id the time-zone ID, not null
+     * @param ZoneRules $rules the rules, null for lazy lookup
      */
     public function __construct($id, ZoneRules $rules)
     {

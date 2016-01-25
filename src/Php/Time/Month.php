@@ -320,7 +320,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * This factory allows the enum to be obtained from the {@code int} value.
      * The {@code int} value follows the ISO-8601 standard, from 1 (January) to 12 (December).
      *
-     * @param $month int the month-of-year to represent, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to represent, from 1 (January) to 12 (December)
      * @return Month the month-of-year, not null
      * @throws DateTimeException if the month-of-year is invalid
      */
@@ -347,7 +347,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code Month::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return Month the month-of-year, not null
      * @throws DateTimeException if unable to convert to a {@code Month}
      */
@@ -391,8 +391,8 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * <p>
      * If no textual mapping is found then the {@link #getValue() numeric value} is returned.
      *
-     * @param $style TextStyle the length of the text required, not null
-     * @param $locale Locale the locale to use, not null
+     * @param TextStyle $style the length of the text required, not null
+     * @param Locale $locale the locale to use, not null
      * @return string the text value of the month-of-year, not null
      */
     public function getDisplayName(TextStyle $style, Locale $locale)
@@ -417,7 +417,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this month-of-year, false if not
      */
     public function isSupported(TemporalField $field)
@@ -446,7 +446,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -477,7 +477,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field, within the valid range of values
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -510,7 +510,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -536,7 +536,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $months int  the months to add, positive or negative
+     * @param int $months  the months to add, positive or negative
      * @return Month the resulting month, not null
      */
     public function plus($months)
@@ -553,7 +553,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $months int the months to subtract, positive or negative
+     * @param int $months the months to subtract, positive or negative
      * @return Month the resulting month, not null
      */
     public
@@ -716,7 +716,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -762,7 +762,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs

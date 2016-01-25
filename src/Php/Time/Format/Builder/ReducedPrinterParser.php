@@ -45,12 +45,12 @@ final class ReducedPrinterParser extends NumberPrinterParser
     /**
      * Constructor.
      *
-     * @param $field TemporalField the field to format, validated not null
-     * @param $minWidth int the minimum field width, from 1 to 10
-     * @param $maxWidth int the maximum field width, from 1 to 10
-     * @param $baseValue int the base value
-     * @param $baseDate ChronoLocalDate|null the base date
-     * @param $subsequentWidth int the subsequentWidth for this instance
+     * @param TemporalField $field the field to format, validated not null
+     * @param int $minWidth the minimum field width, from 1 to 10
+     * @param int $maxWidth the maximum field width, from 1 to 10
+     * @param int $baseValue the base value
+     * @param ChronoLocalDate|null $baseDate the base date
+     * @param int $subsequentWidth the subsequentWidth for this instance
      * @throws DateTimeException
      * @throws IllegalArgumentException
      */
@@ -153,7 +153,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
     /**
      * Returns a new instance with an updated subsequent width.
      *
-     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater
+     * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater
      * @return ReducedPrinterParser a new updated printer-parser, not null
      */
     public function withSubsequentWidth($subsequentWidth)
@@ -165,7 +165,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
     /**
      * For a ReducedPrinterParser, fixed width is false if the mode is strict,
      * otherwise it is set as for NumberPrinterParser.
-     * @param $context DateTimeParseContext the context
+     * @param DateTimeParseContext $context the context
      * @return bool if the field is fixed width
      * @see DateTimeFormatterBuilder#appendValueReduced(java.time.temporal.TemporalField, int, int, int)
      */

@@ -123,11 +123,11 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      * To matching the parsing of ZoneId.of the values are not normalized
      * to ZoneOffsets.
      *
-     * @param $context DateTimeParseContext the parse context
-     * @param $text string the input text
-     * @param $prefixPos int start of the prefix
-     * @param $position int start of text after the prefix
-     * @param $parser OffsetIdPrinterParser parser for the value after the prefix
+     * @param DateTimeParseContext $context the parse context
+     * @param string $text the input text
+     * @param int $prefixPos start of the prefix
+     * @param int $position start of text after the prefix
+     * @param OffsetIdPrinterParser $parser parser for the value after the prefix
      * @return int the position after the parse
      */
     private function parseOffsetBased(DateTimeParseContext $context, $text, $prefixPos, $position, OffsetIdPrinterParser $parser)

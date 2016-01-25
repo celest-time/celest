@@ -162,7 +162,7 @@ interface TemporalUnit
      * This default implementation derives the value using
      * {@link Temporal#plus(long, TemporalUnit)}.
      *
-     * @param $temporal Temporal  the temporal object to check, not null
+     * @param Temporal $temporal  the temporal object to check, not null
      * @return bool true if the unit is supported
      */
     public function isSupportedBy(Temporal $temporal);
@@ -195,8 +195,8 @@ interface TemporalUnit
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
      * @param <R>  the type of the Temporal object
-     * @param $temporal Temporal mixed the temporal object to adjust, not null
-     * @param $amount int  the amount of this unit to add, positive or negative
+     * @param Temporal $temporal mixed the temporal object to adjust, not null
+     * @param int $amount  the amount of this unit to add, positive or negative
      * @return mixed the adjusted temporal object, not null
      * @throws DateTimeException if the amount cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal

@@ -48,8 +48,8 @@ class DummyZoneRulesProvider extends ZoneRulesProvider
      * null will prevent the rules from being cached in {@code ZoneId}.
      * When the flag is false, the provider must return non-null rules.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
-     * @param $forCaching bool whether the rules are being queried for caching,
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
+     * @param bool $forCaching whether the rules are being queried for caching,
      * true if the returned rules will be cached by {@code ZoneId},
      * false if they will be returned to the user without being cached in {@code ZoneId}
      * @return ZoneRules the rules, null if {@code forCaching} is true and this
@@ -80,7 +80,7 @@ class DummyZoneRulesProvider extends ZoneRulesProvider
      * The returned versions remain available and valid for the lifetime of the application.
      * A dynamic provider may increase the set of versions as more data becomes available.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
      * @return ZoneRules[] a modifiable copy of the history of the rules for the ID, sorted
      *  from oldest to newest, not null
      * @throws ZoneRulesException if history cannot be obtained for the zone ID

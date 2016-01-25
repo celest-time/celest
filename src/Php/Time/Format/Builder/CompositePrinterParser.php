@@ -23,7 +23,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
     /**
      * Returns a copy of this printer-parser with the optional flag changed.
      *
-     * @param $optional bool the optional flag to set in the copy
+     * @param bool $optional the optional flag to set in the copy
      * @return CompositePrinterParser the new printer-parser, not null
      */
     public function withOptional($optional)

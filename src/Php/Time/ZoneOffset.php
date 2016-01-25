@@ -218,7 +218,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * <p>
      * The maximum supported range is from +18:00 to -18:00 inclusive.
      *
-     * @param $offsetId string the offset ID, not null
+     * @param string $offsetId the offset ID, not null
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset ID is invalid
      */
@@ -278,9 +278,9 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * Parse a two digit zero-prefixed number.
      *
-     * @param $offsetId string the offset ID, not null
-     * @param $pos int the position to parse, valid
-     * @param $precededByColon bool should this number be prefixed by a precededByColon
+     * @param string $offsetId the offset ID, not null
+     * @param int $pos the position to parse, valid
+     * @param bool $precededByColon should this number be prefixed by a precededByColon
      * @return int the parsed number, from 0 to 99
      * @throws DateTimeException
      */
@@ -303,7 +303,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * Obtains an instance of {@code ZoneOffset} using an offset in hours.
      *
-     * @param $hours int the time-zone offset in hours, from -18 to +18
+     * @param int $hours the time-zone offset in hours, from -18 to +18
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -320,8 +320,8 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * Thus, if the hours is negative, the minutes must be negative or zero.
      * If the hours is zero, the minutes may be positive, negative or zero.
      *
-     * @param $hours int the time-zone offset in hours, from -18 to +18
-     * @param $minutes int the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours
+     * @param int $hours the time-zone offset in hours, from -18 to +18
+     * @param int $minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -338,9 +338,9 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * The sign of the hours, minutes and seconds components must match.
      * Thus, if the hours is negative, the minutes and seconds must be negative or zero.
      *
-     * @param $hours int the time-zone offset in hours, from -18 to +18
-     * @param $minutes int the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param $seconds int the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
+     * @param int $hours the time-zone offset in hours, from -18 to +18
+     * @param int $minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
+     * @param int $seconds the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -369,7 +369,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ZoneOffset::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if unable to convert to an {@code ZoneOffset}
      */
@@ -389,9 +389,9 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * Validates the offset fields.
      *
-     * @param $hours int the time-zone offset in hours, from -18 to +18
-     * @param $minutes int the time-zone offset in minutes, from 0 to &plusmn;59
-     * @param $seconds int the time-zone offset in seconds, from 0 to &plusmn;59
+     * @param int $hours the time-zone offset in hours, from -18 to +18
+     * @param int $minutes the time-zone offset in minutes, from 0 to &plusmn;59
+     * @param int $seconds the time-zone offset in seconds, from 0 to &plusmn;59
      * @throws DateTimeException if the offset is not in the required range
      */
     private
@@ -429,9 +429,9 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * Calculates the total offset in seconds.
      *
-     * @param $hours int the time-zone offset in hours, from -18 to +18
-     * @param $minutes int the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param $seconds int the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
+     * @param int $hours the time-zone offset in hours, from -18 to +18
+     * @param int $minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
+     * @param int $seconds the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
      * @return int the total in seconds
      */
     private
@@ -446,7 +446,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * <p>
      * The offset must be in the range {@code -18:00} to {@code +18:00}, which corresponds to -64800 to +64800.
      *
-     * @param $totalSeconds int the total time-zone offset in seconds, from -64800 to +64800
+     * @param int $totalSeconds the total time-zone offset in seconds, from -64800 to +64800
      * @return ZoneOffset the ZoneOffset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -477,7 +477,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     /**
      * Constructor.
      * TODO visiblity
-     * @param $totalSeconds int the total time-zone offset in seconds, from -64800 to +64800
+     * @param int $totalSeconds the total time-zone offset in seconds, from -64800 to +64800
      */
     public function __construct($totalSeconds)
     {
@@ -571,7 +571,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this offset, false if not
      */
     public function isSupported(TemporalField $field)
@@ -601,7 +601,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -628,7 +628,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -727,7 +727,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -747,7 +747,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * <p>
      * The comparison is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other ZoneOffset the other date to compare to, not null
+     * @param ZoneOffset $other the other date to compare to, not null
      * @return int the comparator value, negative if less, postive if greater
      * @throws NullPointerException if {@code other} is null
      */
@@ -763,7 +763,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * The comparison is based on the amount of the offset in seconds.
      * This is equivalent to a comparison by ID.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other offset
      */
     public function equals($obj)

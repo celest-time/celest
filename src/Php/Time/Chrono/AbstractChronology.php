@@ -138,8 +138,8 @@ abstract class AbstractChronology implements Chronology
      * Chronos must not be registered until they are completely constructed.
      * Specifically, not in the constructor of Chronology.
      *
-     * @param $chrono Chronology the chronology to register; not null
-     * @param $id null|string the ID to register the chronology
+     * @param Chronology $chrono the chronology to register; not null
+     * @param null|string $id the ID to register the chronology
      * @return Chronology the already registered Chronology if any, may be null
      */
     static function registerChrono(Chronology $chrono, $id = null)
@@ -211,7 +211,7 @@ abstract class AbstractChronology implements Chronology
      * <p>
      * See {@link Chronology#ofLocale(Locale)}.
      *
-     * @param $locale Locale the locale to use to obtain the calendar system, not null
+     * @param Locale $locale the locale to use to obtain the calendar system, not null
      * @return Chronology the calendar system associated with the locale, not null
      * @throws DateTimeException if the locale-specified calendar cannot be found
      */
@@ -250,7 +250,7 @@ abstract class AbstractChronology implements Chronology
      * <p>
      * See {@link Chronology#of(String)}.
      *
-     * @param $id string the chronology ID or calendar system type, not null
+     * @param string $id the chronology ID or calendar system type, not null
      * @return Chronology the chronology with the identifier requested, not null
      * @throws DateTimeException if the chronology cannot be found
      */
@@ -280,7 +280,7 @@ abstract class AbstractChronology implements Chronology
      * Obtains an instance of {@code Chronology} from a chronology ID or
      * calendar system type.
      *
-     * @param $id string the chronology ID or calendar system type, not null
+     * @param string $id the chronology ID or calendar system type, not null
      * @return string the chronology with the identifier requested, or {@code null} if not found
      */
     private static function of0($id)
@@ -414,8 +414,8 @@ abstract class AbstractChronology implements Chronology
      * has the value 1, that first day-of-year has the value 1, and that the
      * first of the month and year always exists.
      *
-     * @param $fieldValues array TemporalField=>int the map of fields to values, which can be updated, not null
-     * @param $resolverStyle ResolverStyle the requested type of resolve, not null
+     * @param array $fieldValues TemporalField=>int the map of fields to values, which can be updated, not null
+     * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return ChronoLocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
@@ -679,8 +679,8 @@ abstract class AbstractChronology implements Chronology
      * an exception is thrown.
      *
      * @param $fieldValues
-     * @param $field ChronoField the field to add, not null
-     * @param $value int the value to add, not null
+     * @param ChronoField $field the field to add, not null
+     * @param int $value the value to add, not null
      * @throws DateTimeException
      */
     protected
@@ -705,7 +705,7 @@ abstract class AbstractChronology implements Chronology
      * This implementation compares the chronology ID.
      * Subclasses must compare any additional state that they store.
      *
-     * @param $other Chronology the other chronology to compare to, not null
+     * @param Chronology $other the other chronology to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(Chronology $other)
@@ -722,7 +722,7 @@ abstract class AbstractChronology implements Chronology
      * This implementation checks the type and calls
      * {@link #compareTo(java.time.chrono.Chronology)}.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other chronology
      */
     public function equals($obj)

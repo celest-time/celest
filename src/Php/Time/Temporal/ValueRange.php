@@ -115,8 +115,8 @@ final class ValueRange
      * This factory obtains a range where the minimum and maximum values are fixed.
      * For example, the ISO month-of-year always runs from 1 to 12.
      *
-     * @param $min int the minimum value
-     * @param $max int the maximum value
+     * @param int $min the minimum value
+     * @param int $max the maximum value
      * @return ValueRange the ValueRange for min, max, not null
      * @throws IllegalArgumentException if the minimum is greater than the maximum
      */
@@ -135,9 +135,9 @@ final class ValueRange
      * This factory obtains a range where the minimum value is fixed and the maximum value may vary.
      * For example, the ISO day-of-month always starts at 1, but ends between 28 and 31.
      *
-     * @param $min int the minimum value
-     * @param $maxSmallest int the smallest maximum value
-     * @param $maxLargest int the largest maximum value
+     * @param int $min the minimum value
+     * @param int $maxSmallest the smallest maximum value
+     * @param int $maxLargest the largest maximum value
      * @return ValueRange the ValueRange for min, smallest max, largest max, not null
      * @throws IllegalArgumentException if
      *     the minimum is greater than the smallest maximum,
@@ -153,10 +153,10 @@ final class ValueRange
      * <p>
      * This factory obtains a range where both the minimum and maximum value may vary.
      *
-     * @param $minSmallest int the smallest minimum value
-     * @param $minLargest int the largest minimum value
-     * @param $maxSmallest int the smallest maximum value
-     * @param $maxLargest int the largest maximum value
+     * @param int $minSmallest the smallest minimum value
+     * @param int $minLargest the largest minimum value
+     * @param int $maxSmallest the smallest maximum value
+     * @param int $maxLargest the largest maximum value
      * @return ValueRange the ValueRange for smallest min, largest min, smallest max, largest max, not null
      * @throws IllegalArgumentException if
      *     the smallest minimum is greater than the smallest maximum,
@@ -181,10 +181,10 @@ final class ValueRange
     /**
      * Restrictive constructor.
      *
-     * @param $minSmallest int the smallest minimum value
-     * @param $minLargest int the largest minimum value
-     * @param $maxSmallest int the smallest minimum value
-     * @param $maxLargest int the largest minimum value
+     * @param int $minSmallest the smallest minimum value
+     * @param int $minLargest the largest minimum value
+     * @param int $maxSmallest the smallest minimum value
+     * @param int $maxLargest the largest minimum value
      */
     private function __construct($minSmallest, $minLargest, $maxSmallest, $maxLargest)
     {
@@ -286,7 +286,7 @@ final class ValueRange
      * <p>
      * This checks that the value is within the stored range of values.
      *
-     * @param $value int the value to check
+     * @param int $value the value to check
      * @return bool true if the value is valid
      */
     public function isValidValue($value)
@@ -300,7 +300,7 @@ final class ValueRange
      * <p>
      * This method combines {@link #isIntValue()} and {@link #isValidValue(long)}.
      *
-     * @param $value int the value to check
+     * @param int $value the value to check
      * @return true if the value is valid and fits in an {@code int}
      */
     public
@@ -315,8 +315,8 @@ final class ValueRange
      * This validates that the value is within the valid range of values.
      * The field is only used to improve the error message.
      *
-     * @param $value int the value to check
-     * @param $field TemporalField the field being checked, may be null
+     * @param int $value the value to check
+     * @param TemporalField $field the field being checked, may be null
      * @return int the value that was passed in
      * @throws \Php\Time\DateTimeException
      * @see #isValidValue(long)
@@ -337,7 +337,7 @@ final class ValueRange
      * all valid values are within the bounds of an {@code int}.
      * The field is only used to improve the error message.
      *
-     * @param $value int the value to check
+     * @param int $value the value to check
      * @param TemporalField $field
      * @return int the value that was passed in
      * @throws \Php\Time\DateTimeException
@@ -370,7 +370,7 @@ final class ValueRange
      * smallest maximum and maximum.
      * Only objects of type {@code ValueRange} are compared, other types return false.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other range
      */
     public function equals($obj)

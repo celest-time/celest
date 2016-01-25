@@ -17,9 +17,9 @@ class DateTimeParseException extends DateTimeException
     /**
      * Constructs a new exception with the specified message and cause.
      *
-     * @param $message string the message to use for this exception, may be null
-     * @param $parsedData string the parsed text, should not be null
-     * @param $errorIndex int the index in the parsed string that was invalid, should be a valid index
+     * @param string $message the message to use for this exception, may be null
+     * @param string $parsedData the parsed text, should not be null
+     * @param int $errorIndex the index in the parsed string that was invalid, should be a valid index
      * @param $cause \Exception the cause exception, may be null
      */
     public function __construct($message, $parsedData, $errorIndex, $cause = null)

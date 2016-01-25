@@ -103,9 +103,9 @@ class ZoneRulesBuilder
      * Each window must be added sequentially, as the start instant of the window
      * is derived from the until instant of the previous window.
      *
-     * @param $standardOffset ZoneOffset the standard offset, not null
-     * @param $until LocalDateTime the date-time that the offset applies until, not null
-     * @param $untilDefinition TimeDefinition the time type for the until date-time, not null
+     * @param ZoneOffset $standardOffset the standard offset, not null
+     * @param LocalDateTime $until the date-time that the offset applies until, not null
+     * @param TimeDefinition $untilDefinition the time type for the until date-time, not null
      * @return ZoneRulesBuilder $this, for chaining
      * @throws \LogicException if the window order is invalid
      */
@@ -136,7 +136,7 @@ class ZoneRulesBuilder
      * This must be added after all other windows.
      * No more windows can be added after this one.
      *
-     * @param $standardOffset ZoneOffset the standard offset, not null
+     * @param ZoneOffset $standardOffset the standard offset, not null
      * @return ZoneRulesBuilder $this, for chaining
      * @throws \LogicException if a forever window has already been added
      */
@@ -155,7 +155,7 @@ class ZoneRulesBuilder
      * <p>
      * A window can either have fixed savings or rules but not both.
      *
-     * @param $fixedSavingAmountSecs int the amount of saving to use for the whole window, not null
+     * @param int $fixedSavingAmountSecs the amount of saving to use for the whole window, not null
      * @return ZoneRulesBuilder $this, for chaining
      * @throws \LogicException if no window has yet been added
      * @throws \LogicException if the window already has rules
@@ -178,9 +178,9 @@ class ZoneRulesBuilder
      * This adds a rule such that the offset, expressed as a daylight savings amount,
      * changes at the specified date-time.
      *
-     * @param $transitionDateTime LocalDateTime the date-time that the transition occurs as defined by timeDefintion, not null
-     * @param $timeDefinition TimeDefinition the definition of how to convert local to actual time, not null
-     * @param $savingAmountSecs int the amount of saving from the standard offset after the transition in seconds
+     * @param LocalDateTime $transitionDateTime the date-time that the transition occurs as defined by timeDefintion, not null
+     * @param TimeDefinition $timeDefinition the definition of how to convert local to actual time, not null
+     * @param int $savingAmountSecs the amount of saving from the standard offset after the transition in seconds
      * @return ZoneRulesBuilder $this, for chaining
      * @throws \LogicException if no window has yet been added
      * @throws \LogicException if the window already has fixed savings
@@ -203,14 +203,14 @@ class ZoneRulesBuilder
      * This adds a rule such that the offset, expressed as a daylight savings amount,
      * changes at the specified date-time.
      *
-     * @param $year int the year of the transition, from MIN_VALUE to MAX_VALUE
-     * @param $month Month the month of the transition, not null
-     * @param $dayOfMonthIndicator int the day-of-month of the transition, adjusted by dayOfWeek,
+     * @param int $year the year of the transition, from MIN_VALUE to MAX_VALUE
+     * @param Month $month the month of the transition, not null
+     * @param int $dayOfMonthIndicator the day-of-month of the transition, adjusted by dayOfWeek,
      *   from 1 to 31 adjusted later, or -1 to -28 adjusted earlier from the last day of the month
-     * @param $time LocalTime the time that the transition occurs as defined by timeDefintion, not null
-     * @param $timeEndOfDay bool whether midnight is at the end of day
-     * @param $timeDefinition TimeDefinition the definition of how to convert local to actual time, not null
-     * @param $savingAmountSecs int the amount of saving from the standard offset after the transition in seconds
+     * @param LocalTime $time the time that the transition occurs as defined by timeDefintion, not null
+     * @param bool $timeEndOfDay whether midnight is at the end of day
+     * @param TimeDefinition $timeDefinition the definition of how to convert local to actual time, not null
+     * @param int $savingAmountSecs the amount of saving from the standard offset after the transition in seconds
      * @return ZoneRulesBuilder $this, for chaining
      * @throws DateTimeException if a date-time field is out of range
      * @throws \LogicException if no window has yet been added
@@ -235,16 +235,16 @@ class ZoneRulesBuilder
      * This adds a rule such that the offset, expressed as a daylight savings amount,
      * changes at the specified date-time for each year in the range.
      *
-     * @param $startYear int the start year of the rule, from MIN_VALUE to MAX_VALUE
-     * @param $endYear int the end year of the rule, from MIN_VALUE to MAX_VALUE
-     * @param $month Month the month of the transition, not null
-     * @param $dayOfMonthIndicator int the day-of-month of the transition, adjusted by dayOfWeek,
+     * @param int $startYear the start year of the rule, from MIN_VALUE to MAX_VALUE
+     * @param int $endYear the end year of the rule, from MIN_VALUE to MAX_VALUE
+     * @param Month $month the month of the transition, not null
+     * @param int $dayOfMonthIndicator the day-of-month of the transition, adjusted by dayOfWeek,
      *   from 1 to 31 adjusted later, or -1 to -28 adjusted earlier from the last day of the month
-     * @param $dayOfWeek DayOfWeek|null the day-of-week to adjust to, null if day-of-month should not be adjusted
-     * @param $time LocalTime the time that the transition occurs as defined by timeDefintion, not null
-     * @param $timeEndOfDay bool whether midnight is at the end of day
-     * @param $timeDefinition TimeDefinition the definition of how to convert local to actual time, not null
-     * @param $savingAmountSecs int the amount of saving from the standard offset after the transition in seconds
+     * @param DayOfWeek|null $dayOfWeek the day-of-week to adjust to, null if day-of-month should not be adjusted
+     * @param LocalTime $time the time that the transition occurs as defined by timeDefintion, not null
+     * @param bool $timeEndOfDay whether midnight is at the end of day
+     * @param TimeDefinition $timeDefinition the definition of how to convert local to actual time, not null
+     * @param int $savingAmountSecs the amount of saving from the standard offset after the transition in seconds
      * @return ZoneRulesBuilder $this, for chaining
      * @throws DateTimeException if a date-time field is out of range
      * @throws IllegalArgumentException if the day of month indicator is invalid
@@ -290,7 +290,7 @@ class ZoneRulesBuilder
      * Calling this method alters the state of the builder.
      * Further rules should not be added to this builder once this method is called.
      *
-     * @param $zoneId string the time-zone ID, not null
+     * @param string $zoneId the time-zone ID, not null
      * @return ZoneRules the zone rules, not null
      * @throws \LogicException if no windows have been added
      * @throws \LogicException if there is only one rule defined as being forever for any given window
@@ -306,8 +306,8 @@ class ZoneRulesBuilder
      * Calling this method alters the state of the builder.
      * Further rules should not be added to this builder once this method is called.
      *
-     * @param $zoneId string the time-zone ID, not null
-     * @param $deduplicateMap array a map for deduplicating the values, not null
+     * @param string $zoneId the time-zone ID, not null
+     * @param array $deduplicateMap a map for deduplicating the values, not null
      * @return ZoneRules the zone rules, not null
      * @throws \LogicException if no windows have been added
      * @throws \LogicException if there is only one rule defined as being forever for any given window

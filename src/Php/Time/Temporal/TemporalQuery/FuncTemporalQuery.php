@@ -12,7 +12,7 @@ final class FuncTemporalQuery implements TemporalQuery
     private $func;
 
     /**
-     * @param $func callable TemporalAccessor->mixed
+     * @param callable $func TemporalAccessor->mixed
      * @throws IllegalArgumentException
      */
     public function __construct($func) {

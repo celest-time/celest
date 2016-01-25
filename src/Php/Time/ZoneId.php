@@ -233,7 +233,7 @@ abstract class ZoneId
      *  This is compatible with most IDs from {@link java.util.TimeZone}.
      * </ul>
      *
-     * @param $zoneId string the time-zone ID, not null
+     * @param string $zoneId the time-zone ID, not null
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
@@ -251,8 +251,8 @@ abstract class ZoneId
      * with the prefix and the non-zero offset is returned.
      * If the prefix is empty {@code ""} the {@code ZoneOffset} is returned.
      *
-     * @param $prefix string the time-zone ID, not null
-     * @param $offset ZoneOffset the offset, not null
+     * @param string $prefix the time-zone ID, not null
+     * @param ZoneOffset $offset the offset, not null
      * @return ZoneId the zone ID, not null
      * @throws IllegalArgumentException if the prefix is not one of
      *     "GMT", "UTC", or "UT", or ""
@@ -279,8 +279,8 @@ abstract class ZoneId
      *
      * TODO package visiblity
      *
-     * @param $zoneId string the time-zone ID, not null
-     * @param $checkAvailable bool whether to check if the zone ID is available
+     * @param string $zoneId the time-zone ID, not null
+     * @param bool $checkAvailable whether to check if the zone ID is available
      * @return ZoneID the zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
@@ -301,9 +301,9 @@ abstract class ZoneId
     /**
      * Parse once a prefix is established.
      *
-     * @param $zoneId string the time-zone ID, not null
-     * @param $prefixLength int the length of the prefix, 2 or 3
-     * @param $checkAvailable bool
+     * @param string $zoneId the time-zone ID, not null
+     * @param int $prefixLength the length of the prefix, 2 or 3
+     * @param bool $checkAvailable
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if the zone ID has an invalid format
      */
@@ -346,7 +346,7 @@ abstract class ZoneId
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ZoneId::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if unable to convert to a {@code ZoneId}
      */
@@ -395,8 +395,8 @@ abstract class ZoneId
      * <p>
      * If no textual mapping is found then the {@link #getId() full ID} is returned.
      *
-     * @param $style TextStyle the length of the text required, not null
-     * @param $locale Locale the locale to use, not null
+     * @param TextStyle $style the length of the text required, not null
+     * @param Locale $locale the locale to use, not null
      * @return string the text value of the zone, not null
      */
     public function getDisplayName(TextStyle $style, Locale $locale)
@@ -478,7 +478,7 @@ abstract class ZoneId
      * <p>
      * The comparison is based on the ID.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other time-zone ID
      */
     public function equals($obj)

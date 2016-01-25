@@ -161,7 +161,7 @@ final class Duration implements TemporalAmount
      * where each day is 86400 seconds which implies a 24 hour day.
      * The nanosecond in second field is set to zero.
      *
-     * @param $days int the number of days, positive or negative
+     * @param int $days the number of days, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input days exceeds the capacity of {@code Duration}
      */
@@ -177,7 +177,7 @@ final class Duration implements TemporalAmount
      * where each hour is 3600 seconds.
      * The nanosecond in second field is set to zero.
      *
-     * @param $hours int the number of hours, positive or negative
+     * @param int $hours the number of hours, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input hours exceeds the capacity of {@code Duration}
      */
@@ -194,7 +194,7 @@ final class Duration implements TemporalAmount
      * where each minute is 60 seconds.
      * The nanosecond in second field is set to zero.
      *
-     * @param $minutes int the number of minutes, positive or negative
+     * @param int $minutes the number of minutes, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input minutes exceeds the capacity of {@code Duration}
      */
@@ -219,8 +219,8 @@ final class Duration implements TemporalAmount
      *  Duration.ofSeconds(2, 1000_000_001);
      * </pre>
      *
-     * @param $seconds int the number of seconds, positive or negative
-     * @param $nanoAdjustment int the nanosecond adjustment to the number of seconds, positive or negative
+     * @param int $seconds the number of seconds, positive or negative
+     * @param int $nanoAdjustment the nanosecond adjustment to the number of seconds, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the adjustment causes the seconds to exceed the capacity of {@code Duration}
      */
@@ -237,7 +237,7 @@ final class Duration implements TemporalAmount
      * <p>
      * The seconds and nanoseconds are extracted from the specified milliseconds.
      *
-     * @param $millis int the number of milliseconds, positive or negative
+     * @param int $millis the number of milliseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      */
     public static function ofMillis($millis)
@@ -257,7 +257,7 @@ final class Duration implements TemporalAmount
      * <p>
      * The seconds and nanoseconds are extracted from the specified nanoseconds.
      *
-     * @param $nanos int the number of nanoseconds, positive or negative
+     * @param int $nanos the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      */
     public static function ofNanos($nanos)
@@ -284,8 +284,8 @@ final class Duration implements TemporalAmount
      * The unit must either have an {@linkplain TemporalUnit#isDurationEstimated() exact duration} or
      * be {@link ChronoUnit#DAYS} which is treated as 24 hours. Other units throw an exception.
      *
-     * @param $amount int the amount of the duration, measured in terms of the unit, positive or negative
-     * @param $unit TemporalUnit the unit that the duration is measured in, must have an exact duration, not null
+     * @param int $amount the amount of the duration, measured in terms of the unit, positive or negative
+     * @param TemporalUnit $unit the unit that the duration is measured in, must have an exact duration, not null
      * @return Duration a {@code Duration}, not null
      * @throws DateTimeException if the period unit has an estimated duration
      * @throws ArithmeticException if a numeric overflow occurs
@@ -311,7 +311,7 @@ final class Duration implements TemporalAmount
      * or be {@link ChronoUnit#DAYS} which is treated as 24 hours.
      * If any other units are found then an exception is thrown.
      *
-     * @param $amount TemporalAmount the temporal amount to convert, not null
+     * @param TemporalAmount $amount the temporal amount to convert, not null
      * @return Duration the equivalent duration, not null
      * @throws DateTimeException if unable to convert to a {@code Duration}
      * @throws ArithmeticException if numeric overflow occurs
@@ -366,7 +366,7 @@ final class Duration implements TemporalAmount
      *    "-P-6H+3M"  -- parses as "+6 hours and -3 minutes"
      * </pre>
      *
-     * @param $text string the text to parse, not null
+     * @param string $text the text to parse, not null
      * @return Duration the parsed duration, not null
      * @throws DateTimeParseException if the text cannot be parsed to a duration
      */
@@ -455,8 +455,8 @@ final class Duration implements TemporalAmount
      * The result of this method can be a negative period if the end is before the start.
      * To guarantee to obtain a positive duration call {@link #abs()} on the result.
      *
-     * @param $startInclusive Temporal the start instant, inclusive, not null
-     * @param $endExclusive Temporal the end instant, exclusive, not null
+     * @param Temporal $startInclusive the start instant, inclusive, not null
+     * @param Temporal $endExclusive the end instant, exclusive, not null
      * @return Duration a {@code Duration}, not null
      * @throws DateTimeException if the seconds between the temporals cannot be obtained
      * @throws ArithmeticException if the calculation exceeds the capacity of {@code Duration}
@@ -488,8 +488,8 @@ final class Duration implements TemporalAmount
     /**
      * Obtains an instance of {@code Duration} using seconds and nanoseconds.
      *
-     * @param $seconds int the length of the duration in seconds, positive or negative
-     * @param $nanoAdjustment int the nanosecond adjustment within the second, from 0 to 999,999,999
+     * @param int $seconds the length of the duration in seconds, positive or negative
+     * @param int $nanoAdjustment the nanosecond adjustment within the second, from 0 to 999,999,999
      * @return Duration
      */
     private static function create($seconds, $nanoAdjustment)
@@ -504,8 +504,8 @@ final class Duration implements TemporalAmount
     /**
      * Constructs an instance of {@code Duration} using seconds and nanoseconds.
      *
-     * @param $seconds int the length of the duration in seconds, positive or negative
-     * @param $nanos int the nanoseconds within the second, from 0 to 999,999,999
+     * @param int $seconds the length of the duration in seconds, positive or negative
+     * @param int $nanos the nanoseconds within the second, from 0 to 999,999,999
      */
     private function __construct($seconds, $nanos)
     {
@@ -521,7 +521,7 @@ final class Duration implements TemporalAmount
      * {@link ChronoUnit#SECONDS SECONDS} and {@link ChronoUnit#NANOS NANOS}.
      * All other units throw an exception.
      *
-     * @param $unit TemporalUnit the {@code TemporalUnit} for which to return the value
+     * @param TemporalUnit $unit the {@code TemporalUnit} for which to return the value
      * @return int the long value of the unit
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -660,7 +660,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanoOfSecond int the nano-of-second to represent, from 0 to 999,999,999
+     * @param int $nanoOfSecond the nano-of-second to represent, from 0 to 999,999,999
      * @return Duration a {@code Duration} based on this period with the requested nano-of-second, not null
      * @throws DateTimeException if the nano-of-second is invalid
      */
@@ -677,7 +677,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $duration Duration the duration to add, positive or negative, not null
+     * @param Duration $duration the duration to add, positive or negative, not null
      * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -696,8 +696,8 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int  the amount to add, measured in terms of the unit, positive or negative
-     * @param $unit TemporalUnit  the unit that the amount is measured in, must have an exact duration, not null
+     * @param int $amountToAdd  the amount to add, measured in terms of the unit, positive or negative
+     * @param TemporalUnit $unit  the unit that the amount is measured in, must have an exact duration, not null
      * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
@@ -740,7 +740,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToAdd int  the days to add, positive or negative
+     * @param int $daysToAdd  the days to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -754,7 +754,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hoursToAdd int the hours to add, positive or negative
+     * @param int $hoursToAdd the hours to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified hours added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -769,7 +769,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutesToAdd int the minutes to add, positive or negative
+     * @param int $minutesToAdd the minutes to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified minutes added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -783,7 +783,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToAdd int the seconds to add, positive or negative
+     * @param int $secondsToAdd the seconds to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified seconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -797,7 +797,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $millisToAdd int the milliseconds to add, positive or negative
+     * @param int $millisToAdd the milliseconds to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified milliseconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -811,7 +811,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToAdd int the nanoseconds to add, positive or negative
+     * @param int $nanosToAdd the nanoseconds to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified nanoseconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -825,8 +825,8 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToAdd int the seconds to add, positive or negative
-     * @param $nanosToAdd int the nanos to add, positive or negative
+     * @param int $secondsToAdd the seconds to add, positive or negative
+     * @param int $nanosToAdd the nanos to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified seconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -874,8 +874,8 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount to subtract, measured in terms of the unit, positive or negative
-     * @param $unit TemporalUnit the unit that the amount is measured in, must have an exact duration, not null
+     * @param int $amountToSubtract the amount to subtract, measured in terms of the unit, positive or negative
+     * @param TemporalUnit $unit the unit that the amount is measured in, must have an exact duration, not null
      * @return Duration a {@code Duration} based on this duration with the specified duration subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -893,7 +893,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToSubtract int the days to subtract, positive or negative
+     * @param int $daysToSubtract the days to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -910,7 +910,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hoursToSubtract int the hours to subtract, positive or negative
+     * @param int $hoursToSubtract the hours to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified hours subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -927,7 +927,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutesToSubtract int the minutes to subtract, positive or negative
+     * @param int $minutesToSubtract the minutes to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified minutes subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -942,7 +942,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToSubtract int the seconds to subtract, positive or negative
+     * @param int $secondsToSubtract the seconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified seconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -956,7 +956,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $millisToSubtract int the milliseconds to subtract, positive or negative
+     * @param int $millisToSubtract the milliseconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified milliseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -985,7 +985,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $multiplicand int the value to multiply the duration by, positive or negative
+     * @param int $multiplicand the value to multiply the duration by, positive or negative
      * @return Duration a {@code Duration} based on this duration multiplied by the specified scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -1005,7 +1005,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $divisor int the value to divide the duration by, positive or negative, not zero
+     * @param int $divisor the value to divide the duration by, positive or negative, not zero
      * @return Duration a {@code Duration} based on this duration divided by the specified divisor, not null
      * @throws ArithmeticException if the divisor is zero or if numeric overflow occurs
      */
@@ -1104,7 +1104,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
@@ -1140,7 +1140,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
@@ -1247,7 +1247,7 @@ final class Duration implements TemporalAmount
      * The comparison is based on the total length of the durations.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $otherDuration Duration the other duration to compare to, not null
+     * @param Duration $otherDuration the other duration to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(Duration $otherDuration)
@@ -1266,7 +1266,7 @@ final class Duration implements TemporalAmount
      * <p>
      * The comparison is based on the total length of the durations.
      *
-     * @param $otherDuration Duration the other duration, null returns false
+     * @param Duration $otherDuration the other duration, null returns false
      * @return bool true if the other duration is equal to this one
      */
     public function equals($otherDuration)

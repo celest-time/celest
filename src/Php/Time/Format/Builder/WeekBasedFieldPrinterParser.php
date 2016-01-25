@@ -24,8 +24,8 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $chr string the pattern format letter that added this PrinterParser.
-     * @param $count int the repeat count of the format letter
+     * @param string $chr the pattern format letter that added this PrinterParser.
+     * @param int $count the repeat count of the format letter
      */
     public function __construct($chr, $count)
     {
@@ -46,7 +46,7 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
     /**
      * Gets the printerParser to use based on the field and the locale.
      *
-     * @param $locale Locale the locale to use, not null
+     * @param Locale $locale the locale to use, not null
      * @return DateTimePrinterParser the formatter, not null
      * @throws IllegalArgumentException if the formatter cannot be found
      */

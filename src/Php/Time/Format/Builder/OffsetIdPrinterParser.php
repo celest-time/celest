@@ -36,8 +36,8 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $pattern string the pattern
-     * @param $noOffsetText string the text to use for UTC, not null
+     * @param string $pattern the pattern
+     * @param string $noOffsetText the text to use for UTC, not null
      */
     public function __construct($pattern, $noOffsetText)
     {
@@ -135,10 +135,10 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
     /**
      * Parse a two digit zero-prefixed number.
      *
-     * @param $array array the array of parsed data, 0=pos,1=hours,2=mins,3=secs, not null
-     * @param $arrayIndex int the index to parse the value into
-     * @param $parseText string the offset ID, not null
-     * @param $required bool whether this number is required
+     * @param array $array the array of parsed data, 0=pos,1=hours,2=mins,3=secs, not null
+     * @param int $arrayIndex the index to parse the value into
+     * @param string $parseText the offset ID, not null
+     * @param bool $required whether this number is required
      * @return bool true if an error occurred
      */
     private function parseNumber(array &$array, $arrayIndex, $parseText, $required)

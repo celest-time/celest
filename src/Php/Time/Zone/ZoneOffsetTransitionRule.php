@@ -151,17 +151,17 @@ final class ZoneOffsetTransitionRule
      * Applications should normally obtain an instance from {@link ZoneRules}.
      * This factory is only intended for use when creating {@link ZoneRules}.
      *
-     * @param $month Month the month of the month-day of the first day of the cutover week, not null
-     * @param $dayOfMonthIndicator int the day of the month-day of the cutover week, positive if the week is that
+     * @param Month $month the month of the month-day of the first day of the cutover week, not null
+     * @param int $dayOfMonthIndicator the day of the month-day of the cutover week, positive if the week is that
      *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
      *  from -28 to 31 excluding 0
-     * @param $dayOfWeek DayOfWeek|null the required day-of-week, null if the month-day should not be changed
-     * @param $time LocalTime the cutover time in the 'before' offset, not null
-     * @param $timeEndOfDay bool whether the time is midnight at the end of day
-     * @param $timeDefnition TimeDefinition how to interpret the cutover
-     * @param $standardOffset ZoneOffset the standard offset in force at the cutover, not null
-     * @param $offsetBefore ZoneOffset the offset before the cutover, not null
-     * @param $offsetAfter ZoneOffset the offset after the cutover, not null
+     * @param DayOfWeek|null $dayOfWeek the required day-of-week, null if the month-day should not be changed
+     * @param LocalTime $time the cutover time in the 'before' offset, not null
+     * @param bool $timeEndOfDay whether the time is midnight at the end of day
+     * @param TimeDefinition $timeDefnition how to interpret the cutover
+     * @param ZoneOffset $standardOffset the standard offset in force at the cutover, not null
+     * @param ZoneOffset $offsetBefore the offset before the cutover, not null
+     * @param ZoneOffset $offsetAfter the offset after the cutover, not null
      * @return ZoneOffsetTransitionRule the rule, not null
      * @throws IllegalArgumentException if the day of month indicator is invalid
      * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
@@ -190,17 +190,17 @@ final class ZoneOffsetTransitionRule
     /**
      * Creates an instance defining the yearly rule to create transitions between two offsets.
      *
-     * @param $month Month the month of the month-day of the first day of the cutover week, not null
-     * @param $dayOfMonthIndicator int the day of the month-day of the cutover week, positive if the week is that
+     * @param Month $month the month of the month-day of the first day of the cutover week, not null
+     * @param int $dayOfMonthIndicator the day of the month-day of the cutover week, positive if the week is that
      *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
      *  from -28 to 31 excluding 0
      * @param $dayOfWeek|null DayOfWeek the required day-of-week, null if the month-day should not be changed
-     * @param $time LocalTime the cutover time in the 'before' offset, not null
-     * @param $timeEndOfDay bool whether the time is midnight at the end of day
-     * @param $timeDefinition TimeDefinition how to interpret the cutover
-     * @param $standardOffset ZoneOffset the standard offset in force at the cutover, not null
-     * @param $offsetBefore ZoneOffset the offset before the cutover, not null
-     * @param $offsetAfter ZoneOffset the offset after the cutover, not null
+     * @param LocalTime $time the cutover time in the 'before' offset, not null
+     * @param bool $timeEndOfDay whether the time is midnight at the end of day
+     * @param TimeDefinition $timeDefinition how to interpret the cutover
+     * @param ZoneOffset $standardOffset the standard offset in force at the cutover, not null
+     * @param ZoneOffset $offsetBefore the offset before the cutover, not null
+     * @param ZoneOffset $offsetAfter the offset after the cutover, not null
      * @throws IllegalArgumentException if the day of month indicator is invalid
      * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
      */
@@ -358,7 +358,7 @@ final class ZoneOffsetTransitionRule
      * <p>
      * Calculations are performed using the ISO-8601 chronology.
      *
-     * @param $year int the year to create a transition for, not null
+     * @param int $year the year to create a transition for, not null
      * @return ZoneOffsetTransition the transition instance, not null
      */
     public function createTransition($year)
@@ -388,7 +388,7 @@ final class ZoneOffsetTransitionRule
      * <p>
      * The entire state of the object is compared.
      *
-     * @param $otherRule mixed the other object to compare to, null returns false
+     * @param mixed $otherRule the other object to compare to, null returns false
      * @return bool true if equal
      */
     public function equals($otherRule)

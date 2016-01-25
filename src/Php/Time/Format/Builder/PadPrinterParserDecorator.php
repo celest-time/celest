@@ -20,9 +20,9 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $printerParser DateTimePrinterParser the printer, not null
-     * @param $padWidth int the width to pad to, 1 or greater
-     * @param $padChar string the pad character
+     * @param DateTimePrinterParser $printerParser the printer, not null
+     * @param int $padWidth the width to pad to, 1 or greater
+     * @param string $padChar the pad character
      */
     public function __construct(DateTimePrinterParser $printerParser, $padWidth, $padChar)
     {

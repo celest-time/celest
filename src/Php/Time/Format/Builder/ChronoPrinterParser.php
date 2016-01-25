@@ -73,8 +73,8 @@ final class ChronoPrinterParser implements DateTimePrinterParser
      * if available, or the chronology Id otherwise. The regular ResourceBundle
      * search path is used for looking up the chronology name.
      *
-     * @param $chrono Chronology the chronology, not null
-     * @param $locale Locale the locale, not null
+     * @param Chronology $chrono the chronology, not null
+     * @param Locale $locale the locale, not null
      * @return string the chronology name of chrono in locale, or the id if no name is available
      * @throws NullPointerException if chrono or locale is null
      */

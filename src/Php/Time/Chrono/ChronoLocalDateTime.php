@@ -145,7 +145,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ChronoLocalDateTime::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ChronoLocalDateTime the date-time, not null
      * @throws DateTimeException if unable to convert to a {@code ChronoLocalDateTime}
      * @see Chronology#localDateTime(TemporalAccessor)
@@ -198,7 +198,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field can be queried, false if not
      */
     function isSupported(TemporalField $field);
@@ -218,7 +218,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     function isUnitSupported(TemporalUnit $unit);
@@ -286,7 +286,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -313,7 +313,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -330,7 +330,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      *  return formatter.format(this);
      * </pre>
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -361,7 +361,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * To obtain the later offset during an overlap, call
      * {@link ChronoZonedDateTime#withLaterOffsetAtOverlap()} on the result of this method.
      *
-     * @param $zone ZoneId the time-zone to use, not null
+     * @param ZoneId $zone the time-zone to use, not null
      * @return ChronoZonedDateTime the zoned date-time formed from this date-time, not null
      */
     function atZone(ZoneId $zone);
@@ -376,7 +376,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This default implementation calculates from the epoch-day of the date and the
      * second-of-day of the time.
      *
-     * @param $offset ZoneOffset the offset to use for the conversion, not null
+     * @param ZoneOffset $offset the offset to use for the conversion, not null
      * @return Instant an {@code Instant} representing the same instant, not null
      */
     function toInstant(ZoneOffset $offset);
@@ -392,7 +392,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This default implementation calculates from the epoch-day of the date and the
      * second-of-day of the time.
      *
-     * @param $offset ZoneOffset the offset to use for the conversion, not null
+     * @param ZoneOffset $offset the offset to use for the conversion, not null
      * @return int the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
     function toEpochSecond(ZoneOffset $offset);
@@ -421,7 +421,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * <p>
      * This default implementation performs the comparison defined above.
      *
-     * @param $other ChronoLocalDateTime the other date-time to compare to, not null
+     * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     function compareTo(ChronoLocalDateTime $other);
@@ -437,7 +437,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param $other ChronoLocalDateTime the other date-time to compare to, not null
+     * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if this is after the specified date-time
      */
     function isAfter(ChronoLocalDateTime $other);
@@ -453,7 +453,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param $other ChronoLocalDateTime the other date-time to compare to, not null
+     * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if this is before the specified date-time
      */
     function isBefore(ChronoLocalDateTime $other);
@@ -469,7 +469,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param $other ChronoLocalDateTime the other date-time to compare to, not null
+     * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if the underlying date-time is equal to the specified date-time on the timeline
      */
     function isEqual(ChronoLocalDateTime $other);
@@ -479,7 +479,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * <p>
      * Compares this date-time with another ensuring that the date-time and chronology are the same.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
     function equals($obj);

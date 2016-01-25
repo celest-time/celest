@@ -174,8 +174,8 @@ final class IsoChronology extends AbstractChronology
      * The default implementation behaves as though the formatter was used to
      * format the chronology textual name.
      *
-     * @param $style TextStyle the style of the text required, not null
-     * @param $locale Locale the locale to use, not null
+     * @param TextStyle $style the style of the text required, not null
+     * @param Locale $locale the locale to use, not null
      * @return string the text value of the chronology, not null
      */
     function getDisplayName(TextStyle $style, Locale $locale)
@@ -188,10 +188,10 @@ final class IsoChronology extends AbstractChronology
      * Obtains an ISO local date from the era, year-of-era, month-of-year
      * and day-of-month fields.
      *
-     * @param $era Era the ISO era, not null
-     * @param $yearOfEra int  the ISO year-of-era
-     * @param $month int the ISO month-of-year
-     * @param $dayOfMonth int the ISO day-of-month
+     * @param Era $era the ISO era, not null
+     * @param int $yearOfEra  the ISO year-of-era
+     * @param int $month the ISO month-of-year
+     * @param int $dayOfMonth the ISO day-of-month
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the type of {@code era} is not {@code IsoEra}
@@ -207,9 +207,9 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link LocalDate#of(int, int, int)}.
      *
-     * @param $prolepticYear int the ISO proleptic-year
-     * @param $month int the ISO month-of-year
-     * @param $dayOfMonth int the ISO day-of-month
+     * @param int $prolepticYear the ISO proleptic-year
+     * @param int $month the ISO month-of-year
+     * @param int $dayOfMonth the ISO day-of-month
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -221,9 +221,9 @@ final class IsoChronology extends AbstractChronology
     /**
      * Obtains an ISO local date from the era, year-of-era and day-of-year fields.
      *
-     * @param $era Era the ISO era, not null
-     * @param $yearOfEra int the ISO year-of-era
-     * @param $dayOfYear int the ISO day-of-year
+     * @param Era $era the ISO era, not null
+     * @param int $yearOfEra the ISO year-of-era
+     * @param int $dayOfYear the ISO day-of-year
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -237,8 +237,8 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link LocalDate#ofYearDay(int, int)}.
      *
-     * @param $prolepticYear int the ISO proleptic-year
-     * @param $dayOfYear int the ISO day-of-year
+     * @param int $prolepticYear the ISO proleptic-year
+     * @param int $dayOfYear the ISO day-of-year
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -252,7 +252,7 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link LocalDate#ofEpochDay(long)}.
      *
-     * @param $epochDay int the epoch day
+     * @param int $epochDay the epoch day
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -267,7 +267,7 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link LocalDate#from(TemporalAccessor)}.
      *
-     * @param $temporal TemporalAccessor the date-time object to convert, not null
+     * @param TemporalAccessor $temporal the date-time object to convert, not null
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -281,7 +281,7 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link LocalDateTime#from(TemporalAccessor)}.
      *
-     * @param $temporal TemporalAccessor the date-time object to convert, not null
+     * @param TemporalAccessor $temporal the date-time object to convert, not null
      * @return LocalDateTime the ISO local date-time, not null
      * @throws DateTimeException if unable to create the date-time
      */
@@ -295,7 +295,7 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link ZonedDateTime#from(TemporalAccessor)}.
      *
-     * @param $temporal TemporalAccessor the date-time object to convert, not null
+     * @param TemporalAccessor $temporal the date-time object to convert, not null
      * @return ZonedDateTime the ISO zoned date-time, not null
      * @throws DateTimeException if unable to create the date-time
      */
@@ -309,8 +309,8 @@ final class IsoChronology extends AbstractChronology
      * <p>
      * This is equivalent to {@link ZonedDateTime#ofInstant(Instant, ZoneId)}.
      *
-     * @param $instant Instant the instant to create the date-time from, not null
-     * @param $zone ZoneId the time-zone, not null
+     * @param Instant $instant the instant to create the date-time from, not null
+     * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -361,7 +361,7 @@ final class IsoChronology extends AbstractChronology
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return LocalDate the current ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -387,7 +387,7 @@ final class IsoChronology extends AbstractChronology
      * The calculation is proleptic - applying the same rules into the far future and far past.
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
      *
-     * @param $prolepticYear int the ISO proleptic year to check
+     * @param int $prolepticYear the ISO proleptic year to check
      * @return true if the year is leap, false otherwise
      */
     public function isLeapYear($prolepticYear)
@@ -494,8 +494,8 @@ final class IsoChronology extends AbstractChronology
      *  next or same matching day-of-week once the years and weeks have been handled.
      * </ul>
      *
-     * @param $fieldValues array the map of fields to values, which can be updated, not null
-     * @param $resolverStyle ResolverStyle the requested type of resolve, not null
+     * @param array $fieldValues the map of fields to values, which can be updated, not null
+     * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return LocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
@@ -592,9 +592,9 @@ final class IsoChronology extends AbstractChronology
      * This returns a period tied to the ISO chronology using the specified
      * years, months and days. See {@link Period} for further details.
      *
-     * @param $years int the number of years, may be negative
-     * @param $months int  the number of years, may be negative
-     * @param $days int the number of years, may be negative
+     * @param int $years the number of years, may be negative
+     * @param int $months  the number of years, may be negative
+     * @param int $days the number of years, may be negative
      * @return Period the ISO period, not null
      */
     // override with covariant return type
@@ -616,7 +616,7 @@ final class IsoChronology extends AbstractChronology
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code Chronology::from}.
      *
-     * @param $temporal TemporalAccessor the temporal to convert, not null
+     * @param TemporalAccessor $temporal the temporal to convert, not null
      * @return Chronology the chronology, not null
      * @throws DateTimeException if unable to convert to an {@code Chronology}
      */

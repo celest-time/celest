@@ -15,8 +15,8 @@ class Integer
     const MAX_VALUE = 2147483647;
 
     /**
-     * @param $x int
-     * @param $y int
+     * @param int $x
+     * @param int $y
      * @return int
      */
     public static function compare($x, $y)
@@ -25,7 +25,7 @@ class Integer
     }
 
     /**
-     * @param $str string
+     * @param string $str
      * @return int
      */
     public static function parseInt($str)
@@ -34,7 +34,7 @@ class Integer
     }
 
     /**
-     * @param $val int
+     * @param int $val
      * @return string
      */
     public static function toString($val)

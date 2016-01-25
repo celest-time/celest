@@ -135,7 +135,7 @@ interface TemporalQuery {
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
      *
-     * @param $temporal TemporalAccessor the temporal object to query, not null
+     * @param TemporalAccessor $temporal the temporal object to query, not null
      * @return mixed the queried value, may return null to indicate not found
      * @throws DateTimeException if unable to query
      * @throws ArithmeticException if numeric overflow occurs

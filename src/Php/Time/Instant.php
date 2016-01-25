@@ -294,7 +294,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return Instant the current instant, not null
      */
     public static function nowOf(Clock $clock)
@@ -317,8 +317,8 @@ final class Instant implements Temporal, TemporalAdjuster
      *  Instant.ofEpochSecond(2, 1000_000_001);
      * </pre>
      *
-     * @param $epochSecond int the number of seconds from 1970-01-01T00:00:00Z
-     * @param $nanoAdjustment int the nanosecond adjustment to the number of seconds, positive or negative
+     * @param int $epochSecond the number of seconds from 1970-01-01T00:00:00Z
+     * @param int $nanoAdjustment the nanosecond adjustment to the number of seconds, positive or negative
      * @return Instant an instant, not null
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -336,7 +336,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * The seconds and nanoseconds are extracted from the specified milliseconds.
      *
-     * @param $epochMilli int the number of milliseconds from 1970-01-01T00:00:00Z
+     * @param int $epochMilli the number of milliseconds from 1970-01-01T00:00:00Z
      * @return Instant an instant, not null
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      */
@@ -366,7 +366,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code Instant::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return Instant the instant, not null
      * @throws DateTimeException if unable to convert to an Instant {@code Instant}
      */
@@ -394,7 +394,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * The string must represent a valid instant in UTC and is parsed using
      * {@link DateTimeFormatter#ISO_INSTANT}.
      *
-     * @param $text string the text to parse, not null
+     * @param string $text the text to parse, not null
      * @return Instant the parsed instant, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -407,8 +407,8 @@ final class Instant implements Temporal, TemporalAdjuster
     /**
      * Obtains an instance of {@code Instant} using seconds and nanoseconds.
      *
-     * @param $seconds int the length of the duration in seconds
-     * @param $nanoOfSecond int the nano-of-second, from 0 to 999,999,999
+     * @param int $seconds the length of the duration in seconds
+     * @param int $nanoOfSecond the nano-of-second, from 0 to 999,999,999
      * @return Instant
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      */
@@ -429,8 +429,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * Constructs an instance of {@code Instant} using seconds from the epoch of
      * 1970-01-01T00:00:00Z and nanosecond fraction of second.
      *
-     * @param $epochSecond int the number of seconds from 1970-01-01T00:00:00Z
-     * @param $nanos int the nanoseconds within the second, must be positive
+     * @param int $epochSecond the number of seconds from 1970-01-01T00:00:00Z
+     * @param int $nanos the nanoseconds within the second, must be positive
      */
     private function __construct($epochSecond, $nanos)
     {
@@ -462,7 +462,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this instant, false if not
      */
     public function isSupported(TemporalField $field)
@@ -500,7 +500,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -531,7 +531,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -560,7 +560,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -604,7 +604,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -672,7 +672,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return Instant an Instant {@code Instant} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -719,8 +719,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return Instant an Instant {@code Instant} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -769,7 +769,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $unit TemporalUnit the unit to truncate to, not null
+     * @param TemporalUnit $unit the unit to truncate to, not null
      * @return Instant an {@code Instant} based on this instant with the time truncated, not null
      * @throws DateTimeException if the unit is invalid for truncation
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -809,7 +809,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return Instant an Instant {@code Instant} based on this instant with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -870,8 +870,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return Instant an {@code Instant} based on this instant with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -910,7 +910,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToAdd int the seconds to add, positive or negative
+     * @param int $secondsToAdd the seconds to add, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified seconds added, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -925,7 +925,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $millisToAdd int the milliseconds to add, positive or negative
+     * @param int $millisToAdd the milliseconds to add, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified milliseconds added, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -941,7 +941,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToAdd int the nanoseconds to add, positive or negative
+     * @param int $nanosToAdd the nanoseconds to add, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified nanoseconds added, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -956,8 +956,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToAdd int the seconds to add, positive or negative
-     * @param $nanosToAdd int the nanos to add, positive or negative
+     * @param int $secondsToAdd the seconds to add, positive or negative
+     * @param int $nanosToAdd the nanos to add, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified seconds added, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -991,7 +991,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return Instant an {@code Instant} based on this instant with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1013,8 +1013,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return Instant an {@code Instant} based on this instant with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1031,7 +1031,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToSubtract int the seconds to subtract, positive or negative
+     * @param int $secondsToSubtract the seconds to subtract, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified seconds subtracted, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -1051,7 +1051,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $millisToSubtract int the milliseconds to subtract, positive or negative
+     * @param int $millisToSubtract the milliseconds to subtract, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified milliseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -1071,7 +1071,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToSubtract int the nanoseconds to subtract, positive or negative
+     * @param int $nanosToSubtract the nanoseconds to subtract, positive or negative
      * @return Instant an {@code Instant} based on this instant with the specified nanoseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
@@ -1141,7 +1141,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -1187,8 +1187,8 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end date, exclusive, which is converted to an Instant {@code Instant}, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param Temporal $endExclusive the end date, exclusive, which is converted to an Instant {@code Instant}, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this instant and the end instant
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to an Instant {@code Instant}
@@ -1255,7 +1255,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * This method is equivalent to
      * {@link OffsetDateTime#ofInstant(Instant, ZoneId) OffsetDateTime.ofInstant(this, offset)}.
      *
-     * @param $offset ZoneOffset the offset to combine with, not null
+     * @param ZoneOffset $offset the offset to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this instant and the specified offset, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -1274,7 +1274,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * This method is equivalent to
      * {@link ZonedDateTime#ofInstant(Instant, ZoneId) ZonedDateTime.ofInstant(this, zone)}.
      *
-     * @param $zone ZoneId the zone to combine with, not null
+     * @param ZoneId $zone the zone to combine with, not null
      * @return ZonedDateTime the zoned date-time formed from this instant and the specified zone, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -1312,7 +1312,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * The comparison is based on the time-line position of the instants.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $otherInstant Instant the other instant to compare to, not null
+     * @param Instant $otherInstant the other instant to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      * @throws NullPointerException if otherInstant is null
      */
@@ -1331,7 +1331,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the instants.
      *
-     * @param $otherInstant Instant the other instant to compare to, not null
+     * @param Instant $otherInstant the other instant to compare to, not null
      * @return boolean true if this instant is after the specified instant
      * @throws NullPointerException if otherInstant is null
      */
@@ -1345,7 +1345,7 @@ final class Instant implements Temporal, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the instants.
      *
-     * @param $otherInstant Instant the other instant to compare to, not null
+     * @param Instant $otherInstant the other instant to compare to, not null
      * @return bool true if this instant is before the specified instant
      * @throws NullPointerException if otherInstant is null
      */

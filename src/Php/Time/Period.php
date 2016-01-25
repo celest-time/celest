@@ -174,7 +174,7 @@ final class Period implements ChronoPeriod
      * The resulting period will have the specified years.
      * The months and days units will be zero.
      *
-     * @param $years int the number of years, positive or negative
+     * @param int $years the number of years, positive or negative
      * @return Period the period of years, not null
      */
     public static function ofYears($years)
@@ -188,7 +188,7 @@ final class Period implements ChronoPeriod
      * The resulting period will have the specified months.
      * The years and days units will be zero.
      *
-     * @param $months int the number of months, positive or negative
+     * @param int $months the number of months, positive or negative
      * @return Period the period of months, not null
      */
     public
@@ -204,7 +204,7 @@ final class Period implements ChronoPeriod
      * equal to the number of weeks multiplied by 7.
      * The years and months units will be zero.
      *
-     * @param $weeks int the number of weeks, positive or negative
+     * @param int $weeks the number of weeks, positive or negative
      * @return Period the period, with the input weeks converted to days, not null
      */
     public static function ofWeeks($weeks)
@@ -218,7 +218,7 @@ final class Period implements ChronoPeriod
      * The resulting period will have the specified days.
      * The years and months units will be zero.
      *
-     * @param $days int the number of days, positive or negative
+     * @param int $days the number of days, positive or negative
      * @return Period the period of days, not null
      */
     public static function ofDays($days)
@@ -232,9 +232,9 @@ final class Period implements ChronoPeriod
      * <p>
      * This creates an instance based on years, months and days.
      *
-     * @param $years int the amount of years, may be negative
-     * @param $months int the amount of months, may be negative
-     * @param $days int the amount of days, may be negative
+     * @param int $years the amount of years, may be negative
+     * @param int $months the amount of months, may be negative
+     * @param int $days the amount of days, may be negative
      * @return Period the period of years, months and days, not null
      */
     public static function of($years, $months, $days)
@@ -257,7 +257,7 @@ final class Period implements ChronoPeriod
      * <p>
      * If the amount is a {@code ChronoPeriod} then it must use the ISO chronology.
      *
-     * @param $amount TemporalAmount the temporal amount to convert, not null
+     * @param TemporalAmount $amount the temporal amount to convert, not null
      * @return Period the equivalent period, not null
      * @throws DateTimeException if unable to convert to a {@code Period}
      * @throws ArithmeticException if the amount of years, months or days exceeds an int
@@ -327,7 +327,7 @@ final class Period implements ChronoPeriod
      *   "-P1Y2M"          -- Period.of(-1, -2, 0)
      * </pre>
      *
-     * @param $text string the text to parse, not null
+     * @param string $text the text to parse, not null
      * @return Period the parsed period, not null
      * @throws DateTimeParseException if the text cannot be parsed to a period
      */
@@ -388,8 +388,8 @@ final class Period implements ChronoPeriod
      *
      * TODO better Name
      *
-     * @param $startDateInclusive LocalDate the start date, inclusive, not null
-     * @param $endDateExclusive LocalDate the end date, exclusive, not null
+     * @param LocalDate $startDateInclusive the start date, inclusive, not null
+     * @param LocalDate $endDateExclusive the end date, exclusive, not null
      * @return Period the period between this date and the end date, not null
      * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
@@ -402,9 +402,9 @@ final class Period implements ChronoPeriod
     /**
      * Creates an instance.
      *
-     * @param $years int the amount
-     * @param $months int the amount
-     * @param $days int the amount
+     * @param int $years the amount
+     * @param int $months the amount
+     * @param int $days the amount
      * @return Period
      */
     private
@@ -420,9 +420,9 @@ final class Period implements ChronoPeriod
     /**
      * Constructor.
      *
-     * @param $years int the amount
-     * @param $months int the amount
-     * @param $days int the amount
+     * @param int $years the amount
+     * @param int $months the amount
+     * @param int $days the amount
      */
     private function __construct($years, $months, $days)
     {
@@ -440,7 +440,7 @@ final class Period implements ChronoPeriod
      * {@link ChronoUnit#DAYS DAYS}.
      * All other units throw an exception.
      *
-     * @param $unit TemporalUnit the {@code TemporalUnit} for which to return the value
+     * @param TemporalUnit $unit the {@code TemporalUnit} for which to return the value
      * @return int the long value of the unit
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -577,7 +577,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $years int the years to represent, may be negative
+     * @param int $years the years to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested years, not null
      */
     public function withYears($years)
@@ -600,7 +600,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $months int the months to represent, may be negative
+     * @param int $months the months to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested months, not null
      */
     public function withMonths($months)
@@ -619,7 +619,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $days int the days to represent, may be negative
+     * @param int $days the days to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested days, not null
      */
     public function withDays($days)
@@ -645,7 +645,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return Period a {@code Period} based on this period with the requested period added, not null
      * @throws DateTimeException if the specified amount has a non-ISO chronology or
      *  contains an invalid unit
@@ -669,7 +669,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToAdd int the years to add, positive or negative
+     * @param int $yearsToAdd the years to add, positive or negative
      * @return Period a {@code Period} based on this period with the specified years added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -692,7 +692,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToAdd int the months to add, positive or negative
+     * @param int $monthsToAdd the months to add, positive or negative
      * @return Period a {@code Period} based on this period with the specified months added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -713,7 +713,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToAdd int the days to add, positive or negative
+     * @param int $daysToAdd the days to add, positive or negative
      * @return Period a {@code Period} based on this period with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -740,7 +740,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return Period a {@code Period} based on this period with the requested period subtracted, not null
      * @throws DateTimeException if the specified amount has a non-ISO chronology or
      *  contains an invalid unit
@@ -764,7 +764,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToSubtract int the years to subtract, positive or negative
+     * @param int $yearsToSubtract the years to subtract, positive or negative
      * @return Period a {@code Period} based on this period with the specified years subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -782,7 +782,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToSubtract int the years to subtract, positive or negative
+     * @param int $monthsToSubtract the years to subtract, positive or negative
      * @return Period a {@code Period} based on this period with the specified months subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -800,7 +800,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToSubtract int the months to subtract, positive or negative
+     * @param int $daysToSubtract the months to subtract, positive or negative
      * @return Period a {@code Period} based on this period with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -820,7 +820,7 @@ final class Period implements ChronoPeriod
      * 3 will return "6 years, -9 months and 12 days".
      * No normalization is performed.
      *
-     * @param $scalar int the scalar to multiply by, not null
+     * @param int $scalar the scalar to multiply by, not null
      * @return Period a {@code Period} based on this period with the amounts multiplied by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -927,7 +927,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
@@ -980,7 +980,7 @@ final class Period implements ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
@@ -1024,7 +1024,7 @@ final class Period implements ChronoPeriod
      * Note that this means that a period of "15 Months" is not equal to a period
      * of "1 Year and 3 Months".
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other period
      */
     public function equals($obj)

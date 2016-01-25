@@ -183,7 +183,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return OffsetTime the current time using the system clock, not null
      */
     public static function nowIn(ZoneId $zone)
@@ -200,7 +200,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return OffsetTime the current time, not null
      */
     public
@@ -214,8 +214,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     /**
      * Obtains an instance of {@code OffsetTime} from a local time and an offset.
      *
-     * @param $time LocalTime the local time, not null
-     * @param $offset ZoneOffset the zone offset, not null
+     * @param LocalTime $time the local time, not null
+     * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetTime the offset time, not null
      */
     public static function of(LocalTime $time, ZoneOffset $offset)
@@ -234,11 +234,11 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * equivalent factory method taking fewer arguments.
      * They are not provided here to reduce the footprint of the API.
      *
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @param $nanoOfSecond int the nano-of-second to represent, from 0 to 999,999,999
-     * @param $offset ZoneOffset the zone offset, not null
+     * @param int $hour the hour-of-day to represent, from 0 to 23
+     * @param int $minute the minute-of-hour to represent, from 0 to 59
+     * @param int $second the second-of-minute to represent, from 0 to 59
+     * @param int $nanoOfSecond the nano-of-second to represent, from 0 to 999,999,999
+     * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetTime the offset time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
@@ -260,8 +260,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * This means that the conversion can never fail due to the instant being
      * out of the valid range of dates.
      *
-     * @param $instant Instant the instant to create the time from, not null
-     * @param $zone ZoneId the time-zone, which may be an offset, not null
+     * @param Instant $instant the instant to create the time from, not null
+     * @param ZoneId $zone the time-zone, which may be an offset, not null
      * @return OffsetTime the offset time, not null
      */
     public
@@ -291,7 +291,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code OffsetTime::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return OffsetTime the offset time, not null
      * @throws DateTimeException if unable to convert to an {@code OffsetTime}
      */
@@ -318,7 +318,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * The string must represent a valid time and is parsed using
      * {@link java.time.format.DateTimeFormatter#ISO_OFFSET_TIME}.
      *
-     * @param $text string the text to parse such as "10:15:30+01:00", not null
+     * @param string $text the text to parse such as "10:15:30+01:00", not null
      * @return OffsetTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -332,8 +332,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * The text is parsed using the formatter, returning a time.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return OffsetTime the parsed offset time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -347,8 +347,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     /**
      * Constructor.
      *
-     * @param $time LocalTime the local time, not null
-     * @param $offset ZoneOffset the zone offset, not null
+     * @param LocalTime $time the local time, not null
+     * @param ZoneOffset $offset the zone offset, not null
      */
     private
     function __construct(LocalTime $time, ZoneOffset $offset)
@@ -360,8 +360,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
     /**
      * Returns a new time based on this one, returning {@code this} where possible.
      *
-     * @param $time LocalTime the time to create with, not null
-     * @param $offset ZoneOffset the zone offset to create with, not null
+     * @param LocalTime $time the time to create with, not null
+     * @param ZoneOffset $offset the zone offset to create with, not null
      * @return OffsetTime
      */
     private function _with(LocalTime $time, ZoneOffset $offset)
@@ -409,7 +409,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this time, false if not
      */
     public function isSupported(TemporalField $field)
@@ -446,7 +446,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -477,7 +477,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -513,7 +513,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -543,7 +543,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -588,7 +588,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $offset ZoneOffset the zone offset to change to, not null
+     * @param ZoneOffset $offset the zone offset to change to, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested offset, not null
      */
     public function withOffsetSameLocal(ZoneOffset $offset)
@@ -611,7 +611,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $offset ZoneOffset the zone offset to change to, not null
+     * @param ZoneOffset $offset the zone offset to change to, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested offset, not null
      */
     public
@@ -707,7 +707,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return OffsetTime an {@code OffsetTime} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -754,8 +754,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return OffsetTime an {@code OffsetTime} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -782,7 +782,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hour int the hour-of-day to set in the result, from 0 to 23
+     * @param int $hour the hour-of-day to set in the result, from 0 to 23
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
@@ -798,7 +798,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minute int the minute-of-hour to set in the result, from 0 to 59
+     * @param int $minute the minute-of-hour to set in the result, from 0 to 59
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
@@ -815,7 +815,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $second int the second-of-minute to set in the result, from 0 to 59
+     * @param int $second the second-of-minute to set in the result, from 0 to 59
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
@@ -831,7 +831,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanoOfSecond int the nano-of-second to set in the result, from 0 to 999,999,999
+     * @param int $nanoOfSecond the nano-of-second to set in the result, from 0 to 999,999,999
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested nanosecond, not null
      * @throws DateTimeException if the nanos value is invalid
      */
@@ -858,7 +858,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $unit TemporalUnit the unit to truncate to, not null
+     * @param TemporalUnit $unit the unit to truncate to, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the time truncated, not null
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -884,7 +884,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -912,8 +912,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -937,7 +937,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hours int the hours to add, may be negative
+     * @param int $hours the hours to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the hours added, not null
      */
     public function plusHours($hours)
@@ -953,7 +953,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutes int the minutes to add, may be negative
+     * @param int $minutes the minutes to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the minutes added, not null
      */
     public
@@ -970,7 +970,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $seconds int the seconds to add, may be negative
+     * @param int $seconds the seconds to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the seconds added, not null
      */
     public
@@ -987,7 +987,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanos int the nanos to add, may be negative
+     * @param int $nanos the nanos to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the nanoseconds added, not null
      */
     public function plusNanos($nanos)
@@ -1011,7 +1011,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1033,8 +1033,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1054,7 +1054,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hours int the hours to subtract, may be negative
+     * @param int $hours the hours to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the hours subtracted, not null
      */
     public
@@ -1071,7 +1071,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutes int the minutes to subtract, may be negative
+     * @param int $minutes the minutes to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the minutes subtracted, not null
      */
     public
@@ -1088,7 +1088,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $seconds int the seconds to subtract, may be negative
+     * @param int $seconds the seconds to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the seconds subtracted, not null
      */
     public
@@ -1105,7 +1105,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanos int the nanos to subtract, may be negative
+     * @param int $nanos the nanos to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the nanoseconds subtracted, not null
      */
     public
@@ -1128,7 +1128,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -1170,7 +1170,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -1224,8 +1224,8 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end time, exclusive, which is converted to an {@code OffsetTime}, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param Temporal $endExclusive the end time, exclusive, which is converted to an {@code OffsetTime}, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this time and the end time
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to an {@code OffsetTime}
@@ -1264,7 +1264,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * <p>
      * This time will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -1280,7 +1280,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * This returns an {@code OffsetDateTime} formed from this time and the specified date.
      * All possible combinations of date and time are valid.
      *
-     * @param $date LocalDate the date to combine with, not null
+     * @param LocalDate $date the date to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this time and the specified date, not null
      */
     public
@@ -1326,7 +1326,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * To compare the underlying local time of two {@code TemporalAccessor} instances,
      * use {@link ChronoField#NANO_OF_DAY} as a comparator.
      *
-     * @param $other OffsetTime the other time to compare to, not null
+     * @param OffsetTime $other the other time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      * @throws NullPointerException if {@code other} is null
      */
@@ -1352,7 +1352,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * only compares the instant of the time. This is equivalent to converting both
      * times to an instant using the same date and comparing the instants.
      *
-     * @param $other OffsetTime the other time to compare to, not null
+     * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is after the instant of the specified time
      */
     public function isAfter(OffsetTime $other)
@@ -1368,7 +1368,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * only compares the instant of the time. This is equivalent to converting both
      * times to an instant using the same date and comparing the instants.
      *
-     * @param $other OffsetTime the other time to compare to, not null
+     * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is before the instant of the specified time
      */
     public
@@ -1385,7 +1385,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * in that it only compares the instant of the time. This is equivalent to converting both
      * times to an instant using the same date and comparing the instants.
      *
-     * @param $other OffsetTime the other time to compare to, not null
+     * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is equal to the instant of the specified time
      */
     public function isEqual(OffsetTime $other)
@@ -1404,7 +1404,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * To compare the underlying local time of two {@code TemporalAccessor} instances,
      * use {@link ChronoField#NANO_OF_DAY} as a comparator.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return true if this is equal to the other time
      */
     public function equals($obj)

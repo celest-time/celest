@@ -26,10 +26,10 @@ final class FractionPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $field TemporalField the field to output, not null
-     * @param $minWidth int the minimum width to output, from 0 to 9
-     * @param $maxWidth int the maximum width to output, from 0 to 9
-     * @param $decimalPoint bool whether to output the localized decimal point symbol
+     * @param TemporalField $field the field to output, not null
+     * @param int $minWidth the minimum width to output, from 0 to 9
+     * @param int $maxWidth the maximum width to output, from 0 to 9
+     * @param bool $decimalPoint whether to output the localized decimal point symbol
      */
     public function __construct(TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
     {
@@ -151,7 +151,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * For example, the second-of-minute value of 15 would be returned as 0.25,
      * assuming the standard definition of 60 seconds in a minute.
      *
-     * @param $value int the value to convert, must be valid for this rule
+     * @param int $value the value to convert, must be valid for this rule
      * @return BigDecimal TODO the value as a fraction within the range, from 0 to 1, not null
      * @throws DateTimeException if the value cannot be converted to a fraction
      */
@@ -178,7 +178,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * For example, the fractional second-of-minute of 0.25 would be converted to 15,
      * assuming the standard definition of 60 seconds in a minute.
      *
-     * @param $fraction mixed TODO the fraction to convert, not null
+     * @param mixed $fraction TODO the fraction to convert, not null
      * @return int the value of the field, valid for this rule
      * @throws DateTimeException if the value cannot be converted
      */

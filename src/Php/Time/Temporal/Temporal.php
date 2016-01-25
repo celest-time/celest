@@ -149,7 +149,7 @@ interface Temporal extends TemporalAccessor
      * Implementations must ensure that no observable state is altered when this
      * read-only method is invoked.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit);
@@ -184,7 +184,7 @@ interface Temporal extends TemporalAccessor
      *  return adjuster.adjustInto(this);
      * </pre>
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return Temporal an object of the same type with the specified adjustment made, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -216,8 +216,8 @@ interface Temporal extends TemporalAccessor
      * Instead, an adjusted copy of the original must be returned.
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return Temporal an object of the same type with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -254,7 +254,7 @@ interface Temporal extends TemporalAccessor
      *  return amount.addTo(this);
      * </pre>
      *
-     * @param $amount TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amount the amount to add, not null
      * @return Temporal an object of the same type with the specified adjustment made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -286,8 +286,8 @@ interface Temporal extends TemporalAccessor
      * Instead, an adjusted copy of the original must be returned.
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
-     * @param $amountToAdd int the amount of the specified unit to add, may be negative
-     * @param $unit TemporalUnit  the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the specified unit to add, may be negative
+     * @param TemporalUnit $unit  the unit of the amount to add, not null
      * @return Temporal an object of the same type with the specified period added, not null
      * @throws DateTimeException if the unit cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -324,7 +324,7 @@ interface Temporal extends TemporalAccessor
      *  return amount.subtractFrom(this);
      * </pre>
      *
-     * @param $amount TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amount the amount to subtract, not null
      * @return Temporal an object of the same type with the specified adjustment made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -356,8 +356,8 @@ interface Temporal extends TemporalAccessor
      *      plus(Long.MAX_VALUE, unit).plus(1, unit) : plus(-amountToSubtract, unit));
      * </pre>
      *
-     * @param $amountToSubtract int the amount of the specified unit to subtract, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the specified unit to subtract, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return Temporal an object of the same type with the specified period subtracted, not null
      * @throws DateTimeException if the unit cannot be subtracted
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -429,9 +429,9 @@ interface Temporal extends TemporalAccessor
      * Implementations must ensure that no observable state is altered when this
      * read-only method is invoked.
      *
-     * @param $endExclusive Temporal the end temporal, exclusive, converted to be of the
+     * @param Temporal $endExclusive the end temporal, exclusive, converted to be of the
      *  same type as this object, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this temporal object and the specified one
      *  in terms of the unit; positive if the specified object is later than this one,
      *  negative if it is earlier than this one

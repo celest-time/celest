@@ -161,11 +161,11 @@ final class ZoneRules
     /**
      * Obtains an instance of a ZoneRules.
      *
-     * @param $baseStandardOffset ZoneOffset the standard offset to use before legal rules were set, not null
-     * @param $baseWallOffset ZoneOffset the wall offset to use before legal rules were set, not null
-     * @param $standardOffsetTransitionList ZoneOffsetTransition[] the list of changes to the standard offset, not null
-     * @param $transitionList ZoneOffsetTransition[] the list of transitions, not null
-     * @param $lastRules ZoneOffsetTransitionRule[] the recurring last rules, size 16 or less, not null
+     * @param ZoneOffset $baseStandardOffset the standard offset to use before legal rules were set, not null
+     * @param ZoneOffset $baseWallOffset the wall offset to use before legal rules were set, not null
+     * @param ZoneOffsetTransition $standardOffsetTransitionList[] the list of changes to the standard offset, not null
+     * @param ZoneOffsetTransition $transitionList[] the list of transitions, not null
+     * @param ZoneOffsetTransitionRule $lastRules[] the recurring last rules, size 16 or less, not null
      * @return ZoneRules the zone rules, not null
      */
     public static function of(ZoneOffset $baseStandardOffset,
@@ -181,7 +181,7 @@ final class ZoneRules
     /**
      * Obtains an instance of ZoneRules that has fixed zone rules.
      *
-     * @param $offset ZoneOffset the offset this fixed zone rules is based on, not null
+     * @param ZoneOffset $offset the offset this fixed zone rules is based on, not null
      * @return ZoneRules the zone rules, not null
      * @see #isFixedOffset()
      */
@@ -193,11 +193,11 @@ final class ZoneRules
     /**
      * Creates an instance.
      *
-     * @param $baseStandardOffset ZoneOffset the standard offset to use before legal rules were set, not null
-     * @param $baseWallOffset ZoneOffset the wall offset to use before legal rules were set, not null
-     * @param $standardOffsetTransitionList ZoneOffsetTransition[] the list of changes to the standard offset, not null
-     * @param $transitionList ZoneOffsetTransition[] the list of transitions, not null
-     * @param $lastRules ZoneOffsetTransitionRule[] the recurring last rules, size 16 or less, not null
+     * @param ZoneOffset $baseStandardOffset the standard offset to use before legal rules were set, not null
+     * @param ZoneOffset $baseWallOffset the wall offset to use before legal rules were set, not null
+     * @param ZoneOffsetTransition $standardOffsetTransitionList[] the list of changes to the standard offset, not null
+     * @param ZoneOffsetTransition $transitionList[] the list of transitions, not null
+     * @param ZoneOffsetTransitionRule $lastRules[] the recurring last rules, size 16 or less, not null
      * @throws IllegalArgumentException
      */
     private function __construct(ZoneOffset $baseStandardOffset,
@@ -268,7 +268,7 @@ final class ZoneRules
      * one valid offset for each instant.
      * This method returns that offset.
      *
-     * @param $instant Instant|null the instant to find the offset for, not null, but null
+     * @param Instant|null $instant the instant to find the offset for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the offset, not null
      */
@@ -331,7 +331,7 @@ final class ZoneRules
      * about the correct offset should use a combination of this method,
      * {@link #getValidOffsets(LocalDateTime)} and {@link #getTransition(LocalDateTime)}.
      *
-     * @param $localDateTime LocalDateTime|null the local date-time to query, not null, but null
+     * @param LocalDateTime|null $localDateTime the local date-time to query, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the best available offset for the local date-time, not null
      */
@@ -383,7 +383,7 @@ final class ZoneRules
      * This has never happened in the history of time-zones and thus has no special handling.
      * However, if it were to happen, then the list would return more than 2 entries.
      *
-     * @param $localDateTime LocalDateTime|null the local date-time to query for valid offsets, not null, but null
+     * @param LocalDateTime|null $localDateTime the local date-time to query for valid offsets, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset[] the list of valid offsets, may be immutable, not null
      */
@@ -428,7 +428,7 @@ final class ZoneRules
      *  }
      * </pre>
      *
-     * @param $localDateTime |null  LocalDateTime the local date-time to query for offset transition, not null, but null
+     * @param |null $localDateTime  LocalDateTime the local date-time to query for offset transition, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition the offset transition, null if the local date-time is not in transition
      */
@@ -503,8 +503,8 @@ final class ZoneRules
     /**
      * Finds the offset info for a local date-time and transition.
      *
-     * @param $dt LocalDateTime the date-time, not null
-     * @param $trans ZoneOffsetTransition the transition, not null
+     * @param LocalDateTime $dt the date-time, not null
+     * @param ZoneOffsetTransition $trans the transition, not null
      * @return ZoneOffsetTransition|ZoneOffset the offset info, not null
      */
     private function findOffsetInfo(LocalDateTime $dt, ZoneOffsetTransition $trans)
@@ -535,7 +535,7 @@ final class ZoneRules
     /**
      * Finds the appropriate transition array for the given year.
      *
-     * @param $year int the year, not null
+     * @param int $year the year, not null
      * @return ZoneOffsetTransition[] ZoneOffsetTransition the transition array, not null
      */
     private function findTransitionArray($year)
@@ -567,7 +567,7 @@ final class ZoneRules
      * The standard offset is the offset before any daylight saving time is applied.
      * This is typically the offset applicable during winter.
      *
-     * @param $instant Instant|null the instant to find the offset information for, not null, but null
+     * @param Instant|null $instant the instant to find the offset information for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffset the standard offset, not null
      */
@@ -599,7 +599,7 @@ final class ZoneRules
      * {@link #getOffset(java.time.Instant) actual} and
      * {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param $instant Instant|null the instant to find the daylight savings for, not null, but null
+     * @param Instant|null $instant the instant to find the daylight savings for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return Duration the difference between the standard and actual offset, not null
      */
@@ -624,7 +624,7 @@ final class ZoneRules
      * This default implementation compares the {@link #getOffset(java.time.Instant) actual}
      * and {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param $instant |null Instant the instant to find the offset information for, not null, but null
+     * @param |null $instant Instant the instant to find the offset information for, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return bool the standard offset, not null
      */
@@ -642,9 +642,9 @@ final class ZoneRules
      * This default implementation checks if {@link #getValidOffsets(java.time.LocalDateTime)}
      * contains the specified offset.
      *
-     * @param $localDateTime LocalDateTime the date-time to check, not null, but null
+     * @param LocalDateTime $localDateTime the date-time to check, not null, but null
      *  may be ignored if the rules have a single offset for all instants
-     * @param $offset ZoneOffset the offset to check, null returns false
+     * @param ZoneOffset $offset the offset to check, null returns false
      * @return true if the offset date-time is valid for these rules
      */
     public function isValidOffset($localDateTime, $offset)
@@ -659,7 +659,7 @@ final class ZoneRules
      * For example, if the instant represents a point where "Summer" daylight savings time
      * applies, then the method will return the transition to the next "Winter" time.
      *
-     * @param $instant Instant|null the instant to get the next transition after, not null, but null
+     * @param Instant|null $instant the instant to get the next transition after, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition|null the next transition after the specified instant, null if this is after the last transition
      */
@@ -708,7 +708,7 @@ final class ZoneRules
      * For example, if the instant represents a point where "summer" daylight saving time
      * applies, then the method will return the transition from the previous "winter" time.
      *
-     * @param $instant Instant|null the instant to get the previous transition after, not null, but null
+     * @param Instant|null $instant the instant to get the previous transition after, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition the previous transition after the specified instant, null if this is before the first transition
      */
@@ -819,7 +819,7 @@ final class ZoneRules
      * <p>
      * This definition should result in implementations comparing their entire state.
      *
-     * @param $otherRules mixed the other rules, null returns false
+     * @param mixed $otherRules the other rules, null returns false
      * @return bool true if this rules is the same as that specified
      */
     public

@@ -156,8 +156,8 @@ abstract class ZoneRulesProvider
      * as it will provide greater performance. However, there is a use case where
      * the caching would not be desirable, see {@link #provideRules}.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
-     * @param $forCaching bool whether the rules are being queried for caching,
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
+     * @param bool $forCaching whether the rules are being queried for caching,
      * true if the returned rules will be cached by {@code ZoneId},
      * false if they will be returned to the user without being cached in {@code ZoneId}
      * @return ZoneRules the rules, null if {@code forCaching} is true and this
@@ -190,7 +190,7 @@ abstract class ZoneRulesProvider
      * Thus the map will always contain one element, and will only contain more
      * than one element if historical rule information is available.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
      * @return ZoneRules[] a modifiable copy of the history of the rules for the ID, sorted
      *  from oldest to newest, not null
      * @throws ZoneRulesException if history cannot be obtained for the zone ID
@@ -203,7 +203,7 @@ abstract class ZoneRulesProvider
     /**
      * Gets the provider for the zone ID.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
      * @return ZoneRulesProvider he provider, not null
      * @throws ZoneRulesException if the zone ID is unknown
      */
@@ -234,7 +234,7 @@ abstract class ZoneRulesProvider
      * To ensure the integrity of time-zones already created, there is no way
      * to deregister providers.
      *
-     * @param $provider ZoneRulesProvider the provider to register, not null
+     * @param ZoneRulesProvider $provider the provider to register, not null
      * @throws ZoneRulesException if a zone ID is already registered
      */
     public
@@ -247,7 +247,7 @@ abstract class ZoneRulesProvider
     /**
      * Registers the provider.
      *
-     * @param $provider ZoneRulesProvider the provider to register, not null
+     * @param ZoneRulesProvider $provider the provider to register, not null
      * @throws ZoneRulesException if unable to complete the registration
      */
     private static function registerProvider0(ZoneRulesProvider $provider)
@@ -336,8 +336,8 @@ abstract class ZoneRulesProvider
      * null will prevent the rules from being cached in {@code ZoneId}.
      * When the flag is false, the provider must return non-null rules.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
-     * @param $forCaching bool whether the rules are being queried for caching,
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
+     * @param bool $forCaching whether the rules are being queried for caching,
      * true if the returned rules will be cached by {@code ZoneId},
      * false if they will be returned to the user without being cached in {@code ZoneId}
      * @return ZoneRules the rules, null if {@code forCaching} is true and this
@@ -365,7 +365,7 @@ abstract class ZoneRulesProvider
      * The returned versions remain available and valid for the lifetime of the application.
      * A dynamic provider may increase the set of versions as more data becomes available.
      *
-     * @param $zoneId string the zone ID as defined by {@code ZoneId}, not null
+     * @param string $zoneId the zone ID as defined by {@code ZoneId}, not null
      * @return ZoneRules[] a modifiable copy of the history of the rules for the ID, sorted
      *  from oldest to newest, not null
      * @throws ZoneRulesException if history cannot be obtained for the zone ID

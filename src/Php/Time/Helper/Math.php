@@ -28,7 +28,7 @@ final class Math
     }
 
     /**
-     * @param $val int
+     * @param int $val
      * @return int
      */
     public static function abs($val)
@@ -38,8 +38,8 @@ final class Math
 
     /**
      * TODO overflow check
-     * @param $l int
-     * @param $r int
+     * @param int $l
+     * @param int $r
      * @return int
      */
     public static function multiplyExact($l, $r)
@@ -48,8 +48,8 @@ final class Math
     }
 
     /**
-     * @param $l int
-     * @param $r int
+     * @param int $l
+     * @param int $r
      * @return int
      */
     public static function addExact($l, $r)
@@ -58,8 +58,8 @@ final class Math
     }
 
     /**
-     * @param $dividend int
-     * @param $divisor int
+     * @param int $dividend
+     * @param int $divisor
      * @return int
      */
     public static function floorMod($dividend, $divisor)
@@ -68,8 +68,8 @@ final class Math
     }
 
     /**
-     * @param $dividend int
-     * @param $divisor int
+     * @param int $dividend
+     * @param int $divisor
      * @return int
      */
     public static function floorDiv($dividend, $divisor)
@@ -81,8 +81,8 @@ final class Math
     }
 
     /**
-     * @param $l int
-     * @param $r int
+     * @param int $l
+     * @param int $r
      * @return int
      */
     public static function subtractExact($l, $r)
@@ -91,8 +91,8 @@ final class Math
     }
 
     /**
-     * @param $a int
-     * @param $b int
+     * @param int $a
+     * @param int $b
      * @return int
      */
     public static function min($a, $b)
@@ -101,7 +101,7 @@ final class Math
     }
 
     /**
-     * @param $val int
+     * @param int $val
      * @return int
      */
     public static function toIntExact($val)

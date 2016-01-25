@@ -19,7 +19,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $style TextStyle the style, not null
+     * @param TextStyle $style the style, not null
      */
     public function __construct(TextStyle $style)
     {

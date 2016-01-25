@@ -172,7 +172,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId  the zone ID to use, not null
+     * @param ZoneId $zone  the zone ID to use, not null
      * @return MonthDay the current month-day using the system clock, not null
      */
     public static function nowIn(ZoneId $zone)
@@ -187,7 +187,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return MonthDay the current month-day, not null
      */
     public
@@ -208,8 +208,8 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * there can never be April 31st in any year. By contrast, passing in
      * February 29th is permitted, as that month-day can sometimes be valid.
      *
-     * @param $month Month the month-of-year to represent, not null
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
+     * @param Month $month the month-of-year to represent, not null
+     * @param int $dayOfMonth the day-of-month to represent, from 1 to 31
      * @return MonthDay the month-day, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month
@@ -236,8 +236,8 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * there can never be April 31st in any year. By contrast, passing in
      * February 29th is permitted, as that month-day can sometimes be valid.
      *
-     * @param $month int the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
+     * @param int $month the month-of-year to represent, from 1 (January) to 12 (December)
+     * @param int $dayOfMonth the day-of-month to represent, from 1 to 31
      * @return MonthDay the month-day, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month
@@ -263,7 +263,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code MonthDay::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return MonthDay the month-day, not null
      * @throws DateTimeException if unable to convert to a {@code MonthDay}
      */
@@ -292,7 +292,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * The string must represent a valid month-day.
      * The format is {@code --MM-dd}.
      *
-     * @param $text string the text to parse such as "--12-03", not null
+     * @param string $text the text to parse such as "--12-03", not null
      * @return MonthDay the parsed month-day, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -306,8 +306,8 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * The text is parsed using the formatter, returning a month-day.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return MonthDay the parsed month-day, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -321,8 +321,8 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     /**
      * Constructor, previously validated.
      *
-     * @param $month int the month-of-year to represent, validated from 1 to 12
-     * @param $dayOfMonth int the day-of-month to represent, validated from 1 to 29-31
+     * @param int $month the month-of-year to represent, validated from 1 to 12
+     * @param int $dayOfMonth the day-of-month to represent, validated from 1 to 29-31
      */
     private function __construct($month, $dayOfMonth)
     {
@@ -351,7 +351,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this month-day, false if not
      */
     public function isSupported(TemporalField $field)
@@ -381,7 +381,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -415,7 +415,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -445,7 +445,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -518,7 +518,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * This method checks whether this month and day and the input year form
      * a valid date. This can only return false for February 29th.
      *
-     * @param $year int the year to validate
+     * @param int $year the year to validate
      * @return bool true if the year is valid for this month-day
      * @see Year#isValidMonthDay(MonthDay)
      */
@@ -538,7 +538,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $month int the month-of-year to set in the returned month-day, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to set in the returned month-day, from 1 (January) to 12 (December)
      * @return MonthDay a {@code MonthDay} based on this month-day with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
@@ -556,7 +556,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $month Month the month-of-year to set in the returned month-day, not null
+     * @param Month $month the month-of-year to set in the returned month-day, not null
      * @return MonthDay a {@code MonthDay} based on this month-day with the requested month, not null
      */
     public function with(Month $month)
@@ -577,7 +577,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $dayOfMonth int the day-of-month to set in the return month-day, from 1 to 31
+     * @param int $dayOfMonth the day-of-month to set in the return month-day, from 1 to 31
      * @return MonthDay a {@code MonthDay} based on this month-day with the requested day, not null
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month
@@ -605,7 +605,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -641,7 +641,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -661,7 +661,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This month-day will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted month-day string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -681,7 +681,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $year int the year to use, from MIN_YEAR to MAX_YEAR
+     * @param int $year the year to use, from MIN_YEAR to MAX_YEAR
      * @return LocalDate the local date formed from this month-day and the specified year, not null
      * @throws DateTimeException if the year is outside the valid range of years
      */
@@ -698,7 +698,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * The comparison is based first on value of the month, then on the value of the day.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other MonthDay the other month-day to compare to, not null
+     * @param MonthDay $other the other month-day to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(MonthDay $other)
@@ -714,7 +714,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     /**
      * Checks if this month-day is after the specified month-day.
      *
-     * @param $other MonthDay the other month-day to compare to, not null
+     * @param MonthDay $other the other month-day to compare to, not null
      * @return bool true if this is after the specified month-day
      */
     public
@@ -726,7 +726,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     /**
      * Checks if this month-day is before the specified month-day.
      *
-     * @param $other MonthDay the other month-day to compare to, not null
+     * @param MonthDay $other the other month-day to compare to, not null
      * @return bool true if this point is before the specified month-day
      */
     public
@@ -741,7 +741,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the month-day within a year.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other month-day
      */
     public function equals($obj)

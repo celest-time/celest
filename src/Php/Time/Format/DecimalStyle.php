@@ -157,7 +157,7 @@ final class DecimalStyle
      * <p>
      * This method provides access to locale sensitive decimal style symbols.
      *
-     * @param $locale Locale the locale, not null
+     * @param Locale $locale the locale, not null
      * @return DecimalStyle the decimal style, not null
      */
     public
@@ -192,10 +192,10 @@ final class DecimalStyle
     /**
      * Restricted constructor.
      *
-     * @param $zeroChar string the character to use for the digit of zero
-     * @param $positiveSignChar string the character to use for the positive sign
-     * @param $negativeSignChar string the character to use for the negative sign
-     * @param $decimalPointChar string the character to use for the decimal point
+     * @param string $zeroChar the character to use for the digit of zero
+     * @param string $positiveSignChar the character to use for the positive sign
+     * @param string $negativeSignChar the character to use for the negative sign
+     * @param string $decimalPointChar the character to use for the decimal point
      */
     private function __construct($zeroChar, $positiveSignChar, $negativeSignChar, $decimalPointChar)
     {
@@ -226,7 +226,7 @@ final class DecimalStyle
      * The character used to represent digits may vary by culture.
      * This method specifies the zero character to use, which implies the characters for one to nine.
      *
-     * @param $zeroDigit string the character for zero
+     * @param string $zeroDigit the character for zero
      * @return DecimalStyle a copy with a new character that represents zero, not null
      */
     public
@@ -260,7 +260,7 @@ final class DecimalStyle
      * The character used to represent a positive number may vary by culture.
      * This method specifies the character to use.
      *
-     * @param $positiveSign string the character for the positive sign
+     * @param string $positiveSign the character for the positive sign
      * @return DecimalStyle a copy with a new character that represents the positive sign, not null
      */
     public
@@ -294,7 +294,7 @@ final class DecimalStyle
      * The character used to represent a negative number may vary by culture.
      * This method specifies the character to use.
      *
-     * @param $negativeSign string the character for the negative sign
+     * @param string $negativeSign the character for the negative sign
      * @return DecimalStyle a copy with a new character that represents the negative sign, not null
      */
     public
@@ -328,7 +328,7 @@ final class DecimalStyle
      * The character used to represent a decimal point may vary by culture.
      * This method specifies the character to use.
      *
-     * @param $decimalSeparator string the character for the decimal point
+     * @param string $decimalSeparator the character for the decimal point
      * @return DecimalStyle a copy with a new character that represents the decimal point, not null
      */
     public
@@ -345,7 +345,7 @@ final class DecimalStyle
     /**
      * Checks whether the character is a digit, based on the currently set zero character.
      *
-     * @param $ch string the character to check
+     * @param string $ch the character to check
      * @return int the value, 0 to 9, of the character, or -1 if not a digit
      */
     public function convertToDigit($ch)
@@ -357,7 +357,7 @@ final class DecimalStyle
     /**
      * Converts the input numeric text to the internationalized form using the zero character.
      *
-     * @param $numericText string the text, consisting of digits 0 to 9, to convert, not null
+     * @param string $numericText the text, consisting of digits 0 to 9, to convert, not null
      * @return string the internationalized text, not null
      */
     public function convertNumberToI18N($numericText)
@@ -377,7 +377,7 @@ final class DecimalStyle
     /**
      * Checks if this DecimalStyle is equal to another DecimalStyle.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     public function equals($obj)

@@ -27,6 +27,10 @@ Add $ to phpdoc
 @param ([^$])
 @param \\$$1
 
+Fix Param Order
+@param ([$][a-zA-Z]+) ([a-zA-Z|]+)
+@param $2 $1
+
 Overloaded functions:
 \Php\Time\Temporal\Temporal::with(TemporalAdjuster $adjuster)
 adjust

@@ -28,8 +28,8 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $dateStyle FormatStyle the date style to use, may be null
-     * @param $timeStyle FormatStyle the time style to use, may be null
+     * @param FormatStyle $dateStyle the date style to use, may be null
+     * @param FormatStyle $timeStyle the time style to use, may be null
      */
     public function __construct($dateStyle, $timeStyle)
     {
@@ -56,8 +56,8 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
      * The formatter will be the most appropriate to use for the date and time style in the locale.
      * For example, some locales will use the month name while others will use the number.
      *
-     * @param $locale Locale the locale to use, not null
-     * @param $chrono Chronology the chronology to use, not null
+     * @param Locale $locale the locale to use, not null
+     * @param Chronology $chrono the chronology to use, not null
      * @return DateTimeFormatter the formatter, not null
      * @throws IllegalArgumentException if the formatter cannot be found
      */

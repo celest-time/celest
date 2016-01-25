@@ -80,9 +80,9 @@ class TimeDefinition
      * The WALL type returns the input date-time.
      * The result is intended for use with the wall-offset.
      *
-     * @param $dateTime LocalDateTime the local date-time, not null
-     * @param $standardOffset ZoneOffset the standard offset, not null
-     * @param $wallOffset ZoneOffset the wall offset, not null
+     * @param LocalDateTime $dateTime the local date-time, not null
+     * @param ZoneOffset $standardOffset the standard offset, not null
+     * @param ZoneOffset $wallOffset the wall offset, not null
      * @return LocalDateTime the date-time relative to the wall/before offset, not null
      */
     public function createDateTime(LocalDateTime $dateTime, ZoneOffset $standardOffset, ZoneOffset $wallOffset)

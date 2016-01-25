@@ -133,7 +133,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this era, false if not
      */
     function isSupported(TemporalField $field);
@@ -159,7 +159,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * The default implementation must return a range for {@code ERA} from
      * zero to one, suitable for two era calendar systems such as ISO.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -183,7 +183,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -209,7 +209,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -230,7 +230,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -256,7 +256,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -275,8 +275,8 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * <p>
      * This default implementation is suitable for all implementations.
      *
-     * @param $style TextStyle the style of the text required, not null
-     * @param $locale Locale the locale to use, not null
+     * @param TextStyle $style the style of the text required, not null
+     * @param Locale $locale the locale to use, not null
      * @return string the text value of the era, not null
      */
     function getDisplayName(TextStyle $style, Locale $locale);

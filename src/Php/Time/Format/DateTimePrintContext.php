@@ -191,8 +191,8 @@ final class DateTimePrintContext
     /**
      * Creates a new instance of the context.
      *
-     * @param $temporal TemporalAccessor the temporal object being output, not null
-     * @param $formatter DateTimeFormatter the formatter controlling the format, not null
+     * @param TemporalAccessor $temporal the temporal object being output, not null
+     * @param DateTimeFormatter $formatter the formatter controlling the format, not null
      */
     public function __construct(TemporalAccessor $temporal, DateTimeFormatter $formatter)
     {
@@ -325,7 +325,7 @@ final class DateTimePrintContext
     /**
      * Gets a value using a query.
      *
-     * @param $query TemporalQuery the query to use, not null
+     * @param TemporalQuery $query the query to use, not null
      * @return mixed the result, null if not found and optional is true
      * @throws DateTimeException if the type is not available and the section is not optional
      */
@@ -344,7 +344,7 @@ final class DateTimePrintContext
      * <p>
      * This will return the value for the specified field.
      *
-     * @param $field TemporalField the field to find, not null
+     * @param TemporalField $field the field to find, not null
      * @return int the value, null if not found and optional is true
      * @throws DateTimeException if the field is not available and the section is not optional
      */

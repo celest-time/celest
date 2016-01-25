@@ -215,10 +215,10 @@ final class TzdbZoneRulesCompiler
     }
 
     /**
-     * @param $dstDir string
-     * @param $version string
-     * @param $builtZones ZoneRules[]
-     * @param $links string[]
+     * @param string $dstDir
+     * @param string $version
+     * @param ZoneRules $builtZones[]
+     * @param string $links[]
      */
     private function output($dstDir, $version,
                         array $builtZones,
@@ -281,7 +281,7 @@ final class TzdbZoneRulesCompiler
     /**
      * Parses a source file.
      *
-     * @param $file string the file being read, not null
+     * @param string $file the file being read, not null
      * @throws \Exception if an error occurs
      */
     private
@@ -432,7 +432,7 @@ final class TzdbZoneRulesCompiler
      * Parses a Rule line.
      *
      * @param $s \CachingIterator the line scanner, not null
-     * @param $mdt TZDBMonthDayTime the object to parse into, not null
+     * @param TZDBMonthDayTime $mdt the object to parse into, not null
      */
     private
     function parseMonthDayTime(\CachingIterator $s, TZDBMonthDayTime $mdt)
@@ -521,7 +521,7 @@ final class TzdbZoneRulesCompiler
     }
 
     /**
-     * @param $str string
+     * @param string $str
      * @return DayOfWeek
      * @throws IllegalArgumentException
      */
@@ -650,7 +650,7 @@ final class TzdbZoneRulesCompiler
     /**
      * Prints a verbose message.
      *
-     * @param $message string the message, not null
+     * @param string $message the message, not null
      */
     private function printVerbose($message)
     {

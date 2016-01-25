@@ -958,7 +958,7 @@ class ChronoField implements TemporalField
      * Use {@link Chronology#range(ChronoField)} to access the correct range
      * for a different calendar system.
      *
-     * @param $value int the value to check
+     * @param int $value the value to check
      * @return int the value that was passed in
      */
     public function checkValidValue($value)
@@ -978,7 +978,7 @@ class ChronoField implements TemporalField
      * Use {@link Chronology#range(ChronoField)} to access the correct range
      * for a different calendar system.
      *
-     * @param $value int the value to check
+     * @param int $value the value to check
      * @return int the value that was passed in
      */
     public function checkValidIntValue($value)
@@ -1070,9 +1070,9 @@ class ChronoField implements TemporalField
      * The default implementation must return null.
      *
      * @param $fieldValues [] Map<TemporalField, Long> the map of fields to values, which can be updated, not null
-     * @param $partialTemporal TemporalAccessor the partially complete temporal to query for zone and
+     * @param TemporalAccessor $partialTemporal the partially complete temporal to query for zone and
      *  chronology; querying for other things is undefined and not recommended, not null
-     * @param $resolverStyle ResolverStyle the requested type of resolve, not null
+     * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return TemporalAccessor the resolved temporal object; null if resolving only
      *  changed the map, or no resolve occurred
      * @throws ArithmeticException if numeric overflow occurs

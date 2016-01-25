@@ -33,9 +33,9 @@ final class TextPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $field TemporalField the field to output, not null
-     * @param $textStyle TextStyle the text style, not null
-     * @param $provider DateTimeTextProvider the text provider, not null
+     * @param TemporalField $field the field to output, not null
+     * @param TextStyle $textStyle the text style, not null
+     * @param DateTimeTextProvider $provider the text provider, not null
      */
     public function __construct(TemporalField $field, TextStyle $textStyle, DateTimeTextProvider $provider)
     {

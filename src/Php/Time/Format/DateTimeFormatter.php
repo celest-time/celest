@@ -517,7 +517,7 @@ class DateTimeFormatter
      * The returned formatter has no override chronology or zone.
      * It uses {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $pattern string the pattern to use, not null
+     * @param string $pattern the pattern to use, not null
      * @return DateTimeFormatter the formatter based on the pattern, not null
      * @throws IllegalArgumentException if the pattern is invalid
      * @see DateTimeFormatterBuilder#appendPattern(String)
@@ -541,8 +541,8 @@ class DateTimeFormatter
      * The returned formatter has no override chronology or zone.
      * It uses {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $pattern string the pattern to use, not null
-     * @param $locale Locale the locale to use, not null
+     * @param string $pattern the pattern to use, not null
+     * @param Locale $locale the locale to use, not null
      * @return DateTimeFormatter the formatter based on the pattern, not null
      * @throws IllegalArgumentException if the pattern is invalid
      * @see DateTimeFormatterBuilder#appendPattern(String)
@@ -573,7 +573,7 @@ class DateTimeFormatter
      * other calendar systems are correctly converted.
      * It has no override zone and uses the {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $dateStyle FormatStyle the formatter style to obtain, not null
+     * @param FormatStyle $dateStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the date formatter, not null
      */
     public
@@ -602,7 +602,7 @@ class DateTimeFormatter
      * other calendar systems are correctly converted.
      * It has no override zone and uses the {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $timeStyle FormatStyle the formatter style to obtain, not null
+     * @param FormatStyle $timeStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the time formatter, not null
      */
     public
@@ -631,7 +631,7 @@ class DateTimeFormatter
      * other calendar systems are correctly converted.
      * It has no override zone and uses the {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $dateTimeStyle FormatStyle the formatter style to obtain, not null
+     * @param FormatStyle $dateTimeStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the date-time formatter, not null
      */
     public
@@ -660,8 +660,8 @@ class DateTimeFormatter
      * other calendar systems are correctly converted.
      * It has no override zone and uses the {@link ResolverStyle#SMART SMART} resolver style.
      *
-     * @param $dateStyle FormatStyle the date formatter style to obtain, not null
-     * @param $timeStyle FormatStyle the time formatter style to obtain, not null
+     * @param FormatStyle $dateStyle the date formatter style to obtain, not null
+     * @param FormatStyle $timeStyle the time formatter style to obtain, not null
      * @return DateTimeFormatter the date, time or date-time formatter, not null
      */
     public
@@ -1412,13 +1412,13 @@ class DateTimeFormatter
     /**
      * Constructor.
      *
-     * @param $printerParser CompositePrinterParser the printer/parser to use, not null
-     * @param $locale Locale the locale to use, not null
-     * @param $decimalStyle DecimalStyle the DecimalStyle to use, not null
-     * @param $resolverStyle ResolverStyle the resolver style to use, not null
+     * @param CompositePrinterParser $printerParser the printer/parser to use, not null
+     * @param Locale $locale the locale to use, not null
+     * @param DecimalStyle $decimalStyle the DecimalStyle to use, not null
+     * @param ResolverStyle $resolverStyle the resolver style to use, not null
      * @param $resolverFields \SplObjectStorage|null TemporalField the fields to use during resolving, null for all fields
-     * @param $chrono Chronology|null the chronology to use, null for no override
-     * @param $zone ZoneId|null the zone to use, null for no override
+     * @param Chronology|null $chrono the chronology to use, null for no override
+     * @param ZoneId|null $zone the zone to use, null for no override
      */
     public function __construct(CompositePrinterParser $printerParser,
                                 Locale $locale, DecimalStyle $decimalStyle,
@@ -1457,7 +1457,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $locale Locale the new locale, not null
+     * @param Locale $locale the new locale, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested locale, not null
      */
     public
@@ -1485,7 +1485,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $decimalStyle DecimalStyle the new DecimalStyle, not null
+     * @param DecimalStyle $decimalStyle the new DecimalStyle, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested DecimalStyle, not null
      */
     public
@@ -1544,7 +1544,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $chrono Chronology the new chronology, null if no override
+     * @param Chronology $chrono the new chronology, null if no override
      * @return DateTimeFormatter a formatter based on this formatter with the requested override chronology, not null
      */
     public
@@ -1604,7 +1604,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $zone ZoneId the new override zone, null if no override
+     * @param ZoneId $zone the new override zone, null if no override
      * @return DateTimeFormatter a formatter based on this formatter with the requested override zone, not null
      */
     public
@@ -1650,7 +1650,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $resolverStyle ResolverStyle the new resolver style, not null
+     * @param ResolverStyle $resolverStyle the new resolver style, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
     public
@@ -1714,7 +1714,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $resolverFields TemporalField[] the new set of resolver fields, null if no fields
+     * @param TemporalField $resolverFields[] the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
 // TODO better way?
@@ -1791,7 +1791,7 @@ class DateTimeFormatter
      * <p>
      * This formats the date-time to a String using the rules of the formatter.
      *
-     * @param $temporal TemporalAccessor the temporal object to format, not null
+     * @param TemporalAccessor $temporal the temporal object to format, not null
      * @return String the formatted string, not null
      * @throws DateTimeException if an error occurs during formatting
      */
@@ -1815,8 +1815,8 @@ class DateTimeFormatter
      * Although {@code Appendable} methods throw an {@code IOException}, this method does not.
      * Instead, any {@code IOException} is wrapped in a runtime exception.
      *
-     * @param $temporal TemporalAccessor the temporal object to format, not null
-     * @param $appendable string the appendable to format to, not null
+     * @param TemporalAccessor $temporal the temporal object to format, not null
+     * @param string $appendable the appendable to format to, not null
      * @throws DateTimeException if an error occurs during formatting
      */
     public
@@ -1837,7 +1837,7 @@ class DateTimeFormatter
      * If the parse completes without reading the entire length of the text,
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
-     * @param $text string the text to parse, not null
+     * @param string $text the text to parse, not null
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
@@ -1877,8 +1877,8 @@ class DateTimeFormatter
      * If the formatter parses the same field more than once with different values,
      * the result will be an error.
      *
-     * @param $text string the text to parse, not null
-     * @param $position ParsePosition the position to parse from, updated with length parsed
+     * @param string $text the text to parse, not null
+     * @param ParsePosition $position the position to parse from, updated with length parsed
      *  and the index of any error, not null
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
@@ -1911,8 +1911,8 @@ class DateTimeFormatter
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
      * @param <T> the type of the parsed date-time
-     * @param $text string the text to parse, not null
-     * @param $query TemporalQuery the query defining the type to parse to, not null
+     * @param string $text the text to parse, not null
+     * @param TemporalQuery $query the query defining the type to parse to, not null
      * @return mixed the parsed date-time, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
@@ -1952,8 +1952,8 @@ class DateTimeFormatter
      * If the parse completes without reading the entire length of the text,
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
-     * @param $text string the text to parse, not null
-     * @param $queries TemporalQuery[] the queries defining the types to attempt to parse to,
+     * @param string $text the text to parse, not null
+     * @param TemporalQuery $queries[] the queries defining the types to attempt to parse to,
      *  must implement {@code TemporalAccessor}, not null
      * @return TemporalAccessor the parsed date-time, not null
      * @throws DateTimeException
@@ -2001,8 +2001,8 @@ class DateTimeFormatter
      * <p>
      * This parses to a {@code TemporalAccessor} ensuring that the text is fully parsed.
      *
-     * @param $text string the text to parse, not null
-     * @param $position ParsePosition|null the position to parse from, updated with length parsed
+     * @param string $text the text to parse, not null
+     * @param ParsePosition|null $position the position to parse from, updated with length parsed
      *  and the index of any error, null if parsing whole string
      * @return TemporalAccessor the resolved result of the parse, not null
      * @throws DateTimeParseException if the parse fails
@@ -2062,8 +2062,8 @@ class DateTimeFormatter
      * internal state during parsing. Typical application code should use
      * {@link #parse(CharSequence, TemporalQuery)} or the parse method on the target type.
      *
-     * @param $text string the text to parse, not null
-     * @param $position ParsePosition the position to parse from, updated with length parsed
+     * @param string $text the text to parse, not null
+     * @param ParsePosition $position the position to parse from, updated with length parsed
      *  and the index of any error, not null
      * @return TemporalAccessor the parsed text, null if the parse results in an error
      * @throws DateTimeException if some problem occurs during parsing
@@ -2098,7 +2098,7 @@ class DateTimeFormatter
     /**
      * Returns the formatter as a composite printer parser.
      *
-     * @param $optional bool whether the printer/parser should be optional
+     * @param bool $optional whether the printer/parser should be optional
      * @return CompositePrinterParser the printer/parser, not null
      */
     function toPrinterParser($optional)

@@ -235,8 +235,8 @@ final class Parsed implements TemporalAccessor
     /**
      * Resolves the fields in this context.
      *
-     * @param $resolverStyle ResolverStyle the resolver style, not null
-     * @param $resolverFields TemporalField[] the fields to use for resolving, null for all fields
+     * @param ResolverStyle $resolverStyle the resolver style, not null
+     * @param TemporalField $resolverFields[] the fields to use for resolving, null for all fields
      * @return $this, for method chaining
      * @throws DateTimeException if resolving one field results in a value for
      *  another field that is in conflict
@@ -765,7 +765,7 @@ final class Parsed implements TemporalAccessor
      *  return field.rangeRefinedBy(this);
      * </pre>
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -804,7 +804,7 @@ final class Parsed implements TemporalAccessor
      *  throw new UnsupportedTemporalTypeException("Invalid field " + field + " + for get() method, use getLong() instead");
      * </pre>
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field, within the valid range of values
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field

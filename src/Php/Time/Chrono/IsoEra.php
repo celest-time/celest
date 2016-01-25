@@ -143,7 +143,7 @@ class IsoEra implements Era
     private $val;
 
     /**
-     * @param $val int
+     * @param int $val
      */
     private function __construct($val)
     {
@@ -157,7 +157,7 @@ class IsoEra implements Era
      * {@code IsoEra} is an enum representing the ISO eras of BCE/CE.
      * This factory allows the enum to be obtained from the {@code int} value.
      *
-     * @param $isoEra int the BCE/CE value to represent, from 0 (BCE) to 1 (CE)
+     * @param int $isoEra the BCE/CE value to represent, from 0 (BCE) to 1 (CE)
      * @return IsoEra the era singleton, not null
      * @throws DateTimeException if the value is invalid
      */

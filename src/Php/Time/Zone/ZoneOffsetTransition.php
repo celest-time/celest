@@ -114,10 +114,10 @@ final class ZoneOffsetTransition
      * Applications should normally obtain an instance from {@link ZoneRules}.
      * This factory is only intended for use when creating {@link ZoneRules}.
      *
-     * @param $transition LocalDateTime the transition date-time at the transition, which never
+     * @param LocalDateTime $transition the transition date-time at the transition, which never
      *  actually occurs, expressed local to the before offset, not null
-     * @param $offsetBefore ZoneOffset the offset before the transition, not null
-     * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
+     * @param ZoneOffset $offsetBefore the offset before the transition, not null
+     * @param ZoneOffset $offsetAfter the offset at and after the transition, not null
      * @return ZoneOffsetTransition the transition, not null
      * @throws IllegalArgumentException if {@code offsetBefore} and {@code offsetAfter}
      *         are equal, or {@code transition.getNano()} returns non-zero value
@@ -136,9 +136,9 @@ final class ZoneOffsetTransition
     /**
      * Creates an instance from epoch-second and offsets.
      *
-     * @param $epochSecond int the transition epoch-second
-     * @param $offsetBefore ZoneOffset the offset before the transition, not null
-     * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
+     * @param int $epochSecond the transition epoch-second
+     * @param ZoneOffset $offsetBefore the offset before the transition, not null
+     * @param ZoneOffset $offsetAfter the offset at and after the transition, not null
      * @return ZoneOffsetTransition
      */
     public static function ofEpoch($epochSecond, ZoneOffset $offsetBefore, ZoneOffset $offsetAfter)
@@ -149,9 +149,9 @@ final class ZoneOffsetTransition
     /**
      * Creates an instance defining a transition between two offsets.
      *
-     * @param $transition LocalDateTime the transition date-time with the offset before the transition, not null
-     * @param $offsetBefore ZoneOffset the offset before the transition, not null
-     * @param $offsetAfter ZoneOffset the offset at and after the transition, not null
+     * @param LocalDateTime $transition the transition date-time with the offset before the transition, not null
+     * @param ZoneOffset $offsetBefore the offset before the transition, not null
+     * @param ZoneOffset $offsetAfter the offset at and after the transition, not null
      *
      * TODO make private, RulesCompiler kinda needs  access
      */
@@ -309,7 +309,7 @@ final class ZoneOffsetTransition
      * A gap will always return false.
      * An overlap will return true if the offset is either the before or after offset.
      *
-     * @param $offset ZoneOffset the offset to check, null returns false
+     * @param ZoneOffset $offset the offset to check, null returns false
      * @return true if the offset is valid during the transition
      */
     public function isValidOffset(ZoneOffset $offset)
@@ -339,7 +339,7 @@ final class ZoneOffsetTransition
      * This compares the instants of each transition.
      * The offsets are ignored, making this order inconsistent with equals.
      *
-     * @param $transition ZoneOffsetTransition the transition to compare to, not null
+     * @param ZoneOffsetTransition $transition the transition to compare to, not null
      * @return bool the comparator value, negative if less, positive if greater
      */
     public function compareTo(ZoneOffsetTransition $transition)
@@ -353,7 +353,7 @@ final class ZoneOffsetTransition
      * <p>
      * The entire state of the object is compared.
      *
-     * @param $other mixed the other object to compare to, null returns false
+     * @param mixed $other the other object to compare to, null returns false
      * @return bool true if equal
      */
     public function equals($other)

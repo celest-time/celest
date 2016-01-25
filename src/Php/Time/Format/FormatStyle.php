@@ -67,7 +67,7 @@ class FormatStyle {
     private $val;
 
     /**
-     * @param $val int
+     * @param int $val
      */
     private function __construct($val) {
         $this->val = $val;

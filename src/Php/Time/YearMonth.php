@@ -167,7 +167,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return YearMonth the current year-month using the system clock, not null
      */
     public
@@ -183,7 +183,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return YearMonth the current year-month, not null
      */
     public
@@ -197,8 +197,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
     /**
      * Obtains an instance of {@code YearMonth} from a year and month.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month Month the month-of-year to represent, not null
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param Month $month the month-of-year to represent, not null
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if the year value is invalid
      */
@@ -211,8 +211,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
     /**
      * Obtains an instance of {@code YearMonth} from a year and month.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, from 1 (January) to 12 (December)
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param int $month the month-of-year to represent, from 1 (January) to 12 (December)
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if either field value is invalid
      */
@@ -240,7 +240,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code YearMonth::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if unable to convert to a {@code YearMonth}
      */
@@ -270,7 +270,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * The format must be {@code uuuu-MM}.
      * Years outside the range 0000 to 9999 must be prefixed by the plus or minus symbol.
      *
-     * @param $text string the text to parse such as "2007-12", not null
+     * @param string $text the text to parse such as "2007-12", not null
      * @return YearMonth the parsed year-month, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -284,8 +284,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * The text is parsed using the formatter, returning a year-month.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return YearMonth the parsed year-month, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -299,8 +299,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
     /**
      * Constructor.
      *
-     * @param $year int the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, validated from 1 (January) to 12 (December)
+     * @param int $year the year to represent, validated from MIN_YEAR to MAX_YEAR
+     * @param int $month the month-of-year to represent, validated from 1 (January) to 12 (December)
      */
     private
     function __construct($year, $month)
@@ -313,8 +313,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * Returns a copy of this year-month with the new year and month, checking
      * to see if a new object is in fact required.
      *
-     * @param $newYear int  the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param $newMonth int the month-of-year to represent, validated not null
+     * @param int $newYear  the year to represent, validated from MIN_YEAR to MAX_YEAR
+     * @param int $newMonth the month-of-year to represent, validated not null
      * @return YearMonth the year-month, not null
      */
     private function _with($newYear, $newMonth)
@@ -351,7 +351,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this year-month, false if not
      */
     public function isSupported(TemporalField $field)
@@ -388,7 +388,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -419,7 +419,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -452,7 +452,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -482,7 +482,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -591,7 +591,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * This method checks whether this year and month and the input day form
      * a valid date.
      *
-     * @param $dayOfMonth int the day-of-month to validate, from 1 to 31, invalid value returns false
+     * @param int $dayOfMonth the day-of-month to validate, from 1 to 31, invalid value returns false
      * @return bool true if the day is valid for this year-month
      */
     public function isValidDay($dayOfMonth)
@@ -643,7 +643,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return YearMonth a {@code YearMonth} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -694,8 +694,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return YearMonth a {@code YearMonth} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -730,7 +730,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $year int the year to set in the returned year-month, from MIN_YEAR to MAX_YEAR
+     * @param int $year the year to set in the returned year-month, from MIN_YEAR to MAX_YEAR
      * @return YearMonth a {@code YearMonth} based on this year-month with the requested year, not null
      * @throws DateTimeException if the year value is invalid
      */
@@ -745,7 +745,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $month int the month-of-year to set in the returned year-month, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to set in the returned year-month, from 1 (January) to 12 (December)
      * @return YearMonth a {@code YearMonth} based on this year-month with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
@@ -772,7 +772,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return YearMonth a {@code YearMonth} based on this year-month with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -826,8 +826,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return YearMonth a {@code YearMonth} based on this year-month with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -862,7 +862,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToAdd int the years to add, may be negative
+     * @param int $yearsToAdd the years to add, may be negative
      * @return YearMonth a {@code YearMonth} based on this year-month with the years added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -880,7 +880,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToAdd int  the months to add, may be negative
+     * @param int $monthsToAdd  the months to add, may be negative
      * @return YearMonth a {@code YearMonth} based on this year-month with the months added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -912,7 +912,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return YearMonth a {@code YearMonth} based on this year-month with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -934,8 +934,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return YearMonth a {@code YearMonth} based on this year-month with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -951,7 +951,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToSubtract int the years to subtract, may be negative
+     * @param int $yearsToSubtract the years to subtract, may be negative
      * @return YearMonth a {@code YearMonth} based on this year-month with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -965,7 +965,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToSubtract int the months to subtract, may be negative
+     * @param int $monthsToSubtract the months to subtract, may be negative
      * @return YearMonth a {@code YearMonth} based on this year-month with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -988,7 +988,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -1025,7 +1025,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -1078,8 +1078,8 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end date, exclusive, which is converted to a {@code YearMonth}, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param Temporal $endExclusive the end date, exclusive, which is converted to a {@code YearMonth}, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this year-month and the end year-month
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to a {@code YearMonth}
@@ -1116,7 +1116,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * This year-month will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted year-month string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -1138,7 +1138,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      *  LocalDate date = year.atMonth(month).atDay(day);
      * </pre>
      *
-     * @param $dayOfMonth int the day-of-month to use, from 1 to 31
+     * @param int $dayOfMonth the day-of-month to use, from 1 to 31
      * @return LocalDate the date formed from this year-month and the specified day, not null
      * @throws DateTimeException if the day is invalid for the year-month
      * @see #isValidDay(int)
@@ -1175,7 +1175,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * The comparison is based first on the value of the year, then on the value of the month.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other YearMonth the other year-month to compare to, not null
+     * @param YearMonth $other the other year-month to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(YearMonth $other)
@@ -1191,7 +1191,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     /**
      * Checks if this year-month is after the specified year-month.
      *
-     * @param $other YearMonth the other year-month to compare to, not null
+     * @param YearMonth $other the other year-month to compare to, not null
      * @return bool true if this is after the specified year-month
      */
     public function isAfter(YearMonth $other)
@@ -1202,7 +1202,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     /**
      * Checks if this year-month is before the specified year-month.
      *
-     * @param $other YearMonth the other year-month to compare to, not null
+     * @param YearMonth $other the other year-month to compare to, not null
      * @return bool true if this point is before the specified year-month
      */
     public function isBefore(YearMonth $other)
@@ -1216,7 +1216,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the year-months.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other year-month
      */
     public function equals($obj)

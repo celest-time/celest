@@ -109,7 +109,7 @@ interface TemporalAmount {
      * Typically, the implementation would define additional units
      * as conversions for the convenience of developers.
      *
-     * @param $unit TemporalUnit the {@code TemporalUnit} for which to return the value
+     * @param TemporalUnit $unit the {@code TemporalUnit} for which to return the value
      * @return int the long value of the unit
      * @throws DateTimeException if a value for the unit cannot be obtained
      * @throws UnsupportedTemporalTypeException if the {@code unit} is not supported
@@ -168,7 +168,7 @@ interface TemporalAmount {
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
      *
-     * @param $temporal Temporal the temporal object to add the amount to, not null
+     * @param Temporal $temporal the temporal object to add the amount to, not null
      * @return Temporal an object of the same observable type with the addition made, not null
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
@@ -210,7 +210,7 @@ interface TemporalAmount {
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
      *
-     * @param $temporal Temporal the temporal object to subtract the amount from, not null
+     * @param Temporal $temporal the temporal object to subtract the amount from, not null
      * @return Temporal an object of the same observable type with the subtraction made, not null
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs

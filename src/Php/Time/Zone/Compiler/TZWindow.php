@@ -37,9 +37,9 @@ class TZWindow
     /**
      * Constructor.
      *
-     * @param $standardOffset ZoneOffset the standard offset applicable during the window, not null
-     * @param $windowEnd LocalDateTime the end of the window, relative to the time definition, null if forever
-     * @param $timeDefinition TimeDefinition the time definition for calculating the true end, not null
+     * @param ZoneOffset $standardOffset the standard offset applicable during the window, not null
+     * @param LocalDateTime $windowEnd the end of the window, relative to the time definition, null if forever
+     * @param TimeDefinition $timeDefinition the time definition for calculating the true end, not null
      */
     public function __construct(
         ZoneOffset $standardOffset,
@@ -54,7 +54,7 @@ class TZWindow
     /**
      * Sets the fixed savings amount for the window.
      *
-     * @param $fixedSavingAmount int the amount of daylight saving to apply throughout the window, may be null
+     * @param int $fixedSavingAmount the amount of daylight saving to apply throughout the window, may be null
      * @throws \LogicException if the window already has rules
      */
     function setFixedSavings($fixedSavingAmount)
@@ -69,16 +69,16 @@ class TZWindow
     /**
      * Adds a rule to the current window.
      *
-     * @param $startYear int the start year of the rule, from MIN_VALUE to MAX_VALUE
-     * @param $endYear int the end year of the rule, from MIN_VALUE to MAX_VALUE
-     * @param $month Month the month of the transition, not null
-     * @param $dayOfMonthIndicator int the day-of-month of the transition, adjusted by dayOfWeek,
+     * @param int $startYear the start year of the rule, from MIN_VALUE to MAX_VALUE
+     * @param int $endYear the end year of the rule, from MIN_VALUE to MAX_VALUE
+     * @param Month $month the month of the transition, not null
+     * @param int $dayOfMonthIndicator the day-of-month of the transition, adjusted by dayOfWeek,
      *   from 1 to 31 adjusted later, or -1 to -28 adjusted earlier from the last day of the month
-     * @param $dayOfWeek DayOfWeek|null the day-of-week to adjust to, null if day-of-month should not be adjusted
-     * @param $time LocalTime the time that the transition occurs as defined by timeDefintion, not null
-     * @param $timeEndOfDay bool whether midnight is at the end of day
-     * @param $timeDefinition TimeDefinition the definition of how to convert local to actual time, not null
-     * @param $savingAmountSecs int the amount of saving from the standard offset in seconds
+     * @param DayOfWeek|null $dayOfWeek the day-of-week to adjust to, null if day-of-month should not be adjusted
+     * @param LocalTime $time the time that the transition occurs as defined by timeDefintion, not null
+     * @param bool $timeEndOfDay whether midnight is at the end of day
+     * @param TimeDefinition $timeDefinition the definition of how to convert local to actual time, not null
+     * @param int $savingAmountSecs the amount of saving from the standard offset in seconds
      * @throws \LogicException if the window already has fixed savings
      * @throws \LogicException if the window has reached the maximum capacity of 2000 rules
      */
@@ -122,7 +122,7 @@ class TZWindow
     /**
      * Validates that this window is after the previous one.
      *
-     * @param $previous TZWindow the previous window, not null
+     * @param TZWindow $previous the previous window, not null
      * @throws \LogicException if the window order is invalid
      */
     function validateWindowOrder(TZWindow $previous)
@@ -137,7 +137,7 @@ class TZWindow
      * Adds rules to make the last rules all start from the same year.
      * Also add one more year to avoid weird case where penultimate year has odd offset.
      *
-     * @param $windowStartYear int the window start year
+     * @param int $windowStartYear the window start year
      * @throws \LogicException if there is only one rule defined as being forever
      */
     function tidy($windowStartYear)
@@ -195,7 +195,7 @@ class TZWindow
     /**
      * Creates the wall offset for the local date-time at the end of the window.
      *
-     * @param $savingsSecs int the amount of savings in use in seconds
+     * @param int $savingsSecs the amount of savings in use in seconds
      * @return ZoneOffset the created date-time epoch second in the wall offset, not null
      */
     function createWallOffset($savingsSecs)
@@ -206,7 +206,7 @@ class TZWindow
     /**
      * Creates the offset date-time for the local date-time at the end of the window.
      *
-     * @param $savingsSecs int the amount of savings in use in seconds
+     * @param int $savingsSecs the amount of savings in use in seconds
      * @return int the created date-time epoch second in the wall offset, not null
      */
     function createDateTimeEpochSecond($savingsSecs)

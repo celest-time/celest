@@ -115,7 +115,7 @@ final class DateTimeParseContext
     /**
      * Creates a new instance of the context.
      *
-     * @param $formatter DateTimeFormatter the formatter controlling the parse, not null
+     * @param DateTimeFormatter $formatter the formatter controlling the parse, not null
      */
     public function __construct(DateTimeFormatter $formatter)
     {
@@ -193,7 +193,7 @@ final class DateTimeParseContext
     /**
      * Sets whether the parsing is case sensitive or not.
      *
-     * @param $caseSensitive bool changes the parsing to be case sensitive or not from now on
+     * @param bool $caseSensitive changes the parsing to be case sensitive or not from now on
      */
     public function setCaseSensitive($caseSensitive)
     {
@@ -209,7 +209,7 @@ final class DateTimeParseContext
      * @param $offset1 int the offset into the first sequence, valid
      * @param $cs2 string the second character sequence, not null
      * @param $offset2 int the offset into the second sequence, valid
-     * @param $length int the length to check, valid
+     * @param int $length the length to check, valid
      * @return bool true if equal
      */
     public function subSequenceEquals($cs1, $offset1, $cs2, $offset2, $length)
@@ -289,7 +289,7 @@ final class DateTimeParseContext
     /**
      * Sets whether parsing is strict or lenient.
      *
-     * @param $strict bool changes the parsing to be strict or lenient from now on
+     * @param bool $strict changes the parsing to be strict or lenient from now on
      */
     public function setStrict($strict)
     {
@@ -308,7 +308,7 @@ final class DateTimeParseContext
     /**
      * Ends the parsing of an optional segment of the input.
      *
-     * @param $successful bool whether the optional segment was successfully parsed
+     * @param bool $successful whether the optional segment was successfully parsed
      */
     public function endOptional($successful)
     {
@@ -345,7 +345,7 @@ final class DateTimeParseContext
      * Gets the resolved result of the parse.
      *
      * @param ResolverStyle $resolverStyle
-     * @param $resolverFields TemporalField[]
+     * @param TemporalField $resolverFields[]
      * @return \Php\Time\Temporal\TemporalAccessor the result of the parse, not null
      */
     public function toResolved(ResolverStyle $resolverStyle, $resolverFields)
@@ -366,7 +366,7 @@ final class DateTimeParseContext
      * The field may have an out of range value.
      * For example, the day-of-month might be set to 50, or the hour to 1000.
      *
-     * @param $field TemporalField the field to query from the map, null returns null
+     * @param TemporalField $field the field to query from the map, null returns null
      * @return int the value mapped to the specified field, null if field was not parsed
      */
     public function getParsed(TemporalField $field)
@@ -380,10 +380,10 @@ final class DateTimeParseContext
      * This stores a field-value pair that has been parsed.
      * The value stored may be out of range for the field - no checks are performed.
      *
-     * @param $field TemporalField the field to set in the field-value map, not null
-     * @param $value int the value to set in the field-value map
-     * @param $errorPos int the position of the field being parsed
-     * @param $successPos int the position after the field being parsed
+     * @param TemporalField $field the field to set in the field-value map, not null
+     * @param int $value the value to set in the field-value map
+     * @param int $errorPos the position of the field being parsed
+     * @param int $successPos the position after the field being parsed
      * @return int the new position
      */
     public function setParsedField(TemporalField $field, $value, $errorPos, $successPos)
@@ -404,7 +404,7 @@ final class DateTimeParseContext
      * listener is called only once.  A listener can add itself again
      * if it needs to be notified of future changes.
      *
-     * @param $chrono Chronology the parsed chronology, not null
+     * @param Chronology $chrono the parsed chronology, not null
      */
     public function  setParsed(Chronology $chrono)
     {
@@ -422,7 +422,7 @@ final class DateTimeParseContext
     /**
      * Adds a Consumer<Chronology> to the list of listeners to be notified
      * if the Chronology changes.
-     * @param $listener callable a Consumer<Chronology> to be called when Chronology changes
+     * @param callable $listener a Consumer<Chronology> to be called when Chronology changes
      */
     public function  addChronoChangedListener($listener)
     {
@@ -439,7 +439,7 @@ final class DateTimeParseContext
      * This stores the zone that has been parsed.
      * No validation is performed other than ensuring it is not null.
      *
-     * @param $zone ZoneId the parsed zone, not null
+     * @param ZoneId $zone the parsed zone, not null
      */
     public function setParsedZone(ZoneId $zone)
     {

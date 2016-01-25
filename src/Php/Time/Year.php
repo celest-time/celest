@@ -180,7 +180,7 @@ final class Year
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return Year the current year using the system clock, not null
      */
     public static function nowIn(ZoneId $zone)
@@ -195,7 +195,7 @@ final class Year
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return Year the current year, not null
      */
     public
@@ -216,7 +216,7 @@ final class Year
      * The year 1BC/BCE is represented by 0.<br>
      * The year 2BC/BCE is represented by -1.<br>
      *
-     * @param $isoYear int the ISO proleptic year to represent, from {@code MIN_VALUE} to {@code MAX_VALUE}
+     * @param int $isoYear the ISO proleptic year to represent, from {@code MIN_VALUE} to {@code MAX_VALUE}
      * @return Year the year, not null
      * @throws DateTimeException if the field is invalid
      */
@@ -242,7 +242,7 @@ final class Year
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code Year::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return Year the year, not null
      * @throws DateTimeException if unable to convert to a {@code Year}
      */
@@ -271,7 +271,7 @@ final class Year
      * The string must represent a valid year.
      * Years outside the range 0000 to 9999 must be prefixed by the plus or minus symbol.
      *
-     * @param $text string the text to parse such as "2007", not null
+     * @param string $text the text to parse such as "2007", not null
      * @return Year the parsed year, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -288,8 +288,8 @@ final class Year
      * <p>
      * The text is parsed using the formatter, returning a year.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return Year the parsed year, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -319,7 +319,7 @@ final class Year
      * The calculation is proleptic - applying the same rules into the far future and far past.
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
      *
-     * @param $year int the year to check
+     * @param int $year the year to check
      * @return bool true if the year is leap, false otherwise
      */
     public static function isLeapYear($year)
@@ -331,7 +331,7 @@ final class Year
     /**
      * Constructor.
      *
-     * @param $year int the year to represent
+     * @param int $year the year to represent
      */
     private function __construct($year)
     {
@@ -375,7 +375,7 @@ final class Year
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return true if the field is supported on this year, false if not
      */
     public function isSupported(TemporalField $field)
@@ -410,7 +410,7 @@ final class Year
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -441,7 +441,7 @@ final class Year
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -473,7 +473,7 @@ final class Year
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -503,7 +503,7 @@ final class Year
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -556,7 +556,7 @@ final class Year
      * This method checks whether this year and the input month and day form
      * a valid date.
      *
-     * @param $monthDay MonthDay|null the month-day to validate, null returns false
+     * @param MonthDay|null $monthDay the month-day to validate, null returns false
      * @return true if the month and day are valid for this year
      */
     public
@@ -590,7 +590,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return Year a {@code Year} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -634,8 +634,8 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return Year a {@code Year} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -676,7 +676,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return Year a {@code Year} based on this year with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -727,8 +727,8 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return Year a {@code Year} based on this year with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -760,7 +760,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToAdd int the years to add, may be negative
+     * @param int $yearsToAdd the years to add, may be negative
      * @return Year a {@code Year} based on this year with the years added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -789,7 +789,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return Year a {@code Year} based on this year with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -811,8 +811,8 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return Year a {@code Year} based on this year with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -828,7 +828,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToSubtract int the years to subtract, may be negative
+     * @param int $yearsToSubtract the years to subtract, may be negative
      * @return Year a {@code Year} based on this year with the year subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -852,7 +852,7 @@ final class Year
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -889,7 +889,7 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -942,8 +942,8 @@ final class Year
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end date, exclusive, which is converted to a {@code Year}, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param Temporal $endExclusive the end date, exclusive, which is converted to a {@code Year}, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this year and the end year
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to a {@code Year}
@@ -978,7 +978,7 @@ final class Year
      * <p>
      * This year will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted year string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -995,7 +995,7 @@ final class Year
      * <p>
      * The day-of-year value 366 is only valid in a leap year.
      *
-     * @param $dayOfYear int the day-of-year to use, from 1 to 365-366
+     * @param int $dayOfYear the day-of-year to use, from 1 to 365-366
      * @return LocalDate the local date formed from this year and the specified date of year, not null
      * @throws DateTimeException if the day of year is zero or less, 366 or greater or equal
      *  to 366 and this is not a leap year
@@ -1017,7 +1017,7 @@ final class Year
      *  LocalDate date = year.atMonth(month).atDay(day);
      * </pre>
      *
-     * @param $month Month the month-of-year to use, not null
+     * @param Month $month the month-of-year to use, not null
      * @return YearMonth Year the year-month formed from this year and the specified month, not null
      */
     public
@@ -1037,7 +1037,7 @@ final class Year
      *  LocalDate date = year.atMonth(month).atDay(day);
      * </pre>
      *
-     * @param $month int the month-of-year to use, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to use, from 1 (January) to 12 (December)
      * @return YearMonth Year the year-month formed from this year and the specified month, not null
      * @throws DateTimeException if the month is invalid
      */
@@ -1055,7 +1055,7 @@ final class Year
      * A month-day of February 29th will be adjusted to February 28th in the resulting
      * date if the year is not a leap year.
      *
-     * @param $monthDay MonthDay the month-day to use, not null
+     * @param MonthDay $monthDay the month-day to use, not null
      * @return LocalDate the local date formed from this year and the specified month-day, not null
      */
     public
@@ -1071,7 +1071,7 @@ final class Year
      * The comparison is based on the value of the year.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other Year the other year to compare to, not null
+     * @param Year $other the other year to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(Year $other)
@@ -1082,7 +1082,7 @@ final class Year
     /**
      * Checks if this year is after the specified year.
      *
-     * @param $other Year the other year to compare to, not null
+     * @param Year $other the other year to compare to, not null
      * @return bool true if this is after the specified year
      */
     public function isAfter(Year $other)
@@ -1093,7 +1093,7 @@ final class Year
     /**
      * Checks if this year is before the specified year.
      *
-     * @param $other Year the other year to compare to, not null
+     * @param Year $other the other year to compare to, not null
      * @return bool true if this point is before the specified year
      */
     public function isBefore(Year $other)
@@ -1107,7 +1107,7 @@ final class Year
      * <p>
      * The comparison is based on the time-line position of the years.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other year
      */
     public function equals($obj)

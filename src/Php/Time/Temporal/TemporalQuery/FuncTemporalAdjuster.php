@@ -12,7 +12,7 @@ final class FuncTemporalAdjuster implements TemporalAdjuster
     private $func;
 
     /**
-     * @param $func callable Temporal->Temporal
+     * @param callable $func Temporal->Temporal
      */
     public function __construct($func) {
         if(!is_callable($func)) {

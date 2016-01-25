@@ -49,11 +49,11 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param $field TemporalField the field to format, not null
-     * @param $minWidth int the minimum field width, from 1 to 19
-     * @param $maxWidth int the maximum field width, from minWidth to 19
-     * @param $signStyle SignStyle the positive/negative sign style, not null
-     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater,
+     * @param TemporalField $field the field to format, not null
+     * @param int $minWidth the minimum field width, from 1 to 19
+     * @param int $maxWidth the maximum field width, from minWidth to 19
+     * @param SignStyle $signStyle the positive/negative sign style, not null
+     * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater,
      *  -1 if fixed width due to active adjacent parsing
      */
     public function __construct(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle, $subsequentWidth = 0)
@@ -83,7 +83,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * Returns a new instance with an updated subsequent width.
      *
-     * @param $subsequentWidth int the width of subsequent non-negative numbers, 0 or greater
+     * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater
      * @return NumberPrinterParser a new updated printer-parser, not null
      */
     public function withSubsequentWidth($subsequentWidth)
@@ -142,8 +142,8 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * Gets the value to output.
      *
-     * @param $context DateTimePrintContext  the context
-     * @param $value int the value of the field, not null
+     * @param DateTimePrintContext $context  the context
+     * @param int $value the value of the field, not null
      * @return int the value
      */
     public function getValue(DateTimePrintContext $context, $value)
@@ -154,7 +154,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * For NumberPrinterParser, the width is fixed depending on the
      * minWidth, maxWidth, signStyle and whether subsequent fields are fixed.
-     * @param $context DateTimeParseContext the context
+     * @param DateTimeParseContext $context the context
      * @return true if the field is fixed width
      * @see DateTimeFormatterBuilder#appendValue(java.time.temporal.TemporalField, int)
      */
@@ -271,10 +271,10 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * Stores the value.
      *
-     * @param $context DateTimeParseContext the context to store into, not null
-     * @param $value int the value
-     * @param $errorPos int the position of the field being parsed
-     * @param $successPos int the position after the field being parsed
+     * @param DateTimeParseContext $context the context to store into, not null
+     * @param int $value the value
+     * @param int $errorPos the position of the field being parsed
+     * @param int $successPos the position after the field being parsed
      * @return int the new position
      */
     public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)

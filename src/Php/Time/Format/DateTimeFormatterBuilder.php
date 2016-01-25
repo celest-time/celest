@@ -173,10 +173,10 @@ final class DateTimeFormatterBuilder
      * The locale and chronology are used to lookup the locale specific format
      * for the requested dateStyle and/or timeStyle.
      *
-     * @param $dateStyle FormatStyle the FormatStyle for the date, null for time-only pattern
-     * @param $timeStyle FormatStyle the FormatStyle for the time, null for date-only pattern
-     * @param $chrono Chronology the Chronology, non-null
-     * @param $locale Locale the locale, non-null
+     * @param FormatStyle $dateStyle the FormatStyle for the date, null for time-only pattern
+     * @param FormatStyle $timeStyle the FormatStyle for the time, null for date-only pattern
+     * @param Chronology $chrono the Chronology, non-null
+     * @param Locale $locale the locale, non-null
      * @return string the locale and Chronology specific formatting pattern
      * @throws IllegalArgumentException if both dateStyle and timeStyle are null
      */
@@ -195,7 +195,7 @@ final class DateTimeFormatterBuilder
     /**
      * Converts the given FormatStyle to the java.text.DateFormat style.
      *
-     * @param $style FormatStyle the FormatStyle style
+     * @param FormatStyle $style the FormatStyle style
      * @return int the int style, or -1 if style is null, indicating un-required
      */
     private static function convertStyle(FormatStyle $style)
@@ -221,8 +221,8 @@ final class DateTimeFormatterBuilder
     /**
      * Constructs a new instance of the builder.
      *
-     * @param $parent DateTimeFormatterBuilder the parent builder, not null
-     * @param $optional bool whether the formatter is optional, not null
+     * @param DateTimeFormatterBuilder $parent the parent builder, not null
+     * @param bool $optional whether the formatter is optional, not null
      */
     private function __construct2(DateTimeFormatterBuilder $parent, $optional)
     {
@@ -344,8 +344,8 @@ final class DateTimeFormatterBuilder
      * will be visible to any subsequent elements in the formatter.
      * As such, this method is normally called at the end of the builder.
      *
-     * @param $field TemporalField the field to default the value of, not null
-     * @param $value int the value to default the field to
+     * @param TemporalField $field the field to default the value of, not null
+     * @param int $value the value to default the field to
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -371,7 +371,7 @@ final class DateTimeFormatterBuilder
      * This behavior can be affected by 'adjacent value parsing'.
      * See {@link #appendValue(java.time.temporal.TemporalField, int)} for full details.
      *
-     * @param $field TemporalField the field to append, not null
+     * @param TemporalField $field the field to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -424,8 +424,8 @@ final class DateTimeFormatterBuilder
      * number of digits in both strict and lenient modes.
      * In addition, no positive or negative sign is permitted.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $width int the width of the printed field, from 1 to 19
+     * @param TemporalField $field the field to append, not null
+     * @param int $width the width of the printed field, from 1 to 19
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the width is invalid
      */
@@ -465,10 +465,10 @@ final class DateTimeFormatterBuilder
      * {@code NOT_NEGATIVE} then it delegates to {@code appendValue(TemporalField,int)}.
      * In this scenario, the formatting and parsing behavior described there occur.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $minWidth int the minimum field width of the printed field, from 1 to 19
-     * @param $maxWidth int the maximum field width of the printed field, from 1 to 19
-     * @param $signStyle SignStyle the positive/negative output style, not null
+     * @param TemporalField $field the field to append, not null
+     * @param int $minWidth the minimum field width of the printed field, from 1 to 19
+     * @param int $maxWidth the maximum field width of the printed field, from 1 to 19
+     * @param SignStyle $signStyle the positive/negative output style, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the widths are invalid
      */
@@ -526,10 +526,10 @@ final class DateTimeFormatterBuilder
      * is the value within the range where the last two characters are "12".
      * By contrast, parsing the text {@code "1915"} will result in the value {@code 1915}.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $width int the field width of the printed and parsed field, from 1 to 10
-     * @param $maxWidth int the maximum field width of the printed field, from 1 to 10
-     * @param $baseValue int the base value of the range of valid values
+     * @param TemporalField $field the field to append, not null
+     * @param int $width the field width of the printed and parsed field, from 1 to 10
+     * @param int $maxWidth the maximum field width of the printed field, from 1 to 10
+     * @param int $baseValue the base value of the range of valid values
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the width or base value is invalid
      */
@@ -585,10 +585,10 @@ final class DateTimeFormatterBuilder
      * is the value within the range where the last two characters are "12".
      * By contrast, parsing the text {@code "1915"} will result in the value {@code 1915}.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $width int the field width of the printed and parsed field, from 1 to 10
-     * @param $maxWidth int the maximum field width of the printed field, from 1 to 10
-     * @param $baseDate ChronoLocalDate the base date used to calculate the base value for the range
+     * @param TemporalField $field the field to append, not null
+     * @param int $width the field width of the printed and parsed field, from 1 to 10
+     * @param int $maxWidth the maximum field width of the printed field, from 1 to 10
+     * @param ChronoLocalDate $baseDate the base date used to calculate the base value for the range
      *  of valid values in the parsed chronology, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the width or base value is invalid
@@ -613,7 +613,7 @@ final class DateTimeFormatterBuilder
      * If the new PrinterParser is variable width, the active PrinterParser is changed
      * to be fixed width and the new PrinterParser becomes the active PP.
      *
-     * @param $pp NumberPrinterParser the printer-parser, not null
+     * @param NumberPrinterParser $pp the printer-parser, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     private function appendValue4(NumberPrinterParser $pp)
@@ -670,10 +670,10 @@ final class DateTimeFormatterBuilder
      * If the field value in the date-time to be printed is invalid it
      * cannot be printed and an exception will be thrown.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $minWidth int the minimum width of the field excluding the decimal point, from 0 to 9
-     * @param $maxWidth int the maximum width of the field excluding the decimal point, from 1 to 9
-     * @param $decimalPoint bool whether to output the localized decimal point symbol
+     * @param TemporalField $field the field to append, not null
+     * @param int $minWidth the minimum width of the field excluding the decimal point, from 0 to 9
+     * @param int $maxWidth the maximum width of the field excluding the decimal point, from 1 to 9
+     * @param bool $decimalPoint whether to output the localized decimal point symbol
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the field has a variable set of valid values or
      *  either width is invalid
@@ -698,7 +698,7 @@ final class DateTimeFormatterBuilder
      * The value will be printed as per the normal format of an integer value.
      * Only negative numbers will be signed. No padding will be added.
      *
-     * @param $field TemporalField the field to append, not null
+     * @param TemporalField $field the field to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -718,8 +718,8 @@ final class DateTimeFormatterBuilder
      * The value will be printed as per the normal format of an integer value.
      * Only negative numbers will be signed. No padding will be added.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $textStyle TextStyle the text style to use, not null
+     * @param TemporalField $field the field to append, not null
+     * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -759,8 +759,8 @@ final class DateTimeFormatterBuilder
      * If text is not available for the value then it is output as a number.
      * During parsing, the parser will match against the map of text and numeric values.
      *
-     * @param $field TemporalField the field to append, not null
-     * @param $textLookup string[] the map from the value to the text
+     * @param TemporalField $field the field to append, not null
+     * @param string $textLookup[] the map from the value to the text
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public function appendText3(TemporalField $field, $textLookup)
@@ -851,7 +851,7 @@ final class DateTimeFormatterBuilder
      * An alternative to this method is to format/parse the instant as a single
      * epoch-seconds value. That is achieved using {@code appendValue(INSTANT_SECONDS)}.
      *
-     * @param $fractionalDigits int the number of fractional second digits to format with,
+     * @param int $fractionalDigits the number of fractional second digits to format with,
      *  from 0 to 9, or -1 to use as many digits as necessary
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException
@@ -916,8 +916,8 @@ final class DateTimeFormatterBuilder
      * Three formats are accepted for parsing UTC - the "no offset" text, and the
      * plus and minus versions of zero defined by the pattern.
      *
-     * @param $pattern string the pattern to use, not null
-     * @param $noOffsetText string the text to use when the offset is zero, not null
+     * @param string $pattern the pattern to use, not null
+     * @param string $noOffsetText the text to use when the offset is zero, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -951,7 +951,7 @@ final class DateTimeFormatterBuilder
      * If the offset cannot be parsed then an exception is thrown unless the
      * section of the formatter is optional.
      * <p>
-     * @param $style TextStyle the format style to use, not null
+     * @param TextStyle $style the format style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if style is neither {@link TextStyle#FULL
      * full} nor {@link TextStyle#SHORT short}
@@ -1164,7 +1164,7 @@ final class DateTimeFormatterBuilder
      * zone. The {@link #appendZoneText(TextStyle, Set)} may be used
      * to specify a set of preferred {@link ZoneId} in this situation.
      *
-     * @param $textStyle TextStyle the text style to use, not null
+     * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1206,8 +1206,8 @@ final class DateTimeFormatterBuilder
      * If the zone cannot be parsed then an exception is thrown unless the
      * section of the formatter is optional.
      *
-     * @param $textStyle TextStyle the text style to use, not null
-     * @param $preferredZones ZoneId[] the set of preferred zone ids, not null
+     * @param TextStyle $textStyle the text style to use, not null
+     * @param ZoneId $preferredZones[] the set of preferred zone ids, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1250,7 +1250,7 @@ final class DateTimeFormatterBuilder
      * The calendar system name will be output during a format.
      * If the chronology cannot be obtained then an exception will be thrown.
      *
-     * @param $textStyle TextStyle the text style to use, not null
+     * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1284,8 +1284,8 @@ final class DateTimeFormatterBuilder
      * Note that this method provides similar functionality to methods on
      * {@code DateFormat} such as {@link java.text.DateFormat#getDateTimeInstance(int, int)}.
      *
-     * @param $dateStyle FormatStyle the date style to use, null means no date required
-     * @param $timeStyle FormatStyle the time style to use, null means no time required
+     * @param FormatStyle $dateStyle the date style to use, null means no date required
+     * @param FormatStyle $timeStyle the time style to use, null means no time required
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if both the date and time styles are null
      */
@@ -1305,7 +1305,7 @@ final class DateTimeFormatterBuilder
      * <p>
      * This character will be output during a format.
      *
-     * @param $literal string the literal to append, not null
+     * @param string $literal the literal to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public function appendLiteral($literal)
@@ -1321,7 +1321,7 @@ final class DateTimeFormatterBuilder
      * <p>
      * If the literal is empty, nothing is added to the formatter.
      *
-     * @param $literal string the literal to append, not null
+     * @param string $literal the literal to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public function appendLiteral2($literal)
@@ -1343,7 +1343,7 @@ final class DateTimeFormatterBuilder
      * This method has the same effect as appending each of the constituent
      * parts of the formatter directly to this builder.
      *
-     * @param $formatter DateTimeFormatter the formatter to add, not null
+     * @param DateTimeFormatter $formatter the formatter to add, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1363,7 +1363,7 @@ final class DateTimeFormatterBuilder
      * The formatter will format if data is available for all the fields contained within it.
      * The formatter will parse if the string matches, otherwise no error is returned.
      *
-     * @param $formatter DateTimeFormatter the formatter to add, not null
+     * @param DateTimeFormatter $formatter the formatter to add, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1590,7 +1590,7 @@ final class DateTimeFormatterBuilder
      * Pattern letters 'n', 'A', 'N', and 'p' are added.
      * Number types will reject large numbers.
      *
-     * @param $pattern string the pattern to add, not null
+     * @param string $pattern the pattern to add, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the pattern is invalid
      */
@@ -1924,7 +1924,7 @@ final class DateTimeFormatterBuilder
      * The padding is parsed greedily. Thus, if the decorated element starts with
      * the pad character, it will not be parsed.
      *
-     * @param $padWidth int the pad width, 1 or greater
+     * @param int $padWidth the pad width, 1 or greater
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if pad width is too small
      */
@@ -1950,8 +1950,8 @@ final class DateTimeFormatterBuilder
      * The padding is parsed greedily. Thus, if the decorated element starts with
      * the pad character, it will not be parsed.
      *
-     * @param $padWidth int the pad width, 1 or greater
-     * @param $padChar int the pad character
+     * @param int $padWidth the pad width, 1 or greater
+     * @param int $padChar the pad character
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if pad width is too small
      */
@@ -2042,7 +2042,7 @@ final class DateTimeFormatterBuilder
     /**
      * Appends a printer and/or parser to the internal list handling padding.
      *
-     * @param $pp DateTimePrinterParser the printer-parser to add, not null
+     * @param DateTimePrinterParser $pp the printer-parser to add, not null
      * @return int the index into the active parsers list
      */
     private function appendInternal(DateTimePrinterParser $pp)
@@ -2095,7 +2095,7 @@ final class DateTimeFormatterBuilder
      * This builder can still be used after creating the formatter if desired,
      * although the state may have been changed by calls to {@code optionalEnd}.
      *
-     * @param $locale Locale the locale to use for formatting, not null
+     * @param Locale $locale the locale to use for formatting, not null
      * @return DateTimeFormatter the created formatter, not null
      */
     public
@@ -2108,7 +2108,7 @@ final class DateTimeFormatterBuilder
      * Completes this builder by creating the formatter.
      * This uses the default locale.
      *
-     * @param $resolverStyle ResolverStyle the resolver style to use, not null
+     * @param ResolverStyle $resolverStyle the resolver style to use, not null
      * @return DateTimeFormatter the created formatter, not null
      */
     public function toFormatter3(ResolverStyle $resolverStyle, $chrono)
@@ -2120,8 +2120,8 @@ final class DateTimeFormatterBuilder
     /**
      * Completes this builder by creating the formatter.
      *
-     * @param $locale Locale the locale to use for formatting, not null
-     * @param $chrono Chronology|null the chronology to use, may be null
+     * @param Locale $locale the locale to use for formatting, not null
+     * @param Chronology|null $chrono the chronology to use, may be null
      * @return DateTimeFormatter the created formatter, not null
      */
     private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, $chrono)

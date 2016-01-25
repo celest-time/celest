@@ -193,7 +193,7 @@ abstract class Clock
      * <p>
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      *
-     * @param $zone ZoneId the time-zone to use to convert the instant to date-time, not null
+     * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that uses the best available system clock in the specified zone, not null
      */
     public static function system(ZoneId $zone)
@@ -218,7 +218,7 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      * It is equivalent to {@code tick(system(zone), Duration.ofSeconds(1))}.
      *
-     * @param $zone ZoneId the time-zone to use to convert the instant to date-time, not null
+     * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that ticks in whole seconds using the specified zone, not null
      */
     public static function tickSeconds(ZoneId $zone)
@@ -242,7 +242,7 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      * It is equivalent to {@code tick(system(zone), Duration.ofMinutes(1))}.
      *
-     * @param $zone ZoneId  the time-zone to use to convert the instant to date-time, not null
+     * @param ZoneId $zone  the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that ticks in whole minutes using the specified zone, not null
      */
     public static function tickMinutes(ZoneId $zone)
@@ -273,8 +273,8 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}
      * providing that the base clock is.
      *
-     * @param $baseClock Clock the base clock to base the ticking clock on, not null
-     * @param $tickDuration Duration  the duration of each visible tick, not negative, not null
+     * @param Clock $baseClock the base clock to base the ticking clock on, not null
+     * @param Duration $tickDuration  the duration of each visible tick, not negative, not null
      * @return Clock clock that ticks in whole units of the duration, not null
      * @throws IllegalArgumentException if the duration is negative, or has a
      *  part smaller than a whole millisecond such that the whole duration is not
@@ -311,8 +311,8 @@ abstract class Clock
      * <p>
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      *
-     * @param $fixedInstant Instant the instant to use as the clock, not null
-     * @param $zone ZoneId  the time-zone to use to convert the instant to date-time, not null
+     * @param Instant $fixedInstant the instant to use as the clock, not null
+     * @param ZoneId $zone  the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that always returns the same instant, not null
      */
     public static function fixed(Instant $fixedInstant, ZoneId $zone)
@@ -336,8 +336,8 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}
      * providing that the base clock is.
      *
-     * @param $baseClock Clock  the base clock to add the duration to, not null
-     * @param $offsetDuration Duration the duration to add, not null
+     * @param Clock $baseClock  the base clock to add the duration to, not null
+     * @param Duration $offsetDuration the duration to add, not null
      * @return Clock clock based on the base clock with the duration added, not null
      */
     public static function offset(Clock $baseClock, Duration $offsetDuration)
@@ -374,7 +374,7 @@ abstract class Clock
      * to a date or time using a time-zone. This method returns a clock with
      * similar properties but using a different time-zone.
      *
-     * @param $zone ZoneId the time-zone to change to, not null
+     * @param ZoneId $zone the time-zone to change to, not null
      * @return Clock clock based on this clock with the specified time-zone, not null
      */
     public abstract function withZone(ZoneId $zone);
@@ -421,7 +421,7 @@ abstract class Clock
      * their state and to meet the contract of {@link Object#equals}.
      * If not overridden, the behavior is defined by {@link Object#equals}
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other clock
      */
     public function equals(/** @noinspection PhpUnusedParameterInspection */ $obj)

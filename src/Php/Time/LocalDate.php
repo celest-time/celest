@@ -205,7 +205,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return LocalDate the current date using the system clock, not null
      */
     public static function nowFrom(ZoneId $zone)
@@ -220,7 +220,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return LocalDate the current date, not null
      */
     public static function nowOf(Clock $clock)
@@ -240,9 +240,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This returns a {@code LocalDate} with the specified year, month and day-of-month.
      * The day must be valid for the year and month, otherwise an exception will be thrown.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month Month the month-of-year to represent, not null
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param Month $month the month-of-year to represent, not null
+     * @param int $dayOfMonth the day-of-month to represent, from 1 to 31
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
@@ -261,9 +261,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This returns a {@code LocalDate} with the specified year, month and day-of-month.
      * The day must be valid for the year and month, otherwise an exception will be thrown.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month int  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param $dayOfMonth int the day-of-month to represent, from 1 to 31
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param int $month  the month-of-year to represent, from 1 (January) to 12 (December)
+     * @param int $dayOfMonth the day-of-month to represent, from 1 to 31
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
@@ -288,8 +288,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This returns a {@code LocalDate} with the specified year and day-of-year.
      * The day-of-year must be valid for the year, otherwise an exception will be thrown.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $dayOfYear int the day-of-year to represent, from 1 to 366
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param int $dayOfYear the day-of-year to represent, from 1 to 366
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-year is invalid for the year
@@ -321,7 +321,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * The {@link ChronoField#EPOCH_DAY EPOCH_DAY} is a simple incrementing count
      * of days where day 0 is 1970-01-01. Negative numbers represent earlier days.
      *
-     * @param $epochDay int the Epoch Day to convert, based on the epoch 1970-01-01
+     * @param int $epochDay the Epoch Day to convert, based on the epoch 1970-01-01
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the epoch day exceeds the supported date range
      * TODO check rounding, add Check
@@ -374,7 +374,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code LocalDate::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return LocalDate the local date, not null
      * @throws DateTimeException if unable to convert to a {@code LocalDate}
      */
@@ -397,7 +397,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * The string must represent a valid date and is parsed using
      * {@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE}.
      *
-     * @param $text string the text to parse such as "2007-12-03", not null
+     * @param string $text the text to parse such as "2007-12-03", not null
      * @return LocalDate the parsed local date, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -411,8 +411,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * The text is parsed using the formatter, returning a date.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return LocalDate the parsed local date, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -426,9 +426,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     /**
      * Creates a local date from the year, month and day fields.
      *
-     * @param $year int the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, from 1 to 12, validated
-     * @param $dayOfMonth int the day-of-month to represent, validated from 1 to 31
+     * @param int $year the year to represent, validated from MIN_YEAR to MAX_YEAR
+     * @param int $month the month-of-year to represent, from 1 to 12, validated
+     * @param int $dayOfMonth the day-of-month to represent, validated from 1 to 31
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the day-of-month is invalid for the month-year
      */
@@ -463,9 +463,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     /**
      * Resolves the date, resolving days past the end of month.
      *
-     * @param $year int the year to represent, validated from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, validated from 1 to 12
-     * @param $day int the day-of-month to represent, validated from 1 to 31
+     * @param int $year the year to represent, validated from MIN_YEAR to MAX_YEAR
+     * @param int $month the month-of-year to represent, validated from 1 to 12
+     * @param int $day the day-of-month to represent, validated from 1 to 31
      * @return LocalDate the resolved date, not null
      */
     private
@@ -489,9 +489,9 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     /**
      * Constructor, previously validated.
      *
-     * @param $year int the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param $month int the month-of-year to represent, not null
-     * @param $dayOfMonth int the day-of-month to represent, valid for year-month, from 1 to 31
+     * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
+     * @param int $month the month-of-year to represent, not null
+     * @param int $dayOfMonth the day-of-month to represent, valid for year-month, from 1 to 31
      */
     private
     function __construct($year, $month, $dayOfMonth)
@@ -534,7 +534,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField  the field to check, null returns false
+     * @param TemporalField $field  the field to check, null returns false
      * @return bool true if the field is supported on this date, false if not
      */
     public function isSupported(TemporalField $field)
@@ -568,7 +568,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -595,7 +595,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -643,7 +643,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -677,7 +677,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -962,7 +962,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return LocalDate a {@code LocalDate} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1074,8 +1074,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return LocalDate a {@code LocalDate} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -1129,7 +1129,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $year int the year to set in the result, from MIN_YEAR to MAX_YEAR
+     * @param int $year the year to set in the result, from MIN_YEAR to MAX_YEAR
      * @return LocalDate a {@code LocalDate} based on this date with the requested year, not null
      * @throws DateTimeException if the year value is invalid
      */
@@ -1150,7 +1150,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $month int the month-of-year to set in the result, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to set in the result, from 1 (January) to 12 (December)
      * @return LocalDate a {@code LocalDate} based on this date with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
@@ -1171,7 +1171,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $dayOfMonth int the day-of-month to set in the result, from 1 to 28-31
+     * @param int $dayOfMonth the day-of-month to set in the result, from 1 to 28-31
      * @return LocalDate a {@code LocalDate} based on this date with the requested day, not null
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month-year
@@ -1192,7 +1192,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $dayOfYear int the day-of-year to set in the result, from 1 to 365-366
+     * @param int $dayOfYear the day-of-year to set in the result, from 1 to 365-366
      * @return LocalDate a {@code LocalDate} based on this date with the requested day, not null
      * @throws DateTimeException if the day-of-year value is invalid,
      *  or if the day-of-year is invalid for the year
@@ -1222,7 +1222,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return LocalDate a {@code LocalDate} based on this date with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1311,8 +1311,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return LocalDate a {@code LocalDate} based on this date with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1364,7 +1364,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToAdd int the years to add, may be negative
+     * @param int $yearsToAdd the years to add, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the years added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1394,7 +1394,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToAdd int the months to add, may be negative
+     * @param int $monthsToAdd the months to add, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1422,7 +1422,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $weeksToAdd int the weeks to add, may be negative
+     * @param int $weeksToAdd the weeks to add, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the weeks added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1442,7 +1442,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToAdd int the days to add, may be negative
+     * @param int $daysToAdd the days to add, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the days added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1473,7 +1473,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return LocalDate a {@code LocalDate} based on this date with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1501,8 +1501,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return LocalDate a {@code LocalDate} based on this date with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1530,7 +1530,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $yearsToSubtract int the years to subtract, may be negative
+     * @param int $yearsToSubtract the years to subtract, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1556,7 +1556,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $monthsToSubtract int the months to subtract, may be negative
+     * @param int $monthsToSubtract the months to subtract, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1577,7 +1577,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $weeksToSubtract int the weeks to subtract, may be negative
+     * @param int $weeksToSubtract the weeks to subtract, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1597,7 +1597,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $daysToSubtract int the days to subtract, may be negative
+     * @param int $daysToSubtract the days to subtract, may be negative
      * @return LocalDate a {@code LocalDate} based on this date with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -1620,7 +1620,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -1653,7 +1653,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -1702,8 +1702,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end date, exclusive, which is converted to a {@code LocalDate}, not null
-     * @param $unit TemporalUnit the unit to measure the amount in, not null
+     * @param Temporal $endExclusive the end date, exclusive, which is converted to a {@code LocalDate}, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this date and the end date
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to a {@code LocalDate}
@@ -1785,7 +1785,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * </pre>
      * The choice should be made based on which makes the code more readable.
      *
-     * @param $endDateExclusive ChronoLocalDate the end date, exclusive, which may be in any chronology, not null
+     * @param ChronoLocalDate $endDateExclusive the end date, exclusive, which may be in any chronology, not null
      * @return Period the period between this date and the end date, not null
      */
     public function untilDate(ChronoLocalDate $endDateExclusive)
@@ -1812,7 +1812,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * <p>
      * This date will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted date string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -1828,7 +1828,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This returns a {@code LocalDateTime} formed from this date at the specified time.
      * All possible combinations of date and time are valid.
      *
-     * @param $time LocalTime the time to combine with, not null
+     * @param LocalTime $time the time to combine with, not null
      * @return LocalDateTime the local date-time formed from this date and the specified time, not null
      */
     public function atTime(LocalTime $time)
@@ -1844,10 +1844,10 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * The individual time fields must be within their valid range.
      * All possible combinations of date and time are valid.
      *
-     * @param $hour int the hour-of-day to use, from 0 to 23
-     * @param $minute int the minute-of-hour to use, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @param $nanoOfSecond int the nano-of-second to represent, from 0 to 999,999,999
+     * @param int $hour the hour-of-day to use, from 0 to 23
+     * @param int $minute the minute-of-hour to use, from 0 to 59
+     * @param int $second the second-of-minute to represent, from 0 to 59
+     * @param int $nanoOfSecond the nano-of-second to represent, from 0 to 999,999,999
      * @return LocalDateTime the local date-time formed from this date and the specified time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
@@ -1862,7 +1862,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This returns an {@code OffsetDateTime} formed from this date at the specified time.
      * All possible combinations of date and time are valid.
      *
-     * @param $time OffsetTime the time to combine with, not null
+     * @param OffsetTime $time the time to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this date and the specified time, not null
      */
     public
@@ -1902,7 +1902,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * To convert to a specific time in a given time-zone call {@link #atTime(LocalTime)}
      * followed by {@link LocalDateTime#atZone(ZoneId)}.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return ZonedDateTime the zoned date-time formed from this date and the earliest valid time for the zone, not null
      */
     public function atStartOfDayWithZone(ZoneId $zone)
@@ -1955,7 +1955,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * If some dates being compared are in different chronologies, then the
      * chronology is also considered, see {@link java.time.chrono.ChronoLocalDate#compareTo}.
      *
-     * @param $other ChronoLocalDate the other date to compare to, not null
+     * @param ChronoLocalDate $other the other date to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public function compareTo(ChronoLocalDate $other)
@@ -2002,7 +2002,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This is different from the comparison in {@link #compareTo(ChronoLocalDate)},
      * but is the same approach as {@link ChronoLocalDate#timeLineOrder()}.
      *
-     * @param $other ChronoLocalDate the other date to compare to, not null
+     * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if this date is after the specified date
      */
     public function isAfter(ChronoLocalDate $other)
@@ -2032,7 +2032,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This is different from the comparison in {@link #compareTo(ChronoLocalDate)},
      * but is the same approach as {@link ChronoLocalDate#timeLineOrder()}.
      *
-     * @param $other ChronoLocalDate the other date to compare to, not null
+     * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if this date is before the specified date
      */
     public function isBefore(ChronoLocalDate $other)
@@ -2062,7 +2062,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * This is different from the comparison in {@link #compareTo(ChronoLocalDate)}
      * but is the same approach as {@link ChronoLocalDate#timeLineOrder()}.
      *
-     * @param $other ChronoLocalDate the other date to compare to, not null
+     * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if this date is equal to the specified date
      */
     public function isEqual(ChronoLocalDate $other)
@@ -2084,7 +2084,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      * To compare the dates of two {@code TemporalAccessor} instances, including dates
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
     public function equals($obj)

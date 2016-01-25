@@ -168,9 +168,9 @@ class SignStyle
     /**
      * Parse helper.
      *
-     * @param $positive bool true if positive sign parsed, false for negative sign
-     * @param $strict bool true if strict, false if lenient
-     * @param $fixedWidth bool true if fixed width, false if not
+     * @param bool $positive true if positive sign parsed, false for negative sign
+     * @param bool $strict true if strict, false if lenient
+     * @param bool $fixedWidth true if fixed width, false if not
      * @return bool
      */
     public function parse($positive, $strict, $fixedWidth)

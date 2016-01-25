@@ -43,8 +43,8 @@ interface DateTimePrinterParser
      * <p>
      * The buffer must not be mutated beyond the content controlled by the implementation.
      *
-     * @param $context DateTimePrintContext the context to format using, not null
-     * @param $buf string the buffer to append to, not null
+     * @param DateTimePrintContext $context the context to format using, not null
+     * @param string $buf the buffer to append to, not null
      * @return bool false if unable to query the value from the date-time, true otherwise
      * @throws DateTimeException if the date-time cannot be printed successfully
      */
@@ -56,9 +56,9 @@ interface DateTimePrinterParser
      * The context holds information to use during the parse.
      * It is also used to store the parsed date-time information.
      *
-     * @param $context DateTimeParseContext the context to use and parse into, not null
-     * @param $text string the input text to parse, not null
-     * @param $position int the position to start parsing at, from 0 to the text length
+     * @param DateTimeParseContext $context the context to use and parse into, not null
+     * @param string $text the input text to parse, not null
+     * @param int $position the position to start parsing at, from 0 to the text length
      * @return int the new parse position, where negative means an error with the
      *  error position encoded using the complement ~ operator
      * @throws NullPointerException if the context or text is null

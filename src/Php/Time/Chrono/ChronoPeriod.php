@@ -109,8 +109,8 @@ interface ChronoPeriod
      * The result of this method can be a negative period if the end is before the start.
      * In most cases, the positive/negative sign will be the same in each of the supported fields.
      *
-     * @param $startDateInclusive ChronoLocalDate the start date, inclusive, specifying the chronology of the calculation, not null
-     * @param $endDateExclusive ChronoLocalDate the end date, exclusive, in any chronology, not null
+     * @param ChronoLocalDate $startDateInclusive the start date, inclusive, specifying the chronology of the calculation, not null
+     * @param ChronoLocalDate $endDateExclusive the end date, exclusive, in any chronology, not null
      * @return ChronoPeriod the period between this date and the end date, not null
      * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
@@ -125,7 +125,7 @@ interface ChronoPeriod
      * {@link ChronoUnit#MONTHS MONTHS} and {@link ChronoUnit#DAYS DAYS}.
      * Requesting an unsupported unit will throw an exception.
      *
-     * @param $unit TemporalUnit the {@code TemporalUnit} for which to return the value
+     * @param TemporalUnit $unit the {@code TemporalUnit} for which to return the value
      * @return int the long value of the unit
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -182,7 +182,7 @@ interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the period to add, not null
+     * @param TemporalAmount $amountToAdd the period to add, not null
      * @return ChronoPeriod a {@code ChronoPeriod} based on this period with the requested period added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -197,7 +197,7 @@ interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the period to subtract, not null
+     * @param TemporalAmount $amountToSubtract the period to subtract, not null
      * @return ChronoPeriod a {@code ChronoPeriod} based on this period with the requested period subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -213,7 +213,7 @@ interface ChronoPeriod
      * 3 will return "6 years, -9 months and 12 days".
      * No normalization is performed.
      *
-     * @param $scalar int the scalar to multiply by, not null
+     * @param int $scalar the scalar to multiply by, not null
      * @return ChronoPeriod a {@code ChronoPeriod} based on this period with the amounts multiplied
      *  by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
@@ -271,7 +271,7 @@ interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
@@ -297,7 +297,7 @@ interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @return Temporal an object of the same type with the adjustment made, not null
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
@@ -313,7 +313,7 @@ interface ChronoPeriod
      * Note that this means that a period of "15 Months" is not equal to a period
      * of "1 Year and 3 Months".
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return true if this is equal to the other period
      */
     function equals($obj);

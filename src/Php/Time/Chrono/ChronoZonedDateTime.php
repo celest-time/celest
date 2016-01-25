@@ -150,7 +150,7 @@ interface ChronoZonedDateTime extends Temporal
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ChronoZonedDateTime::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return ChronoZonedDateTime the date-time, not null
      * @throws DateTimeException if unable to convert to a {@code ChronoZonedDateTime}
      * @see Chronology#zonedDateTime(TemporalAccessor)
@@ -275,7 +275,7 @@ interface ChronoZonedDateTime extends Temporal
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $zone ZoneId the time-zone to change to, not null
+     * @param ZoneId $zone the time-zone to change to, not null
      * @return ChronoZonedDateTime a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
      */
     function withZoneSameLocal(ZoneId $zone);
@@ -293,7 +293,7 @@ interface ChronoZonedDateTime extends Temporal
      * To change the offset while keeping the local time,
      * use {@link #withZoneSameLocal(ZoneId)}.
      *
-     * @param $zone ZoneId the time-zone to change to, not null
+     * @param ZoneId $zone the time-zone to change to, not null
      * @return ChronoZonedDateTime a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -315,7 +315,7 @@ interface ChronoZonedDateTime extends Temporal
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field can be queried, false if not
      */
     function isSupported(TemporalField $field);
@@ -335,7 +335,7 @@ interface ChronoZonedDateTime extends Temporal
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     function isUnitSupported(TemporalUnit $unit);
@@ -405,7 +405,7 @@ interface ChronoZonedDateTime extends Temporal
      * specified query passing {@code this} as the argument.
      *
      * @param <R> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -422,7 +422,7 @@ interface ChronoZonedDateTime extends Temporal
      *  return formatter.format(this);
      * </pre>
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -465,7 +465,7 @@ interface ChronoZonedDateTime extends Temporal
      * <p>
      * This default implementation performs the comparison defined above.
      *
-     * @param $other ChronoZonedDateTime the other date-time to compare to, not null
+     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     function compareTo(ChronoZonedDateTime $other);
@@ -480,7 +480,7 @@ interface ChronoZonedDateTime extends Temporal
      * This default implementation performs the comparison based on the epoch-second
      * and nano-of-second.
      *
-     * @param $other ChronoZonedDateTime the other date-time to compare to, not null
+     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return true if this point is before the specified date-time
      */
     function isBefore(ChronoZonedDateTime $other);
@@ -495,7 +495,7 @@ interface ChronoZonedDateTime extends Temporal
      * This default implementation performs the comparison based on the epoch-second
      * and nano-of-second.
      *
-     * @param $other ChronoZonedDateTime the other date-time to compare to, not null
+     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return bool true if this is after the specified date-time
      */
     function isAfter(ChronoZonedDateTime $other);
@@ -510,7 +510,7 @@ interface ChronoZonedDateTime extends Temporal
      * This default implementation performs the comparison based on the epoch-second
      * and nano-of-second.
      *
-     * @param $other ChronoZonedDateTime the other date-time to compare to, not null
+     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return bool true if the instant equals the instant of the specified date-time
      */
     function isEqual(ChronoZonedDateTime $other);
@@ -522,7 +522,7 @@ interface ChronoZonedDateTime extends Temporal
      * To compare for the same instant on the time-line, use {@link #compareTo}.
      * Only objects of type {@code ChronoZonedDateTime} are compared, other types return false.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date-time
      */
     function equals($obj);

@@ -274,7 +274,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param $zone ZoneId the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return LocalTime the current time using the system clock, not null
      */
     public static function nowIn(ZoneId $zone)
@@ -289,7 +289,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@link Clock dependency injection}.
      *
-     * @param $clock Clock the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return LocalTime the current time, not null
      */
     public
@@ -309,10 +309,10 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This returns a {@code LocalTime} with the specified hour, minute, second and nanosecond.
      *
-     * @param $hour int the hour-of-day to represent, from 0 to 23
-     * @param $minute int the minute-of-hour to represent, from 0 to 59
-     * @param $second int the second-of-minute to represent, from 0 to 59
-     * @param $nanoOfSecond int the nano-of-second to represent, from 0 to 999,999,999
+     * @param int $hour the hour-of-day to represent, from 0 to 23
+     * @param int $minute the minute-of-hour to represent, from 0 to 59
+     * @param int $second the second-of-minute to represent, from 0 to 59
+     * @param int $nanoOfSecond the nano-of-second to represent, from 0 to 999,999,999
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
@@ -336,7 +336,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * This returns a {@code LocalTime} with the specified second-of-day.
      * The nanosecond field will be set to zero.
      *
-     * @param $secondOfDay int the second-of-day, from {@code 0} to {@code 24 * 60 * 60 - 1}
+     * @param int $secondOfDay the second-of-day, from {@code 0} to {@code 24 * 60 * 60 - 1}
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the second-of-day value is invalid
      */
@@ -356,7 +356,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This returns a {@code LocalTime} with the specified nanosecond-of-day.
      *
-     * @param $nanoOfDay int the nano of day, from {@code 0} to {@code 24 * 60 * 60 * 1,000,000,000 - 1}
+     * @param int $nanoOfDay the nano of day, from {@code 0} to {@code 24 * 60 * 60 * 1,000,000,000 - 1}
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the nanos of day value is invalid
      */
@@ -387,7 +387,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code self::from}.
      *
-     * @param $temporal TemporalAccessor the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return LocalTime the local time, not null
      * @throws DateTimeException if unable to convert to a {@code LocalTime}
      */
@@ -425,8 +425,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * The text is parsed using the formatter, returning a time.
      *
-     * @param $text string the text to parse, not null
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param string $text the text to parse, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return LocalTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
@@ -442,10 +442,10 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This factory may return a cached value, but applications must not rely on this.
      *
-     * @param $hour int the hour-of-day to represent, validated from 0 to 23
-     * @param $minute int the minute-of-hour to represent, validated from 0 to 59
-     * @param $second int the second-of-minute to represent, validated from 0 to 59
-     * @param $nanoOfSecond int the nano-of-second to represent, validated from 0 to 999,999,999
+     * @param int $hour the hour-of-day to represent, validated from 0 to 23
+     * @param int $minute the minute-of-hour to represent, validated from 0 to 59
+     * @param int $second the second-of-minute to represent, validated from 0 to 59
+     * @param int $nanoOfSecond the nano-of-second to represent, validated from 0 to 999,999,999
      * @return LocalTime LocalTime the local time, not null
      */
     private static function create($hour, $minute, $second, $nanoOfSecond)
@@ -460,10 +460,10 @@ final class LocalTime implements Temporal, TemporalAdjuster
     /**
      * Constructor, previously validated.
      *
-     * @param $hour int the hour-of-day to represent, validated from 0 to 23
-     * @param $minute int the minute-of-hour to represent, validated from 0 to 59
-     * @param $second int the second-of-minute to represent, validated from 0 to 59
-     * @param $nanoOfSecond int the nano-of-second to represent, validated from 0 to 999,999,999
+     * @param int $hour the hour-of-day to represent, validated from 0 to 23
+     * @param int $minute the minute-of-hour to represent, validated from 0 to 59
+     * @param int $second the second-of-minute to represent, validated from 0 to 59
+     * @param int $nanoOfSecond the nano-of-second to represent, validated from 0 to 999,999,999
      */
     private function __construct($hour, $minute, $second, $nanoOfSecond)
     {
@@ -508,7 +508,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param $field TemporalField the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this time, false if not
      */
     public function isSupported(TemporalField $field)
@@ -545,7 +545,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param $unit TemporalUnit the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -576,7 +576,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param $field TemporalField the field to query the range for, not null
+     * @param TemporalField $field the field to query the range for, not null
      * @return ValueRange the range of valid values for the field, not null
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -605,7 +605,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -639,7 +639,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param $field TemporalField the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -758,7 +758,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $adjuster TemporalAdjuster the adjuster to use, not null
+     * @param TemporalAdjuster $adjuster the adjuster to use, not null
      * @return LocalTime a {@code LocalTime} based on {@code this} with the adjustment made, not null
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -848,8 +848,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $field TemporalField the field to set in the result, not null
-     * @param $newValue int the new value of the field in the result
+     * @param TemporalField $field the field to set in the result, not null
+     * @param int $newValue the new value of the field in the result
      * @return LocalTime a {@code LocalTime} based on {@code this} with the specified field set, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -904,7 +904,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hour int the hour-of-day to set in the result, from 0 to 23
+     * @param int $hour the hour-of-day to set in the result, from 0 to 23
      * @return LocalTime a {@code LocalTime} based on this time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
@@ -923,7 +923,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minute int the minute-of-hour to set in the result, from 0 to 59
+     * @param int $minute the minute-of-hour to set in the result, from 0 to 59
      * @return LocalTime a {@code LocalTime} based on this time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
@@ -942,7 +942,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $second int the second-of-minute to set in the result, from 0 to 59
+     * @param int $second the second-of-minute to set in the result, from 0 to 59
      * @return LocalTime a {@code LocalTime} based on this time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
@@ -961,7 +961,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanoOfSecond int the nano-of-second to set in the result, from 0 to 999,999,999
+     * @param int $nanoOfSecond the nano-of-second to set in the result, from 0 to 999,999,999
      * @return LocalTime a {@code LocalTime} based on this time with the requested nanosecond, not null
      * @throws DateTimeException if the nanos value is invalid
      */
@@ -991,7 +991,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $unit TemporalUnit the unit to truncate to, not null
+     * @param TemporalUnit $unit the unit to truncate to, not null
      * @return LocalTime a {@code LocalTime} based on this time with the time truncated, not null
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1030,7 +1030,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd TemporalAmount the amount to add, not null
+     * @param TemporalAmount $amountToAdd the amount to add, not null
      * @return LocalTime a {@code LocalTime} based on this time with the addition made, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1085,8 +1085,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToAdd int the amount of the unit to add to the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to add, not null
+     * @param int $amountToAdd the amount of the unit to add to the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return LocalTime a {@code LocalTime} based on this time with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1126,7 +1126,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hoursToAdd int the hours to add, may be negative
+     * @param int $hoursToAdd the hours to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the hours added, not null
      */
     public function plusHours($hoursToAdd)
@@ -1147,7 +1147,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutesToAdd int the minutes to add, may be negative
+     * @param int $minutesToAdd the minutes to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the minutes added, not null
      */
     public function plusMinutes($minutesToAdd)
@@ -1174,7 +1174,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondstoAdd int the seconds to add, may be negative
+     * @param int $secondstoAdd the seconds to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the seconds added, not null
      */
     public function plusSeconds($secondstoAdd)
@@ -1203,7 +1203,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToAdd int the nanos to add, may be negative
+     * @param int $nanosToAdd the nanos to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the nanoseconds added, not null
      */
     public function plusNanos($nanosToAdd)
@@ -1240,7 +1240,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract TemporalAmount the amount to subtract, not null
+     * @param TemporalAmount $amountToSubtract the amount to subtract, not null
      * @return LocalTime a {@code LocalTime} based on this time with the subtraction made, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
@@ -1262,8 +1262,8 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $amountToSubtract int the amount of the unit to subtract from the result, may be negative
-     * @param $unit TemporalUnit the unit of the amount to subtract, not null
+     * @param int $amountToSubtract the amount of the unit to subtract from the result, may be negative
+     * @param TemporalUnit $unit the unit of the amount to subtract, not null
      * @return LocalTime a {@code LocalTime} based on this time with the specified amount subtracted, not null
      * @throws DateTimeException if the subtraction cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1283,7 +1283,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $hoursToSubtract int the hours to subtract, may be negative
+     * @param int $hoursToSubtract the hours to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the hours subtracted, not null
      */
     public
@@ -1300,7 +1300,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $minutesToSubtract int the minutes to subtract, may be negative
+     * @param int $minutesToSubtract the minutes to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the minutes subtracted, not null
      */
     public
@@ -1317,7 +1317,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $secondsToSubtract int the seconds to subtract, may be negative
+     * @param int $secondsToSubtract the seconds to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the seconds subtracted, not null
      */
     public function minusSeconds($secondsToSubtract)
@@ -1333,7 +1333,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToSubtract int the nanos to subtract, may be negative
+     * @param int $nanosToSubtract the nanos to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the nanoseconds subtracted, not null
      */
     public function minusNanos($nanosToSubtract)
@@ -1355,7 +1355,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * specified query passing {@code this} as the argument.
      *
      * @param <r> the type of the result
-     * @param $query TemporalQuery the query to invoke, not null
+     * @param TemporalQuery $query the query to invoke, not null
      * @return mixed the query result, null may be returned (defined by the query)
      * @throws DateTimeException if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
@@ -1398,7 +1398,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $temporal Temporal the target object to be adjusted, not null
+     * @param Temporal $temporal the target object to be adjusted, not null
      * @return Temporal the adjusted object, not null
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
@@ -1447,7 +1447,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $endExclusive Temporal the end time, exclusive, which is converted to a {@code LocalTime}, not null
+     * @param Temporal $endExclusive the end time, exclusive, which is converted to a {@code LocalTime}, not null
      * @param $unit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this time and the end time
      * @throws DateTimeException if the amount cannot be calculated, or the end
@@ -1487,7 +1487,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * This time will be passed to the formatter to produce a string.
      *
-     * @param $formatter DateTimeFormatter the formatter to use, not null
+     * @param DateTimeFormatter $formatter the formatter to use, not null
      * @return string the formatted time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -1503,7 +1503,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * This returns a {@code LocalDateTime} formed from this time at the specified date.
      * All possible combinations of date and time are valid.
      *
-     * @param $date LocalDate the date to combine with, not null
+     * @param LocalDate $date the date to combine with, not null
      * @return LocalDateTime LocalTime the local date-time formed from this time and the specified date, not null
      */
     public
@@ -1518,7 +1518,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * This returns an {@code OffsetTime} formed from this time at the specified offset.
      * All possible combinations of time and offset are valid.
      *
-     * @param $offset ZoneOffset the offset to combine with, not null
+     * @param ZoneOffset $offset the offset to combine with, not null
      * @return OffsetTime the offset time formed from this time and the specified offset, not null
      */
     public function atOffset(ZoneOffset $offset)
@@ -1563,7 +1563,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * The comparison is based on the time-line position of the local times within a day.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param $other LocalTime the other time to compare to, not null
+     * @param LocalTime $other the other time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      * @throws NullPointerException if {@code other} is null
      */
@@ -1587,7 +1587,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the time within a day.
      *
-     * @param $other LocalTime the other time to compare to, not null
+     * @param LocalTime $other the other time to compare to, not null
      * @return bool true if this is after the specified time
      * @throws NullPointerException if {@code other} is null
      */
@@ -1602,7 +1602,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * <p>
      * The comparison is based on the time-line position of the time within a day.
      *
-     * @param $other LocalTime the other time to compare to, not null
+     * @param LocalTime $other the other time to compare to, not null
      * @return true if this point is before the specified time
      * @throws NullPointerException if {@code other} is null
      */
@@ -1622,7 +1622,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      * To compare the date of two {@code TemporalAccessor} instances, use
      * {@link ChronoField#NANO_OF_DAY} as a comparator.
      *
-     * @param $obj mixed the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return true if this is equal to the other time
      */
     public function equals($obj)

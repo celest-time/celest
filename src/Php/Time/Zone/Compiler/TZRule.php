@@ -39,15 +39,15 @@ class TZRule
     /**
      * Constructor.
      *
-     * @param $year int the year
-     * @param $month Month  the month, not null
-     * @param $dayOfMonthIndicator int the day-of-month of the transition, adjusted by dayOfWeek,
+     * @param int $year the year
+     * @param Month $month  the month, not null
+     * @param int $dayOfMonthIndicator the day-of-month of the transition, adjusted by dayOfWeek,
      *   from 1 to 31 adjusted later, or -1 to -28 adjusted earlier from the last day of the month
-     * @param $dayOfWeek |null DayOfWeek the day-of-week, null if day-of-month is exact
-     * @param $time LocalTime the time, not null
-     * @param $timeEndOfDay bool whether midnight is at the end of day
-     * @param $timeDefinition TimeDefinition the time definition, not null
-     * @param $savingAfterSecs int the savings amount in seconds
+     * @param |null $dayOfWeek DayOfWeek the day-of-week, null if day-of-month is exact
+     * @param LocalTime $time the time, not null
+     * @param bool $timeEndOfDay whether midnight is at the end of day
+     * @param TimeDefinition $timeDefinition the time definition, not null
+     * @param int $savingAfterSecs the savings amount in seconds
      */
     public function __construct($year, Month $month, $dayOfMonthIndicator,
                                 $dayOfWeek, LocalTime $time, $timeEndOfDay,
@@ -66,8 +66,8 @@ class TZRule
     /**
      * Converts this to a transition.
      *
-     * @param $standardOffset ZoneOffset the active standard offset, not null
-     * @param $savingsBeforeSecs int the active savings in seconds
+     * @param ZoneOffset $standardOffset the active standard offset, not null
+     * @param int $savingsBeforeSecs the active savings in seconds
      * @return ZoneOffsetTransition the transition, not null
      */
     function toTransition(ZoneOffset $standardOffset, $savingsBeforeSecs)
@@ -86,8 +86,8 @@ class TZRule
     /**
      * Converts this to a transition rule.
      *
-     * @param $standardOffset ZoneOffset the active standard offset, not null
-     * @param $savingsBeforeSecs int the active savings before the transition in seconds
+     * @param ZoneOffset $standardOffset the active standard offset, not null
+     * @param int $savingsBeforeSecs the active savings before the transition in seconds
      * @return ZoneOffsetTransitionRule the transition, not null
      */
     function toTransitionRule(ZoneOffset $standardOffset, $savingsBeforeSecs)
