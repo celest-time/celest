@@ -1,5 +1,5 @@
 {
-  "name": "php/time",
+  "name": "celest/prototype",
   "description": "A port of JSR310 to PHP",
   "license": "GPL-2.0",
   "authors": [
@@ -18,8 +18,19 @@
       "Php\\Time\\": "test/Php/Time"
     }
   },
+  "repositories": [
+    {
+      "packagist": false
+    },
+    {
+      "type": "path",
+      "url": "tzdata"
+    }
+  ],
+  "minimum-stability": "dev",
   "require": {
     "php" : "^5.6 || ^7.0",
+    "celest/prototype-tzdata" : "*",
     "ext-gmp": "*"
   },
   "require-dev": {

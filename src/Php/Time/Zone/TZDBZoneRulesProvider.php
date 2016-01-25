@@ -2,6 +2,7 @@
 
 namespace Php\Time\Zone;
 
+use Celest\TzData\TzData;
 
 class TZDBZoneRulesProvider extends ZoneRulesProvider
 {
@@ -10,6 +11,9 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
 
     /** @var string[]  */
     private static $links = null;
+
+    /** @var string[] */
+    private static $provides = null;
 
     /**
      * SPI method to get the available zone IDs.
@@ -25,7 +29,10 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
      */
     protected function provideZoneIds()
     {
-        return include __DIR__ . '/../../../../tzdata/provides.php';
+        if(self::$provides === null) {
+            self::$provides = TzData::load('provides.php');
+        }
+        return self::$provides;
     }
 
     /**
@@ -58,7 +65,7 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
     {
         if(!array_key_exists($zoneId, self::$rulesCache)) {
             if(self::$links === null) {
-                self::$links = include __DIR__ . '/../../../../tzdata/links.php';
+                self::$links = TzData::load('links.php');
             }
 
             if(array_key_exists($zoneId, self::$links)) {
@@ -74,7 +81,7 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
 
     protected function loadFromFile($zoneId) {
         if(!array_key_exists($zoneId, self::$rulesCache)) {
-            self::$rulesCache[$zoneId] = unserialize(include __DIR__ . '/../../../../tzdata/' . $zoneId . '.php');
+            self::$rulesCache[$zoneId] = unserialize(TzData::load('zones/' . $zoneId . '.php'));
         }
 
         return self::$rulesCache[$zoneId];

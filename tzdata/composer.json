@@ -1,0 +1,16 @@
+{
+  "name": "celest/prototype-tzdata",
+  "description": "Timezone data",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Steffen Hanikel",
+      "email": "steffen.hanikel@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Celest\\TzData\\": "src/"
+    }
+  }
+}
