@@ -248,15 +248,6 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
         $this->assertEquals(count($test->getTransitionRules()), 0);
     }
 
-    /**
-     * @throws \Php\Time\IllegalArgumentException
-     */
-    public function test_getTransitionRules_immutable()
-    {
-        $test = self::make(self::OFFSET_PTWO());
-        $test->getTransitionRules()[] = ZoneOffsetTransitionRule::of(Month::JULY(), 2, null, LocalTime::of(12, 30), false, TimeDefinition::STANDARD(), self::OFFSET_PONE(), self::OFFSET_PTWO(), self::OFFSET_PONE());
-    }
-
     //-----------------------------------------------------------------------
     // equals() / hashCode()
     //-----------------------------------------------------------------------
