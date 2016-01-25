@@ -20,9 +20,6 @@
   },
   "repositories": [
     {
-      "packagist": false
-    },
-    {
       "type": "path",
       "url": "tzdata"
     }
