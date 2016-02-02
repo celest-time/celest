@@ -63,14 +63,65 @@
  */
 namespace Celest;
 
-use Celest\Chrono\TextStyle;
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Format\TextStyle;
 use Celest\Helper\StringHelper;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAccessorDefaults;
+use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
+use Celest\Temporal\TemporalQuery;
+use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 use Celest\Zone\ZoneRules;
 use Celest\Zone\ZoneRulesException;
 use Celest\Zone\ZoneRulesProvider;
+
+class ZoneIdTemporalAccessor implements TemporalAccessor
+{
+    /**
+     * @var ZoneId
+     */
+    private $_this;
+
+    public function __construct(ZoneId $_this)
+    {
+        $this->_this = $_this;
+    }
+
+    public function isSupported(TemporalField $field)
+    {
+        return false;
+    }
+
+    public function getLong(TemporalField $field)
+    {
+        throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
+    }
+
+    public function query(TemporalQuery $query)
+    {
+        if ($query == TemporalQueries::zoneId()) {
+            return $this->_this;
+        }
+        return TemporalAccessorDefaults::query($this, $query);
+    }
+
+    public function range(TemporalField $field)
+    {
+        // TODO: Implement range() method.
+    }
+
+    public function get(TemporalField $field)
+    {
+        // TODO: Implement get() method.
+    }
+
+    public function __toString()
+    {
+        return '';
+    }
+};
 
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
@@ -241,6 +292,9 @@ abstract class ZoneId
     public
     static function of($zoneId)
     {
+        if(!is_string($zoneId))
+            throw new \InvalidArgumentException();
+
         return self::_of($zoneId, true);
     }
 
@@ -259,7 +313,10 @@ abstract class ZoneId
      */
     public static function ofOffset($prefix, ZoneOffset $offset)
     {
-        if (strlen($prefix) == 0) {
+        if(!is_string($prefix))
+            throw new \InvalidArgumentException();
+
+        if (strlen($prefix) === 0) {
             return $offset;
         }
 
@@ -267,7 +324,7 @@ abstract class ZoneId
             throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " . $prefix);
         }
 
-        if ($offset->getTotalSeconds() != 0) {
+        if ($offset->getTotalSeconds() !== 0) {
             $prefix .= $offset->getId();
         }
         return new ZoneRegion($prefix, $offset->getRules());
@@ -311,7 +368,7 @@ abstract class ZoneId
     static function ofWithPrefix($zoneId, $prefixLength, $checkAvailable)
     {
         $prefix = substr($zoneId, 0, $prefixLength);
-        if (strlen($zoneId) == $prefixLength) {
+        if (strlen($zoneId) === $prefixLength) {
             return self::ofOffset($prefix, ZoneOffset::UTC());
         }
 
@@ -401,7 +458,7 @@ abstract class ZoneId
      */
     public function getDisplayName(TextStyle $style, Locale $locale)
     {
-        return (new DateTimeFormatterBuilder())->appendZoneText($style)->toFormatter($locale)->format($this->toTemporal());
+        return (new DateTimeFormatterBuilder())->appendZoneText($style)->toFormatter2($locale)->format($this->toTemporal());
     }
 
     /**
@@ -414,13 +471,13 @@ abstract class ZoneId
      * The returned temporal has no supported fields, with the query method
      * supporting the return of the zone using {@link TemporalQueries#zoneId()}.
      *
-     * TODO use
+     * TODO use PHP7 anonymous class
      *
      * @return TemporalAccessor a temporal equivalent to this zone, not null
      */
     private function toTemporal()
     {
-        return null;
+        return new ZoneIdTemporalAccessor($this);
     }
 
     //-----------------------------------------------------------------------
@@ -489,7 +546,7 @@ abstract class ZoneId
 
         if ($obj instanceof ZoneId) {
             $other = $obj;
-            return $this->getId()->equals($other->getId());
+            return $this->getId() === $other->getId();
         }
         return false;
     }

@@ -20,4 +20,9 @@ class Locale
     {
         return new Locale();
     }
+
+    public static function UK()
+    {
+        return new Locale();
+    }
 }

@@ -614,6 +614,8 @@ final class TzdbZoneRulesCompiler
             $this->builtZones[$zoneId] = $bld->_toRules($zoneId, $dedupMap);
         }
 
+        $this->links['Zulu'] = 'Etc/UTC';
+
         // build aliases
         foreach ($this->links as $aliasId => $realId) {
             $this->printVerbose("Linking alias " . $aliasId . " to " . $realId. "\n");

@@ -63,6 +63,7 @@
 namespace Celest\Format;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
+use Celest\Locale;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\ZoneId;

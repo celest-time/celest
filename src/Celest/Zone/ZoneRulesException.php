@@ -3,7 +3,9 @@
 namespace Celest\Zone;
 
 
-class ZoneRulesException extends \Exception
+use Celest\DateTimeException;
+
+class ZoneRulesException extends DateTimeException
 {
 
 }

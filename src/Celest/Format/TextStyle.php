@@ -86,14 +86,14 @@ class TextStyle
 {
     // ordered from large to small
     // ordered so that bit 0 of the ordinal indicates stand-alone.
-    public function init()
+    public static function init()
     {
-        self::$FULL = new TextStyle(Calendar::LONG_FORMAT, 0);
-        self::$FULL_STANDALONE = new TextStyle(Calendar::LONG_STANDALONE, 0);
-        self::$SHORT = new TextStyle(Calendar::SHORT_FORMAT, 1);
-        self::$SHORT_STANDALONE = new TextStyle(Calendar::SHORT_STANDALONE, 1);
-        self::$NARROW = new TextStyle(Calendar::NARROW_FORMAT, 1);
-        self::$NARROW_STANDALONE = new TextStyle(Calendar::NARROW_STANDALONE, 1);
+        self::$FULL = new TextStyle(0, 0);
+        self::$FULL_STANDALONE = new TextStyle(1, 0);
+        self::$SHORT = new TextStyle(2, 1);
+        self::$SHORT_STANDALONE = new TextStyle(3, 1);
+        self::$NARROW = new TextStyle(4, 1);
+        self::$NARROW_STANDALONE = new TextStyle(5, 1);
     }
 
     /**
@@ -175,13 +175,13 @@ class TextStyle
     public static $NARROW_STANDALONE;
 
     /** @var int */
-    private $calendarStyle;
+    private $ordinal;
     /** @var int */
     private $zoneNameStyleIndex;
 
-    private function __construct($calendarStyle, $zoneNameStyleIndex)
+    private function __construct($ordinal, $zoneNameStyleIndex)
     {
-        $this->calendarStyle = $calendarStyle;
+        $this->ordinal = $ordinal;
         $this->zoneNameStyleIndex = $zoneNameStyleIndex;
     }
 
@@ -191,7 +191,7 @@ class TextStyle
      */
     public function isStandalone()
     {
-        return ($this->ordinal() & 1) == 1;
+        return ($this->ordinal & 1) == 1;
     }
 
     /**
@@ -200,7 +200,7 @@ class TextStyle
      */
     public function asStandalone()
     {
-        return TextStyle::values()[$this->ordinal() | 1];
+        return TextStyle::values()[$this->ordinal | 1];
     }
 
     /**
@@ -210,17 +210,7 @@ class TextStyle
      */
     public function asNormal()
     {
-        return TextStyle::values()[$this->ordinal() & ~1];
-    }
-
-    /**
-     * Returns the {@code Calendar} style corresponding to this {@code TextStyle}.
-     *
-     * @return int the corresponding {@code Calendar} style
-     */
-    public function toCalendarStyle()
-    {
-        return $this->calendarStyle;
+        return TextStyle::values()[$this->ordinal & ~1];
     }
 
     /**
@@ -236,4 +226,27 @@ class TextStyle
     {
         return $this->zoneNameStyleIndex;
     }
+
+    function __toString()
+    {
+        switch($this->ordinal) {
+            case 0:
+                return 'FULL';
+            case 1:
+                return 'FULL_STANDALONE';
+            case 2:
+                return 'SHORT';
+            case 3:
+                return 'SHORT_STANDALONE';
+            case 4:
+                return 'NARROW';
+            case 5:
+                return 'NARROW_STANDALONE';
+        }
+        return '';
+    }
+
+
 }
+
+TextStyle::init();

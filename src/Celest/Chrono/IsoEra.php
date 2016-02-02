@@ -63,6 +63,8 @@
 namespace Celest\Chrono;
 
 use Celest\DateTimeException;
+use Celest\Format\TextStyle;
+use Celest\Locale;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalQuery;

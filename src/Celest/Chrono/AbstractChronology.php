@@ -66,6 +66,7 @@ use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
+use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\TemporalAdjusters;

@@ -64,6 +64,8 @@ namespace Celest\Chrono;
 
 use Celest\ArithmeticException;
 use Celest\DateTimeException;
+use Celest\Format\TextStyle;
+use Celest\Locale;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAdjuster;

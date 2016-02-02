@@ -1,8 +1,9 @@
 <?php
 
 namespace Celest\Format\Builder;
-use Celest\Chrono\TextStyle;
 use Celest\Format\DateTimePrintContext;
+use Celest\Format\TextStyle;
+use Celest\Locale;
 use Celest\Temporal\TemporalQueries;
 use Celest\Format\DateTimeParseContext;
 use Celest\Chrono\Chronology;

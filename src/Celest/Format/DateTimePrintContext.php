@@ -64,6 +64,7 @@ namespace Celest\Format;
 
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
+use Celest\Locale;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalQueries;

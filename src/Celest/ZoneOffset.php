@@ -122,11 +122,11 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
 {
     public static function init()
     {
+        self::$SECONDS_CACHE = [];
+        self::$ID_CACHE = [];
         self::$UTC = ZoneOffset::ofTotalSeconds(0);
         self::$MIN = ZoneOffset::ofTotalSeconds(-self::MAX_SECONDS);
         self::$MAX = ZoneOffset::ofTotalSeconds(self::MAX_SECONDS);
-        self::$SECONDS_CACHE = [];
-        self::$ID_CACHE = [];
     }
 
     /**
@@ -227,7 +227,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         // "Z" is always in the cache
         // TODO check not undefined
         $offset = @self::$ID_CACHE[$offsetId];
-        if ($offset != null) {
+        if ($offset !== null) {
             return $offset;
         }
 
@@ -265,10 +265,10 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
                 throw new DateTimeException("Invalid ID for ZoneOffset, invalid format: " . $offsetId);
         }
         $first = $offsetId[0];
-        if ($first != '+' && $first != '-') {
+        if ($first !== '+' && $first !== '-') {
             throw new DateTimeException("Invalid ID for ZoneOffset, plus/minus not found when expected: " . $offsetId);
         }
-        if ($first == '-') {
+        if ($first === '-') {
             return self::ofHoursMinutesSeconds(-$hours, -$minutes, -$seconds);
         } else {
             return self::ofHoursMinutesSeconds($hours, $minutes, $seconds);

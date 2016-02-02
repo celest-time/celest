@@ -64,8 +64,8 @@ namespace Celest;
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-use Celest\Chrono\TextStyle;
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Format\TextStyle;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
