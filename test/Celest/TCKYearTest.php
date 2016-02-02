@@ -14,7 +14,7 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use PHPUnit_Framework_TestCase;
 
-class YearTest extends PHPUnit_Framework_TestCase
+class TCKYearTest extends PHPUnit_Framework_TestCase
 {
     /** @var Year */
     private static $TEST_2008;

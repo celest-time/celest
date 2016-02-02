@@ -47,7 +47,7 @@ final class TextPrinterParser implements DateTimePrinterParser
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $value = $context->getValue($this->field);
+        $value = $context->getValueField($this->field);
         if ($value == null) {
             return false;
         }
@@ -70,7 +70,7 @@ final class TextPrinterParser implements DateTimePrinterParser
     {
         $length = strlen($parseText);
         if ($position < 0 || $position > $length) {
-            throw new IndexOutOfBoundsException();
+            throw new \OutOfRangeException();
         }
 
         $style = ($context->isStrict() ? $this->textStyle : null);
