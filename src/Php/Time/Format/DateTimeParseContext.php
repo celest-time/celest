@@ -63,6 +63,7 @@
 namespace Php\Time\Format;
 use Php\Time\Chrono\Chronology;
 use Php\Time\Chrono\IsoChronology;
+use Php\Time\Temporal\TemporalAccessor;
 use Php\Time\Temporal\TemporalField;
 use Php\Time\ZoneId;
 
@@ -346,7 +347,7 @@ final class DateTimeParseContext
      *
      * @param ResolverStyle $resolverStyle
      * @param TemporalField $resolverFields[]
-     * @return \Php\Time\Temporal\TemporalAccessor the result of the parse, not null
+     * @return TemporalAccessor the result of the parse, not null
      */
     public function toResolved(ResolverStyle $resolverStyle, $resolverFields)
     {

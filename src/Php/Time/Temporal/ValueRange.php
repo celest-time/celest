@@ -318,7 +318,7 @@ final class ValueRange
      * @param int $value the value to check
      * @param TemporalField $field the field being checked, may be null
      * @return int the value that was passed in
-     * @throws \Php\Time\DateTimeException
+     * @throws DateTimeException
      * @see #isValidValue(long)
      */
     public function checkValidValue($value, TemporalField $field)
@@ -340,7 +340,7 @@ final class ValueRange
      * @param int $value the value to check
      * @param TemporalField $field
      * @return int the value that was passed in
-     * @throws \Php\Time\DateTimeException
+     * @throws DateTimeException
      * @internal param TemporalField $field the field being checked, may be null
      * @see #isValidIntValue(long)
      */

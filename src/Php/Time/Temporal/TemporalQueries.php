@@ -64,6 +64,7 @@
 namespace Php\Time\Temporal;
 
 use Php\Time\Chrono\Chronology;
+use Php\Time\DateTimeException;
 use Php\Time\LocalDate;
 use Php\Time\LocalTime;
 use Php\Time\Temporal\TemporalQuery\FuncTemporalQuery;
@@ -172,7 +173,7 @@ final class TemporalQueries
      * A query for {@code ZoneOffset} returning null if not found.
      * @param TemporalAccessor $temporal
      * @return null|ZoneOffset
-     * @throws \Php\Time\DateTimeException
+     * @throws DateTimeException
      */
     public static function _offset(TemporalAccessor $temporal)
     {
