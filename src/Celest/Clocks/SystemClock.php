@@ -44,7 +44,7 @@ final class SystemClock extends Clock
     public function millis()
     {
         $tofd = \gettimeofday();
-        return $tofd['sec'] + Math::floorDiv($tofd['usec'], 1000);
+        return $tofd['sec'] * 1000 + Math::floorDiv($tofd['usec'], 1000);
     }
 
     public function instant()
