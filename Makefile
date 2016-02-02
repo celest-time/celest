@@ -1,6 +1,6 @@
 .PHONY: default all build test test-php56 test-php70
 
-TZVERSION=2015g
+TZVERSION=2016a
 
 default: all
 
@@ -32,15 +32,16 @@ test-php70:
 test-php70-long:
 	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/phpunit --group long
 
-tzdata$(TZVERSION).tar.gz:
-	wget 'ftp://ftp.iana.org/tz/releases/tzdata$(TZVERSION).tar.gz' -O tzdata$(TZVERSION).tar.gz
+dl/tzdata$(TZVERSION).tar.gz:
+	mkdir -p dl
+	wget 'ftp://ftp.iana.org/tz/releases/tzdata$(TZVERSION).tar.gz' -O dl/tzdata$(TZVERSION).tar.gz
 
-tzdata$(TZVERSION): tzdata$(TZVERSION).tar.gz
-	mkdir tzdata$(TZVERSION)
-	tar -xzf tzdata$(TZVERSION).tar.gz -C tzdata$(TZVERSION)
+tzdata$(TZVERSION): dl/tzdata$(TZVERSION).tar.gz
+	mkdir -p tzdata$(TZVERSION)
+	tar -xzf dl/tzdata$(TZVERSION).tar.gz -C tzdata$(TZVERSION)
 
-tzdata/version.php: tzdata$(TZVERSION)
-	mkdir tzdata
-	php src/Php/Time/Zone/Compiler/TzdbZoneRulesCompiler.php -verbose -srcdir tzdata$(TZVERSION) -dstdir tzdata
+tzdata/src/tzdata/version.php: tzdata$(TZVERSION)
+	mkdir -p tzdata/src/tzdata/
+	php src/Celest/Zone/Compiler/TzdbZoneRulesCompiler.php -verbose -srcdir tzdata$(TZVERSION) -dstdir tzdata/src/tzdata
 
-tzdata: tzdata/version.php
+tzdata: tzdata/src/tzdata/version.php

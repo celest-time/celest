@@ -10,12 +10,12 @@
   ],
   "autoload": {
     "psr-4": {
-      "Php\\Time\\": "src/Php/Time"
+      "Celest\\": "src/Celest"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Php\\Time\\": "test/Php/Time"
+      "Celest\\": "test/Celest"
     }
   },
   "repositories": [
