@@ -61,6 +61,7 @@ use Celest\ArithmeticException;
 use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Long;
+use Celest\Locale;
 use Celest\Year;
 
 /**

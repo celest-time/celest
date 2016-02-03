@@ -65,6 +65,7 @@ namespace Celest\Temporal;
 use Celest\ArithmeticException;
 use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
+use Celest\Locale;
 
 /**
  * A field of date-time, such as month-of-year or hour-of-minute.
