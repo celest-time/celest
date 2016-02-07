@@ -29,7 +29,8 @@
   "require": {
     "php" : "^5.6 || ^7.0",
     "celest/prototype-tzdata" : "*",
-    "ext-gmp": "*"
+    "ext-gmp": "*",
+    "ext-intl": "*"
   },
   "require-dev": {
     "phpunit/phpunit": ">=4.8"
