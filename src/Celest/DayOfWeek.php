@@ -231,13 +231,13 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
     private static $ENUMS;
 
     /** @var int */
-    private $val;
+    private $ordinal;
     /** @var string */
     private $name;
 
-    private function __construct($val, $name)
+    private function __construct($ordinal, $name)
     {
-        $this->val = $val;
+        $this->ordinal = $ordinal;
         $this->name = $name;
     }
 
@@ -302,7 +302,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
      */
     public function getValue()
     {
-        return $this->val;
+        return $this->ordinal + 1;
     }
 
     //-----------------------------------------------------------------------
@@ -462,7 +462,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
     public function plus($days)
     {
         $amount = $days % 7;
-        return self::$ENUMS[(($this->val - 1) + ($amount + 7)) % 7];
+        return self::$ENUMS[(($this->ordinal - 1) + ($amount + 7)) % 7];
     }
 
     /**
