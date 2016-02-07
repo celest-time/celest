@@ -57,7 +57,7 @@ final class TextPrinterParser implements DateTimePrinterParser
         if ($chrono === null || $chrono == IsoChronology::INSTANCE()) {
             $text = $this->provider->getText($this->field, $value, $this->textStyle, $context->getLocale());
         } else {
-            $text = $this->provider->getText($chrono, $this->field, $value, $this->textStyle, $context->getLocale());
+            $text = $this->provider->getText2($chrono, $this->field, $value, $this->textStyle, $context->getLocale());
         }
         if ($text === null) {
             return $this->numberPrinterParser()->format($context, $buf);
@@ -79,7 +79,7 @@ final class TextPrinterParser implements DateTimePrinterParser
         if ($chrono == null || $chrono == IsoChronology::INSTANCE()) {
             $it = $this->provider->getTextIterator($this->field, $style, $context->getLocale());
         } else {
-            $it = $this->provider->getTextIterator($chrono, $this->field, $style, $context->getLocale());
+            $it = $this->provider->getTextIterator2($chrono, $this->field, $style, $context->getLocale());
         }
         if ($it != null) {
             while ($it->hasNext()) {

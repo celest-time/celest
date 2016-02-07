@@ -866,7 +866,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function getDayOfWeek()
     {
-        $dow0 = (int)Math::floorMod($this->toEpochDay() + 3, 7);
+        $dow0 = Math::floorMod($this->toEpochDay() + 3, 7);
         return DayOfWeek::of($dow0 + 1);
     }
 

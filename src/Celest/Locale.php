@@ -34,6 +34,16 @@ class Locale
         return new Locale("en_UK");
     }
 
+    public static function US()
+    {
+        return new Locale("en_US");
+    }
+
+    public static function FRENCH()
+    {
+        return new Locale('fr');
+    }
+
     public function getLocale()
     {
         return $this->locale;

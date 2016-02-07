@@ -6,6 +6,7 @@ use Celest\Format\DateTimePrintContext;
 use Celest\Format\DateTimeParseContext;
 use Celest\Format\SignStyle;
 use Celest\IllegalArgumentException;
+use Celest\Locale;
 
 /**
  * Prints or parses a localized pattern from a localized field.
@@ -57,8 +58,8 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
         switch ($this->chr) {
             case 'Y':
                 $field = $weekDef->weekBasedYear();
-                if ($this->count == 2) {
-                    return new ReducedPrinterParser($field, 2, 2, 0, ReducedPrinterParser::BASE_DATE, 0);
+                if ($this->count === 2) {
+                    return new ReducedPrinterParser($field, 2, 2, 0, ReducedPrinterParser::BASE_DATE(), 0);
                 } else {
                     return new NumberPrinterParser($field, $this->count, 19,
                         ($this->count < 4) ? SignStyle::NORMAL() : SignStyle::EXCEEDS_PAD(), -1);

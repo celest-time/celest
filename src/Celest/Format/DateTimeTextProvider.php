@@ -68,6 +68,7 @@ use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\IsoFields;
 use Celest\Temporal\TemporalField;
 use ResourceBundle;
 
@@ -102,6 +103,37 @@ class DateTimeTextProvider
     }
 
     /**
+     * @param $value
+     * @param TextStyle $style
+     * @param Locale $locale
+     * @return mixed
+     */
+    public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
+    {
+        $bundle = new ResourceBundle($locale->getLocale(), null);
+
+        $id = $style->isStandalone() ? 'stand-alone' : 'format';
+
+        $styles = [
+            \IntlDateFormatter::FULL => 'wide',
+            \IntlDateFormatter::MEDIUM => 'abbreviated',
+            \IntlDateFormatter::SHORT => 'narrow',
+        ];
+
+        $name = $bundle['calendar']['gregorian'][$field][$id][$styles[$style->toCalendarStyle()]][$value];
+
+        // fallback to stand alone if not found
+        if ($name === null && $id === 'format')
+            $name = $bundle['calendar']['gregorian'][$field]['stand-alone'][$styles[$style->toCalendarStyle()]][$value];
+
+        // ERA
+        if ($name === null)
+            $name = $bundle['calendar']['gregorian'][$field][$styles[$style->toCalendarStyle()]][$value];
+
+        return $name;
+    }
+
+    /**
      * Gets the text for the specified field, locale and style
      * for the purpose of formatting.
      * <p>
@@ -118,45 +150,27 @@ class DateTimeTextProvider
     public function getText(TemporalField $field, $value, TextStyle $style, Locale $locale)
     {
         if($field == ChronoField::DAY_OF_WEEK()) {
-            $bundle = new ResourceBundle($locale->getLocale(), null);
+            if($value === 7)
+                $value = 0;
 
-            $id = $style->isStandalone() ? 'stand-alone' : 'format';
-
-            $styles = [
-                \IntlDateFormatter::FULL => 'wide',
-                \IntlDateFormatter::MEDIUM => 'abbreviated',
-                \IntlDateFormatter::SHORT => 'narrow',
-            ];
-
-
-            $name = $bundle['calendar']['gregorian']['dayNames'][$id][$styles[$style->toCalendarStyle()]][$value];
-
-            return $name;
+            return  self::tryFetch('dayNames', $value, $style, $locale);
         }
 
         if($field == ChronoField::MONTH_OF_YEAR()) {
-            $bundle = new ResourceBundle($locale->getLocale(), null);
-
-            $id = $style->isStandalone() ? 'stand-alone' : 'format';
-
-            $styles = [
-                \IntlDateFormatter::FULL => 'wide',
-                \IntlDateFormatter::MEDIUM => 'abbreviated',
-                \IntlDateFormatter::SHORT => 'narrow',
-            ];
-
-
-            $name = $bundle['calendar']['gregorian']['monthNames'][$id][$styles[$style->toCalendarStyle()]][$value - 1];
-
-            return $name;
+            return self::tryFetch('monthNames', $value - 1, $style, $locale);
         }
 
         if($field == ChronoField::AMPM_OF_DAY()) {
             $bundle = new ResourceBundle($locale->getLocale(), null);
+            return $bundle['calendar']['gregorian']['AmPmMarkers'][$value];
+        }
 
-            $name = $bundle['calendar']['gregorian']['AmPmMarkers'][$value];
+        if($field == ChronoField::ERA()) {
+            return self::tryFetch('eras', $value, $style, $locale);
+        }
 
-            return $name;
+        if($field == IsoFields::QUARTER_OF_YEAR()) {
+            return self::tryFetch('quarters', $value - 1, $style, $locale);
         }
 
         return null;
