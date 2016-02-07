@@ -5,24 +5,37 @@ namespace Celest;
 
 class Locale
 {
-    public $FORMAT;
+    private $locale;
 
-    public static function Category() {
-        return new Locale();
+    public static function of($language, $region = '')
+    {
+        return new Locale(\Locale::composeLocale([
+            'language' => $language,
+            'region' => $region,
+        ]));
     }
 
-    public static function getDefault($FORMAT)
+    private function __construct($locale) {
+        $this->locale = $locale;
+    }
+
+    public static function getDefault()
     {
-        return new Locale();
+        return new Locale(\Locale::getDefault());
     }
 
     public static function ENGLISH()
     {
-        return new Locale();
+        return new Locale("en");
     }
 
     public static function UK()
     {
-        return new Locale();
+        return new Locale("en_UK");
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
     }
 }

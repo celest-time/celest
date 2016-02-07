@@ -48,18 +48,18 @@ final class TextPrinterParser implements DateTimePrinterParser
     public function format(DateTimePrintContext $context, &$buf)
     {
         $value = $context->getValueField($this->field);
-        if ($value == null) {
+        if ($value === null) {
             return false;
         }
 
         $text = null;
         $chrono = $context->getTemporal()->query(TemporalQueries::chronology());
-        if ($chrono == null || $chrono == IsoChronology::INSTANCE()) {
+        if ($chrono === null || $chrono == IsoChronology::INSTANCE()) {
             $text = $this->provider->getText($this->field, $value, $this->textStyle, $context->getLocale());
         } else {
             $text = $this->provider->getText($chrono, $this->field, $value, $this->textStyle, $context->getLocale());
         }
-        if ($text == null) {
+        if ($text === null) {
             return $this->numberPrinterParser()->format($context, $buf);
         }
         $buf .= $text;

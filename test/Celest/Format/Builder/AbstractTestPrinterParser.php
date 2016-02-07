@@ -70,7 +70,7 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
     {
         $this->builder = new DateTimeFormatterBuilder();
         $this->dta = ZonedDateTime::of(LocalDateTime::ofNumerical(2011, 6, 30, 12, 30, 40, 0), ZoneId::of("Europe/Paris"));
-        $this->locale = new Locale();
+        $this->locale = Locale::of("en");
         $this->decimalStyle = DecimalStyle::STANDARD();
     }
 

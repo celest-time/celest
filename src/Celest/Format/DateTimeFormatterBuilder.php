@@ -2078,7 +2078,7 @@ final class DateTimeFormatterBuilder
      */
     public function toFormatter()
     {
-        return $this->toFormatter2(Locale::getDefault(Locale::Category()->FORMAT));
+        return $this->toFormatter2(Locale::getDefault());
     }
 
     /**

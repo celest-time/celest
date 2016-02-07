@@ -88,12 +88,12 @@ class TextStyle
     // ordered so that bit 0 of the ordinal indicates stand-alone.
     public static function init()
     {
-        self::$FULL = new TextStyle(0, 0);
-        self::$FULL_STANDALONE = new TextStyle(1, 0);
-        self::$SHORT = new TextStyle(2, 1);
-        self::$SHORT_STANDALONE = new TextStyle(3, 1);
-        self::$NARROW = new TextStyle(4, 1);
-        self::$NARROW_STANDALONE = new TextStyle(5, 1);
+        self::$FULL = new TextStyle(0, \IntlDateFormatter::FULL, 0);
+        self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL,  0);
+        self::$SHORT = new TextStyle(2, \IntlDateFormatter::MEDIUM, 1);
+        self::$SHORT_STANDALONE = new TextStyle(3, \IntlDateFormatter::MEDIUM, 1);
+        self::$NARROW = new TextStyle(4, \IntlDateFormatter::SHORT , 1);
+        self::$NARROW_STANDALONE = new TextStyle(5, \IntlDateFormatter::SHORT, 1);
     }
 
     /**
@@ -178,11 +178,14 @@ class TextStyle
     private $ordinal;
     /** @var int */
     private $zoneNameStyleIndex;
+    /** @var int */
+    private $calendarStyle;
 
-    private function __construct($ordinal, $zoneNameStyleIndex)
+    private function __construct($ordinal, $calendarStyle, $zoneNameStyleIndex)
     {
         $this->ordinal = $ordinal;
         $this->zoneNameStyleIndex = $zoneNameStyleIndex;
+        $this->calendarStyle = $calendarStyle;
     }
 
     /**
@@ -191,7 +194,7 @@ class TextStyle
      */
     public function isStandalone()
     {
-        return ($this->ordinal & 1) == 1;
+        return ($this->ordinal & 1) === 1;
     }
 
     /**
@@ -214,6 +217,16 @@ class TextStyle
     }
 
     /**
+     * Returns the {@code IntlDateFormatter} style corresponding to this {@code TextStyle}.
+     *
+     * @return int the corresponding {@code IntlDateFormatter} style
+     */
+    public function toCalendarStyle()
+    {
+        return $this->calendarStyle;
+    }
+
+    /**
      * Returns the relative index value to an element of the {@link
      * java.text.DateFormatSymbols#getZoneStrings() DateFormatSymbols.getZoneStrings()}
      * value, 0 for long names and 1 for short names (abbreviations). Note that these values
@@ -229,7 +242,7 @@ class TextStyle
 
     function __toString()
     {
-        switch($this->ordinal) {
+        switch ($this->ordinal) {
             case 0:
                 return 'FULL';
             case 1:
