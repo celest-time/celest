@@ -693,7 +693,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
             case ChronoField::CLOCK_HOUR_OF_DAY():
                 return ($this->hour == 0 ? 24 : $this->hour);
             case ChronoField::AMPM_OF_DAY():
-                return $this->hour / 12;
+                return Math::div($this->hour, 12);
         }
 
         throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
