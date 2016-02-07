@@ -11,8 +11,10 @@ namespace Celest\Chrono;
 
 use Celest\Clock;
 use Celest\DateTimeException;
+use Celest\Format\TextStyle;
 use Celest\Instant;
 use Celest\LocalDate;
+use Celest\Locale;
 use Celest\LocalTime;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalQueries;
