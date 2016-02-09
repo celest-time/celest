@@ -202,6 +202,25 @@ final class DateTimeParseContext
         $this->caseSensitive = $caseSensitive;
     }
 
+    // TODO move to Helper class
+    /** @var \Transliterator */
+    private static $to_upper;
+
+    private static function toUpperMb($str) {
+        if(self::$to_upper === null)
+            self::$to_upper = \Transliterator::create('Any-Upper');
+        return self::$to_upper->transliterate($str);
+    }
+
+    /** @var \Transliterator */
+    private static $to_lower;
+
+    private static function toLowerMb($str) {
+        if(self::$to_lower === null)
+            self::$to_lower = \Transliterator::create('Any-Lower');
+        return self::$to_lower->transliterate($str);
+    }
+
 //-----------------------------------------------------------------------
     /**
      * Helper to compare two {@code CharSequence} instances.
@@ -216,29 +235,21 @@ final class DateTimeParseContext
      */
     public function subSequenceEquals($cs1, $offset1, $cs2, $offset2, $length)
     {
+        // TODO improve multibyte compatibility
         if ($offset1 + $length > strlen($cs1) || $offset2 + $length > strlen($cs2)) {
             return false;
         }
 
+        $x = substr($cs1, $offset1, $length);
+        $y = substr($cs2, $offset2, $length);
+
         if ($this->isCaseSensitive()) {
-            for ($i = 0; $i < $length;
-                 $i++) {
-                $ch1 = $cs1[$offset1 + $i];
-                $ch2 = $cs2[$offset2 + $i];
-                if ($ch1 !== $ch2) {
-                    return false;
-                }
-            }
+            return $x === $y;
         } else {
-            for ($i = 0; $i < $length;
-                 $i++) {
-                $ch1 = $cs1[$offset1 + $i];
-                $ch2 = $cs2[$offset2 + $i];
-                if ($ch1 !== $ch2 && strtoupper($ch1) !== strtoupper($ch2) &&
-                    strtolower($ch1) !== strtolower($ch2)
-                ) {
-                    return false;
-                }
+            if ($x !== $y && self::toUpperMb($x) !== self::toUpperMb($y) &&
+                self::toLowerMb($x) !== self::toLowerMb($y)
+            ) {
+                return false;
             }
         }
         return true;
