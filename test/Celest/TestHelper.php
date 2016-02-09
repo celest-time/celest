@@ -28,8 +28,8 @@ class TestHelper
     }
 
     public static function getRussianJanFormat() {
-        if (version_compare(INTL_ICU_DATA_VERSION, "52", "<")) {
-            return 'янв.';
+        if (version_compare(INTL_ICU_DATA_VERSION, "49", "<")) {
+            return 'янв';
         } else if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
             return 'Янв.';
         } else {
