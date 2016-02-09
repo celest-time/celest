@@ -27,53 +27,57 @@ class TestHelper
         }
     }
 
-    const RUSSIAN_LOWER = [
-        'january' => 'январь',
-        'december' => 'декабрь',
-        'jan.' => 'янв.',
-        'dec.' => 'дек.'
-    ];
+    public static function RUSSIAN_LOWER() {
+        return [
+            'january' => 'январь',
+            'december' => 'декабрь',
+            'jan.' => 'янв.',
+            'dec.' => 'дек.'
+        ];
+    }
 
-    const RUSSIAN_UPPER = [
-        'january' => 'Январь',
-        'december' => 'Декабрь',
-        'jan.' => 'Янв.',
-        'dec.' => 'Дек.'
-    ];
+    public static function RUSSIAN_UPPER() {
+        return [
+            'january' => 'Январь',
+            'december' => 'Декабрь',
+            'jan.' => 'Янв.',
+            'dec.' => 'Дек.'
+        ];
+    }
 
     public static function getRussianJanuary()
     {
         if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER['january'];
+            return self::RUSSIAN_UPPER()['january'];
         } else {
-            return self::RUSSIAN_LOWER['january'];
+            return self::RUSSIAN_LOWER()['january'];
         }
     }
 
     public static function getRussianJan()
     {
         if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER['jan.'];
+            return self::RUSSIAN_UPPER()['jan.'];
         } else {
-            return self::RUSSIAN_LOWER['jan.'];
+            return self::RUSSIAN_LOWER()['jan.'];
         }
     }
 
     public static function getRussianDecember()
     {
         if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER['december'];
+            return self::RUSSIAN_UPPER()['december'];
         } else {
-            return self::RUSSIAN_LOWER['december'];
+            return self::RUSSIAN_LOWER()['december'];
         }
     }
 
     public static function getRussianDec()
     {
         if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER['dec.'];
+            return self::RUSSIAN_UPPER()['dec.'];
         } else {
-            return self::RUSSIAN_LOWER['dec.'];
+            return self::RUSSIAN_LOWER()['dec.'];
         }
     }
 
