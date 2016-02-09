@@ -299,6 +299,7 @@ class TestTextParser extends AbstractTestPrinterParser
     }
 
 // Test data is dependent on localized resources.
+// TODO double check why short format vs. short standalone are different / use different test case
     function providerLenientText()
     {
 // Locale, TemporalField, expected value, input text
@@ -306,11 +307,11 @@ class TestTextParser extends AbstractTestPrinterParser
             [
                 self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "января"], // full format
             [
-                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "Январь"], // full standalone
+                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, TestHelper::getRussianJanuary()], // full standalone
             [
-                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "янв"],  // short format
+                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "янв."],  // short format
             [
-                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "Янв."], // short standalone
+                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "янв."], // short standalone
         ];
     }
 
@@ -540,12 +541,13 @@ class TestTextParser extends AbstractTestPrinterParser
      */
     public function test_parseLenientText(Locale $locale, TemporalField $field, $expectedValue, $input)
     {
-        $this->markTestSkipped();
         $this->setStrict(false);
         $pos = new ParsePosition(0);
         $formatter = $this->getFormatterField($field)->withLocale($locale);
         $this->assertEquals($formatter->parseUnresolved($input, $pos)->getLong($field), $expectedValue);
         $this->assertEquals($pos->getIndex(), strlen($input));
     }
+
+    // TODO add test case for case insensitive multibyte strings
 
 }
