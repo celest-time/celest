@@ -544,8 +544,8 @@ class TestTextParser extends AbstractTestPrinterParser
         $this->setStrict(false);
         $pos = new ParsePosition(0);
         $formatter = $this->getFormatterField($field)->withLocale($locale);
-        $this->assertEquals($formatter->parseUnresolved($input, $pos)->getLong($field), $expectedValue);
-        $this->assertEquals($pos->getIndex(), strlen($input));
+        $this->assertEquals($expectedValue, $formatter->parseUnresolved($input, $pos)->getLong($field));
+        $this->assertEquals(strlen($input), $pos->getIndex(), 'ICU Data Version:' . INTL_ICU_DATA_VERSION);
     }
 
     // TODO add test case for case insensitive multibyte strings
