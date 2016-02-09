@@ -6,5 +6,18 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/apigen.phar/" />
+          <root url="phar://$MODULE_DIR$/sami.phar/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/apigen.phar/" />
+          <root url="phar://$MODULE_DIR$/sami.phar/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
