@@ -76,17 +76,18 @@ final class TextPrinterParser implements DateTimePrinterParser
         $style = ($context->isStrict() ? $this->textStyle : null);
         $chrono = $context->getEffectiveChronology();
         $it = null;
-        if ($chrono == null || $chrono == IsoChronology::INSTANCE()) {
+        if ($chrono === null || $chrono == IsoChronology::INSTANCE()) {
             $it = $this->provider->getTextIterator($this->field, $style, $context->getLocale());
         } else {
             $it = $this->provider->getTextIterator2($chrono, $this->field, $style, $context->getLocale());
         }
-        if ($it != null) {
-            while ($it->hasNext()) {
-                $entry = $it->next();
-                $itText = $entry->getKey();
-                if ($context->subSequenceEquals($itText, 0, $parseText, $position, strlen($itText))) {
-                    return $context->setParsedField($this->field, $entry->getValue(), $position, $position + strlen($itText));
+        if ($it !== null) {
+            foreach($it as $key => $value)
+            {
+                // fix numeric indices
+                $key = strval($key);
+                if ($context->subSequenceEquals($key, 0, $parseText, $position, strlen($key))) {
+                    return $context->setParsedField($this->field, $value, $position, $position + strlen($key));
                 }
             }
             if ($context->isStrict()) {

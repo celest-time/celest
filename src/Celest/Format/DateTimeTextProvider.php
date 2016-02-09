@@ -102,12 +102,6 @@ class DateTimeTextProvider
         return new DateTimeTextProvider();
     }
 
-    /**
-     * @param $value
-     * @param TextStyle $style
-     * @param Locale $locale
-     * @return mixed
-     */
     public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);
@@ -131,6 +125,63 @@ class DateTimeTextProvider
             $name = $bundle['calendar']['gregorian'][$field][$styles[$style->toCalendarStyle()]][$value];
 
         return $name;
+    }
+
+    /**
+     * @param $field
+     * @param TextStyle $style
+     * @param Locale $locale
+     * @param callable $transformer
+     * @return array|null
+     */
+    public static function tryFetchStyleValues($field, $style, Locale $locale, callable $transformer)
+    {
+        $bundle = new ResourceBundle($locale->getLocale(), null);
+
+        if($style === null) {
+            $tmp = [];
+            foreach(['stand-alone', 'format'] as $id) {
+                foreach(['wide', 'abbreviated', 'narrow'] as $style) {
+                    $values = $bundle['calendar']['gregorian'][$field][$id][$style];
+                    if($values === null)
+                        continue;
+
+                    foreach($values as $key => $value) {
+                        $tmp[$value] = $transformer($key);
+                    }
+                }
+            }
+
+            return $tmp;
+        }
+
+        $id = $style->isStandalone() ? 'stand-alone' : 'format';
+
+        $styles = [
+            \IntlDateFormatter::FULL => 'wide',
+            \IntlDateFormatter::MEDIUM => 'abbreviated',
+            \IntlDateFormatter::SHORT => 'narrow',
+        ];
+
+        $values = $bundle['calendar']['gregorian'][$field][$id][$styles[$style->toCalendarStyle()]];
+
+        // fallback to stand alone if not found
+        if ($values === null && $id === 'format')
+            $values = $bundle['calendar']['gregorian'][$field]['stand-alone'][$styles[$style->toCalendarStyle()]];
+
+        // ERA
+        if ($values === null)
+            $values = $bundle['calendar']['gregorian'][$field][$styles[$style->toCalendarStyle()]];
+
+        if(!$values)
+            return null;
+
+        $tmp = [];
+        foreach($values as $key => $value) {
+            $tmp[$value] = $transformer($key);
+        }
+
+        return $tmp;
     }
 
     /**
@@ -198,7 +249,7 @@ class DateTimeTextProvider
         /*if ($chrono == IsoChronology::INSTANCE()
             || !($field instanceof ChronoField)
         ) {
-            return $this->getText($field, $value, $style, $locale);
+            return $this->getText($field, $value, $style, $locale);wtf
         }
 
         if ($field == ChronoField::ERA()) {
@@ -248,9 +299,35 @@ class DateTimeTextProvider
      * @return array the iterator of text to field pairs, in order from longest text to shortest text,
      *  null if the field or style is not parsable
      */
-    public function getTextIterator(TemporalField $field, TextStyle $style, Locale $locale)
+    public function getTextIterator(TemporalField $field, $style, Locale $locale)
     {
-        return null;
+        $values = null;
+
+        if($field == ChronoField::DAY_OF_WEEK()) {
+            $values = self::tryFetchStyleValues('dayNames', $style, $locale, function($i) {
+                return $i === 0 ? 7 : $i;
+            });
+        }
+        if($field == ChronoField::MONTH_OF_YEAR()) {
+            $values = self::tryFetchStyleValues('monthNames', $style, $locale, function($i) {
+                return $i + 1;
+            });
+        }
+
+        if($field == IsoFields::QUARTER_OF_YEAR()) {
+            $values = self::tryFetchStyleValues('quarters', $style, $locale, function($i) {
+                return $i + 1;
+            });
+        }
+
+        if($values === null)
+            return null;
+
+        \uksort($values, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
+
+        return $values;
     }
 
     /**
@@ -271,8 +348,8 @@ class DateTimeTextProvider
      *  null if the field or style is not parsable
      */
     public function getTextIterator2(Chronology $chrono, TemporalField $field,
-                                     TextStyle $style, Locale $locale)
+                                     $style, Locale $locale)
     {
-        return null;
+        return $this->getTextIterator($field, $style, $locale);
     }
 }

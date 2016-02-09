@@ -61,7 +61,6 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Format\TextStyle;
 use Celest\LocalDate;
@@ -70,6 +69,7 @@ use Celest\Temporal\ChronoField;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\MockFieldValue;
 use Celest\Temporal\TemporalField;
+use Celest\TestHelper;
 
 class TestTextPrinter extends AbstractTestPrinterParser
 {
@@ -338,9 +338,9 @@ class TestTextPrinter extends AbstractTestPrinterParser
                 // standalone names for 2013-01-01 (Tue)
                 // Locale, TemporalField, TextStyle, $expected text
                 [
-                    self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), TextStyle::FULL_STANDALONE(), "январь"],
+                    self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), TextStyle::FULL_STANDALONE(), TestHelper::getRussianJanuary()],
                 [
-                    self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT_STANDALONE(), "янв."],
+                    self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT_STANDALONE(), TestHelper::getRussianJan()],
                 [
                     self::FINNISH(), ChronoField::DAY_OF_WEEK(), TextStyle::FULL_STANDALONE(), "tiistai"],
                 [
@@ -389,10 +389,8 @@ class TestTextPrinter extends AbstractTestPrinterParser
     function test_standaloneNames(Locale $locale, TemporalField $field, TextStyle $style, $expected)
     {
         $buf = '';
-        $literator = \Transliterator::create('Any-Lower');
         $this->getFormatterFieldStyle($field, $style)->withLocale($locale)->formatTo(LocalDate::ofNumerical(2013, 1, 1), $buf);
-        // TODO convert to lowercase, because ICU data might be have first letter as uppercase
-        $this->assertTrue($expected === $literator->transliterate($buf));
+        $this->assertEquals($expected, $buf);
     }
 
 //-----------------------------------------------------------------------

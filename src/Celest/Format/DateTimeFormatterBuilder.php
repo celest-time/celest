@@ -704,7 +704,7 @@ final class DateTimeFormatterBuilder
     public
     function appendText(TemporalField $field)
     {
-        return $this->appendText($field, TextStyle::FULL());
+        return $this->appendText2($field, TextStyle::FULL());
     }
 
     /**

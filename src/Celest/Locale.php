@@ -24,6 +24,11 @@ class Locale
         return new Locale(\Locale::getDefault());
     }
 
+    public static function ROOT()
+    {
+        return new Locale("");
+    }
+
     public static function ENGLISH()
     {
         return new Locale("en");
