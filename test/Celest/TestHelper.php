@@ -27,16 +27,19 @@ class TestHelper
         }
     }
 
+    public static function getRussianJanFormat() {
+        if (version_compare(INTL_ICU_DATA_VERSION, "52", "<")) {
+            return 'Янв';
+        } else if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
+            return 'Янв.';
+        } else {
+            return 'янв.';
+        }
+    }
+
     public static function getRussian()
     {
-        if (version_compare(INTL_ICU_DATA_VERSION, "52", "<")) {
-            return [
-                'january' => 'Январь',
-                'december' => 'Декабрь',
-                'jan.' => 'Янв',
-                'dec.' => 'Дек'
-            ];
-        } else if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
+        if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
             return [
                 'january' => 'Январь',
                 'december' => 'Декабрь',
