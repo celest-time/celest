@@ -309,9 +309,9 @@ class TestTextParser extends AbstractTestPrinterParser
             [
                 self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, TestHelper::getRussianJanuary()], // full standalone
             [
-                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "янв."],  // short format
+                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, TestHelper::getRussianJan()],  // short format
             [
-                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, "янв."], // short standalone
+                self::RUSSIAN(), ChronoField::MONTH_OF_YEAR(), 1, TestHelper::getRussianJan()], // short standalone
         ];
     }
 

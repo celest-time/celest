@@ -27,65 +27,58 @@ class TestHelper
         }
     }
 
-    public static function RUSSIAN_LOWER() {
-        return [
-            'january' => 'январь',
-            'december' => 'декабрь',
-            'jan.' => 'янв.',
-            'dec.' => 'дек.'
-        ];
-    }
-
-    public static function RUSSIAN_UPPER() {
-        return [
-            'january' => 'Январь',
-            'december' => 'Декабрь',
-            'jan.' => 'Янв.',
-            'dec.' => 'Дек.'
-        ];
+    public static function getRussian()
+    {
+        if (version_compare(INTL_ICU_DATA_VERSION, "52", "<")) {
+            return [
+                'january' => 'Январь',
+                'december' => 'Декабрь',
+                'jan.' => 'Янв',
+                'dec.' => 'Дек'
+            ];
+        } else if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
+            return [
+                'january' => 'Январь',
+                'december' => 'Декабрь',
+                'jan.' => 'Янв.',
+                'dec.' => 'Дек.'
+            ];
+        } else {
+            return [
+                'january' => 'январь',
+                'december' => 'декабрь',
+                'jan.' => 'янв.',
+                'dec.' => 'дек.'
+            ];
+        }
     }
 
     public static function getRussianJanuary()
     {
-        if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER()['january'];
-        } else {
-            return self::RUSSIAN_LOWER()['january'];
-        }
+        return self::getRussian()['january'];
     }
 
     public static function getRussianJan()
     {
-        if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER()['jan.'];
-        } else {
-            return self::RUSSIAN_LOWER()['jan.'];
-        }
+        return self::getRussian()['jan.'];
     }
 
     public static function getRussianDecember()
     {
-        if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER()['december'];
-        } else {
-            return self::RUSSIAN_LOWER()['december'];
-        }
+        return self::getRussian()['december'];
     }
 
     public static function getRussianDec()
     {
-        if (INTL_ICU_DATA_VERSION < 54) {
-            return self::RUSSIAN_UPPER()['dec.'];
-        } else {
-            return self::RUSSIAN_LOWER()['dec.'];
-        }
+        return self::getRussian()['dec.'];
     }
 
     /** @var \Transliterator */
     static $to_upper;
 
-    public static function toUpperMb($str) {
-        if(self::$to_upper === null)
+    public static function toUpperMb($str)
+    {
+        if (self::$to_upper === null)
             self::$to_upper = \Transliterator::create('Any-Upper');
         return self::$to_upper->transliterate($str);
     }
@@ -93,8 +86,9 @@ class TestHelper
     /** @var \Transliterator */
     static $to_lower;
 
-    public static function toLowerMb($str) {
-        if(self::$to_lower === null)
+    public static function toLowerMb($str)
+    {
+        if (self::$to_lower === null)
             self::$to_lower = \Transliterator::create('Any-Lower');
         return self::$to_lower->transliterate($str);
     }
