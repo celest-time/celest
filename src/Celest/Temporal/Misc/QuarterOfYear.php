@@ -84,7 +84,7 @@ class QuarterOfYear implements TemporalField
 
 
     public function resolve(
-        array $fieldValues,
+        array &$fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle)
     {

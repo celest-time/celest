@@ -77,7 +77,7 @@ class DayOfQuarter implements TemporalField
         return $temporal->with(ChronoField::DAY_OF_YEAR(), $temporal->getLong(ChronoField::DAY_OF_YEAR()) + ($newValue - $curValue));
     }
 
-    public function resolve(array $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(array &$fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
         $yearLong = @$fieldValues[ChronoField::YEAR()->__toString()];
         $qoyLong = @$fieldValues[IsoFields::QUARTER_OF_YEAR()->__toString()];

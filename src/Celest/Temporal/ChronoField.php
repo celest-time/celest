@@ -1081,7 +1081,7 @@ class ChronoField implements TemporalField
      *  by querying a field on the temporal without first checking if it is supported
      */
     public function  resolve(
-        array $fieldValues,
+        array &$fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle)
     {
