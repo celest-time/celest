@@ -49,6 +49,11 @@ class Locale
         return new Locale('fr');
     }
 
+    public static function CANADA()
+    {
+        return new Locale('en_CA');
+    }
+
     public function getLocale()
     {
         return $this->locale;

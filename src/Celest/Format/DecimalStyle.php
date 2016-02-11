@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+use Celest\Locale;
 
 /**
  * Localized decimal style used in date and time formatting.
@@ -75,11 +76,6 @@ namespace Celest\Format;
  */
 final class DecimalStyle
 {
-    public static function init()
-    {
-        self::$STANDARD = new DecimalStyle('0', '+', '-', '.');
-    }
-
     /**
      * The standard set of non-localized decimal style symbols.
      * <p>
@@ -87,6 +83,10 @@ final class DecimalStyle
      */
     public static function STANDARD()
     {
+        if(self::$STANDARD === null) {
+            self::$STANDARD = new DecimalStyle('0', '+', '-', '.');
+        }
+
         return self::$STANDARD;
     }
 
@@ -130,6 +130,7 @@ final class DecimalStyle
      */
     public static function getAvailableLocales()
     {
+        // TODO
         return DecimalFormatSymbols::getAvailableLocales();
     }
 
@@ -149,7 +150,7 @@ final class DecimalStyle
     public
     static function ofDefaultLocale()
     {
-        return self::of(Locale::getDefault(Locale::CategoryFORMAT));
+        return self::of(Locale::getDefault());
     }
 
     /**
@@ -163,11 +164,11 @@ final class DecimalStyle
     public
     static function of(Locale $locale)
     {
-        $info = self::$CACHE->get($locale);
-        if ($info == null) {
+        $info = @self::$CACHE[$locale->getLocale()];
+        if ($info === null) {
             $info = self::create($locale);
-            self::$CACHE->putIfAbsent($locale, $info);
-            $info = self::$CACHE->get($locale);
+            self::$CACHE[$locale->getLocale()] =  $info;
+            $info = self::$CACHE[$locale->getLocale()];
         }
 
         return $info;
@@ -176,13 +177,13 @@ final class DecimalStyle
     private
     static function create(Locale $locale)
     {
-        $oldSymbols = DecimalFormatSymbols::getInstance($locale);
-        $zeroDigit = $oldSymbols->getZeroDigit();
-        $positiveSign = '+';
-        $negativeSign = $oldSymbols->getMinusSign();
-        $decimalSeparator = $oldSymbols->getDecimalSeparator();
-        if ($zeroDigit == '0' && $negativeSign == '-' && $decimalSeparator == '.') {
-            return self::$STANDARD;
+        $formatter = \NumberFormatter::create($locale->getLocale(), \NumberFormatter::DEFAULT_STYLE);
+        $zeroDigit = $formatter->getSymbol(\NumberFormatter::ZERO_DIGIT_SYMBOL);
+        $positiveSign = $formatter->getSymbol(\NumberFormatter::PLUS_SIGN_SYMBOL);
+        $negativeSign = $formatter->getSymbol(\NumberFormatter::MINUS_SIGN_SYMBOL);
+        $decimalSeparator = $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+        if ($zeroDigit === '0' && $negativeSign === '-' && $decimalSeparator === '.') {
+            return self::STANDARD();
         }
 
         return new DecimalStyle($zeroDigit, $positiveSign, $negativeSign, $decimalSeparator);
@@ -405,5 +406,3 @@ final class DecimalStyle
     }
 
 }
-
-DecimalStyle::init();
