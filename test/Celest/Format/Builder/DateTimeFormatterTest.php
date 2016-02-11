@@ -91,7 +91,7 @@ class TestDateTimeFormatter extends \PHPUnit_Framework_TestCase
     public function test_withLocale_same()
     {
         $base =
-            (new DateTimeFormatterBuilder())->appendLiteral("ONE")
+            (new DateTimeFormatterBuilder())->appendLiteral2("ONE")
                 ->appendValue3(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NOT_NEGATIVE())
                 ->toFormatter2(Locale::ENGLISH())
                 ->withDecimalStyle(DecimalStyle::STANDARD());

@@ -115,7 +115,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
     public function test__print_noPadRequiredMultiple()
     {
         $buf = '';
-        $this->builder->padNext2(4, '-')->appendLiteral("WXYZ");
+        $this->builder->padNext2(4, '-')->appendLiteral2("WXYZ");
         $this->getFormatter()->formatTo(self::EMPTY_DTA(), $buf);
         $this->assertEquals($buf, "WXYZ");
     }
@@ -123,7 +123,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
     public function test__print_padRequiredMultiple()
     {
         $buf = '';
-        $this->builder->padNext2(5, '-')->appendLiteral("WXYZ");
+        $this->builder->padNext2(5, '-')->appendLiteral2("WXYZ");
         $this->getFormatter()->formatTo(self::EMPTY_DTA(), $buf);
         $this->assertEquals($buf, "-WXYZ");
     }
@@ -134,7 +134,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
     public function test__print_overPad()
     {
         $buf = '';
-        $this->builder->padNext2(3, '-')->appendLiteral("WXYZ");
+        $this->builder->padNext2(3, '-')->appendLiteral2("WXYZ");
         $this->getFormatter()->formatTo(self::EMPTY_DTA(), $buf);
     }
 
