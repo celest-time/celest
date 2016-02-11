@@ -57,6 +57,7 @@
  */
 namespace Celest\Temporal;
 use Celest\Temporal\Misc\DayOfQuarter;
+use Celest\Temporal\Misc\IsoUnit;
 use Celest\Temporal\Misc\QuarterOfYear;
 
 
@@ -289,15 +290,8 @@ final class IsoFields {
      */
     public static function WEEK_BASED_YEARS()
     {
-        if(self::$WEEK_BASED_YEARS === null) {
-            self::$WEEK_BASED_YEARS = new IsoUnit();
-        }
-
-        return self::$WEEK_BASED_YEARS;
+        return IsoUnit::WEEK_BASED_YEARS();
     }
-
-    /** @var TemporalUnit */
-    private static $WEEK_BASED_YEARS;
 
     /**
      * Unit that represents the concept of a quarter-year.
@@ -308,15 +302,8 @@ final class IsoFields {
      */
     public static function QUARTER_YEARS()
     {
-        if(self::$QUARTER_YEARS === null) {
-            self::$QUARTER_YEARS = new IsoUnit();
-        }
-
-        return self::$QUARTER_YEARS;
+        return IsoUnit::QUARTER_YEARS();
     }
-
-    /** @var TemporalUnit */
-    private static $QUARTER_YEARS;
 
     /**
      * Restricted constructor.

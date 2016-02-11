@@ -44,7 +44,7 @@ final class Math
      */
     public static function multiplyExact($l, $r)
     {
-        return (int)($l * $r);
+        return (int)((int)$l * (int)$r);
     }
 
     /**
@@ -54,7 +54,7 @@ final class Math
      */
     public static function addExact($l, $r)
     {
-        return (int)($l + $r);
+        return (int)((int)$l + (int)$r);
     }
 
     /**

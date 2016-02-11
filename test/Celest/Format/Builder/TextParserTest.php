@@ -351,7 +351,6 @@ class TestTextParser extends AbstractTestPrinterParser
      */
     public function test_parseDayOfWeekText(Locale $locale, $pattern, $input, DayOfWeek $expected)
     {
-        $this->markTestSkipped();
         $formatter = $this->getPatternFormatter($pattern)->withLocale($locale);
         $pos = new ParsePosition(0);
         $this->assertEquals(DayOfWeek::from($formatter->parsePos($input, $pos)), $expected);
