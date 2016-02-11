@@ -97,7 +97,6 @@ class TCKResolverStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function test_resolverStyle($str, ResolverStyle $style, $expectedEx, $year, $month, $day)
     {
-        $this->markTestSkipped('Not yet implemented');
         $builder = new DateTimeFormatterBuilder();
         $builder->appendValue(ChronoField::YEAR_OF_ERA());
         $builder->appendLiteral("/");

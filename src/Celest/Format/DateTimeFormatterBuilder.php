@@ -78,6 +78,7 @@ use Celest\Format\Builder\OffsetIdPrinterParser;
 use Celest\Format\Builder\PadPrinterParserDecorator;
 use Celest\Format\Builder\ReducedPrinterParser;
 use Celest\Format\Builder\SettingsParser;
+use Celest\Format\Builder\SimpleDateTimeTextProvider;
 use Celest\Format\Builder\StringLiteralPrinterParser;
 use Celest\Format\Builder\TextPrinterParser;
 use Celest\Format\Builder\WeekBasedFieldPrinterParser;
@@ -765,24 +766,7 @@ final class DateTimeFormatterBuilder
      */
     public function appendText3(TemporalField $field, $textLookup)
     {
-        /*
-         * TODO
-         * Map < Long, String > copy = new LinkedHashMap <> (textLookup);
-        Map < TextStyle, Map < Long, String >> map = Collections->singletonMap(TextStyle::FULL(), copy);
-        final LocaleStore store = new LocaleStore(map);
-        $provider = new DateTimeTextProvider() {
-        @Override
-            public String getText(TemporalField field, long value, TextStyle style, Locale locale) {
-            return store->getText(value, style);
-        }
-
-@Override
-            public Iterator < Entry<String, Long >> getTextIterator(TemporalField field, TextStyle style, Locale locale) {
-            return store->getTextIterator(style);
-        }
-        };*/
-
-        $provider = null;
+        $provider = new SimpleDateTimeTextProvider($textLookup);
 
         $this->appendInternal(new TextPrinterParser($field, TextStyle::FULL(), $provider));
         return $this;

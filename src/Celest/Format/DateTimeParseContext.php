@@ -341,7 +341,7 @@ final class DateTimeParseContext
     private
     function currentParsed()
     {
-        return $this->parsed[count($this->parsed) - 1];
+        return end($this->parsed);
     }
 
     /**
@@ -358,7 +358,7 @@ final class DateTimeParseContext
      * Gets the resolved result of the parse.
      *
      * @param ResolverStyle $resolverStyle
-     * @param TemporalField $resolverFields[]
+     * @param array $resolverFields
      * @return TemporalAccessor the result of the parse, not null
      */
     public function toResolved(ResolverStyle $resolverStyle, $resolverFields)

@@ -539,7 +539,7 @@ final class IsoChronology extends AbstractChronology
                         $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                     } else {
                         // reinstate the field removed earlier, no cross-check issues
-                        $fieldValues->put(ChronoField::YEAR_OF_ERA(), $yoeLong);
+                        $fieldValues[ChronoField::YEAR_OF_ERA()->__toString()] = [ChronoField::YEAR_OF_ERA(), $yoeLong];
                     }
                 } else {
                     // invent era
