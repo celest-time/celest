@@ -1619,7 +1619,7 @@ final class DateTimeFormatterBuilder
                     $this->padNext($pad); // pad and continue parsing
                 }
 // main rules
-                $field = self::$FIELD_MAP[$cur];
+                $field = @self::$FIELD_MAP[$cur];
                 if ($field !== null) {
                     $this->parseField($cur, $count, $field);
                 } else if ($cur == 'z') {
@@ -1689,7 +1689,7 @@ final class DateTimeFormatterBuilder
                 $start = $pos++;
                 for (; $pos < strlen($pattern); $pos++) {
                     if ($pattern[$pos] === '\'') {
-                        if ($pos + 1 < strlen($pattern) && $pattern[$pos + 1] == '\'') {
+                        if ($pos + 1 < strlen($pattern) && $pattern[$pos + 1] === '\'') {
                             $pos++;
                         } else {
                             break;  // end of literal
@@ -1699,11 +1699,11 @@ final class DateTimeFormatterBuilder
                 if ($pos >= strlen($pattern)) {
                     throw new IllegalArgumentException("Pattern ends with an incomplete string literal: " . $pattern);
                 }
-                $str = substr($pattern, $start + 1, $pos);
+                $str = substr($pattern, $start + 1, $pos - $start - 1);
                 if (strlen($str) === 0) {
                     $this->appendLiteral('\'');
                 } else {
-                    $this->appendLiteral(str_replace($str, "''", "'"));
+                    $this->appendLiteral2(str_replace("''", "'", $str));
                 }
 
             } else if ($cur == '[') {

@@ -74,6 +74,7 @@ use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -82,7 +83,6 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
 use Celest\Temporal\ValueRange;
-use SebastianBergmann\Comparator\Comparator;
 
 
 /**
@@ -419,7 +419,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, LocalDate::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([self::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -657,7 +657,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->get0($field);
         }
 
-        return ChronoLocalDateDefaults::get($this, $field);
+        return TemporalAccessorDefaults::get($this, $field);
     }
 
     /**

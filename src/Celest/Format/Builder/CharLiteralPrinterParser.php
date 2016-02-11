@@ -3,6 +3,7 @@
 namespace Celest\Format\Builder;
 use Celest\Format\DateTimePrintContext;
 use Celest\Format\DateTimeParseContext;
+use Celest\IllegalArgumentException;
 
 /**
  * Prints or parses a character literal.
@@ -14,6 +15,9 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
 
     public function __construct($literal)
     {
+        if(strlen($literal) !== 1) {
+            throw new IllegalArgumentException();
+        }
         $this->literal = $literal;
     }
 

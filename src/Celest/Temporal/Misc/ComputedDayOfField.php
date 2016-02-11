@@ -5,6 +5,7 @@ namespace Celest\Temporal\Misc;
 
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
+use Celest\Chrono\ChronologyDefaults;
 use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
@@ -350,26 +351,26 @@ class ComputedDayOfField implements TemporalField
         }
 
 // can only build date if ISO day-of-week is present
-        if ($fieldValues->containsKey(ChronoField::DAY_OF_WEEK()) === false) {
+        if (!isset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()])) {
             return null;
         }
-        $isoDow = ChronoField::DAY_OF_WEEK()->checkValidIntValue($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()]);
+        $isoDow = ChronoField::DAY_OF_WEEK()->checkValidIntValue($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()][1]);
         $dow = $this->localizedDayOfWeekNumerical($isoDow);
 
         // build date
-        $chrono = Chronology::from($partialTemporal);
-        if ($fieldValues->containsKey(ChronoField::YEAR())) {
-            $year = ChronoField::YEAR()->checkValidIntValue($fieldValues[ChronoField::YEAR()->__toString()]);  // validate
-            if ($this->rangeUnit == ChronoUnit::MONTHS() && $fieldValues->containsKey(ChronoField::MONTH_OF_YEAR()->__toString())) {  // week-of-month
-                $month = $fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()];  // not validated yet
+        $chrono = ChronologyDefaults::from($partialTemporal);
+        if (isset($fieldValues[ChronoField::YEAR()->__toString()])) {
+            $year = ChronoField::YEAR()->checkValidIntValue($fieldValues[ChronoField::YEAR()->__toString()][1]);  // validate
+            if ($this->rangeUnit == ChronoUnit::MONTHS() && isset($fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()])) {  // week-of-month
+                $month = $fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()][1];  // not validated yet
                 return $this->resolveWoM($fieldValues, $chrono, $year, $month, $newValue, $dow, $resolverStyle);
             }
             if ($this->rangeUnit == ChronoUnit::YEARS()) {  // week-of-year
                 return $this->resolveWoY($fieldValues, $chrono, $year, $newValue, $dow, $resolverStyle);
             }
         } else if (($this->rangeUnit == IsoFields::WEEK_BASED_YEARS() || $this->rangeUnit == ChronoUnit::FOREVER()) &&
-            $fieldValues->containsKey($this->weekDef->weekBasedYear) &&
-            $fieldValues->containsKey($this->weekDef->weekOfWeekBasedYear)
+            isset($fieldValues[$this->weekDef->weekBasedYear->__toString()]) &&
+            isset($fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()])
         ) { // week-of-week-based-year and year-of-week-based-year
             return $this->resolveWBY($fieldValues, $chrono, $dow, $resolverStyle);
         }
@@ -426,7 +427,7 @@ class ComputedDayOfField implements TemporalField
     private function resolveWBY(array &$fieldValues, Chronology $chrono, $localDow, ResolverStyle $resolverStyle)
     {
         $yowby = $this->weekDef->weekBasedYear->range()->checkValidIntValue(
-            $fieldValues[$this->weekDef->weekBasedYear->__toString()], $this->weekDef->weekBasedYear);
+            $fieldValues[$this->weekDef->weekBasedYear->__toString()][1], $this->weekDef->weekBasedYear);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $date = $this->ofWeekBasedYear($chrono, $yowby, 1, $localDow);
             $wowby = $fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()];
@@ -434,7 +435,7 @@ class ComputedDayOfField implements TemporalField
             $date = $date->plus($weeks, ChronoUnit::WEEKS());
         } else {
             $wowby = $this->weekDef->weekOfWeekBasedYear->range()->checkValidIntValue(
-                $fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()], $this->weekDef->weekOfWeekBasedYear);  // validate
+                $fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()][1], $this->weekDef->weekOfWeekBasedYear);  // validate
             $date = $this->ofWeekBasedYear($chrono, $yowby, $wowby, $localDow);
             if ($resolverStyle == ResolverStyle::STRICT() && $this->localizedWeekBasedYear($date) != $yowby) {
                 throw new DateTimeException("Strict mode rejected resolved date as it is in a different week-based-year");

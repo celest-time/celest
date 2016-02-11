@@ -1986,7 +1986,6 @@ class DateTimeFormatter
 
     private function createError($text, RuntimeException $ex)
     {
-        $abbr = '';
         if (strlen($text) > 64) {
             $abbr = substr($text, 0, 64) . '...';
         } else {
