@@ -363,7 +363,6 @@ class TestTextPrinter extends AbstractTestPrinterParser
      */
     public function test_formatDayOfWeek(Locale $locale, $pattern, $expected, DayOfWeek $dayOfWeek)
     {
-        $this->markTestSkipped('TBD');
         $formatter = $this->getPatternFormatter($pattern)->withLocale($locale);
         $text = $formatter->format($dayOfWeek);
         $this->assertEquals($expected, $text);
