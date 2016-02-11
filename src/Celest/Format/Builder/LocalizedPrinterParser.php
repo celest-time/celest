@@ -1,6 +1,8 @@
 <?php
 
 namespace Celest\Format\Builder;
+
+use Celest\Chrono\ChronologyDefaults;
 use Celest\Format\FormatStyle;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimePrintContext;
@@ -8,6 +10,7 @@ use Celest\Chrono\Chronology;
 use Celest\Format\DateTimeParseContext;
 use Celest\IllegalArgumentException;
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Locale;
 
 
 /**
@@ -40,7 +43,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $chrono = Chronology::from($context->getTemporal());
+        $chrono = ChronologyDefaults::from($context->getTemporal());
         return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->format($context, $buf);
     }
 
@@ -64,13 +67,13 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
     private
     function formatter(Locale $locale, Chronology $chrono)
     {
-        $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . $this->timeStyle;
-        $formatter = self::$FORMATTER_CACHE[$key];
-        if ($formatter == null) {
-            $pattern = $this->getLocalizedDateTimePattern($this->dateStyle, $this->timeStyle, $chrono, $locale);
-            $formatter = (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter($locale);
-            $old = self::$FORMATTER_CACHE->putIfAbsent($key, $formatter);
-            if ($old != null) {
+        $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . '|' . $this->timeStyle;
+        $formatter = @self::$FORMATTER_CACHE[$key];
+        if ($formatter === null) {
+            $pattern = DateTimeFormatterBuilder::getLocalizedDateTimePattern($this->dateStyle, $this->timeStyle, $chrono, $locale);
+            $formatter = (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter2($locale);
+            $old = self::$FORMATTER_CACHE[$key] = $formatter;
+            if ($old !== null) {
                 $formatter = $old;
             }
         }

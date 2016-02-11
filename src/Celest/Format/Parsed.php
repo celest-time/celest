@@ -328,8 +328,10 @@ final class Parsed implements TemporalAccessor
     private
     function updateCheckConflict3(TemporalField $targetField, TemporalField $changeField, $changeValue)
     {
-        $old = $this->fieldValues->put($changeField, $changeValue);
-        if ($old !== null && $old->longValue() !== $changeValue->longValue()) {
+        $old = @$this->fieldValues[$changeField->__toString()][1];
+        $this->fieldValues[$changeField->__toString()] = [$changeField, $changeValue];
+
+        if ($old !== null && $old !== $changeValue) {
             throw new DateTimeException("Conflict found: " . $changeField . " " . $old .
                 " differs from " . $changeField . " " . $changeValue .
                 " while resolving  " . $targetField);
@@ -403,23 +405,26 @@ final class Parsed implements TemporalAccessor
 
             $this->updateCheckConflict3(ChronoField::CLOCK_HOUR_OF_DAY(), ChronoField::HOUR_OF_DAY(), $ch == 24 ? 0 : $ch);
         }
-        if (array_key_exists(ChronoField::CLOCK_HOUR_OF_AMPM()->__toString(), $this->fieldValues)) {
+        if (isset($this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()])) {
 // lenient allows anything, smart allows 0-12, strict allows 1-12
-            $ch = $this->fieldValues->remove(ChronoField::CLOCK_HOUR_OF_AMPM());
+            $ch = $this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()][1];
+            unset($this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()]);
             if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch != 0)) {
                 ChronoField::CLOCK_HOUR_OF_AMPM()->checkValidValue($ch);
             }
             $this->updateCheckConflict3(ChronoField::CLOCK_HOUR_OF_AMPM(), ChronoField::HOUR_OF_AMPM(), $ch == 12 ? 0 : $ch);
         }
-        if (array_key_exists(ChronoField::AMPM_OF_DAY()->__toString(), $this->fieldValues) && array_key_exists(ChronoField::HOUR_OF_AMPM()->__toString(), $this->fieldValues)) {
-            $ap = $this->fieldValues->remove(ChronoField::AMPM_OF_DAY());
-            $hap = $this->fieldValues->remove(ChronoField::HOUR_OF_AMPM());
+        if (isset($this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()])) {
+            $ap = $this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()][1];
+            $hap = $this->fieldValues[ChronoField::HOUR_OF_AMPM()->__toString()][1];
+            unset($this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()]);
+            unset($this->fieldValues[ChronoField::HOUR_OF_AMPM()->__toString()]);
             if ($this->resolverStyle == ResolverStyle::LENIENT()) {
-                $this->updateCheckConflict(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::addExact(Math::multiplyExact($ap, 12), $hap));
+                $this->updateCheckConflict3(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::addExact(Math::multiplyExact($ap, 12), $hap));
             } else {  // STRICT or SMART
                 ChronoField::AMPM_OF_DAY()->checkValidValue($ap);
                 ChronoField::HOUR_OF_AMPM()->checkValidValue($ap);
-                $this->updateCheckConflict(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), $ap * 12 + $hap);
+                $this->updateCheckConflict3(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), $ap * 12 + $hap);
             }
         }
         if (array_key_exists(ChronoField::NANO_OF_DAY()->__toString(), $this->fieldValues)) {

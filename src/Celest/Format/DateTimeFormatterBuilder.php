@@ -174,35 +174,34 @@ final class DateTimeFormatterBuilder
      * The locale and chronology are used to lookup the locale specific format
      * for the requested dateStyle and/or timeStyle.
      *
-     * @param FormatStyle $dateStyle the FormatStyle for the date, null for time-only pattern
-     * @param FormatStyle $timeStyle the FormatStyle for the time, null for date-only pattern
+     * @param FormatStyle|null $dateStyle the FormatStyle for the date, null for time-only pattern
+     * @param FormatStyle|null $timeStyle the FormatStyle for the time, null for date-only pattern
      * @param Chronology $chrono the Chronology, non-null
      * @param Locale $locale the locale, non-null
      * @return string the locale and Chronology specific formatting pattern
      * @throws IllegalArgumentException if both dateStyle and timeStyle are null
      */
-    public static function getLocalizedDateTimePattern(FormatStyle $dateStyle, FormatStyle $timeStyle,
-                                                       Chronology $chrono, Locale $locale)
+    public static function getLocalizedDateTimePattern($dateStyle, $timeStyle, Chronology $chrono, Locale $locale)
     {
-        if ($dateStyle == null && $timeStyle == null) {
+        if ($dateStyle === null && $timeStyle === null) {
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
         }
-        $lr = LocaleProviderAdapter::getResourceBundleBased()->getLocaleResources($locale);
-        $pattern = $lr->getJavaTimeDateTimePattern(
-            self::convertStyle($timeStyle), self::convertStyle($dateStyle), $chrono->getCalendarType());
-        return $pattern;
+
+        $formatter = \IntlDateFormatter::create($locale->getLocale(), self::convertStyle($dateStyle), self::convertStyle($timeStyle));
+
+        return $formatter->getPattern();
     }
 
     /**
      * Converts the given FormatStyle to the java.text.DateFormat style.
      *
-     * @param FormatStyle $style the FormatStyle style
-     * @return int the int style, or -1 if style is null, indicating un-required
+     * @param FormatStyle|null $style the FormatStyle style
+     * @return int the int style, or \IntlDateFormatter::NONE if style is null, indicating un-required
      */
-    private static function convertStyle(FormatStyle $style)
+    private static function convertStyle($style)
     {
         if ($style === null) {
-            return -1;
+            return \IntlDateFormatter::NONE;
         }
 
         return $style->ordinal();  // indices happen to align
@@ -1268,15 +1267,15 @@ final class DateTimeFormatterBuilder
      * Note that this method provides similar functionality to methods on
      * {@code DateFormat} such as {@link java.text.DateFormat#getDateTimeInstance(int, int)}.
      *
-     * @param FormatStyle $dateStyle the date style to use, null means no date required
-     * @param FormatStyle $timeStyle the time style to use, null means no time required
+     * @param FormatStyle|null $dateStyle the date style to use, null means no date required
+     * @param FormatStyle|null $timeStyle the time style to use, null means no time required
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if both the date and time styles are null
      */
     public
-    function appendLocalized(FormatStyle $dateStyle, FormatStyle $timeStyle)
+    function appendLocalized($dateStyle, $timeStyle)
     {
-        if ($dateStyle == null && $timeStyle == null) {
+        if ($dateStyle === null && $timeStyle === null) {
             throw new IllegalArgumentException("Either the date or time style must be non-null");
         }
         $this->appendInternal(new LocalizedPrinterParser($dateStyle, $timeStyle));
@@ -1757,7 +1756,7 @@ final class DateTimeFormatterBuilder
                         if ($cur == 'c' || $cur == 'e') {
                             $this->appendInternal(new WeekBasedFieldPrinterParser($cur, $count));
                         } else if ($cur == 'E') {
-                            $this->appendText($field, TextStyle::SHORT());
+                            $this->appendText2($field, TextStyle::SHORT());
                         } else {
                             if ($count === 1) {
                                 $this->appendValue($field);
@@ -1767,21 +1766,21 @@ final class DateTimeFormatterBuilder
                         }
                         break;
                     case 3:
-                        $this->appendText($field, $standalone ? TextStyle::SHORT_STANDALONE() : TextStyle::SHORT());
+                        $this->appendText2($field, $standalone ? TextStyle::SHORT_STANDALONE() : TextStyle::SHORT());
                         break;
                     case 4:
-                        $this->appendText($field, $standalone ? TextStyle::FULL_STANDALONE() : TextStyle::FULL());
+                        $this->appendText2($field, $standalone ? TextStyle::FULL_STANDALONE() : TextStyle::FULL());
                         break;
                     case 5:
-                        $this->appendText($field, $standalone ? TextStyle::NARROW_STANDALONE() : TextStyle::NARROW());
+                        $this->appendText2($field, $standalone ? TextStyle::NARROW_STANDALONE() : TextStyle::NARROW());
                         break;
                     default:
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                 }
                 break;
             case 'a':
-                if ($count == 1) {
-                    $this->appendText($field, TextStyle::SHORT());
+                if ($count === 1) {
+                    $this->appendText2($field, TextStyle::SHORT());
                 } else {
                     throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                 }
@@ -1791,13 +1790,13 @@ final class DateTimeFormatterBuilder
                     case 1:
                     case 2:
                     case 3:
-                        $this->appendText($field, TextStyle::SHORT());
+                        $this->appendText2($field, TextStyle::SHORT());
                         break;
                     case 4:
-                        $this->appendText($field, TextStyle::FULL());
+                        $this->appendText2($field, TextStyle::FULL());
                         break;
                     case 5:
-                        $this->appendText($field, TextStyle::NARROW());
+                        $this->appendText2($field, TextStyle::NARROW());
                         break;
                     default:
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
@@ -2098,7 +2097,7 @@ final class DateTimeFormatterBuilder
     public function toFormatter3(ResolverStyle $resolverStyle, $chrono)
     {
         // TODO fix Locale use
-        return $this->toFormatter4(Locale::getDefault(null), $resolverStyle, $chrono);
+        return $this->toFormatter4(Locale::getDefault(), $resolverStyle, $chrono);
     }
 
     /**

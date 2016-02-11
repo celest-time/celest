@@ -54,8 +54,25 @@ class Locale
         return new Locale('en_CA');
     }
 
+    public static function FRANCE()
+    {
+        return new Locale('fr_FR');
+    }
+
+    public static function JAPAN()
+    {
+        return new Locale('ja_JP');
+    }
+
     public function getLocale()
     {
         return $this->locale;
     }
+
+    function __toString()
+    {
+        return $this->locale;
+    }
+
+
 }

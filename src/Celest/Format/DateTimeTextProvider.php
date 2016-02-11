@@ -173,6 +173,10 @@ class DateTimeTextProvider
         if ($values === null)
             $values = $bundle['calendar']['gregorian'][$field][$styles[$style->toCalendarStyle()]];
 
+        // AMPM
+        if ($values === null)
+            $values = $bundle['calendar']['gregorian'][$field];
+
         if(!$values)
             return null;
 
@@ -317,6 +321,12 @@ class DateTimeTextProvider
         if($field == IsoFields::QUARTER_OF_YEAR()) {
             $values = self::tryFetchStyleValues('quarters', $style, $locale, function($i) {
                 return $i + 1;
+            });
+        }
+
+        if($field == ChronoField::AMPM_OF_DAY()) {
+            $values = self::tryFetchStyleValues('AmPmMarkers', $style, $locale, function($i) {
+                return $i;
             });
         }
 
