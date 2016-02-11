@@ -71,7 +71,7 @@ use Celest\Temporal\MockFieldValue;
 use Celest\Temporal\TemporalField;
 use Celest\TestHelper;
 
-class TestTextPrinter extends AbstractTestPrinterParser
+class TextPrinterTest extends AbstractTestPrinterParser
 {
     private static function RUSSIAN()
     {

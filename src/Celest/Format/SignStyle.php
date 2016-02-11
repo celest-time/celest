@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+use Celest\IllegalArgumentException;
 
 /**
  * Enumeration of ways to handle the positive/negative sign.
@@ -96,6 +97,7 @@ class SignStyle
     {
         return self::$NORMAL;
     }
+
     /** @var SignStyle */
     private static $NORMAL;
 
@@ -111,6 +113,7 @@ class SignStyle
     {
         return self::$ALWAYS;
     }
+
     /** @var SignStyle */
     private static $ALWAYS;
 
@@ -125,6 +128,7 @@ class SignStyle
     {
         return self::$NEVER;
     }
+
     /** @var SignStyle */
     private static $NEVER;
 
@@ -139,6 +143,7 @@ class SignStyle
     {
         return self::$NOT_NEGATIVE;
     }
+
     /** @var SignStyle */
     private static $NOT_NEGATIVE;
 
@@ -155,6 +160,7 @@ class SignStyle
     {
         return self::$EXCEEDS_PAD;
     }
+
     /** @var SignStyle */
     private static $EXCEEDS_PAD;
 
@@ -163,6 +169,44 @@ class SignStyle
     private function __construct($ordinal)
     {
         $this->ordinal = $ordinal;
+    }
+
+
+    /**
+     * @return SignStyle[]
+     */
+    public static function values()
+    {
+        return [
+            self::$NORMAL,
+            self::$ALWAYS,
+            self::$NEVER,
+            self::$NOT_NEGATIVE,
+            self::$EXCEEDS_PAD,
+        ];
+    }
+
+    /**
+     * @param string $name
+     * @return SignStyle
+     * @throws IllegalArgumentException
+     */
+    public static function valueOf($name)
+    {
+        switch($name) {
+            case 'NORMAL':
+                return self::NORMAL();
+            case 'ALWAYS':
+                return self::ALWAYS();
+            case 'NEVER':
+                return self::NEVER();
+            case 'NOT_NEGATIVE':
+                return self::NOT_NEGATIVE();
+            case 'EXCEEDS_PAD':
+                return self::EXCEEDS_PAD();
+        }
+
+        throw new IllegalArgumentException();
     }
 
     /**
@@ -190,7 +234,7 @@ class SignStyle
 
     function __toString()
     {
-        switch($this->ordinal) {
+        switch ($this->ordinal) {
             case 0:
                 return 'NORMAL';
             case 1:
@@ -206,7 +250,9 @@ class SignStyle
         return '';
     }
 
-
+    function name() {
+        return $this->__toString();
+    }
 }
 
 SignStyle::init();

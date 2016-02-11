@@ -121,7 +121,9 @@ class ZoneIdTemporalAccessor implements TemporalAccessor
     {
         return '';
     }
-};
+}
+
+;
 
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
@@ -250,6 +252,29 @@ abstract class ZoneId
     }
 
     /**
+     * Obtains an instance of {@code ZoneId} using its ID using a map
+     * of aliases to supplement the standard zone IDs.
+     * <p>
+     * Many users of time-zones use short abbreviations, such as PST for
+     * 'Pacific Standard Time' and PDT for 'Pacific Daylight Time'.
+     * These abbreviations are not unique, and so cannot be used as IDs.
+     * This method allows a map of string to time-zone to be setup and reused
+     * within an application.
+     *
+     * @param string $zoneId the time-zone ID, not null
+     * @param string[] $aliasMap a map of alias zone IDs (typically abbreviations) to real zone IDs, not null
+     * @return ZoneId the zone ID, not null
+     * @throws DateTimeException if the zone ID has an invalid format
+     * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
+     */
+    public static function ofMap($zoneId, $aliasMap)
+    {
+        $id = @$aliasMap[$zoneId];
+        $id = ($id !== null ? $id : $zoneId);
+        return self::of($id);
+    }
+
+    /**
      * Obtains an instance of {@code ZoneId} from an ID ensuring that the
      * ID is valid and available for use.
      * <p>
@@ -292,7 +317,7 @@ abstract class ZoneId
     public
     static function of($zoneId)
     {
-        if(!is_string($zoneId))
+        if (!is_string($zoneId))
             throw new \InvalidArgumentException();
 
         return self::_of($zoneId, true);
@@ -313,7 +338,7 @@ abstract class ZoneId
      */
     public static function ofOffset($prefix, ZoneOffset $offset)
     {
-        if(!is_string($prefix))
+        if (!is_string($prefix))
             throw new \InvalidArgumentException();
 
         if (strlen($prefix) === 0) {

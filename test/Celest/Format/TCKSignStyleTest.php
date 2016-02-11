@@ -68,11 +68,8 @@ class TCKSignStyleTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // valueOf()
     //-----------------------------------------------------------------------
-    // TODO
     public function test_valueOf()
     {
-        $this->markTestSkipped('Not yet implemented');
-
         foreach (SignStyle::values() as $style) {
             $this->assertEquals(SignStyle::valueOf($style->name()), $style);
         }

@@ -123,31 +123,28 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_of_string_Map()
     {
-        $this->markTestSkipped('TBD');
         $map = [
             "LONDON" => "Europe/London",
             "PARIS" => "Europe/Paris"
         ];
-        $test = ZoneId::of("LONDON", $map);
+        $test = ZoneId::ofMap("LONDON", $map);
         $this->assertEquals($test->getId(), "Europe/London");
     }
 
     public function test_of_string_Map_lookThrough()
     {
-        $this->markTestSkipped('TBD');
         $map = [
             "LONDON" => "Europe/London",
             "PARIS" => "Europe/Paris"
         ];
-        $test = ZoneId::of("Europe/Madrid", $map);
+        $test = ZoneId::ofMap("Europe/Madrid", $map);
         $this->assertEquals($test->getId(), "Europe/Madrid");
     }
 
     public function test_of_string_Map_emptyMap()
     {
-        $this->markTestSkipped('TBD');
         $map = [];
-        $test = ZoneId::of("Europe/Madrid", $map);
+        $test = ZoneId::ofMap("Europe/Madrid", $map);
         $this->assertEquals($test->getId(), "Europe/Madrid");
     }
 
@@ -156,9 +153,8 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
      */
     public function test_of_string_Map_badFormat()
     {
-        $this->markTestSkipped('TBD');
         $map = [];
-        ZoneId::of("Not known", $map);
+        ZoneId::ofMap("Not known", $map);
     }
 
     /**
@@ -166,9 +162,8 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
      */
     public function test_of_string_Map_unknown()
     {
-        $this->markTestSkipped('TBD');
         $map = [];
-        ZoneId::of("Unknown", $map);
+        ZoneId::ofMap("Unknown", $map);
     }
 
     //-----------------------------------------------------------------------

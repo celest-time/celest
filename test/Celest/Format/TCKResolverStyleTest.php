@@ -66,10 +66,8 @@ class TCKResolverStyleTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // valueOf()
     //-----------------------------------------------------------------------
-    // TODO
     public function test_valueOf()
     {
-        $this->markTestSkipped('Not yet implemented');
         foreach (ResolverStyle::values() as $style) {
             $this->assertEquals(ResolverStyle::valueOf($style->name()), $style);
         }

@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+use Celest\IllegalArgumentException;
 
 /**
  * Enumeration of different ways to resolve dates and times.
@@ -142,7 +143,7 @@ class ResolverStyle
     private static $LENIENT;
 
     /** @var int */
-    private $val;
+    private $ordinal;
 
     /**
      * ResolverStyle constructor.
@@ -150,12 +151,54 @@ class ResolverStyle
      */
     private function __construct($val)
     {
-        $this->val = $val;
+        $this->ordinal = $val;
     }
 
+    /**
+     * @return ResolverStyle[]
+     */
     public static function values()
     {
-        return [self::STRICT(), self::LENIENT(), self::SMART()];
+        return [self::STRICT(), self::SMART(), self::LENIENT()];
+    }
+
+    /**
+     * @param $name
+     * @return ResolverStyle
+     * @throws IllegalArgumentException
+     */
+    public static function valueOf($name)
+    {
+        switch($name) {
+            case 'STRICT':
+                return self::STRICT();
+            case 'SMART':
+                return self::SMART();
+            case 'LENIENT':
+                return self::LENIENT();
+        }
+
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * @return string
+     */
+    public function name() {
+        switch($this->ordinal) {
+            case 0:
+                return 'STRICT';
+            case 1:
+                return 'SMART';
+            case 2:
+                return 'LENIENT';
+        }
+        return '';
+    }
+
+    public function __toString()
+    {
+        return $this->name();
     }
 }
 
