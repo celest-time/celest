@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+use Celest\IllegalArgumentException;
 
 /**
  * Enumeration of the style of text formatting and parsing.
@@ -89,11 +90,31 @@ class TextStyle
     public static function init()
     {
         self::$FULL = new TextStyle(0, \IntlDateFormatter::FULL, 0);
-        self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL,  0);
+        self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL, 0);
         self::$SHORT = new TextStyle(2, \IntlDateFormatter::MEDIUM, 1);
         self::$SHORT_STANDALONE = new TextStyle(3, \IntlDateFormatter::MEDIUM, 1);
-        self::$NARROW = new TextStyle(4, \IntlDateFormatter::SHORT , 1);
+        self::$NARROW = new TextStyle(4, \IntlDateFormatter::SHORT, 1);
         self::$NARROW_STANDALONE = new TextStyle(5, \IntlDateFormatter::SHORT, 1);
+    }
+
+    public static function valueOf($name)
+    {
+        switch($name) {
+            case 'FULL':
+                return self::FULL();
+            case 'FULL_STANDALONE':
+                return self::FULL_STANDALONE();
+            case 'SHORT':
+                return self::SHORT();
+            case 'SHORT_STANDALONE':
+                return self::SHORT_STANDALONE();
+            case 'NARROW':
+                return self::NARROW();
+            case 'NARROW_STANDALONE':
+                return self::NARROW_STANDALONE();
+        }
+
+        throw new IllegalArgumentException();
     }
 
     /**
@@ -188,6 +209,18 @@ class TextStyle
         $this->calendarStyle = $calendarStyle;
     }
 
+    public static function values()
+    {
+        return [
+            self::FULL(),
+            self::FULL_STANDALONE(),
+            self::SHORT(),
+            self::SHORT_STANDALONE(),
+            self::NARROW(),
+            self::NARROW_STANDALONE(),
+        ];
+    }
+
     /**
      * Returns true if the Style is a stand-alone style.
      * @return bool true if the style is a stand-alone style.
@@ -240,7 +273,7 @@ class TextStyle
         return $this->zoneNameStyleIndex;
     }
 
-    function __toString()
+    public function name()
     {
         switch ($this->ordinal) {
             case 0:
@@ -259,7 +292,11 @@ class TextStyle
         return '';
     }
 
+    function __toString()
+    {
+        return $this->name();
 
+    }
 }
 
 TextStyle::init();
