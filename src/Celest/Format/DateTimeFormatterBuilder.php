@@ -760,10 +760,10 @@ final class DateTimeFormatterBuilder
      * During parsing, the parser will match against the map of text and numeric values.
      *
      * @param TemporalField $field the field to append, not null
-     * @param string $textLookup[] the map from the value to the text
+     * @param string[] $textLookup the map from the value to the text
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendText3(TemporalField $field, $textLookup)
+    public function appendText3(TemporalField $field, array $textLookup)
     {
         $provider = new SimpleDateTimeTextProvider($textLookup);
 

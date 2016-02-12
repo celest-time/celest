@@ -21,7 +21,7 @@ class SimpleDateTimeTextProvider extends DateTimeTextProvider
 
     public function getText(TemporalField $field, $value, TextStyle $style, Locale $locale)
     {
-        return $this->data[$value];
+        return @$this->data[$value];
     }
 
     public function getTextIterator(TemporalField $field, $style, Locale $locale)
