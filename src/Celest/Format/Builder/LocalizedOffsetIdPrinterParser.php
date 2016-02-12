@@ -29,22 +29,22 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
     private
     static function appendHMS(&$buf, $t)
     {
-        $buf .= ($t / 10 + '0') . (t % 10 + '0');
+        $buf .= Math::div($t, 10) . ($t % 10);
     }
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $offsetSecs = $context->getValue(ChronoField::OFFSET_SECONDS());
-        if ($offsetSecs == null) {
+        $offsetSecs = $context->getValueField(ChronoField::OFFSET_SECONDS());
+        if ($offsetSecs === null) {
             return false;
         }
 
         $gmtText = "GMT";  // TODO: get localized version of 'GMT'
-        if ($gmtText != null) {
+        if ($gmtText !== null) {
             $buf .= $gmtText;
         }
         $totalSecs = Math::toIntExact($offsetSecs);
-        if ($totalSecs != 0) {
+        if ($totalSecs !== 0) {
             $absHours = Math::abs(($totalSecs / 3600) % 100);  // anything larger than 99 silently dropped
             $absMinutes = Math::abs(($totalSecs / 60) % 60);
             $absSeconds = Math::abs($totalSecs % 60);
@@ -59,9 +59,9 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
                     }
                 } else {
                     if ($absHours >= 10) {
-                        $buf .= ($absHours / 10 + '0');
+                        $buf .= Math::div($absHours, 10);
                     }
-                    $buf .= ($absHours % 10 + '0');
+                    $buf .= ($absHours % 10);
                     if ($absMinutes != 0 || $absSeconds != 0) {
                         $buf .= ':';
                         $this->appendHMS($buf, $absMinutes);
@@ -90,7 +90,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         $pos = $position;
         $end = $pos + strlen($text);
         $gmtText = "GMT";  // TODO: get localized version of 'GMT'
-        if ($gmtText != null) {
+        if ($gmtText !== null) {
             if (!$context->subSequenceEquals($text, $pos, $gmtText, 0, strlen($gmtText))) {
                 return ~$position;
             }
@@ -98,7 +98,6 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
             $pos += strlen($gmtText);
         }
         // parse normal plus/minus offset
-        $negative = 0;
         if ($pos == $end) {
             return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $pos);
         }
@@ -111,7 +110,6 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
             return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $pos);
         }
         $pos++;
-        $h = 0;
         $m = 0;
         $s = 0;
         if ($this->style == TextStyle::FULL()) {
@@ -153,7 +151,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
                         if ($m1 >= 0 && $m2 >= 0) {
                             $m = $m1 * 10 + $m2;
                             $pos += 3;
-                            if ($pos + 2 < end && $text[$pos] === ':') {
+                            if ($pos + 2 < $end && $text[$pos] === ':') {
                                 $s1 = $this->getDigit($text, $pos + 1);
                                 $s2 = $this->getDigit($text, $pos + 2);
                                 if ($s1 >= 0 && $s2 >= 0) {
