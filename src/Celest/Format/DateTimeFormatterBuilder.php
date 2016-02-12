@@ -209,25 +209,16 @@ final class DateTimeFormatterBuilder
 
     /**
      * Constructs a new instance of the builder.
-     */
-    public function __construct()
-    {
-        $this->parent = null;
-        $this->optional = false;
-        $this->active = $this;
-        $this->printerParsers = [];
-    }
-
-    /**
-     * Constructs a new instance of the builder.
      *
      * @param DateTimeFormatterBuilder $parent the parent builder, not null
      * @param bool $optional whether the formatter is optional, not null
      */
-    private function __construct2(DateTimeFormatterBuilder $parent, $optional)
+    public function __construct(DateTimeFormatterBuilder $parent = null, $optional = false)
     {
         $this->parent = $parent;
         $this->optional = $optional;
+        $this->active = $this;
+        $this->printerParsers = [];
     }
 
 //-----------------------------------------------------------------------
@@ -2007,7 +1998,7 @@ final class DateTimeFormatterBuilder
     public
     function optionalEnd()
     {
-        if ($this->active->parent == null) {
+        if ($this->active->parent === null) {
             throw new IllegalStateException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
         }
 

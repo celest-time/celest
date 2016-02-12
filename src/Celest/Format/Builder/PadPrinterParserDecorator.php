@@ -55,12 +55,12 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
         // cache context before changed by decorated parser
         $strict = $context->isStrict();
         // parse
-        if ($position > strlen($text)) {
+        if ($position > strlen($text) || $position < 0) {
             throw new \OutOfRangeException();
         }
 
-        if ($position == strlen($text)) {
-            return $position;  // no more characters in the string
+        if ($position === strlen($text)) {
+            return ~$position;  // no more characters in the string
         }
         $endPos = $position + $this->padWidth;
         if ($endPos > strlen($text)) {
@@ -73,9 +73,9 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
         while ($pos < $endPos && $context->charEquals($text[$pos], $this->padChar)) {
             $pos++;
         }
-        $text = $text->subSequence(0, $endPos);
+        $text = substr($text, 0, $endPos);
         $resultPos = $this->printerParser->parse($context, $text, $pos);
-        if ($resultPos != $endPos && $strict) {
+        if ($resultPos !== $endPos && $strict) {
             return ~($position + $pos);  // parse of decorated field didn't parse to the end
         }
         return $resultPos;
