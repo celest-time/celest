@@ -1849,7 +1849,7 @@ class DateTimeFormatter
         } catch
         (DateTimeParseException $ex) {
             throw $ex;
-        } catch (RuntimeException $ex) {
+        } catch (\Exception $ex) {
             throw $this->createError($text, $ex);
         }
     }
@@ -1984,7 +1984,7 @@ class DateTimeFormatter
         }
     }
 
-    private function createError($text, RuntimeException $ex)
+    private function createError($text, \Exception $ex)
     {
         if (strlen($text) > 64) {
             $abbr = substr($text, 0, 64) . '...';

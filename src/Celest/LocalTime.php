@@ -653,7 +653,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
             }
 
             if ($field == ChronoField::MICRO_OF_DAY()) {
-                return $this->toNanoOfDay() / 1000;
+                return Math::div($this->toNanoOfDay(), 1000);
             }
             return $this->get0($field);
         }
@@ -668,13 +668,13 @@ final class LocalTime implements Temporal, TemporalAdjuster
             case ChronoField::NANO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
             case ChronoField::MICRO_OF_SECOND():
-                return $this->nano / 1000;
+                return Math::div($this->nano, 1000);
             case ChronoField::MICRO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
             case ChronoField::MILLI_OF_SECOND():
-                return $this->nano / 1000000;
+                return Math::div($this->nano, 1000000);
             case ChronoField::MILLI_OF_DAY():
-                return (int)($this->toNanoOfDay() / 1000000);
+                return Math::div($this->toNanoOfDay(), 1000000);
             case ChronoField::SECOND_OF_MINUTE():
                 return $this->second;
             case ChronoField::SECOND_OF_DAY():

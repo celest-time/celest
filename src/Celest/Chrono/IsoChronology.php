@@ -543,7 +543,7 @@ final class IsoChronology extends AbstractChronology
                     }
                 } else {
                     // invent era
-                    $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year == null || $year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
+                    $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year === null || $year[1] > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                 }
             } else if ($era === 1) {
                 $this->addFieldValue($fieldValues, ChronoField::YEAR(), $yoeLong);

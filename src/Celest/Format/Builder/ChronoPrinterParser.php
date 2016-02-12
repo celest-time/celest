@@ -14,11 +14,15 @@ use Celest\Chrono\Chronology;
 final class ChronoPrinterParser implements DateTimePrinterParser
 {
     /** The text style to output, null means the ID.
-     * @var TextStyle
+     * @var TextStyle|null
      */
     private $textStyle;
 
-    public function __construct(TextStyle $textStyle)
+    /**
+     * ChronoPrinterParser constructor.
+     * @param TextStyle|null $textStyle
+     */
+    public function __construct($textStyle)
     {
         // validated by caller
         $this->textStyle = $textStyle;
