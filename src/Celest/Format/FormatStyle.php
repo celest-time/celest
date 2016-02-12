@@ -89,6 +89,34 @@ class FormatStyle
         $this->val = $val;
     }
 
+    /**
+     * @return FormatStyle[]
+     */
+    public static function values()
+    {
+        return [self::FULL(), self::LONG(), self::MEDIUM(), self::SHORT()];
+    }
+
+    /**
+     * @param string $name
+     * @return FormatStyle
+     * @throws IllegalArgumentException
+     */
+    public static function valueOf($name)
+    {
+        switch($name) {
+            case 'FULL':
+                return self::FULL();
+            case 'LONG':
+                return self::LONG();
+            case 'MEDIUM':
+                return self::MEDIUM();
+            case 'SHORT':
+                return self::SHORT();
+        }
+        throw new IllegalArgumentException();
+    }
+
     function ordinal() {
         return $this->val;
     }

@@ -26,13 +26,19 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
     private $textStyle;
 
     /** The preferred zoneid map
+     * @var ZoneId[]
      */
     private $preferredZones;
 
+    /**
+     * ZoneTextPrinterParser constructor.
+     * @param TextStyle $textStyle
+     * @param ZoneId[] $preferredZones
+     */
     public function __construct(TextStyle $textStyle, $preferredZones)
     {
         parent::__construct(TemporalQueries::zone(), "ZoneText(" . $textStyle . ")");
-        if ($preferredZones != null && count($preferredZones) != 0) {
+        if ($preferredZones !== null && count($preferredZones) !== 0) {
             $this->preferredZones = [];
             foreach ($preferredZones as $id) {
                 $this->preferredZones[] = $id->getId();
@@ -52,10 +58,10 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
         }
 
         $names = [];
-        $ref = self::$cache->get($id);
+        $ref = @self::$cache[$id];
         $perLocale = null;
-        if ($ref == null || ($this->perLocale = $ref->get()) == null ||
-            ($names = $this->perLocale->get($locale)) == null
+        if ($ref === null || ($this->perLocale = $ref->get()) === null ||
+            ($names = $this->perLocale->get($locale)) === null
         ) {
             $names = TimeZoneNameUtility::retrieveDisplayNames($id, $locale);
             if ($names == null) {
