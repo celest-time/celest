@@ -87,6 +87,7 @@ use Celest\Format\Builder\ZoneTextPrinterParser;
 use Celest\IllegalArgumentException;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\IsoFields;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\ZoneId;
@@ -897,6 +898,9 @@ final class DateTimeFormatterBuilder
     public
     function appendOffset($pattern, $noOffsetText)
     {
+        if(!is_string($pattern) || !is_string($noOffsetText)) {
+            throw new \InvalidArgumentException();
+        }
         $this->appendInternal(new OffsetIdPrinterParser($pattern, $noOffsetText));
         return $this;
     }
@@ -1698,7 +1702,6 @@ final class DateTimeFormatterBuilder
 
             } else if ($cur == '[') {
                 $this->optionalStart();
-
             } else if ($cur == ']') {
                 if ($this->active->parent === null) {
                     throw new IllegalArgumentException("Pattern invalid as it contains ] without previous [");
@@ -1844,8 +1847,8 @@ final class DateTimeFormatterBuilder
             'G' => ChronoField::ERA(),                       // SDF, LDML (different to both for 1/2 chars)
             'y' => ChronoField::YEAR_OF_ERA(),               // SDF, LDML
             'u' => ChronoField::YEAR(),                      // LDML (different in SDF)
-            // TODO ENABLE 'Q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (removed quarter from 310)
-            //'q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (stand-alone)
+            'Q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (removed quarter from 310)
+            'q' => IsoFields::QUARTER_OF_YEAR(),             // LDML (stand-alone)
             'M' => ChronoField::MONTH_OF_YEAR(),             // SDF, LDML
             'L' => ChronoField::MONTH_OF_YEAR(),             // SDF, LDML (stand-alone)
             'D' => ChronoField::DAY_OF_YEAR(),               // SDF, LDML
@@ -1905,7 +1908,7 @@ final class DateTimeFormatterBuilder
     public
     function padNext($padWidth)
     {
-        return $this->padNext($padWidth, ' ');
+        return $this->padNext2($padWidth, ' ');
     }
 
     /**
@@ -1993,13 +1996,13 @@ final class DateTimeFormatterBuilder
      * During parsing, the input will be successfully parsed whether the minute is present or not.
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
-     * @throws IllegalStateException if there was no previous call to {@code optionalStart}
+     * @throws \LogicException if there was no previous call to {@code optionalStart}
      */
     public
     function optionalEnd()
     {
         if ($this->active->parent === null) {
-            throw new IllegalStateException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
+            throw new \LogicException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
         }
 
         if (count($this->active->printerParsers) > 0) {

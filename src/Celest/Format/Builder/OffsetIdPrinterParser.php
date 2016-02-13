@@ -11,6 +11,7 @@ namespace Celest\Format\Builder;
 use Celest\Format\DateTimeParseContext;
 use Celest\Format\DateTimePrintContext;
 use Celest\Helper\Math;
+use Celest\IllegalArgumentException;
 use Celest\Temporal\ChronoField;
 use Symfony\Component\Yaml\Exception\RuntimeException;
 
@@ -51,7 +52,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
     {
         $i = array_search($pattern, self::$PATTERNS);
         if ($i === false)
-            throw new RuntimeException("Invalid zone offset pattern: " . $pattern);
+            throw new IllegalArgumentException("Invalid zone offset pattern: " . $pattern);
         return $i;
     }
 

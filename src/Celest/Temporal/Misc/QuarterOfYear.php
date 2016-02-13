@@ -2,9 +2,10 @@
 
 namespace Celest\Temporal\Misc;
 
-use Celest\ArithmeticException;
-use Celest\DateTimeException;
+use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\IsoChronology;
 use Celest\Format\ResolverStyle;
+use Celest\Helper\Math;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
@@ -34,7 +35,7 @@ class QuarterOfYear implements TemporalField
 
     public function isSupportedBy(TemporalAccessor $temporal)
     {
-        return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && IsoFields::isIso($temporal);
+        return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE());
     }
 
     public
@@ -44,7 +45,7 @@ class QuarterOfYear implements TemporalField
             throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
         }
         $moy = $temporal->getLong(ChronoField::MONTH_OF_YEAR());
-        return (($moy + 2) / 3);
+        return Math::div(($moy + 2), 3);
     }
 
     public function adjustInto(Temporal $temporal, $newValue)
