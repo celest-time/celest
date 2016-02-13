@@ -7,17 +7,20 @@ use PHPUnit_Framework_Assert;
 
 class TestHelper
 {
-    public static function assertNullException(PHPUnit_Framework_Assert $_this, callable $asd)
+    public static function assertNullException(PHPUnit_Framework_Assert $_this, callable $func)
     {
         $catched = false;
         try {
-            $asd();
+            $func();
         } catch (\PHPUnit_Framework_Error $e) {
+            // PHP 5
             $_this->assertContains('null given', $e->getMessage());
             $catched = true;
         } catch (\InvalidArgumentException $e) {
+            // Custom
             $catched = true;
         } catch (\Throwable $e) {
+            // PHP 7
             $_this->assertInstanceOf('\TypeError', $e);
             $catched = true;
         }

@@ -99,4 +99,9 @@ class FieldValues implements \Iterator
         }
         return $buf . ']';
     }
+
+    public function size()
+    {
+        return count($this->fieldValues);
+    }
 }
