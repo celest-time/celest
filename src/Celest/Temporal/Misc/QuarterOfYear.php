@@ -7,6 +7,7 @@ use Celest\Helper\Math;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -82,7 +83,7 @@ class QuarterOfYear implements TemporalField
     }
 
     public function resolve(
-        array &$fieldValues,
+        FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle)
     {

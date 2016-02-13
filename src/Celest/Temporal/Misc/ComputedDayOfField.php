@@ -10,8 +10,9 @@ use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\Locale;
-use Celest\Temporal\ChronoField;
+use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -80,7 +81,7 @@ class ComputedDayOfField implements TemporalField
      */
     static function ofWeekBasedYearField(WeekFields $weekDef)
     {
-        return new ComputedDayOfField("WeekBasedYear", $weekDef, IsoFields::WEEK_BASED_YEARS(), ChronoUnit::FOREVER(), ChronoField::YEAR()->range());
+        return new ComputedDayOfField("WeekBasedYear", $weekDef, IsoFields::WEEK_BASED_YEARS(), ChronoUnit::FOREVER(), CF::YEAR()->range());
     }
 
     /**
@@ -189,7 +190,7 @@ class ComputedDayOfField implements TemporalField
     private function localizedDayOfWeek(TemporalAccessor $temporal)
     {
         $sow = $this->weekDef->getFirstDayOfWeek()->getValue();
-        $isoDow = $temporal->get(ChronoField::DAY_OF_WEEK());
+        $isoDow = $temporal->get(CF::DAY_OF_WEEK());
         return Math::floorMod($isoDow - $sow, 7) + 1;
     }
 
@@ -202,7 +203,7 @@ class ComputedDayOfField implements TemporalField
     private function localizedWeekOfMonth(TemporalAccessor $temporal)
     {
         $dow = $this->localizedDayOfWeek($temporal);
-        $dom = $temporal->get(ChronoField::DAY_OF_MONTH());
+        $dom = $temporal->get(CF::DAY_OF_MONTH());
         $offset = $this->startOfWeekOffset($dom, $dow);
         return $this->computeWeek($offset, $dom);
     }
@@ -210,7 +211,7 @@ class ComputedDayOfField implements TemporalField
     private function localizedWeekOfYear(TemporalAccessor $temporal)
     {
         $dow = $this->localizedDayOfWeek($temporal);
-        $doy = $temporal->get(ChronoField::DAY_OF_YEAR());
+        $doy = $temporal->get(CF::DAY_OF_YEAR());
         $offset = $this->startOfWeekOffset($doy, $dow);
         return $this->computeWeek($offset, $doy);
     }
@@ -224,8 +225,8 @@ class ComputedDayOfField implements TemporalField
     private function localizedWeekBasedYear(TemporalAccessor $temporal)
     {
         $dow = $this->localizedDayOfWeek($temporal);
-        $year = $temporal->get(ChronoField::YEAR());
-        $doy = $temporal->get(ChronoField::DAY_OF_YEAR());
+        $year = $temporal->get(CF::YEAR());
+        $doy = $temporal->get(CF::DAY_OF_YEAR());
         $offset = $this->startOfWeekOffset($doy, $dow);
         $week = $this->computeWeek($offset, $doy);
         if ($week === 0) {
@@ -234,7 +235,7 @@ class ComputedDayOfField implements TemporalField
         } else {
             // If getting close to end of year, use higher precision logic
             // Check if date of year is in partial week associated with next year
-            $dayRange = $temporal->range(ChronoField::DAY_OF_YEAR());
+            $dayRange = $temporal->range(CF::DAY_OF_YEAR());
             $yearLen = $dayRange->getMaximum();
             $newYearWeek = $this->computeWeek($offset, $yearLen + $this->weekDef->getMinimalDaysInFirstWeek());
             if ($week >= $newYearWeek) {
@@ -256,7 +257,7 @@ class ComputedDayOfField implements TemporalField
     private function localizedWeekOfWeekBasedYear(TemporalAccessor $temporal)
     {
         $dow = $this->localizedDayOfWeek($temporal);
-        $doy = $temporal->get(ChronoField::DAY_OF_YEAR());
+        $doy = $temporal->get(CF::DAY_OF_YEAR());
         $offset = $this->startOfWeekOffset($doy, $dow);
         $week = $this->computeWeek($offset, $doy);
         if ($week === 0) {
@@ -269,7 +270,7 @@ class ComputedDayOfField implements TemporalField
             if ($week > 50) {
                 // If getting close to end of year, use higher precision logic
                 // Check if date of year is in partial week associated with next year
-                $dayRange = $temporal->range(ChronoField::DAY_OF_YEAR());
+                $dayRange = $temporal->range(CF::DAY_OF_YEAR());
                 $yearLen = $dayRange->getMaximum();
                 $newYearWeek = $this->computeWeek($offset, $yearLen + $this->weekDef->getMinimalDaysInFirstWeek());
                 if ($week >= $newYearWeek) {
@@ -334,9 +335,9 @@ class ComputedDayOfField implements TemporalField
         }
     }
 
-    public function resolve(array &$fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
-        $value = $fieldValues[$this->__toString()][1];
+        $value = $fieldValues->get($this);
         $newValue = Math::toIntExact($value);  // broad limit makes overflow checking lighter
         // first convert localized day-of-week to ISO day-of-week
         // doing this first handles case where both ISO and localized were parsed and might mismatch
@@ -345,39 +346,39 @@ class ComputedDayOfField implements TemporalField
             $checkedValue = $this->range->checkValidIntValue($value, $this);  // no leniency as too complex
             $startDow = $this->weekDef->getFirstDayOfWeek()->getValue();
             $isoDow = Math::floorMod(($startDow - 1) + ($checkedValue - 1), 7) + 1;
-            unset($fieldValues[$this->__toString()]);
-            $fieldValues[ChronoField::DAY_OF_WEEK()->__toString()] = [ChronoField::DAY_OF_WEEK(), $isoDow];
+            $fieldValues->remove($this);
+            $fieldValues->put(CF::DAY_OF_WEEK(), $isoDow);
             return null;
         }
 
 // can only build date if ISO day-of-week is present
-        if (!isset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()])) {
+        if (!$fieldValues->has(CF::DAY_OF_WEEK())) {
             return null;
         }
-        $isoDow = ChronoField::DAY_OF_WEEK()->checkValidIntValue($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()][1]);
+        $isoDow = CF::DAY_OF_WEEK()->checkValidIntValue($fieldValues->get(CF::DAY_OF_WEEK()));
         $dow = $this->localizedDayOfWeekNumerical($isoDow);
 
         // build date
         $chrono = ChronologyDefaults::from($partialTemporal);
-        if (isset($fieldValues[ChronoField::YEAR()->__toString()])) {
-            $year = ChronoField::YEAR()->checkValidIntValue($fieldValues[ChronoField::YEAR()->__toString()][1]);  // validate
-            if ($this->rangeUnit == ChronoUnit::MONTHS() && isset($fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()])) {  // week-of-month
-                $month = $fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()][1];  // not validated yet
+        if ($fieldValues->has(CF::YEAR())) {
+            $year = CF::YEAR()->checkValidIntValue($fieldValues->get(CF::YEAR()));  // validate
+            if ($this->rangeUnit == ChronoUnit::MONTHS() && $fieldValues->has(CF::MONTH_OF_YEAR())) {  // week-of-month
+                $month = $fieldValues->get(CF::MONTH_OF_YEAR());  // not validated yet
                 return $this->resolveWoM($fieldValues, $chrono, $year, $month, $newValue, $dow, $resolverStyle);
             }
             if ($this->rangeUnit == ChronoUnit::YEARS()) {  // week-of-year
                 return $this->resolveWoY($fieldValues, $chrono, $year, $newValue, $dow, $resolverStyle);
             }
         } else if (($this->rangeUnit == IsoFields::WEEK_BASED_YEARS() || $this->rangeUnit == ChronoUnit::FOREVER()) &&
-            isset($fieldValues[$this->weekDef->weekBasedYear->__toString()]) &&
-            isset($fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()])
+            $fieldValues->has($this->weekDef->weekBasedYear) &&
+            $fieldValues->has($this->weekDef->weekOfWeekBasedYear)
         ) { // week-of-week-based-year and year-of-week-based-year
             return $this->resolveWBY($fieldValues, $chrono, $dow, $resolverStyle);
         }
         return null;
     }
 
-    private function resolveWoM(array &$fieldValues, Chronology $chrono, $year, $month, $wom, $localDow, ResolverStyle $resolverStyle)
+    private function resolveWoM(FieldValues $fieldValues, Chronology $chrono, $year, $month, $wom, $localDow, ResolverStyle $resolverStyle)
     {
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $date = $chrono->date($year, 1, 1)->plus(Math::subtractExact($month, 1), ChronoUnit::MONTHS());
@@ -385,24 +386,24 @@ class ComputedDayOfField implements TemporalField
             $days = $localDow - $this->localizedDayOfWeek($date);  // safe from overflow
             $date = $date->plus(Math::addExact(Math::multiplyExact($weeks, 7), $days), ChronoUnit::DAYS());
         } else {
-            $monthValid = ChronoField::MONTH_OF_YEAR()->checkValidIntValue($month);  // validate
+            $monthValid = CF::MONTH_OF_YEAR()->checkValidIntValue($month);  // validate
             $date = $chrono->date($year, $monthValid, 1);
             $womInt = $this->range->checkValidIntValue($wom, $this);  // validate
             $weeks = (int)($womInt - $this->localizedWeekOfMonth($date));  // safe from overflow
             $days = $localDow - $this->localizedDayOfWeek($date);  // safe from overflow
             $date = $date->plus($weeks * 7 + $days, ChronoUnit::DAYS());
-            if ($resolverStyle == ResolverStyle::STRICT() && $date->getLong(ChronoField::MONTH_OF_YEAR()) !== $month) {
+            if ($resolverStyle == ResolverStyle::STRICT() && $date->getLong(CF::MONTH_OF_YEAR()) !== $month) {
                 throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
             }
         }
-        unset($fieldValues[$this->__toString()]);
-        unset($fieldValues[ChronoField::YEAR()->__toString()]);
-        unset($fieldValues[ChronoField::MONTH_OF_YEAR()->__toString()]);
-        unset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()]);
+        $fieldValues->remove($this);
+        $fieldValues->remove(CF::YEAR());
+        $fieldValues->remove(CF::MONTH_OF_YEAR());
+        $fieldValues->remove(CF::DAY_OF_WEEK());
         return $date;
     }
 
-    private function resolveWoY(array &$fieldValues, Chronology $chrono, $year, $woy, $localDow, ResolverStyle $resolverStyle)
+    private function resolveWoY(FieldValues $fieldValues, Chronology $chrono, $year, $woy, $localDow, ResolverStyle $resolverStyle)
     {
         $date = $chrono->date($year, 1, 1);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -414,37 +415,37 @@ class ComputedDayOfField implements TemporalField
             $weeks = (int)($womInt - $this->localizedWeekOfYear($date));  // safe from overflow
             $days = $localDow - $this->localizedDayOfWeek($date);  // safe from overflow
             $date = $date->plus($weeks * 7 + $days, ChronoUnit::DAYS());
-            if ($resolverStyle == ResolverStyle::STRICT() && $date->getLong(ChronoField::YEAR()) !== $year) {
+            if ($resolverStyle == ResolverStyle::STRICT() && $date->getLong(CF::YEAR()) !== $year) {
                 throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
             }
         }
-        unset($fieldValues[$this->__toString()]);
-        unset($fieldValues[ChronoField::YEAR()->__toString()]);
-        unset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()]);
+        $fieldValues->remove($this);
+        $fieldValues->remove(CF::YEAR());
+        $fieldValues->remove(CF::DAY_OF_WEEK());
         return $date;
     }
 
-    private function resolveWBY(array &$fieldValues, Chronology $chrono, $localDow, ResolverStyle $resolverStyle)
+    private function resolveWBY(FieldValues $fieldValues, Chronology $chrono, $localDow, ResolverStyle $resolverStyle)
     {
         $yowby = $this->weekDef->weekBasedYear->range()->checkValidIntValue(
-            $fieldValues[$this->weekDef->weekBasedYear->__toString()][1], $this->weekDef->weekBasedYear);
+            $fieldValues->get($this->weekDef->weekBasedYear), $this->weekDef->weekBasedYear);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $date = $this->ofWeekBasedYear($chrono, $yowby, 1, $localDow);
-            $wowby = $fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()];
+            $wowby = $fieldValues->get($this->weekDef->weekOfWeekBasedYear);
             $weeks = Math::subtractExact($wowby, 1);
             $date = $date->plus($weeks, ChronoUnit::WEEKS());
         } else {
             $wowby = $this->weekDef->weekOfWeekBasedYear->range()->checkValidIntValue(
-                $fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()][1], $this->weekDef->weekOfWeekBasedYear);  // validate
+                $fieldValues->get($this->weekDef->weekOfWeekBasedYear), $this->weekDef->weekOfWeekBasedYear);  // validate
             $date = $this->ofWeekBasedYear($chrono, $yowby, $wowby, $localDow);
             if ($resolverStyle == ResolverStyle::STRICT() && $this->localizedWeekBasedYear($date) != $yowby) {
                 throw new DateTimeException("Strict mode rejected resolved date as it is in a different week-based-year");
             }
         }
-        unset($fieldValues[$this->__toString()]);
-        unset($fieldValues[$this->weekDef->weekBasedYear->__toString()]);
-        unset($fieldValues[$this->weekDef->weekOfWeekBasedYear->__toString()]);
-        unset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()]);
+        $fieldValues->remove($this);
+        $fieldValues->remove($this->weekDef->weekBasedYear);
+        $fieldValues->remove($this->weekDef->weekOfWeekBasedYear);
+        $fieldValues->remove(CF::DAY_OF_WEEK());
         return $date;
     }
 
@@ -490,18 +491,18 @@ class ComputedDayOfField implements TemporalField
     //-----------------------------------------------------------------------
     public function isSupportedBy(TemporalAccessor $temporal)
     {
-        if ($temporal->isSupported(ChronoField::DAY_OF_WEEK())) {
+        if ($temporal->isSupported(CF::DAY_OF_WEEK())) {
             if ($this->rangeUnit == ChronoUnit::WEEKS()) {  // day-of-week
                 return true;
             } else
                 if ($this->rangeUnit == ChronoUnit::MONTHS()) {  // week-of-month
-                    return $temporal->isSupported(ChronoField::DAY_OF_MONTH());
+                    return $temporal->isSupported(CF::DAY_OF_MONTH());
                 } else if ($this->rangeUnit == ChronoUnit::YEARS()) {  // week-of-year
-                    return $temporal->isSupported(ChronoField::DAY_OF_YEAR());
+                    return $temporal->isSupported(CF::DAY_OF_YEAR());
                 } else if ($this->rangeUnit == IsoFields::WEEK_BASED_YEARS()) {
-                    return $temporal->isSupported(ChronoField::DAY_OF_YEAR());
+                    return $temporal->isSupported(CF::DAY_OF_YEAR());
                 } else if ($this->rangeUnit == ChronoUnit::FOREVER()) {
-                    return $temporal->isSupported(ChronoField::YEAR());
+                    return $temporal->isSupported(CF::YEAR());
                 }
         }
         return false;
@@ -513,13 +514,13 @@ class ComputedDayOfField implements TemporalField
             return $this->range;
         } else
             if ($this->rangeUnit == ChronoUnit::MONTHS()) {  // week-of-month
-                return $this->rangeByWeek($temporal, ChronoField::DAY_OF_MONTH());
+                return $this->rangeByWeek($temporal, CF::DAY_OF_MONTH());
             } else if ($this->rangeUnit == ChronoUnit::YEARS()) {  // week-of-year
-                return $this->rangeByWeek($temporal, ChronoField::DAY_OF_YEAR());
+                return $this->rangeByWeek($temporal, CF::DAY_OF_YEAR());
             } else if ($this->rangeUnit == IsoFields::WEEK_BASED_YEARS()) {
                 return $this->rangeWeekOfWeekBasedYear($temporal);
             } else if ($this->rangeUnit == ChronoUnit::FOREVER()) {
-                return ChronoField::YEAR()->range();
+                return CF::YEAR()->range();
             } else {
                 throw new IllegalStateException("unreachable, rangeUnit: " . $this->rangeUnit . ", this: " . $this);
             }
@@ -547,11 +548,11 @@ class ComputedDayOfField implements TemporalField
      */
     private function rangeWeekOfWeekBasedYear(TemporalAccessor $temporal)
     {
-        if (!$temporal->isSupported(ChronoField::DAY_OF_YEAR())) {
+        if (!$temporal->isSupported(CF::DAY_OF_YEAR())) {
             return self::WEEK_OF_YEAR_RANGE();
         }
         $dow = $this->localizedDayOfWeek($temporal);
-        $doy = $temporal->get(ChronoField::DAY_OF_YEAR());
+        $doy = $temporal->get(CF::DAY_OF_YEAR());
         $offset = $this->startOfWeekOffset($doy, $dow);
         $week = $this->computeWeek($offset, $doy);
         if ($week === 0) {
@@ -562,7 +563,7 @@ class ComputedDayOfField implements TemporalField
             return $this->rangeWeekOfWeekBasedYear($date);
         }
         // Check if day of year is in partial week associated with next year
-        $dayRange = $temporal->range(ChronoField::DAY_OF_YEAR());
+        $dayRange = $temporal->range(CF::DAY_OF_YEAR());
         $yearLen = $dayRange->getMaximum();
         $newYearWeek = $this->computeWeek($offset, $yearLen + $this->weekDef->getMinimalDaysInFirstWeek());
 

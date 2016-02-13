@@ -121,7 +121,7 @@ class MockFieldNoValue implements TemporalField {
     }
 
     public function resolve(
-        array &$fieldValues,
+        FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle)
     {

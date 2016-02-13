@@ -9,6 +9,7 @@ use Celest\LocalDate;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -26,32 +27,27 @@ class WeekOfWeekBasedYear implements TemporalField
  return rb . containsKey("field.week") ? rb . getString("field.week") : toString(); TODO */
     }
 
-    public
-    function getBaseUnit()
+    public function getBaseUnit()
     {
         return ChronoUnit::WEEKS();
     }
 
-    public
-    function getRangeUnit()
+    public function getRangeUnit()
     {
         return IsoFields::WEEK_BASED_YEARS();
     }
 
-    public
-    function range()
+    public function range()
     {
         return ValueRange::ofVariable(1, 52, 53);
     }
 
-    public
-    function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal)
     {
         return $temporal->isSupported(ChronoField::EPOCH_DAY()) && IsoFields::isIso($temporal);
     }
 
-    public
-    function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal)
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: WeekOfWeekBasedYear");
@@ -68,56 +64,53 @@ class WeekOfWeekBasedYear implements TemporalField
         return IsoFields::getWeek(LocalDate::from($temporal));
     }
 
-    public
-    function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, $newValue)
     {
         // calls getFrom() to check if supported
         $this->range()->checkValidValue($newValue, $this);  // lenient range
         return $temporal->plus(Math::subtractExact($newValue, $this->getFrom($temporal)), ChronoUnit::WEEKS());
     }
 
-    public
-    function resolve(
-        array &$fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(
+        FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
-        $wbyLong = $fieldValues[IsoFields::WEEK_BASED_YEAR()->__toString()][1];
-        $dowLong = $fieldValues[ChronoField::DAY_OF_WEEK()->__toString()][1];
+        $wbyLong = $fieldValues->get(IsoFields::WEEK_BASED_YEAR());
+        $dowLong = $fieldValues->get(ChronoField::DAY_OF_WEEK());
         if ($wbyLong == null || $dowLong == null) {
             return null;
         }
         $wby = IsoFields::WEEK_BASED_YEAR()->range()->checkValidIntValue($wbyLong, IsoFields::WEEK_BASED_YEAR());  // always validate
-        $wowby =$fieldValues[IsoFields::WEEK_OF_WEEK_BASED_YEAR()->__toString()][1];
+        $wowby = $fieldValues->get(IsoFields::WEEK_OF_WEEK_BASED_YEAR());
         IsoFields::ensureIso($partialTemporal);
         $date = LocalDate::ofNumerical($wby, 1, 4);
-                if ($resolverStyle == ResolverStyle::LENIENT()) {
-                    $dow = $dowLong;  // unvalidated
-                    if ($dow > 7) {
-                        $date = $date->plusWeeks(($dow - 1) / 7);
-                        $dow = (($dow - 1) % 7) + 1;
-                    } else if ($dow < 1) {
-                        $date = $date->plusWeeks(Math::subtractExact($dow, 7) / 7);
-                        $dow = (($dow + 6) % 7) + 1;
-                    }
-                    $date = $date->plusWeeks(Math::subtractExact($wowby, 1))->with(ChronoField::DAY_OF_WEEK(), $dow);
-                } else {
-                    $dow = ChronoField::DAY_OF_WEEK()->checkValidIntValue($dowLong);  // validated
-                    if ($wowby < 1 || $wowby > 52) {
-                        if ($resolverStyle == ResolverStyle::STRICT()) {
-                            IsoFields::getWeekRange($date)->checkValidValue($wowby, $this);  // only allow exact range
-                        } else {  // SMART
-                            $this->range()->checkValidValue($wowby, $this);  // allow 1-53 rolling into next year
-                        }
-                    }
-                    $date = $date->plusWeeks($wowby - 1)->with(ChronoField::DAY_OF_WEEK(), $dow);
-                }
-                unset($fieldValues[$this->__toString()]);
-                unset($fieldValues[IsoFields::WEEK_BASED_YEAR()->__toString()]);
-                unset($fieldValues[ChronoField::DAY_OF_WEEK()->__toString()]);
-                return $date;
+        if ($resolverStyle == ResolverStyle::LENIENT()) {
+            $dow = $dowLong;  // unvalidated
+            if ($dow > 7) {
+                $date = $date->plusWeeks(($dow - 1) / 7);
+                $dow = (($dow - 1) % 7) + 1;
+            } else if ($dow < 1) {
+                $date = $date->plusWeeks(Math::subtractExact($dow, 7) / 7);
+                $dow = (($dow + 6) % 7) + 1;
             }
+            $date = $date->plusWeeks(Math::subtractExact($wowby, 1))->with(ChronoField::DAY_OF_WEEK(), $dow);
+        } else {
+            $dow = ChronoField::DAY_OF_WEEK()->checkValidIntValue($dowLong);  // validated
+            if ($wowby < 1 || $wowby > 52) {
+                if ($resolverStyle == ResolverStyle::STRICT()) {
+                    IsoFields::getWeekRange($date)->checkValidValue($wowby, $this);  // only allow exact range
+                } else {  // SMART
+                    $this->range()->checkValidValue($wowby, $this);  // allow 1-53 rolling into next year
+                }
+            }
+            $date = $date->plusWeeks($wowby - 1)->with(ChronoField::DAY_OF_WEEK(), $dow);
+        }
+        $fieldValues->remove($this);
+        $fieldValues->remove(IsoFields::WEEK_BASED_YEAR());
+        $fieldValues->remove(ChronoField::DAY_OF_WEEK());
+        return $date;
+    }
 
-    public
-    function __toString()
+    public function __toString()
     {
         return "WeekOfWeekBasedYear";
     }

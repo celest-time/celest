@@ -69,6 +69,7 @@ use Celest\Locale;
 use Celest\LocalTime;
 use Celest\Period;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -132,9 +133,9 @@ class ResolvingField implements TemporalField
         throw new UnsupportedOperationException();
     }
 
-    public function resolve(array &$fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
-        unset($fieldValues[$this->__toString()]);
+        $fieldValues->remove($this);
         return $this->resolvedValue;
     }
 

@@ -40,6 +40,10 @@ class FieldValues implements \Iterator
         return isset($this->fieldValues[$field->__toString()]);
     }
 
+    /**
+     * @param TemporalField $field
+     * @return int|null
+     */
     public function get(TemporalField $field)
     {
         $val = @$this->fieldValues[$field->__toString()];
@@ -75,5 +79,24 @@ class FieldValues implements \Iterator
     public function rewind()
     {
         return reset($this->fieldValues);
+    }
+
+    /**
+     * return bool
+     */
+    public function isEmpty()
+    {
+        return count($this->fieldValues) === 0;
+    }
+
+    public function __toString()
+    {
+        $buf = '[';
+        $sep = '';
+        foreach ($this->fieldValues as $entry) {
+            $buf .= $entry[0] . '=' . $entry[1] . $sep;
+            $sep = ',';
+        }
+        return $buf . ']';
     }
 }

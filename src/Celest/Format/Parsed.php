@@ -73,7 +73,8 @@ use Celest\Instant;
 use Celest\LocalDate;
 use Celest\LocalTime;
 use Celest\Period;
-use Celest\Temporal\ChronoField;
+use Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalAccessor;
@@ -107,9 +108,9 @@ final class Parsed implements TemporalAccessor
 
     /**
      * The parsed fields.
-     * @var array TemporalField->int
+     * @var FieldValues
      */
-    public $fieldValues = [];
+    public $fieldValues;
     /**
      * The parsed zone.
      * @var ZoneId
@@ -152,6 +153,7 @@ final class Parsed implements TemporalAccessor
     public function __construct()
     {
         $this->excessDays = Period::ZERO();
+        $this->fieldValues = new FieldValues();
     }
 
     /**
@@ -176,14 +178,14 @@ final class Parsed implements TemporalAccessor
      */
     public function isSupported(TemporalField $field)
     {
-        if (array_key_exists($field->__toString(), $this->fieldValues) ||
-            ($this->date != null && $this->date->isSupported($field)) ||
-            ($this->time != null && $this->time->isSupported($field))
+        if ($this->fieldValues->has($field) ||
+            ($this->date !== null && $this->date->isSupported($field)) ||
+            ($this->time !== null && $this->time->isSupported($field))
         ) {
             return true;
         }
 
-        return $field != null && ($field instanceof ChronoField == false) && $field->isSupportedBy($this);
+        return $field !== null && !($field instanceof CF) && $field->isSupportedBy($this);
     }
 
     /**
@@ -193,7 +195,7 @@ final class Parsed implements TemporalAccessor
      */
     public function getLong(TemporalField $field)
     {
-        $value = @$this->fieldValues[$field->__toString()][1];
+        $value = $this->fieldValues->get($field);
         if ($value !== null) {
             return $value;
         }
@@ -204,7 +206,7 @@ final class Parsed implements TemporalAccessor
         if ($this->time !== null && $this->time->isSupported($field)) {
             return $this->time->getLong($field);
         }
-        if ($field instanceof ChronoField) {
+        if ($field instanceof CF) {
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
         }
         return $field->getFrom($this);
@@ -241,7 +243,7 @@ final class Parsed implements TemporalAccessor
      * @throws DateTimeException if resolving one field results in a value for
      *  another field that is in conflict
      */
-    public function resolve(ResolverStyle $resolverStyle, &$resolverFields)
+    public function resolve(ResolverStyle $resolverStyle, $resolverFields)
     {
         if ($resolverFields !== null) {
             $this->fieldValues->keySet()->retainAll($resolverFields);
@@ -261,20 +263,19 @@ final class Parsed implements TemporalAccessor
     private
     function resolveFields()
     {
-        // resolve ChronoField
+        // resolve CF
         $this->resolveInstantFields();
         $this->resolveDateFields();
         $this->resolveTimeFields();
 
         // if any other fields, handle them
         // any lenient date resolution should return epoch-day
-        if (!empty($this->fieldValues)) {
+        if (!$this->fieldValues->isEmpty()) {
             $changedCount = 0;
             outer:
             while ($changedCount < 50) {
-                foreach ($this->fieldValues as $entry) {
-                    /** @var ChronoField $targetField */
-                    $targetField = $entry[0];
+                foreach ($this->fieldValues as $targetField => $value) {
+                    /** @var CF $targetField */
                     $resolvedObject = $targetField->resolve($this->fieldValues, $this, $this->resolverStyle);
                     if ($resolvedObject !== null) {
                         if ($resolvedObject instanceof ChronoZonedDateTime) {
@@ -306,7 +307,7 @@ final class Parsed implements TemporalAccessor
                         }
                         throw new DateTimeException("Method resolve() can only return ChronoZonedDateTime, " .
                             "ChronoLocalDateTime, ChronoLocalDate or LocalTime");
-                    } else if (array_key_exists($targetField->__toString(), $this->fieldValues) === false) {
+                    } else if ($this->fieldValues->has($targetField) === false) {
                         $changedCount++;
                         continue 2;  // have to restart to avoid concurrent modification
                     }
@@ -316,7 +317,7 @@ final class Parsed implements TemporalAccessor
             if ($changedCount === 50) {  // catch infinite loops
                 throw new DateTimeException("One of the parsed fields has an incorrectly implemented resolve method");
             }
-            // if something changed then have to redo ChronoField resolve
+            // if something changed then have to redo CF resolve
             if ($changedCount > 0) {
                 $this->resolveInstantFields();
                 $this->resolveDateFields();
@@ -328,8 +329,7 @@ final class Parsed implements TemporalAccessor
     private
     function updateCheckConflict3(TemporalField $targetField, TemporalField $changeField, $changeValue)
     {
-        $old = @$this->fieldValues[$changeField->__toString()][1];
-        $this->fieldValues[$changeField->__toString()] = [$changeField, $changeValue];
+        $old = $this->fieldValues->put($changeField, $changeValue);
 
         if ($old !== null && $old !== $changeValue) {
             throw new DateTimeException("Conflict found: " . $changeField . " " . $old .
@@ -343,11 +343,11 @@ final class Parsed implements TemporalAccessor
     function resolveInstantFields()
     {
         // resolve parsed instant seconds to date and time if zone available
-        if (array_key_exists(ChronoField::INSTANT_SECONDS()->__toString(), $this->fieldValues)) {
+        if ($this->fieldValues->has(CF::INSTANT_SECONDS())) {
             if ($this->zone !== null) {
                 $this->resolveInstantFields0($this->zone);
             } else {
-                $offsetSecs = @$this->fieldValues[ChronoField::OFFSET_SECONDS()->__toString()][1];
+                $offsetSecs = $this->fieldValues->get(CF::OFFSET_SECONDS());
                 if ($offsetSecs !== null) {
                     $offset = ZoneOffset::ofTotalSeconds($offsetSecs);
                     $this->resolveInstantFields0($offset);
@@ -359,10 +359,10 @@ final class Parsed implements TemporalAccessor
     private
     function resolveInstantFields0(ZoneId $selectedZone)
     {
-        $instant = Instant::ofEpochSecond($this->fieldValues->remove(ChronoField::INSTANT_SECONDS()));
+        $instant = Instant::ofEpochSecond($this->fieldValues->remove(CF::INSTANT_SECONDS()));
         $zdt = $this->chrono->zonedDateTime($instant, $selectedZone);
         $this->updateCheckConflict1($zdt->toLocalDate());
-        $this->updateCheckConflict3(ChronoField::INSTANT_SECONDS(), ChronoField::SECOND_OF_DAY(), $zdt->toLocalTime()->toSecondOfDay());
+        $this->updateCheckConflict3(CF::INSTANT_SECONDS(), CF::SECOND_OF_DAY(), $zdt->toLocalTime()->toSecondOfDay());
     }
 
 //-----------------------------------------------------------------------
@@ -396,125 +396,109 @@ final class Parsed implements TemporalAccessor
     function resolveTimeFields()
     {
 // simplify fields
-        if (array_key_exists(ChronoField::CLOCK_HOUR_OF_DAY()->__toString(), $this->fieldValues)) {
+        if ($this->fieldValues->has(CF::CLOCK_HOUR_OF_DAY())) {
 // lenient allows anything, smart allows 0-24, strict allows 1-24
-            $ch = $this->fieldValues[ChronoField::CLOCK_HOUR_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::CLOCK_HOUR_OF_DAY()->__toString()]);
+            $ch = $this->fieldValues->remove(CF::CLOCK_HOUR_OF_DAY());
             if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch != 0)) {
-                ChronoField::CLOCK_HOUR_OF_DAY()->checkValidValue($ch);
+                CF::CLOCK_HOUR_OF_DAY()->checkValidValue($ch);
             }
 
-            $this->updateCheckConflict3(ChronoField::CLOCK_HOUR_OF_DAY(), ChronoField::HOUR_OF_DAY(), $ch == 24 ? 0 : $ch);
+            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_DAY(), CF::HOUR_OF_DAY(), $ch == 24 ? 0 : $ch);
         }
-        if (isset($this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()])) {
+        if ($this->fieldValues->has(CF::CLOCK_HOUR_OF_AMPM())) {
 // lenient allows anything, smart allows 0-12, strict allows 1-12
-            $ch = $this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()][1];
-            unset($this->fieldValues[ChronoField::CLOCK_HOUR_OF_AMPM()->__toString()]);
+            $ch = $this->fieldValues->remove(CF::CLOCK_HOUR_OF_AMPM());
             if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch != 0)) {
-                ChronoField::CLOCK_HOUR_OF_AMPM()->checkValidValue($ch);
+                CF::CLOCK_HOUR_OF_AMPM()->checkValidValue($ch);
             }
-            $this->updateCheckConflict3(ChronoField::CLOCK_HOUR_OF_AMPM(), ChronoField::HOUR_OF_AMPM(), $ch == 12 ? 0 : $ch);
+            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_AMPM(), CF::HOUR_OF_AMPM(), $ch == 12 ? 0 : $ch);
         }
-        if (isset($this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()]) && isset($this->fieldValues[ChronoField::HOUR_OF_AMPM()->__toString()])) {
-            $ap = $this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()][1];
-            $hap = $this->fieldValues[ChronoField::HOUR_OF_AMPM()->__toString()][1];
-            unset($this->fieldValues[ChronoField::AMPM_OF_DAY()->__toString()]);
-            unset($this->fieldValues[ChronoField::HOUR_OF_AMPM()->__toString()]);
+        if ($this->fieldValues->has(CF::AMPM_OF_DAY()) && $this->fieldValues->has(CF::HOUR_OF_AMPM())) {
+            $ap = $this->fieldValues->remove(CF::AMPM_OF_DAY());
+            $hap = $this->fieldValues->remove(CF::HOUR_OF_AMPM());
             if ($this->resolverStyle == ResolverStyle::LENIENT()) {
-                $this->updateCheckConflict3(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::addExact(Math::multiplyExact($ap, 12), $hap));
+                $this->updateCheckConflict3(CF::AMPM_OF_DAY(), CF::HOUR_OF_DAY(), Math::addExact(Math::multiplyExact($ap, 12), $hap));
             } else {  // STRICT or SMART
-                ChronoField::AMPM_OF_DAY()->checkValidValue($ap);
-                ChronoField::HOUR_OF_AMPM()->checkValidValue($ap);
-                $this->updateCheckConflict3(ChronoField::AMPM_OF_DAY(), ChronoField::HOUR_OF_DAY(), $ap * 12 + $hap);
+                CF::AMPM_OF_DAY()->checkValidValue($ap);
+                CF::HOUR_OF_AMPM()->checkValidValue($ap);
+                $this->updateCheckConflict3(CF::AMPM_OF_DAY(), CF::HOUR_OF_DAY(), $ap * 12 + $hap);
             }
         }
-        if (array_key_exists(ChronoField::NANO_OF_DAY()->__toString(), $this->fieldValues)) {
-            $nod = $this->fieldValues[ChronoField::NANO_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::NANO_OF_DAY()->__toString()]);
+        if ($this->fieldValues->has(CF::NANO_OF_DAY())) {
+            $nod = $this->fieldValues->remove(CF::NANO_OF_DAY());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::NANO_OF_DAY()->checkValidValue($nod);
+                CF::NANO_OF_DAY()->checkValidValue($nod);
             }
-            $this->updateCheckConflict3(ChronoField::NANO_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::div($nod, 3600000000000));
-            $this->updateCheckConflict3(ChronoField::NANO_OF_DAY(), ChronoField::MINUTE_OF_HOUR(), Math::div($nod, 60000000000) % 60);
-            $this->updateCheckConflict3(ChronoField::NANO_OF_DAY(), ChronoField::SECOND_OF_MINUTE(), Math::div($nod, 1000000000) % 60);
-            $this->updateCheckConflict3(ChronoField::NANO_OF_DAY(), ChronoField::NANO_OF_SECOND(), $nod % 1000000000);
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($nod, 3600000000000));
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::MINUTE_OF_HOUR(), Math::div($nod, 60000000000) % 60);
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::SECOND_OF_MINUTE(), Math::div($nod, 1000000000) % 60);
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::NANO_OF_SECOND(), $nod % 1000000000);
         }
-        if (array_key_exists(ChronoField::MICRO_OF_DAY()->__toString(), $this->fieldValues)) {
-            $cod = $this->fieldValues[ChronoField::MICRO_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::MICRO_OF_DAY()->__toString()]);
+        if ($this->fieldValues->has(CF::MICRO_OF_DAY())) {
+            $cod = $this->fieldValues->remove(CF::MICRO_OF_DAY());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::MICRO_OF_DAY()->checkValidValue($cod);
+                CF::MICRO_OF_DAY()->checkValidValue($cod);
             }
-            $this->updateCheckConflict3(ChronoField::MICRO_OF_DAY(), ChronoField::SECOND_OF_DAY(), Math::div($cod, 1000000));
-            $this->updateCheckConflict3(ChronoField::MICRO_OF_DAY(), ChronoField::MICRO_OF_SECOND(), $cod % 1000000);
+            $this->updateCheckConflict3(CF::MICRO_OF_DAY(), CF::SECOND_OF_DAY(), Math::div($cod, 1000000));
+            $this->updateCheckConflict3(CF::MICRO_OF_DAY(), CF::MICRO_OF_SECOND(), $cod % 1000000);
         }
-        if (array_key_exists(ChronoField::MILLI_OF_DAY()->__toString(), $this->fieldValues)) {
-            $lod = $this->fieldValues[ChronoField::MILLI_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::MILLI_OF_DAY()->__toString()]);
+        if ($this->fieldValues->has(CF::MILLI_OF_DAY())) {
+            $lod = $this->fieldValues->remove(CF::MILLI_OF_DAY());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::MILLI_OF_DAY()->checkValidValue($lod);
+                CF::MILLI_OF_DAY()->checkValidValue($lod);
             }
-            $this->updateCheckConflict3(ChronoField::MILLI_OF_DAY(), ChronoField::SECOND_OF_DAY(), Math::div($lod, 1000));
-            $this->updateCheckConflict3(ChronoField::MILLI_OF_DAY(), ChronoField::MILLI_OF_SECOND(), $lod % 1000);
+            $this->updateCheckConflict3(CF::MILLI_OF_DAY(), CF::SECOND_OF_DAY(), Math::div($lod, 1000));
+            $this->updateCheckConflict3(CF::MILLI_OF_DAY(), CF::MILLI_OF_SECOND(), $lod % 1000);
         }
-        if (array_key_exists(ChronoField::SECOND_OF_DAY()->__toString(), $this->fieldValues)) {
-            $sod = $this->fieldValues[ChronoField::SECOND_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::SECOND_OF_DAY()->__toString()]);
+        if ($this->fieldValues->has(CF::SECOND_OF_DAY())) {
+            $sod = $this->fieldValues->remove(CF::SECOND_OF_DAY());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::SECOND_OF_DAY()->checkValidValue($sod);
+                CF::SECOND_OF_DAY()->checkValidValue($sod);
             }
-            $this->updateCheckConflict3(ChronoField::SECOND_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::div($sod, 3600));
-            $this->updateCheckConflict3(ChronoField::SECOND_OF_DAY(), ChronoField::MINUTE_OF_HOUR(), Math::div($sod, 60) % 60);
-            $this->updateCheckConflict3(ChronoField::SECOND_OF_DAY(), ChronoField::SECOND_OF_MINUTE(), $sod % 60);
+            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($sod, 3600));
+            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::MINUTE_OF_HOUR(), Math::div($sod, 60) % 60);
+            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::SECOND_OF_MINUTE(), $sod % 60);
         }
-        if (array_key_exists(ChronoField::MINUTE_OF_DAY()->__toString(), $this->fieldValues)) {
-            $mod = $this->fieldValues[ChronoField::MINUTE_OF_DAY()->__toString()][1];
-            unset($this->fieldValues[ChronoField::MINUTE_OF_DAY()->__toString()]);
+        if ($this->fieldValues->has(CF::MINUTE_OF_DAY())) {
+            $mod = $this->fieldValues->remove(CF::MINUTE_OF_DAY());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::MINUTE_OF_DAY()->checkValidValue($mod);
+                CF::MINUTE_OF_DAY()->checkValidValue($mod);
             }
-            $this->updateCheckConflict3(ChronoField::MINUTE_OF_DAY(), ChronoField::HOUR_OF_DAY(), Math::div($mod, 60));
-            $this->updateCheckConflict3(ChronoField::MINUTE_OF_DAY(), ChronoField::MINUTE_OF_HOUR(), $mod % 60);
+            $this->updateCheckConflict3(CF::MINUTE_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($mod, 60));
+            $this->updateCheckConflict3(CF::MINUTE_OF_DAY(), CF::MINUTE_OF_HOUR(), $mod % 60);
         }
 
 // combine partial second fields strictly, leaving lenient expansion to later
-        if (array_key_exists(ChronoField::NANO_OF_SECOND()->__toString(), $this->fieldValues)) {
-            $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
+        if ($this->fieldValues->has(CF::NANO_OF_SECOND())) {
+            $nos = $this->fieldValues->get(CF::NANO_OF_SECOND());
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::NANO_OF_SECOND()->checkValidValue($nos);
+                CF::NANO_OF_SECOND()->checkValidValue($nos);
             }
-            if (array_key_exists(ChronoField::MICRO_OF_SECOND()->__toString(), $this->fieldValues)) {
-                $cos = $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()][1];
-                unset($this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()]);
+            if ($this->fieldValues->has(CF::MICRO_OF_SECOND())) {
+                $cos = $this->fieldValues->remove(CF::MICRO_OF_SECOND());
                 if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                    ChronoField::MICRO_OF_SECOND()->checkValidValue($cos);
+                    CF::MICRO_OF_SECOND()->checkValidValue($cos);
                 }
                 $nos = $cos * 1000 + ($nos % 1000);
-                $this->updateCheckConflict3(ChronoField::MICRO_OF_SECOND(), ChronoField::NANO_OF_SECOND(), $nos);
+                $this->updateCheckConflict3(CF::MICRO_OF_SECOND(), CF::NANO_OF_SECOND(), $nos);
             }
-            if (array_key_exists(ChronoField::MILLI_OF_SECOND()->__toString(), $this->fieldValues)) {
-                $los = $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()][1];
-                unset($this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()]);
+            if ($this->fieldValues->has(CF::MILLI_OF_SECOND())) {
+                $los = $this->fieldValues->remove(CF::MILLI_OF_SECOND());
                 if ($this->resolverStyle != ResolverStyle::LENIENT()) {
-                    ChronoField::MILLI_OF_SECOND()->checkValidValue($los);
+                    CF::MILLI_OF_SECOND()->checkValidValue($los);
                 }
-                $this->updateCheckConflict3(ChronoField::MILLI_OF_SECOND(), ChronoField::NANO_OF_SECOND(), $los * 1000000 + ($nos % 1000000));
+                $this->updateCheckConflict3(CF::MILLI_OF_SECOND(), CF::NANO_OF_SECOND(), $los * 1000000 + ($nos % 1000000));
             }
         }
 
 // convert to time if all four fields available (optimization)
-        if (array_key_exists(ChronoField::HOUR_OF_DAY()->__toString(), $this->fieldValues) && array_key_exists(ChronoField::MINUTE_OF_HOUR()->__toString(), $this->fieldValues) &&
-            array_key_exists(ChronoField::SECOND_OF_MINUTE()->__toString(), $this->fieldValues) && array_key_exists(ChronoField::NANO_OF_SECOND()->__toString(), $this->fieldValues)
+        if ($this->fieldValues->has(CF::HOUR_OF_DAY()) && $this->fieldValues->has(CF::MINUTE_OF_HOUR()) &&
+        $this->fieldValues->has(CF::SECOND_OF_MINUTE()) && $this->fieldValues->has(CF::NANO_OF_SECOND())
         ) {
-            $hod = $this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()][1];
-            $moh = $this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()][1];
-            $som = $this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()][1];
-            $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
-
-            unset($this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()]);
-            unset($this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()]);
-            unset($this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()]);
-            unset($this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()]);
+            $hod = $this->fieldValues->remove(CF::HOUR_OF_DAY());
+            $moh = $this->fieldValues->remove(CF::MINUTE_OF_HOUR());
+            $som = $this->fieldValues->remove(CF::SECOND_OF_MINUTE());
+            $nos = $this->fieldValues->remove(CF::NANO_OF_SECOND());
 
             $this->resolveTime($hod, $moh, $som, $nos);
         }
@@ -527,35 +511,33 @@ final class Parsed implements TemporalAccessor
 // done after everything else as it creates information from nothing
 // which would break updateCheckConflict(field)
 
-        if ($this->time == null) {
-// ChronoField::NANO_OF_SECOND() merged with MILLI/MICRO above
-            if (isset($this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()])) {
-                $los = $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()][1];
-                unset($this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()]);
-                if (isset($this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()])) {
+        if ($this->time === null) {
+// CF::NANO_OF_SECOND() merged with MILLI/MICRO above
+            if ($this->fieldValues->has(CF::MILLI_OF_SECOND())) {
+                $los = $this->fieldValues->remove(CF::MILLI_OF_SECOND());
+                if ($this->fieldValues->has(CF::MICRO_OF_SECOND())) {
 // merge milli-of-second and micro-of-second for better error message
-                    $cos = $los * 1000 + ($this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()][1] % 1000);
-                    $this->updateCheckConflict3(ChronoField::MILLI_OF_SECOND(), ChronoField::MICRO_OF_SECOND(), $cos);
-                    unset($this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()]);
-                    $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()] = [ChronoField::NANO_OF_SECOND(), $cos * 1000];
+                    $cos = $los * 1000 + ($this->fieldValues->get(CF::MICRO_OF_SECOND()) % 1000);
+                    $this->updateCheckConflict3(CF::MILLI_OF_SECOND(), CF::MICRO_OF_SECOND(), $cos);
+                    $this->fieldValues->remove(CF::MICRO_OF_SECOND());
+                    $this->fieldValues->put(CF::NANO_OF_SECOND(), $cos * 1000);
                 } else {
 // convert milli-of-second to nano-of-second
-                    $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()] = [ChronoField::NANO_OF_SECOND(), $los * 1000000];
+                    $this->fieldValues->put(CF::NANO_OF_SECOND(), $los * 1000000);
                 }
             } else
-                if (array_key_exists(ChronoField::MICRO_OF_SECOND()->__toString(), $this->fieldValues)) {
+                if ($this->fieldValues->has(CF::MICRO_OF_SECOND())) {
 // convert micro-of-second to nano-of-second
-                    $cos = $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()][1];
-                    unset($this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()]);
-                    $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()] = [ChronoField::NANO_OF_SECOND(), $cos * 1000];
+                    $cos = $this->fieldValues->remove(CF::MICRO_OF_SECOND());
+                    $this->fieldValues->put(CF::NANO_OF_SECOND(), $cos * 1000);
                 }
 
 // merge hour/minute/second/nano leniently
-            $hod = @$this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()][1];
+            $hod = $this->fieldValues->get(CF::HOUR_OF_DAY());
             if ($hod !== null) {
-                $moh = @$this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()][1];
-                $som = @$this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()][1];
-                $nos = @$this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
+                $moh = $this->fieldValues->get(CF::MINUTE_OF_HOUR());
+                $som = $this->fieldValues->get(CF::SECOND_OF_MINUTE());
+                $nos = $this->fieldValues->get(CF::NANO_OF_SECOND());
 
 // check for invalid combinations that cannot be defaulted
                 if (($moh === null && ($som !== null || $nos !== null)) ||
@@ -569,19 +551,18 @@ final class Parsed implements TemporalAccessor
                 $somVal = ($som !== null ? $som : 0);
                 $nosVal = ($nos !== null ? $nos : 0);
                 $this->resolveTime($hod, $mohVal, $somVal, $nosVal);
-                unset($this->fieldValues[ChronoField::HOUR_OF_DAY()->__toString()]);
-                unset($this->fieldValues[ChronoField::MINUTE_OF_HOUR()->__toString()]);
-                unset($this->fieldValues[ChronoField::SECOND_OF_MINUTE()->__toString()]);
-                unset($this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()]);
+                $this->fieldValues->remove(CF::HOUR_OF_DAY());
+                $this->fieldValues->remove(CF::MINUTE_OF_HOUR());
+                $this->fieldValues->remove(CF::SECOND_OF_MINUTE());
+                $this->fieldValues->remove(CF::NANO_OF_SECOND());
             }
         }
 
 // validate remaining
         if ($this->resolverStyle != ResolverStyle::LENIENT() && !empty($this->fieldValues)) {
-            foreach ($this->fieldValues as $entry) {
-                $field = $entry[0];
-                if ($field instanceof ChronoField && $field->isTimeBased()) {
-                    $field->checkValidValue($entry[1]);
+            foreach ($this->fieldValues as $field => $value) {
+                if ($field instanceof CF && $field->isTimeBased()) {
+                    $field->checkValidValue($value);
                 }
             }
         }
@@ -599,14 +580,14 @@ final class Parsed implements TemporalAccessor
             $nod = Math::floorMod($totalNanos, 86400000000000);
             $this->updateCheckConflict(LocalTime::ofNanoOfDay($nod), Period::ofDays($excessDays));
         } else {  // STRICT or SMART
-            $mohVal = ChronoField::MINUTE_OF_HOUR()->checkValidIntValue($moh);
-            $nosVal = ChronoField::NANO_OF_SECOND()->checkValidIntValue($nos);
+            $mohVal = CF::MINUTE_OF_HOUR()->checkValidIntValue($moh);
+            $nosVal = CF::NANO_OF_SECOND()->checkValidIntValue($nos);
 // handle 24:00 end of day
             if ($this->resolverStyle == ResolverStyle::SMART() && $hod == 24 && $mohVal == 0 && $som == 0 && $nosVal == 0) {
                 $this->updateCheckConflict(LocalTime::MIDNIGHT(), Period::ofDays(1));
             } else {
-                $hodVal = ChronoField::HOUR_OF_DAY()->checkValidIntValue($hod);
-                $somVal = ChronoField::SECOND_OF_MINUTE()->checkValidIntValue($som);
+                $hodVal = CF::HOUR_OF_DAY()->checkValidIntValue($hod);
+                $somVal = CF::SECOND_OF_MINUTE()->checkValidIntValue($som);
                 $this->updateCheckConflict(LocalTime::of($hodVal, $mohVal, $somVal, $nosVal), Period::ZERO());
             }
         }
@@ -625,21 +606,21 @@ final class Parsed implements TemporalAccessor
     private
     function resolveFractional()
     {
-// ensure fractional seconds available as ChronoField requires
-// resolveTimeLenient() will have merged ChronoField::MICRO_OF_SECOND()/MILLI_OF_SECOND to NANO_OF_SECOND
+// ensure fractional seconds available as CF requires
+// resolveTimeLenient() will have merged CF::MICRO_OF_SECOND()/MILLI_OF_SECOND to NANO_OF_SECOND
         if ($this->time == null &&
-            (array_key_exists(ChronoField::INSTANT_SECONDS()->__toString(), $this->fieldValues) ||
-                array_key_exists(ChronoField::SECOND_OF_DAY()->__toString(), $this->fieldValues) ||
-                array_key_exists(ChronoField::SECOND_OF_MINUTE()->__toString(), $this->fieldValues))
+            ($this->fieldValues->has(CF::INSTANT_SECONDS()) ||
+                $this->fieldValues->has(CF::SECOND_OF_DAY()) ||
+                $this->fieldValues->has(CF::SECOND_OF_MINUTE()))
         ) {
-            if (array_key_exists(ChronoField::NANO_OF_SECOND()->__toString(), $this->fieldValues)) {
-                $nos = $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()][1];
-                $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()] = [ChronoField::MICRO_OF_SECOND()->__toString(), Math::div($nos, 1000)];
-                $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()] = [ChronoField::MILLI_OF_SECOND()->__toString(), Math::div($nos, 1000000)];
+            if ($this->fieldValues->has(CF::NANO_OF_SECOND())) {
+                $nos = $this->fieldValues->get(CF::NANO_OF_SECOND());
+                $this->fieldValues->put(CF::MICRO_OF_SECOND(), Math::div($nos, 1000));
+                $this->fieldValues->put(CF::MILLI_OF_SECOND(), Math::div($nos, 1000000));
             } else {
-                $this->fieldValues[ChronoField::NANO_OF_SECOND()->__toString()] = [ChronoField::NANO_OF_SECOND()->__toString(), 0];
-                $this->fieldValues[ChronoField::MICRO_OF_SECOND()->__toString()] = [ChronoField::MICRO_OF_SECOND(), 0];
-                $this->fieldValues[ChronoField::MILLI_OF_SECOND()->__toString()] = [ChronoField::MILLI_OF_SECOND()->__toString(), 0];
+                $this->fieldValues->put(CF::NANO_OF_SECOND(), 0);
+                $this->fieldValues->put(CF::MICRO_OF_SECOND(), 0);
+                $this->fieldValues->put(CF::MILLI_OF_SECOND(), 0);
             }
         }
     }
@@ -650,14 +631,14 @@ final class Parsed implements TemporalAccessor
 // add instant seconds if we have date, time and zone
         if ($this->date !== null && $this->time !== null) {
             if ($this->zone !== null) {
-                $instant = $this->date->atTime($this->time)->atZone($this->zone)->getLong(ChronoField::INSTANT_SECONDS());
-                $this->fieldValues[ChronoField::INSTANT_SECONDS()->__toString()] = [ChronoField::INSTANT_SECONDS()->__toString(), $instant];
+                $instant = $this->date->atTime($this->time)->atZone($this->zone)->getLong(CF::INSTANT_SECONDS());
+                $this->fieldValues->put(CF::INSTANT_SECONDS(), $instant);
             } else {
-                $offsetSecs = @$this->fieldValues[ChronoField::OFFSET_SECONDS()->__toString()];
+                $offsetSecs = $this->fieldValues->get(CF::OFFSET_SECONDS());
                 if ($offsetSecs !== null) {
                     $offset = ZoneOffset::ofTotalSeconds($offsetSecs);
-                    $instant = $this->date->atTime($this->time)->atZone($offset)->getLong(ChronoField::INSTANT_SECONDS());
-                    $this->fieldValues[ChronoField::INSTANT_SECONDS()->__toString()] = [ChronoField::INSTANT_SECONDS()->__toString(), $instant];
+                    $instant = $this->date->atTime($this->time)->atZone($offset)->getLong(CF::INSTANT_SECONDS());
+                    $this->fieldValues->put(CF::INSTANT_SECONDS(), $instant);
                 }
             }
         }
@@ -673,7 +654,7 @@ final class Parsed implements TemporalAccessor
             if ($this->excessDays->isZero() == false && $periodToSet->isZero() == false && $this->excessDays->equals($periodToSet) == false) {
                 throw new DateTimeException("Conflict found: Fields resolved to different excess periods: " . $this->excessDays . " " . $periodToSet);
             } else {
-                $excessDays = $periodToSet;
+                $this->excessDays = $periodToSet;
             }
         } else {
             $this->time = $timeToSet;
@@ -692,7 +673,7 @@ final class Parsed implements TemporalAccessor
         }
         if ($this->time !== null) {
             $this->crossCheck1($this->time);
-            if ($this->date !== null && count($this->fieldValues) > 0) {
+            if ($this->date !== null && !$this->fieldValues->isEmpty()) {
                 $this->crossCheck1($this->date->atTime($this->time));
             }
         }
@@ -701,10 +682,8 @@ final class Parsed implements TemporalAccessor
     private
     function crossCheck1(TemporalAccessor $target)
     {
-        foreach ($this->fieldValues as $key => $it) {
-            /** @var ChronoField $field */
-            $field = $it[0];
-            $entry = $it[1];
+        foreach ($this->fieldValues as $field => $entry) {
+            /** @var CF $field */
             if ($target->isSupported($field)) {
                 try {
                     $val1 = $target->getLong($field);
@@ -716,7 +695,7 @@ final class Parsed implements TemporalAccessor
                     throw new DateTimeException("Conflict found: Field " . $field . " " . $val1 .
                         " differs from " . $field . " " . $val2 . " derived from " . $target);
                 }
-                unset($this->fieldValues[$key]);
+                $this->fieldValues->remove($field);
             }
         }
     }
@@ -724,13 +703,7 @@ final class Parsed implements TemporalAccessor
 //-----------------------------------------------------------------------
     public function __toString()
     {
-        $buf = '[';
-        $sep = '';
-        foreach ($this->fieldValues as $entry) {
-            $buf .= $entry[0] . '=' . $entry[1] . $sep;
-            $sep = ',';
-        }
-        $buf .= '],' . $this->chrono;
+        $buf = $this->fieldValues . $this->chrono;
         if ($this->zone != null) {
             $buf .= ',' . $this->zone;
         }
@@ -762,11 +735,11 @@ final class Parsed implements TemporalAccessor
      * could be values within the range that are invalid for the field.
      *
      * @implSpec
-     * Implementations must check and handle all fields defined in {@link ChronoField}.
+     * Implementations must check and handle all fields defined in {@link CF}.
      * If the field is supported, then the range of the field must be returned.
      * If unsupported, then an {@code UnsupportedTemporalTypeException} must be thrown.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
+     * If the field is not a {@code CF}, then the result of this method
      * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessorl)}
      * passing {@code this} as the argument.
      * <p>
@@ -775,7 +748,7 @@ final class Parsed implements TemporalAccessor
      * <p>
      * The default implementation must behave equivalent to this code:
      * <pre>
-     *  if (field instanceof ChronoField) {
+     *  if (field instanceof CF) {
      *    if (isSupported(field)) {
      *      return field.range();
      *    }
@@ -803,12 +776,12 @@ final class Parsed implements TemporalAccessor
      * some other reason, an exception will be thrown.
      *
      * @implSpec
-     * Implementations must check and handle all fields defined in {@link ChronoField}.
+     * Implementations must check and handle all fields defined in {@link CF}.
      * If the field is supported and has an {@code int} range, then the value of
      * the field must be returned.
      * If unsupported, then an {@code UnsupportedTemporalTypeException} must be thrown.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
+     * If the field is not a {@code CF}, then the result of this method
      * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
      * passing {@code this} as the argument.
      * <p>

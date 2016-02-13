@@ -72,6 +72,8 @@ use Celest\Locale;
 use Celest\Month;
 use Celest\Period;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Year;
 use Celest\ZonedDateTime;
@@ -191,7 +193,7 @@ final class IsoChronology extends AbstractChronology
      * and day-of-month fields.
      *
      * @param Era $era the ISO era, not null
-     * @param int $yearOfEra  the ISO year-of-era
+     * @param int $yearOfEra the ISO year-of-era
      * @param int $month the ISO month-of-year
      * @param int $dayOfMonth the ISO day-of-month
      * @return LocalDate the ISO local date, not null
@@ -496,80 +498,80 @@ final class IsoChronology extends AbstractChronology
      *  next or same matching day-of-week once the years and weeks have been handled.
      * </ul>
      *
-     * @param array $fieldValues the map of fields to values, which can be updated, not null
+     * @param FieldValues $fieldValues the map of fields to values, which can be updated, not null
      * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return LocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    public function resolveDate(array &$fieldValues, ResolverStyle $resolverStyle)
+    public function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         return parent::resolveDate($fieldValues, $resolverStyle);
     }
 
 // override for better proleptic algorithm
-    protected function resolveProlepticMonth(array &$fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveProlepticMonth(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
-        $pMonth = self::remove($fieldValues, ChronoField::PROLEPTIC_MONTH());
-        if ($pMonth != null) {
+        $pMonth = $fieldValues->remove(CF::PROLEPTIC_MONTH());
+        if ($pMonth !== null) {
             if ($resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::PROLEPTIC_MONTH()->checkValidValue($pMonth);
+                CF::PROLEPTIC_MONTH()->checkValidValue($pMonth);
             }
 
-            $this->addFieldValue($fieldValues, ChronoField::MONTH_OF_YEAR(), Math::floorMod($pMonth, 12) + 1);
-            $this->addFieldValue($fieldValues, ChronoField::YEAR(), Math::floorDiv($pMonth, 12));
+            $this->addFieldValue($fieldValues, CF::MONTH_OF_YEAR(), Math::floorMod($pMonth, 12) + 1);
+            $this->addFieldValue($fieldValues, CF::YEAR(), Math::floorDiv($pMonth, 12));
         }
     }
 
 // override for enhanced behaviour
-    protected function resolveYearOfEra(array &$fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYearOfEra(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
-        $yoeLong = self::remove($fieldValues, ChronoField::YEAR_OF_ERA());
+        $yoeLong = $fieldValues->remove(CF::YEAR_OF_ERA());
         if ($yoeLong !== null) {
             if ($resolverStyle != ResolverStyle::LENIENT()) {
-                ChronoField::YEAR_OF_ERA()->checkValidValue($yoeLong);
+                CF::YEAR_OF_ERA()->checkValidValue($yoeLong);
             }
 
-            $era = self::remove($fieldValues, ChronoField::ERA());
+            $era = $fieldValues->remove(CF::ERA());
             if ($era === null) {
-                $year = @$fieldValues[ChronoField::YEAR()->__toString()];
+                $year = $fieldValues->get(CF::YEAR());
                 if ($resolverStyle == ResolverStyle::STRICT()) {
                     // do not invent era if strict, but do cross-check with year
                     if ($year !== null) {
-                        $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
+                        $this->addFieldValue($fieldValues, CF::YEAR(), ($year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                     } else {
                         // reinstate the field removed earlier, no cross-check issues
-                        $fieldValues[ChronoField::YEAR_OF_ERA()->__toString()] = [ChronoField::YEAR_OF_ERA(), $yoeLong];
+                        $fieldValues->put(CF::YEAR_OF_ERA(), $yoeLong);
                     }
                 } else {
                     // invent era
-                    $this->addFieldValue($fieldValues, ChronoField::YEAR(), ($year === null || $year[1] > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
+                    $this->addFieldValue($fieldValues, CF::YEAR(), ($year === null || $year > 0 ? $yoeLong : Math::subtractExact(1, $yoeLong)));
                 }
             } else if ($era === 1) {
-                $this->addFieldValue($fieldValues, ChronoField::YEAR(), $yoeLong);
+                $this->addFieldValue($fieldValues, CF::YEAR(), $yoeLong);
             } else if ($era === 0) {
-                $this->addFieldValue($fieldValues, ChronoField::YEAR(), Math::subtractExact(1, $yoeLong));
+                $this->addFieldValue($fieldValues, CF::YEAR(), Math::subtractExact(1, $yoeLong));
             } else {
                 throw new DateTimeException("Invalid value for era: " . $era);
             }
-        } else if (array_key_exists(ChronoField::ERA()->__toString(), $fieldValues)) {
-            ChronoField::ERA()->checkValidValue($fieldValues[ChronoField::ERA()->__toString()][1]);  // always validated
+        } else if ($fieldValues->has(CF::ERA())) {
+            CF::ERA()->checkValidValue($fieldValues->get(CF::ERA()));  // always validated
         }
         return null;
     }
 
     // override for performance
-    function resolveYMD(array &$fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
-        $y = ChronoField::YEAR()->checkValidIntValue(self::remove($fieldValues, ChronoField::YEAR()));
+        $y = CF::YEAR()->checkValidIntValue($fieldValues->remove(CF::YEAR()));
         if ($resolverStyle == ResolverStyle::LENIENT()) {
-            $months = Math::subtractExact(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()), 1);
-            $days = Math::subtractExact(self::remove($fieldValues, ChronoField::DAY_OF_MONTH()), 1);
+            $months = Math::subtractExact($fieldValues->remove(CF::MONTH_OF_YEAR()), 1);
+            $days = Math::subtractExact($fieldValues->remove(CF::DAY_OF_MONTH()), 1);
             return LocalDate::ofNumerical($y, 1, 1)->plusMonths($months)->plusDays($days);
         }
 
-        $moy = ChronoField::MONTH_OF_YEAR()->checkValidIntValue(self::remove($fieldValues, ChronoField::MONTH_OF_YEAR()));
-        $dom = ChronoField::DAY_OF_MONTH()->checkValidIntValue(self::remove($fieldValues, ChronoField::DAY_OF_MONTH()));
+        $moy = CF::MONTH_OF_YEAR()->checkValidIntValue($fieldValues->remove(CF::MONTH_OF_YEAR()));
+        $dom = CF::DAY_OF_MONTH()->checkValidIntValue($fieldValues->remove(CF::DAY_OF_MONTH()));
         if ($resolverStyle == ResolverStyle::SMART()) {  // previous valid
             if ($moy == 4 || $moy == 6 || $moy == 9 || $moy == 11) {
                 $dom = Math::min($dom, 30);
@@ -582,7 +584,7 @@ final class IsoChronology extends AbstractChronology
     }
 
     //-----------------------------------------------------------------------
-    public function range(ChronoField $field)
+    public function range(CF $field)
     {
         return $field->range();
     }
@@ -595,7 +597,7 @@ final class IsoChronology extends AbstractChronology
      * years, months and days. See {@link Period} for further details.
      *
      * @param int $years the number of years, may be negative
-     * @param int $months  the number of years, may be negative
+     * @param int $months the number of years, may be negative
      * @param int $days the number of years, may be negative
      * @return Period the ISO period, not null
      */

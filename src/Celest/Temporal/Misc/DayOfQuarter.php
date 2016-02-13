@@ -9,6 +9,7 @@ use Celest\LocalDate;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -77,16 +78,16 @@ class DayOfQuarter implements TemporalField
         return $temporal->with(ChronoField::DAY_OF_YEAR(), $temporal->getLong(ChronoField::DAY_OF_YEAR()) + ($newValue - $curValue));
     }
 
-    public function resolve(array &$fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
-        $yearLong = @$fieldValues[ChronoField::YEAR()->__toString()];
-        $qoyLong = @$fieldValues[IsoFields::QUARTER_OF_YEAR()->__toString()];
+        $yearLong = $fieldValues->get(ChronoField::YEAR());
+        $qoyLong = $fieldValues->get(IsoFields::QUARTER_OF_YEAR());
         if ($yearLong == null || $qoyLong == null) {
             return null;
         }
 
         $y = ChronoField::YEAR()->checkValidIntValue($yearLong);  // always validate
-        $doq = $fieldValues[IsoFields::DAY_OF_QUARTER()->__toString()];
+        $doq = $fieldValues->get(IsoFields::DAY_OF_QUARTER());
         IsoFields::ensureIso($partialTemporal);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $date = LocalDate::ofNumerical($y, 1, 1)->plusMonths(Math::multiplyExact(Math::subtractExact($qoyLong, 1), 3));
@@ -103,9 +104,9 @@ class DayOfQuarter implements TemporalField
             }
             $doq--;
         }
-        unset($fieldValues[$this->__toString()]);
-        unset($fieldValues[ChronoField::YEAR()->__toString()]);
-        unset($fieldValues[IsoFields::QUARTER_OF_YEAR()->__toString()]);
+        $fieldValues->remove($this);
+        $fieldValues->remove(ChronoField::YEAR());
+        $fieldValues->remove(IsoFields::QUARTER_OF_YEAR());
         return $date->plusDays($doq);
     }
 

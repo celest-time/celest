@@ -361,7 +361,7 @@ interface TemporalField
      * <p>
      * The default implementation must return null.
      *
-     * @param $fieldValues [] Map<TemporalField, Long> the map of fields to values, which can be updated, not null
+     * @param FieldValues $fieldValues the map of fields to values, which can be updated, not null
      * @param TemporalAccessor $partialTemporal the partially complete temporal to query for zone and
      *  chronology; querying for other things is undefined and not recommended, not null
      * @param ResolverStyle $resolverStyle the requested type of resolve, not null
@@ -372,7 +372,7 @@ interface TemporalField
      *  by querying a field on the temporal without first checking if it is supported
      */
     public function  resolve(
-        array &$fieldValues,
+        FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle);
     //return null;

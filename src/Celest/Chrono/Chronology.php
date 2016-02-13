@@ -69,6 +69,7 @@ use Celest\Format\TextStyle;
 use Celest\Instant;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
@@ -593,13 +594,13 @@ interface Chronology
      * The default implementation, which explains typical resolve behaviour,
      * is provided in {@link AbstractChronology}.
      *
-     * @param array $fieldValues (TemporalField=>int) the map of fields to values, which can be updated, not null
+     * @param FieldValues $fieldValues the map of fields to values, which can be updated, not null
      * @param ResolverStyle $resolverStyle the requested type of resolve, not null
      * @return ChronoLocalDate the resolved date, null if insufficient information to create a date
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    function resolveDate(array &$fieldValues, ResolverStyle $resolverStyle);
+    function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle);
 
     //-----------------------------------------------------------------------
     /**
