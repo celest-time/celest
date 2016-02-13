@@ -3,6 +3,8 @@
 namespace Celest\Chrono;
 
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Format\TextStyle;
+use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
@@ -67,7 +69,7 @@ final class EraDefaults
 
     public static function getDisplayName(Era $_this, TextStyle $style, Locale $locale)
     {
-        return (new DateTimeFormatterBuilder())->appendText(ChronoField::ERA(), $style)->toFormatter($locale)->format($_this);
+        return (new DateTimeFormatterBuilder())->appendText2(ChronoField::ERA(), $style)->toFormatter2($locale)->format($_this);
     }
 
 }
