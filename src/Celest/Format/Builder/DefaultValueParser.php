@@ -29,7 +29,7 @@ class DefaultValueParser implements DateTimePrinterParser
 
     public function parse(DateTimeParseContext $context, $text, $position)
     {
-        if ($context->getParsed($this->field) == null) {
+        if ($context->getParsed($this->field) === null) {
             $context->setParsedField($this->field, $this->value, $position, $position);
         }
 

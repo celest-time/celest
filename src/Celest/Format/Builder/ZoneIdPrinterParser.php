@@ -33,7 +33,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     {
         /** @var ZoneID $zone */
         $zone = $context->getValue($this->query);
-        if ($zone == null) {
+        if ($zone === null) {
             return false;
         }
 
@@ -183,8 +183,9 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         $max = strlen($text);
         $ids = ZoneId::getAvailableZoneIds();
         for($i = $max; $i >= $pos; $i--) {
-            $str = substr($text, $pos, $pos - $i + 1);
+            $str = substr($text, $pos, $i - $pos + 1);
             if(in_array($str, $ids)) {
+                $ppos->setIndex($i);
                 return $str;
             }
         }

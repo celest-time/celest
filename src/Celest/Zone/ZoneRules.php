@@ -298,7 +298,6 @@ final class ZoneRules
         }
 
         // using historic rules
-        // TODO binary search
         $index = Math::binarySearch($this->savingsInstantTransitions, $epochSec);
         if ($index < 0) {
             // switch negative insert position to start of matched range

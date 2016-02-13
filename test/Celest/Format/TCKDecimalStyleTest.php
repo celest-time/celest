@@ -69,7 +69,7 @@ class TCKDecimalStyleTest extends \PHPUnit_Framework_TestCase
 
     public function test_getAvailableLocales()
     {
-        $this->markTestSkipped('TBD');
+        $this->markTestIncomplete('TBD, DecimalStyle');
         $locales = DecimalStyle::getAvailableLocales();
         $this->assertEquals(count($locales) > 0, true, "locales: " . $locales);
         $this->assertEquals($locales->contains(Locale::US()), true, "Locale.US not found in available Locales");

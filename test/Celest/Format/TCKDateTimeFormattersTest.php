@@ -61,6 +61,7 @@
 
 namespace Celest\Format;
 
+use Celest\ArithmeticException;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\DateTimeException;
@@ -77,6 +78,8 @@ use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
+use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use Celest\Year;
 use Celest\YearMonth;
@@ -210,6 +213,47 @@ class MockAccessor implements TemporalAccessor
     public function get(TemporalField $field)
     {
         throw new \Exception();
+    }
+}
+
+class TestAccessor implements TemporalAccessor
+{
+    public
+    function isSupported(TemporalField $field)
+    {
+        return $field == ChronoField::YEAR() || $field == ChronoField::DAY_OF_YEAR();
+    }
+
+    public
+    function getLong(TemporalField $field)
+    {
+        if ($field == ChronoField::YEAR()) {
+            return 2008;
+        }
+        if ($field == ChronoField::DAY_OF_YEAR()) {
+            return 231;
+        }
+        throw new DateTimeException("Unsupported");
+    }
+
+    public function range(TemporalField $field)
+    {
+        return null;
+    }
+
+    public function get(TemporalField $field)
+    {
+        TemporalAccessorDefaults::get($this, $field);
+    }
+
+    public function query(TemporalQuery $query)
+    {
+        TemporalAccessorDefaults::query($this, $query);
+    }
+
+    public function __toString()
+    {
+        return '';
     }
 }
 
@@ -1430,23 +1474,8 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public function test_print_isoOrdinalDate_fields()
     {
         // $mock for testing that does not fully comply with TemporalAccessor contract
-        /*$test = new TemporalAccessor() {
-        @Override
-            public boolean isSupported(TemporalField $field) {
-            return $field == ChronoField::YEAR() || $field == ChronoField::DAY_OF_YEAR();
-        }
-            @Override
-            public long getLong(TemporalField $field) {
-            if ($field == ChronoField::YEAR()) {
-                return 2008;
-            }
-            if ($field == ChronoField::DAY_OF_YEAR()) {
-                return 231;
-            }
-            throw new DateTimeException("Unsupported");
-        }
-        };
-        $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "2008-231");TODO */
+        $test = new TestAccessor();
+        $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "2008-231");
     }
 
     /**

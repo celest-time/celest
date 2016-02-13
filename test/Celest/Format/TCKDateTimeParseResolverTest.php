@@ -822,28 +822,27 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
             ->parseDefaulting(ChronoField::SECOND_OF_MINUTE(), $sec)
             ->parseDefaulting(ChronoField::NANO_OF_SECOND(), $nano)->toFormatter();
 
-        $this->markTestIncomplete();
+        $styles = ($style !== null ? [$style] : ResolverStyle::values());
 
-        /*ResolverStyle[] styles = ($style != null ? new ResolverStyle[] { TODO
-            $style} : ResolverStyle . values());
-            for (ResolverStyle s : styles) {
-                if ($expectedTime != null) {
-                    $accessor = $f->withResolverStyle(s)->parse("");
-                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " + s);
-                } else {
-                    try {
-                        $f->withResolverStyle($style)->parse("");
-                        $this->fail();
-                    } catch (DateTimeParseException $ex) {
-                        // $expected
-                    }
+        foreach ($styles as $s) {
+            if ($expectedTime !== null) {
+                $accessor = $f->withResolverStyle($s)->parse("");
+                $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " . $s);
+            } else {
+                try {
+                    $f->withResolverStyle($style)->parse("");
+                    $this->fail();
+                } catch (DateTimeParseException $ex) {
+                    // $expected
                 }
-            }*/
+            }
+        }
     }
 
     /**
+     * @param LocalTime|null $expectedTime
      * @dataProvider data_resolveFourToTime
      */
     public function test_resolveThreeToTime($style,
@@ -854,16 +853,14 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
             ->parseDefaulting(ChronoField::MINUTE_OF_HOUR(), $min)
             ->parseDefaulting(ChronoField::SECOND_OF_MINUTE(), $sec)->toFormatter();
 
-        $this->markTestIncomplete();
+        $styles = ($style !== null ? [$style] : ResolverStyle::values());
 
-        /*ResolverStyle[] styles = ($style != null ? new ResolverStyle[] { TODO
-            $style} : ResolverStyle . values());
-            for (ResolverStyle s : styles) {
-                if ($expectedTime != null) {
-                    $accessor = $f->withResolverStyle(s)->parse("");
-                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime . minusNanos($nano), "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " + s);
+        foreach ($styles as $s) {
+                if ($expectedTime !== null) {
+                    $accessor = $f->withResolverStyle($s)->parse("");
+                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " . $s);
+                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime->minusNanos($nano), "ResolverStyle: " . $s);
+                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " . $s);
                 } else {
                     try {
                         $f->withResolverStyle($style)->parse("");
@@ -872,7 +869,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
                         // $expected
                     }
                 }
-            }*/
+            }
     }
 
     /**
@@ -888,19 +885,18 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
             ->parseDefaulting(ChronoField::SECOND_OF_MINUTE(), $sec)
             ->parseDefaulting(ChronoField::NANO_OF_SECOND(), $nano)->toFormatter();
 
-        $this->markTestIncomplete();
 
-        /*ResolverStyle[] styles = ($style != null ? new ResolverStyle[] {
-            $style} : ResolverStyle . values());
-            if ($expectedTime != null && $excessPeriod != null) {
-                $expectedDate = LocalDate::ofNumerical(2012, 6, 30) . plus($excessPeriod);
-                for (ResolverStyle s : styles) {
-                    $accessor = $f->withResolverStyle(s)->parse("");
-                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), $expectedDate, "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " + s);
-                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), Period::ZERO(), "ResolverStyle: " + s);
+        $styles = ($style !== null ? [$style] : ResolverStyle::values());
+
+            if ($expectedTime !== null && $excessPeriod !== null) {
+                $expectedDate = LocalDate::ofNumerical(2012, 6, 30)->plusAmount($excessPeriod);
+                foreach ($styles as $s) {
+                    $accessor = $f->withResolverStyle($s)->parse("");
+                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), $expectedDate, "ResolverStyle: " . $s);
+                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " . $s);
+                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), Period::ZERO(), "ResolverStyle: " . $s);
                 }
-            }TODO */
+            }
     }
 
     //-----------------------------------------------------------------------
@@ -1222,7 +1218,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withChronology_override()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
         $accessor = $f->parse("");
@@ -1233,7 +1229,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withChronology_parsedChronology_noOverride()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ThaiBuddhistChronology');
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendChronologyId()->toFormatter();
         $accessor = $f->parse("ThaiBuddhist");
         $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
@@ -1243,7 +1239,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withChronology_parsedChronology_override()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendChronologyId()->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
         $accessor = $f->parse("ThaiBuddhist");
@@ -1277,7 +1273,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withZone_parsedZone_noOverride()
     {
-        $this->markTestIncomplete();
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendZoneId()->toFormatter();
         $accessor = $f->parse("Europe/Paris");
         $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
@@ -1288,7 +1283,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withZone_parsedZone_override()
     {
-        $this->markTestIncomplete();
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendZoneId()->toFormatter();
         $f = $f->withZone(self::EUROPE_ATHENS());
         $accessor = $f->parse("Europe/Paris");
@@ -1323,7 +1317,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDate_overrideChrono_matches()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $mdt = MinguoDate::of(100, 6, 30);
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($mdt))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
@@ -1338,7 +1332,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDate_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cld = ThaiBuddhistChronology::INSTANCE()->dateNow();
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cld))->toFormatter();
         $f->parse("1234567890");
@@ -1350,7 +1344,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDate_overrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cld = ThaiBuddhistChronology::INSTANCE()->dateNow();
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cld))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
@@ -1372,7 +1366,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDateTime_overrideChrono_matches()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $mdt = MinguoDate::of(100, 6, 30);
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($mdt->atTime(LocalTime::NOON())))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
@@ -1387,7 +1381,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDateTime_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f->parse("1234567890");
@@ -1398,9 +1392,9 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDateTime_overrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON());
-        $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField(cldt))->toFormatter();
+        $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
         $f->parse("1234567890");
     }
@@ -1421,7 +1415,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoZonedDateTime_overrideChrono_matches()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $mdt = MinguoDate::of(100, 6, 30);
         $mzdt = $mdt->atTime(LocalTime::NOON())->atZone(self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($mzdt))->toFormatter();
@@ -1438,7 +1432,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoZonedDateTime_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON())->atZone(self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f->parse("1234567890");
@@ -1449,7 +1443,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoZonedDateTime_overrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('MinguoChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON())->atZone(self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());

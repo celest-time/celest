@@ -51,7 +51,7 @@ abstract class AbstractDateTimeTest extends \PHPUnit_Framework_TestCase
     public function test_basicTest_isSupported_TemporalField_null()
     {
         foreach ($this->samples() as $sample) {
-            $this->markTestSkipped('TBD');
+            $this->markTestIncomplete('TBD, TemporalField::isSupported(null)');
             $this->assertEquals($sample->isSupported(null), false, "Failed on " . $sample);
         }
     }

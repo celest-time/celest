@@ -119,7 +119,7 @@ class TCKFormatStyleTest extends \PHPUnit_Framework_TestCase
      */
     public function test_formatStyle(Temporal $temporal, FormatStyle $style, $formattedStr)
     {
-        $this->markTestIncomplete();
+        $this->markTestIncomplete('ZoneTextPrinterParser, Localized Zone Names');
         $builder = new DateTimeFormatterBuilder();
         $formatter = $builder->appendLocalized($style, $style)->appendLiteral(" ")->appendZoneOrOffsetId()->toFormatter();
         $formatter = $formatter->withLocale(Locale::US());

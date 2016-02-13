@@ -374,7 +374,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     public
     function test_formatJapaneseEra(TemporalField $field, TextStyle $style, $value, $expected)
     {
-        $this->markTestSkipped('TBD');
+        $this->markTestIncomplete('JapaneseChronology');
         $ld = LocalDate::ofNumerical(2013, 1, 31);
         $buf = '';
         $this->getFormatterFieldStyle($field, $style)->withChronology(JapaneseChronology::INSTANCE())->formatTo($ld, $buf);
