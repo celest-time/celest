@@ -4,6 +4,7 @@ namespace Celest\Format\Builder;
 
 use Celest\DateTimeException;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\ParsePosition;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalQuery;
 use Celest\Format\DateTimePrintContext;
@@ -78,10 +79,10 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     {
         $length = strlen($text);
         if ($position > $length) {
-            throw new IndexOutOfBoundsException();
+            throw new \OutOfRangeException();
         }
 
-        if ($position == $length) {
+        if ($position === $length) {
             return ~$position;
         }
 
@@ -92,29 +93,34 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         } else if ($length >= $position + 2) {
             $nextNextChar = $text[$position + 1];
             if ($context->charEquals($nextChar, 'U') && $context->charEquals($nextNextChar, 'T')) {
-                if ($length >= $position + 3 && $context->charEquals($text->charAt($position + 2), 'C')) {
+                if ($length >= $position + 3 && $context->charEquals($text[$position + 2], 'C')) {
                     return $this->parseOffsetBased($context, $text, $position, $position + 3, OffsetIdPrinterParser::INSTANCE_ID_ZERO());
                 }
                 return $this->parseOffsetBased($context, $text, $position, $position + 2, OffsetIdPrinterParser::INSTANCE_ID_ZERO());
             } else if ($context->charEquals($nextChar, 'G') && $length >= $position + 3 &&
-                $context->charEquals($nextNextChar, 'M') && $context->charEquals($text->charAt($position + 2), 'T')
+                $context->charEquals($nextNextChar, 'M') && $context->charEquals($text[$position + 2], 'T')
             ) {
                 return $this->parseOffsetBased($context, $text, $position, $position + 3, OffsetIdPrinterParser::INSTANCE_ID_ZERO());
             }
         }
 
         // parse
-        $tree = $this->getTree($context);
         $ppos = new ParsePosition($position);
+
+        $parsedZoneId = $this->match($text, $ppos);
+        /*
+        $tree = $this->getTree($context);
         $parsedZoneId = $tree->match($text, $ppos);
-        if ($parsedZoneId == null) {
+        */
+
+        if ($parsedZoneId === null) {
             if ($context->charEquals($nextChar, 'Z')) {
-                $context->setParsed(ZoneOffset::UTC());
+                $context->setParsedZone(ZoneOffset::UTC());
                 return $position + 1;
             }
             return ~$position;
         }
-        $context->setParsed(ZoneId::of($parsedZoneId));
+        $context->setParsedZone(ZoneId::of($parsedZoneId));
         return $ppos->getIndex();
     }
 
@@ -132,17 +138,17 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      */
     private function parseOffsetBased(DateTimeParseContext $context, $text, $prefixPos, $position, OffsetIdPrinterParser $parser)
     {
-        $prefix = $text->substring($prefixPos, $position)->toUpperCase();
+        $prefix = strtoupper(substr($text, $prefixPos, $position - $prefixPos + 1));
         if ($position >= strlen($text)) {
-            $context->setParsed(ZoneId::of($prefix));
+            $context->setParsedZone(ZoneId::of($prefix));
             return $position;
         }
 
 // '0' or 'Z' after prefix is not part of a valid ZoneId; use bare prefix
-        if ($text->charAt($position) == '0' ||
-            $context->charEquals($text->charAt(position), 'Z')
+        if ($text[$position] == '0' ||
+            $context->charEquals($text[$position], 'Z')
         ) {
-            $context->setParsed(ZoneId::of($prefix));
+            $context->setParsedZone(ZoneId::of($prefix));
             return $position;
         }
 
@@ -153,12 +159,12 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
                 if ($parser == OffsetIdPrinterParser::INSTANCE_ID_Z()) {
                     return ~$prefixPos;
                 }
-                $context->setParsed(ZoneId::of($prefix));
+                $context->setParsedZone(ZoneId::of($prefix));
                 return $position;
             }
-            $offset = (int)$newContext->getParsed(ChronoField::OFFSET_SECONDS())->longValue();
+            $offset = $newContext->getParsed(ChronoField::OFFSET_SECONDS());
             $zoneOffset = ZoneOffset::ofTotalSeconds($offset);
-            $context->setParsed(ZoneId::ofOffset($prefix, $zoneOffset));
+            $context->setParsedZone(ZoneId::ofOffset($prefix, $zoneOffset));
             return $endPos;
         } catch (DateTimeException $dte) {
             return ~$prefixPos;
@@ -168,5 +174,21 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     public function __toString()
     {
         return $this->description;
+    }
+
+
+    private function match($text, ParsePosition $ppos)
+    {
+        $pos = $ppos->getIndex();
+        $max = strlen($text);
+        $ids = ZoneId::getAvailableZoneIds();
+        for($i = $max; $i >= $pos; $i--) {
+            $str = substr($text, $pos, $pos - $i + 1);
+            if(in_array($str, $ids)) {
+                return $str;
+            }
+        }
+
+        return null;
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Celest\Temporal\Misc;
 
-use Celest\Chrono\ChronologyDefaults;
-use Celest\Chrono\IsoChronology;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\Locale;
@@ -35,7 +33,7 @@ class QuarterOfYear implements TemporalField
 
     public function isSupportedBy(TemporalAccessor $temporal)
     {
-        return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE());
+        return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && IsoFields::isIso($temporal);
     }
 
     public
@@ -82,7 +80,6 @@ class QuarterOfYear implements TemporalField
     {
         return $this->range();
     }
-
 
     public function resolve(
         array &$fieldValues,

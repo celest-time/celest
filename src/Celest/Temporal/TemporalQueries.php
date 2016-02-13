@@ -225,13 +225,13 @@ final class TemporalQueries
 
     public static function init()
     {
-        self::$ZONE_ID = self::fromCallable(['\\'.get_class(), '_zoneId']);
-        self::$CHRONO = self::fromCallable([get_class(), '_chrono']);
-        self::$PRECISION = self::fromCallable([get_class(), '_precision']);
-        self::$OFFSET = self::fromCallable([get_class(), '_offset']);
-        self::$ZONE = self::fromCallable([get_class(), '_zone']);
-        self::$LOCAL_DATE = self::fromCallable([get_class(), '_localDate']);
-        self::$LOCAL_TIME = self::fromCallable([get_class(), '_localTime']);
+        self::$ZONE_ID = self::fromCallable([self::class, '_zoneId']);
+        self::$CHRONO = self::fromCallable([self::class, '_chrono']);
+        self::$PRECISION = self::fromCallable([self::class, '_precision']);
+        self::$OFFSET = self::fromCallable([self::class, '_offset']);
+        self::$ZONE = self::fromCallable([self::class, '_zone']);
+        self::$LOCAL_DATE = self::fromCallable([self::class, '_localDate']);
+        self::$LOCAL_TIME = self::fromCallable([self::class, '_localTime']);
     }
 
     //-----------------------------------------------------------------------

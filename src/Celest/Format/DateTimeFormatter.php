@@ -73,6 +73,7 @@ use Celest\IllegalArgumentException;
 use Celest\Locale;
 use Celest\Period;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\IsoFields;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQuery;
@@ -768,10 +769,9 @@ class DateTimeFormatter
      * It has no override zone and uses the {@link ResolverStyle#STRICT STRICT} resolver style.
      * @var DateTimeFormatter
      */
-    private
-    static $ISO_DATE;
+    private static $ISO_DATE;
 
-    private static function ISO_DATE()
+    public static function ISO_DATE()
     {
         return self::$ISO_DATE = (new DateTimeFormatterBuilder())
             ->parseCaseInsensitive()
@@ -809,10 +809,9 @@ class DateTimeFormatter
      * It uses the {@link ResolverStyle#STRICT STRICT} resolver style.
      * @var DateTimeFormatter
      */
-    private
-    static $ISO_LOCAL_TIME;
+    private static $ISO_LOCAL_TIME;
 
-    private static function ISO_LOCAL_TIME()
+    public static function ISO_LOCAL_TIME()
     {
         return self::$ISO_LOCAL_TIME = (new DateTimeFormatterBuilder())
             ->appendValue2(ChronoField::HOUR_OF_DAY(), 2)
@@ -949,7 +948,7 @@ class DateTimeFormatter
             ->parseCaseInsensitive()
             ->append(self::ISO_LOCAL_DATE_TIME())
             ->appendOffsetId()
-            ->toFormatter(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
+            ->toFormatter3(ResolverStyle::STRICT(), IsoChronology::INSTANCE());
     }
 
 //-----------------------------------------------------------------------
@@ -1115,7 +1114,7 @@ class DateTimeFormatter
         return self::$ISO_WEEK_DATE = (new DateTimeFormatterBuilder())
             ->parseCaseInsensitive()
             ->appendValue3(IsoFields::WEEK_BASED_YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
-            ->appendLiteral("-W")
+            ->appendLiteral2("-W")
             ->appendValue2(IsoFields::WEEK_OF_WEEK_BASED_YEAR(), 2)
             ->appendLiteral('-')
             ->appendValue2(ChronoField::DAY_OF_WEEK(), 1)
@@ -1289,7 +1288,7 @@ class DateTimeFormatter
             ->parseLenient()
             ->optionalStart()
             ->appendText3(ChronoField::DAY_OF_WEEK(), $dow)
-            ->appendLiteral(", ")
+            ->appendLiteral2(", ")
             ->optionalEnd()
             ->appendValue3(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NOT_NEGATIVE())
             ->appendLiteral(' ')

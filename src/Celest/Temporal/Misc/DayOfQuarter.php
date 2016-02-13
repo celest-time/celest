@@ -36,7 +36,7 @@ class DayOfQuarter implements TemporalField
     public function isSupportedBy(TemporalAccessor $temporal)
     {
         return $temporal->isSupported(ChronoField::DAY_OF_YEAR()) && $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) &&
-        $temporal->isSupported(ChronoField::YEAR()) && isIso($temporal);
+        $temporal->isSupported(ChronoField::YEAR()) && IsoFields::isIso($temporal);
     }
 
     public

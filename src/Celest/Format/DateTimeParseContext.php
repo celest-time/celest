@@ -456,7 +456,7 @@ final class DateTimeParseContext
      */
     public function setParsedZone(ZoneId $zone)
     {
-        $this->currentParsed()->$zone = $zone;
+        $this->currentParsed()->zone = $zone;
     }
 
     /**

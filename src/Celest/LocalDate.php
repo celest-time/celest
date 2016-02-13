@@ -403,7 +403,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_DATE);
+        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_DATE());
     }
 
     /**

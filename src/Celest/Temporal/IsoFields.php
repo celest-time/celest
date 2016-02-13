@@ -1,28 +1,28 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.  Oracle designates this
-     * particular file as subject to the "Classpath" exception as provided
-     * by Oracle in the LICENSE file that accompanied this code.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
@@ -56,9 +56,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Temporal;
+
+use Celest\Chrono\Chronology;
+use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\IsoChronology;
+use Celest\DateTimeException;
+use Celest\DayOfWeek;
+use Celest\Helper\Math;
+use Celest\LocalDate;
 use Celest\Temporal\Misc\DayOfQuarter;
 use Celest\Temporal\Misc\IsoUnit;
 use Celest\Temporal\Misc\QuarterOfYear;
+use Celest\Temporal\Misc\WeekBasedYear;
+use Celest\Temporal\Misc\WeekOfWeekBasedYear;
 
 
 /**
@@ -130,7 +140,8 @@ use Celest\Temporal\Misc\QuarterOfYear;
  *
  * @since 1.8
  */
-final class IsoFields {
+final class IsoFields
+{
 
     /**
      * The field that represents the day-of-quarter.
@@ -172,7 +183,7 @@ final class IsoFields {
      */
     public static function DAY_OF_QUARTER()
     {
-        if(self::$DAY_OF_QUARTER === null) {
+        if (self::$DAY_OF_QUARTER === null) {
             self::$DAY_OF_QUARTER = new DayOfQuarter();
         }
 
@@ -198,7 +209,7 @@ final class IsoFields {
      */
     public static function QUARTER_OF_YEAR()
     {
-        if(self::$QUARTER_OF_YEAR === null) {
+        if (self::$QUARTER_OF_YEAR === null) {
             self::$QUARTER_OF_YEAR = new QuarterOfYear();
         }
 
@@ -239,8 +250,8 @@ final class IsoFields {
      */
     public static function WEEK_OF_WEEK_BASED_YEAR()
     {
-        if(self::$WEEK_OF_WEEK_BASED_YEAR === null) {
-            self::$WEEK_OF_WEEK_BASED_YEAR = new IsoField();
+        if (self::$WEEK_OF_WEEK_BASED_YEAR === null) {
+            self::$WEEK_OF_WEEK_BASED_YEAR = new WeekOfWeekBasedYear();
         }
 
         return self::$WEEK_OF_WEEK_BASED_YEAR;
@@ -264,8 +275,8 @@ final class IsoFields {
      */
     public static function WEEK_BASED_YEAR()
     {
-        if(self::$WEEK_BASED_YEAR === null) {
-            self::$WEEK_BASED_YEAR = new IsoField();
+        if (self::$WEEK_BASED_YEAR === null) {
+            self::$WEEK_BASED_YEAR = new WeekBasedYear();
         }
 
         return self::$WEEK_BASED_YEAR;
@@ -308,7 +319,97 @@ final class IsoFields {
     /**
      * Restricted constructor.
      */
-    private function __construct() {
+    private function __construct()
+    {
         throw new \RuntimeException("Not instantiable");
+    }
+
+    /**
+     * @param TemporalAccessor $temporal
+     * @return bool
+     */
+    public static function isIso(TemporalAccessor $temporal)
+    {
+        return ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE());
+    }
+
+    /**
+     * @param TemporalAccessor $temporal
+     * @throws DateTimeException
+     */
+    public static function ensureIso(TemporalAccessor $temporal)
+    {
+        if (self::isIso($temporal) == false) {
+            throw new DateTimeException("Resolve requires IsoChronology");
+        }
+    }
+
+    /**
+     * @param LocalDate $date
+     * @return ValueRange
+     */
+    public static function getWeekRange(LocalDate $date)
+    {
+        $wby = self::getWeekBasedYear($date);
+        return ValueRange::of(1, self::getWeekRangeInt($wby));
+    }
+
+    /**
+     * @param int
+     * @return int
+     */
+    public static function getWeekRangeInt($wby)
+    {
+        $date = LocalDate::ofNumerical($wby, 1, 1);
+        // 53 weeks if standard year starts on Thursday, or Wed in a leap year
+        if ($date->getDayOfWeek() == DayOfWeek::THURSDAY() || ($date->getDayOfWeek() == DayOfWeek::WEDNESDAY() && $date->isLeapYear())) {
+            return 53;
+        }
+
+        return 52;
+    }
+
+    public
+    static function getWeek(LocalDate $date)
+    {
+        $dow0 = $date->getDayOfWeek()->getValue() - 1;
+        $doy0 = $date->getDayOfYear() - 1;
+        $doyThu0 = $doy0 + (3 - $dow0);  // adjust to mid-week Thursday (which is 3 indexed from zero)
+        $alignedWeek = Math::div($doyThu0, 7);
+        $firstThuDoy0 = $doyThu0 - ($alignedWeek * 7);
+        $firstMonDoy0 = $firstThuDoy0 - 3;
+        if ($firstMonDoy0 < -3) {
+            $firstMonDoy0 += 7;
+        }
+
+        if ($doy0 < $firstMonDoy0) {
+            return self::getWeekRange($date->withDayOfYear(180)->minusYears(1))->getMaximum();
+        }
+        $week = Math::div(($doy0 - $firstMonDoy0), 7) + 1;
+        if ($week == 53) {
+            if (($firstMonDoy0 == -3 || ($firstMonDoy0 == -2 && $date->isLeapYear())) == false) {
+                $week = 1;
+            }
+        }
+        return $week;
+    }
+
+    public static function getWeekBasedYear(LocalDate $date)
+    {
+        $year = $date->getYear();
+        $doy = $date->getDayOfYear();
+        if ($doy <= 3) {
+            $dow = $date->getDayOfWeek()->getValue() - 1;
+            if ($doy - $dow < -2) {
+                $year--;
+            }
+        } else if ($doy >= 363) {
+            $dow = $date->getDayOfWeek()->getValue() - 1;
+            $doy = $doy - 363 - ($date->isLeapYear() ? 1 : 0);
+            if ($doy - $dow >= 0) {
+                $year++;
+            }
+        }
+        return $year;
     }
 }

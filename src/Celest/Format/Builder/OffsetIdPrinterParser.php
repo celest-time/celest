@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 11.09.15
- * Time: 16:11
- */
 
 namespace Celest\Format\Builder;
 
@@ -26,8 +20,15 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
             "+HH", "+HHmm", "+HH:mm", "+HHMM", "+HH:MM", "+HHMMss", "+HH:MM:ss", "+HHMMSS", "+HH:MM:SS",
         ];  // order used in pattern builder
 
-//static final OffsetIdPrinterParser INSTANCE_ID_Z = new OffsetIdPrinterParser("+HH:MM:ss", "Z");
-//static final OffsetIdPrinterParser INSTANCE_ID_ZERO = new OffsetIdPrinterParser("+HH:MM:ss", "0");
+    static final function INSTANCE_ID_Z()
+    {
+        return new OffsetIdPrinterParser("+HH:MM:ss", "Z");
+    }
+
+    static final function INSTANCE_ID_ZERO()
+    {
+        return new OffsetIdPrinterParser("+HH:MM:ss", "0");
+    }
 
     /** @var string */
     private $noOffsetText;

@@ -397,7 +397,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
      */
     public function getDisplayName(TextStyle $style, Locale $locale)
     {
-        return (new DateTimeFormatterBuilder())->appendText(ChronoField::MONTH_OF_YEAR(), $style)->toFormatter($locale)->format($this);
+        return (new DateTimeFormatterBuilder())->appendText2(ChronoField::MONTH_OF_YEAR(), $style)->toFormatter2($locale)->format($this);
     }
 
     //-----------------------------------------------------------------------

@@ -88,9 +88,12 @@ use Celest\IllegalArgumentException;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\IsoFields;
+use Celest\Temporal\Temporal;
+use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\ZoneId;
+use Celest\ZoneOffset;
 
 /**
  * Builder to create date-time formatters.
@@ -125,15 +128,6 @@ use Celest\ZoneId;
  */
 final class DateTimeFormatterBuilder
 {
-
-    /**
-     * Query for a time-zone that is region-only.
-     */
-    /*private static final TemporalQuery<ZoneId> QUERY_REGION_ONLY = (temporal) -> {
-    ZoneId zone = temporal.query(TemporalQueries.zoneId());
-    return (zone != null && zone instanceof ZoneOffset == false ? zone : null);
-    };*/
-
     /**
      * The currently active builder, used by the outermost builder.
      * @var DateTimeFormatterBuilder
@@ -188,6 +182,7 @@ final class DateTimeFormatterBuilder
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
         }
 
+        // TODO use calendar from chonology
         $formatter = \IntlDateFormatter::create($locale->getLocale(), self::convertStyle($dateStyle), self::convertStyle($timeStyle));
 
         return $formatter->getPattern();
@@ -898,7 +893,7 @@ final class DateTimeFormatterBuilder
     public
     function appendOffset($pattern, $noOffsetText)
     {
-        if(!is_string($pattern) || !is_string($noOffsetText)) {
+        if (!is_string($pattern) || !is_string($noOffsetText)) {
             throw new \InvalidArgumentException();
         }
         $this->appendInternal(new OffsetIdPrinterParser($pattern, $noOffsetText));
@@ -1052,7 +1047,11 @@ final class DateTimeFormatterBuilder
     public
     function appendZoneRegionId()
     {
-        $this->appendInternal(new ZoneIdPrinterParser(QUERY_REGION_ONLY, "ZoneRegionId()"));
+        $query = TemporalQueries::fromCallable(function (TemporalAccessor $temporal) {
+            $zone = $temporal->query(TemporalQueries::zoneId());
+            return ($zone !== null && $zone instanceof ZoneOffset === false ? $zone : null);
+        });
+        $this->appendInternal(new ZoneIdPrinterParser($query, "ZoneRegionId()"));
         return $this;
     }
 
@@ -1185,7 +1184,7 @@ final class DateTimeFormatterBuilder
      * section of the formatter is optional.
      *
      * @param TextStyle $textStyle the text style to use, not null
-     * @param ZoneId $preferredZones[] the set of preferred zone ids, not null
+     * @param ZoneId[] $preferredZones the set of preferred zone ids, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
     public
@@ -1574,6 +1573,9 @@ final class DateTimeFormatterBuilder
      */
     public function appendPattern($pattern)
     {
+        if (!is_string($pattern)) {
+            throw new \InvalidArgumentException();
+        }
         $this->parsePattern($pattern);
         return $this;
     }
@@ -1731,12 +1733,14 @@ final class DateTimeFormatterBuilder
                         $this->appendValue3($field, $count, 19, SignStyle::EXCEEDS_PAD());
                     }
                 break;
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'c':
                 if ($count === 2) {
                     throw new IllegalArgumentException("Invalid pattern \"cc\"");
                 }
             /*fallthrough*/
             case 'L':
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'q':
                 $standalone = true;
             /*fallthrough*/
@@ -2116,13 +2120,14 @@ final class DateTimeFormatterBuilder
      * Length comparator.
      * TODO
      */
-/*static final Comparator<String > LENGTH_SORT = new Comparator < String>()
-{
-@Override
-public int compare(String str1, String str2)
-{
-return str1->length() == str2->length() ? str1->compareTo(str2) : str1->length() - str2->length();
+    /*static final Comparator<String > LENGTH_SORT = new Comparator < String>()
+    {
+    @Override
+    public int compare(String str1, String str2)
+    {
+    return str1->length() == str2->length() ? str1->compareTo(str2) : str1->length() - str2->length();
+    }
+    };*/
 }
-};*/
-}
+
 DateTimeFormatterBuilder::init();
