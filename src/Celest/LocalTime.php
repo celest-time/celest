@@ -450,7 +450,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     private static function create($hour, $minute, $second, $nanoOfSecond)
     {
-        if (($minute | $second | $nanoOfSecond) == 0) {
+        if (($minute | $second | $nanoOfSecond) === 0) {
             return self::$HOURS[$hour];
         }
 
@@ -890,7 +890,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
                 case ChronoField::CLOCK_HOUR_OF_DAY():
                     return $this->withHour((int)($newValue == 24 ? 0 : $newValue));
                 case ChronoField::AMPM_OF_DAY():
-                    return $this->plusHours(($newValue - ($this->hour / 12)) * 12);
+                    return $this->plusHours(($newValue - Math::div($this->hour, 12)) * 12);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);

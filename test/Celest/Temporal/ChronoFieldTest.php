@@ -126,7 +126,7 @@ class TestChronoField extends \PHPUnit_Framework_TestCase
     {
         $locale = Locale::US();
         $name = IsoFields::WEEK_OF_WEEK_BASED_YEAR()->getDisplayName($locale);
-        $this->assertEquals($name, "Week");
+        $this->assertEquals(TestHelper::getEnglishWeek(), $name, TestHelper::INTLinfo($locale->getLocale()));
     }
 
     public function test_nullIsoFields_week_based_year()
@@ -142,7 +142,7 @@ class TestChronoField extends \PHPUnit_Framework_TestCase
         $locale = Locale::US();
         $weekOfYearField = WeekFields::SUNDAY_START()->weekOfYear();
         $name = $weekOfYearField->getDisplayName($locale);
-        $this->assertEquals($name, "week");
+        $this->assertEquals(TestHelper::getEnglishWeek(), $name, TestHelper::INTLinfo($locale->getLocale()));
     }
 
     public function test_nullWeekFields_week_based_year()

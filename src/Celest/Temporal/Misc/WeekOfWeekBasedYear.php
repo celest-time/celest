@@ -3,6 +3,7 @@
 namespace Celest\Temporal\Misc;
 
 
+use Celest\Format\DateTimeTextProvider;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\LocalDate;
@@ -21,10 +22,8 @@ class WeekOfWeekBasedYear implements TemporalField
 {
     public function getDisplayName(Locale $locale)
     {
-        /* LocaleResources lr = LocaleProviderAdapter . getResourceBundleBased()
-         . getLocaleResources(locale);
- ResourceBundle rb = lr . getJavaTimeFormatData();
- return rb . containsKey("field.week") ? rb . getString("field.week") : toString(); TODO */
+       $name = DateTimeTextProvider::tryField('week', $locale);
+        return $name !== null ? $name : $this->__toString();
     }
 
     public function getBaseUnit()

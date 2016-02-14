@@ -4,6 +4,7 @@ namespace Celest;
 
 
 use PHPUnit_Framework_Assert;
+use ResourceBundle;
 
 class TestHelper
 {
@@ -27,6 +28,23 @@ class TestHelper
 
         if (!$catched) {
             $_this->fail('Expected Null Exception');
+        }
+    }
+
+    public static function INTLinfo($locale)
+    {
+        $bundle = new ResourceBundle($locale, null);
+        return
+            $locale . ' Version: ' . $bundle['Version'] .
+            ', ICU version: ' . INTL_ICU_VERSION .
+            ', ICU data version: ' . INTL_ICU_DATA_VERSION;
+    }
+
+    public static function getEnglishWeek() {
+        if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
+            return 'Week';
+        } else {
+            return 'week';
         }
     }
 

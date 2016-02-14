@@ -62,15 +62,6 @@ class MiscTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Brüssel', $bundle['zoneStrings']['Europe:Brussels']['ec']);
     }
 
-    public static function INTLinfo($locale)
-    {
-        $bundle = new ResourceBundle($locale, null);
-        return
-            ', ' . $locale . 'Version: ' . $bundle['Version'] .
-            ', ICU version: ' . INTL_ICU_VERSION .
-            ', ICU data version: ' . INTL_ICU_DATA_VERSION;
-    }
-
     public function testIntlDate()
     {
         $date = new \DateTime('2000-02-03 04:05', new \DateTimeZone('UTC'));
