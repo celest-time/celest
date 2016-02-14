@@ -102,6 +102,11 @@ class DateTimeTextProvider
         return new DateTimeTextProvider();
     }
 
+    public static function tryField($field,Locale $locale) {
+        $bundle = new ResourceBundle($locale->getLocale(), null);
+        return $bundle['fields'][$field]['dn'];
+    }
+
     public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);

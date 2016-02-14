@@ -101,7 +101,7 @@ interface TemporalField
      * The default implementation must check the locale is not null
      * and return {@code toString()}.
      *
-     * @param locale Locale the locale to use, not null
+     * @param $locale Locale the locale to use, not null
      * @return String the display name for the locale or a suitable default, not null
      */
     public function getDisplayName(Locale $locale);

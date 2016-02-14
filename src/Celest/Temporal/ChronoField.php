@@ -59,6 +59,7 @@ namespace Celest\Temporal;
 
 use Celest\ArithmeticException;
 use Celest\DateTimeException;
+use Celest\Format\DateTimeTextProvider;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Long;
 use Celest\Locale;
@@ -870,18 +871,12 @@ class ChronoField implements TemporalField
 
     public function getDisplayName(Locale $locale)
     {
-        if ($this->displayNameKey == null) {
+        if ($this->displayNameKey === null) {
             return $this->name;
         }
-        /**
-         * TODO localize
-         */
-        return $this->displayNameKey;
-//        LocaleResources lr = LocaleProviderAdapter->getResourceBundleBased()
-//        ->getLocaleResources(locale);
-//        ResourceBundle rb = lr->getJavaTimeFormatData();
-//        String key = "field." + displayNameKey;
-//        return rb->containsKey(key) ? rb->getString(key) : name;
+
+        $name = DateTimeTextProvider::tryField('week', $locale);
+        return $name !== null ? $name : $this->displayNameKey;
     }
 
     /**

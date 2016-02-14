@@ -181,7 +181,7 @@ final class WeekFields
      * week-based-year corresponding to the previous calendar year.
      * @return WeekFields
      */
-    public function ISO()
+    public static function ISO()
     {
         if (self::$ISO === null) {
             self::$ISO = new WeekFields(DayOfWeek::MONDAY(), 4);
@@ -200,7 +200,7 @@ final class WeekFields
      * This week definition is in use in the US and other European countries.
      * @return WeekFields
      */
-    public function SUNDAY_START()
+    public static function SUNDAY_START()
     {
         if (self::$SUNDAY_START === null) {
             self::$SUNDAY_START = new WeekFields(DayOfWeek::SUNDAY(), 1);
@@ -228,7 +228,7 @@ final class WeekFields
      * This unit is an immutable and thread-safe singleton.
      * @return TemporalUnit
      */
-    public function WEEK_BASED_YEARS()
+    public static function WEEK_BASED_YEARS()
     {
         return IsoFields::WEEK_BASED_YEAR();
     }

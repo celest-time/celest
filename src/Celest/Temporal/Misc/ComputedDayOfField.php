@@ -7,6 +7,7 @@ use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\ChronologyDefaults;
 use Celest\DateTimeException;
+use Celest\Format\DateTimeTextProvider;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\Locale;
@@ -453,11 +454,10 @@ class ComputedDayOfField implements TemporalField
     public function getDisplayName(Locale $locale)
     {
         if ($this->rangeUnit == ChronoUnit::YEARS()) {  // only have values for week-of-year
-            // TODO
-            //$lr = LocaleProviderAdapter::getResourceBundleBased()
-            //    ->getLocaleResources($locale);
-            //ResourceBundle rb = lr->getJavaTimeFormatData();
-            //return $rb->containsKey("field.week") ? rb->getString("field.week") : name;
+            $name = DateTimeTextProvider::tryField('week', $locale);
+            if($name !== null) {
+                return $name;
+            }
         }
 
         return $this->name;
