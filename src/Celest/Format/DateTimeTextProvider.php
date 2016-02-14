@@ -104,7 +104,11 @@ class DateTimeTextProvider
 
     public static function tryField($field,Locale $locale) {
         $bundle = new ResourceBundle($locale->getLocale(), null);
-        return $bundle['fields'][$field]['dn'];
+        if(version_compare(INTL_ICU_DATA_VERSION, "51", "<")) {
+            return $bundle['calendar']['gregorian']['fields'][$field]['dn'];
+        } else {
+            return $bundle['fields'][$field]['dn'];
+        }
     }
 
     public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
