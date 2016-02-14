@@ -67,7 +67,10 @@ class DayOfQuarter implements TemporalField
         $doy = $temporal->get(ChronoField::DAY_OF_YEAR());
         $moy = $temporal->get(ChronoField::MONTH_OF_YEAR());
         $year = $temporal->getLong(ChronoField::YEAR());
-        return $doy - self::QUARTER_DAYS[Math::div(($moy - 1), 3) + (IsoChronology::INSTANCE()->isLeapYear($year) ? 4 : 0)];
+
+        $quarterDays = [0, 90, 181, 273, 0, 91, 182, 274];
+
+        return $doy - $quarterDays[Math::div(($moy - 1), 3) + (IsoChronology::INSTANCE()->isLeapYear($year) ? 4 : 0)];
     }
 
     public function adjustInto(Temporal $temporal, $newValue)
@@ -114,9 +117,6 @@ class DayOfQuarter implements TemporalField
     {
         return "DayOfQuarter";
     }
-
-    const QUARTER_DAYS = [0, 90, 181, 273, 0, 91, 182, 274];
-
 
     public function getDisplayName(Locale $locale)
     {
