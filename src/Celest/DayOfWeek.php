@@ -291,6 +291,14 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
         }
     }
 
+    /**
+     * @return DayOfWeek[]
+     */
+    public static function values()
+    {
+        return self::$ENUMS;
+    }
+
     //-----------------------------------------------------------------------
     /**
      * Gets the day-of-week {@code int} value.

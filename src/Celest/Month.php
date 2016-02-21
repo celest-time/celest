@@ -367,6 +367,14 @@ final class Month implements TemporalAccessor, TemporalAdjuster
         }
     }
 
+    /**
+     * @return Month[]
+     */
+    public static function values()
+    {
+        return self::$ENUMS;
+    }
+
     //-----------------------------------------------------------------------
     /**
      * Gets the month-of-year {@code int} value.
