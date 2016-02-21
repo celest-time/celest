@@ -88,7 +88,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
 
 // handle fixed time-zone IDs
         $nextChar = $text[$position];
-        if ($nextChar == '+' || $nextChar == '-') {
+        if ($nextChar === '+' || $nextChar === '-') {
             return $this->parseOffsetBased($context, $text, $position, $position, OffsetIdPrinterParser::INSTANCE_ID_Z());
         } else if ($length >= $position + 2) {
             $nextNextChar = $text[$position + 1];
@@ -107,7 +107,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         // parse
         $ppos = new ParsePosition($position);
 
-        $parsedZoneId = $this->match($text, $ppos);
+        $parsedZoneId = $this->match($text, $ppos, $context->isCaseSensitive());
         /*
         $tree = $this->getTree($context);
         $parsedZoneId = $tree->match($text, $ppos);
@@ -138,14 +138,14 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      */
     private function parseOffsetBased(DateTimeParseContext $context, $text, $prefixPos, $position, OffsetIdPrinterParser $parser)
     {
-        $prefix = strtoupper(substr($text, $prefixPos, $position - $prefixPos + 1));
+        $prefix = strtoupper(substr($text, $prefixPos, $position - $prefixPos));
         if ($position >= strlen($text)) {
             $context->setParsedZone(ZoneId::of($prefix));
             return $position;
         }
 
 // '0' or 'Z' after prefix is not part of a valid ZoneId; use bare prefix
-        if ($text[$position] == '0' ||
+        if ($text[$position] === '0' ||
             $context->charEquals($text[$position], 'Z')
         ) {
             $context->setParsedZone(ZoneId::of($prefix));
@@ -177,16 +177,34 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     }
 
 
-    private function match($text, ParsePosition $ppos)
+    /**
+     * TODO performance
+     *
+     * @param string $text
+     * @param ParsePosition $ppos
+     * @param bool $isCaseSensitive
+     * @return null|string
+     */
+    private function match($text, ParsePosition $ppos, $isCaseSensitive)
     {
-        $pos = $ppos->getIndex();
-        $max = strlen($text);
         $ids = ZoneId::getAvailableZoneIds();
+
+        if(!$isCaseSensitive) {
+            $ids = \array_map('\strtolower', $ids);
+            $text = \strtolower($text);
+        }
+
+        $ids = \array_flip($ids);
+
+        $pos = $ppos->getIndex();
+        $max = \strlen($text) - 1;
+
+
         for($i = $max; $i >= $pos; $i--) {
-            $str = substr($text, $pos, $i - $pos + 1);
-            if(in_array($str, $ids)) {
-                $ppos->setIndex($i);
-                return $str;
+            $str = \substr($text, $pos, $i - $pos + 1);
+            if(isset($ids[$str])) {
+                $ppos->setIndex($i + 1);
+                return ZoneId::getAvailableZoneIds()[$ids[$str]];
             }
         }
 

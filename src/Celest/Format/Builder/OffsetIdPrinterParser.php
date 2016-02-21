@@ -97,7 +97,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
     {
         $length = strlen($text);
         $noOffsetLen = strlen($this->noOffsetText);
-        if ($noOffsetLen == 0) {
+        if ($noOffsetLen === 0) {
             if ($position === $length) {
                 return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $position);
             }
