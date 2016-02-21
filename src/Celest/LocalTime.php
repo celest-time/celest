@@ -1011,7 +1011,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
         $nod = $this->toNanoOfDay();
-        return $this->ofNanoOfDay(($nod / $dur) * $dur);
+        return $this->ofNanoOfDay(Math::div($nod, $dur) * $dur);
     }
 
     //-----------------------------------------------------------------------
@@ -1131,11 +1131,11 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function plusHours($hoursToAdd)
     {
-        if ($hoursToAdd == 0) {
+        if ($hoursToAdd === 0) {
             return $this;
         }
 
-        $newHour = ((int)($hoursToAdd % self::HOURS_PER_DAY) + $this->hour + self::HOURS_PER_DAY) % self::HOURS_PER_DAY;
+        $newHour = (($hoursToAdd % self::HOURS_PER_DAY) + $this->hour + self::HOURS_PER_DAY) % self::HOURS_PER_DAY;
         return $this->create($newHour, $this->minute, $this->second, $this->nano);
     }
 
@@ -1152,16 +1152,16 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function plusMinutes($minutesToAdd)
     {
-        if ($minutesToAdd == 0) {
+        if ($minutesToAdd === 0) {
             return $this;
         }
 
         $mofd = $this->hour * self::MINUTES_PER_HOUR + $this->minute;
-        $newMofd = ((int)($minutesToAdd % self::MINUTES_PER_DAY) + $mofd + self::MINUTES_PER_DAY) % self::MINUTES_PER_DAY;
-        if ($mofd == $newMofd) {
+        $newMofd = (($minutesToAdd % self::MINUTES_PER_DAY) + $mofd + self::MINUTES_PER_DAY) % self::MINUTES_PER_DAY;
+        if ($mofd === $newMofd) {
             return $this;
         }
-        $newHour = $newMofd / self::MINUTES_PER_HOUR;
+        $newHour = Math::div($newMofd, self::MINUTES_PER_HOUR);
         $newMinute = $newMofd % self::MINUTES_PER_HOUR;
         return self::create($newHour, $newMinute, $this->second, $this->nano);
     }
@@ -1179,18 +1179,18 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function plusSeconds($secondstoAdd)
     {
-        if ($secondstoAdd == 0) {
+        if ($secondstoAdd === 0) {
             return $this;
         }
 
         $sofd = $this->hour * self::SECONDS_PER_HOUR +
             $this->minute * self::SECONDS_PER_MINUTE + $this->second;
-        $newSofd = ((int)($secondstoAdd % self::SECONDS_PER_DAY) + $sofd + self::SECONDS_PER_DAY) % self::SECONDS_PER_DAY;
-        if ($sofd == $newSofd) {
+        $newSofd = (($secondstoAdd % self::SECONDS_PER_DAY) + $sofd + self::SECONDS_PER_DAY) % self::SECONDS_PER_DAY;
+        if ($sofd === $newSofd) {
             return $this;
         }
-        $newHour = $newSofd / self::SECONDS_PER_HOUR;
-        $newMinute = ($newSofd / self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $newHour = Math::div($newSofd, self::SECONDS_PER_HOUR);
+        $newMinute = Math::div($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
         $newSecond = $newSofd % self::SECONDS_PER_MINUTE;
         return self::create($newHour, $newMinute, $newSecond, $this->nano);
     }
@@ -1208,19 +1208,19 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function plusNanos($nanosToAdd)
     {
-        if ($nanosToAdd == 0) {
+        if ($nanosToAdd === 0) {
             return $this;
         }
 
         $nofd = $this->toNanoOfDay();
         $newNofd = (($nanosToAdd % self::NANOS_PER_DAY) + $nofd + self::NANOS_PER_DAY) % self::NANOS_PER_DAY;
-        if ($nofd == $newNofd) {
+        if ($nofd === $newNofd) {
             return $this;
         }
-        $newHour = (int)($newNofd / self::NANOS_PER_HOUR);
-        $newMinute = (int)(($newNofd / self::NANOS_PER_MINUTE) % self::MINUTES_PER_HOUR);
-        $newSecond = (int)(($newNofd / self::NANOS_PER_SECOND) % self::SECONDS_PER_MINUTE);
-        $newNano = (int)($newNofd % self::NANOS_PER_SECOND);
+        $newHour = Math::div($newNofd, self::NANOS_PER_HOUR);
+        $newMinute = Math::div($newNofd, self::NANOS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $newSecond = Math::div($newNofd, self::NANOS_PER_SECOND) % self::SECONDS_PER_MINUTE;
+        $newNano = $newNofd % self::NANOS_PER_SECOND;
         return self::create($newHour, $newMinute, $newSecond, $newNano);
     }
 
