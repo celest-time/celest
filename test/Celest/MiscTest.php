@@ -62,7 +62,7 @@ class MiscTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Brüssel', $bundle['zoneStrings']['Europe:Brussels']['ec']);
 
         if(defined('HHVM_VERSION')) {
-            TestHelper::INTLinfo('');
+            $this->markTestSkipped('See https://github.com/facebook/hhvm/issues/6852');
         }
         $bundle = new ResourceBundle('metaZones', 'ICUDATA', false);
         $this->assertEquals('Europe_Central', $bundle['metazoneInfo']['Europe:Berlin'][0][0]);
