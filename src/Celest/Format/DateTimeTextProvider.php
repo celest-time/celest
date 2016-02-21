@@ -111,6 +111,35 @@ class DateTimeTextProvider
         }
     }
 
+    public static function getZoneNames($zoneid, Locale $locale) {
+        $meta_names = self::getMetaNames($zoneid);
+
+        $bundle = new ResourceBundle($locale->getLocale(), 'ICUDATA-zone');
+
+        $names = [];
+        foreach($meta_names as $name) {
+            $tmp = [];
+            foreach($bundle['zoneStrings']['meta:' . $name] as $key => $val) {
+                $tmp[$key] = $val;
+            }
+            $names[$name] = $tmp;
+        }
+
+        return $names;
+    }
+
+    public static function getMetaNames($zoneid) {
+        $name = str_replace('/', ':', $zoneid);
+
+        $tmp = [];
+        $bundle = new ResourceBundle('metaZones', 'ICUDATA', false);
+        foreach($bundle['metazoneInfo'][$name][0] as $value) {
+            $tmp[] = $value;
+        }
+
+        return $tmp;
+    }
+
     public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);

@@ -69,6 +69,11 @@ class Locale
         return new Locale('de');
     }
 
+    public static function JAPANESE()
+    {
+        return new Locale('ja');
+    }
+
     public function getLocale()
     {
         return $this->locale;

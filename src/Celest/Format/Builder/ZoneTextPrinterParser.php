@@ -3,6 +3,7 @@
 namespace Celest\Format\Builder;
 
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimeTextProvider;
 use Celest\Format\TextStyle;
 use Celest\Instant;
 use Celest\Locale;
@@ -49,7 +50,6 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
     private static $STD = 0;
     private static $DST = 1;
     private static $GENERIC = 2;
-    private static $cache = [];
 
     private function getDisplayName($id, $type, Locale $locale)
     {
@@ -57,33 +57,8 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
             return null;
         }
 
-        $names = [];
-        $ref = @self::$cache[$id];
-        $perLocale = null;
-        if ($ref === null || ($this->perLocale = $ref->get()) === null ||
-            ($names = $this->perLocale->get($locale)) === null
-        ) {
-            $names = TimeZoneNameUtility::retrieveDisplayNames($id, $locale);
-            if ($names == null) {
-                return null;
-            }
-            $names = Arrays::copyOfRange($names, 0, 7);
-            $names[5] =
-                TimeZoneNameUtility::retrieveGenericDisplayName($id, TimeZone::LONG, $locale);
-            if ($names[5] == null) {
-                $names[5] = $names[0]; // use the id
-            }
-            $names[6] =
-                TimeZoneNameUtility::retrieveGenericDisplayName($id, TimeZone::SHORT, $locale);
-            if ($names[6] == null) {
-                $names[6] = $names[0];
-            }
-            if ($perLocale == null) {
-                $perLocale = [];
-            }
-            $perLocale->put($locale, $names);
-            self::$cache->put($id, $perLocale);
-        }
+        $names = DateTimeTextProvider::getZoneNames($id, $locale);
+
         switch ($type) {
             case self::$STD:
                 return $names[$this->textStyle->zoneNameStyleIndex() + 1];
@@ -97,7 +72,7 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
     {
         /** @var ZoneID $zone */
         $zone = $context->getValue(TemporalQueries::zoneId());
-        if ($zone == null) {
+        if ($zone === null) {
             return false;
         }
 
@@ -109,7 +84,7 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
                     ? ($zone->getRules()->isDaylightSavings(Instant::from($dt)) ? self::$DST : self::$STD)
                     : self::$GENERIC,
                 $context->getLocale());
-            if ($name != null) {
+            if ($name !== null) {
                 $zname = $name;
             }
         }

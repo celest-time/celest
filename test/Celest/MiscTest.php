@@ -60,6 +60,9 @@ class MiscTest extends PHPUnit_Framework_TestCase
 
         $bundle = new ResourceBundle('de', 'ICUDATA-zone');
         $this->assertEquals('Brüssel', $bundle['zoneStrings']['Europe:Brussels']['ec']);
+
+        $bundle = new ResourceBundle('metaZones', 'ICUDATA', false);
+        $this->assertEquals('Europe_Central', $bundle['metazoneInfo']['Europe:Berlin'][0][0]);
     }
 
     public function testIntlDate()
