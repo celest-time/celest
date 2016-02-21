@@ -72,7 +72,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_now_Clock()
     {
-        $instant = OffsetDateTime::ofDateAndTime(LocalDate::ofNumerical(2010, 12, 31), LocalTime::of(0, 0), ZoneOffset::UTC())->toInstant();
+        $instant = OffsetDateTime::ofDateAndTime(LocalDate::of(2010, 12, 31), LocalTime::of(0, 0), ZoneOffset::UTC())->toInstant();
         $clock = Clock::fixed($instant, ZoneOffset::UTC());
         $test = Year::nowof($clock);
         $this->assertEquals($test->getValue(), 2010);
@@ -114,7 +114,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_from_TemporalAccessor()
     {
-        $this->assertEquals(Year::from(LocalDate::ofNumerical(2007, 7, 15)), Year::of(2007));
+        $this->assertEquals(Year::from(LocalDate::of(2007, 7, 15)), Year::of(2007));
     }
 
     /**
@@ -764,10 +764,10 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     public
     function test_adjustDate()
     {
-        $base = LocalDate::ofNumerical(2007, 2, 12);
+        $base = LocalDate::of(2007, 2, 12);
         for ($i = -4; $i <= 2104; $i++) {
             $result = Year::of($i)->adjustInto($base);
-            $this->assertEquals($result, LocalDate::ofNumerical($i, 2, 12));
+            $this->assertEquals($result, LocalDate::of($i, 2, 12));
         }
     }
 
@@ -775,7 +775,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     function test_adjustDate_resolve()
     {
         $test = Year::of(2011);
-        $this->assertEquals($test->adjustInto(LocalDate::ofNumerical(2012, 2, 29)), LocalDate::ofNumerical(2011, 2, 28));
+        $this->assertEquals($test->adjustInto(LocalDate::of(2012, 2, 29)), LocalDate::of(2011, 2, 28));
     }
 
     public
@@ -882,15 +882,15 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
-                Year::of(2007), MonthDay::ofNumerical(6, 30), true],
+                Year::of(2007), MonthDay::of(6, 30), true],
             [
-                Year::of(2008), MonthDay::ofNumerical(2, 28), true],
+                Year::of(2008), MonthDay::of(2, 28), true],
             [
-                Year::of(2008), MonthDay::ofNumerical(2, 29), true],
+                Year::of(2008), MonthDay::of(2, 29), true],
             [
-                Year::of(2009), MonthDay::ofNumerical(2, 28), true],
+                Year::of(2009), MonthDay::of(2, 28), true],
             [
-                Year::of(2009), MonthDay::ofNumerical(2, 29), false],
+                Year::of(2009), MonthDay::of(2, 29), false],
             [
                 Year::of(2009), null, false],
         ];
@@ -1085,7 +1085,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     public function test_atMonth()
     {
         $test = Year::of(2008);
-        $this->assertEquals($test->atMonth(Month::JUNE()), YearMonth::ofNumerical(2008, 6));
+        $this->assertEquals($test->atMonth(Month::JUNE()), YearMonth::of(2008, 6));
     }
 
     public function test_atMonth_nullMonth()
@@ -1102,7 +1102,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     public function test_atMonth_int()
     {
         $test = Year::of(2008);
-        $this->assertEquals($test->atMonthNumerical(6), YearMonth::ofNumerical(2008, 6));
+        $this->assertEquals($test->atMonthNumerical(6), YearMonth::of(2008, 6));
     }
 
     /**
@@ -1121,11 +1121,11 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     {
         return [
             [
-                Year::of(2008), MonthDay::ofNumerical(6, 30), LocalDate::ofNumerical(2008, 6, 30)],
+                Year::of(2008), MonthDay::of(6, 30), LocalDate::of(2008, 6, 30)],
             [
-                Year::of(2008), MonthDay::ofNumerical(2, 29), LocalDate::ofNumerical(2008, 2, 29)],
+                Year::of(2008), MonthDay::of(2, 29), LocalDate::of(2008, 2, 29)],
             [
-                Year::of(2009), MonthDay::ofNumerical(2, 29), LocalDate::ofNumerical(2009, 2, 28)],
+                Year::of(2009), MonthDay::of(2, 29), LocalDate::of(2009, 2, 28)],
         ];
     }
 
@@ -1153,7 +1153,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     function test_atDay_notLeapYear()
     {
         $test = Year::of(2007);
-        $expected = LocalDate::ofNumerical(2007, 1, 1);
+        $expected = LocalDate::of(2007, 1, 1);
         for ($i = 1; $i <= 365; $i++) {
             $this->assertEquals($test->atDay($i), $expected);
             $expected = $expected->plusDays(1);
@@ -1174,7 +1174,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     function test_atDay_leapYear()
     {
         $test = Year::of(2008);
-        $expected = LocalDate::ofNumerical(2008, 1, 1);
+        $expected = LocalDate::of(2008, 1, 1);
         for ($i = 1; $i <= 366; $i++) {
             $this->assertEquals($test->atDay($i), $expected);
             $expected = $expected->plusDays(1);

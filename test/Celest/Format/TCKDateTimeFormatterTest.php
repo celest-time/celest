@@ -222,7 +222,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
             // $expected, fails as it produces two different dates
         }
         $parsed = $f->parseQuery("2012-6-30-321", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored day-of-year
-        $this->assertEquals($parsed, LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals($parsed, LocalDate::of(2012, 6, 30));
     }
 
 
@@ -242,7 +242,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
             // $expected, fails as it produces two different dates
         }
         $parsed = $f->parseQuery("2012-6-30-321", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored month/day-of-month
-        $this->assertEquals($parsed, LocalDate::ofNumerical(2012, 11, 16));
+        $this->assertEquals($parsed, LocalDate::of(2012, 11, 16));
     }
 
 
@@ -259,7 +259,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
             // $expected, should $this->fail() in cross-check of day-of-week
         }
         $parsed = $f->parseQuery("2012-321-1", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored wrong day-of-week
-        $this->assertEquals($parsed, LocalDate::ofNumerical(2012, 11, 16));
+        $this->assertEquals($parsed, LocalDate::of(2012, 11, 16));
     }
 
 
@@ -323,13 +323,13 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     function data_format_withZone_withChronology()
     {
-        $ym = YearMonth::ofNumerical(2008, 6);
-        $ld = LocalDate::ofNumerical(2008, 6, 30);
+        $ym = YearMonth::of(2008, 6);
+        $ld = LocalDate::of(2008, 6, 30);
         $lt = LocalTime::of(11, 30);
-        $ldt = LocalDateTime::ofNumerical(2008, 6, 30, 11, 30);
-        $ot = OffsetTime::of(LocalTime::of(11, 30), self::OFFSET_PONE());
-        $odt = OffsetDateTime::of(LocalDateTime::ofNumerical(2008, 6, 30, 11, 30), self::OFFSET_PONE());
-        $zdt = ZonedDateTime::of(LocalDateTime::ofNumerical(2008, 6, 30, 11, 30), self::ZONE_PARIS());
+        $ldt = LocalDateTime::of(2008, 6, 30, 11, 30);
+        $ot = OffsetTime::ofLocalTime(LocalTime::of(11, 30), self::OFFSET_PONE());
+        $odt = OffsetDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::OFFSET_PONE());
+        $zdt = ZonedDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::ZONE_PARIS());
         //$thaiZdt = ThaiBuddhistChronology::INSTANCE()->zonedDateTime($zdt);
         $instant = Instant::ofEpochSecond(3600);
         return [
@@ -501,7 +501,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     function test_format_TemporalAccessor_simple()
     {
         $test = $this->fmt->withLocale(Locale::ENGLISH())->withDecimalStyle(DecimalStyle::STANDARD());
-        $result = $test->format(LocalDate::ofNumerical(2008, 6, 30));
+        $result = $test->format(LocalDate::of(2008, 6, 30));
         $this->assertEquals($result, "ONE30");
     }
 
@@ -527,7 +527,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     public function test_print_TemporalAppendable()
     {
         $test = $this->fmt->withLocale(Locale::ENGLISH())->withDecimalStyle(DecimalStyle::STANDARD());
-        $test->formatTo(LocalDate::ofNumerical(2008, 6, 30), $buf);
+        $test->formatTo(LocalDate::of(2008, 6, 30), $buf);
         $this->assertEquals($buf, "ONE30");
     }
 
@@ -573,7 +573,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getLong(CF::YEAR()), 2012);
         $this->assertEquals($result->getLong(CF::MONTH_OF_YEAR()), 6);
         $this->assertEquals($result->getLong(CF::DAY_OF_MONTH()), 30);
-        $this->assertEquals($result->query(TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals($result->query(TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::of(2012, 6, 30));
     }
 
     public function test_parse_CharSequence_null()
@@ -615,7 +615,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result->getLong(CF::YEAR()), 2012);
         $this->assertEquals($result->getLong(CF::MONTH_OF_YEAR()), 6);
         $this->assertEquals($result->getLong(CF::DAY_OF_MONTH()), 30);
-        $this->assertEquals($result->query(TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals($result->query(TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::of(2012, 6, 30));
     }
 
     /**
@@ -666,14 +666,14 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     public function test_parse_Query_String()
     {
         $result = self::DATE_FORMATTER()->parseQuery("ONE2012 07 27", TemporalQueries::fromCallable([LocalDate::class, 'from']));
-        $this->assertEquals($result, LocalDate::ofNumerical(2012, 7, 27));
+        $this->assertEquals($result, LocalDate::of(2012, 7, 27));
     }
 
 
     public function test_parse_Query_CharSequence()
     {
         $result = self::DATE_FORMATTER()->parseQuery("ONE2012 07 27", TemporalQueries::fromCallable([LocalDate::class, 'from']));
-        $this->assertEquals($result, LocalDate::ofNumerical(2012, 7, 27));
+        $this->assertEquals($result, LocalDate::of(2012, 7, 27));
     }
 
     /**
@@ -746,8 +746,8 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $test = DateTimeFormatter::ofPattern("yyyy-MM-dd HH:mm[XXX]");
         $result = $test->parseBest("2011-06-30 12:30+03:00", TemporalQueries::fromCallable([ZonedDateTime::class, "from"]), TemporalQueries::fromCallable([LocalDateTime::class, "from"]));
-        $ldt = LocalDateTime::ofNumerical(2011, 6, 30, 12, 30);
-        $this->assertEquals($result, ZonedDateTime::of($ldt, ZoneOffset::ofHours(3)));
+        $ldt = LocalDateTime::of(2011, 6, 30, 12, 30);
+        $this->assertEquals($result, ZonedDateTime::ofDateTime($ldt, ZoneOffset::ofHours(3)));
     }
 
 
@@ -755,7 +755,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $test = DateTimeFormatter::ofPattern("yyyy-MM-dd[ HH:mm[XXX]]");
         $result = $test->parseBest("2011-06-30", TemporalQueries::fromCallable([ZonedDateTime::class, "from"]), TemporalQueries::fromCallable([LocalDate::class, 'from']));
-        $this->assertEquals($result, LocalDate::ofNumerical(2011, 6, 30));
+        $this->assertEquals($result, LocalDate::of(2011, 6, 30));
     }
 
     /**

@@ -333,7 +333,7 @@ class TCKInstantPrinterParserTest extends \PHPUnit_Framework_TestCase
     public
     function test_parse_endOfDay()
     {
-        $expected = OffsetDateTime::ofNumerical(1970, 2, 4, 0, 0, 0, 0, ZoneOffset::UTC())->toInstant();
+        $expected = OffsetDateTime::of(1970, 2, 4, 0, 0, 0, 0, ZoneOffset::UTC())->toInstant();
         $f = (new DateTimeFormatterBuilder())->appendInstant4(-1)->toFormatter();
         foreach (ResolverStyle::values() as $style) {
             $pared = $f->withResolverStyle($style)->parse("1970-02-03T24:00:00Z");
@@ -345,7 +345,7 @@ class TCKInstantPrinterParserTest extends \PHPUnit_Framework_TestCase
 
     public function test_parse_leapSecond()
     {
-        $expected = OffsetDateTime::ofNumerical(1970, 2, 3, 23, 59, 59, 123456789, ZoneOffset::UTC())->toInstant();
+        $expected = OffsetDateTime::of(1970, 2, 3, 23, 59, 59, 123456789, ZoneOffset::UTC())->toInstant();
         $f = (new DateTimeFormatterBuilder())->appendInstant4(-1)->toFormatter();
         foreach (ResolverStyle::values() as $style) {
             $pared = $f->withResolverStyle($style)->parse("1970-02-03T23:59:60.123456789Z");

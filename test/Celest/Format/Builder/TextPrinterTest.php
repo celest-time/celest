@@ -95,7 +95,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     public function test_print_append()
     {
         $buf = "EXISTING";
-        $this->getFormatterFieldStyle(ChronoField::DAY_OF_WEEK(), TextStyle::FULL())->formatTo(LocalDate::ofNumerical(2012, 4, 18), $buf);
+        $this->getFormatterFieldStyle(ChronoField::DAY_OF_WEEK(), TextStyle::FULL())->formatTo(LocalDate::of(2012, 4, 18), $buf);
         $this->assertEquals("EXISTINGWednesday", $buf);
     }
 
@@ -375,7 +375,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     function test_formatJapaneseEra(TemporalField $field, TextStyle $style, $value, $expected)
     {
         $this->markTestIncomplete('JapaneseChronology');
-        $ld = LocalDate::ofNumerical(2013, 1, 31);
+        $ld = LocalDate::of(2013, 1, 31);
         $buf = '';
         $this->getFormatterFieldStyle($field, $style)->withChronology(JapaneseChronology::INSTANCE())->formatTo($ld, $buf);
         $this->assertEquals($expected, $buf);
@@ -388,7 +388,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     function test_standaloneNames(Locale $locale, TemporalField $field, TextStyle $style, $expected)
     {
         $buf = '';
-        $this->getFormatterFieldStyle($field, $style)->withLocale($locale)->formatTo(LocalDate::ofNumerical(2013, 1, 1), $buf);
+        $this->getFormatterFieldStyle($field, $style)->withLocale($locale)->formatTo(LocalDate::of(2013, 1, 1), $buf);
         $this->assertEquals($expected, $buf);
     }
 
@@ -397,7 +397,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     function test_print_french_long()
     {
         $buf = '';
-        $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::FULL())->withLocale(Locale::FRENCH())->formatTo(LocalDate::ofNumerical(2012, 1, 1), $buf);
+        $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::FULL())->withLocale(Locale::FRENCH())->formatTo(LocalDate::of(2012, 1, 1), $buf);
         $this->assertEquals("janvier", $buf);
     }
 
@@ -405,7 +405,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     function test_print_french_short()
     {
         $buf = '';
-        $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT())->withLocale(Locale::FRENCH())->formatTo(LocalDate::ofNumerical(2012, 1, 1), $buf);
+        $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT())->withLocale(Locale::FRENCH())->formatTo(LocalDate::of(2012, 1, 1), $buf);
         $this->assertEquals("janv.", $buf);
     }
 

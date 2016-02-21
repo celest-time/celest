@@ -116,7 +116,7 @@ class TestReducedParser extends AbstractTestPrinterParser
     private
     function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
     {
-        return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::ofNumerical($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
+        return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::of($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
 //-----------------------------------------------------------------------
@@ -503,7 +503,7 @@ class TestReducedParser extends AbstractTestPrinterParser
 //-----------------------------------------------------------------------
     public function provider_reducedWithChrono()
     {
-        $baseYear = LocalDate::ofNumerical(2000, 1, 1);
+        $baseYear = LocalDate::of(2000, 1, 1);
         return
             [
                 [
@@ -549,7 +549,7 @@ class TestReducedParser extends AbstractTestPrinterParser
     {
         $chrono = $date->getChronology();
         $df
-            = (new DateTimeFormatterBuilder())->appendValueReduced2(ChronoField::YEAR(), 2, 2, LocalDate::ofNumerical(2000, 1, 1))
+            = (new DateTimeFormatterBuilder())->appendValueReduced2(ChronoField::YEAR(), 2, 2, LocalDate::of(2000, 1, 1))
             ->toFormatter()
             ->withChronology($chrono);
         $expected = $date->get(ChronoField::YEAR());
@@ -571,7 +571,7 @@ class TestReducedParser extends AbstractTestPrinterParser
     {
         $chrono = $date->getChronology();
         $df
-            = (new DateTimeFormatterBuilder())->appendValueReduced2(ChronoField::YEAR_OF_ERA(), 2, 2, LocalDate::ofNumerical(2000, 1, 1))
+            = (new DateTimeFormatterBuilder())->appendValueReduced2(ChronoField::YEAR_OF_ERA(), 2, 2, LocalDate::of(2000, 1, 1))
             ->toFormatter()
             ->withChronology($chrono);
         $expected = $date->get(ChronoField::YEAR_OF_ERA());

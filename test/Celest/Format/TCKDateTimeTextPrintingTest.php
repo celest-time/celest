@@ -163,7 +163,7 @@ class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
     public function test_appendText2arg_format(TemporalField $field, TextStyle $style, $value, $expected)
     {
         $f = $this->builder->appendText2($field, $style)->toFormatter2(Locale::ENGLISH());
-        $dt = LocalDateTime::ofNumerical(2010, 1, 1, 0, 0);
+        $dt = LocalDateTime::of(2010, 1, 1, 0, 0);
         $dt = $dt->with($field, $value);
         $text = $f->format($dt);
         $this->assertEquals($text, $expected);
@@ -176,7 +176,7 @@ class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
     {
         if ($style == TextStyle::FULL()) {
             $f = $this->builder->appendText($field)->toFormatter2(Locale::ENGLISH());
-            $dt = LocalDateTime::ofNumerical(2010, 1, 1, 0, 0);
+            $dt = LocalDateTime::of(2010, 1, 1, 0, 0);
             $dt = $dt->with($field, $value);
             $text = $f->format($dt);
             $this->assertEquals($text, $expected);
@@ -202,7 +202,7 @@ class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
         ];
         $this->builder->appendText3(ChronoField::MONTH_OF_YEAR(), $map);
         $f = $this->builder->toFormatter();
-        $dt = LocalDateTime::ofNumerical(2010, 1, 1, 0, 0);
+        $dt = LocalDateTime::of(2010, 1, 1, 0, 0);
         foreach ($map as $month => $val) {
             $this->assertEquals($f->format($dt->withMonth($month)), $val);
         }
@@ -217,7 +217,7 @@ class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
         ];
         $this->builder->appendText3(ChronoField::DAY_OF_MONTH(), $map);
         $f = $this->builder->toFormatter();
-        $dt = LocalDateTime::ofNumerical(2010, 1, 1, 0, 0);
+        $dt = LocalDateTime::of(2010, 1, 1, 0, 0);
         $this->assertEquals($f->format($dt->withDayOfMonth(1)), "1st");
         $this->assertEquals($f->format($dt->withDayOfMonth(2)), "2nd");
         $this->assertEquals($f->format($dt->withDayOfMonth(3)), "3rd");
@@ -228,7 +228,7 @@ class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
         $map = [1, "JNY"];
         $this->builder->appendText3(ChronoField::MONTH_OF_YEAR(), $map);
         $f = $this->builder->toFormatter();
-        $dt = LocalDateTime::ofNumerical(2010, 2, 1, 0, 0);
+        $dt = LocalDateTime::of(2010, 2, 1, 0, 0);
         $this->assertEquals($f->format($dt), "2");
     }
 

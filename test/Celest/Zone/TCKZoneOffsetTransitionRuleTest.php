@@ -253,7 +253,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), 20, DayOfWeek::SUNDAY(), self::TIME_0100(), false, TimeDefinition::WALL(),
             self::OFFSET_0200(), self::OFFSET_0200(), self::OFFSET_0300());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 
@@ -264,7 +264,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), 20, DayOfWeek::SUNDAY(), LocalTime::MIDNIGHT(), true, TimeDefinition::WALL(),
             self::OFFSET_0200(), self::OFFSET_0300(), self::OFFSET_0200());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 27, 0, 0), self::OFFSET_0300(), self::OFFSET_0200());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 27, 0, 0), self::OFFSET_0300(), self::OFFSET_0200());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 
@@ -275,7 +275,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), -1, DayOfWeek::SUNDAY(), self::TIME_0100(), false, TimeDefinition::WALL(),
             self::OFFSET_0200(), self::OFFSET_0200(), self::OFFSET_0300());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 
@@ -286,7 +286,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), -7, DayOfWeek::SUNDAY(), self::TIME_0100(), false, TimeDefinition::WALL(),
             self::OFFSET_0200(), self::OFFSET_0200(), self::OFFSET_0300());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 19, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 19, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 
@@ -297,7 +297,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), -2, DayOfWeek::SUNDAY(), self::TIME_0100(), false, TimeDefinition::WALL(),
             self::OFFSET_0200(), self::OFFSET_0200(), self::OFFSET_0300());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 26, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 
@@ -308,7 +308,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
             Month::MARCH(), 20, null, self::TIME_0100(), false, TimeDefinition::STANDARD(),
             self::OFFSET_0200(), self::OFFSET_0200(), self::OFFSET_0300());
         $trans = ZoneOffsetTransition::of(
-            LocalDateTime::of(2000, Month::MARCH(), 20, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
+            LocalDateTime::ofMonth(2000, Month::MARCH(), 20, 1, 0), self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->createTransition(2000), $trans);
     }
 

@@ -111,14 +111,14 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     public function test_factory_nullOffsetBefore()
     {
         TestHelper::assertNullException($this, function () {
-            ZoneOffsetTransition::of(LocalDateTime::ofNumerical(2010, 12, 3, 11, 30), null, self::OFFSET_0200());
+            ZoneOffsetTransition::of(LocalDateTime::of(2010, 12, 3, 11, 30), null, self::OFFSET_0200());
         });
     }
 
     public function test_factory_nullOffsetAfter()
     {
         TestHelper::assertNullException($this, function () {
-            ZoneOffsetTransition::of(LocalDateTime::ofNumerical(2010, 12, 3, 11, 30), self::OFFSET_0200(), null);
+            ZoneOffsetTransition::of(LocalDateTime::of(2010, 12, 3, 11, 30), self::OFFSET_0200(), null);
         });
     }
 
@@ -127,7 +127,7 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
      */
     public function test_factory_sameOffset()
     {
-        ZoneOffsetTransition::of(LocalDateTime::ofNumerical(2010, 12, 3, 11, 30), self::OFFSET_0200(), self::OFFSET_0200());
+        ZoneOffsetTransition::of(LocalDateTime::of(2010, 12, 3, 11, 30), self::OFFSET_0200(), self::OFFSET_0200());
     }
 
     /**
@@ -135,7 +135,7 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
      */
     public function test_factory_noNanos()
     {
-        ZoneOffsetTransition::of(LocalDateTime::ofNumerical(2010, 12, 3, 11, 30, 0, 500), self::OFFSET_0200(), self::OFFSET_0300());
+        ZoneOffsetTransition::of(LocalDateTime::of(2010, 12, 3, 11, 30, 0, 500), self::OFFSET_0200(), self::OFFSET_0300());
     }
 
     //-----------------------------------------------------------------------
@@ -143,8 +143,8 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_getters_gap()
     {
-        $before = LocalDateTime::ofNumerical(2010, 3, 31, 1, 0);
-        $after = LocalDateTime::ofNumerical(2010, 3, 31, 2, 0);
+        $before = LocalDateTime::of(2010, 3, 31, 1, 0);
+        $after = LocalDateTime::of(2010, 3, 31, 2, 0);
         $test = ZoneOffsetTransition::of($before, self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->isGap(), true);
         $this->assertEquals($test->isOverlap(), false);
@@ -159,8 +159,8 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     public
     function test_getters_overlap()
     {
-        $before = LocalDateTime::ofNumerical(2010, 10, 31, 1, 0);
-        $after = LocalDateTime::ofNumerical(2010, 10, 31, 0, 0);
+        $before = LocalDateTime::of(2010, 10, 31, 1, 0);
+        $after = LocalDateTime::of(2010, 10, 31, 0, 0);
         $test = ZoneOffsetTransition::of($before, self::OFFSET_0300(), self::OFFSET_0200());
         $this->assertEquals($test->isGap(), false);
         $this->assertEquals($test->isOverlap(), true);
@@ -178,7 +178,7 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_isValidOffset_gap()
     {
-        $ldt = LocalDateTime::ofNumerical(2010, 3, 31, 1, 0);
+        $ldt = LocalDateTime::of(2010, 3, 31, 1, 0);
         $test = ZoneOffsetTransition::of($ldt, self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals($test->isValidOffset(self::OFFSET_0100()), false);
         $this->assertEquals($test->isValidOffset(self::OFFSET_0200()), false);
@@ -189,7 +189,7 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
 
     public function test_isValidOffset_overlap()
     {
-        $ldt = LocalDateTime::ofNumerical(2010, 10, 31, 1, 0);
+        $ldt = LocalDateTime::of(2010, 10, 31, 1, 0);
         $test = ZoneOffsetTransition::of($ldt, self::OFFSET_0300(), self::OFFSET_0200());
         $this->assertEquals($test->isValidOffset(self::OFFSET_0100()), false);
         $this->assertEquals($test->isValidOffset(self::OFFSET_0200()), true);
@@ -250,10 +250,10 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_equals()
     {
-        $ldtA = LocalDateTime::ofNumerical(2010, 3, 31, 1, 0);
+        $ldtA = LocalDateTime::of(2010, 3, 31, 1, 0);
         $a1 = ZoneOffsetTransition::of($ldtA, self::OFFSET_0200(), self::OFFSET_0300());
         $a2 = ZoneOffsetTransition::of($ldtA, self::OFFSET_0200(), self::OFFSET_0300());
-        $ldtB = LocalDateTime::ofNumerical(2010, 10, 31, 1, 0);
+        $ldtB = LocalDateTime::of(2010, 10, 31, 1, 0);
         $b = ZoneOffsetTransition::of($ldtB, self::OFFSET_0300(), self::OFFSET_0200());
 
         $this->assertEquals($a1->equals($a1), true);
@@ -275,10 +275,10 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_hashCode_floatingWeek_gap_notEndOfDay()
     {
-        $ldtA = LocalDateTime::ofNumerical(2010, 3, 31, 1, 0);
+        $ldtA = LocalDateTime::of(2010, 3, 31, 1, 0);
         $a1 = ZoneOffsetTransition::of($ldtA, self::OFFSET_0200(), self::OFFSET_0300());
         $a2 = ZoneOffsetTransition::of($ldtA, self::OFFSET_0200(), self::OFFSET_0300());
-        $ldtB = LocalDateTime::ofNumerical(2010, 10, 31, 1, 0);
+        $ldtB = LocalDateTime::of(2010, 10, 31, 1, 0);
         $b = ZoneOffsetTransition::of($ldtB, self::OFFSET_0300(), self::OFFSET_0200());
 
         $this->assertTrue($a1->equals($a1));
@@ -291,14 +291,14 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_toString_gap()
     {
-        $ldt = LocalDateTime::ofNumerical(2010, 3, 31, 1, 0);
+        $ldt = LocalDateTime::of(2010, 3, 31, 1, 0);
         $test = ZoneOffsetTransition::of($ldt, self::OFFSET_0200(), self::OFFSET_0300());
         $this->assertEquals("Transition[Gap at 2010-03-31T01:00+02:00 to +03:00]", $test->__toString());
     }
 
     public function test_toString_overlap()
     {
-        $ldt = LocalDateTime::ofNumerical(2010, 10, 31, 1, 0);
+        $ldt = LocalDateTime::of(2010, 10, 31, 1, 0);
         $test = ZoneOffsetTransition::of($ldt, self::OFFSET_0300(), self::OFFSET_0200());
         $this->assertEquals("Transition[Overlap at 2010-10-31T01:00+03:00 to +02:00]", $test->__toString());
     }

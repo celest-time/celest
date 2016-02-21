@@ -182,9 +182,9 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 30), ZoneOffset::ofHours(0), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 31), ZoneOffset::ofHours(1), 1);
         // cutover at 01:00Z
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 0, 59, 59, 999999999), ZoneOffset::ofHours(0), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 1, 30, 0, 0), ZoneOffset::ofHours(0), self::$GAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 2, 0, 0, 0), ZoneOffset::ofHours(1), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 0, 59, 59, 999999999), ZoneOffset::ofHours(0), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 1, 30, 0, 0), ZoneOffset::ofHours(0), self::$GAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 2, 0, 0, 0), ZoneOffset::ofHours(1), 1);
     }
 
     public function test_London_getOffsetInfo_fromDST()
@@ -199,23 +199,23 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 10, 30), ZoneOffset::ofHours(0), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 10, 31), ZoneOffset::ofHours(0), 1);
         // cutover at 01:00Z
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 0, 59, 59, 999999999), ZoneOffset::ofHours(1), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 1, 30, 0, 0), ZoneOffset::ofHours(1), self::$OVERLAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 2, 0, 0, 0), ZoneOffset::ofHours(0), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 0, 59, 59, 999999999), ZoneOffset::ofHours(1), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 1, 30, 0, 0), ZoneOffset::ofHours(1), self::$OVERLAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 2, 0, 0, 0), ZoneOffset::ofHours(0), 1);
     }
 
     public function test_London_getOffsetInfo_gap()
     {
         $test = ZoneId::of("Europe/London");
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 30, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 30, 1, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(0), self::$GAP);
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
         $this->assertEquals($trans->getOffsetBefore(), ZoneOffset::ofHours(0));
         $this->assertEquals($trans->getOffsetAfter(), ZoneOffset::ofHours(1));
         $this->assertEquals($trans->getInstant(), $dateTime->toInstant(ZoneOffset::UTC()));
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 3, 30, 1, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 3, 30, 2, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(2008, 3, 30, 1, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(2008, 3, 30, 2, 0));
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(-1)), false);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(0)), false);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(1)), false);
@@ -233,15 +233,15 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
     public function test_London_getOffsetInfo_overlap()
     {
         $test = ZoneId::of("Europe/London");
-        $dateTime = LocalDateTime::ofNumerical(2008, 10, 26, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 10, 26, 1, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(1), self::$OVERLAP);
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
         $this->assertEquals($trans->getOffsetBefore(), ZoneOffset::ofHours(1));
         $this->assertEquals($trans->getOffsetAfter(), ZoneOffset::ofHours(0));
         $this->assertEquals($trans->getInstant(), $dateTime->toInstant(ZoneOffset::UTC()));
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 10, 26, 2, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 10, 26, 1, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(2008, 10, 26, 2, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(2008, 10, 26, 1, 0));
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(-1)), false);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(0)), true);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(1)), true);
@@ -344,9 +344,9 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 30), ZoneOffset::ofHours(1), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 31), ZoneOffset::ofHours(2), 1);
         // cutover at 01:00Z which is 02:00+01:00(local Paris time)
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 1, 59, 59, 999999999), ZoneOffset::ofHours(1), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 2, 30, 0, 0), ZoneOffset::ofHours(1), self::$GAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 30, 3, 0, 0, 0), ZoneOffset::ofHours(2), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 1, 59, 59, 999999999), ZoneOffset::ofHours(1), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 2, 30, 0, 0), ZoneOffset::ofHours(1), self::$GAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 30, 3, 0, 0, 0), ZoneOffset::ofHours(2), 1);
     }
 
     public function test_Paris_getOffsetInfo_fromDST()
@@ -361,16 +361,16 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 10, 30), ZoneOffset::ofHours(1), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 10, 31), ZoneOffset::ofHours(1), 1);
         // cutover at 01:00Z which is 02:00+01:00(local Paris time)
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 1, 59, 59, 999999999), ZoneOffset::ofHours(2), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 2, 30, 0, 0), ZoneOffset::ofHours(2), self::$OVERLAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 10, 26, 3, 0, 0, 0), ZoneOffset::ofHours(1), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 1, 59, 59, 999999999), ZoneOffset::ofHours(2), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 2, 30, 0, 0), ZoneOffset::ofHours(2), self::$OVERLAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 10, 26, 3, 0, 0, 0), ZoneOffset::ofHours(1), 1);
     }
 
     public function test_Paris_getOffsetInfo_gap()
     {
         $test = ZoneId::of("Europe/Paris");
 
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 30, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 30, 2, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(1), self::$GAP);
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
@@ -395,7 +395,7 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
     {
         $test = ZoneId::of("Europe/Paris");
 
-        $dateTime = LocalDateTime::ofNumerical(2008, 10, 26, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 10, 26, 2, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(2), self::$OVERLAP);
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
@@ -528,9 +528,9 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 13), ZoneOffset::ofHours(-4), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 3, 14), ZoneOffset::ofHours(-4), 1);
         // cutover at 02:00 local
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 9, 1, 59, 59, 999999999), ZoneOffset::ofHours(-5), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 9, 2, 30, 0, 0), ZoneOffset::ofHours(-5), self::$GAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 3, 9, 3, 0, 0, 0), ZoneOffset::ofHours(-4), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 9, 1, 59, 59, 999999999), ZoneOffset::ofHours(-5), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 9, 2, 30, 0, 0), ZoneOffset::ofHours(-5), self::$GAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 3, 9, 3, 0, 0, 0), ZoneOffset::ofHours(-4), 1);
     }
 
     public function test_NewYork_getOffsetInfo_fromDST()
@@ -544,16 +544,16 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 11, 6), ZoneOffset::ofHours(-5), 1);
         $this->checkOffset($test->getRules(), $this->createLDT(2008, 11, 7), ZoneOffset::ofHours(-5), 1);
         // cutover at 02:00 local
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 11, 2, 0, 59, 59, 999999999), ZoneOffset::ofHours(-4), 1);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 11, 2, 1, 30, 0, 0), ZoneOffset::ofHours(-4), self::$OVERLAP);
-        $this->checkOffset($test->getRules(), LocalDateTime::ofNumerical(2008, 11, 2, 2, 0, 0, 0), ZoneOffset::ofHours(-5), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 11, 2, 0, 59, 59, 999999999), ZoneOffset::ofHours(-4), 1);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 11, 2, 1, 30, 0, 0), ZoneOffset::ofHours(-4), self::$OVERLAP);
+        $this->checkOffset($test->getRules(), LocalDateTime::of(2008, 11, 2, 2, 0, 0, 0), ZoneOffset::ofHours(-5), 1);
     }
 
     public function test_NewYork_getOffsetInfo_gap()
     {
         $test = ZoneId::of("America/New_York");
 
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 9, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 9, 2, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(-5), self::$GAP);
         $this->assertEquals($trans->getOffsetBefore(), ZoneOffset::ofHours(-5));
         $this->assertEquals($trans->getOffsetAfter(), ZoneOffset::ofHours(-4));
@@ -577,7 +577,7 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
     {
         $test = ZoneId::of("America/New_York");
 
-        $dateTime = LocalDateTime::ofNumerical(2008, 11, 2, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 11, 2, 1, 0, 0, 0);
         $trans = $this->checkOffset($test->getRules(), $dateTime, ZoneOffset::ofHours(-4), self::$OVERLAP);
         $this->assertEquals($trans->getOffsetBefore(), ZoneOffset::ofHours(-4));
         $this->assertEquals($trans->getOffsetAfter(), ZoneOffset::ofHours(-5));
@@ -618,18 +618,18 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     private function createInstant($year, $month, $day, ZoneOffset $offset)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0)->toInstant($offset);
+        return LocalDateTime::of($year, $month, $day, 0, 0)->toInstant($offset);
     }
 
     private
     function createInstant8($year, $month, $day, $hour, $min, $sec, $nano, ZoneOffset $offset)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
+        return LocalDateTime::of($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
     }
 
     private function createLDT($year, $month, $day)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0);
+        return LocalDateTime::of($year, $month, $day, 0, 0);
     }
 
     private function checkOffset(ZoneRules $rules, LocalDateTime $dateTime, ZoneOffset $offset, $type)

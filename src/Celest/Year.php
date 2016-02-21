@@ -1023,7 +1023,7 @@ final class Year
     public
     function atMonth(Month $month)
     {
-        return YearMonth::of($this->year, $month);
+        return YearMonth::ofMonth($this->year, $month);
     }
 
     /**
@@ -1044,7 +1044,7 @@ final class Year
     public
     function atMonthNumerical($month)
     {
-        return YearMonth::ofNumerical($this->year, $month);
+        return YearMonth::of($this->year, $month);
     }
 
     /**

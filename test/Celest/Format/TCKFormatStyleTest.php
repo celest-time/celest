@@ -95,22 +95,22 @@ class TCKFormatStyleTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::FULL(), "Tuesday, October 2, 2001 1:02:03 AM CEST Europe/Paris"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::FULL(), "Tuesday, October 2, 2001 1:02:03 AM CEST Europe/Paris"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::LONG(), "October 2, 2001 1:02:03 AM CEST Europe/Paris"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::LONG(), "October 2, 2001 1:02:03 AM CEST Europe/Paris"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::MEDIUM(), "Oct 2, 2001, 1:02:03 AM Europe/Paris"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::MEDIUM(), "Oct 2, 2001, 1:02:03 AM Europe/Paris"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::SHORT(), "10/2/01, 1:02 AM Europe/Paris"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::ZONEID_PARIS()), FormatStyle::SHORT(), "10/2/01, 1:02 AM Europe/Paris"],
 
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::FULL(), "Tuesday, October 2, 2001 at 1:02:03 AM +02:00 +02:00"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::FULL(), "Tuesday, October 2, 2001 at 1:02:03 AM +02:00 +02:00"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::LONG(), "October 2, 2001 at 1:02:03 AM +02:00 +02:00"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::LONG(), "October 2, 2001 at 1:02:03 AM +02:00 +02:00"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::MEDIUM(), "Oct 2, 2001, 1:02:03 AM +02:00"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::MEDIUM(), "Oct 2, 2001, 1:02:03 AM +02:00"],
                 [
-                    ZonedDateTime::of(LocalDateTime::ofNumerical(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::SHORT(), "10/2/01, 1:02 AM +02:00"],
+                    ZonedDateTime::ofDateTime(LocalDateTime::of(2001, 10, 2, 1, 2, 3), self::OFFSET_PTWO()), FormatStyle::SHORT(), "10/2/01, 1:02 AM +02:00"],
             ];
     }
 

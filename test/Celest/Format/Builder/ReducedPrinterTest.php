@@ -86,7 +86,7 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
     private
     function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
     {
-        return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::ofNumerical($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
+        return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::of($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
 //-----------------------------------------------------------------------
@@ -104,7 +104,7 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
     function test_print_append()
     {
         $buf = "EXISTING";
-        $this->getFormatter0(ChronoField::YEAR(), 2, 2010)->formatTo(LocalDate::ofNumerical(2012, 1, 1), $buf);
+        $this->getFormatter0(ChronoField::YEAR(), 2, 2010)->formatTo(LocalDate::of(2012, 1, 1), $buf);
         $this->assertEquals($buf, "EXISTING12");
     }
 
@@ -364,7 +364,7 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
         $builder->appendPattern($pattern);
         $dtf = $builder->toFormatter();
 
-        $ld = LocalDate::ofNumerical($year, $month, $day);
+        $ld = LocalDate::of($year, $month, $day);
         $actual = $dtf->format($ld);
         $this->assertEquals($text, $actual, "formatter output: " . $dtf);
     }

@@ -336,7 +336,7 @@ class ZoneRulesBuilder
         /** @var ZoneOffset $firstWallOffset */
         $firstWallOffset = $this->deduplicate(ZoneOffset::ofTotalSeconds($loopStandardOffset->getTotalSeconds() + $loopSavings));
         /** @var LocalDateTime $loopWindowStart */
-        $loopWindowStart = $this->deduplicate(LocalDateTime::ofNumerical(Year::MIN_VALUE, 1, 1, 0, 0));
+        $loopWindowStart = $this->deduplicate(LocalDateTime::of(Year::MIN_VALUE, 1, 1, 0, 0));
         $loopWindowOffset = $firstWallOffset;
 
         // build the windows and rules to interesting data

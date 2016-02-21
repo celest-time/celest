@@ -61,7 +61,7 @@ class WeekBasedYear implements TemporalField
         if ($week == 53 && IsoFields::getWeekRangeInt($newWby) == 52) {
             $week = 52;
         }
-        $resolved = LocalDate::ofNumerical($newWby, 1, 4);  // 4th is guaranteed to be in week one
+        $resolved = LocalDate::of($newWby, 1, 4);  // 4th is guaranteed to be in week one
         $days = ($dow - $resolved->get(ChronoField::DAY_OF_WEEK())) + (($week - 1) * 7);
         $resolved = $resolved->plusDays($days);
         return $temporal->adjust($resolved);

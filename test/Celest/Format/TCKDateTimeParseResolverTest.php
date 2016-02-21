@@ -355,7 +355,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     function data_resolveOneToDate()
     {
         return [[
-            ChronoField::EPOCH_DAY(), 32, LocalDate::ofNumerical(1970, 2, 2)],
+            ChronoField::EPOCH_DAY(), 32, LocalDate::of(1970, 2, 2)],
         ];
     }
 
@@ -459,37 +459,37 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         return [// merge
             [
-                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR_OF_ERA(), 2012, ChronoField::DAY_OF_YEAR(), 32, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR_OF_ERA(), 2012, ChronoField::DAY_OF_YEAR(), 32, LocalDate::of(2012, 2, 1)],
 
             // merge
             [
-                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_MONTH(), 25, LocalDate::ofNumerical(2012, 2, 25)],
+                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_MONTH(), 25, LocalDate::of(2012, 2, 25)],
             [
-                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_YEAR(), 56, LocalDate::ofNumerical(2012, 2, 25)],
+                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_YEAR(), 56, LocalDate::of(2012, 2, 25)],
 
             // cross-check
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::ERA(), 1, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::ERA(), 1, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::ERA(), 0, LocalDate::ofNumerical(1970 - (400 * 5), 1, 1)],
+                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::ERA(), 0, LocalDate::of(1970 - (400 * 5), 1, 1)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::YEAR(), 1970, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::YEAR(), 1970, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::YEAR(), 1970 - (400 * 5), LocalDate::ofNumerical(1970 - (400 * 5), 1, 1)],
+                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::YEAR(), 1970 - (400 * 5), LocalDate::of(1970 - (400 * 5), 1, 1)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::YEAR_OF_ERA(), 1970, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::YEAR_OF_ERA(), 1970, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::YEAR_OF_ERA(), 1 - (1970 - (400 * 5)), LocalDate::ofNumerical(1970 - (400 * 5), 1, 1)],
+                ChronoField::EPOCH_DAY(), -146097 * 5, ChronoField::YEAR_OF_ERA(), 1 - (1970 - (400 * 5)), LocalDate::of(1970 - (400 * 5), 1, 1)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::MONTH_OF_YEAR(), 2, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::MONTH_OF_YEAR(), 2, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_YEAR(), 33, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_YEAR(), 33, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_MONTH(), 2, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_MONTH(), 2, LocalDate::of(1970, 2, 2)],
             [
-                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_WEEK(), 1, LocalDate::ofNumerical(1970, 2, 2)],
+                ChronoField::EPOCH_DAY(), 32, ChronoField::DAY_OF_WEEK(), 1, LocalDate::of(1970, 2, 2)],
         ];
     }
 
@@ -650,21 +650,21 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         return [// merge
             [
-                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::DAY_OF_MONTH(), 1, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::DAY_OF_MONTH(), 1, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR(), 4, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR(), 4, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::DAY_OF_WEEK(), 3, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::DAY_OF_WEEK(), 3, LocalDate::of(2012, 2, 1)],
 
             // cross-check
             [
-                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_MONTH(), 1, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_MONTH(), 1, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR_OF_ERA(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_MONTH(), 1, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR_OF_ERA(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_MONTH(), 1, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_WEEK(), 3, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 32, ChronoField::DAY_OF_WEEK(), 3, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_MONTH(), 25, ChronoField::DAY_OF_WEEK(), 6, LocalDate::ofNumerical(2012, 2, 25)],
+                ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + (2 - 1), ChronoField::DAY_OF_MONTH(), 25, ChronoField::DAY_OF_WEEK(), 6, LocalDate::of(2012, 2, 25)],
         ];
     }
 
@@ -692,17 +692,17 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         return [// merge
             [
-                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::ALIGNED_WEEK_OF_MONTH(), 1, ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH(), 1, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::ALIGNED_WEEK_OF_MONTH(), 1, ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH(), 1, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::ALIGNED_WEEK_OF_MONTH(), 1, ChronoField::DAY_OF_WEEK(), 3, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::ALIGNED_WEEK_OF_MONTH(), 1, ChronoField::DAY_OF_WEEK(), 3, LocalDate::of(2012, 2, 1)],
 
             // cross-check
             [
-                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::DAY_OF_MONTH(), 1, ChronoField::DAY_OF_WEEK(), 3, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 2, ChronoField::DAY_OF_MONTH(), 1, ChronoField::DAY_OF_WEEK(), 3, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR(), 4, ChronoField::DAY_OF_WEEK(), 3, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR(), 4, ChronoField::DAY_OF_WEEK(), 3, LocalDate::of(2012, 2, 1)],
             [
-                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::DAY_OF_WEEK(), 3, ChronoField::DAY_OF_MONTH(), 1, LocalDate::ofNumerical(2012, 2, 1)],
+                ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 5, ChronoField::DAY_OF_WEEK(), 3, ChronoField::DAY_OF_MONTH(), 1, LocalDate::of(2012, 2, 1)],
         ];
     }
 
@@ -890,7 +890,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $styles = ($style !== null ? [$style] : ResolverStyle::values());
 
             if ($expectedTime !== null && $excessPeriod !== null) {
-                $expectedDate = LocalDate::ofNumerical(2012, 6, 30)->plusAmount($excessPeriod);
+                $expectedDate = LocalDate::of(2012, 6, 30)->plusAmount($excessPeriod);
                 foreach ($styles as $s) {
                     $accessor = $f->withResolverStyle($s)->parse("");
                     $this->assertEquals($accessor->query(TemporalQueries::localDate()), $expectedDate, "ResolverStyle: " . $s);
@@ -1212,7 +1212,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->toFormatter();
         $accessor = $f->parse("");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), IsoChronology::INSTANCE());
     }
@@ -1223,7 +1223,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
         $accessor = $f->parse("");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), MinguoChronology::INSTANCE());
     }
@@ -1233,7 +1233,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $this->markTestIncomplete('ThaiBuddhistChronology');
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendChronologyId()->toFormatter();
         $accessor = $f->parse("ThaiBuddhist");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), ThaiBuddhistChronology::INSTANCE());
     }
@@ -1244,7 +1244,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendChronologyId()->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
         $accessor = $f->parse("ThaiBuddhist");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), ThaiBuddhistChronology::INSTANCE());
     }
@@ -1255,7 +1255,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->toFormatter();
         $accessor = $f->parse("");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::zoneId()), null);
     }
@@ -1266,7 +1266,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->toFormatter();
         $f = $f->withZone(self::EUROPE_ATHENS());
         $accessor = $f->parse("");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::zoneId()), self::EUROPE_ATHENS());
     }
@@ -1276,7 +1276,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
     {
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendZoneId()->toFormatter();
         $accessor = $f->parse("Europe/Paris");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::zoneId()), self::EUROPE_PARIS());
     }
@@ -1287,7 +1287,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendZoneId()->toFormatter();
         $f = $f->withZone(self::EUROPE_ATHENS());
         $accessor = $f->parse("Europe/Paris");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(1970, 1, 3));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::zoneId()), self::EUROPE_PARIS());
     }
@@ -1307,10 +1307,10 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDate_noOverrideChrono_matches()
     {
-        $ldt = LocalDate::ofNumerical(2010, 6, 30);
+        $ldt = LocalDate::of(2010, 6, 30);
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($ldt))->toFormatter();
         $accessor = $f->parse("1234567890");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(2010, 6, 30));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(2010, 6, 30));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), null);
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), IsoChronology::INSTANCE());
     }
@@ -1356,10 +1356,10 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDateTime_noOverrideChrono_matches()
     {
-        $ldt = LocalDateTime::ofNumerical(2010, 6, 30, 12, 30);
+        $ldt = LocalDateTime::of(2010, 6, 30, 12, 30);
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($ldt))->toFormatter();
         $accessor = $f->parse("1234567890");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(2010, 6, 30));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(2010, 6, 30));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), LocalTime::of(12, 30));
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), IsoChronology::INSTANCE());
     }
@@ -1404,10 +1404,10 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoZonedDateTime_noOverrideChrono_matches()
     {
-        $zdt = ZonedDateTime::ofNumerical(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
+        $zdt = ZonedDateTime::of(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($zdt))->toFormatter();
         $accessor = $f->parse("1234567890");
-        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::ofNumerical(2010, 6, 30));
+        $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(2010, 6, 30));
         $this->assertEquals($accessor->query(TemporalQueries::localTime()), LocalTime::of(12, 30));
         $this->assertEquals($accessor->query(TemporalQueries::chronology()), IsoChronology::INSTANCE());
         $this->assertEquals($accessor->query(TemporalQueries::zoneId()), self::EUROPE_PARIS());
@@ -1454,7 +1454,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoZonedDateTime_overrideZone_matches()
     {
-        $zdt = ZonedDateTime::ofNumerical(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
+        $zdt = ZonedDateTime::of(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($zdt))->toFormatter();
         $f = $f->withZone(self::EUROPE_PARIS());
         $this->assertEquals($f->parseQuery("1234567890", TemporalQueries::fromCallable([ZonedDateTime::class, 'from'])), $zdt);
@@ -1466,7 +1466,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoZonedDateTime_overrideZone_wrongZone()
     {
-        $zdt = ZonedDateTime::ofNumerical(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
+        $zdt = ZonedDateTime::of(2010, 6, 30, 12, 30, 0, 0, self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($zdt))->toFormatter();
         $f = $f->withZone(ZoneId::of("Europe/London"));
         $f->parse("1234567890");

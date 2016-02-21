@@ -241,9 +241,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, Month $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
+    static function ofMonth($year, Month $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
-        $date = LocalDate::of($year, $month, $dayOfMonth);
+        $date = LocalDate::ofMonth($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
         return new LocalDateTime($date, $time);
     }
@@ -268,9 +268,9 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
+    static function of($year, $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
-        $date = LocalDate::ofNumerical($year, $month, $dayOfMonth);
+        $date = LocalDate::of($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
         return new LocalDateTime($date, $time);
     }
@@ -1744,7 +1744,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function atOffset(ZoneOffset $offset)
     {
-        return OffsetDateTime::of($this, $offset);
+        return OffsetDateTime::ofDateTime($this, $offset);
     }
 
     /**
@@ -1778,7 +1778,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function atZone(ZoneId $zone)
     {
-        return ZonedDateTime::of($this, $zone);
+        return ZonedDateTime::ofDateTime($this, $zone);
     }
 
 //-----------------------------------------------------------------------
@@ -1965,7 +1965,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
     public function unserialize($serialized)
     {
         $v = explode(':', $serialized);
-        $this->date = LocalDate::ofNumerical($v[0], $v[1], $v[2]);
+        $this->date = LocalDate::of($v[0], $v[1], $v[2]);
         $this->time = LocalTime::of($v[3], $v[4], $v[5]);
     }
 

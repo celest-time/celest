@@ -81,7 +81,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
     {
         $buf = '';
         $this->builder->padNext2(3, '-')->appendLiteral('Z');
-        $this->getFormatter()->formatTo(LocalDate::ofNumerical(2008, 12, 3), $buf);
+        $this->getFormatter()->formatTo(LocalDate::of(2008, 12, 3), $buf);
         $this->assertEquals($buf, "--Z");
     }
 

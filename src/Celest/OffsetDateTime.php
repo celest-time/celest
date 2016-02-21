@@ -284,7 +284,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @return OffsetDateTime the offset date-time, not null
      */
     public
-    static function of(LocalDateTime $dateTime, ZoneOffset $offset)
+    static function ofDateTime(LocalDateTime $dateTime, ZoneOffset $offset)
     {
         return new OffsetDateTime($dateTime, $offset);
     }
@@ -314,10 +314,10 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      *  if the day-of-month is invalid for the month-year
      */
     public
-    static function ofNumerical($year, $month, $dayOfMonth,
+    static function of($year, $month, $dayOfMonth,
                        $hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
-        $dt = LocalDateTime::ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
+        $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return new OffsetDateTime($dt, $offset);
     }
 
@@ -1827,7 +1827,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function toOffsetTime()
     {
-        return OffsetTime::of($this->dateTime->toLocalTime(), $this->offset);
+        return OffsetTime::ofLocalTime($this->dateTime->toLocalTime(), $this->offset);
     }
 
     /**
@@ -1844,7 +1844,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     function toZonedDateTime()
     {
-        return ZonedDateTime::of($this->dateTime, $this->offset);
+        return ZonedDateTime::ofDateTime($this->dateTime, $this->offset);
     }
 
     /**

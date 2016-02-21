@@ -122,8 +122,8 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
 {
     public static function init()
     {
-        self::$MIN = LocalDate::ofNumerical(Year::MIN_VALUE, 1, 1);
-        self::$MAX = LocalDate::ofNumerical(Year::MAX_VALUE, 12, 31);
+        self::$MIN = LocalDate::of(Year::MIN_VALUE, 1, 1);
+        self::$MAX = LocalDate::of(Year::MAX_VALUE, 12, 31);
     }
 
     /**
@@ -248,7 +248,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function of($year, Month $month, $dayOfMonth)
+    static function ofMonth($year, Month $month, $dayOfMonth)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
@@ -269,7 +269,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      *  or if the day-of-month is invalid for the month-year
      */
     public
-    static function ofNumerical($year, $month, $dayOfMonth)
+    static function of($year, $month, $dayOfMonth)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -1182,7 +1182,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        return self::ofNumerical($this->year, $this->month, $dayOfMonth);
+        return self::of($this->year, $this->month, $dayOfMonth);
     }
 
     /**
@@ -1868,7 +1868,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     public
     function atOffsetTime(OffsetTime $time)
     {
-        return OffsetDateTime::of(LocalDateTime::ofDateAndTime($this, $time->toLocalTime()), $time->getOffset());
+        return OffsetDateTime::ofDateTime(LocalDateTime::ofDateAndTime($this, $time->toLocalTime()), $time->getOffset());
     }
 
     /**
@@ -1917,7 +1917,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                 $ldt = $trans->getDateTimeAfter();
             }
         }
-        return ZonedDateTime::of($ldt, $zone);
+        return ZonedDateTime::ofDateTime($ldt, $zone);
     }
 
     //-----------------------------------------------------------------------

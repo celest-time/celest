@@ -139,7 +139,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
         }
         $year = $yearParsed % 10000;
         try {
-            $ldt = LocalDateTime::ofNumerical($year, $month, $day, $hour, $min, $sec, 0)->plusDays($days);
+            $ldt = LocalDateTime::of($year, $month, $day, $hour, $min, $sec, 0)->plusDays($days);
             $instantSecs = $ldt->toEpochSecond(ZoneOffset::UTC());
             $instantSecs += Math::multiplyExact(Math::div($yearParsed, 10000), self::SECONDS_PER_10000_YEARS);
         } catch (RuntimeException $ex) {

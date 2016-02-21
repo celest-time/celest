@@ -97,7 +97,7 @@ class TCKLocalizedFieldPrinterTest extends AbstractTestPrinterParser
     {
         $b
             = (new DateTimeFormatterBuilder())->appendPattern($pattern);
-        $date = LocalDate::ofNumerical(2012, 7, 20);
+        $date = LocalDate::of(2012, 7, 20);
 
         $result = $b->toFormatter2($this->locale)->format($date);
         $this->assertEquals($result, $expected, "Wrong output for pattern '" . $pattern . "'.");
@@ -109,25 +109,25 @@ class TCKLocalizedFieldPrinterTest extends AbstractTestPrinterParser
         return
             [
                 [
-                    "e w Y", "6 29 2012", LocalDate::ofNumerical(2012, 7, 20)
+                    "e w Y", "6 29 2012", LocalDate::of(2012, 7, 20)
                 ],
                 [
                     "'Date: 'Y', day-of-week: 'e', week-of-year: 'w",
-                    "Date: 2012, day-of-week: 6, week-of-year: 29", LocalDate::ofNumerical(2012, 7, 20)],
+                    "Date: 2012, day-of-week: 6, week-of-year: 29", LocalDate::of(2012, 7, 20)],
                 [
-                    "Y-ww-ee", "2008-01-01", LocalDate::ofNumerical(2007, 12, 30)],
+                    "Y-ww-ee", "2008-01-01", LocalDate::of(2007, 12, 30)],
                 [
-                    "Y-w-e", "2008-52-1", LocalDate::ofNumerical(2008, 12, 21)],
+                    "Y-w-e", "2008-52-1", LocalDate::of(2008, 12, 21)],
                 [
-                    "Y-w-e", "2008-52-7", LocalDate::ofNumerical(2008, 12, 27)],
+                    "Y-w-e", "2008-52-7", LocalDate::of(2008, 12, 27)],
                 [
-                    "Y-ww-e", "2009-01-1", LocalDate::ofNumerical(2008, 12, 28)],
+                    "Y-ww-e", "2009-01-1", LocalDate::of(2008, 12, 28)],
                 [
-                    "Y-w-e", "2009-1-4", LocalDate::ofNumerical(2008, 12, 31)],
+                    "Y-w-e", "2009-1-4", LocalDate::of(2008, 12, 31)],
                 [
-                    "Y-w-e", "2009-1-5", LocalDate::ofNumerical(2009, 1, 1)],
+                    "Y-w-e", "2009-1-5", LocalDate::of(2009, 1, 1)],
                 [
-                    "YYYYYYYYY-w-e", "000002009-1-5", LocalDate::ofNumerical(2009, 1, 1)],
+                    "YYYYYYYYY-w-e", "000002009-1-5", LocalDate::of(2009, 1, 1)],
             ];
     }
 

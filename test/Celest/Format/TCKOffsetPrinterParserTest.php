@@ -130,7 +130,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
 
     private static function DT_2012_06_30_12_30_40()
     {
-        return LocalDateTime::ofNumerical(2012, 6, 30, 12, 30, 40);
+        return LocalDateTime::of(2012, 6, 30, 12, 30, 40);
     }
 
     /** @var DateTimeFormatterBuilder */
@@ -435,7 +435,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
      */
     public function test_print_localized(TextStyle $style, LocalDateTime $ldt, ZoneOffset $offset, $expected)
     {
-        $odt = OffsetDateTime::of($ldt, $offset);
+        $odt = OffsetDateTime::ofDateTime($ldt, $offset);
         $zdt = $ldt->atZone($offset);
 
         $f = (new DateTimeFormatterBuilder())->appendLocalizedOffset($style)

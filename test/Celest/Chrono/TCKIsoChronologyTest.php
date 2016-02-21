@@ -149,7 +149,7 @@ class test_date_TemporalAccessor implements TemporalAccessor
     public function getLong(TemporalField $field)
     {
         if ($field == ChronoField::EPOCH_DAY()) {
-            return LocalDate::ofNumerical(2012, 6, 30)->toEpochDay();
+            return LocalDate::of(2012, 6, 30)->toEpochDay();
         }
         throw new UnsupportedOperationException();
     }
@@ -157,7 +157,7 @@ class test_date_TemporalAccessor implements TemporalAccessor
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::localDate()) {
-        return LocalDate::ofNumerical(2012, 6, 30);
+        return LocalDate::of(2012, 6, 30);
                 }
         throw new UnsupportedOperationException();
     }
@@ -185,7 +185,7 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
 
     public function test_factory_from_TemporalAccessor_dateWithChronlogy()
     {
-        $this->assertEquals(ChronologyDefaults::from(LocalDate::ofNumerical(2012, 6, 30)), IsoChronology::INSTANCE());
+        $this->assertEquals(ChronologyDefaults::from(LocalDate::of(2012, 6, 30)), IsoChronology::INSTANCE());
     }
 
 
@@ -210,7 +210,7 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
 
     public function test_date_TemporalAccessor()
     {
-        $this->assertEquals(IsoChronology::INSTANCE()->dateFrom(new test_date_TemporalAccessor()), LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals(IsoChronology::INSTANCE()->dateFrom(new test_date_TemporalAccessor()), LocalDate::of(2012, 6, 30));
     }
 
     public function test_date_TemporalAccessor_null()
@@ -468,108 +468,108 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    2012, 1, -365, LocalDate::ofNumerical(2010, 12, 31), false, false
+                    2012, 1, -365, LocalDate::of(2010, 12, 31), false, false
                 ],
                 [
-                    2012, 1, -364, LocalDate::ofNumerical(2011, 1, 1), false, false],
+                    2012, 1, -364, LocalDate::of(2011, 1, 1), false, false],
                 [
-                    2012, 1, -31, LocalDate::ofNumerical(2011, 11, 30), false, false],
+                    2012, 1, -31, LocalDate::of(2011, 11, 30), false, false],
                 [
-                    2012, 1, -30, LocalDate::ofNumerical(2011, 12, 1), false, false],
+                    2012, 1, -30, LocalDate::of(2011, 12, 1), false, false],
                 [
-                    2012, 1, -12, LocalDate::ofNumerical(2011, 12, 19), false, false],
+                    2012, 1, -12, LocalDate::of(2011, 12, 19), false, false],
                 [
-                    2012, 1, 1, LocalDate::ofNumerical(2012, 1, 1), true, true],
+                    2012, 1, 1, LocalDate::of(2012, 1, 1), true, true],
                 [
-                    2012, 1, 27, LocalDate::ofNumerical(2012, 1, 27), true, true],
+                    2012, 1, 27, LocalDate::of(2012, 1, 27), true, true],
                 [
-                    2012, 1, 28, LocalDate::ofNumerical(2012, 1, 28), true, true],
+                    2012, 1, 28, LocalDate::of(2012, 1, 28), true, true],
                 [
-                    2012, 1, 29, LocalDate::ofNumerical(2012, 1, 29), true, true],
+                    2012, 1, 29, LocalDate::of(2012, 1, 29), true, true],
                 [
-                    2012, 1, 30, LocalDate::ofNumerical(2012, 1, 30), true, true],
+                    2012, 1, 30, LocalDate::of(2012, 1, 30), true, true],
                 [
-                    2012, 1, 31, LocalDate::ofNumerical(2012, 1, 31), true, true],
+                    2012, 1, 31, LocalDate::of(2012, 1, 31), true, true],
                 [
-                    2012, 1, 59, LocalDate::ofNumerical(2012, 2, 28), false, false],
+                    2012, 1, 59, LocalDate::of(2012, 2, 28), false, false],
                 [
-                    2012, 1, 60, LocalDate::ofNumerical(2012, 2, 29), false, false],
+                    2012, 1, 60, LocalDate::of(2012, 2, 29), false, false],
                 [
-                    2012, 1, 61, LocalDate::ofNumerical(2012, 3, 1), false, false],
+                    2012, 1, 61, LocalDate::of(2012, 3, 1), false, false],
                 [
-                    2012, 1, 365, LocalDate::ofNumerical(2012, 12, 30), false, false],
+                    2012, 1, 365, LocalDate::of(2012, 12, 30), false, false],
                 [
-                    2012, 1, 366, LocalDate::ofNumerical(2012, 12, 31), false, false],
+                    2012, 1, 366, LocalDate::of(2012, 12, 31), false, false],
                 [
-                    2012, 1, 367, LocalDate::ofNumerical(2013, 1, 1), false, false],
+                    2012, 1, 367, LocalDate::of(2013, 1, 1), false, false],
                 [
-                    2012, 1, 367 + 364, LocalDate::ofNumerical(2013, 12, 31), false, false],
+                    2012, 1, 367 + 364, LocalDate::of(2013, 12, 31), false, false],
                 [
-                    2012, 1, 367 + 365, LocalDate::ofNumerical(2014, 1, 1), false, false],
+                    2012, 1, 367 + 365, LocalDate::of(2014, 1, 1), false, false],
 
                 [
-                    2012, 2, 1, LocalDate::ofNumerical(2012, 2, 1), true, true],
+                    2012, 2, 1, LocalDate::of(2012, 2, 1), true, true],
                 [
-                    2012, 2, 28, LocalDate::ofNumerical(2012, 2, 28), true, true],
+                    2012, 2, 28, LocalDate::of(2012, 2, 28), true, true],
                 [
-                    2012, 2, 29, LocalDate::ofNumerical(2012, 2, 29), true, true],
+                    2012, 2, 29, LocalDate::of(2012, 2, 29), true, true],
                 [
-                    2012, 2, 30, LocalDate::ofNumerical(2012, 3, 1), LocalDate::ofNumerical(2012, 2, 29), false],
+                    2012, 2, 30, LocalDate::of(2012, 3, 1), LocalDate::of(2012, 2, 29), false],
                 [
-                    2012, 2, 31, LocalDate::ofNumerical(2012, 3, 2), LocalDate::ofNumerical(2012, 2, 29), false],
+                    2012, 2, 31, LocalDate::of(2012, 3, 2), LocalDate::of(2012, 2, 29), false],
                 [
-                    2012, 2, 32, LocalDate::ofNumerical(2012, 3, 3), false, false],
+                    2012, 2, 32, LocalDate::of(2012, 3, 3), false, false],
 
                 [
-                    2012, -12, 1, LocalDate::ofNumerical(2010, 12, 1), false, false],
+                    2012, -12, 1, LocalDate::of(2010, 12, 1), false, false],
                 [
-                    2012, -11, 1, LocalDate::ofNumerical(2011, 1, 1), false, false],
+                    2012, -11, 1, LocalDate::of(2011, 1, 1), false, false],
                 [
-                    2012, -1, 1, LocalDate::ofNumerical(2011, 11, 1), false, false],
+                    2012, -1, 1, LocalDate::of(2011, 11, 1), false, false],
                 [
-                    2012, 0, 1, LocalDate::ofNumerical(2011, 12, 1), false, false],
+                    2012, 0, 1, LocalDate::of(2011, 12, 1), false, false],
                 [
-                    2012, 1, 1, LocalDate::ofNumerical(2012, 1, 1), true, true],
+                    2012, 1, 1, LocalDate::of(2012, 1, 1), true, true],
                 [
-                    2012, 12, 1, LocalDate::ofNumerical(2012, 12, 1), true, true],
+                    2012, 12, 1, LocalDate::of(2012, 12, 1), true, true],
                 [
-                    2012, 13, 1, LocalDate::ofNumerical(2013, 1, 1), false, false],
+                    2012, 13, 1, LocalDate::of(2013, 1, 1), false, false],
                 [
-                    2012, 24, 1, LocalDate::ofNumerical(2013, 12, 1), false, false],
+                    2012, 24, 1, LocalDate::of(2013, 12, 1), false, false],
                 [
-                    2012, 25, 1, LocalDate::ofNumerical(2014, 1, 1), false, false],
+                    2012, 25, 1, LocalDate::of(2014, 1, 1), false, false],
 
                 [
-                    2012, 6, -31, LocalDate::ofNumerical(2012, 4, 30), false, false],
+                    2012, 6, -31, LocalDate::of(2012, 4, 30), false, false],
                 [
-                    2012, 6, -30, LocalDate::ofNumerical(2012, 5, 1), false, false],
+                    2012, 6, -30, LocalDate::of(2012, 5, 1), false, false],
                 [
-                    2012, 6, -1, LocalDate::ofNumerical(2012, 5, 30), false, false],
+                    2012, 6, -1, LocalDate::of(2012, 5, 30), false, false],
                 [
-                    2012, 6, 0, LocalDate::ofNumerical(2012, 5, 31), false, false],
+                    2012, 6, 0, LocalDate::of(2012, 5, 31), false, false],
                 [
-                    2012, 6, 1, LocalDate::ofNumerical(2012, 6, 1), true, true],
+                    2012, 6, 1, LocalDate::of(2012, 6, 1), true, true],
                 [
-                    2012, 6, 30, LocalDate::ofNumerical(2012, 6, 30), true, true],
+                    2012, 6, 30, LocalDate::of(2012, 6, 30), true, true],
                 [
-                    2012, 6, 31, LocalDate::ofNumerical(2012, 7, 1), LocalDate::ofNumerical(2012, 6, 30), false],
+                    2012, 6, 31, LocalDate::of(2012, 7, 1), LocalDate::of(2012, 6, 30), false],
                 [
-                    2012, 6, 61, LocalDate::ofNumerical(2012, 7, 31), false, false],
+                    2012, 6, 61, LocalDate::of(2012, 7, 31), false, false],
                 [
-                    2012, 6, 62, LocalDate::ofNumerical(2012, 8, 1), false, false],
+                    2012, 6, 62, LocalDate::of(2012, 8, 1), false, false],
 
                 [
-                    2011, 2, 1, LocalDate::ofNumerical(2011, 2, 1), true, true],
+                    2011, 2, 1, LocalDate::of(2011, 2, 1), true, true],
                 [
-                    2011, 2, 28, LocalDate::ofNumerical(2011, 2, 28), true, true],
+                    2011, 2, 28, LocalDate::of(2011, 2, 28), true, true],
                 [
-                    2011, 2, 29, LocalDate::ofNumerical(2011, 3, 1), LocalDate::ofNumerical(2011, 2, 28), false],
+                    2011, 2, 29, LocalDate::of(2011, 3, 1), LocalDate::of(2011, 2, 28), false],
                 [
-                    2011, 2, 30, LocalDate::ofNumerical(2011, 3, 2), LocalDate::ofNumerical(2011, 2, 28), false],
+                    2011, 2, 30, LocalDate::of(2011, 3, 2), LocalDate::of(2011, 2, 28), false],
                 [
-                    2011, 2, 31, LocalDate::ofNumerical(2011, 3, 3), LocalDate::ofNumerical(2011, 2, 28), false],
+                    2011, 2, 31, LocalDate::of(2011, 3, 3), LocalDate::of(2011, 2, 28), false],
                 [
-                    2011, 2, 32, LocalDate::ofNumerical(2011, 3, 4), false, false],
+                    2011, 2, 32, LocalDate::of(2011, 3, 4), false, false],
             ];
     }
 
@@ -642,48 +642,48 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                2012, -365, LocalDate::ofNumerical(2010, 12, 31), false, false],
+                2012, -365, LocalDate::of(2010, 12, 31), false, false],
             [
-                2012, -364, LocalDate::ofNumerical(2011, 1, 1), false, false],
+                2012, -364, LocalDate::of(2011, 1, 1), false, false],
             [
-                2012, -31, LocalDate::ofNumerical(2011, 11, 30), false, false],
+                2012, -31, LocalDate::of(2011, 11, 30), false, false],
             [
-                2012, -30, LocalDate::ofNumerical(2011, 12, 1), false, false],
+                2012, -30, LocalDate::of(2011, 12, 1), false, false],
             [
-                2012, -12, LocalDate::ofNumerical(2011, 12, 19), false, false],
+                2012, -12, LocalDate::of(2011, 12, 19), false, false],
             [
-                2012, -1, LocalDate::ofNumerical(2011, 12, 30), false, false],
+                2012, -1, LocalDate::of(2011, 12, 30), false, false],
             [
-                2012, 0, LocalDate::ofNumerical(2011, 12, 31), false, false],
+                2012, 0, LocalDate::of(2011, 12, 31), false, false],
             [
-                2012, 1, LocalDate::ofNumerical(2012, 1, 1), true, true],
+                2012, 1, LocalDate::of(2012, 1, 1), true, true],
             [
-                2012, 2, LocalDate::ofNumerical(2012, 1, 2), true, true],
+                2012, 2, LocalDate::of(2012, 1, 2), true, true],
             [
-                2012, 31, LocalDate::ofNumerical(2012, 1, 31), true, true],
+                2012, 31, LocalDate::of(2012, 1, 31), true, true],
             [
-                2012, 32, LocalDate::ofNumerical(2012, 2, 1), true, true],
+                2012, 32, LocalDate::of(2012, 2, 1), true, true],
             [
-                2012, 59, LocalDate::ofNumerical(2012, 2, 28), true, true],
+                2012, 59, LocalDate::of(2012, 2, 28), true, true],
             [
-                2012, 60, LocalDate::ofNumerical(2012, 2, 29), true, true],
+                2012, 60, LocalDate::of(2012, 2, 29), true, true],
             [
-                2012, 61, LocalDate::ofNumerical(2012, 3, 1), true, true],
+                2012, 61, LocalDate::of(2012, 3, 1), true, true],
             [
-                2012, 365, LocalDate::ofNumerical(2012, 12, 30), true, true],
+                2012, 365, LocalDate::of(2012, 12, 30), true, true],
             [
-                2012, 366, LocalDate::ofNumerical(2012, 12, 31), true, true],
+                2012, 366, LocalDate::of(2012, 12, 31), true, true],
             [
-                2012, 367, LocalDate::ofNumerical(2013, 1, 1), false, false],
+                2012, 367, LocalDate::of(2013, 1, 1), false, false],
             [
-                2012, 367 + 364, LocalDate::ofNumerical(2013, 12, 31), false, false],
+                2012, 367 + 364, LocalDate::of(2013, 12, 31), false, false],
             [
-                2012, 367 + 365, LocalDate::ofNumerical(2014, 1, 1), false, false],
+                2012, 367 + 365, LocalDate::of(2014, 1, 1), false, false],
 
             [
-                2011, 59, LocalDate::ofNumerical(2011, 2, 28), true, true],
+                2011, 59, LocalDate::of(2011, 2, 28), true, true],
             [
-                2011, 60, LocalDate::ofNumerical(2011, 3, 1), true, true],
+                2011, 60, LocalDate::of(2011, 3, 1), true, true],
         ];
     }
 
@@ -750,103 +750,103 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                2012, 1, 1, -365, LocalDate::ofNumerical(2010, 12, 31), false, false],
+                2012, 1, 1, -365, LocalDate::of(2010, 12, 31), false, false],
             [
-                2012, 1, 1, -364, LocalDate::ofNumerical(2011, 1, 1), false, false],
+                2012, 1, 1, -364, LocalDate::of(2011, 1, 1), false, false],
             [
-                2012, 1, 1, -31, LocalDate::ofNumerical(2011, 11, 30), false, false],
+                2012, 1, 1, -31, LocalDate::of(2011, 11, 30), false, false],
             [
-                2012, 1, 1, -30, LocalDate::ofNumerical(2011, 12, 1), false, false],
+                2012, 1, 1, -30, LocalDate::of(2011, 12, 1), false, false],
             [
-                2012, 1, 1, -12, LocalDate::ofNumerical(2011, 12, 19), false, false],
+                2012, 1, 1, -12, LocalDate::of(2011, 12, 19), false, false],
             [
-                2012, 1, 1, 1, LocalDate::ofNumerical(2012, 1, 1), true, true],
+                2012, 1, 1, 1, LocalDate::of(2012, 1, 1), true, true],
             [
-                2012, 1, 1, 59, LocalDate::ofNumerical(2012, 2, 28), false, false],
+                2012, 1, 1, 59, LocalDate::of(2012, 2, 28), false, false],
             [
-                2012, 1, 1, 60, LocalDate::ofNumerical(2012, 2, 29), false, false],
+                2012, 1, 1, 60, LocalDate::of(2012, 2, 29), false, false],
             [
-                2012, 1, 1, 61, LocalDate::ofNumerical(2012, 3, 1), false, false],
+                2012, 1, 1, 61, LocalDate::of(2012, 3, 1), false, false],
             [
-                2012, 1, 1, 365, LocalDate::ofNumerical(2012, 12, 30), false, false],
+                2012, 1, 1, 365, LocalDate::of(2012, 12, 30), false, false],
             [
-                2012, 1, 1, 366, LocalDate::ofNumerical(2012, 12, 31), false, false],
+                2012, 1, 1, 366, LocalDate::of(2012, 12, 31), false, false],
             [
-                2012, 1, 1, 367, LocalDate::ofNumerical(2013, 1, 1), false, false],
+                2012, 1, 1, 367, LocalDate::of(2013, 1, 1), false, false],
             [
-                2012, 1, 1, 367 + 364, LocalDate::ofNumerical(2013, 12, 31), false, false],
+                2012, 1, 1, 367 + 364, LocalDate::of(2013, 12, 31), false, false],
             [
-                2012, 1, 1, 367 + 365, LocalDate::ofNumerical(2014, 1, 1), false, false],
+                2012, 1, 1, 367 + 365, LocalDate::of(2014, 1, 1), false, false],
 
             [
-                2012, 2, 0, 1, LocalDate::ofNumerical(2012, 1, 25), false, false],
+                2012, 2, 0, 1, LocalDate::of(2012, 1, 25), false, false],
             [
-                2012, 2, 0, 7, LocalDate::ofNumerical(2012, 1, 31), false, false],
+                2012, 2, 0, 7, LocalDate::of(2012, 1, 31), false, false],
             [
-                2012, 2, 1, 1, LocalDate::ofNumerical(2012, 2, 1), true, true],
+                2012, 2, 1, 1, LocalDate::of(2012, 2, 1), true, true],
             [
-                2012, 2, 1, 7, LocalDate::ofNumerical(2012, 2, 7), true, true],
+                2012, 2, 1, 7, LocalDate::of(2012, 2, 7), true, true],
             [
-                2012, 2, 2, 1, LocalDate::ofNumerical(2012, 2, 8), true, true],
+                2012, 2, 2, 1, LocalDate::of(2012, 2, 8), true, true],
             [
-                2012, 2, 2, 7, LocalDate::ofNumerical(2012, 2, 14), true, true],
+                2012, 2, 2, 7, LocalDate::of(2012, 2, 14), true, true],
             [
-                2012, 2, 3, 1, LocalDate::ofNumerical(2012, 2, 15), true, true],
+                2012, 2, 3, 1, LocalDate::of(2012, 2, 15), true, true],
             [
-                2012, 2, 3, 7, LocalDate::ofNumerical(2012, 2, 21), true, true],
+                2012, 2, 3, 7, LocalDate::of(2012, 2, 21), true, true],
             [
-                2012, 2, 4, 1, LocalDate::ofNumerical(2012, 2, 22), true, true],
+                2012, 2, 4, 1, LocalDate::of(2012, 2, 22), true, true],
             [
-                2012, 2, 4, 7, LocalDate::ofNumerical(2012, 2, 28), true, true],
+                2012, 2, 4, 7, LocalDate::of(2012, 2, 28), true, true],
             [
-                2012, 2, 5, 1, LocalDate::ofNumerical(2012, 2, 29), true, true],
+                2012, 2, 5, 1, LocalDate::of(2012, 2, 29), true, true],
             [
-                2012, 2, 5, 2, LocalDate::ofNumerical(2012, 3, 1), true, false],
+                2012, 2, 5, 2, LocalDate::of(2012, 3, 1), true, false],
             [
-                2012, 2, 5, 7, LocalDate::ofNumerical(2012, 3, 6), true, false],
+                2012, 2, 5, 7, LocalDate::of(2012, 3, 6), true, false],
             [
-                2012, 2, 6, 1, LocalDate::ofNumerical(2012, 3, 7), false, false],
+                2012, 2, 6, 1, LocalDate::of(2012, 3, 7), false, false],
             [
-                2012, 2, 6, 7, LocalDate::ofNumerical(2012, 3, 13), false, false],
+                2012, 2, 6, 7, LocalDate::of(2012, 3, 13), false, false],
 
             [
-                2012, 12, 1, 1, LocalDate::ofNumerical(2012, 12, 1), true, true],
+                2012, 12, 1, 1, LocalDate::of(2012, 12, 1), true, true],
             [
-                2012, 12, 5, 1, LocalDate::ofNumerical(2012, 12, 29), true, true],
+                2012, 12, 5, 1, LocalDate::of(2012, 12, 29), true, true],
             [
-                2012, 12, 5, 2, LocalDate::ofNumerical(2012, 12, 30), true, true],
+                2012, 12, 5, 2, LocalDate::of(2012, 12, 30), true, true],
             [
-                2012, 12, 5, 3, LocalDate::ofNumerical(2012, 12, 31), true, true],
+                2012, 12, 5, 3, LocalDate::of(2012, 12, 31), true, true],
             [
-                2012, 12, 5, 4, LocalDate::ofNumerical(2013, 1, 1), true, false],
+                2012, 12, 5, 4, LocalDate::of(2013, 1, 1), true, false],
             [
-                2012, 12, 5, 7, LocalDate::ofNumerical(2013, 1, 4), true, false],
+                2012, 12, 5, 7, LocalDate::of(2013, 1, 4), true, false],
 
             [
-                2012, -12, 1, 1, LocalDate::ofNumerical(2010, 12, 1), false, false],
+                2012, -12, 1, 1, LocalDate::of(2010, 12, 1), false, false],
             [
-                2012, -11, 1, 1, LocalDate::ofNumerical(2011, 1, 1), false, false],
+                2012, -11, 1, 1, LocalDate::of(2011, 1, 1), false, false],
             [
-                2012, -1, 1, 1, LocalDate::ofNumerical(2011, 11, 1), false, false],
+                2012, -1, 1, 1, LocalDate::of(2011, 11, 1), false, false],
             [
-                2012, 0, 1, 1, LocalDate::ofNumerical(2011, 12, 1), false, false],
+                2012, 0, 1, 1, LocalDate::of(2011, 12, 1), false, false],
             [
-                2012, 1, 1, 1, LocalDate::ofNumerical(2012, 1, 1), true, true],
+                2012, 1, 1, 1, LocalDate::of(2012, 1, 1), true, true],
             [
-                2012, 12, 1, 1, LocalDate::ofNumerical(2012, 12, 1), true, true],
+                2012, 12, 1, 1, LocalDate::of(2012, 12, 1), true, true],
             [
-                2012, 13, 1, 1, LocalDate::ofNumerical(2013, 1, 1), false, false],
+                2012, 13, 1, 1, LocalDate::of(2013, 1, 1), false, false],
             [
-                2012, 24, 1, 1, LocalDate::ofNumerical(2013, 12, 1), false, false],
+                2012, 24, 1, 1, LocalDate::of(2013, 12, 1), false, false],
             [
-                2012, 25, 1, 1, LocalDate::ofNumerical(2014, 1, 1), false, false],
+                2012, 25, 1, 1, LocalDate::of(2014, 1, 1), false, false],
 
             [
-                2011, 2, 1, 1, LocalDate::ofNumerical(2011, 2, 1), true, true],
+                2011, 2, 1, 1, LocalDate::of(2011, 2, 1), true, true],
             [
-                2011, 2, 4, 7, LocalDate::ofNumerical(2011, 2, 28), true, true],
+                2011, 2, 4, 7, LocalDate::of(2011, 2, 28), true, true],
             [
-                2011, 2, 5, 1, LocalDate::ofNumerical(2011, 3, 1), true, false],
+                2011, 2, 5, 1, LocalDate::of(2011, 3, 1), true, false],
         ];
     }
 

@@ -196,8 +196,8 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 3, 30), self::$OFFSET_ZERO, 1);
         $this->checkOffset($test, $this->createLDT(2008, 3, 31), self::$OFFSET_PONE, 1);
         // cutover at 01:00Z
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 0, 59, 59, 999999999), self::$OFFSET_ZERO, 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 2, 0, 0, 0), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 30, 0, 59, 59, 999999999), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 30, 2, 0, 0, 0), self::$OFFSET_PONE, 1);
     }
 
     public function test_London_getOffsetInfo_fromDST()
@@ -212,22 +212,22 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 10, 30), self::$OFFSET_ZERO, 1);
         $this->checkOffset($test, $this->createLDT(2008, 10, 31), self::$OFFSET_ZERO, 1);
         // cutover at 01:00Z
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 0, 59, 59, 999999999), self::$OFFSET_PONE, 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 2, 0, 0, 0), self::$OFFSET_ZERO, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 10, 26, 0, 59, 59, 999999999), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 10, 26, 2, 0, 0, 0), self::$OFFSET_ZERO, 1);
     }
 
     public function test_London_getOffsetInfo_gap()
     {
         $test = $this->europeLondon();
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 30, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 30, 1, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_ZERO, self::$GAP);
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
         $this->assertEquals($trans->getOffsetBefore(), self::$OFFSET_ZERO);
         $this->assertEquals($trans->getOffsetAfter(), self::$OFFSET_PONE);
         $this->assertEquals($trans->getInstant(), $this->createInstant6(2008, 3, 30, 1, 0, ZoneOffset::UTC()));
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 3, 30, 1, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 3, 30, 2, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(2008, 3, 30, 1, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(2008, 3, 30, 2, 0));
         $this->assertEquals($trans->isValidOffset(self::$OFFSET_ZERO), false);
         $this->assertEquals($trans->isValidOffset(self::$OFFSET_PONE), false);
         $this->assertEquals($trans->isValidOffset(self::$OFFSET_PTWO), false);
@@ -246,15 +246,15 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
     {
         $test = $this->europeLondon();
 
-        $dateTime = LocalDateTime::ofNumerical(2008, 10, 26, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 10, 26, 1, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_PONE, self::$OVERLAP);
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
         $this->assertEquals($trans->getOffsetBefore(), self::$OFFSET_PONE);
         $this->assertEquals($trans->getOffsetAfter(), self::$OFFSET_ZERO);
         $this->assertEquals($trans->getInstant(), $this->createInstant6(2008, 10, 26, 1, 0, ZoneOffset::UTC()));
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2008, 10, 26, 2, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2008, 10, 26, 1, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(2008, 10, 26, 2, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(2008, 10, 26, 1, 0));
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(-1)), false);
         $this->assertEquals($trans->isValidOffset(self::$OFFSET_ZERO), true);
         $this->assertEquals($trans->isValidOffset(self::$OFFSET_PONE), true);
@@ -293,17 +293,17 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $trans = $test->getTransitions();
 
         $first = $trans[0];
-        $this->assertEquals($first->getDateTimeBefore(), LocalDateTime::ofNumerical(1847, 12, 1, 0, 0));
+        $this->assertEquals($first->getDateTimeBefore(), LocalDateTime::of(1847, 12, 1, 0, 0));
         $this->assertEquals($first->getOffsetBefore(), ZoneOffset::ofHoursMinutesSeconds(0, -1, -15));
         $this->assertEquals($first->getOffsetAfter(), self::$OFFSET_ZERO);
 
         $spring1916 = $trans[1];
-        $this->assertEquals($spring1916->getDateTimeBefore(), LocalDateTime::ofNumerical(1916, 5, 21, 2, 0));
+        $this->assertEquals($spring1916->getDateTimeBefore(), LocalDateTime::of(1916, 5, 21, 2, 0));
         $this->assertEquals($spring1916->getOffsetBefore(), self::$OFFSET_ZERO);
         $this->assertEquals($spring1916->getOffsetAfter(), self::$OFFSET_PONE);
 
         $autumn1916 = $trans[2];
-        $this->assertEquals($autumn1916->getDateTimeBefore(), LocalDateTime::ofNumerical(1916, 10, 1, 3, 0));
+        $this->assertEquals($autumn1916->getDateTimeBefore(), LocalDateTime::of(1916, 10, 1, 3, 0));
         $this->assertEquals($autumn1916->getOffsetBefore(), self::$OFFSET_PONE);
         $this->assertEquals($autumn1916->getOffsetAfter(), self::$OFFSET_ZERO);
 
@@ -316,67 +316,67 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
                 break;
             }
         }
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1990, 3, 25, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1990, 3, 25, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1990, 10, 28, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1990, 10, 28, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1991, 3, 31, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1991, 3, 31, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1991, 10, 27, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1991, 10, 27, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1992, 3, 29, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1992, 3, 29, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1992, 10, 25, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1992, 10, 25, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1993, 3, 28, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1993, 3, 28, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1993, 10, 24, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1993, 10, 24, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1994, 3, 27, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1994, 3, 27, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1994, 10, 23, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1994, 10, 23, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1995, 3, 26, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1995, 3, 26, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1995, 10, 22, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1995, 10, 22, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1996, 3, 31, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1996, 3, 31, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1996, 10, 27, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1996, 10, 27, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1997, 3, 30, 1, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1997, 3, 30, 1, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_ZERO);
         $it->next();
         $zot = $it->current();
-        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::ofNumerical(1997, 10, 26, 2, 0));
+        $this->assertEquals($zot->getDateTimeBefore(), LocalDateTime::of(1997, 10, 26, 2, 0));
         $this->assertEquals($zot->getOffsetBefore(), self::$OFFSET_PONE);
         $this->assertEquals($it->hasNext(), false);
     }
@@ -612,8 +612,8 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 3, 30), self::$OFFSET_PONE, 1);
         $this->checkOffset($test, $this->createLDT(2008, 3, 31), self::$OFFSET_PTWO, 1);
         // cutover at 01:00Z which is 02:00+01:00(local Paris time)
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 1, 59, 59, 999999999), self::$OFFSET_PONE, 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 30, 3, 0, 0, 0), self::$OFFSET_PTWO, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 30, 1, 59, 59, 999999999), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 30, 3, 0, 0, 0), self::$OFFSET_PTWO, 1);
     }
 
     public function test_Paris_getOffsetInfo_fromDST()
@@ -628,14 +628,14 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 10, 30), self::$OFFSET_PONE, 1);
         $this->checkOffset($test, $this->createLDT(2008, 10, 31), self::$OFFSET_PONE, 1);
         // cutover at 01:00Z which is 02:00+01:00(local Paris time)
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 1, 59, 59, 999999999), self::$OFFSET_PTWO, 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 10, 26, 3, 0, 0, 0), self::$OFFSET_PONE, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 10, 26, 1, 59, 59, 999999999), self::$OFFSET_PTWO, 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 10, 26, 3, 0, 0, 0), self::$OFFSET_PONE, 1);
     }
 
     public function test_Paris_getOffsetInfo_gap()
     {
         $test = $this->europeParis();
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 30, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 30, 2, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_PONE, self::$GAP);
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
@@ -659,7 +659,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
     public function test_Paris_getOffsetInfo_overlap()
     {
         $test = $this->europeParis();
-        $dateTime = LocalDateTime::ofNumerical(2008, 10, 26, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 10, 26, 2, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, self::$OFFSET_PTWO, self::$OVERLAP);
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
@@ -687,13 +687,13 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $zdt = $this->createZDT(1840, 1, 1, ZoneOffset::UTC());
         while ($zdt->getYear() < 2010) {
             $instant = $zdt->toInstant();
-            if ($zdt->toLocalDate()->isBefore(LocalDate::ofNumerical(1911, 3, 11))) {
+            if ($zdt->toLocalDate()->isBefore(LocalDate::of(1911, 3, 11))) {
                 $this->assertEquals($test->getStandardOffset($instant), ZoneOffset::ofHoursMinutesSeconds(0, 9, 21));
-            } else if ($zdt->toLocalDate()->isBefore(LocalDate::ofNumerical(1940, 6, 14))) {
+            } else if ($zdt->toLocalDate()->isBefore(LocalDate::of(1940, 6, 14))) {
                 $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_ZERO);
-            } else if ($zdt->toLocalDate()->isBefore(LocalDate::ofNumerical(1944, 8, 25))) {
+            } else if ($zdt->toLocalDate()->isBefore(LocalDate::of(1944, 8, 25))) {
                 $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_PONE);
-            } else if ($zdt->toLocalDate()->isBefore(LocalDate::ofNumerical(1945, 9, 16))) {
+            } else if ($zdt->toLocalDate()->isBefore(LocalDate::of(1945, 9, 16))) {
                 $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_ZERO);
             } else {
                 $this->assertEquals($test->getStandardOffset($instant), self::$OFFSET_PONE);
@@ -831,8 +831,8 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 3, 13), ZoneOffset::ofHours(-4), 1);
         $this->checkOffset($test, $this->createLDT(2008, 3, 14), ZoneOffset::ofHours(-4), 1);
         // cutover at 02:00 local
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 9, 1, 59, 59, 999999999), ZoneOffset::ofHours(-5), 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 3, 9, 3, 0, 0, 0), ZoneOffset::ofHours(-4), 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 9, 1, 59, 59, 999999999), ZoneOffset::ofHours(-5), 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 3, 9, 3, 0, 0, 0), ZoneOffset::ofHours(-4), 1);
     }
 
     public function test_NewYork_getOffsetInfo_fromDST()
@@ -846,14 +846,14 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->checkOffset($test, $this->createLDT(2008, 11, 6), ZoneOffset::ofHours(-5), 1);
         $this->checkOffset($test, $this->createLDT(2008, 11, 7), ZoneOffset::ofHours(-5), 1);
         // cutover at 02:00 local
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 11, 2, 0, 59, 59, 999999999), ZoneOffset::ofHours(-4), 1);
-        $this->checkOffset($test, LocalDateTime::ofNumerical(2008, 11, 2, 2, 0, 0, 0), ZoneOffset::ofHours(-5), 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 11, 2, 0, 59, 59, 999999999), ZoneOffset::ofHours(-4), 1);
+        $this->checkOffset($test, LocalDateTime::of(2008, 11, 2, 2, 0, 0, 0), ZoneOffset::ofHours(-5), 1);
     }
 
     public function test_NewYork_getOffsetInfo_gap()
     {
         $test = $this->americaNewYork();
-        $dateTime = LocalDateTime::ofNumerical(2008, 3, 9, 2, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 3, 9, 2, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, ZoneOffset::ofHours(-5), self::$GAP);
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
@@ -877,7 +877,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
     public function test_NewYork_getOffsetInfo_overlap()
     {
         $test = $this->americaNewYork();
-        $dateTime = LocalDateTime::ofNumerical(2008, 11, 2, 1, 0, 0, 0);
+        $dateTime = LocalDateTime::of(2008, 11, 2, 1, 0, 0, 0);
         $trans = $this->checkOffset($test, $dateTime, ZoneOffset::ofHours(-4), self::$OVERLAP);
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
@@ -905,7 +905,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $dateTime = $this->createZDT(1860, 1, 1, ZoneOffset::UTC());
         while ($dateTime->getYear() < 2010) {
             $instant = $dateTime->toInstant();
-            if ($dateTime->toLocalDate()->isBefore(LocalDate::ofNumerical(1883, 11, 18))) {
+            if ($dateTime->toLocalDate()->isBefore(LocalDate::of(1883, 11, 18))) {
                 $this->assertEquals($test->getStandardOffset($instant), ZoneOffset::of("-04:56:02"));
             } else {
                 $this->assertEquals($test->getStandardOffset($instant), ZoneOffset::ofHours(-5));
@@ -977,38 +977,38 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
     {
         // transition occurred at 2011-12-30T00:00-10:00
         $test = $this->pacificApia();
-        $instantBefore = LocalDate::ofNumerical(2011, 12, 27)->atStartOfDayWithZone(ZoneOffset::UTC())->toInstant();
+        $instantBefore = LocalDate::of(2011, 12, 27)->atStartOfDayWithZone(ZoneOffset::UTC())->toInstant();
         $trans = $test->nextTransition($instantBefore);
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(2011, 12, 30, 0, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(2011, 12, 31, 0, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(2011, 12, 30, 0, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(2011, 12, 31, 0, 0));
         $this->assertEquals($trans->isGap(), true);
         $this->assertEquals($trans->isOverlap(), false);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(-10)), false);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHours(+14)), false);
         $this->assertEquals($trans->getDuration(), Duration::ofHours(24));
-        $this->assertEquals($trans->getInstant(), LocalDateTime::ofNumerical(2011, 12, 31, 0, 0)->toInstant(ZoneOffset::ofHours(+14)));
+        $this->assertEquals($trans->getInstant(), LocalDateTime::of(2011, 12, 31, 0, 0)->toInstant(ZoneOffset::ofHours(+14)));
 
-        $zdt = ZonedDateTime::ofNumerical(2011, 12, 29, 23, 0, 0, 0, ZoneId::of("Pacific/Apia"));
-        $this->assertEquals($zdt->plusHours(2)->toLocalDateTime(), LocalDateTime::ofNumerical(2011, 12, 31, 1, 0));
+        $zdt = ZonedDateTime::of(2011, 12, 29, 23, 0, 0, 0, ZoneId::of("Pacific/Apia"));
+        $this->assertEquals($zdt->plusHours(2)->toLocalDateTime(), LocalDateTime::of(2011, 12, 31, 1, 0));
     }
 
     public function test_Apia_jumpForwardOverInternationalDateLine_P12_to_M12()
     {
         // transition occurred at 1879-07-04T00:00+12:33:04
         $test = $this->pacificApia();
-        $instantBefore = LocalDate::ofNumerical(1879, 7, 2)->atStartOfDayWithZone(ZoneOffset::UTC())->toInstant();
+        $instantBefore = LocalDate::of(1879, 7, 2)->atStartOfDayWithZone(ZoneOffset::UTC())->toInstant();
         $trans = $test->nextTransition($instantBefore);
-        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::ofNumerical(1879, 7, 5, 0, 0));
-        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::ofNumerical(1879, 7, 4, 0, 0));
+        $this->assertEquals($trans->getDateTimeBefore(), LocalDateTime::of(1879, 7, 5, 0, 0));
+        $this->assertEquals($trans->getDateTimeAfter(), LocalDateTime::of(1879, 7, 4, 0, 0));
         $this->assertEquals($trans->isGap(), false);
         $this->assertEquals($trans->isOverlap(), true);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHoursMinutesSeconds(+12, 33, 4)), true);
         $this->assertEquals($trans->isValidOffset(ZoneOffset::ofHoursMinutesSeconds(-11, -26, -56)), true);
         $this->assertEquals($trans->getDuration(), Duration::ofHours(-24));
-        $this->assertEquals($trans->getInstant(), LocalDateTime::ofNumerical(1879, 7, 4, 0, 0)->toInstant(ZoneOffset::ofHoursMinutesSeconds(-11, -26, -56)));
+        $this->assertEquals($trans->getInstant(), LocalDateTime::of(1879, 7, 4, 0, 0)->toInstant(ZoneOffset::ofHoursMinutesSeconds(-11, -26, -56)));
 
-        $zdt = ZonedDateTime::ofNumerical(1879, 7, 4, 23, 0, 0, 0, ZoneId::of("Pacific/Apia"));
-        $this->assertEquals($zdt->plusHours(2)->toLocalDateTime(), LocalDateTime::ofNumerical(1879, 7, 4, 1, 0, 0));
+        $zdt = ZonedDateTime::of(1879, 7, 4, 23, 0, 0, 0, ZoneId::of("Pacific/Apia"));
+        $this->assertEquals($zdt->plusHours(2)->toLocalDateTime(), LocalDateTime::of(1879, 7, 4, 1, 0, 0));
     }
 
     //-----------------------------------------------------------------------
@@ -1019,7 +1019,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         //used for standard offset
         $stdOffset1 = ZoneOffset::UTC();
         $stdOffset2 = ZoneOffset::ofHours(1);
-        $time_of_stdOffsetTransition1 = LocalDateTime::ofNumerical(2013, 1, 5, 1, 0);
+        $time_of_stdOffsetTransition1 = LocalDateTime::of(2013, 1, 5, 1, 0);
         $stdOffsetTransition1 = ZoneOffsetTransition::of($time_of_stdOffsetTransition1, $stdOffset1, $stdOffset2);
         $stdOffsetTransition_list = [];
         $stdOffsetTransition_list[] = $stdOffsetTransition1;
@@ -1029,9 +1029,9 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $wallOffset2 = ZoneOffset::ofHours(4);
         $wallOffset3 = ZoneOffset::ofHours(7);
 
-        $time_of_wallOffsetTransition1 = LocalDateTime::ofNumerical(2013, 2, 5, 1, 0);
-        $time_of_wallOffsetTransition2 = LocalDateTime::ofNumerical(2013, 3, 5, 1, 0);
-        $time_of_wallOffsetTransition3 = LocalDateTime::ofNumerical(2013, 10, 5, 1, 0);
+        $time_of_wallOffsetTransition1 = LocalDateTime::of(2013, 2, 5, 1, 0);
+        $time_of_wallOffsetTransition2 = LocalDateTime::of(2013, 3, 5, 1, 0);
+        $time_of_wallOffsetTransition3 = LocalDateTime::of(2013, 10, 5, 1, 0);
 
         $wallOffsetTransition1 = ZoneOffsetTransition::of($time_of_wallOffsetTransition1, $wallOffset1, $wallOffset2);
         $wallOffsetTransition2 = ZoneOffsetTransition::of($time_of_wallOffsetTransition2, $wallOffset2, $wallOffset3);
@@ -1066,23 +1066,23 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
             $rule_list
         );
 
-        $before_time_of_stdOffsetTransition1 = OffsetDateTime::of($time_of_stdOffsetTransition1, $stdOffset1)->minusSeconds(1);
-        $after_time_of_stdOffsetTransition1 = OffsetDateTime::of($time_of_stdOffsetTransition1, $stdOffset1)->plusSeconds(1);;
+        $before_time_of_stdOffsetTransition1 = OffsetDateTime::ofDateTime($time_of_stdOffsetTransition1, $stdOffset1)->minusSeconds(1);
+        $after_time_of_stdOffsetTransition1 = OffsetDateTime::ofDateTime($time_of_stdOffsetTransition1, $stdOffset1)->plusSeconds(1);;
         $this->assertEquals($zoneRule->getStandardOffset($before_time_of_stdOffsetTransition1->toInstant()), $stdOffset1);
         $this->assertEquals($zoneRule->getStandardOffset($after_time_of_stdOffsetTransition1->toInstant()), $stdOffset2);
 
-        $before_time_of_wallOffsetTransition1 = OffsetDateTime::of($time_of_wallOffsetTransition1, $wallOffset1)->minusSeconds(1);
-        $after_time_of_wallOffsetTransition1 = OffsetDateTime::of($time_of_wallOffsetTransition1, $wallOffset1)->plusSeconds(1);
+        $before_time_of_wallOffsetTransition1 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition1, $wallOffset1)->minusSeconds(1);
+        $after_time_of_wallOffsetTransition1 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition1, $wallOffset1)->plusSeconds(1);
         $this->assertEquals($zoneRule->nextTransition($before_time_of_wallOffsetTransition1->toInstant()), $wallOffsetTransition1);
         $this->assertEquals($zoneRule->nextTransition($after_time_of_wallOffsetTransition1->toInstant()), $wallOffsetTransition2);
 
-        $before_time_of_wallOffsetTransition2 = OffsetDateTime::of($time_of_wallOffsetTransition2, $wallOffset2)->minusSeconds(1);
-        $after_time_of_wallOffsetTransition2 = OffsetDateTime::of($time_of_wallOffsetTransition2, $wallOffset2)->plusSeconds(1);
+        $before_time_of_wallOffsetTransition2 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition2, $wallOffset2)->minusSeconds(1);
+        $after_time_of_wallOffsetTransition2 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition2, $wallOffset2)->plusSeconds(1);
         $this->assertEquals($zoneRule->nextTransition($before_time_of_wallOffsetTransition2->toInstant()), $wallOffsetTransition2);
         $this->assertEquals($zoneRule->nextTransition($after_time_of_wallOffsetTransition2->toInstant()), $wallOffsetTransition3);
 
-        $before_time_of_wallOffsetTransition3 = OffsetDateTime::of($time_of_wallOffsetTransition3, $wallOffset3)->minusSeconds(1);
-        $after_time_of_wallOffsetTransition3 = OffsetDateTime::of($time_of_wallOffsetTransition3, $wallOffset3)->plusSeconds(1);
+        $before_time_of_wallOffsetTransition3 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition3, $wallOffset3)->minusSeconds(1);
+        $after_time_of_wallOffsetTransition3 = OffsetDateTime::ofDateTime($time_of_wallOffsetTransition3, $wallOffset3)->plusSeconds(1);
         $this->assertEquals($zoneRule->nextTransition($before_time_of_wallOffsetTransition3->toInstant()), $wallOffsetTransition3);
         $this->assertEquals($zoneRule->nextTransition($after_time_of_wallOffsetTransition3->toInstant()), $rule1->createTransition(2014));
     }
@@ -1124,27 +1124,27 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
 
     private function createInstant($year, $month, $day, ZoneOffset $offset)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0)->toInstant($offset);
+        return LocalDateTime::of($year, $month, $day, 0, 0)->toInstant($offset);
     }
 
     private function createInstant6($year, $month, $day, $hour, $min, ZoneOffset $offset)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, $hour, $min)->toInstant($offset);
+        return LocalDateTime::of($year, $month, $day, $hour, $min)->toInstant($offset);
     }
 
     private function createInstant8($year, $month, $day, $hour, $min, $sec, $nano, ZoneOffset $offset)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
+        return LocalDateTime::of($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
     }
 
     private function createZDT($year, $month, $day, ZoneId $zone)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0)->atZone($zone);
+        return LocalDateTime::of($year, $month, $day, 0, 0)->atZone($zone);
     }
 
     private function createLDT($year, $month, $day)
     {
-        return LocalDateTime::ofNumerical($year, $month, $day, 0, 0);
+        return LocalDateTime::of($year, $month, $day, 0, 0);
     }
 
     private

@@ -253,7 +253,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     public
     static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone)
     {
-        return self::of(LocalDateTime::ofDateAndTime($date, $time), $zone);
+        return self::ofDateTime(LocalDateTime::ofDateAndTime($date, $time), $zone);
 }
 
     /**
@@ -281,7 +281,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      * @return ZonedDateTime the zoned date-time, not null
      */
     public
-    static function of(LocalDateTime $localDateTime, ZoneId $zone)
+    static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone)
     {
         return self::ofLocal($localDateTime, $zone, null);
     }
@@ -327,11 +327,11 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      *  if the day-of-month is invalid for the month-year
      */
     public
-    static function ofNumerical(
+    static function of(
         $year, $month, $dayOfMonth,
         $hour, $minute, $second, $nanoOfSecond, ZoneId $zone)
     {
-        $dt = LocalDateTime::ofNumerical($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
+        $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return self::ofLocal($dt, $zone, null);
     }
 
@@ -2217,7 +2217,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     public
     function toOffsetDateTime()
     {
-        return OffsetDateTime::of($this->dateTime, $this->offset);
+        return OffsetDateTime::ofDateTime($this->dateTime, $this->offset);
     }
 
 //-----------------------------------------------------------------------

@@ -360,7 +360,7 @@ final class IsoFields
      */
     public static function getWeekRangeInt($wby)
     {
-        $date = LocalDate::ofNumerical($wby, 1, 1);
+        $date = LocalDate::of($wby, 1, 1);
         // 53 weeks if standard year starts on Thursday, or Wed in a leap year
         if ($date->getDayOfWeek() == DayOfWeek::THURSDAY() || ($date->getDayOfWeek() == DayOfWeek::WEDNESDAY() && $date->isLeapYear())) {
             return 53;

@@ -74,13 +74,13 @@ class DateTimeBuilderCombinationsTest extends \PHPUnit_Framework_TestCase
     function data_combine()
     {
         return [
-            [ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 6, ChronoField::DAY_OF_MONTH(), 3, null, null, LocalDate::class, LocalDate::ofNumerical(2012, 6, 3)],
-            [ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + 6 - 1, ChronoField::DAY_OF_MONTH(), 3, null, null, null, null, LocalDate::class, LocalDate::ofNumerical(2012, 6, 3)],
-            [ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 6, ChronoField::DAY_OF_WEEK(), 3, null, null, LocalDate::class, LocalDate::ofNumerical(2012, 2, 8)],
-            [ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 155, null, null, null, null, LocalDate::class, LocalDate::ofNumerical(2012, 6, 3)],
+            [ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 6, ChronoField::DAY_OF_MONTH(), 3, null, null, LocalDate::class, LocalDate::of(2012, 6, 3)],
+            [ChronoField::PROLEPTIC_MONTH(), 2012 * 12 + 6 - 1, ChronoField::DAY_OF_MONTH(), 3, null, null, null, null, LocalDate::class, LocalDate::of(2012, 6, 3)],
+            [ChronoField::YEAR(), 2012, ChronoField::ALIGNED_WEEK_OF_YEAR(), 6, ChronoField::DAY_OF_WEEK(), 3, null, null, LocalDate::class, LocalDate::of(2012, 2, 8)],
+            [ChronoField::YEAR(), 2012, ChronoField::DAY_OF_YEAR(), 155, null, null, null, null, LocalDate::class, LocalDate::of(2012, 6, 3)],
 //            [ERA, 1, YEAR_OF_ERA, 2012ChronoField::, ()DAY_OF_YEAR, 155, null, null, LocalDate.class, LocalDate.of(2012, 6, 3)],
             [ChronoField::YEAR(), 2012, ChronoField::MONTH_OF_YEAR(), 6, null, null, null, null, LocalDate::class, null],
-            [ChronoField::EPOCH_DAY(), 12, null, null, null, null, null, null, LocalDate::class, LocalDate::ofNumerical(1970, 1, 13)],
+            [ChronoField::EPOCH_DAY(), 12, null, null, null, null, null, null, LocalDate::class, LocalDate::of(1970, 1, 13)],
         ];
     }
 

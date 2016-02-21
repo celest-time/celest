@@ -31,7 +31,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
     public static function BASE_DATE()
     {
         if (self::$BASE_DATE === null) {
-            self::$BASE_DATE = LocalDate::ofNumerical(2000, 1, 1);
+            self::$BASE_DATE = LocalDate::of(2000, 1, 1);
         }
         return self::$BASE_DATE;
     }

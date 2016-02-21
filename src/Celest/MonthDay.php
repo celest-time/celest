@@ -194,7 +194,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     static function nowOf(Clock $clock)
     {
         $now = LocalDate::nowOf($clock);  // called once
-        return MonthDay::of($now->getMonth(), $now->getDayOfMonth());
+        return MonthDay::ofMonth($now->getMonth(), $now->getDayOfMonth());
     }
 
 //-----------------------------------------------------------------------
@@ -215,7 +215,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      *  or if the day-of-month is invalid for the month
      */
     public
-    static function of(Month $month, $dayOfMonth)
+    static function ofMonth(Month $month, $dayOfMonth)
     {
         ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
         if ($dayOfMonth > $month->maxLength()) {
@@ -242,9 +242,9 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month
      */
-    public static function ofNumerical($month, $dayOfMonth)
+    public static function of($month, $dayOfMonth)
     {
-        return self::of(Month::of($month), $dayOfMonth);
+        return self::ofMonth(Month::of($month), $dayOfMonth);
     }
 
 //-----------------------------------------------------------------------
@@ -278,7 +278,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::ofNumerical($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
+            return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain MonthDay from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -588,7 +588,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             return $this;
         }
 
-        return self::ofNumerical($this->month, $dayOfMonth);
+        return self::of($this->month, $dayOfMonth);
     }
 
 //-----------------------------------------------------------------------
@@ -688,7 +688,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
     public
     function atYear($year)
     {
-        return LocalDate::ofNumerical($year, $this->month, self::isValidYear($year) ? $this->day : 28);
+        return LocalDate::of($year, $this->month, self::isValidYear($year) ? $this->day : 28);
     }
 
 //-----------------------------------------------------------------------

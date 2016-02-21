@@ -500,7 +500,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
     //-----------------------------------------------------------------------
     public function test_factory_CalendricalObject()
     {
-        $this->assertEquals(ZoneOffset::from(ZonedDateTime::of(LocalDateTime::ofDateAndTime(LocalDate::ofNumerical(2007, 7, 15),
+        $this->assertEquals(ZoneOffset::from(ZonedDateTime::ofDateTime(LocalDateTime::ofDateAndTime(LocalDate::of(2007, 7, 15),
             LocalTime::of(17, 30)), ZoneOffset::ofHours(2))), ZoneOffset::ofHours(2));
     }
 
@@ -667,7 +667,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
         $base = ZoneOffset::ofHoursMinutesSeconds(1, 1, 1);
         foreach (ZoneId::getAvailableZoneIds() as $zoneId) {
             //Do not change $offset of ZonedDateTime after adjustInto()
-            $zonedDateTime_target = ZonedDateTime::ofDateAndTime(LocalDate::ofNumerical(1909, 2, 2), LocalTime::of(10, 10, 10), ZoneId::of($zoneId));
+            $zonedDateTime_target = ZonedDateTime::ofDateAndTime(LocalDate::of(1909, 2, 2), LocalTime::of(10, 10, 10), ZoneId::of($zoneId));
             $zonedDateTime_result = $base->adjustInto($zonedDateTime_target);
             $this->assertEquals($zonedDateTime_target->getOffset(), $zonedDateTime_result->getOffset());
 
@@ -681,7 +681,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
     {
         $base = ZoneOffset::ofHoursMinutesSeconds(1, 1, 1);
         for ($i = -18; $i <= 18; $i++) {
-            $offsetDateTime_target = OffsetDateTime::ofDateAndTime(LocalDate::ofNumerical(1909, 2, 2), LocalTime::of(10, 10, 10), ZoneOffset::ofHours($i));
+            $offsetDateTime_target = OffsetDateTime::ofDateAndTime(LocalDate::of(1909, 2, 2), LocalTime::of(10, 10, 10), ZoneOffset::ofHours($i));
             $offsetDateTime_result = $base->adjustInto($offsetDateTime_target);
             $this->assertEquals($base, $offsetDateTime_result->getOffset());
 
@@ -698,7 +698,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
     public function test_adjustInto_dateOnly()
     {
         $base = ZoneOffset::ofHoursMinutesSeconds(1, 1, 1);
-        $base->adjustInto((LocalDate::ofNumerical(1909, 2, 2)));
+        $base->adjustInto((LocalDate::of(1909, 2, 2)));
     }
 
     //-----------------------------------------------------------------------

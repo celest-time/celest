@@ -97,40 +97,40 @@ class TCKLocalizedPrinterParserTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::UK()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::UK()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::US()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::US()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::FRANCE()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::FRANCE()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::JAPAN()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::SHORT(), \IntlDateFormatter::SHORT, Locale::JAPAN()],
 
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::UK()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::UK()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::US()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::US()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::FRANCE()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::FRANCE()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::JAPAN()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::MEDIUM(), \IntlDateFormatter::MEDIUM, Locale::JAPAN()],
 
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::UK()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::UK()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::US()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::US()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::FRANCE()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::FRANCE()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::JAPAN()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::LONG(), \IntlDateFormatter::LONG, Locale::JAPAN()],
 
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::UK()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::UK()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::US()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::US()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::FRANCE()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::FRANCE()],
                 [
-                    LocalDate::ofNumerical(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::JAPAN()],
+                    LocalDate::of(2012, 6, 30), FormatStyle::FULL(), \IntlDateFormatter::FULL, Locale::JAPAN()],
             ];
     }
 

@@ -92,7 +92,7 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
 
     private static function LDT()
     {
-        return LocalDateTime::ofNumerical(2010, 12, 3, 11, 30);
+        return LocalDateTime::of(2010, 12, 3, 11, 30);
     }
 
     private static function INSTANT()

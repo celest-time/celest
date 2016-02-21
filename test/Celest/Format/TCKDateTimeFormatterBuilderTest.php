@@ -88,7 +88,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     public function test_toFormatter_empty()
     {
         $f = $this->builder->toFormatter();
-        $this->assertEquals($f->format(LocalDate::ofNumerical(2012, 6, 30)), "");
+        $this->assertEquals($f->format(LocalDate::of(2012, 6, 30)), "");
     }
 
     //-----------------------------------------------------------------------
@@ -99,7 +99,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
             ->parseDefaulting(ChronoField::YEAR(), 2012)->parseDefaulting(ChronoField::MONTH_OF_YEAR(), 6)
             ->parseDefaulting(ChronoField::DAY_OF_MONTH(), 30)->toFormatter();
         $parsed = $f->parseQuery("", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // blank string can be parsed
-        $this->assertEquals($parsed, LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals($parsed, LocalDate::of(2012, 6, 30));
     }
 
 
@@ -112,9 +112,9 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
             ->optionalEnd()->optionalEnd()
             ->parseDefaulting(ChronoField::MONTH_OF_YEAR(), 1)
             ->parseDefaulting(ChronoField::DAY_OF_MONTH(), 1)->toFormatter();
-        $this->assertEquals($f->parseQuery("2012", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::ofNumerical(2012, 1, 1));
-        $this->assertEquals($f->parseQuery("2012-6", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::ofNumerical(2012, 6, 1));
-        $this->assertEquals($f->parseQuery("2012-6-30", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::ofNumerical(2012, 6, 30));
+        $this->assertEquals($f->parseQuery("2012", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::of(2012, 1, 1));
+        $this->assertEquals($f->parseQuery("2012-6", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::of(2012, 6, 1));
+        $this->assertEquals($f->parseQuery("2012-6-30", TemporalQueries::fromCallable([LocalDate::class, 'from'])), LocalDate::of(2012, 6, 30));
     }
 
     public function test_parseDefaulting_null()
@@ -263,7 +263,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     public function test_appendValueReduced_date_nullField()
     {
         TestHelper::assertNullException($this, function () {
-            $this->builder->appendValueReduced2(null, 2, 2, LocalDate::ofNumerical(2000, 1, 1));
+            $this->builder->appendValueReduced2(null, 2, 2, LocalDate::of(2000, 1, 1));
         });
     }
 
@@ -279,7 +279,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_appendValueReduced_date_minWidthTooSmall()
     {
-        $this->builder->appendValueReduced2(ChronoField::YEAR(), 0, 2, LocalDate::ofNumerical(2000, 1, 1));
+        $this->builder->appendValueReduced2(ChronoField::YEAR(), 0, 2, LocalDate::of(2000, 1, 1));
     }
 
     /**
@@ -287,7 +287,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_appendValueReduced_date_minWidthTooBig()
     {
-        $this->builder->appendValueReduced2(ChronoField::YEAR(), 11, 2, LocalDate::ofNumerical(2000, 1, 1));
+        $this->builder->appendValueReduced2(ChronoField::YEAR(), 11, 2, LocalDate::of(2000, 1, 1));
     }
 
     /**
@@ -295,7 +295,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_appendValueReduced_date_maxWidthTooSmall()
     {
-        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 0, LocalDate::ofNumerical(2000, 1, 1));
+        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 0, LocalDate::of(2000, 1, 1));
     }
 
     /**
@@ -303,7 +303,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_appendValueReduced_date_maxWidthTooBig()
     {
-        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 11, LocalDate::ofNumerical(2000, 1, 1));
+        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 11, LocalDate::of(2000, 1, 1));
     }
 
     /**
@@ -311,7 +311,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function test_appendValueReduced_date_maxWidthLessThanMin()
     {
-        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 1, LocalDate::ofNumerical(2000, 1, 1));
+        $this->builder->appendValueReduced2(ChronoField::YEAR(), 2, 1, LocalDate::of(2000, 1, 1));
     }
 
     //-----------------------------------------------------------------------
@@ -589,7 +589,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     public function test_padNext_1arg()
     {
         $this->builder->appendValue(ChronoField::MONTH_OF_YEAR())->appendLiteral(':')->padNext(2)->appendValue(ChronoField::DAY_OF_MONTH());
-        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::ofNumerical(2013, 2, 1)), "2: 1");
+        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::of(2013, 2, 1)), "2: 1");
     }
 
     /**
@@ -605,7 +605,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     public function test_padNext_2arg_dash()
     {
         $this->builder->appendValue(ChronoField::MONTH_OF_YEAR())->appendLiteral(':')->padNext2(2, '-')->appendValue(ChronoField::DAY_OF_MONTH());
-        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::ofNumerical(2013, 2, 1)), "2:-1");
+        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::of(2013, 2, 1)), "2:-1");
     }
 
     /**
@@ -623,8 +623,8 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder->appendValue(ChronoField::MONTH_OF_YEAR())->appendLiteral(':')
             ->padNext(5)->optionalStart()->appendValue(ChronoField::DAY_OF_MONTH())->optionalEnd()
             ->appendLiteral(':')->appendValue(ChronoField::YEAR());
-        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::ofNumerical(2013, 2, 1)), "2:    1:2013");
-        $this->assertEquals($this->builder->toFormatter()->format(YearMonth::ofNumerical(2013, 2)), "2:     :2013");
+        $this->assertEquals($this->builder->toFormatter()->format(LocalDate::of(2013, 2, 1)), "2:    1:2013");
+        $this->assertEquals($this->builder->toFormatter()->format(YearMonth::of(2013, 2)), "2:     :2013");
 }
 
     //-----------------------------------------------------------------------
@@ -1049,15 +1049,15 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     {
         return  [
         [
-            "Q", LocalDate::ofNumerical(2012, 2, 10), "1"],
+            "Q", LocalDate::of(2012, 2, 10), "1"],
         [
-            "QQ", LocalDate::ofNumerical(2012, 2, 10), "01"],
+            "QQ", LocalDate::of(2012, 2, 10), "01"],
         [
-            "QQQ", LocalDate::ofNumerical(2012, 2, 10), "Q1"],
+            "QQQ", LocalDate::of(2012, 2, 10), "Q1"],
         [
-            "QQQQ", LocalDate::ofNumerical(2012, 2, 10), "1st quarter"],
+            "QQQQ", LocalDate::of(2012, 2, 10), "1st quarter"],
         [
-            "QQQQQ", LocalDate::ofNumerical(2012, 2, 10), "1"],
+            "QQQQQ", LocalDate::of(2012, 2, 10), "1"],
     ];
     }
 

@@ -99,7 +99,7 @@ class TZRule
             }
         }
         if ($this->timeEndOfDay && $this->dayOfMonthIndicator > 0 && ($this->dayOfMonthIndicator === 28 && $this->month == Month::FEBRUARY()) == false) {
-            $date = LocalDate::of(2004, $this->month, $this->dayOfMonthIndicator)->plusDays(1);  // leap-year
+            $date = LocalDate::ofMonth(2004, $this->month, $this->dayOfMonthIndicator)->plusDays(1);  // leap-year
             $this->month = $date->getMonth();
             $this->dayOfMonthIndicator = $date->getDayOfMonth();
             if ($this->dayOfWeek !== null) {
@@ -137,12 +137,12 @@ class TZRule
     {
         if ($this->dayOfMonthIndicator < 0) {
             $monthLen = $this->month->length(IsoChronology::INSTANCE()->isLeapYear($this->year));
-            $date = LocalDate::of($this->year, $this->month, $monthLen + 1 + $this->dayOfMonthIndicator);
+            $date = LocalDate::ofMonth($this->year, $this->month, $monthLen + 1 + $this->dayOfMonthIndicator);
             if ($this->dayOfWeek !== null) {
                 $date = $date->adjust(TemporalAdjusters::previousOrSame($this->dayOfWeek));
             }
         } else {
-            $date = LocalDate::of($this->year, $this->month, $this->dayOfMonthIndicator);
+            $date = LocalDate::ofMonth($this->year, $this->month, $this->dayOfMonthIndicator);
             if ($this->dayOfWeek != null) {
                 $date = $date->adjust(TemporalAdjusters::nextOrSame($this->dayOfWeek));
             }

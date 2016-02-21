@@ -93,11 +93,11 @@ class DayOfQuarter implements TemporalField
         $doq = $fieldValues->get(IsoFields::DAY_OF_QUARTER());
         IsoFields::ensureIso($partialTemporal);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
-            $date = LocalDate::ofNumerical($y, 1, 1)->plusMonths(Math::multiplyExact(Math::subtractExact($qoyLong, 1), 3));
+            $date = LocalDate::of($y, 1, 1)->plusMonths(Math::multiplyExact(Math::subtractExact($qoyLong, 1), 3));
             $doq = Math::subtractExact($doq, 1);
         } else {
             $qoy = IsoFields::QUARTER_OF_YEAR()->range()->checkValidIntValue($qoyLong, IsoFields::QUARTER_OF_YEAR());  // validated
-            $date = LocalDate::ofNumerical($y, (($qoy - 1) * 3) + 1, 1);
+            $date = LocalDate::of($y, (($qoy - 1) * 3) + 1, 1);
             if ($doq < 1 || $doq > 90) {
                 if ($resolverStyle == ResolverStyle::STRICT()) {
                     $this->rangeRefinedBy($date)->checkValidValue($doq, $this);  // only allow exact range

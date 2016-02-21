@@ -58,12 +58,12 @@ final class TZDBZone extends TZDBMonthDayTime
         $this->adjustToFowards($year);
         if ($this->dayOfMonth === -1) {
             $dayOfMonth = $this->month->length(Year::isLeapYear($year));
-            $date = LocalDate::of($year, $this->month, $dayOfMonth);
+            $date = LocalDate::ofMonth($year, $this->month, $dayOfMonth);
             if ($this->dayOfWeek !== null) {
                 $date = $date->adjust(TemporalAdjusters::previousOrSame($this->dayOfWeek));
             }
         } else {
-            $date = LocalDate::of($year, $this->month, $this->dayOfMonth);
+            $date = LocalDate::ofMonth($year, $this->month, $this->dayOfMonth);
             if ($this->dayOfWeek !== null) {
                 $date = $date->adjust(TemporalAdjusters::nextOrSame($this->dayOfWeek));
             }

@@ -85,7 +85,7 @@ class NumberPrinterTest extends AbstractTestPrinterParser
     public function test_print_append()
     {
         $buf = "EXISTING";
-        $this->getFormatterWidth(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER())->formatTo(LocalDate::ofNumerical(2012, 1, 3), $buf);
+        $this->getFormatterWidth(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NEVER())->formatTo(LocalDate::of(2012, 1, 3), $buf);
         $this->assertEquals($buf, "EXISTING3");
     }
 

@@ -81,7 +81,7 @@ class WeekOfWeekBasedYear implements TemporalField
         $wby = IsoFields::WEEK_BASED_YEAR()->range()->checkValidIntValue($wbyLong, IsoFields::WEEK_BASED_YEAR());  // always validate
         $wowby = $fieldValues->get(IsoFields::WEEK_OF_WEEK_BASED_YEAR());
         IsoFields::ensureIso($partialTemporal);
-        $date = LocalDate::ofNumerical($wby, 1, 4);
+        $date = LocalDate::of($wby, 1, 4);
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $dow = $dowLong;  // unvalidated
             if ($dow > 7) {

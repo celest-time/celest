@@ -218,7 +218,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetTime the offset time, not null
      */
-    public static function of(LocalTime $time, ZoneOffset $offset)
+    public static function ofLocalTime(LocalTime $time, ZoneOffset $offset)
     {
         return new OffsetTime($time, $offset);
     }
@@ -243,7 +243,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the value of any field is out of range
      */
     public
-    static function ofNumerical($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
+    static function of($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
         return new OffsetTime(LocalTime::of($hour, $minute, $second, $nanoOfSecond), $offset);
     }

@@ -280,7 +280,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     {
         $test = DateTimeFormatter::ofPattern("d MMM yyyy");
         $fmtLocale = Locale::getDefault();
-        $this->assertEquals($test->format(LocalDate::ofNumerical(2012, 6, 30)), "30 " .
+        $this->assertEquals($test->format(LocalDate::of(2012, 6, 30)), "30 " .
             Month::JUNE()->getDisplayName(TextStyle::SHORT(), $fmtLocale) . " 2012");
         $this->assertEquals($test->getLocale(), $fmtLocale, "Locale.Category.FORMAT");
     }
@@ -307,7 +307,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public function test_pattern_StringLocale()
     {
         $test = DateTimeFormatter::ofPatternLocale("d MMM yyyy", Locale::UK());
-        $this->assertEquals($test->format(LocalDate::ofNumerical(2012, 6, 30)), "30 Jun 2012");
+        $this->assertEquals($test->format(LocalDate::of(2012, 6, 30)), "30 Jun 2012");
         $this->assertEquals($test->getLocale(), Locale::UK());
     }
 
@@ -446,7 +446,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     {
         $expected = $this->createDate(999999999, 8, 6);
         $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE()->parseUnresolved("+999999999-08-06", new ParsePosition(0)), $expected);
-        $this->assertEquals(LocalDate::parse("+999999999-08-06"), LocalDate::ofNumerical(999999999, 8, 6));
+        $this->assertEquals(LocalDate::parse("+999999999-08-06"), LocalDate::of(999999999, 8, 6));
     }
 
 
@@ -470,7 +470,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     {
         $expected = $this->createDate(-999999999, 8, 6);
         $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE()->parseUnresolved("-999999999-08-06", new ParsePosition(0)), $expected);
-        $this->assertEquals(LocalDate::parse("-999999999-08-06"), LocalDate::ofNumerical(-999999999, 8, 6));
+        $this->assertEquals(LocalDate::parse("-999999999-08-06"), LocalDate::of(-999999999, 8, 6));
     }
 
 
@@ -1445,28 +1445,28 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
 
     public function test_print_isoOrdinalDate()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), null, null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), null, null);
         $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "2008-155");
     }
 
 
     public function test_print_isoOrdinalDate_offset()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "Z", null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), "Z", null);
         $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "2008-155Z");
     }
 
 
     public function test_print_isoOrdinalDate_zoned()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "+02:00", "Europe/Paris");
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), "+02:00", "Europe/Paris");
         $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "2008-155+02:00");
     }
 
 
     public function test_print_isoOrdinalDate_zoned_largeYear()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(123456, 6, 3, 11, 5, 30), "Z", null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(123456, 6, 3, 11, 5, 30), "Z", null);
         $this->assertEquals(DateTimeFormatter::ISO_ORDINAL_DATE()->format($test), "+123456-155Z");
     }
 
@@ -1516,21 +1516,21 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
 
     public function test_print_basicIsoDate()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), null, null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), null, null);
         $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->format($test), "20080603");
     }
 
 
     public function test_print_basicIsoDate_offset()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "Z", null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), "Z", null);
         $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->format($test), "20080603Z");
     }
 
 
     public function test_print_basicIsoDate_zoned()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "+02:00", "Europe/Paris");
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(2008, 6, 3, 11, 5, 30), "+02:00", "Europe/Paris");
         $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->format($test), "20080603+0200");
     }
 
@@ -1539,14 +1539,14 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
      */
     public function test_print_basicIsoDate_largeYear()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(123456, 6, 3, 11, 5, 30), "Z", null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(123456, 6, 3, 11, 5, 30), "Z", null);
         DateTimeFormatter::BASIC_ISO_DATE()->format($test);
     }
 
 
     public function test_print_basicIsoDate_fields()
     {
-        $test = $this->buildAccessorDate(LocalDate::ofNumerical(2008, 6, 3), null, null);
+        $test = $this->buildAccessorDate(LocalDate::of(2008, 6, 3), null, null);
         $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->format($test), "20080603");
     }
 
@@ -1555,7 +1555,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
      */
     public function test_print_basicIsoDate_missingField()
     {
-        $test = YearMonth::ofNumerical(2008, 6);
+        $test = YearMonth::of(2008, 6);
         DateTimeFormatter::BASIC_ISO_DATE()->format($test);
     }
 
@@ -1563,7 +1563,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
 
     public function test_parse_basicIsoDate()
     {
-        $expected = LocalDate::ofNumerical(2008, 6, 3);
+        $expected = LocalDate::of(2008, 6, 3);
         $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->parseQuery("20080603", TemporalQueries::fromCallable([LocalDate::class, 'from'])), $expected);
     }
 
@@ -1573,7 +1573,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public function test_parse_basicIsoDate_largeYear()
     {
         try {
-            $expected = LocalDate::ofNumerical(123456, 6, 3);
+            $expected = LocalDate::of(123456, 6, 3);
             $this->assertEquals(DateTimeFormatter::BASIC_ISO_DATE()->parseQuery("+1234560603", TemporalQueries::fromCallable([LocalDate::class, 'from'])), $expected);
         } catch (DateTimeParseException $ex) {
             $this->assertEquals($ex->getErrorIndex(), 0);
@@ -1595,7 +1595,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     function provider_weekDate()
     {
-        $date = ZonedDateTime::of(LocalDateTime::ofNumerical(2003, 12, 29, 11, 5, 30), ZoneId::of("Europe/Paris"));
+        $date = ZonedDateTime::ofDateTime(LocalDateTime::of(2003, 12, 29, 11, 5, 30), ZoneId::of("Europe/Paris"));
         $endDate = $date->withYear(2005)->withMonth(1)->withDayOfMonth(2);
         $week = 1;
         $day = 1;
@@ -1631,7 +1631,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public
     function test_print_isoWeekDate_zoned_largeYear()
     {
-        $test = $this->buildAccessorDateTime(LocalDateTime::ofNumerical(123456, 6, 3, 11, 5, 30), "Z", null);
+        $test = $this->buildAccessorDateTime(LocalDateTime::of(123456, 6, 3, 11, 5, 30), "Z", null);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->format($test), "+123456-W23-2Z");
     }
 
@@ -1639,7 +1639,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public
     function test_print_isoWeekDate_fields()
     {
-        $test = $this->buildAccessorDate(LocalDate::ofNumerical(2004, 1, 27), null, null);
+        $test = $this->buildAccessorDate(LocalDate::of(2004, 1, 27), null, null);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->format($test), "2004-W05-2");
     }
 
@@ -1649,7 +1649,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public
     function test_print_isoWeekDate_missingField()
     {
-        $test = YearMonth::ofNumerical(2008, 6);
+        $test = YearMonth::of(2008, 6);
         DateTimeFormatter::ISO_WEEK_DATE()->format($test);
     }
 
@@ -1658,7 +1658,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public
     function test_parse_weekDate()
     {
-        $expected = LocalDate::ofNumerical(2004, 1, 28);
+        $expected = LocalDate::of(2004, 1, 28);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->parseQuery("2004-W05-3", TemporalQueries::fromCallable([LocalDate::class, 'from'])), $expected);
     }
 
@@ -1767,13 +1767,13 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "Z", "Tue, 3 Jun 2008 11:05:30 GMT"],
+                    LocalDateTime::of(2008, 6, 3, 11, 5, 30), "Z", "Tue, 3 Jun 2008 11:05:30 GMT"],
                 [
-                    LocalDateTime::ofNumerical(2008, 6, 30, 11, 5, 30), "Z", "Mon, 30 Jun 2008 11:05:30 GMT"],
+                    LocalDateTime::of(2008, 6, 30, 11, 5, 30), "Z", "Mon, 30 Jun 2008 11:05:30 GMT"],
                 [
-                    LocalDateTime::ofNumerical(2008, 6, 3, 11, 5, 30), "+02:00", "Tue, 3 Jun 2008 11:05:30 +0200"],
+                    LocalDateTime::of(2008, 6, 3, 11, 5, 30), "+02:00", "Tue, 3 Jun 2008 11:05:30 +0200"],
                 [
-                    LocalDateTime::ofNumerical(2008, 6, 30, 11, 5, 30), "-03:00", "Mon, 30 Jun 2008 11:05:30 -0300"],
+                    LocalDateTime::of(2008, 6, 30, 11, 5, 30), "-03:00", "Mon, 30 Jun 2008 11:05:30 -0300"],
             ];
     }
 
@@ -1803,7 +1803,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     public
     function test_print_rfc1123_missingField()
     {
-        $test = YearMonth::ofNumerical(2008, 6);
+        $test = YearMonth::of(2008, 6);
         DateTimeFormatter::RFC_1123_DATE_TIME()->format($test);
     }
 

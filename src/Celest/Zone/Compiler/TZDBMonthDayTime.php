@@ -40,7 +40,7 @@ abstract class TZDBMonthDayTime
     public function adjustToFowards($year)
     {
         if ($this->adjustForwards === false && $this->dayOfMonth > 0) {
-            $adjustedDate = LocalDate::of($year, $this->month, $this->dayOfMonth)->minusDays(6);
+            $adjustedDate = LocalDate::ofMonth($year, $this->month, $this->dayOfMonth)->minusDays(6);
             $this->dayOfMonth = $adjustedDate->getDayOfMonth();
             $this->month = $adjustedDate->getMonth();
             $this->adjustForwards = true;

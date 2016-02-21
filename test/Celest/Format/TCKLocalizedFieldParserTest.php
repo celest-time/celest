@@ -128,24 +128,24 @@ class TCKLocalizedFieldParserTest extends AbstractTestPrinterParser
     {
         return [
             [
-                "e W M y", "1 1 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 1)],
+                "e W M y", "1 1 1 2012", 0, 10, LocalDate::of(2012, 1, 1)],
             [
-                "e W M y", "1 2 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 8)],
+                "e W M y", "1 2 1 2012", 0, 10, LocalDate::of(2012, 1, 8)],
             [
-                "e W M y", "2 2 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 9)],
+                "e W M y", "2 2 1 2012", 0, 10, LocalDate::of(2012, 1, 9)],
             [
-                "e W M y", "3 2 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 10)],
+                "e W M y", "3 2 1 2012", 0, 10, LocalDate::of(2012, 1, 10)],
             [
-                "e W M y", "1 3 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 15)],
+                "e W M y", "1 3 1 2012", 0, 10, LocalDate::of(2012, 1, 15)],
             [
-                "e W M y", "2 3 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 16)],
+                "e W M y", "2 3 1 2012", 0, 10, LocalDate::of(2012, 1, 16)],
             [
-                "e W M y", "6 2 1 2012", 0, 10, LocalDate::ofNumerical(2012, 1, 13)],
+                "e W M y", "6 2 1 2012", 0, 10, LocalDate::of(2012, 1, 13)],
             [
-                "e W M y", "6 2 7 2012", 0, 10, LocalDate::ofNumerical(2012, 7, 13)],
+                "e W M y", "6 2 7 2012", 0, 10, LocalDate::of(2012, 7, 13)],
             [
                 "'Date: 'y-MM', day-of-week: 'e', week-of-month: 'W",
-                "Date: 2012-07, day-of-week: 6, week-of-month: 3", 0, 47, LocalDate::ofNumerical(2012, 7, 20)],
+                "Date: 2012-07, day-of-week: 6, week-of-month: 3", 0, 47, LocalDate::of(2012, 7, 20)],
         ];
     }
 
@@ -181,19 +181,19 @@ class TCKLocalizedFieldParserTest extends AbstractTestPrinterParser
             //    "e w Y", "6 29 2012", 0, 9, LocalDate::ofNumerical(2012, 7, 20)],
             [
                 "'Date: 'Y', day-of-week: 'e', week-of-year: 'w",
-                "Date: 2012, day-of-week: 6, week-of-year: 29", 0, 44, LocalDate::ofNumerical(2012, 7, 20)],
+                "Date: 2012, day-of-week: 6, week-of-year: 29", 0, 44, LocalDate::of(2012, 7, 20)],
             [
-                "Y-w-e", "2008-01-1", 0, 9, LocalDate::ofNumerical(2007, 12, 30)],
+                "Y-w-e", "2008-01-1", 0, 9, LocalDate::of(2007, 12, 30)],
             [
-                "Y-w-e", "2008-52-1", 0, 9, LocalDate::ofNumerical(2008, 12, 21)],
+                "Y-w-e", "2008-52-1", 0, 9, LocalDate::of(2008, 12, 21)],
             [
-                "Y-w-e", "2008-52-7", 0, 9, LocalDate::ofNumerical(2008, 12, 27)],
+                "Y-w-e", "2008-52-7", 0, 9, LocalDate::of(2008, 12, 27)],
             [
-                "Y-w-e", "2009-01-01", 0, 10, LocalDate::ofNumerical(2008, 12, 28)],
+                "Y-w-e", "2009-01-01", 0, 10, LocalDate::of(2008, 12, 28)],
             [
-                "Y-w-e", "2009-01-04", 0, 10, LocalDate::ofNumerical(2008, 12, 31)],
+                "Y-w-e", "2009-01-04", 0, 10, LocalDate::of(2008, 12, 31)],
             [
-                "Y-w-e", "2009-01-05", 0, 10, LocalDate::ofNumerical(2009, 1, 1)],
+                "Y-w-e", "2009-01-05", 0, 10, LocalDate::of(2009, 1, 1)],
         ];
     }
 

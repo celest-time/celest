@@ -190,7 +190,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     static function nowOf(Clock $clock)
     {
         $now = LocalDate::nowOf($clock);  // called once
-        return YearMonth::of($now->getYear(), $now->getMonth());
+        return YearMonth::ofMonth($now->getYear(), $now->getMonth());
     }
 
 //-----------------------------------------------------------------------
@@ -203,9 +203,9 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @throws DateTimeException if the year value is invalid
      */
     public
-    static function of($year, Month $month)
+    static function ofMonth($year, Month $month)
     {
-        return self::ofNumerical($year, $month->getValue());
+        return self::of($year, $month->getValue());
     }
 
     /**
@@ -217,7 +217,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      * @throws DateTimeException if either field value is invalid
      */
     public
-    static function ofNumerical($year, $month)
+    static function of($year, $month)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -255,7 +255,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
-            return self::ofNumerical($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
+            return self::of($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
         } catch (DateTimeException $ex) {
             throw new DateTimeException("Unable to obtain YearMonth from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal), $ex);
@@ -1146,7 +1146,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
     public
     function atDay($dayOfMonth)
     {
-        return LocalDate::ofNumerical($this->year, $this->month, $dayOfMonth);
+        return LocalDate::of($this->year, $this->month, $dayOfMonth);
     }
 
     /**
@@ -1165,7 +1165,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
      */
     public function atEndOfMonth()
     {
-        return LocalDate::ofNumerical($this->year, $this->month, $this->lengthOfMonth());
+        return LocalDate::of($this->year, $this->month, $this->lengthOfMonth());
     }
 
 //-----------------------------------------------------------------------

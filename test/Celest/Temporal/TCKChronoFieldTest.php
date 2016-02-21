@@ -188,49 +188,49 @@ class TCKChronoFieldTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    CF::YEAR(), LocalDate::ofNumerical(2000, 2, 29), true, 2000],
+                    CF::YEAR(), LocalDate::of(2000, 2, 29), true, 2000],
                 [
-                    CF::YEAR(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 2000],
+                    CF::YEAR(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 2000],
                 [
-                    CF::MONTH_OF_YEAR(), LocalDate::ofNumerical(2000, 2, 29), true, 2],
+                    CF::MONTH_OF_YEAR(), LocalDate::of(2000, 2, 29), true, 2],
                 [
-                    CF::MONTH_OF_YEAR(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 2],
+                    CF::MONTH_OF_YEAR(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 2],
                 [
-                    CF::DAY_OF_MONTH(), LocalDate::ofNumerical(2000, 2, 29), true, 29],
+                    CF::DAY_OF_MONTH(), LocalDate::of(2000, 2, 29), true, 29],
                 [
-                    CF::DAY_OF_MONTH(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 29],
+                    CF::DAY_OF_MONTH(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 29],
                 [
-                    CF::DAY_OF_YEAR(), LocalDate::ofNumerical(2000, 2, 29), true, 60],
+                    CF::DAY_OF_YEAR(), LocalDate::of(2000, 2, 29), true, 60],
                 [
-                    CF::DAY_OF_YEAR(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 60],
+                    CF::DAY_OF_YEAR(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 60],
 
                 [
                     CF::HOUR_OF_DAY(), LocalTime::of(5, 4, 3, 200), true, 5],
                 [
-                    CF::HOUR_OF_DAY(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 5],
+                    CF::HOUR_OF_DAY(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 5],
 
                 [
                     CF::MINUTE_OF_DAY(), LocalTime::of(5, 4, 3, 200), true, 5 * 60 + 4],
                 [
-                    CF::MINUTE_OF_DAY(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 5 * 60 + 4],
+                    CF::MINUTE_OF_DAY(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 5 * 60 + 4],
                 [
                     CF::MINUTE_OF_HOUR(), LocalTime::of(5, 4, 3, 200), true, 4],
                 [
-                    CF::MINUTE_OF_HOUR(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 4],
+                    CF::MINUTE_OF_HOUR(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 4],
 
                 [
                     CF::SECOND_OF_DAY(), LocalTime::of(5, 4, 3, 200), true, 5 * 3600 + 4 * 60 + 3],
                 [
-                    CF::SECOND_OF_DAY(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 5 * 3600 + 4 * 60 + 3],
+                    CF::SECOND_OF_DAY(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 5 * 3600 + 4 * 60 + 3],
                 [
                     CF::SECOND_OF_MINUTE(), LocalTime::of(5, 4, 3, 200), true, 3],
                 [
-                    CF::SECOND_OF_MINUTE(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 3],
+                    CF::SECOND_OF_MINUTE(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 3],
 
                 [
                     CF::NANO_OF_SECOND(), LocalTime::of(5, 4, 3, 200), true, 200],
                 [
-                    CF::NANO_OF_SECOND(), LocalDateTime::ofNumerical(2000, 2, 29, 5, 4, 3, 200), true, 200],
+                    CF::NANO_OF_SECOND(), LocalDateTime::of(2000, 2, 29, 5, 4, 3, 200), true, 200],
 
                 [
                     CF::YEAR(), LocalTime::of(5, 4, 3, 200), false, -1],
@@ -241,17 +241,17 @@ class TCKChronoFieldTest extends \PHPUnit_Framework_TestCase
                 [
                     CF::DAY_OF_YEAR(), LocalTime::of(5, 4, 3, 200), false, -1],
                 [
-                    CF::HOUR_OF_DAY(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::HOUR_OF_DAY(), LocalDate::of(2000, 2, 29), false, -1],
                 [
-                    CF::MINUTE_OF_DAY(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::MINUTE_OF_DAY(), LocalDate::of(2000, 2, 29), false, -1],
                 [
-                    CF::MINUTE_OF_HOUR(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::MINUTE_OF_HOUR(), LocalDate::of(2000, 2, 29), false, -1],
                 [
-                    CF::SECOND_OF_DAY(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::SECOND_OF_DAY(), LocalDate::of(2000, 2, 29), false, -1],
                 [
-                    CF::SECOND_OF_MINUTE(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::SECOND_OF_MINUTE(), LocalDate::of(2000, 2, 29), false, -1],
                 [
-                    CF::NANO_OF_SECOND(), LocalDate::ofNumerical(2000, 2, 29), false, -1],
+                    CF::NANO_OF_SECOND(), LocalDate::of(2000, 2, 29), false, -1],
             ];
     }
 
@@ -272,10 +272,10 @@ class TCKChronoFieldTest extends \PHPUnit_Framework_TestCase
     public function test_range()
     {
         $this->assertEquals(CF::MONTH_OF_YEAR()->range(), ValueRange::of(1, 12));
-        $this->assertEquals(CF::MONTH_OF_YEAR()->rangeRefinedBy(LocalDate::ofNumerical(2000, 2, 29)), ValueRange::of(1, 12));
+        $this->assertEquals(CF::MONTH_OF_YEAR()->rangeRefinedBy(LocalDate::of(2000, 2, 29)), ValueRange::of(1, 12));
 
         $this->assertEquals(CF::DAY_OF_MONTH()->range(), ValueRange::ofVariable(1, 28, 31));
-        $this->assertEquals(CF::DAY_OF_MONTH()->rangeRefinedBy(LocalDate::ofNumerical(2000, 2, 29)), ValueRange::of(1, 29));
+        $this->assertEquals(CF::DAY_OF_MONTH()->rangeRefinedBy(LocalDate::of(2000, 2, 29)), ValueRange::of(1, 29));
     }
 
     //-----------------------------------------------------------------------

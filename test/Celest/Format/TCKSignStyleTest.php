@@ -80,45 +80,45 @@ class TCKSignStyleTest extends \PHPUnit_Framework_TestCase
         return
             [
                 [
-                    LocalDate::ofNumerical(0, 10, 2), SignStyle::ALWAYS(), null, "+00"
+                    LocalDate::of(0, 10, 2), SignStyle::ALWAYS(), null, "+00"
                 ],
                 [
-                    LocalDate::ofNumerical(2001, 10, 2), SignStyle::ALWAYS(), null, "+2001"],
+                    LocalDate::of(2001, 10, 2), SignStyle::ALWAYS(), null, "+2001"],
                 [
-                    LocalDate::ofNumerical(-2001, 10, 2), SignStyle::ALWAYS(), null, "-2001"],
+                    LocalDate::of(-2001, 10, 2), SignStyle::ALWAYS(), null, "-2001"],
 
                 [
-                    LocalDate::ofNumerical(2001, 10, 2), SignStyle::NORMAL(), null, "2001"],
+                    LocalDate::of(2001, 10, 2), SignStyle::NORMAL(), null, "2001"],
                 [
-                    LocalDate::ofNumerical(-2001, 10, 2), SignStyle::NORMAL(), null, "-2001"],
+                    LocalDate::of(-2001, 10, 2), SignStyle::NORMAL(), null, "-2001"],
 
                 [
-                    LocalDate::ofNumerical(2001, 10, 2), SignStyle::NEVER(), null, "2001"],
+                    LocalDate::of(2001, 10, 2), SignStyle::NEVER(), null, "2001"],
                 [
-                    LocalDate::ofNumerical(-2001, 10, 2), SignStyle::NEVER(), null, "2001"],
+                    LocalDate::of(-2001, 10, 2), SignStyle::NEVER(), null, "2001"],
 
                 [
-                    LocalDate::ofNumerical(2001, 10, 2), SignStyle::NOT_NEGATIVE(), null, "2001"],
+                    LocalDate::of(2001, 10, 2), SignStyle::NOT_NEGATIVE(), null, "2001"],
                 [
-                    LocalDate::ofNumerical(-2001, 10, 2), SignStyle::NOT_NEGATIVE(), DateTimeException::class, ""],
+                    LocalDate::of(-2001, 10, 2), SignStyle::NOT_NEGATIVE(), DateTimeException::class, ""],
 
                 [
-                    LocalDate::ofNumerical(0, 10, 2), SignStyle::EXCEEDS_PAD(), null, "00"],
+                    LocalDate::of(0, 10, 2), SignStyle::EXCEEDS_PAD(), null, "00"],
                 [
-                    LocalDate::ofNumerical(1, 10, 2), SignStyle::EXCEEDS_PAD(), null, "01"],
+                    LocalDate::of(1, 10, 2), SignStyle::EXCEEDS_PAD(), null, "01"],
                 [
-                    LocalDate::ofNumerical(-1, 10, 2), SignStyle::EXCEEDS_PAD(), null, "-01"],
+                    LocalDate::of(-1, 10, 2), SignStyle::EXCEEDS_PAD(), null, "-01"],
 
                 [
-                    LocalDate::ofNumerical(20001, 10, 2), SignStyle::ALWAYS(), DateTimeException::class, ""],
+                    LocalDate::of(20001, 10, 2), SignStyle::ALWAYS(), DateTimeException::class, ""],
                 [
-                    LocalDate::ofNumerical(20001, 10, 2), SignStyle::NORMAL(), DateTimeException::class, ""],
+                    LocalDate::of(20001, 10, 2), SignStyle::NORMAL(), DateTimeException::class, ""],
                 [
-                    LocalDate::ofNumerical(20001, 10, 2), SignStyle::NEVER(), DateTimeException::class, ""],
+                    LocalDate::of(20001, 10, 2), SignStyle::NEVER(), DateTimeException::class, ""],
                 [
-                    LocalDate::ofNumerical(20001, 10, 2), SignStyle::EXCEEDS_PAD(), DateTimeException::class, ""],
+                    LocalDate::of(20001, 10, 2), SignStyle::EXCEEDS_PAD(), DateTimeException::class, ""],
                 [
-                    LocalDate::ofNumerical(20001, 10, 2), SignStyle::NOT_NEGATIVE(), DateTimeException::class, ""],
+                    LocalDate::of(20001, 10, 2), SignStyle::NOT_NEGATIVE(), DateTimeException::class, ""],
             ];
     }
 

@@ -1523,7 +1523,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function atOffset(ZoneOffset $offset)
     {
-        return OffsetTime::of($this, $offset);
+        return OffsetTime::ofLocalTime($this, $offset);
     }
 
 //-----------------------------------------------------------------------
