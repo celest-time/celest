@@ -238,7 +238,7 @@ final class Parsed implements TemporalAccessor
      * Resolves the fields in this context.
      *
      * @param ResolverStyle $resolverStyle the resolver style, not null
-     * @param array|null $resolverFields the fields to use for resolving, null for all fields
+     * @param TemporalField[]|null $resolverFields the fields to use for resolving, null for all fields
      * @return $this, for method chaining
      * @throws DateTimeException if resolving one field results in a value for
      *  another field that is in conflict
@@ -246,7 +246,7 @@ final class Parsed implements TemporalAccessor
     public function resolve(ResolverStyle $resolverStyle, $resolverFields)
     {
         if ($resolverFields !== null) {
-            $this->fieldValues->keySet()->retainAll($resolverFields);
+            $this->fieldValues->filter($resolverFields);
         }
 
         $this->resolverStyle = $resolverStyle;

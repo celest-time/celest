@@ -104,4 +104,18 @@ class FieldValues implements \Iterator
     {
         return count($this->fieldValues);
     }
+
+    /**
+     * @param TemporalField[] $resolverFields
+     */
+    public function filter(array $resolverFields)
+    {
+        $fields = [];
+        foreach($resolverFields as $field) {
+            if($field instanceof TemporalField)
+                $fields[$field->__toString()] = null;
+        }
+
+        $this->fieldValues = \array_intersect_key($this->fieldValues, $fields);
+    }
 }

@@ -1415,7 +1415,7 @@ class DateTimeFormatter
      * @param Locale $locale the locale to use, not null
      * @param DecimalStyle $decimalStyle the DecimalStyle to use, not null
      * @param ResolverStyle $resolverStyle the resolver style to use, not null
-     * @param $resolverFields \SplObjectStorage|null TemporalField the fields to use during resolving, null for all fields
+     * @param $resolverFields TemporalField[]|null TemporalField the fields to use during resolving, null for all fields
      * @param Chronology|null $chrono the chronology to use, null for no override
      * @param ZoneId|null $zone the zone to use, null for no override
      */
@@ -1543,11 +1543,10 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param Chronology $chrono the new chronology, null if no override
+     * @param Chronology|null $chrono the new chronology, null if no override
      * @return DateTimeFormatter a formatter based on this formatter with the requested override chronology, not null
      */
-    public
-    function withChronology(Chronology $chrono)
+    public function withChronology($chrono)
     {
         if ($this->chrono == $chrono) {
             return $this;
@@ -1603,11 +1602,11 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param ZoneId $zone the new override zone, null if no override
+     * @param ZoneId|null $zone the new override zone, null if no override
      * @return DateTimeFormatter a formatter based on this formatter with the requested override zone, not null
      */
     public
-    function withZone(ZoneId $zone)
+    function withZone($zone)
     {
         if ($this->zone == $zone) {
             return $this;
@@ -1670,7 +1669,7 @@ class DateTimeFormatter
      * By default, a formatter has no resolver fields, and thus returns null.
      * See {@link #withResolverFields(Set)} for more details.
      *
-     * @return \SplObjectStorage TemporalField the immutable set of resolver fields of this formatter, null if no fields
+     * @return TemporalField[] the immutable set of resolver fields of this formatter, null if no fields
      */
     public function getResolverFields()
     {
@@ -1713,22 +1712,19 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param TemporalField $resolverFields[] the new set of resolver fields, null if no fields
+     * @param TemporalField[] $resolverFields the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
-// TODO better way?
-    public
-    function withResolverFields(array $resolverFields)
+    public function withResolverFields(...$resolverFields)
     {
-        $fields = null;
-        if ($resolverFields != null) {
-            $fields = Collections . unmodifiableSet(new HashSet <> (Arrays . asList(resolverFields)));
-        }
-
-        if (Objects . equals(this . resolverFields, fields)) {
+        if ($this->resolverFields === $resolverFields) {
             return $this;
         }
-        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $fields, $this->chrono, $this->zone);
+
+        if($resolverFields == [null])
+            $resolverFields = null;
+
+        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);
     }
 
     /**
@@ -1821,6 +1817,10 @@ class DateTimeFormatter
     public
     function formatTo(TemporalAccessor $temporal, &$appendable)
     {
+        if(!is_string($appendable) && !is_null($appendable)) {
+            throw new \InvalidArgumentException();
+        }
+
         $context = new DateTimePrintContext($temporal, $this);
         $this->printerParser->format($context, $appendable);
     }
@@ -1843,6 +1843,10 @@ class DateTimeFormatter
     public
     function parse($text)
     {
+        if(!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
         try {
             return $this->parseResolved0($text, null);
         } catch
@@ -1885,6 +1889,10 @@ class DateTimeFormatter
      */
     public function parsePos($text, ParsePosition $position)
     {
+        if(!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
         try {
             return $this->parseResolved0($text, $position);
         } catch
@@ -1915,8 +1923,12 @@ class DateTimeFormatter
      * @return mixed the parsed date-time, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public function parseQuery($text, $query)
+    public function parseQuery($text, TemporalQuery $query)
     {
+        if(!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
         try {
             return $this->parseResolved0($text, null)->query($query);
         } catch
@@ -1952,17 +1964,21 @@ class DateTimeFormatter
      * or a problem occurs during parsing or merging, then an exception is thrown.
      *
      * @param string $text the text to parse, not null
-     * @param TemporalQuery $queries[] the queries defining the types to attempt to parse to,
+     * @param TemporalQuery[] $queries the queries defining the types to attempt to parse to,
      *  must implement {@code TemporalAccessor}, not null
      * @return TemporalAccessor the parsed date-time, not null
      * @throws DateTimeException
      * @throws DateTimeParseException if unable to parse the requested result
      * @throws IllegalArgumentException if less than 2 types are specified
      */
-    public function parseBest($text, array $queries)
+    public function parseBest($text, ...$queries)
     {
+        if(!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
         if (count($queries) < 2) {
-            throw new IllegalArgumentException("At least two queries must be specified");
+            throw new \InvalidArgumentException("At least two queries must be specified");
         }
         try {
             $resolved = $this->parseResolved0($text, null);
@@ -1970,15 +1986,14 @@ class DateTimeFormatter
                 try {
                     return $resolved->query($query);
                 } catch
-                (RuntimeException $ex) {
+                (\Exception $ex) {
                     // continue
                 }
             }
             throw new DateTimeException("Unable to convert parsed text using any of the specified queries");
         } catch (DateTimeParseException $ex) {
             throw $ex;
-        } catch
-        (RuntimeException $ex) {
+        } catch (\Exception $ex) {
             throw $this->createError($text, $ex);
         }
     }
@@ -2069,6 +2084,10 @@ class DateTimeFormatter
      */
     public function parseUnresolved($text, ParsePosition $position)
     {
+        if(!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
         $context = $this->parseUnresolved0($text, $position);
         if ($context === null) {
             return null;

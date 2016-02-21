@@ -93,9 +93,9 @@ class Test implements TemporalAccessor
      * @param ChronoLocalDate $effectiveDate
      * @param TemporalAccessor $temporal
      * @param ZoneId|null $effectiveZone
-     * @param Chronology $effectiveChrono
+     * @param Chronology|null $effectiveChrono
      */
-    public function __construct($effectiveDate, TemporalAccessor $temporal, $effectiveZone, Chronology $effectiveChrono)
+    public function __construct($effectiveDate, TemporalAccessor $temporal, $effectiveZone, $effectiveChrono)
     {
         $this->effectiveDate = $effectiveDate;
         $this->temporal = $temporal;
