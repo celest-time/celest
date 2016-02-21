@@ -85,7 +85,7 @@ class DayOfQuarter implements TemporalField
     {
         $yearLong = $fieldValues->get(ChronoField::YEAR());
         $qoyLong = $fieldValues->get(IsoFields::QUARTER_OF_YEAR());
-        if ($yearLong == null || $qoyLong == null) {
+        if ($yearLong === null || $qoyLong === null) {
             return null;
         }
 

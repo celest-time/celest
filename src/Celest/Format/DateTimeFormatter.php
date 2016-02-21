@@ -1885,7 +1885,6 @@ class DateTimeFormatter
      *  and the index of any error, not null
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
-     * @throws IndexOutOfBoundsException if the position is invalid
      */
     public function parsePos($text, ParsePosition $position)
     {
@@ -1895,10 +1894,9 @@ class DateTimeFormatter
 
         try {
             return $this->parseResolved0($text, $position);
-        } catch
-        (DateTimeParseException $ex) {
+        } catch (DateTimeParseException $ex) {
             throw $ex;
-        } catch (RuntimeException $ex) {
+        } catch (\Exception $ex) {
             throw $this->createError($text, $ex);
         }
     }
@@ -1934,7 +1932,7 @@ class DateTimeFormatter
         } catch
         (DateTimeParseException $ex) {
             throw $ex;
-        } catch (RuntimeException $ex) {
+        } catch (\Exception $ex) {
             throw $this->createError($text, $ex);
         }
     }

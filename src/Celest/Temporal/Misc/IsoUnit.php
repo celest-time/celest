@@ -108,7 +108,7 @@ class IsoUnit implements TemporalUnit
                 return Math::subtractExact($temporal2Exclusive->getLong(IsoFields::WEEK_BASED_YEAR()),
                     $temporal1Inclusive->getLong(IsoFields::WEEK_BASED_YEAR()));
             case self::QUARTER_YEARS():
-                return $temporal1Inclusive->until($temporal2Exclusive, ChronoUnit::MONTHS()) / 3;
+                return Math::div($temporal1Inclusive->until($temporal2Exclusive, ChronoUnit::MONTHS()), 3);
             default:
                 throw new IllegalStateException("Unreachable");
         }

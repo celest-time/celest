@@ -75,7 +75,7 @@ class WeekOfWeekBasedYear implements TemporalField
     {
         $wbyLong = $fieldValues->get(IsoFields::WEEK_BASED_YEAR());
         $dowLong = $fieldValues->get(ChronoField::DAY_OF_WEEK());
-        if ($wbyLong == null || $dowLong == null) {
+        if ($wbyLong === null || $dowLong === null) {
             return null;
         }
         $wby = IsoFields::WEEK_BASED_YEAR()->range()->checkValidIntValue($wbyLong, IsoFields::WEEK_BASED_YEAR());  // always validate
@@ -85,10 +85,10 @@ class WeekOfWeekBasedYear implements TemporalField
         if ($resolverStyle == ResolverStyle::LENIENT()) {
             $dow = $dowLong;  // unvalidated
             if ($dow > 7) {
-                $date = $date->plusWeeks(($dow - 1) / 7);
+                $date = $date->plusWeeks(Math::div($dow - 1, 7));
                 $dow = (($dow - 1) % 7) + 1;
             } else if ($dow < 1) {
-                $date = $date->plusWeeks(Math::subtractExact($dow, 7) / 7);
+                $date = $date->plusWeeks(Math::div(Math::subtractExact($dow, 7), 7));
                 $dow = (($dow + 6) % 7) + 1;
             }
             $date = $date->plusWeeks(Math::subtractExact($wowby, 1))->with(ChronoField::DAY_OF_WEEK(), $dow);

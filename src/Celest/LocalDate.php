@@ -382,7 +382,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         /** @var LocalDate $date */
         $date = $temporal->query(TemporalQueries::localDate());
-        if ($date == null) {
+        if ($date === null) {
             throw new DateTimeException("Unable to obtain LocalDate from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal));
         }
@@ -1753,7 +1753,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
     {
         $packed1 = $this->getProlepticMonth() * 32 + $this->getDayOfMonth();  // no overflow
         $packed2 = $end->getProlepticMonth() * 32 + $end->getDayOfMonth();  // no overflow
-        return ($packed2 - $packed1) / 32;
+        return Math::div($packed2 - $packed1, 32);
     }
 
     /**
@@ -1802,7 +1802,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
                 $totalMonths++;
                 $days -= $end->lengthOfMonth();
             }
-        $years = $totalMonths / 12;  // safe
+        $years = Math::div($totalMonths, 12);  // safe
         $months = (int)($totalMonths % 12);  // safe
         return Period::of(Math::toIntExact($years), $months, $days);
     }

@@ -635,7 +635,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \OutOfRangeException
+     * @expectedException \Celest\DateTimeParseException
      */
     public function test_parse_CharSequence_ParsePosition_indexTooBig()
     {
