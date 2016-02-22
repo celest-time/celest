@@ -2176,7 +2176,7 @@ List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoFi
         );
     }
 
-    function doTest_comparisons_Instant(Instant... $instants)
+    function doTest_comparisons_Instant(... $instants)
     {
         for ($i = 0; $i < count($instants); $i++) {
             $a = $instants[$i];
