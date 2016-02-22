@@ -5,7 +5,8 @@ namespace Celest\Helper;
 
 class Long
 {
-    const MIN_VALUE = -9223372036854775808;
+    // See https://bugs.php.net/bug.php?id=53934 for -1
+    const MIN_VALUE = -9223372036854775807 - 1;
     const MAX_VALUE = 9223372036854775807;
 
     public static function compare($x, $y)

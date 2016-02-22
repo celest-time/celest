@@ -2,6 +2,8 @@
 
 namespace Celest\Helper;
 
+use Celest\ArithmeticException;
+
 final class Math
 {
     private function __construct()
@@ -37,24 +39,35 @@ final class Math
     }
 
     /**
-     * TODO overflow check
      * @param int $l
      * @param int $r
      * @return int
+     * @throws ArithmeticException
      */
     public static function multiplyExact($l, $r)
     {
-        return (int)((int)$l * (int)$r);
+        $res = (int)$l * (int)$r;
+        // HD 2-12 Overflow iff both arguments have the opposite sign of the result
+        if (!\is_int($res)) {
+            throw new ArithmeticException("integer overflow");
+        }
+        return $res;
     }
 
     /**
      * @param int $l
      * @param int $r
      * @return int
+     * @throws ArithmeticException
      */
     public static function addExact($l, $r)
     {
-        return (int)((int)$l + (int)$r);
+        $res = (int)$l + (int)$r;
+        // HD 2-12 Overflow iff both arguments have the opposite sign of the result
+        if (!\is_int($res)) {
+            throw new ArithmeticException("integer overflow");
+        }
+        return $res;
     }
 
     /**
@@ -64,7 +77,7 @@ final class Math
      */
     public static function floorMod($dividend, $divisor)
     {
-        return (($dividend % $divisor) + $divisor) % $divisor;
+        return $dividend - Math::floorDiv($dividend, $divisor) * $divisor;
     }
 
     /**
@@ -75,9 +88,15 @@ final class Math
     public static function floorDiv($dividend, $divisor)
     {
         if (\function_exists('\intdiv')) {
-            return $dividend >= 0 ? \intdiv($dividend, $divisor) : \intdiv($dividend + 1, $divisor) - 1;
+            $r = \intdiv($dividend, $divisor);
+        } else {
+            $r = Math::div($dividend, $divisor);
         }
-        return $dividend >= 0 ?  Math::div($dividend, $divisor) : Math::div($dividend + 1, $divisor) - 1;
+
+        if (($dividend ^ $divisor) < 0 && ($r * $divisor !== $dividend)) {
+            $r--;
+        }
+        return $r;
     }
 
     /**

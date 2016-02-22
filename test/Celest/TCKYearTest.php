@@ -14,7 +14,7 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use PHPUnit_Framework_TestCase;
 
-class TCKYearTest extends PHPUnit_Framework_TestCase
+class TCKYearTest extends AbstractDateTimeTest
 {
     /** @var Year */
     private static $TEST_2008;
@@ -23,6 +23,30 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     {
         self::$TEST_2008 = Year::of(2008);
         parent::__construct($name, $data, $dataName);
+    }
+
+    protected function samples()
+    {
+        return [self::$TEST_2008];
+    }
+
+    protected function validFields()
+    {
+        return [
+            ChronoField::YEAR_OF_ERA(),
+            ChronoField::YEAR(),
+            ChronoField::ERA(),
+        ];
+    }
+
+    protected function invalidFields()
+    {
+        /* TODO
+            list.removeAll(validFields());
+            list.add(JulianFields.JULIAN_DAY);
+            list.add(JulianFields.MODIFIED_JULIAN_DAY);
+            list.add(JulianFields.RATA_DIE);*/
+        return [];
     }
 
     //-----------------------------------------------------------------------
@@ -47,7 +71,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     public function test_now_ZoneId_nullZoneId()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Year::nowIn(null);
         });
     }
@@ -80,7 +104,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_now_Clock_nullClock()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Year::nowOf(null);
         });
     }
@@ -127,7 +151,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_from_TemporalAccessor_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Year::from(null);
         });
     }
@@ -213,7 +237,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_factory_parse_nullText()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Year::parse(null);
         });
     }
@@ -341,7 +365,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_query_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             self::$TEST_2008->query(null);
         });
     }
@@ -441,7 +465,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_plus_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             self::$TEST_2008->plusAmount(null);
         });
     }
@@ -633,7 +657,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_minus_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             self::$TEST_2008->minusAmount(null);
         });
     }
@@ -781,7 +805,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     public
     function test_adjustDate_nullLocalDate()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             $test = Year::of(1);
             $test->adjustInto(null);
         });
@@ -1050,14 +1074,14 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_until_TemporalUnit_nullEnd()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             self::$TEST_2008->until(null, ChronoUnit::DAYS());
         });
     }
 
     public function test_until_TemporalUnit_nullUnit()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             self::$TEST_2008->until(self::$TEST_2008, null);
         });
     }
@@ -1074,7 +1098,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_format_formatter_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Year::of(2010)->format(null);
         });
     }
@@ -1090,7 +1114,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_atMonth_nullMonth()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             $test = Year::of(2008);
             $test->atMonth(null);
         });
@@ -1140,7 +1164,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
     public
     function test_atMonthDay_nullMonthDay()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             $test = Year::of(2008);
             $test->atMonthDay(null);
         });
@@ -1242,7 +1266,7 @@ class TCKYearTest extends PHPUnit_Framework_TestCase
 
     public function test_compareTo_nullYear()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             $doy = null;
             $test = Year::of(1);
             $test->compareTo($doy);
