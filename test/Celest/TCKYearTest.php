@@ -41,11 +41,10 @@ class TCKYearTest extends AbstractDateTimeTest
 
     protected function invalidFields()
     {
-        /* TODO
-            list.removeAll(validFields());
-            list.add(JulianFields.JULIAN_DAY);
-            list.add(JulianFields.MODIFIED_JULIAN_DAY);
-            list.add(JulianFields.RATA_DIE);*/
+        /*$list.removeAll(validFields()); TODO
+        $list->add(JulianFields::JULIAN_DAY());
+        $list->add(JulianFields::MODIFIED_JULIAN_DAY());
+        $list->add(JulianFields::RATA_DIE());*/
         return [];
     }
 

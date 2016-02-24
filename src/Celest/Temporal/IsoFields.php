@@ -325,6 +325,7 @@ final class IsoFields
     }
 
     /**
+     * @internal
      * @param TemporalAccessor $temporal
      * @return bool
      */
@@ -334,6 +335,7 @@ final class IsoFields
     }
 
     /**
+     * @internal
      * @param TemporalAccessor $temporal
      * @throws DateTimeException
      */
@@ -345,6 +347,7 @@ final class IsoFields
     }
 
     /**
+     * @internal
      * @param LocalDate $date
      * @return ValueRange
      */
@@ -355,6 +358,7 @@ final class IsoFields
     }
 
     /**
+     * @internal
      * @param int
      * @return int
      */
@@ -369,8 +373,12 @@ final class IsoFields
         return 52;
     }
 
-    public
-    static function getWeek(LocalDate $date)
+    /**
+     * @internal
+     * @param LocalDate $date
+     * @return bool|int
+     */
+    public static function getWeek(LocalDate $date)
     {
         $dow0 = $date->getDayOfWeek()->getValue() - 1;
         $doy0 = $date->getDayOfYear() - 1;
@@ -394,6 +402,11 @@ final class IsoFields
         return $week;
     }
 
+    /**
+     * @internal
+     * @param LocalDate $date
+     * @return int
+     */
     public static function getWeekBasedYear(LocalDate $date)
     {
         $year = $date->getYear();

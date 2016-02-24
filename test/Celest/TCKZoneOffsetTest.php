@@ -87,9 +87,9 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
         // TODO
         /*$list = ChronoField::values();
         $list->removeAll(validFields());
-        $list->add(JulianFields->JULIAN_DAY);
-        $list->add(JulianFields->MODIFIED_JULIAN_DAY);
-        $list->add(JulianFields->RATA_DIE);*/
+        $list->add(JulianFields::JULIAN_DAY());
+        $list->add(JulianFields::MODIFIED_JULIAN_DAY());
+        $list->add(JulianFields::RATA_DIE());*/
         return [];
     }
 
