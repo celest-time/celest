@@ -375,6 +375,37 @@ final class Month implements TemporalAccessor, TemporalAdjuster
         return self::$ENUMS;
     }
 
+    public static function valueOf($string)
+    {
+        switch($string) {
+            case 'JANUARY':
+                return self::JANUARY();
+            case 'FEBRUARY':
+                return self::FEBRUARY();
+            case 'MARCH':
+                return self::MARCH();
+            case 'APRIL':
+                return self::APRIL();
+            case 'MAY':
+                return self::MAY();
+            case 'JUNE':
+                return self::JUNE();
+            case 'JULY':
+                return self::JULY();
+            case 'AUGUST':
+                return self::AUGUST();
+            case 'SEPTEMBER':
+                return self::SEPTEMBER();
+            case 'OCTOBER':
+                return self::OCTOBER();
+            case 'NOVEMBER':
+                return self::NOVEMBER();
+            case 'DECEMBER':
+                return self::DECEMBER();
+        }
+        throw new \InvalidArgumentException();
+    }
+
     //-----------------------------------------------------------------------
     /**
      * Gets the month-of-year {@code int} value.
