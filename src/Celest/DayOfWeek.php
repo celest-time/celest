@@ -299,6 +299,29 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
         return self::$ENUMS;
     }
 
+
+    public static function valueOf($string)
+    {
+        switch($string) {
+            case 'MONDAY':
+                return self::MONDAY();
+            case 'TUESDAY':
+                return self::TUESDAY();
+            case 'WEDNESDAY':
+                return self::WEDNESDAY();
+            case 'THURSDAY':
+                return self::THURSDAY();
+            case 'FRIDAY':
+                return self::FRIDAY();
+            case 'SATURDAY':
+                return self::SATURDAY();
+            case 'SUNDAY':
+                return self::SUNDAY();
+        }
+
+        throw new \InvalidArgumentException();
+    }
+
     //-----------------------------------------------------------------------
     /**
      * Gets the day-of-week {@code int} value.
@@ -469,8 +492,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
      */
     public function plus($days)
     {
-        $amount = $days % 7;
-        return self::$ENUMS[(($this->ordinal - 1) + ($amount + 7)) % 7];
+        return self::$ENUMS[($this->ordinal + (($days % 7) + 7)) % 7];
     }
 
     /**
@@ -491,9 +513,6 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
 
     //-----------------------------------------------------------------------
     /**
-     *
-     * TODO generics
-     *
      * Queries this day-of-week using the specified query.
      * <p>
      * This queries this day-of-week using the specified query strategy object.

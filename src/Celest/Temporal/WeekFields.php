@@ -292,7 +292,7 @@ final class WeekFields
         $cal = IntlCalendar::createInstance(null, $locale->getLocale());
 
         $calDow = $cal->getFirstDayOfWeek();
-        $dow = DayOfWeek::SUNDAY()->plus($calDow);
+        $dow = DayOfWeek::SUNDAY()->plus($calDow - 1);
         $minDays = $cal->getMinimalDaysInFirstWeek();
         return WeekFields::of($dow, $minDays);
     }
