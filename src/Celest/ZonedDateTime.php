@@ -62,9 +62,9 @@
  */
 namespace Celest;
 
+use Celest\Chrono\AbstractChronoZonedDateTime;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\ChronoZonedDateTime;
-use Celest\Chrono\ChronoZonedDateTimeDefaults;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Temporal\ChronoField;
@@ -150,7 +150,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-class ZonedDateTime implements Temporal, ChronoZonedDateTime
+class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, ChronoZonedDateTime
 {
     /**
      * The local date-time.
@@ -584,7 +584,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      */
     public static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_ZONED_DATE_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_ZONED_DATE_TIME());
     }
 
     /**
@@ -600,7 +600,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, ZonedDateTime::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([ZonedDateTime::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -752,7 +752,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
      */
     public function isUnitSupported(TemporalUnit $unit)
     {
-        return ChronoZonedDateTimeDefaults::isSupported($this, $unit);
+        return parent::isUnitSupported($unit);
     }
 
 //-----------------------------------------------------------------------
@@ -831,7 +831,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
 
             return $this->dateTime->get($field);
         }
-        return ChronoZonedDateTimeDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**
@@ -2108,7 +2108,7 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             return $this->toLocalDate();
         }
 
-        return ChronoZonedDateTimeDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**
@@ -2264,123 +2264,5 @@ class ZonedDateTime implements Temporal, ChronoZonedDateTime
             $str .= '[' . $this->zone->__toString() . ']';
         }
         return $str;
-    }
-
-    /**
-     * Gets the chronology of this date-time.
-     * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
-     *
-     * @return Chronology the chronology, not null
-     */
-    function getChronology()
-    {
-        return ChronoZonedDateTimeDefaults::getChronology($this);
-    }
-
-    /**
-     * Converts this date-time to an {@code Instant}.
-     * <p>
-     * This returns an {@code Instant} representing the same point on the
-     * time-line as this date-time. The calculation combines the
-     * {@linkplain #toLocalDateTime() local date-time} and
-     * {@linkplain #getOffset() offset}.
-     *
-     * @return Instant an {@code Instant} representing the same instant, not null
-     */
-    function toInstant()
-    {
-        return ChronoZonedDateTimeDefaults::toInstant($this);
-    }
-
-    /**
-     * Converts this date-time to the number of seconds from the epoch
-     * of 1970-01-01T00:00:00Z.
-     * <p>
-     * This uses the {@linkplain #toLocalDateTime() local date-time} and
-     * {@linkplain #getOffset() offset} to calculate the epoch-second value,
-     * which is the number of elapsed seconds from 1970-01-01T00:00:00Z.
-     * Instants on the time-line after the epoch are positive, earlier are negative.
-     *
-     * @return int the number of seconds from the epoch of 1970-01-01T00:00:00Z
-     */
-    function toEpochSecond()
-    {
-        return ChronoZonedDateTimeDefaults::toEpochSecond($this);
-    }
-
-    /**
-     * Compares this date-time to another date-time, including the chronology.
-     * <p>
-     * The comparison is based first on the instant, then on the local date-time,
-     * then on the zone ID, then on the chronology.
-     * It is "consistent with equals", as defined by {@link Comparable}.
-     * <p>
-     * If all the date-time objects being compared are in the same chronology, then the
-     * additional chronology stage is not required.
-     * <p>
-     * This default implementation performs the comparison defined above.
-     *
-     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
-     * @return int the comparator value, negative if less, positive if greater
-     */
-    function compareTo(ChronoZonedDateTime $other)
-    {
-        return ChronoZonedDateTimeDefaults::compareTo($this, $other);
-    }
-
-    /**
-     * Checks if the instant of this date-time is before that of the specified date-time.
-     * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isBefore(dateTime2.toInstant());}.
-     * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
-     *
-     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
-     * @return true if this point is before the specified date-time
-     */
-    function isBefore(ChronoZonedDateTime $other)
-    {
-        return ChronoZonedDateTimeDefaults::isBefore($this, $other);
-    }
-
-    /**
-     * Checks if the instant of this date-time is after that of the specified date-time.
-     * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isAfter(dateTime2.toInstant());}.
-     * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
-     *
-     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
-     * @return bool true if this is after the specified date-time
-     */
-    function isAfter(ChronoZonedDateTime $other)
-    {
-        return ChronoZonedDateTimeDefaults::isAfter($this, $other);
-    }
-
-    /**
-     * Checks if the instant of this date-time is equal to that of the specified date-time.
-     * <p>
-     * This method differs from the comparison in {@link #compareTo} and {@link #equals}
-     * in that it only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().equals(dateTime2.toInstant());}.
-     * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
-     *
-     * @param ChronoZonedDateTime $other the other date-time to compare to, not null
-     * @return bool true if the instant equals the instant of the specified date-time
-     */
-    function isEqual(ChronoZonedDateTime $other)
-    {
-        return ChronoZonedDateTimeDefaults::isEqual($this, $other);
     }
 }
