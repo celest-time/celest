@@ -68,11 +68,11 @@ use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Integer;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporal;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -112,7 +112,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalTime implements Temporal, TemporalAdjuster
+final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdjuster
 {
     /**
      * Hours per day.
@@ -417,7 +417,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
     public
     static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_TIME());
     }
 
     /**
@@ -583,7 +583,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -619,7 +619,7 @@ final class LocalTime implements Temporal, TemporalAdjuster
             return $this->get0($field);
         }
 
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**

@@ -63,10 +63,6 @@
 namespace Celest\Chrono;
 
 use Celest\DateTimeException;
-use Celest\Format\TextStyle;
-use Celest\Locale;
-use Celest\Temporal\TemporalField;
-use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalQuery;
 
 /**
@@ -108,7 +104,7 @@ use Celest\Temporal\TemporalQuery;
  *
  * @since 1.8
  */
-class IsoEra implements Era
+class IsoEra extends AbstractEra implements Era
 {
     public static function init()
     {
@@ -186,62 +182,6 @@ class IsoEra implements Era
     public function getValue()
     {
         return $this->val;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function isSupported(TemporalField $field)
-    {
-        return EraDefaults::isSupported($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function range(TemporalField $field)
-    {
-        return EraDefaults::range($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function get(TemporalField $field)
-    {
-        return EraDefaults::get($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function getLong(TemporalField $field)
-    {
-        return EraDefaults::getLong($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function query(TemporalQuery $query)
-    {
-        return EraDefaults::query($this, $query);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function adjustInto(Temporal $temporal)
-    {
-        return EraDefaults::adjustInto($this, $temporal);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function getDisplayName(TextStyle $style, Locale $locale)
-    {
-        return EraDefaults::getDisplayName($this, $style, $locale);
     }
 
     public function __toString()

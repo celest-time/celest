@@ -62,6 +62,7 @@
  */
 
 namespace Celest\Chrono;
+
 use Celest\DateTimeException;
 use Celest\Format\TextStyle;
 use Celest\Locale;
@@ -110,7 +111,7 @@ use Celest\Temporal\TemporalQuery;
  *
  * @since 1.8
  */
-class ThaiBuddhistEra implements Era {
+class ThaiBuddhistEra extends AbstractEra implements Era {
     /**
      * The singleton instance for the era before the current one, 'Before Buddhist Era',
      * which has the numeric value 0.
@@ -180,62 +181,6 @@ class ThaiBuddhistEra implements Era {
      */
     public function getValue() {
         return $this->ordinal;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function isSupported(TemporalField $field)
-    {
-        return EraDefaults::isSupported($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function range(TemporalField $field)
-    {
-        return EraDefaults::range($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function get(TemporalField $field)
-    {
-        return EraDefaults::get($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function getLong(TemporalField $field)
-    {
-        return EraDefaults::getLong($this, $field);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function query(TemporalQuery $query)
-    {
-        return EraDefaults::query($this, $query);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function adjustInto(Temporal $temporal)
-    {
-        return EraDefaults::adjustInto($this, $temporal);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function getDisplayName(TextStyle $style, Locale $locale)
-    {
-        return EraDefaults::getDisplayName($this, $style, $locale);
     }
 
     public function __toString()

@@ -62,7 +62,7 @@
  */
 namespace Celest;
 
-use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimeFormatterBuilder;
@@ -70,11 +70,11 @@ use Celest\Format\SignStyle;
 use Celest\Helper\Integer;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -120,8 +120,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Year
-    implements Temporal, TemporalAdjuster
+final class Year extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
 {
 
     /**
@@ -254,7 +253,7 @@ final class Year
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::YEAR()));
@@ -452,7 +451,7 @@ final class Year
             return ($this->year <= 0 ? ValueRange::of(1, self::MAX_VALUE + 1) : ValueRange::of(1, self::MAX_VALUE));
         }
 
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -865,7 +864,7 @@ final class Year
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::YEARS();
             }
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**
@@ -896,7 +895,7 @@ final class Year
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

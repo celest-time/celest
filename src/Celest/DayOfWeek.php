@@ -66,11 +66,11 @@ namespace Celest;
  */
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\TextStyle;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
@@ -106,7 +106,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
+final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
 {
     /**
      * @internal
@@ -410,7 +410,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $field->range();
         }
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -443,7 +443,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
         }
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**
@@ -535,7 +535,7 @@ final class DayOfWeek implements TemporalAccessor, TemporalAdjuster
         if ($query == TemporalQueries::precision()) {
             return ChronoUnit::DAYS();
         }
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**

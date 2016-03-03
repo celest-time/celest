@@ -65,11 +65,11 @@ namespace Celest;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporal;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -102,7 +102,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class OffsetTime implements Temporal, TemporalAdjuster
+final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdjuster
 {
 
 
@@ -523,7 +523,7 @@ final class OffsetTime implements Temporal, TemporalAdjuster
      */
     public function get(TemporalField $field)
     {
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**

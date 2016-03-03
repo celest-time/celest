@@ -66,18 +66,18 @@ namespace Celest;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\TextStyle;
 use Celest\Helper\StringHelper;
+use Celest\Temporal\AbstractTemporal;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\UnsupportedTemporalTypeException;
-use Celest\Temporal\ValueRange;
 use Celest\Zone\ZoneRules;
 use Celest\Zone\ZoneRulesException;
 use Celest\Zone\ZoneRulesProvider;
 
-class ZoneIdTemporalAccessor implements TemporalAccessor
+class ZoneIdTemporalAccessor extends AbstractTemporalAccessor
 {
     /**
      * @var ZoneId
@@ -104,22 +104,7 @@ class ZoneIdTemporalAccessor implements TemporalAccessor
         if ($query == TemporalQueries::zoneId()) {
             return $this->_this;
         }
-        return TemporalAccessorDefaults::query($this, $query);
-    }
-
-    public function range(TemporalField $field)
-    {
-        // TODO: Implement range() method.
-    }
-
-    public function get(TemporalField $field)
-    {
-        // TODO: Implement get() method.
-    }
-
-    public function __toString()
-    {
-        return '';
+        return parent::query($query);
     }
 }
 
@@ -451,7 +436,7 @@ abstract class ZoneId
     public function __construct()
     {
         if (get_class($this) != 'Celest\ZoneOffset' && get_class($this) != 'Celest\ZoneRegion') {
-            throw new AssertionError("Invalid subclass");
+            throw new \AssertionError("Invalid subclass");
         }
     }
 

@@ -57,8 +57,7 @@
  */
 namespace Celest\Temporal;
 
-use Celest\Chrono\Chronology;
-use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\IsoChronology;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
@@ -331,7 +330,7 @@ final class IsoFields
      */
     public static function isIso(TemporalAccessor $temporal)
     {
-        return ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE());
+        return AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE());
     }
 
     /**

@@ -62,16 +62,16 @@
  */
 namespace Celest;
 
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\Chronology;
-use Celest\Chrono\ChronologyDefaults;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
@@ -117,7 +117,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class MonthDay implements TemporalAccessor, TemporalAdjuster
+final class MonthDay extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
 {
     public static function init()
     {
@@ -275,7 +275,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
@@ -394,7 +394,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             if ($field == ChronoField::DAY_OF_MONTH()) {
                 return ValueRange::ofVariable(1, $this->getMonth()->minLength(), $this->getMonth()->maxLength());
             }
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -616,7 +616,7 @@ final class MonthDay implements TemporalAccessor, TemporalAdjuster
             return IsoChronology::INSTANCE();
         }
 
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**

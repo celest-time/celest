@@ -61,14 +61,12 @@
 namespace Celest;
 
 use Celest\Format\TextStyle;
-use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
-use Celest\Zone\ZoneRulesException;
 
-class MockTemporalAccessor implements TemporalAccessor
+class MockTemporalAccessor extends AbstractTemporalAccessor
 {
     public function isSupported(TemporalField $field)
     {
@@ -87,20 +85,7 @@ class MockTemporalAccessor implements TemporalAccessor
             return ZoneId::of("Europe/Paris");
         }
 
-        return TemporalAccessorDefaults::query($this, $query);
-    }
-
-    public function range(TemporalField $field)
-    {
-    }
-
-    public function get(TemporalField $field)
-    {
-    }
-
-    public function __toString()
-    {
-        return '';
+        return parent::query($query);
     }
 }
 

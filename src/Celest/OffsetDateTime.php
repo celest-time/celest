@@ -69,7 +69,6 @@ use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -630,7 +629,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
 
             return $this->dateTime->get($field);
         }
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**

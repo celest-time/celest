@@ -9,30 +9,19 @@ use Celest\Format\SignStyle;
 use Celest\Format\TextStyle;
 use Celest\LocalDateTime;
 use Celest\Locale;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQuery;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use PHPUnit_Framework_TestCase;
 
-class TemporalTest implements TemporalAccessor {
+class TemporalTest extends AbstractTemporalAccessor {
 
     public function isSupported(TemporalField $field)
     {
         return true;
-    }
-
-
-    public function range(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::range($this, $field);
-    }
-
-    public function get(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::get($this, $field);
     }
 
     public function getLong(TemporalField $field)
@@ -40,15 +29,6 @@ class TemporalTest implements TemporalAccessor {
         throw new DateTimeException("Mock");
     }
 
-    public function query(TemporalQuery $query)
-    {
-        return TemporalAccessorDefaults::query($this, $query);
-    }
-
-    public function __toString()
-    {
-        return '';
-    }
 }
 
 class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase

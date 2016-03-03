@@ -2,35 +2,35 @@
 
 namespace Celest\Temporal;
 
-
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\ChronoLocalDateTime;
 use Celest\Chrono\ChronoZonedDateTime;
 use Celest\LocalTime;
 
-final class TemporalUnitDefaults
+abstract class AbstractTemporalUnit implements TemporalUnit
 {
-    private function __construct() {}
-
-    public static function isSupportedBy(TemporalUnit $_this, Temporal $temporal)
+    /**
+     * @inheritdoc
+     */
+    public function isSupportedBy(Temporal $temporal)
     {
         if ($temporal instanceof LocalTime) {
-            return $_this->isTimeBased();
+            return $this->isTimeBased();
         }
         if ($temporal instanceof ChronoLocalDate) {
-            return $_this->isDateBased();
+            return $this->isDateBased();
         }
         if ($temporal instanceof ChronoLocalDateTime || $temporal instanceof ChronoZonedDateTime) {
             return true;
         }
         try {
-            $temporal->plus(1, $_this);
+            $temporal->plus(1, $this);
             return true;
         } catch (UnsupportedTemporalTypeException $ex) {
             return false;
         } catch (\RuntimeException $ex) {
             try {
-                $temporal->plus(-1, $_this);
+                $temporal->plus(-1, $this);
                 return true;
             } catch (\RuntimeException $ex2) {
                 return false;

@@ -70,16 +70,14 @@ use Celest\LocalDate;
 use Celest\LocalDateTime;
 use Celest\Locale;
 use Celest\Month;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\FieldValues;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
-use Celest\Temporal\UnsupportedTemporalTypeException;
-use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use Celest\Year;
 use Celest\YearMonth;
@@ -113,7 +111,7 @@ class Expected
     }
 }
 
-class MockAccessor implements TemporalAccessor
+class MockAccessor extends AbstractTemporalAccessor
 {
     /** @var FieldValues */
     public $fields;
@@ -195,7 +193,7 @@ class MockAccessor implements TemporalAccessor
         if ($query == TemporalQueries::zoneId()) {
             return $this->zoneId;
         }
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     public
@@ -216,7 +214,7 @@ class MockAccessor implements TemporalAccessor
     }
 }
 
-class TestAccessor implements TemporalAccessor
+class TestAccessor extends AbstractTemporalAccessor
 {
     public
     function isSupported(TemporalField $field)
@@ -239,21 +237,6 @@ class TestAccessor implements TemporalAccessor
     public function range(TemporalField $field)
     {
         return null;
-    }
-
-    public function get(TemporalField $field)
-    {
-        TemporalAccessorDefaults::get($this, $field);
-    }
-
-    public function query(TemporalQuery $query)
-    {
-        TemporalAccessorDefaults::query($this, $query);
-    }
-
-    public function __toString()
-    {
-        return '';
     }
 }
 

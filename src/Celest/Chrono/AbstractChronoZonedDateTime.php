@@ -7,21 +7,23 @@ use Celest\DateTimeException;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Instant;
+use Celest\Temporal\AbstractTemporal;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
-use Celest\Temporal\TemporalDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
 
-abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
+abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements ChronoZonedDateTime
 {
+    /**
+     * @inheritdoc
+     */
     public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof ChronoZonedDateTime) {
@@ -36,6 +38,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $chrono->zonedDateTimeFrom($temporal);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function range(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
@@ -48,6 +53,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $field->rangeRefinedBy($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function get(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
@@ -60,9 +68,12 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
 
             return $this->toLocalDateTime()->get($field);
         }
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getLong(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
@@ -77,21 +88,33 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $field->getFrom($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function toLocalDate()
     {
         return $this->toLocalDateTime()->toLocalDate();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function toLocalTime()
     {
         return $this->toLocalDateTime()->toLocalTime();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getChronology()
     {
         return $this->toLocalDate()->getChronology();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isUnitSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
@@ -101,26 +124,41 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $unit != null && $unit->isSupportedBy($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function adjust(TemporalAdjuster $adjuster)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), TemporalDefaults::adjust($this, $adjuster));
+        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::adjust($adjuster));
 }
 
+    /**
+     * @inheritdoc
+     */
     public function plusAmount(TemporalAmount $amount)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), TemporalDefaults::plusAmount($this, $amount));
-}
+        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::plusAmount($amount));
+    }
 
+    /**
+     * @inheritdoc
+     */
     public function minusAmount(TemporalAmount $amount)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), TemporalDefaults::minusAmount($this, $amount));
-}
+        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::minusAmount($amount));
+    }
 
+    /**
+     * @inheritdoc
+     */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), TemporalDefaults::minus($this, $amountToSubtract, $unit));
-}
+        return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::minus($amountToSubtract, $unit));
+    }
 
+    /**
+     * @inheritdoc
+     */
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::zone() || $query == TemporalQueries::zoneId()) {
@@ -139,16 +177,25 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $query->queryFrom($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function format(DateTimeFormatter $formatter)
     {
         return $formatter->format($this);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function toInstant()
     {
         return Instant::ofEpochSecond($this->toEpochSecond(), $this->toLocalTime()->getNano());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function toEpochSecond()
     {
         $epochDay = $this->toLocalDate()->toEpochDay();
@@ -157,6 +204,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $secs;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function compareTo(ChronoZonedDateTime $other)
     {
         $cmp = Long::compare($this->toEpochSecond(), $other->toEpochSecond());
@@ -175,6 +225,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         return $cmp;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isBefore(ChronoZonedDateTime $other)
     {
         $thisEpochSec = $this->toEpochSecond();
@@ -183,6 +236,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         ($thisEpochSec === $otherEpochSec && $this->toLocalTime()->getNano() < $other->toLocalTime()->getNano());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isAfter(ChronoZonedDateTime $other)
     {
         $thisEpochSec = $this->toEpochSecond();
@@ -191,6 +247,9 @@ abstract class AbstractChronoZonedDateTime implements ChronoZonedDateTime
         ($thisEpochSec === $otherEpochSec && $this->toLocalTime()->getNano() > $other->toLocalTime()->getNano());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function isEqual(ChronoZonedDateTime $other)
     {
         return $this->toEpochSecond() === $other->toEpochSecond() &&

@@ -62,16 +62,16 @@
  */
 namespace Celest;
 
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\Chronology;
-use Celest\Chrono\ChronologyDefaults;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\TextStyle;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
@@ -103,7 +103,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Month implements TemporalAccessor, TemporalAdjuster
+final class Month extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
 {
     /**
      * @internal
@@ -357,7 +357,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $temporal;
         }
         try {
-            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()));
@@ -496,7 +496,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $field->range();
         }
 
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -530,7 +530,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             return $this->getValue();
         }
 
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**
@@ -768,7 +768,7 @@ final class Month implements TemporalAccessor, TemporalAdjuster
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::MONTHS();
             }
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**

@@ -68,7 +68,6 @@ use Celest\Helper\Math;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
@@ -611,7 +610,15 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public function range(TemporalField $field)
     {
-        return TemporalAccessorDefaults::range($this, $field);
+        // inlined from AbstractTemporalAccessor
+        if ($field instanceof ChronoField) {
+            if ($this->isSupported($field)) {
+                return $field->range();
+            }
+
+            throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
+        }
+        return $field->rangeRefinedBy($this);
     }
 
     /**
@@ -666,7 +673,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param field TemporalField the field to get, not null
+     * @param $field TemporalField the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
@@ -708,7 +715,15 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             return $this;
         }
 
-        return TemporalAccessorDefaults::query($this, $query);
+        // inlined from \Celest\Temporal\AbstractTemporalAccessor::query
+        if ($query == TemporalQueries::zoneId()
+            || $query == TemporalQueries::chronology()
+            || $query == TemporalQueries::precision()
+        ) {
+            return null;
+        }
+
+        return $query->queryFrom($this);
     }
 
     /**

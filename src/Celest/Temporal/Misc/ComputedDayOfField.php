@@ -3,9 +3,9 @@
 namespace Celest\Temporal\Misc;
 
 
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
-use Celest\Chrono\ChronologyDefaults;
 use Celest\DateTimeException;
 use Celest\Format\DateTimeTextProvider;
 use Celest\Format\ResolverStyle;
@@ -264,7 +264,7 @@ class ComputedDayOfField implements TemporalField
         if ($week === 0) {
             // Day is in end of week of previous year
             // Recompute from the last day of the previous year
-            $date = ChronologyDefaults::from($temporal)->dateFrom($temporal);
+            $date = AbstractChronology::from($temporal)->dateFrom($temporal);
             $date = $date->minus($doy, ChronoUnit::DAYS());   // Back down into previous year
             return $this->localizedWeekOfWeekBasedYear($date);
         } else
@@ -329,7 +329,7 @@ class ComputedDayOfField implements TemporalField
             // the desired year and the same week and dow.
             $idow = $temporal->get($this->weekDef->dayOfWeek);
             $wowby = $temporal->get($this->weekDef->weekOfWeekBasedYear);
-            return $this->ofWeekBasedYear(ChronologyDefaults::from($temporal), $newValue, $wowby, $idow);
+            return $this->ofWeekBasedYear(AbstractChronology::from($temporal), $newValue, $wowby, $idow);
         } else {
             // Compute the difference and add that using the base unit of the field
             return $temporal->plus($newVal - $currentVal, $this->baseUnit);
@@ -360,7 +360,7 @@ class ComputedDayOfField implements TemporalField
         $dow = $this->localizedDayOfWeekNumerical($isoDow);
 
         // build date
-        $chrono = ChronologyDefaults::from($partialTemporal);
+        $chrono = AbstractChronology::from($partialTemporal);
         if ($fieldValues->has(CF::YEAR())) {
             $year = CF::YEAR()->checkValidIntValue($fieldValues->get(CF::YEAR()));  // validate
             if ($this->rangeUnit == ChronoUnit::MONTHS() && $fieldValues->has(CF::MONTH_OF_YEAR())) {  // week-of-month
@@ -558,7 +558,7 @@ class ComputedDayOfField implements TemporalField
         if ($week === 0) {
             // Day is in end of week of previous year
             // Recompute from the last day of the previous year
-            $date = ChronologyDefaults::from($temporal)->dateFrom($temporal);
+            $date = AbstractChronology::from($temporal)->dateFrom($temporal);
             $date = $date->minus($doy + 7, ChronoUnit::DAYS());   // Back down into previous year
             return $this->rangeWeekOfWeekBasedYear($date);
         }
@@ -569,7 +569,7 @@ class ComputedDayOfField implements TemporalField
 
         if ($week >= $newYearWeek) {
             // Overlaps with weeks of following year; recompute from a week in following year
-            $date = ChronologyDefaults::from($temporal)->dateFrom($temporal);
+            $date = AbstractChronology::from($temporal)->dateFrom($temporal);
             $date = $date->plus($yearLen - $doy + 1 + 7, ChronoUnit::DAYS());
             return $this->rangeWeekOfWeekBasedYear($date);
         }

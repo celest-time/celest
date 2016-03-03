@@ -66,11 +66,11 @@ namespace Celest;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -190,7 +190,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Instant implements Temporal, TemporalAdjuster
+final class Instant extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
 {
     public static function init()
     {
@@ -538,7 +538,7 @@ final class Instant implements Temporal, TemporalAdjuster
      */
     public function range(TemporalField $field)
     {
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
 }
 
     /**

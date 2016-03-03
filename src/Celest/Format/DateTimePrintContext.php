@@ -65,8 +65,8 @@ namespace Celest\Format;
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
 use Celest\Locale;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalField;
@@ -77,7 +77,7 @@ use Celest\Instant;
 use Celest\DateTimeException;
 use Celest\Temporal\TemporalQuery;
 
-class Test implements TemporalAccessor
+class Test extends AbstractTemporalAccessor
 {
     /** @var ChronoLocalDate */
     private $effectiveDate;
@@ -144,16 +144,6 @@ class Test implements TemporalAccessor
             return $this->temporal->query($query);
         }
         return $query->queryFrom($this);
-    }
-
-    public function get(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::get($this, $field);
-    }
-
-    public function __toString()
-    {
-        return get_class();
     }
 }
 

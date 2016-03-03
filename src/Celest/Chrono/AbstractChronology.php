@@ -70,7 +70,9 @@ use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\FieldValues;
+use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAdjusters;
+use Celest\Temporal\TemporalQueries;
 
 /**
  * An abstract implementation of a calendar system, used to organize and identify dates.
@@ -134,6 +136,12 @@ abstract class AbstractChronology implements Chronology
      * @var Chronology[]
      */
     private static $CHRONOS_BY_TYPE = [];
+
+    public static function from(TemporalAccessor $temporal)
+    {
+        $obj = $temporal->query(TemporalQueries::chronology());
+        return ($obj !== null ? $obj : IsoChronology::INSTANCE());
+    }
 
     /**
      * Register a Chronology by ID and type for lookup by {@link #of(String)}.

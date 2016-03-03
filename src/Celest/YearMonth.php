@@ -62,19 +62,19 @@
  */
 namespace Celest;
 
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\Chronology;
-use Celest\Chrono\ChronologyDefaults;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\SignStyle;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -113,14 +113,14 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class YearMonth implements Temporal, TemporalAdjuster
+final class YearMonth extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
 {
     public function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
-            ->appendValue(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD)
+            ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
             ->appendLiteral('-')
-            ->appendValue(ChronoField::MONTH_OF_YEAR(), 2)
+            ->appendValue2(ChronoField::MONTH_OF_YEAR(), 2)
             ->toFormatter();
     }
 
@@ -252,7 +252,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(ChronologyDefaults::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
@@ -430,7 +430,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
         }
 
-        return TemporalAccessorDefaults::range($this, $field);
+        return parent::range($field);
     }
 
     /**
@@ -1001,7 +1001,7 @@ final class YearMonth implements Temporal, TemporalAdjuster
             if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::MONTHS();
             }
-        return TemporalAccessorDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**

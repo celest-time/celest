@@ -2,7 +2,7 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\AbstractChronology;
 use Celest\Format\FormatStyle;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimePrintContext;
@@ -43,7 +43,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
 
     public function format(DateTimePrintContext $context, &$buf)
     {
-        $chrono = ChronologyDefaults::from($context->getTemporal());
+        $chrono = AbstractChronology::from($context->getTemporal());
         return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->format($context, $buf);
     }
 

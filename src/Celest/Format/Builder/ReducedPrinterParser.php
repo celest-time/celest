@@ -2,8 +2,8 @@
 
 namespace Celest\Format\Builder;
 
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\ChronoLocalDate;
-use Celest\Chrono\ChronologyDefaults;
 use Celest\LocalDate;
 use Celest\Temporal\TemporalField;
 use Celest\IllegalArgumentException;
@@ -12,7 +12,6 @@ use Celest\DateTimeException;
 use Celest\Format\SignStyle;
 use Celest\Format\DateTimePrintContext;
 use Celest\Helper\Math;
-use Celest\Chrono\Chronology;
 use Celest\Format\DateTimeParseContext;
 
 /**
@@ -89,7 +88,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
         $absValue = Math::abs($value);
         $baseValue = $this->baseValue;
         if ($this->baseDate != null) {
-            $chrono = ChronologyDefaults::from($context->getTemporal());
+            $chrono = AbstractChronology::from($context->getTemporal());
             $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
         }
 

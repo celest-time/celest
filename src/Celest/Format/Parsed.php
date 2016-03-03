@@ -73,9 +73,9 @@ use Celest\Instant;
 use Celest\LocalDate;
 use Celest\LocalTime;
 use Celest\Period;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\FieldValues;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalQueries;
@@ -102,7 +102,7 @@ use Celest\ZoneOffset;
  *
  * @since 1.8
  */
-final class Parsed implements TemporalAccessor
+final class Parsed extends AbstractTemporalAccessor
 {
 // some fields are accessed using package scope from DateTimeParseContext
 
@@ -719,93 +719,5 @@ final class Parsed implements TemporalAccessor
             }
         }
         return $buf;
-    }
-
-    /**
-     * Gets the range of valid values for the specified field.
-     * <p>
-     * All fields can be expressed as a {@code long} integer.
-     * This method returns an object that describes the valid range for that value.
-     * The value of this temporal object is used to enhance the accuracy of the returned range.
-     * If the date-time cannot return the range, because the field is unsupported or for
-     * some other reason, an exception will be thrown.
-     * <p>
-     * Note that the result only describes the minimum and maximum valid values
-     * and it is important not to read too much into them. For example, there
-     * could be values within the range that are invalid for the field.
-     *
-     * @implSpec
-     * Implementations must check and handle all fields defined in {@link CF}.
-     * If the field is supported, then the range of the field must be returned.
-     * If unsupported, then an {@code UnsupportedTemporalTypeException} must be thrown.
-     * <p>
-     * If the field is not a {@code CF}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessorl)}
-     * passing {@code this} as the argument.
-     * <p>
-     * Implementations must ensure that no observable state is altered when this
-     * read-only method is invoked.
-     * <p>
-     * The default implementation must behave equivalent to this code:
-     * <pre>
-     *  if (field instanceof CF) {
-     *    if (isSupported(field)) {
-     *      return field.range();
-     *    }
-     *    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-     *  }
-     *  return field.rangeRefinedBy(this);
-     * </pre>
-     *
-     * @param TemporalField $field the field to query the range for, not null
-     * @return ValueRange the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     */
-    public function range(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::range($this, $field);
-    }
-
-    /**
-     * Gets the value of the specified field as an {@code int}.
-     * <p>
-     * This queries the date-time for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If the date-time cannot return the value, because the field is unsupported or for
-     * some other reason, an exception will be thrown.
-     *
-     * @implSpec
-     * Implementations must check and handle all fields defined in {@link CF}.
-     * If the field is supported and has an {@code int} range, then the value of
-     * the field must be returned.
-     * If unsupported, then an {@code UnsupportedTemporalTypeException} must be thrown.
-     * <p>
-     * If the field is not a {@code CF}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * <p>
-     * Implementations must ensure that no observable state is altered when this
-     * read-only method is invoked.
-     * <p>
-     * The default implementation must behave equivalent to this code:
-     * <pre>
-     *  if (range(field).isIntValue()) {
-     *    return range(field).checkValidIntValue(getLong(field), field);
-     *  }
-     *  throw new UnsupportedTemporalTypeException("Invalid field " + field + " + for get() method, use getLong() instead");
-     * </pre>
-     *
-     * @param TemporalField $field the field to get, not null
-     * @return int the value for the field, within the valid range of values
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
-     */
-    public function get(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::get($this, $field);
     }
 }

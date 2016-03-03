@@ -4,37 +4,44 @@ namespace Celest\Temporal;
 
 use Celest\DateTimeException;
 
-final class TemporalAccessorDefaults
+abstract class AbstractTemporalAccessor implements TemporalAccessor
 {
-    private function __construct() {}
-
-    public static function range(TemporalAccessor $_this, TemporalField $field)
+    /**
+     * @inheritdoc
+     */
+    public function range(TemporalField $field)
     {
         if ($field instanceof ChronoField) {
-            if ($_this->isSupported($field)) {
+            if ($this->isSupported($field)) {
                 return $field->range();
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
         }
-        return $field->rangeRefinedBy($_this);
+        return $field->rangeRefinedBy($this);
     }
 
-    static public function get(TemporalAccessor $_this, TemporalField $field)
+    /**
+     * @inheritdoc
+     */
+    public function get(TemporalField $field)
     {
-        $range = $_this->range($field);
-        if ($range->isIntValue() == false) {
+        $range = $this->range($field);
+        if ($range->isIntValue() === false) {
             throw new UnsupportedTemporalTypeException("Invalid field " . $field . " for get() method, use getLong() instead");
         }
 
-        $value = $_this->getLong($field);
-        if ($range->isValidValue($value) == false) {
+        $value = $this->getLong($field);
+        if ($range->isValidValue($value) === false) {
             throw new DateTimeException("Invalid value for " . $field . " (valid values " . $range . "): " . $value);
         }
-        return (int)$value;
+        return $value;
     }
 
-    static public function query(TemporalAccessor $_this, TemporalQuery $query)
+    /**
+     * @inheritdoc
+     */
+    public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::zoneId()
             || $query == TemporalQueries::chronology()
@@ -43,6 +50,14 @@ final class TemporalAccessorDefaults
             return null;
         }
 
-        return $query->queryFrom($_this);
+        return $query->queryFrom($this);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function __toString()
+    {
+        return get_class($this);
     }
 }

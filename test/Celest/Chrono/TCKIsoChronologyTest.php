@@ -185,24 +185,24 @@ class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
 
     public function test_factory_from_TemporalAccessor_dateWithChronlogy()
     {
-        $this->assertEquals(ChronologyDefaults::from(LocalDate::of(2012, 6, 30)), IsoChronology::INSTANCE());
+        $this->assertEquals(AbstractChronology::from(LocalDate::of(2012, 6, 30)), IsoChronology::INSTANCE());
     }
 
 
     public function test_factory_from_TemporalAccessor_chronology()
     {
-        $this->assertEquals(ChronologyDefaults::from(new test_factory_from_TemporalAccessor_chronology()), IsoChronology::INSTANCE());
+        $this->assertEquals(AbstractChronology::from(new test_factory_from_TemporalAccessor_chronology()), IsoChronology::INSTANCE());
     }
 
     public function test_factory_from_TemporalAccessor_noChronology()
     {
-        $this->assertEquals(ChronologyDefaults::from(new test_factory_from_TemporalAccessor_noChronology()), IsoChronology::INSTANCE());
+        $this->assertEquals(AbstractChronology::from(new test_factory_from_TemporalAccessor_noChronology()), IsoChronology::INSTANCE());
     }
 
     public function test_factory_from_TemporalAccessor_null()
     {
         TestHelper::assertNullException($this, function () {
-            ChronologyDefaults::from(null);
+            AbstractChronology::from(null);
         });
     }
 

@@ -2,7 +2,7 @@
 
 namespace Celest\Temporal\Misc;
 
-use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\AbstractChronology;
 use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
@@ -99,7 +99,7 @@ final class JulianField implements TemporalField
     public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
         $value = $fieldValues->remove($this);
-            $chrono = ChronologyDefaults::from($partialTemporal);
+            $chrono = AbstractChronology::from($partialTemporal);
             if ($resolverStyle == ResolverStyle::LENIENT()) {
                 return $chrono->dateEpochDay(Math::subtractExact($value, $this->offset));
             }

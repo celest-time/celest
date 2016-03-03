@@ -63,7 +63,7 @@
 namespace Celest;
 
 use Celest\Chrono\ChronoLocalDateTime;
-use Celest\Chrono\ChronoLocalDateTimeDefaults;
+use Celest\Chrono\AbstractChronoLocalDateTime;
 use Celest\Chrono\Comparator;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
@@ -117,7 +117,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime, \Serializable
+final class LocalDateTime extends AbstractChronoLocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime, \Serializable
 {
 
     public static function init()
@@ -391,7 +391,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_DATE_TIME());
     }
 
     /**
@@ -542,7 +542,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isUnitSupported(TemporalUnit $unit)
     {
-        return ChronoLocalDateTimeDefaults::isUnitSupported($this, $unit);
+        return parent::isUnitSupported($unit);
     }
 
 //-----------------------------------------------------------------------
@@ -614,7 +614,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
             return ($f->isTimeBased() ? $this->time->get($field) : $this->date->get($field));
         }
 
-        return ChronoLocalDateTimeDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**
@@ -1575,7 +1575,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->date;
         }
 
-        return ChronoLocalDateTimeDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**
@@ -1605,7 +1605,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function adjustInto(Temporal $temporal)
     {
-        return ChronoLocalDateTimeDefaults::adjustInto($this, $temporal);
+        return parent::adjustInto($temporal);
     }
 
     /**
@@ -1801,7 +1801,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         if ($other instanceof LocalDateTime) {
             return $this->compareTo0($other);
         }
-        return ChronoLocalDateTimeDefaults::compareTo($this, $other);
+        return parent::compareTo($other);
     }
 
     private function compareTo0(LocalDateTime $other)
@@ -1841,7 +1841,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) > 0;
         }
 
-        return ChronoLocalDateTimeDefaults::isAfter($this, $other);
+        return parent::isAfter($other);
     }
 
     /**
@@ -1870,7 +1870,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         if ($other instanceof LocalDateTime) {
             return $this->compareTo0($other) < 0;
         }
-        return ChronoLocalDateTimeDefaults::isBefore($this, $other);
+        return parent::isBefore($other);
     }
 
     /**
@@ -1901,7 +1901,7 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) == 0;
         }
 
-        return ChronoLocalDateTimeDefaults::isEqual($this, $other);
+        return parent::isEqual($other);
     }
 
     //-----------------------------------------------------------------------
@@ -1967,38 +1967,6 @@ final class LocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDate
         $v = explode(':', $serialized);
         $this->date = LocalDate::of($v[0], $v[1], $v[2]);
         $this->time = LocalTime::of($v[3], $v[4], $v[5]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    static function timeLineOrder()
-    {
-        return ChronoLocalDateTimeDefaults::timeLineOrder();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function getChronology()
-    {
-        return ChronoLocalDateTimeDefaults::getChronology($this);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function toInstant(ZoneOffset $offset)
-    {
-        return ChronoLocalDateTimeDefaults::toInstant($this, $offset);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    function toEpochSecond(ZoneOffset $offset)
-    {
-        return ChronoLocalDateTimeDefaults::toEpochSecond($this, $offset);
     }
 }
 

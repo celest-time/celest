@@ -63,7 +63,7 @@ namespace Celest\Temporal;
 /**
  * Mock simple date-time with one field-value.
  */
-final class MockFieldValue implements TemporalAccessor
+final class MockFieldValue extends AbstractTemporalAccessor
 {
 
     private $field;
@@ -99,21 +99,5 @@ final class MockFieldValue implements TemporalAccessor
         }
 
         throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
-    }
-
-
-    public function get(TemporalField $field)
-    {
-        return TemporalAccessorDefaults::get($this, $field);
-    }
-
-    public function query(TemporalQuery $query)
-    {
-        return TemporalAccessorDefaults::query($this, $query);
-    }
-
-    public function __toString()
-    {
-        return "";
     }
 }

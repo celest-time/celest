@@ -2,10 +2,8 @@
 
 namespace Celest\Temporal\Misc;
 
-use Celest\ArithmeticException;
-use Celest\Chrono\ChronologyDefaults;
+use Celest\Chrono\AbstractChronology;
 use Celest\Chrono\IsoChronology;
-use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\LocalDate;
 use Celest\Locale;
@@ -17,7 +15,6 @@ use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\UnsupportedTemporalTypeException;
-use Celest\Temporal\ValueRange;
 
 class WeekBasedYear implements TemporalField
 {
@@ -38,7 +35,7 @@ class WeekBasedYear implements TemporalField
 
     public function isSupportedBy(TemporalAccessor $temporal)
     {
-        return $temporal->isSupported(ChronoField::EPOCH_DAY()) && ChronologyDefaults::from($temporal)->equals(IsoChronology::INSTANCE());
+        return $temporal->isSupported(ChronoField::EPOCH_DAY()) && AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE());
     }
 
     public function getFrom(TemporalAccessor $temporal)

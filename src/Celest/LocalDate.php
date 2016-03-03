@@ -64,7 +64,7 @@
 namespace Celest;
 
 use Celest\Chrono\ChronoLocalDate;
-use Celest\Chrono\ChronoLocalDateDefaults;
+use Celest\Chrono\AbstractChronoLocalDate;
 use Celest\Chrono\Era;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
@@ -74,7 +74,6 @@ use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalAccessorDefaults;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -118,7 +117,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
+final class LocalDate extends AbstractChronoLocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
 {
     public static function init()
     {
@@ -539,7 +538,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isSupported(TemporalField $field)
     {
-        return ChronoLocalDateDefaults::isSupported($this, $field);
+        return parent::isSupported($field);
     }
 
     /**
@@ -573,7 +572,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function isUnitSupported(TemporalUnit $unit)
     {
-        return ChronoLocalDateDefaults::isUnitSupported($this, $unit);
+        return parent::isUnitSupported($unit);
     }
 
 //-----------------------------------------------------------------------
@@ -657,7 +656,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->get0($field);
         }
 
-        return TemporalAccessorDefaults::get($this, $field);
+        return parent::get($field);
     }
 
     /**
@@ -774,7 +773,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function getEra()
     {
-        return ChronoLocalDateDefaults::getEra($this);
+        return parent::getEra();
     }
 
     /**
@@ -1631,7 +1630,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this;
         }
 
-        return ChronoLocalDateDefaults::query($this, $query);
+        return parent::query($query);
     }
 
     /**
@@ -1660,7 +1659,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     public function adjustInto(Temporal $temporal)
     {
-        return ChronoLocalDateDefaults::adjustInto($this, $temporal);
+        return parent::adjustInto($temporal);
     }
 
     /**
@@ -1964,7 +1963,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other);
         }
 
-        return ChronoLocalDateDefaults::compareTo($this, $other);
+        return parent::compareTo($other);
     }
 
     /**
@@ -2011,7 +2010,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) > 0;
         }
 
-        return ChronoLocalDateDefaults::isAfter($this, $other);
+        return parent::isAfter($other);
     }
 
     /**
@@ -2041,7 +2040,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) < 0;
         }
 
-        return ChronoLocalDateDefaults::isBefore($this, $other);
+        return parent::isBefore($other);
     }
 
     /**
@@ -2071,7 +2070,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
             return $this->compareTo0($other) == 0;
         }
 
-        return ChronoLocalDateDefaults::isEqual($this, $other);
+        return parent::isEqual($other);
     }
 
     //-----------------------------------------------------------------------
@@ -2139,7 +2138,7 @@ final class LocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
      */
     static function timeLineOrder()
     {
-        return ChronoLocalDateDefaults::timeLineOrder();
+        return AbstractChronoLocalDate::timeLineOrder();
     }
 }
 
