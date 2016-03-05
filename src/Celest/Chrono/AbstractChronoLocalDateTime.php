@@ -108,7 +108,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
         } else if ($query == TemporalQueries::chronology()) {
             return $this->getChronology();
         } else if ($query == TemporalQueries::precision()) {
-            return $query;
+            return ChronoUnit::NANOS();
         }
         // inline TemporalAccessor.super.query(query) as an optimization
         // non-JDK classes are not permitted to make this optimization

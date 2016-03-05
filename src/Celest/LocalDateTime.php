@@ -328,13 +328,17 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     public
     static function ofEpochSecond($epochSecond, $nanoOfSecond, ZoneOffset $offset)
     {
-        ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
-        $localSecond = $epochSecond + $offset->getTotalSeconds();  // overflow caught later
-        $localEpochDay = Math::floorDiv($localSecond, LocalTime::SECONDS_PER_DAY);
-        $secsOfDay = Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
-        $date = LocalDate::ofEpochDay($localEpochDay);
-        $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $nanoOfSecond);
-        return new LocalDateTime($date, $time);
+        try {
+            ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
+            $localSecond = Math::addExact($epochSecond, $offset->getTotalSeconds());
+            $localEpochDay = Math::floorDiv($localSecond, LocalTime::SECONDS_PER_DAY);
+            $secsOfDay = Math::floorMod($localSecond, LocalTime::SECONDS_PER_DAY);
+            $date = LocalDate::ofEpochDay($localEpochDay);
+            $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $nanoOfSecond);
+            return new LocalDateTime($date, $time);
+        } catch(ArithmeticException $ex) {
+            throw new DateTimeException("Value out of bounds", $ex);
+        }
     }
 
 //-----------------------------------------------------------------------
@@ -407,7 +411,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, LocalDateTime::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([LocalDateTime::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -1663,7 +1667,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
         if ($unit instanceof ChronoUnit) {
             if ($unit->isTimeBased()) {
                 $amount = $this->date->daysUntil($end->date);
-                if ($amount == 0) {
+                if ($amount === 0) {
                     return $this->time->until($end->time, $unit);
                 }
 
@@ -1681,27 +1685,27 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
                         break;
                     case ChronoUnit::MICROS():
                         $amount = Math::multiplyExact($amount, LocalTime::MICROS_PER_DAY);
-                        $timePart = $timePart / 1000;
+                        $timePart = Math::div($timePart, 1000);
                         break;
                     case ChronoUnit::MILLIS():
                         $amount = Math::multiplyExact($amount, LocalTime::MILLIS_PER_DAY);
-                        $timePart = $timePart / 1000000;
+                        $timePart = Math::div($timePart, 1000000);
                         break;
                     case ChronoUnit::SECONDS():
                         $amount = Math::multiplyExact($amount, LocalTime::SECONDS_PER_DAY);
-                        $timePart = $timePart / LocalTime::NANOS_PER_SECOND;
+                        $timePart = Math::div($timePart, LocalTime::NANOS_PER_SECOND);
                         break;
                     case ChronoUnit::MINUTES():
                         $amount = Math::multiplyExact($amount, LocalTime::MINUTES_PER_DAY);
-                        $timePart = $timePart / LocalTime::NANOS_PER_MINUTE;
+                        $timePart = Math::div($timePart, LocalTime::NANOS_PER_MINUTE);
                         break;
                     case ChronoUnit::HOURS():
                         $amount = Math::multiplyExact($amount, LocalTime::HOURS_PER_DAY);
-                        $timePart = $timePart / LocalTime::NANOS_PER_HOUR;
+                        $timePart = Math::div($timePart, LocalTime::NANOS_PER_HOUR);
                         break;
                     case ChronoUnit::HALF_DAYS():
                         $amount = Math::multiplyExact($amount, 2);
-                        $timePart = $timePart / (LocalTime::NANOS_PER_HOUR * 12);
+                        $timePart = Math::div($timePart, (LocalTime::NANOS_PER_HOUR * 12));
                         break;
                 }
                 return Math::addExact($amount, $timePart);
@@ -1916,7 +1920,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function equals($obj)
     {
-        if ($this == $obj) {
+        if ($this === $obj) {
             return true;
         }
 

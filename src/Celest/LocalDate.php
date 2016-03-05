@@ -1445,15 +1445,18 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return LocalDate a {@code LocalDate} based on this date with the days added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function plusDays($daysToAdd)
+    public function plusDays($daysToAdd)
     {
-        if ($daysToAdd == 0) {
+        if ($daysToAdd === 0) {
             return $this;
         }
 
-        $mjDay = Math::addExact($this->toEpochDay(), $daysToAdd);
-        return self::ofEpochDay($mjDay);
+        try {
+            $mjDay = Math::addExact($this->toEpochDay(), $daysToAdd);
+            return self::ofEpochDay($mjDay);
+        } catch (ArithmeticException $ex) {
+            throw new DateTimeException('Value out of bounds', $ex);
+        }
     }
 
     //-----------------------------------------------------------------------
@@ -1717,17 +1720,17 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
                 case ChronoUnit::DAYS():
                     return $this->daysUntil($end);
                 case ChronoUnit::WEEKS():
-                    return $this->daysUntil($end) / 7;
+                    return Math::div($this->daysUntil($end), 7);
                 case ChronoUnit::MONTHS():
                     return $this->monthsUntil($end);
                 case ChronoUnit::YEARS():
-                    return $this->monthsUntil($end) / 12;
+                    return Math::div($this->monthsUntil($end), 12);
                 case ChronoUnit::DECADES():
-                    return $this->monthsUntil($end) / 120;
+                    return Math::div($this->monthsUntil($end), 120);
                 case ChronoUnit::CENTURIES():
-                    return $this->monthsUntil($end) / 1200;
+                    return Math::div($this->monthsUntil($end), 1200);
                 case ChronoUnit::MILLENNIA():
-                    return $this->monthsUntil($end) / 12000;
+                    return Math::div($this->monthsUntil($end), 12000);
                 case ChronoUnit::ERAS():
                     return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }

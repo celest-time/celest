@@ -519,8 +519,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      *
      * @return int the total zone offset amount in seconds
      */
-    public function
-    getTotalSeconds()
+    public function getTotalSeconds()
     {
         return $this->totalSeconds;
     }
@@ -551,7 +550,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      *
      * @return ZoneRules the rules, not null
      */
-    public function  getRules()
+    public function getRules()
     {
         return ZoneRules::ofOffset($this);
     }

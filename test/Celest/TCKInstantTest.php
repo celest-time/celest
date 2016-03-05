@@ -767,7 +767,6 @@ List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoFi
      * @expectedException \Celest\DateTimeException
      * @dataProvider data_badPlusTemporalAmount
      */
-
     public function test_badPlusTemporalAmount()
     {
         $this->markTestIncomplete('TBD');

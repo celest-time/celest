@@ -1464,17 +1464,17 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
                 case ChronoUnit::NANOS():
                     return $nanosUntil;
                 case ChronoUnit::MICROS():
-                    return $nanosUntil / 1000;
+                    return Math::div($nanosUntil, 1000);
                 case ChronoUnit::MILLIS():
-                    return $nanosUntil / 1000000;
+                    return Math::div($nanosUntil, 1000000);
                 case ChronoUnit::SECONDS():
-                    return $nanosUntil / self::NANOS_PER_SECOND;
+                    return Math::div($nanosUntil, self::NANOS_PER_SECOND);
                 case ChronoUnit::MINUTES():
-                    return $nanosUntil / self::NANOS_PER_MINUTE;
+                    return Math::div($nanosUntil, self::NANOS_PER_MINUTE);
                 case ChronoUnit::HOURS():
-                    return $nanosUntil / self::NANOS_PER_HOUR;
+                    return Math::div($nanosUntil, self::NANOS_PER_HOUR);
                 case ChronoUnit::HALF_DAYS():
-                    return $nanosUntil / (12 * self::NANOS_PER_HOUR);
+                    return Math::div($nanosUntil, (12 * self::NANOS_PER_HOUR));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
