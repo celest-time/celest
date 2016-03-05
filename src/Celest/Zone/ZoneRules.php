@@ -195,9 +195,9 @@ final class ZoneRules
      *
      * @param ZoneOffset $baseStandardOffset the standard offset to use before legal rules were set, not null
      * @param ZoneOffset $baseWallOffset the wall offset to use before legal rules were set, not null
-     * @param ZoneOffsetTransition $standardOffsetTransitionList[] the list of changes to the standard offset, not null
-     * @param ZoneOffsetTransition $transitionList[] the list of transitions, not null
-     * @param ZoneOffsetTransitionRule $lastRules[] the recurring last rules, size 16 or less, not null
+     * @param ZoneOffsetTransition[] $standardOffsetTransitionList the list of changes to the standard offset, not null
+     * @param ZoneOffsetTransition[] $transitionList the list of transitions, not null
+     * @param ZoneOffsetTransitionRule[] $lastRules the recurring last rules, size 16 or less, not null
      * @throws IllegalArgumentException
      */
     private function __construct(ZoneOffset $baseStandardOffset,

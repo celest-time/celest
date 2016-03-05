@@ -74,6 +74,11 @@ class Locale
         return new Locale('ja');
     }
 
+    public static function CHINESE()
+    {
+        return New Locale('zh');
+    }
+
     public function getLocale()
     {
         return $this->locale;
