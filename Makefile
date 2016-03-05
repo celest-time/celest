@@ -14,6 +14,14 @@ test-long: test-php56-long test-php70-long
 
 build: build-php56 build-php70
 
+update: update-php56 update-php70
+
+update-php56:
+	docker pull php:5.6-cli
+
+update-php70:
+	docker pull php:7.0-cli
+
 build-php56: Dockerfile.php56
 	docker build -t phptime:5.6-cli -f Dockerfile.php56 .
 
