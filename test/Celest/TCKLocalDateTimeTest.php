@@ -209,8 +209,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         $this->check(LocalDateTime::MIN(), Year::MIN_VALUE, 1, 1, 0, 0, 0, 0);
     }
 
-    public
-    function test_constant_MAX()
+    public function test_constant_MAX()
     {
         $this->check(LocalDateTime::MAX(), Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999);
     }
@@ -218,8 +217,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // now()
 //-----------------------------------------------------------------------
-    public
-    function test_now()
+    public function test_now()
     {
         $expected = LocalDateTime::nowOf(Clock::systemDefaultZone());
         $test = LocalDateTime::now();
@@ -236,8 +234,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // now(ZoneId)
 //-----------------------------------------------------------------------
-    public
-    function now_ZoneId_nullZoneId()
+    public function test_now_ZoneId_nullZoneId()
     {
         TestHelper::assertNullException($this, function () {
             LocalDateTime::nowIn(null);
@@ -245,8 +242,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function now_ZoneId()
+    public function test_now_ZoneId()
     {
         $zone = ZoneId::of("UTC+01:02:03");
         $expected = LocalDateTime::nowOf(Clock::system($zone));
@@ -264,8 +260,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // now(Clock)
 //-----------------------------------------------------------------------
-    public
-    function now_Clock_nullClock()
+    public function test_now_Clock_nullClock()
     {
         TestHelper::assertNullException($this, function () {
             LocalDateTime::nowOf(null);
@@ -273,8 +268,10 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function now_Clock_allSecsInDay_utc()
+    /**
+     * @group long
+     */
+    public function test_now_Clock_allSecsInDay_utc()
     {
         for ($i = 0; $i < (2 * 24 * 60 * 60); $i++) {
             $instant = Instant::ofEpochSecond($i)->plusNanos(123456789);
@@ -290,9 +287,10 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         }
     }
 
-
-    public
-    function now_Clock_allSecsInDay_offset()
+    /**
+     * @group long
+     */
+    public function test_now_Clock_allSecsInDay_offset()
     {
         for ($i = 0; $i < (2 * 24 * 60 * 60); $i++) {
             $instant = Instant::ofEpochSecond($i)->plusNanos(123456789);
@@ -308,9 +306,10 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         }
     }
 
-
-    public
-    function now_Clock_allSecsInDay_beforeEpoch()
+    /**
+     * @group long
+     */
+    public function test_now_Clock_allSecsInDay_beforeEpoch()
     {
         $expected = LocalTime::MIDNIGHT()->plusNanos(123456789);
         for ($i = -1; $i >= -(24 * 60 * 60); $i--) {
@@ -327,8 +326,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 
 //-----------------------------------------------------------------------
 
-    public
-    function now_Clock_maxYear()
+    public function test_now_Clock_maxYear()
     {
         $clock = Clock::fixed($this->MAX_INSTANT, ZoneOffset::UTC());
         $test = LocalDateTime::nowOf($clock);
@@ -338,14 +336,14 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public function now_Clock_tooBig()
+    public function test_now_Clock_tooBig()
     {
         $clock = Clock::fixed($this->MAX_INSTANT->plusSeconds(24 * 60 * 60), ZoneOffset::UTC());
         LocalDateTime::nowOf($clock);
     }
 
 
-    public function now_Clock_minYear()
+    public function test_now_Clock_minYear()
     {
         $clock = Clock::fixed($this->MIN_INSTANT, ZoneOffset::UTC());
         $test = LocalDateTime::nowOf($clock);
@@ -355,7 +353,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public function now_Clock_tooLow()
+    public function test_now_Clock_tooLow()
     {
         $clock = Clock::fixed($this->MIN_INSTANT->minusNanos(1), ZoneOffset::UTC());
         LocalDateTime::nowOf($clock);
@@ -2331,7 +2329,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 
         $ret = [];
 
-        for ($i = -3660;$i <= 3660;) {
+        for ($i = -3660; $i <= 3660;) {
             $ret[] = [$i, $date, $hour, $min, $sec];
             $i += $delta;
             $sec += $delta;
