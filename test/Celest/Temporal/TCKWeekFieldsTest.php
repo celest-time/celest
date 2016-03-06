@@ -68,7 +68,7 @@ use Celest\LocalDate;
 /**
  * Test WeekFields.
  */
-class TCKWeekFields extends \PHPUnit_Framework_TestCase
+class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
 {
 
     /**

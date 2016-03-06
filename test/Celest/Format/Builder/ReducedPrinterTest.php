@@ -60,6 +60,7 @@
  */
 namespace Celest\Format\Builder;
 
+use Celest\Chrono\MinguoDate;
 use Celest\DateTimeException;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\LocalDate;
@@ -283,47 +284,44 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
     }
 
     //-----------------------------------------------------------------------
-    /**
-     * TODO enable
-     */
-    /**
-     * public function test_minguoChrono_fixedWidth()
-     * {
-     * // ISO 2021 is Minguo 110
-     * $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 2, 2021);
-     * MinguoDate $date = MinguoDate::of(109, 6, 30);
-     * $this->assertEquals(f . format(date), "09");
-     * date = MinguoDate . of(110, 6, 30);
-     * $this->assertEquals(f . format(date), "10");
-     * date = MinguoDate . of(199, 6, 30);
-     * $this->assertEquals(f . format(date), "99");
-     * date = MinguoDate . of(200, 6, 30);
-     * $this->assertEquals(f . format(date), "00");
-     * date = MinguoDate . of(209, 6, 30);
-     * $this->assertEquals(f . format(date), "09");
-     * date = MinguoDate . of(210, 6, 30);
-     * $this->assertEquals(f . format(date), "10");
-     * }
-     *
-     * public
-     * void test_minguoChrono_extendedWidth() throws Exception
-     * {
-     * // ISO 2021 is Minguo 110
-     * DateTimeFormatter f = getFormatterBaseDate(YEAR, 2, 4, 2021);
-     * MinguoDate date = MinguoDate . of(109, 6, 30);
-     * assertEquals(f . format(date), "109");
-     * date = MinguoDate . of(110, 6, 30);
-     * assertEquals(f . format(date), "10");
-     * date = MinguoDate . of(199, 6, 30);
-     * assertEquals(f . format(date), "99");
-     * date = MinguoDate . of(200, 6, 30);
-     * assertEquals(f . format(date), "00");
-     * date = MinguoDate . of(209, 6, 30);
-     * assertEquals(f . format(date), "09");
-     * date = MinguoDate . of(210, 6, 30);
-     * assertEquals(f . format(date), "210");
-     * }
-     **/
+    
+    
+     public function test_minguoChrono_fixedWidth()
+     {
+     // ISO 2021 is Minguo 110
+     $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 2, 2021);
+     $date = MinguoDate::of(109, 6, 30);
+     $this->assertEquals($f->format($date), "09");
+     $date = MinguoDate::of(110, 6, 30);
+     $this->assertEquals($f->format($date), "10");
+     $date = MinguoDate::of(199, 6, 30);
+     $this->assertEquals($f->format($date), "99");
+     $date = MinguoDate::of(200, 6, 30);
+     $this->assertEquals($f->format($date), "00");
+     $date = MinguoDate::of(209, 6, 30);
+     $this->assertEquals($f->format($date), "09");
+     $date = MinguoDate::of(210, 6, 30);
+     $this->assertEquals($f->format($date), "10");
+     }
+    
+     public function test_minguoChrono_extendedWidth() 
+     {
+     // ISO 2021 is Minguo 110
+     $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 4, 2021);
+     $date = MinguoDate::of(109, 6, 30);
+     $this->assertEquals($f->format($date), "109");
+     $date = MinguoDate::of(110, 6, 30);
+     $this->assertEquals($f->format($date), "10");
+     $date = MinguoDate::of(199, 6, 30);
+     $this->assertEquals($f->format($date), "99");
+     $date = MinguoDate::of(200, 6, 30);
+     $this->assertEquals($f->format($date), "00");
+     $date = MinguoDate::of(209, 6, 30);
+     $this->assertEquals($f->format($date), "09");
+     $date = MinguoDate::of(210, 6, 30);
+     $this->assertEquals($f->format($date), "210");
+     }
+    
 //-----------------------------------------------------------------------
     public
     function test_toString()

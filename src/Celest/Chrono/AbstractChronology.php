@@ -321,7 +321,7 @@ abstract class AbstractChronology implements Chronology
      */
     static function getAvailableChronologies()
     {
-        return [IsoChronology::INSTANCE(), ThaiBuddhistChronology::INSTANCE()];
+        return [IsoChronology::INSTANCE(), MinguoChronology::INSTANCE(), ThaiBuddhistChronology::INSTANCE()];
     }
 
 //-----------------------------------------------------------------------

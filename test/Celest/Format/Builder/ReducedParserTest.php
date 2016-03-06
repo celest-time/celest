@@ -62,6 +62,7 @@ namespace Celest\Format\Builder;
 
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\IsoChronology;
+use Celest\Chrono\MinguoChronology;
 use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\Chrono\ThaiBuddhistDate;
 use Celest\Format\DateTimeFormatterBuilder;
@@ -523,13 +524,10 @@ class ReducedParserTest extends AbstractTestPrinterParser
                  [
                      JapaneseChronology . INSTANCE . date(baseYear) . plus(1, YEARS)],
                  [
-                     JapaneseChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],
-                 [
-                     MinguoChronology . INSTANCE . date(baseYear)],
-                 [
-                     MinguoChronology . INSTANCE . date(baseYear) . plus(1, YEARS)],
-                 [
-                     MinguoChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],*/
+                     JapaneseChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],*/
+                [MinguoChronology::INSTANCE()->dateFrom($baseYear)],
+                [MinguoChronology::INSTANCE()->dateFrom($baseYear)->plus(1, ChronoUnit::YEARS())],
+                [MinguoChronology::INSTANCE()->dateFrom($baseYear)->plus(99, ChronoUnit::YEARS())],
                 [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)],
                 [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)->plus(1, ChronoUnit::YEARS())],
                 [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)->plus(99, ChronoUnit::YEARS())],

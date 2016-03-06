@@ -62,6 +62,7 @@ namespace Celest\Format;
 
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
+use Celest\Chrono\MinguoChronology;
 use Celest\IllegalArgumentException;
 use Celest\LocalDate;
 use Celest\Locale;
@@ -1061,7 +1062,7 @@ class TestDateTimeFormatterBuilder extends \PHPUnit_Framework_TestCase
             [null, FormatStyle::FULL(), JapaneseChronology::INSTANCE(), Locale::JAPANESE(), "H'\u6642'mm'\u5206'ss'\u79d2' z"],
             [null, FormatStyle::LONG(), JapaneseChronology::INSTANCE(), Locale::JAPANESE(), "H:mm:ss z"],
             [null, FormatStyle::MEDIUM(), JapaneseChronology::INSTANCE(), Locale::JAPANESE(), "H:mm:ss"],
-            [null, FormatStyle::SHORT(), JapaneseChronology::INSTANCE(), Locale::JAPANESE(), "H:mm"],
+            [null, FormatStyle::SHORT(), JapaneseChronology::INSTANCE(), Locale::JAPANESE(), "H:mm"],*/
 
             // Chinese Local and Chronology
             [FormatStyle::FULL(), FormatStyle::FULL(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "Gy\u5e74M\u6708d\u65e5EEEE ahh'\u65f6'mm'\u5206'ss'\u79d2' z"],
@@ -1075,7 +1076,7 @@ class TestDateTimeFormatterBuilder extends \PHPUnit_Framework_TestCase
             [null, FormatStyle::FULL(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "ahh'\u65f6'mm'\u5206'ss'\u79d2' z"],
             [null, FormatStyle::LONG(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "ahh'\u65f6'mm'\u5206'ss'\u79d2'"],
             [null, FormatStyle::MEDIUM(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "H:mm:ss"],
-            [null, FormatStyle::SHORT(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "ah:mm"],*/
+            [null, FormatStyle::SHORT(), MinguoChronology::INSTANCE(), Locale::CHINESE(), "ah:mm"],
         ];
     }
 
