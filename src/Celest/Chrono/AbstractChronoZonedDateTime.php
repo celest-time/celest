@@ -210,13 +210,13 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     public function compareTo(ChronoZonedDateTime $other)
     {
         $cmp = Long::compare($this->toEpochSecond(), $other->toEpochSecond());
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = $this->toLocalTime()->getNano() - $other->toLocalTime()->getNano();
-            if ($cmp == 0) {
+            if ($cmp === 0) {
                 $cmp = $this->toLocalDateTime()->compareTo($other->toLocalDateTime());
-                if ($cmp == 0) {
-                    $cmp = $this->getZone()->getId()->compareTo($other->getZone()->getId());
-                    if ($cmp == 0) {
+                if ($cmp === 0) {
+                    $cmp = $this->getZone()->getId() === $other->getZone()->getId();
+                    if ($cmp) {
                         $cmp = $this->getChronology()->compareTo($other->getChronology());
                     }
                 }

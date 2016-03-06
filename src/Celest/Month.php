@@ -808,7 +808,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

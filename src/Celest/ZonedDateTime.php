@@ -376,7 +376,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
             $localDateTime = $localDateTime->plusSeconds($trans->getDuration()->getSeconds());
             $offset = $trans->getOffsetAfter();
         } else {
-            if ($preferredOffset != null && $validOffsets->contains($preferredOffset)) {
+            if ($preferredOffset !== null && \in_array($preferredOffset, $validOffsets)) {
                 $offset = $preferredOffset;
             } else {
                 $offset = $validOffsets[0];  // protect against bad ZoneRules
