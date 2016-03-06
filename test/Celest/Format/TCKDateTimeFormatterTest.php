@@ -64,6 +64,7 @@ namespace Celest\Format;
 use Celest\ArithmeticException;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
+use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeException;
 use Celest\DateTimeParseException;
 use Celest\DayOfWeek;
@@ -330,9 +331,9 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $ot = OffsetTime::ofLocalTime(LocalTime::of(11, 30), self::OFFSET_PONE());
         $odt = OffsetDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::OFFSET_PONE());
         $zdt = ZonedDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::ZONE_PARIS());
-        //$thaiZdt = ThaiBuddhistChronology::INSTANCE()->zonedDateTime($zdt);
+        $thaiZdt = ThaiBuddhistChronology::INSTANCE()->zonedDateTimeFrom($zdt);
         $instant = Instant::ofEpochSecond(3600);
-        return [
+        return [/*
             [
                 null, null, DayOfWeek::MONDAY(), "::::"],
             [
@@ -408,8 +409,8 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
                 null, self::OFFSET_PTHREE(), $zdt, "2008:12:+03:00:+03:00:ISO"],
             [
                 null, self::OFFSET_PTHREE(), $instant, "1970:04:+03:00:+03:00:ISO"],
-
-            /*[
+*/
+            [
                 ThaiBuddhistChronology::INSTANCE(), null, DayOfWeek::MONDAY(), null],  // not a complete date
             [
                 ThaiBuddhistChronology::INSTANCE(), null, $ym, null],  // not a complete date
@@ -452,7 +453,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
             [
                 ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
             [
-                IsoChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2008:11:+02:00:Europe/Paris:ISO"],*/
+                IsoChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2008:11:+02:00:Europe/Paris:ISO"],
         ];
     }
 
@@ -469,7 +470,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
             ->appendLiteral(':')->optionalStart()->appendChronologyId()->optionalEnd()
             ->toFormatter2(Locale::ENGLISH())
             ->withChronology($overrideChrono)->withZone($overrideZone);
-        if ($expected != null) {
+        if ($expected !== null) {
             $result = $test->format($temporal);
             $this->assertEquals($result, $expected);
         } else {

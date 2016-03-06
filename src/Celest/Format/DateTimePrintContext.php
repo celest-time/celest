@@ -191,8 +191,7 @@ final class DateTimePrintContext
         $this->formatter = $formatter;
     }
 
-    private
-    static function adjust(TemporalAccessor $temporal, DateTimeFormatter $formatter)
+    private static function adjust(TemporalAccessor $temporal, DateTimeFormatter $formatter)
     {
         // normal case first (early return is an optimization)
         $overrideChrono = $formatter->getChronology();
@@ -234,12 +233,12 @@ final class DateTimePrintContext
 
         $effectiveZone = ($overrideZone !== null ? $overrideZone : $temporalZone);
         $effectiveDate = null;
-        if ($overrideChrono != null) {
+        if ($overrideChrono !== null) {
             if ($temporal->isSupported(ChronoField::EPOCH_DAY())) {
-                $effectiveDate = $effectiveChrono->date($temporal);
+                $effectiveDate = $effectiveChrono->dateFrom($temporal);
             } else {
                 // check for date fields other than epoch-day, ignoring case of converting null to ISO
-                if (!($overrideChrono == IsoChronology::INSTANCE() && $temporalChrono == null)) {
+                if (!($overrideChrono == IsoChronology::INSTANCE() && $temporalChrono === null)) {
                     foreach (ChronoField::values() as $f) {
                         if ($f->isDateBased() && $temporal->isSupported($f)) {
                             throw new DateTimeException("Unable to apply override chronology '" . $overrideChrono .

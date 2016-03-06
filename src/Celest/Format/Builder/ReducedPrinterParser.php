@@ -103,7 +103,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
     public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)
     {
         $baseValue = $this->baseValue;
-        if ($this->baseDate != null) {
+        if ($this->baseDate !== null) {
             $chrono = $context->getEffectiveChronology();
             $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
 

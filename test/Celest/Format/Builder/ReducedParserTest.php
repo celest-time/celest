@@ -62,14 +62,16 @@ namespace Celest\Format\Builder;
 
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\IsoChronology;
+use Celest\Chrono\ThaiBuddhistChronology;
+use Celest\Chrono\ThaiBuddhistDate;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\ParsePosition;
-use Celest\Helper\Long;
 use Celest\LocalDate;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalQueries;
 
 //-----------------------------------------------------------------------
 // Class to structure the test data
@@ -97,7 +99,7 @@ class Pair
 /**
  * Test ReducedPrinterParser.
  */
-class TestReducedParser extends AbstractTestPrinterParser
+class ReducedParserTest extends AbstractTestPrinterParser
 {
     private static $STRICT = true;
     private static $LENIENT = false;
@@ -493,7 +495,7 @@ class TestReducedParser extends AbstractTestPrinterParser
         } else {
             $this->assertEquals($parseLen, $ppos->getIndex(), "parse position");
             $this->assertParsed($parsed, ChronoField::YEAR_OF_ERA(), $year);
-            $this->assertParsed($parsed, ChronoField::MONTH_OF_YEAR(),$month);
+            $this->assertParsed($parsed, ChronoField::MONTH_OF_YEAR(), $month);
             $this->assertParsed($parsed, ChronoField::DAY_OF_MONTH(), $day);
         }
     }
@@ -506,13 +508,9 @@ class TestReducedParser extends AbstractTestPrinterParser
         $baseYear = LocalDate::of(2000, 1, 1);
         return
             [
-                [
-                    IsoChronology::INSTANCE()->dateFrom($baseYear)
-                ],
-                [
-                    IsoChronology::INSTANCE()->dateFrom($baseYear)->plus(1, ChronoUnit::YEARS())],
-                [
-                    IsoChronology::INSTANCE()->dateFrom($baseYear)->plus(99, ChronoUnit::YEARS())],
+                [IsoChronology::INSTANCE()->dateFrom($baseYear)],
+                [IsoChronology::INSTANCE()->dateFrom($baseYear)->plus(1, ChronoUnit::YEARS())],
+                [IsoChronology::INSTANCE()->dateFrom($baseYear)->plus(99, ChronoUnit::YEARS())],
                 /* TODO enable
                 [
                      HijrahChronology . INSTANCE . date(baseYear)],
@@ -531,14 +529,10 @@ class TestReducedParser extends AbstractTestPrinterParser
                  [
                      MinguoChronology . INSTANCE . date(baseYear) . plus(1, YEARS)],
                  [
-                     MinguoChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],
-                 [
-                     ThaiBuddhistChronology . INSTANCE . date(baseYear)],
-                 [
-                     ThaiBuddhistChronology . INSTANCE . date(baseYear) . plus(1, YEARS)],
-                 [
-                     ThaiBuddhistChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],
-             ];*/
+                     MinguoChronology . INSTANCE . date(baseYear) . plus(99, YEARS)],*/
+                [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)],
+                [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)->plus(1, ChronoUnit::YEARS())],
+                [ThaiBuddhistChronology::INSTANCE()->dateFrom($baseYear)->plus(99, ChronoUnit::YEARS())],
             ];
     }
 
@@ -585,53 +579,48 @@ class TestReducedParser extends AbstractTestPrinterParser
 
     }
 
-    /* TOOO enable
-        public function test_reducedWithLateChronoChange()
-        {
-            $date = ThaiBuddhistDate::of(2543, 1, 1);
-            $df
-                = new DateTimeFormatterBuilder()
-                . appendValueReduced(YEAR, 2, 2, LocalDate . of(2000, 1, 1))
-                . appendLiteral(" ")
-                . appendChronologyId()
-                . toFormatter();
-            int expected = date . get(YEAR);
-    String input = df . format(date);
+    public function test_reducedWithLateChronoChange()
+    {
+        $date = ThaiBuddhistDate::of(2543, 1, 1);
+        $df
+            = (new DateTimeFormatterBuilder())
+            ->appendValueReduced2(ChronoField::YEAR(), 2, 2, LocalDate::of(2000, 1, 1))
+            ->appendLiteral(" ")
+            ->appendChronologyId()
+            ->toFormatter();
+        $expected = $date->get(ChronoField::YEAR());
+        $input = $df->format($date);
 
-    ParsePosition pos = new ParsePosition(0);
-    TemporalAccessor parsed = df . parseUnresolved(input, pos);
-    assertEquals(pos . getIndex(), input . length(), "Input not parsed completely");
-    assertEquals(pos . getErrorIndex(), -1, "Error index should be -1 (no-error)");
-    int actual = parsed . get(YEAR);
-    assertEquals(actual, expected,
-        String . format("Wrong date parsed, chrono: %s, input: %s",
-            parsed . query(TemporalQueries . chronology()), input));
+        $pos = new ParsePosition(0);
+        $parsed = $df->parseUnresolved($input, $pos);
+        $this->assertEquals($pos->getIndex(), strlen($input), "Input not parsed completely");
+        $this->assertEquals($pos->getErrorIndex(), -1, "Error index should be -1 (no-error)");
+        $actual = $parsed->get(ChronoField::YEAR());
+        $this->assertEquals($expected, $actual, sprintf("Wrong date parsed, chrono: %s, input: %s",
+            $parsed->query(TemporalQueries::chronology()), $input));
 
     }
 
     public function test_reducedWithLateChronoChangeTwice()
     {
-    DateTimeFormatter df
-    = new DateTimeFormatterBuilder()
-    . appendValueReduced(YEAR, 2, 2, LocalDate . of(2000, 1, 1))
-    . appendLiteral(" ")
-    . appendChronologyId()
-    . appendLiteral(" ")
-    . appendChronologyId()
-    . toFormatter();
-    int expected = 2044;
-    String input = "44 ThaiBuddhist ISO";
-    ParsePosition pos = new ParsePosition(0);
-    TemporalAccessor parsed = df . parseUnresolved(input, pos);
-    assertEquals(pos . getIndex(), input . length(), "Input not parsed completely: " + pos);
-    assertEquals(pos . getErrorIndex(), -1, "Error index should be -1 (no-error)");
-    int actual = parsed . get(YEAR);
-    assertEquals(actual, expected,
-    String . format("Wrong date parsed, chrono: %s, input: %s",
-    parsed . query(TemporalQueries . chronology()), input));
-
+        $df
+            = (new DateTimeFormatterBuilder())
+            ->appendValueReduced2(ChronoField::YEAR(), 2, 2, LocalDate::of(2000, 1, 1))
+            ->appendLiteral(" ")
+            ->appendChronologyId()
+            ->appendLiteral(" ")
+            ->appendChronologyId()
+            ->toFormatter();
+        $expected = 2044;
+        $input = "44 ThaiBuddhist ISO";
+        $pos = new ParsePosition(0);
+        $parsed = $df->parseUnresolved($input, $pos);
+        $this->assertEquals($pos->getIndex(), strlen($input), "Input not parsed completely: " . $pos);
+        $this->assertEquals($pos->getErrorIndex(), -1, "Error index should be -1 (no-error)");
+        $actual = $parsed->get(ChronoField::YEAR());
+        $this->assertEquals($expected, $actual, sprintf("Wrong date parsed, chrono: %s, input: %s",
+            $parsed->query(TemporalQueries::chronology()), $input));
     }
-    */
 
     private static function strict($parseLen, $parseVal)
     {

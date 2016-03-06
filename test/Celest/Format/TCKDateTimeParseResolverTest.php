@@ -61,6 +61,7 @@
 namespace Celest\Format;
 
 use Celest\Chrono\IsoChronology;
+use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeParseException;
 use Celest\Instant;
 use Celest\LocalDate;
@@ -1230,7 +1231,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_withChronology_parsedChronology_noOverride()
     {
-        $this->markTestIncomplete('ThaiBuddhistChronology');
         $f = (new DateTimeFormatterBuilder())->parseDefaulting(ChronoField::EPOCH_DAY(), 2)->appendChronologyId()->toFormatter();
         $accessor = $f->parse("ThaiBuddhist");
         $this->assertEquals($accessor->query(TemporalQueries::localDate()), LocalDate::of(1970, 1, 3));
@@ -1333,7 +1333,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDate_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cld = ThaiBuddhistChronology::INSTANCE()->dateNow();
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cld))->toFormatter();
         $f->parse("1234567890");
@@ -1345,7 +1344,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
     public function test_fieldResolvesToChronoLocalDate_overrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete('ThaiBuddhistChronology');
+        $this->markTestIncomplete('MinguoChronology');
         $cld = ThaiBuddhistChronology::INSTANCE()->dateNow();
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cld))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
@@ -1382,7 +1381,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDateTime_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete('ThaiBuddhistChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f->parse("1234567890");
@@ -1393,7 +1391,7 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoLocalDateTime_overrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete('ThaiBuddhistChronology');
+        $this->markTestIncomplete('MinguoChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f = $f->withChronology(MinguoChronology::INSTANCE());
@@ -1433,7 +1431,6 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function test_fieldResolvesToChronoZonedDateTime_noOverrideChrono_wrongChrono()
     {
-        $this->markTestIncomplete('MinguoChronology');
         $cldt = ThaiBuddhistChronology::INSTANCE()->dateNow()->atTime(LocalTime::NOON())->atZone(self::EUROPE_PARIS());
         $f = (new DateTimeFormatterBuilder())->appendValue(new ResolvingField($cldt))->toFormatter();
         $f->parse("1234567890");

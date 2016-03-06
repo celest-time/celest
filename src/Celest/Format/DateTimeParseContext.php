@@ -421,7 +421,7 @@ final class DateTimeParseContext
     public function  setParsed(Chronology $chrono)
     {
         $this->currentParsed()->chrono = $chrono;
-        if ($this->chronoListeners != null && !empty($chronoListeners)) {
+        if ($this->chronoListeners !== null && !empty($this->chronoListeners)) {
 
             $tmp = $this->chronoListeners;
             $this->chronoListeners = null;

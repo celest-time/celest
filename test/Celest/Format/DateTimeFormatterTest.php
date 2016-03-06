@@ -59,6 +59,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Instant;
@@ -109,7 +110,7 @@ $this->assertSame($test, $base);
         $this->assertGoodErrorDate([Instant::class, 'from'], "Instant");
         $this->assertGoodErrorDate([ZoneOffset::class, 'from'], "ZoneOffset");
         $this->assertGoodErrorDate([ZoneId::class, 'from'], "ZoneId");
-        // TODO $this->assertGoodErrorDate(ThaiBuddhistChronology->INSTANCE::date, "");
+        $this->assertGoodErrorDate([ThaiBuddhistChronology::INSTANCE(), 'dateFrom'], "LocalDate");
 
         $this->assertGoodErrorTime([DayOfWeek::class, 'from'], "DayOfWeek");
         $this->assertGoodErrorTime([Month::class, 'from'], "Month");
@@ -125,7 +126,7 @@ $this->assertSame($test, $base);
         $this->assertGoodErrorTime([Instant::class, 'from'], "Instant");
         $this->assertGoodErrorTime([ZoneOffset::class, 'from'], "ZoneOffset");
         $this->assertGoodErrorTime([ZoneId::class, 'from'], "ZoneId");
-        // TODO $this->assertGoodErrorTime(ThaiBuddhistChronology->INSTANCE::date, "");
+        $this->assertGoodErrorTime([ThaiBuddhistChronology::INSTANCE(), 'dateFrom'], "LocalDate");
     }
 
     private function assertGoodErrorDate($function, $expectedText)

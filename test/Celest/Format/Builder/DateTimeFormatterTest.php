@@ -60,6 +60,7 @@
  */
 namespace Celest\Format\Builder;
 
+use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Format\DateTimeFormatter;
@@ -85,7 +86,7 @@ use Celest\ZoneOffset;
 /**
  * Test DateTimeFormatter.
  */
-class TestDateTimeFormatter extends \PHPUnit_Framework_TestCase
+class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 {
 
     public function test_withLocale_same()
@@ -114,8 +115,7 @@ class TestDateTimeFormatter extends \PHPUnit_Framework_TestCase
         $this->assertGoodErrorDate([Instant::class, "from"], "Instant");
         $this->assertGoodErrorDate([ZoneOffset::class, "from"], "ZoneOffset");
         $this->assertGoodErrorDate([ZoneId::class, "from"], "ZoneId");
-        // TODO enable
-        //$this->assertGoodErrorDate([ThaiBuddhistChronology . INSTANCE::date, "");
+        $this->assertGoodErrorDate([ThaiBuddhistChronology::INSTANCE(), 'dateFrom'], "LocalDate");
 
         $this->assertGoodErrorTime([DayOfWeek::class, "from"], "DayOfWeek");
         $this->assertGoodErrorTime([Month::class, "from"], "Month");
@@ -131,8 +131,7 @@ class TestDateTimeFormatter extends \PHPUnit_Framework_TestCase
         $this->assertGoodErrorTime([Instant::class, "from"], "Instant");
         $this->assertGoodErrorTime([ZoneOffset::class, "from"], "ZoneOffset");
         $this->assertGoodErrorTime([ZoneId::class, "from"], "ZoneId");
-        // TODO enable
-        //$this->assertGoodErrorTime([ThaiBuddhistChronology . INSTANCE::date, "");
+        $this->assertGoodErrorTime([ThaiBuddhistChronology::INSTANCE(), 'dateFrom'], "LocalDate");
     }
 
     private

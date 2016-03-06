@@ -869,6 +869,45 @@ class ChronoField implements TemporalField
         $this->displayNameKey = $displayNameKey;
     }
 
+    /**
+     * @return ChronoField[]
+     */
+    public static function values()
+    {
+        return [
+            self::$NANO_OF_SECOND,
+            self::$NANO_OF_DAY,
+            self::$MICRO_OF_SECOND,
+            self::$MICRO_OF_DAY,
+            self::$MILLI_OF_SECOND,
+            self::$MILLI_OF_DAY,
+            self::$SECOND_OF_MINUTE,
+            self::$SECOND_OF_DAY,
+            self::$MINUTE_OF_HOUR,
+            self::$MINUTE_OF_DAY,
+            self::$HOUR_OF_AMPM,
+            self::$CLOCK_HOUR_OF_AMPM,
+            self::$HOUR_OF_DAY,
+            self::$CLOCK_HOUR_OF_DAY,
+            self::$AMPM_OF_DAY,
+            self::$DAY_OF_WEEK,
+            self::$ALIGNED_DAY_OF_WEEK_IN_MONTH,
+            self::$ALIGNED_DAY_OF_WEEK_IN_YEAR,
+            self::$DAY_OF_MONTH,
+            self::$DAY_OF_YEAR,
+            self::$EPOCH_DAY,
+            self::$ALIGNED_WEEK_OF_MONTH,
+            self::$ALIGNED_WEEK_OF_YEAR,
+            self::$MONTH_OF_YEAR,
+            self::$PROLEPTIC_MONTH,
+            self::$YEAR_OF_ERA,
+            self::$YEAR,
+            self::$ERA,
+            self::$INSTANT_SECONDS,
+            self::$OFFSET_SECONDS,
+        ];
+    }
+
     public function getDisplayName(Locale $locale)
     {
         if ($this->displayNameKey === null) {

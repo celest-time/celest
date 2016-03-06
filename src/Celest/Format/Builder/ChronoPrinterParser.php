@@ -1,6 +1,7 @@
 <?php
 
 namespace Celest\Format\Builder;
+use Celest\Chrono\AbstractChronology;
 use Celest\Format\DateTimePrintContext;
 use Celest\Format\TextStyle;
 use Celest\Locale;
@@ -50,11 +51,10 @@ final class ChronoPrinterParser implements DateTimePrinterParser
             throw new IndexOutOfBoundsException();
         }
 
-        $chronos = Chronology::getAvailableChronologies();
+        $chronos = AbstractChronology::getAvailableChronologies();
         $bestMatch = null;
         $matchLen = -1;
         foreach ($chronos as $chrono) {
-            $name = '';
             if ($this->textStyle === null) {
                 $name = $chrono->getId();
             } else {
@@ -66,7 +66,7 @@ final class ChronoPrinterParser implements DateTimePrinterParser
                 $matchLen = $nameLen;
             }
         }
-        if ($bestMatch == null) {
+        if ($bestMatch === null) {
             return ~$position;
         }
         $context->setParsed($bestMatch);

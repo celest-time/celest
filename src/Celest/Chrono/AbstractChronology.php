@@ -62,17 +62,23 @@
  */
 namespace Celest\Chrono;
 
+use Celest\Clock;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Format\ResolverStyle;
+use Celest\Format\TextStyle;
 use Celest\Helper\Math;
+use Celest\Instant;
+use Celest\LocalDate;
 use Celest\Locale;
+use Celest\LocalTime;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\FieldValues;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAdjusters;
 use Celest\Temporal\TemporalQueries;
+use Celest\ZoneId;
 
 /**
  * An abstract implementation of a calendar system, used to organize and identify dates.
@@ -315,18 +321,7 @@ abstract class AbstractChronology implements Chronology
      */
     static function getAvailableChronologies()
     {
-//initCache();       // force initialization
-//HashSet < Chronology> chronos = new HashSet <> (CHRONOS_BY_ID->values());
-//
-//    /// Add in Chronologies from the ServiceLoader configuration
-//@SuppressWarnings("rawtypes")
-//ServiceLoader < Chronology> loader = ServiceLoader->load(Chronology .class);
-//for (Chronology chrono : loader)
-//{
-//chronos->add(chrono);
-//}
-//
-//return chronos;
+        return [IsoChronology::INSTANCE(), ThaiBuddhistChronology::INSTANCE()];
     }
 
 //-----------------------------------------------------------------------
@@ -729,5 +724,96 @@ abstract class AbstractChronology implements Chronology
     public function __toString()
     {
         return $this->getId();
+    }
+
+    public  function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    {
+        return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
+    }
+
+    public  function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    {
+        return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
+    }
+
+    public  function dateNow()
+    {
+        return $this->dateNowOf(Clock::systemDefaultZone());
+    }
+
+    public  function dateNowIn(ZoneId $zone)
+    {
+        return $this->dateNowOf(Clock::system($zone));
+    }
+
+    public  function dateNowOf(Clock $clock)
+    {
+        return $this->dateFrom(LocalDate::nowOf($clock));
+    }
+
+    public  function localDateTime(TemporalAccessor $temporal)
+    {
+        try {
+            return $this->dateFrom($temporal)->atTime(LocalTime::from($temporal));
+        } catch
+        (DateTimeException $ex) {
+            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " . get_class($temporal), $ex);
+        }
+    }
+
+    public  function zonedDateTimeFrom(TemporalAccessor $temporal)
+    {
+        try {
+            $zone = ZoneId::from($temporal);
+            try {
+                $instant = Instant::from($temporal);
+                return $this->zonedDateTime($instant, $zone);
+
+            } catch
+            (DateTimeException $ex1) {
+                $cldt = ChronoLocalDateTimeImpl::ensureValid($this, $this->localDateTime($temporal));
+                return ChronoZonedDateTimeImpl::ofBest($cldt, $zone, null);
+            }
+        } catch (DateTimeException $ex) {
+            throw new DateTimeException("Unable to obtain ChronoZonedDateTime from TemporalAccessor: " . get_class($temporal), $ex);
+        }
+    }
+
+    public  function zonedDateTime(Instant $instant, ZoneId $zone)
+    {
+        return ChronoZonedDateTimeImpl::ofInstant($this, $instant, $zone);
+    }
+
+    public function getDisplayName(TextStyle $style, Locale $locale)
+    {
+        // TODO implement
+        /*   $temporal = new TemporalAccessor()
+   {
+       @Override
+   public boolean isSupported(TemporalField field)
+   {
+       return false;
+   }
+
+   @Override
+               public long getLong(TemporalField field) {
+       throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+   }
+               @SuppressWarnings("unchecked")
+               @Override
+               public <R > R query(TemporalQuery < R> query) {
+       if (query == TemporalQueries->chronology()) {
+           return (R) Chronology->this;
+                   }
+                           return TemporalAccessor->super->query(query);
+                       }
+           };
+           return new DateTimeFormatterBuilder()->appendChronologyText($style)->toFormatter($locale)->format($temporal);*/
+        return "";
+    }
+
+    public  function period($years, $months, $days)
+    {
+        return new ChronoPeriodImpl($this, $years, $months, $days);
     }
 }
