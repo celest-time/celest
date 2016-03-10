@@ -133,7 +133,7 @@ final class Math
         if (\function_exists('\intdiv')) {
             return \intdiv($dividend, $divisor);
         }
-        return \gmp_intval(\gmp_div($dividend, $divisor));
+        return ($dividend - ($dividend % $divisor)) / $divisor;
     }
 
     public static function max($a, $b)
