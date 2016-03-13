@@ -242,8 +242,8 @@ final class Duration implements TemporalAmount
      */
     public static function ofMillis($millis)
     {
-        $secs = $millis / 1000;
-        $mos = (int)($millis % 1000);
+        $secs = Math::div($millis, 1000);
+        $mos = $millis % 1000;
         if ($mos < 0) {
             $mos += 1000;
             $secs--;
@@ -262,7 +262,7 @@ final class Duration implements TemporalAmount
      */
     public static function ofNanos($nanos)
     {
-        $secs = $nanos / LocalTime::NANOS_PER_SECOND;
+        $secs = Math::div($nanos, LocalTime::NANOS_PER_SECOND);
         $nos = $nanos % LocalTime::NANOS_PER_SECOND;
         if ($nos < 0) {
             $nos += LocalTime::NANOS_PER_SECOND;
@@ -1311,25 +1311,24 @@ final class Duration implements TemporalAmount
         if ($this == self::$ZERO) {
             return "PT0S";
         }
-        $hours = $this->seconds / LocalTime::SECONDS_PER_HOUR;
-        $minutes = (int)(($this->seconds % LocalTime::SECONDS_PER_HOUR) / LocalTime::SECONDS_PER_MINUTE);
-        $secs = (int)($this->seconds % LocalTime::SECONDS_PER_MINUTE);
-        $buf = '';
-        $buf .= "PT";
-        if ($hours != 0) {
+        $hours = Math::div($this->seconds, LocalTime::SECONDS_PER_HOUR);
+        $minutes = Math::div(($this->seconds % LocalTime::SECONDS_PER_HOUR), LocalTime::SECONDS_PER_MINUTE);
+        $secs = $this->seconds % LocalTime::SECONDS_PER_MINUTE;
+        $buf = "PT";
+        if ($hours !== 0) {
             $buf .= $hours . 'H';
         }
-        if ($minutes != 0) {
+        if ($minutes !== 0) {
             $buf .= $minutes . 'M';
         }
-        if ($secs == 0 && $this->nanos == 0 && strlen($buf) > 2) {
+        if ($secs === 0 && $this->nanos === 0 && strlen($buf) > 2) {
             return $buf;
         }
         if ($secs < 0 && $this->nanos > 0) {
-            if ($secs == -1) {
+            if ($secs === -1) {
                 $buf .= "-0";
             } else {
-                $buf .= ($secs + 1);
+                $buf .= $secs + 1;
             }
         } else {
             $buf .= $secs;
