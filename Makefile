@@ -1,6 +1,6 @@
 .PHONY: default all build test test-php56 test-php70
 
-TZVERSION=2016a
+TZVERSION=2016b
 
 default: all
 
