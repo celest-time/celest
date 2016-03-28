@@ -824,6 +824,11 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
     {
         return $this->val - $other->val;
     }
+
+    public function name()
+    {
+        return $this->__toString();
+    }
 }
 
 Month::init();

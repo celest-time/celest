@@ -122,10 +122,10 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
     public static function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
-           ->appendLiteral("--")
-        ->appendValue(ChronoField::MONTH_OF_YEAR(), 2)
+           ->appendLiteral2("--")
+        ->appendValue2(ChronoField::MONTH_OF_YEAR(), 2)
         ->appendLiteral('-')
-        ->appendValue(ChronoField::DAY_OF_MONTH(), 2)
+        ->appendValue2(ChronoField::DAY_OF_MONTH(), 2)
         ->toFormatter();
     }
 
@@ -298,7 +298,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      */
     public static function parse($text)
     {
-        return self::parseWith($text, self::PARSER);
+        return self::parseWith($text, self::$PARSER);
     }
 
     /**
@@ -311,10 +311,9 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return MonthDay the parsed month-day, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, MonthDay::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([MonthDay::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -648,7 +647,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      */
     public function  adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
@@ -768,7 +767,9 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
     public function __toString()
     {
         return "--"
-        . $this->month < 10 ? "0" : "" . $this->month
-        . $this->day < 10 ? "-0" : "-" . $this->day;
+        . ($this->month < 10 ? "0" : "") . $this->month
+        . ($this->day < 10 ? "-0" : "-") . $this->day;
     }
 }
+
+MonthDay::init();
