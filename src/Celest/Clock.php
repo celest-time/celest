@@ -276,7 +276,7 @@ abstract class Clock
      * @param Clock $baseClock the base clock to base the ticking clock on, not null
      * @param Duration $tickDuration  the duration of each visible tick, not negative, not null
      * @return Clock clock that ticks in whole units of the duration, not null
-     * @throws IllegalArgumentException if the duration is negative, or has a
+     * @throws \InvalidArgumentException if the duration is negative, or has a
      *  part smaller than a whole millisecond such that the whole duration is not
      *  divisible into one second
      * @throws ArithmeticException if the duration is too large to be represented as nanos
@@ -284,7 +284,7 @@ abstract class Clock
     public static function tick(Clock $baseClock, Duration $tickDuration)
     {
         if ($tickDuration->isNegative()) {
-            throw new IllegalArgumentException("Tick duration must not be negative");
+            throw new \InvalidArgumentException("Tick duration must not be negative");
         }
         $tickNanos = $tickDuration->toNanos();
         if ($tickNanos % 1000000 == 0) {
@@ -292,7 +292,7 @@ abstract class Clock
         } else if (1000000000 % $tickNanos == 0) {
             // ok, divides into one second without remainder
         } else {
-            throw new IllegalArgumentException("Invalid tick duration");
+            throw new \InvalidArgumentException("Invalid tick duration");
         }
         if ($tickNanos <= 1) {
             return $baseClock;
