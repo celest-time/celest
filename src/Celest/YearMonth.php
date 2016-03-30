@@ -115,7 +115,7 @@ use Celest\Temporal\ValueRange;
  */
 final class YearMonth extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
 {
-    public function init()
+    public static function init()
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
             ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
@@ -292,7 +292,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, YearMonth::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([YearMonth::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -886,13 +886,16 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function plusMonths($monthsToAdd)
     {
-        if ($monthsToAdd == 0) {
+        if ($monthsToAdd === 0) {
             return $this;
         }
         $monthCount = $this->year * 12 + ($this->month - 1);
-        $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
+        $calcMonths = $monthCount + $monthsToAdd;
+        if(!is_int($calcMonths)) {
+            throw new DateTimeException('Overflow'); // Todo better message
+        }
         $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
-        $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
+        $newMonth = Math::floorMod($calcMonths, 12) + 1;
         return $this->_with($newYear, $newMonth);
     }
 
@@ -1032,7 +1035,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (Chronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
@@ -1095,13 +1098,13 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
                 case ChronoUnit::MONTHS():
                     return $monthsUntil;
                 case ChronoUnit::YEARS():
-                    return $monthsUntil / 12;
+                    return Math::div($monthsUntil, 12);
                 case ChronoUnit::DECADES():
-                    return $monthsUntil / 120;
+                    return Math::div($monthsUntil, 120);
                 case ChronoUnit::CENTURIES():
-                    return $monthsUntil / 1200;
+                    return Math::div($monthsUntil, 1200);
                 case ChronoUnit::MILLENNIA():
-                    return $monthsUntil / 12000;
+                    return Math::div($monthsUntil, 12000);
                 case ChronoUnit::ERAS():
                     return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }
@@ -1259,3 +1262,4 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
     }
 }
 
+YearMonth::init();
