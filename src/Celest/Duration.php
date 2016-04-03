@@ -1040,7 +1040,7 @@ final class Duration implements TemporalAmount
     {
         $divRem = gmp_div_qr($nanos, LocalTime::NANOS_PER_SECOND);
         if (gmp_cmp($divRem[0], "-9223372036854775808") < 0 || gmp_cmp($divRem[0], "9223372036854775807") > 0) {
-            throw new ArithmeticException("Exceeds capacity of Duration: " . $nanos);
+            throw new ArithmeticException("Exceeds capacity of Duration: " . gmp_strval($nanos));
         }
 
         return self::ofSeconds(gmp_intval($divRem[0]), gmp_intval($divRem[1]));
