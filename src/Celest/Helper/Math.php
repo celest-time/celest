@@ -63,7 +63,6 @@ final class Math
     public static function addExact($l, $r)
     {
         $res = (int)$l + (int)$r;
-        // HD 2-12 Overflow iff both arguments have the opposite sign of the result
         if (!\is_int($res)) {
             throw new ArithmeticException("integer overflow");
         }

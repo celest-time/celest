@@ -129,17 +129,16 @@ final class Duration implements TemporalAmount
     }
 
     /**
-     * TODO should be bigint?
-     * @var int
-     */
-    private static $BI_NANOS_PER_SECOND = LocalTime::NANOS_PER_SECOND;
-    /**
      * The pattern for parsing.
      * TODO
      */
     private static $PATTERN =
-        "([-+]?)P(?:([-+]?[0-9]+)D)?" .
-        "(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?";
+        '/^([-+]?)'.
+        'P'.
+        '(?:([-+]?[0-9]+)D)?'.
+        '(T(?:([-+]?[0-9]+)H)?'.
+        '(?:([-+]?[0-9]+)M)?'.
+        '(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?$/i';
 
     /**
      * The number of seconds in the duration.
@@ -372,17 +371,21 @@ final class Duration implements TemporalAmount
      */
     public static function parse($text)
     {
-        $matcher = self::$PATTERN->matcher($text);
-        if ($matcher->matches()) {
+        if (!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $m = preg_match(self::$PATTERN, $text, $matches);
+        if ($m === 1) {
             // check for letter T but no time sections
-            if (("T" == ($matcher->group(3))) == false) {
-                $negate = "-" == $matcher->group(1);
-                $dayMatch = $matcher->group(2);
-                $hourMatch = $matcher->group(4);
-                $minuteMatch = $matcher->group(5);
-                $secondMatch = $matcher->group(6);
-                $fractionMatch = $matcher->group(7);
-                if ($dayMatch != null || $hourMatch != null || $minuteMatch != null || $secondMatch != null) {
+            if ("T" !== (@$matches[3])) {
+                $negate = "-" === @$matches[1];
+                $dayMatch = @$matches[2];
+                $hourMatch = @$matches[4];
+                $minuteMatch = @$matches[5];
+                $secondMatch = @$matches[6];
+                $fractionMatch = @$matches[7];
+                if ($dayMatch !== "" || $hourMatch !== "" || $minuteMatch !== "" || $secondMatch !== "") {
                     $daysAsSecs = self::parseNumber($text, $dayMatch, LocalTime::SECONDS_PER_DAY, "days");
                     $hoursAsSecs = self::parseNumber($text, $hourMatch, LocalTime::SECONDS_PER_HOUR, "hours");
                     $minsAsSecs = self::parseNumber($text, $minuteMatch, LocalTime::SECONDS_PER_MINUTE, "minutes");
@@ -391,7 +394,7 @@ final class Duration implements TemporalAmount
                     try {
                         return self::createSpecial($negate, $daysAsSecs, $hoursAsSecs, $minsAsSecs, $seconds, $nanos);
                     } catch (ArithmeticException $ex) {
-                        throw (new DateTimeParseException("Text cannot be parsed to a Duration: overflow", $text, 0))->initCause($ex);
+                        throw new DateTimeParseException("Text cannot be parsed to a Duration: overflow", $text, 0, $ex);
                     }
                 }
             }
@@ -410,7 +413,7 @@ final class Duration implements TemporalAmount
             $val = Long::parseLong($parsed);
             return Math::multiplyExact($val, $multiplier);
         } catch (\Exception $ex) {
-            throw (new DateTimeParseException("Text cannot be parsed to a Duration: " . $errorText, $text, 0))->initCause($ex);
+            throw new DateTimeParseException("Text cannot be parsed to a Duration: " . $errorText, $text, 0, $ex);
         }
     }
 
@@ -425,7 +428,7 @@ final class Duration implements TemporalAmount
             $parsed = substr($parsed . "000000000", 0, 9);
             return Integer::parseInt($parsed) * $negate;
         } catch (\Exception $ex) {
-            throw (new DateTimeParseException("Text cannot be parsed to a Duration: fraction", $text, 0))->initCause($ex);
+            throw new DateTimeParseException("Text cannot be parsed to a Duration: fraction", $text, 0, $ex);
         }
     }
 
@@ -463,7 +466,7 @@ final class Duration implements TemporalAmount
      *
      * TODO check
      */
-    public function between(Temporal $startInclusive, Temporal $endExclusive)
+    public static function between(Temporal $startInclusive, Temporal $endExclusive)
     {
         try {
             return self::ofNanos($startInclusive->until($endExclusive, ChronoUnit::NANOS()));
@@ -667,7 +670,7 @@ final class Duration implements TemporalAmount
     public
     function withNanos($nanoOfSecond)
     {
-        ChronoField::SECOND_OF_DAY()->checkValidIntValue($nanoOfSecond);
+        ChronoField::NANO_OF_SECOND()->checkValidIntValue($nanoOfSecond);
         return self::create($this->seconds, $nanoOfSecond);
     }
 
@@ -719,7 +722,7 @@ final class Duration implements TemporalAmount
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plusSeconds(($amountToAdd / (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
+                    return $this->plusSeconds(Math::div($amountToAdd, (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
                 case ChronoUnit::MILLIS():
                     return $this->plusMillis($amountToAdd);
                 case ChronoUnit::SECONDS():
@@ -803,7 +806,7 @@ final class Duration implements TemporalAmount
      */
     public function plusMillis($millisToAdd)
     {
-        return $this->_plus($millisToAdd / 1000, ($millisToAdd % 1000) * 1000000);
+        return $this->_plus(Math::div($millisToAdd, 1000), ($millisToAdd % 1000) * 1000000);
     }
 
     /**
@@ -837,7 +840,7 @@ final class Duration implements TemporalAmount
         }
 
         $epochSec = Math::addExact($this->seconds, $secondsToAdd);
-        $epochSec = Math::addExact($epochSec, $nanosToAdd / LocalTime::NANOS_PER_SECOND);
+        $epochSec = Math::addExact($epochSec, Math::div($nanosToAdd, LocalTime::NANOS_PER_SECOND));
         $nanosToAdd = $nanosToAdd % LocalTime::NANOS_PER_SECOND;
         $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int LocalTime::NANOS_PER_SECOND
         return self::ofSeconds($epochSec, $nanoAdjustment);
@@ -970,7 +973,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param nanosToSubtract int the nanoseconds to subtract, positive or negative
+     * @param $nanosToSubtract int the nanoseconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified nanoseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -997,7 +1000,10 @@ final class Duration implements TemporalAmount
         if ($multiplicand == 1) {
             return $this;
         }
-        return self::createBC(bcmul($this->toSeconds(), $multiplicand));
+
+        $nanos = gmp_add(gmp_mul($this->seconds, LocalTime::NANOS_PER_SECOND), $this->nanos);
+
+        return self::createBC(gmp_mul($nanos, $multiplicand));
     }
 
     /**
@@ -1011,41 +1017,30 @@ final class Duration implements TemporalAmount
      */
     public function dividedBy($divisor)
     {
-        if ($divisor == 0) {
+        if ($divisor === 0) {
             throw new ArithmeticException("Cannot divide by zero");
         }
-        if ($divisor == 1) {
+        if ($divisor === 1) {
             return $this;
         }
-        return self::createBC(gmp_div($this->toSeconds(), $divisor, GMP_ROUND_ZERO));
-    }
 
-    /**
-     * Converts this duration to the total length in seconds and
-     * fractional nanoseconds expressed as a {@code BigDecimal}.
-     *
-     * @return \GMP the total length of the duration in seconds, with a scale of 9, not null
-     */
-    private function toSeconds()
-    {
-        return gmp_add($this->seconds, $this->nanos);
+        $nanos = gmp_add(gmp_mul($this->seconds, LocalTime::NANOS_PER_SECOND), $this->nanos);
+
+        return self::createBC(gmp_div($nanos, $divisor, GMP_ROUND_ZERO));
     }
 
     /**
      * Creates an instance of {@code Duration} from a number of seconds.
      *
-     * @param $seconds \GMP the number of seconds, up to scale 9, positive or negative
+     * @param $nanos mixed the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if numeric overflow occurs
-     * TODO Fix big init arithmetic
      */
-    private
-    static function BC(\GMP $seconds)
+    private static function createBC($nanos)
     {
-        $nanos = $seconds->movePointRight(9)->toBigIntegerExact();
-        $divRem = gmp_div_qr($nanos, self::$BI_NANOS_PER_SECOND);
-        if ($divRem[0]->bitLength() > 63) {
-            throw new ArithmeticException("Exceeds capacity of Duration: " . $nanos);
+        $divRem = gmp_div_qr($nanos, LocalTime::NANOS_PER_SECOND);
+        if (gmp_cmp($divRem[0], "-9223372036854775808") < 0 || gmp_cmp($divRem[0], "9223372036854775807") > 0) {
+            throw new ArithmeticException("Exceeds capacity of Duration: " . gmp_strval($nanos));
         }
 
         return self::ofSeconds(gmp_intval($divRem[0]), gmp_intval($divRem[1]));
@@ -1171,7 +1166,7 @@ final class Duration implements TemporalAmount
      */
     public function toDays()
     {
-        return $this->seconds / LocalTime::SECONDS_PER_DAY;
+        return Math::div($this->seconds, LocalTime::SECONDS_PER_DAY);
     }
 
     /**
@@ -1186,7 +1181,7 @@ final class Duration implements TemporalAmount
      */
     public function toHours()
     {
-        return $this->seconds / LocalTime::SECONDS_PER_HOUR;
+        return Math::div($this->seconds, LocalTime::SECONDS_PER_HOUR);
     }
 
     /**
@@ -1201,7 +1196,7 @@ final class Duration implements TemporalAmount
      */
     public function toMinutes()
     {
-        return $this->seconds / LocalTime::SECONDS_PER_MINUTE;
+        return Math::div($this->seconds, LocalTime::SECONDS_PER_MINUTE);
     }
 
     /**
@@ -1220,7 +1215,7 @@ final class Duration implements TemporalAmount
     public function toMillis()
     {
         $millis = Math::multiplyExact($this->seconds, 1000);
-        $millis = Math::addExact($millis, $this->nanos / 1000000);
+        $millis = Math::addExact($millis, Math::div($this->nanos, 1000000));
         return $millis;
     }
 
@@ -1340,7 +1335,7 @@ final class Duration implements TemporalAmount
             } else {
                 $buf .= $this->nanos + LocalTime::NANOS_PER_SECOND;
             }
-            rtrim($buf, "0");
+            $buf = rtrim($buf, "0");
             $buf[$pos] = '.';
         }
         $buf .= 'S';
