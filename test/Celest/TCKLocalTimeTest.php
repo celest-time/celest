@@ -74,7 +74,7 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Exception;
 
-class TCKLocalTime extends AbstractDateTimeTest
+class TCKLocalTimeTest extends AbstractDateTimeTest
 {
 
     private static function OFFSET_PTWO()
