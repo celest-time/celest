@@ -7,6 +7,7 @@ use Celest\Chrono\IsoEra;
 use Celest\Format\DateTimeFormatter;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\JulianFields;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalQueries;
@@ -41,11 +42,11 @@ class TCKYearTest extends AbstractDateTimeTest
 
     protected function invalidFields()
     {
-        /*$list.removeAll(validFields()); TODO
-        $list->add(JulianFields::JULIAN_DAY());
-        $list->add(JulianFields::MODIFIED_JULIAN_DAY());
-        $list->add(JulianFields::RATA_DIE());*/
-        return [];
+        $list = array_diff(ChronoField::values(), $this->validFields());
+        $list[] = JulianFields::JULIAN_DAY();
+        $list[] = JulianFields::MODIFIED_JULIAN_DAY();
+        $list[] = JulianFields::RATA_DIE();
+        return $list;
     }
 
     //-----------------------------------------------------------------------

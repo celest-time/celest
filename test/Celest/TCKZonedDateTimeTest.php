@@ -196,9 +196,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
 
     protected function invalidFields()
     {
-//List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoField.values()));
-        // TODO      list.removeAll(validFields());
-        return [];
+        return array_diff(CF::values(), $this->validFields());
     }
 
     //-----------------------------------------------------------------------

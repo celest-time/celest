@@ -62,6 +62,7 @@ namespace Celest;
 
 use Celest\Helper\Math;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\JulianFields;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
@@ -84,13 +85,11 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
 
     protected function invalidFields()
     {
-        // TODO
-        /*$list = ChronoField::values();
-        $list->removeAll(validFields());
-        $list->add(JulianFields::JULIAN_DAY());
-        $list->add(JulianFields::MODIFIED_JULIAN_DAY());
-        $list->add(JulianFields::RATA_DIE());*/
-        return [];
+        $list = array_diff(ChronoField::values(), $this->validFields());
+        $list[] = JulianFields::JULIAN_DAY();
+        $list[] = JulianFields::MODIFIED_JULIAN_DAY();
+        $list[] = JulianFields::RATA_DIE();
+        return $list;
     }
 
 //-----------------------------------------------------------------------

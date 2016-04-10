@@ -157,10 +157,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
 
     protected function invalidFields()
     {
-//List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(CF::values())); TODO
-//        list.removeAll(validFields());
-//        return list;
-        return [];
+        return array_diff(CF::values(), $this->validFields());
     }
 
     //-----------------------------------------------------------------------

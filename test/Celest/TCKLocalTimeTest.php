@@ -66,6 +66,7 @@ use Celest\Helper\Long;
 use Celest\Helper\Math;
 use \Celest\Temporal\ChronoUnit as CU;
 use \Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\JulianFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAdjusters;
@@ -217,12 +218,11 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     protected
     function invalidFields()
     {
-        /*List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoField.values()));
-                list.removeAll(validFields());
-                list.add(JulianFields.JULIAN_DAY);
-                list.add(JulianFields.MODIFIED_JULIAN_DAY);
-                list.add(JulianFields.RATA_DIE); TODO */
-        return [];
+        $list = array_diff(CF::values(), $this->validFields());
+        $list[] = JulianFields::JULIAN_DAY();
+        $list[] = JulianFields::MODIFIED_JULIAN_DAY();
+        $list[] = JulianFields::RATA_DIE();
+        return $list;
     }
 
 //-----------------------------------------------------------------------

@@ -64,6 +64,7 @@ namespace Celest;
 use Celest\Format\TextStyle;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
+use Celest\Temporal\JulianFields;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
@@ -82,17 +83,16 @@ class TCKDayOfWeekTest extends AbstractDateTimeTest
 
     protected function validFields()
     {
-        return [Chronofield::DAY_OF_WEEK()];
+        return [ChronoField::DAY_OF_WEEK()];
     }
 
     protected function invalidFields()
     {
-        /*List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoField.values()));
-                list.removeAll(validFields());
-                list.add(JulianFields.JULIAN_DAY);
-                list.add(JulianFields.MODIFIED_JULIAN_DAY);
-                list.add(JulianFields.RATA_DIE);*/
-        return [];
+        $list = array_diff(ChronoField::values(), $this->validFields());
+        $list[] = JulianFields::JULIAN_DAY();
+        $list[] = JulianFields::MODIFIED_JULIAN_DAY();
+        $list[] = JulianFields::RATA_DIE();
+        return $list;
     }
 
     //-----------------------------------------------------------------------
