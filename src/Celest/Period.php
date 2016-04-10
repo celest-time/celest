@@ -141,9 +141,8 @@ final class Period implements ChronoPeriod
 
     /**
      * The pattern for parsing.
-     * TODO
      */
-    private static $PATTERN = "([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?";
+    private static $PATTERN = "/^([-+]?)P(?:([-+]?[0-9]+)Y)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)W)?(?:([-+]?[0-9]+)D)?$/i";
 
     /**
      * The set of supported units.
@@ -333,14 +332,18 @@ final class Period implements ChronoPeriod
      */
     public static function parse($text)
     {
-        $matcher = self::$PATTERN->matcher($text);
-        if ($matcher->matches()) {
-            $negate = ("-" === $matcher->group(1) ? -1 : 1);
-            $yearMatch = $matcher->group(2);
-            $monthMatch = $matcher->group(3);
-            $weekMatch = $matcher->group(4);
-            $dayMatch = $matcher->group(5);
-            if ($yearMatch != null || $monthMatch != null || $dayMatch != null || $weekMatch != null) {
+        if (!is_string($text)) {
+            throw new \InvalidArgumentException();
+        }
+
+        $m = preg_match(self::$PATTERN, $text, $matches);
+        if ($m === 1) {
+            $negate = ("-" === @$matches[1] ? -1 : 1);
+            $yearMatch = @$matches[2];
+            $monthMatch = @$matches[3];
+            $weekMatch = @$matches[4];
+            $dayMatch = @$matches[5];
+            if ($yearMatch !== null || $monthMatch !== null || $dayMatch !== null || $weekMatch !== null) {
                 try {
                     $years = self::parseNumber($text, $yearMatch, $negate);
                     $months = self::parseNumber($text, $monthMatch, $negate);
@@ -348,8 +351,7 @@ final class Period implements ChronoPeriod
                     $days = self::parseNumber($text, $dayMatch, $negate);
                     $days = Math::addExact($days, Math::multiplyExact($weeks, 7));
                     return self::create($years, $months, $days);
-                } catch
-                (NumberFormatException $ex) {
+                } catch (ArithmeticException $ex) {
                     throw new DateTimeParseException("Text cannot be parsed to a Period", $text, 0, $ex);
                 }
             }
@@ -359,7 +361,7 @@ final class Period implements ChronoPeriod
 
     private static function parseNumber($text, $str, $negate)
     {
-        if ($str == null) {
+        if ($str === null) {
             return 0;
         }
 
@@ -388,8 +390,8 @@ final class Period implements ChronoPeriod
      *
      * TODO better Name
      *
-     * @param LocalDate $startDateInclusive the start date, inclusive, not null
-     * @param LocalDate $endDateExclusive the end date, exclusive, not null
+     * @param ChronoLocalDate $startDateInclusive the start date, inclusive, not null
+     * @param ChronoLocalDate $endDateExclusive the end date, exclusive, not null
      * @return Period the period between this date and the end date, not null
      * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
@@ -874,9 +876,9 @@ final class Period implements ChronoPeriod
     public function normalized()
     {
         $totalMonths = $this->toTotalMonths();
-        $splitYears = $totalMonths / 12;
-        $splitMonths = (int)($totalMonths % 12);  // no overflow
-        if ($splitYears == $this->years && $splitMonths == $this->months) {
+        $splitYears = Math::div($totalMonths, 12);
+        $splitMonths = $totalMonths % 12;  // no overflow
+        if ($splitYears === $this->years && $splitMonths === $this->months) {
             return $this;
         }
         return $this->create(Math::toIntExact($splitYears), $splitMonths, $this->days);
@@ -894,7 +896,7 @@ final class Period implements ChronoPeriod
      */
     public function toTotalMonths()
     {
-        return $this->years * 12 + $this->months;  // no overflow
+        return Math::addExact(Math::multiplyExact($this->years, 12), $this->months);
     }
 
 //-------------------------------------------------------------------------

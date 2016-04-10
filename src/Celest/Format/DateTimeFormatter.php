@@ -844,14 +844,13 @@ class DateTimeFormatter
      * It uses the {@link ResolverStyle#STRICT STRICT} resolver style.
      * @var DateTimeFormatter
      */
-    private
-    static $ISO_OFFSET_TIME;
+    private static $ISO_OFFSET_TIME;
 
     public static function ISO_OFFSET_TIME()
     {
         return self::$ISO_OFFSET_TIME = (new DateTimeFormatterBuilder())
             ->parseCaseInsensitive()
-            ->append(self::$ISO_LOCAL_TIME)
+            ->append(self::ISO_LOCAL_TIME())
             ->appendOffsetId()
             ->toFormatter3(ResolverStyle::STRICT(), null);
     }

@@ -1399,14 +1399,17 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function plusMonths($monthsToAdd)
     {
-        if ($monthsToAdd == 0) {
+        if ($monthsToAdd === 0) {
             return $this;
         }
 
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
+        if(!is_int($calcMonths)) {
+            throw new DateTimeException('Overflow'); // Todo better message
+        }
         $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
-        $newMonth = (int)Math::floorMod($calcMonths, 12) + 1;
+        $newMonth = Math::floorMod($calcMonths, 12) + 1;
         return self::resolvePreviousValid($newYear, $newMonth, $this->day);
     }
 
@@ -1565,7 +1568,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
     public
     function minusMonths($monthsToSubtract)
     {
-        return ($monthsToSubtract == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
+        return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
 
     /**
@@ -1585,7 +1588,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function minusWeeks($weeksToSubtract)
     {
-        return ($weeksToSubtract == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeksToSubtract));
+        return ($weeksToSubtract === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeksToSubtract));
     }
 
     /**
@@ -1605,7 +1608,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function minusDays($daysToSubtract)
     {
-        return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
+        return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
 
     //-----------------------------------------------------------------------
@@ -2091,7 +2094,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function equals($obj)
     {
-        if ($this == $obj) {
+        if ($this === $obj) {
             return true;
         }
 

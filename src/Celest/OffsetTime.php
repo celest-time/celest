@@ -109,7 +109,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
     public static function init()
     {
         self::$MIN = LocalTime::MIN()->atOffset(ZoneOffset::MAX());
-        self::$MAX = LocalTime::MIN()->atOffset(ZoneOffset::MAX());
+        self::$MAX = LocalTime::MAX()->atOffset(ZoneOffset::MIN());
     }
 
     /**
@@ -324,7 +324,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      */
     public static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_TIME());
     }
 
     /**
@@ -340,7 +340,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, OffsetTime::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([OffsetTime::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -1141,7 +1141,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
             return null;
         } else if ($query == TemporalQueries::localTime()) {
             return $this->time;
-        } else if ($$query == TemporalQueries::precision()) {
+        } else if ($query == TemporalQueries::precision()) {
             return ChronoUnit::NANOS();
         }
         // inline TemporalAccessor.super.query(query) as an optimization
@@ -1444,3 +1444,4 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
     }
 }
 
+OffsetTime::init();

@@ -130,7 +130,6 @@ final class Duration implements TemporalAmount
 
     /**
      * The pattern for parsing.
-     * TODO
      */
     private static $PATTERN =
         '/^([-+]?)'.
@@ -405,7 +404,7 @@ final class Duration implements TemporalAmount
     private static function parseNumber($text, $parsed, $multiplier, $errorText)
     {
         // regex limits to [-+]?[0-9]+
-        if ($parsed == null) {
+        if ($parsed === null) {
             return 0;
         }
 

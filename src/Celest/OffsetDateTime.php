@@ -65,6 +65,7 @@ namespace Celest;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
+use Celest\Temporal\AbstractTemporal;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
@@ -110,7 +111,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class OffsetDateTime implements Temporal, TemporalAdjuster
+final class OffsetDateTime extends AbstractTemporal implements Temporal, TemporalAdjuster
 {
 
     public static function init()
@@ -127,7 +128,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * This could be used by an application as a "far past" date-time.
      * @return OffsetDateTime
      */
-    public function MIN()
+    public static function MIN()
     {
         return self::$MIN;
     }
@@ -142,7 +143,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * This could be used by an application as a "far future" date-time.
      * @return OffsetDateTime
      */
-    public function MAX()
+    public static function MAX()
     {
         return self::$MAX;
     }
@@ -156,7 +157,9 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * This method differs from the comparison in {@link #compareTo} in that it
      * only compares the underlying instant.
      *
-     * @return Comparator a comparator that compares in time-line order
+     * @return callable a comparator that compares in time-line order
+     * 
+     * TODO check comparator
      *
      * @see #isAfter
      * @see #isBefore
@@ -164,7 +167,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public static function timeLineOrder()
     {
-        return OffsetDateTime::compareInstant;
+        return [OffsetDateTime::class, 'compareInstant'];
     }
 
     /**
@@ -175,8 +178,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @param $datetime2 OffsetDateTime the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    private
-    static function compareInstant(OffsetDateTime $datetime1, OffsetDateTime $datetime2)
+    private static function compareInstant(OffsetDateTime $datetime1, OffsetDateTime $datetime2)
     {
         if ($datetime1->getOffset()->equals($datetime2->getOffset())) {
             return $datetime1->toLocalDateTime()->compareTo($datetime2->toLocalDateTime());
@@ -249,7 +251,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      * @return OffsetDateTime the current date-time, not null
      */
     public
-    static function nowOf($clock)
+    static function nowOf(Clock $clock)
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone()->getRules()->getOffset($now));
@@ -401,7 +403,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
      */
     public static function parse($text)
     {
-        return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_DATE_TIME);
+        return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_DATE_TIME());
     }
 
     /**
@@ -417,7 +419,7 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
     public
     static function parseWith($text, DateTimeFormatter $formatter)
     {
-        return $formatter->parse($text, OffsetDateTime::from);
+        return $formatter->parseQuery($text, TemporalQueries::fromCallable([OffsetDateTime::class, 'from']));
     }
 
 //-----------------------------------------------------------------------
@@ -2008,3 +2010,5 @@ final class OffsetDateTime implements Temporal, TemporalAdjuster
         return $this->dateTime->__toString() . $this->offset->__toString();
     }
 }
+
+OffsetDateTime::init();

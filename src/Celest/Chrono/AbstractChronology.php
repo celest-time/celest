@@ -812,7 +812,7 @@ abstract class AbstractChronology implements Chronology
         return "";
     }
 
-    public  function period($years, $months, $days)
+    public function period($years, $months, $days)
     {
         return new ChronoPeriodImpl($this, $years, $months, $days);
     }
