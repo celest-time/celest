@@ -384,7 +384,7 @@ final class Duration implements TemporalAmount
                 $minuteMatch = @$matches[5];
                 $secondMatch = @$matches[6];
                 $fractionMatch = @$matches[7];
-                if ($dayMatch !== "" || $hourMatch !== "" || $minuteMatch !== "" || $secondMatch !== "") {
+                if ($dayMatch !== null || $hourMatch !== null || $minuteMatch !== null || $secondMatch !== null) {
                     $daysAsSecs = self::parseNumber($text, $dayMatch, LocalTime::SECONDS_PER_DAY, "days");
                     $hoursAsSecs = self::parseNumber($text, $hourMatch, LocalTime::SECONDS_PER_HOUR, "hours");
                     $minsAsSecs = self::parseNumber($text, $minuteMatch, LocalTime::SECONDS_PER_MINUTE, "minutes");
@@ -404,7 +404,7 @@ final class Duration implements TemporalAmount
     private static function parseNumber($text, $parsed, $multiplier, $errorText)
     {
         // regex limits to [-+]?[0-9]+
-        if ($parsed === null) {
+        if ($parsed === null || $parsed === '') {
             return 0;
         }
 
