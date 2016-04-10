@@ -27,7 +27,7 @@
   "prefer-stable": true,
   "minimum-stability": "dev",
   "require": {
-    "php" : "^5.6 || ^7.0",
+    "php" : ">=5.6",
     "celest/prototype-tzdata" : "*",
     "ext-gmp": "*",
     "ext-intl": "*"
