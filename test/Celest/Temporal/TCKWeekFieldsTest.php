@@ -265,6 +265,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_fieldRanges(DayOfWeek $firstDayOfWeek, $minDays)
     {
@@ -387,6 +388,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_parse_resolve_localizedWom(DayOfWeek $firstDayOfWeek, $minDays)
     {
@@ -519,6 +521,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_parse_resolve_localizedWoy(DayOfWeek $firstDayOfWeek, $minDays)
     {
@@ -592,6 +595,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_parse_resolve_localizedWoyDow(DayOfWeek $firstDayOfWeek, $minDays)
     {
@@ -646,6 +650,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_parse_resolve_localizedWoWBY(DayOfWeek $firstDayOfWeek, $minDays)
     {
@@ -722,6 +727,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     /**
      * @dataProvider data_weekFields
+     * @group long
      */
     public function test_parse_resolve_localizedWoWBYDow(DayOfWeek $firstDayOfWeek, $minDays)
     {

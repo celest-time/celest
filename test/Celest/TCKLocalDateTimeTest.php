@@ -3216,8 +3216,10 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusNanos()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusNanos_halfABillion()
+    /**
+     * @group long
+     */
+    public function test_minusNanos_halfABillion()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $t->toLocalDate()->minusDays(1);
@@ -3643,8 +3645,10 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // compareTo()
 //-----------------------------------------------------------------------
 
-    public
-    function test_comparisons()
+    /**
+     * @group long
+     */
+    public function test_comparisons()
     {
         $this->comparisons_LocalDateTime([
                 LocalDate::of(Year::MIN_VALUE, 1, 1),
