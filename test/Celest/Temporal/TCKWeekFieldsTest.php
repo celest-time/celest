@@ -57,13 +57,13 @@
  */
 namespace Celest\Temporal;
 
-use Celest\Format\ResolverStyle;
-use Celest\Temporal\ChronoField as CF;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\LocalDate;
+use Celest\Temporal\ChronoField as CF;
 
 /**
  * Test WeekFields.
@@ -874,7 +874,7 @@ class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($weekDef_iso->equals(WeekFields::of(DayOfWeek::MONDAY(), 4)));
         $this->assertTrue($weekDef_sundayStart->equals(WeekFields::of(DayOfWeek::SUNDAY(), 1)));
         //$this->assertEquals($weekDef_iso->hashCode(), WeekFields::of(DayOfWeek::MONDAY(), 4)->hashCode());
-       // $this->assertEquals($weekDef_sundayStart->hashCode(), WeekFields::of(DayOfWeek::SUNDAY(), 1)->hashCode());
+        // $this->assertEquals($weekDef_sundayStart->hashCode(), WeekFields::of(DayOfWeek::SUNDAY(), 1)->hashCode());
 
         $this->assertFalse($weekDef_iso->equals($weekDef_sundayStart));
         //$this->assertNotEquals($weekDef_iso->hashCode(), $weekDef_sundayStart->hashCode());

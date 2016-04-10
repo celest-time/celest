@@ -56,7 +56,7 @@ final class SystemClock extends Clock
     {
         if ($obj instanceof SystemClock) {
             return $this->zone->equals($obj->zone);
-    }
+        }
         return false;
     }
 

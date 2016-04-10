@@ -2,14 +2,14 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\Format\DateTimeParseContext;
-use Celest\Format\DateTimeTextProvider;
-use Celest\Temporal\TemporalField;
-use Celest\Format\TextStyle;
-use Celest\Format\DateTimePrintContext;
-use Celest\Format\SignStyle;
-use Celest\Temporal\TemporalQueries;
 use Celest\Chrono\IsoChronology;
+use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
+use Celest\Format\DateTimeTextProvider;
+use Celest\Format\SignStyle;
+use Celest\Format\TextStyle;
+use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalQueries;
 
 /**
  * Prints or parses field text.
@@ -63,8 +63,8 @@ final class TextPrinterParser implements DateTimePrinterParser
             return $this->numberPrinterParser()->format($context, $buf);
         }
         $buf .= $text;
-            return true;
-        }
+        return true;
+    }
 
     public function parse(DateTimeParseContext $context, $parseText, $position)
     {
@@ -82,8 +82,7 @@ final class TextPrinterParser implements DateTimePrinterParser
             $it = $this->provider->getTextIterator2($chrono, $this->field, $style, $context->getLocale());
         }
         if ($it !== null) {
-            foreach($it as $key => $value)
-            {
+            foreach ($it as $key => $value) {
                 // fix numeric indices
                 $key = strval($key);
                 if ($context->subSequenceEquals($key, 0, $parseText, $position, strlen($key))) {

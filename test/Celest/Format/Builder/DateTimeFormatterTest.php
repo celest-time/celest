@@ -134,8 +134,7 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertGoodErrorTime([ThaiBuddhistChronology::INSTANCE(), 'dateFrom'], "LocalDate");
     }
 
-    private
-    function assertGoodErrorDate($function, $expectedText)
+    private function assertGoodErrorDate($function, $expectedText)
     {
         $f = DateTimeFormatter::ofPattern("yyyy-mm-dd");
         $temporal = $f->parse("2010-06-30");

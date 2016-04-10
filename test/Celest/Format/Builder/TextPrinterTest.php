@@ -371,8 +371,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     /**
      * @dataProvider provider_japaneseEra
      */
-    public
-    function test_formatJapaneseEra(TemporalField $field, TextStyle $style, $value, $expected)
+    public function test_formatJapaneseEra(TemporalField $field, TextStyle $style, $value, $expected)
     {
         $this->markTestIncomplete('JapaneseChronology');
         $ld = LocalDate::of(2013, 1, 31);
@@ -384,8 +383,7 @@ class TextPrinterTest extends AbstractTestPrinterParser
     /**
      * @dataProvider provider_StandaloneNames
      */
-    public
-    function test_standaloneNames(Locale $locale, TemporalField $field, TextStyle $style, $expected)
+    public function test_standaloneNames(Locale $locale, TemporalField $field, TextStyle $style, $expected)
     {
         $buf = '';
         $this->getFormatterFieldStyle($field, $style)->withLocale($locale)->formatTo(LocalDate::of(2013, 1, 1), $buf);
@@ -393,16 +391,14 @@ class TextPrinterTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function test_print_french_long()
+    public function test_print_french_long()
     {
         $buf = '';
         $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::FULL())->withLocale(Locale::FRENCH())->formatTo(LocalDate::of(2012, 1, 1), $buf);
         $this->assertEquals("janvier", $buf);
     }
 
-    public
-    function test_print_french_short()
+    public function test_print_french_short()
     {
         $buf = '';
         $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT())->withLocale(Locale::FRENCH())->formatTo(LocalDate::of(2012, 1, 1), $buf);
@@ -410,14 +406,12 @@ class TextPrinterTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function test_toString1()
+    public function test_toString1()
     {
         $this->assertEquals("Text(MonthOfYear)", $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::FULL())->__toString());
     }
 
-    public
-    function test_toString2()
+    public function test_toString2()
     {
         $this->assertEquals("Text(MonthOfYear,SHORT)", $this->getFormatterFieldStyle(ChronoField::MONTH_OF_YEAR(), TextStyle::SHORT())->__toString());
     }

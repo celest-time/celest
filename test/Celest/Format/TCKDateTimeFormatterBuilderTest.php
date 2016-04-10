@@ -625,7 +625,7 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
             ->appendLiteral(':')->appendValue(ChronoField::YEAR());
         $this->assertEquals($this->builder->toFormatter()->format(LocalDate::of(2013, 2, 1)), "2:    1:2013");
         $this->assertEquals($this->builder->toFormatter()->format(YearMonth::of(2013, 2)), "2:     :2013");
-}
+    }
 
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
@@ -1047,18 +1047,18 @@ class TCKDateTimeFormatterBuilderTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     function data_patternPrint()
     {
-        return  [
-        [
-            "Q", LocalDate::of(2012, 2, 10), "1"],
-        [
-            "QQ", LocalDate::of(2012, 2, 10), "01"],
-        [
-            "QQQ", LocalDate::of(2012, 2, 10), "Q1"],
-        [
-            "QQQQ", LocalDate::of(2012, 2, 10), "1st quarter"],
-        [
-            "QQQQQ", LocalDate::of(2012, 2, 10), "1"],
-    ];
+        return [
+            [
+                "Q", LocalDate::of(2012, 2, 10), "1"],
+            [
+                "QQ", LocalDate::of(2012, 2, 10), "01"],
+            [
+                "QQQ", LocalDate::of(2012, 2, 10), "Q1"],
+            [
+                "QQQQ", LocalDate::of(2012, 2, 10), "1st quarter"],
+            [
+                "QQQQQ", LocalDate::of(2012, 2, 10), "1"],
+        ];
     }
 
     /**

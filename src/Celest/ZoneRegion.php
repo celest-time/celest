@@ -56,6 +56,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest;
+
 use Celest\Zone\ZoneRulesException;
 use Celest\Zone\ZoneRules;
 use Celest\Zone\ZoneRulesProvider;
@@ -99,7 +100,7 @@ class ZoneRegion extends ZoneId
      * TODO package visiblity
      *
      * @param string $zoneId the time-zone ID, not null
-     * @param bool $checkAvailable  whether to check if the zone ID is available
+     * @param bool $checkAvailable whether to check if the zone ID is available
      * @return ZoneRegion the zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found

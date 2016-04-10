@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\IllegalArgumentException;
 
 /**
@@ -89,17 +90,17 @@ class TextStyle
     // ordered so that bit 0 of the ordinal indicates stand-alone.
     public static function init()
     {
-        self::$FULL = new TextStyle(0, \IntlDateFormatter::FULL, 0);
-        self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL, 0);
-        self::$SHORT = new TextStyle(2, \IntlDateFormatter::MEDIUM, 1);
-        self::$SHORT_STANDALONE = new TextStyle(3, \IntlDateFormatter::MEDIUM, 1);
-        self::$NARROW = new TextStyle(4, \IntlDateFormatter::SHORT, 1);
-        self::$NARROW_STANDALONE = new TextStyle(5, \IntlDateFormatter::SHORT, 1);
+        self::$FULL = new TextStyle(0, \IntlDateFormatter::FULL, 'l');
+        self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL, 'l');
+        self::$SHORT = new TextStyle(2, \IntlDateFormatter::MEDIUM, 'S');
+        self::$SHORT_STANDALONE = new TextStyle(3, \IntlDateFormatter::MEDIUM, 'S');
+        self::$NARROW = new TextStyle(4, \IntlDateFormatter::SHORT, 'S');
+        self::$NARROW_STANDALONE = new TextStyle(5, \IntlDateFormatter::SHORT, 'S');
     }
 
     public static function valueOf($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'FULL':
                 return self::FULL();
             case 'FULL_STANDALONE':

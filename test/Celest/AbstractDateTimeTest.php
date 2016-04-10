@@ -85,7 +85,7 @@ abstract class AbstractDateTimeTest extends \PHPUnit_Framework_TestCase
     public function test_basicTest_range_TemporalField_null()
     {
         foreach ($this->samples() as $sample) {
-            TestHelper::assertNullException($this, function() use ($sample) {
+            TestHelper::assertNullException($this, function () use ($sample) {
                 $sample->range(null);
             });
         }
@@ -139,7 +139,7 @@ abstract class AbstractDateTimeTest extends \PHPUnit_Framework_TestCase
     public function test_basicTest_get_TemporalField_null()
     {
         foreach ($this->samples() as $sample) {
-            TestHelper::assertNullException($this, function() use ($sample) {
+            TestHelper::assertNullException($this, function () use ($sample) {
                 $sample->get(null);
             });
         }
@@ -184,7 +184,7 @@ abstract class AbstractDateTimeTest extends \PHPUnit_Framework_TestCase
     public function test_basicTest_getLong_TemporalField_null()
     {
         foreach ($this->samples() as $sample) {
-            TestHelper::assertNullException($this, function() use ($sample) {
+            TestHelper::assertNullException($this, function () use ($sample) {
                 $sample->getLong(null);
             });
         }

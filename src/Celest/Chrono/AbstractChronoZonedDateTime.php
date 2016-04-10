@@ -130,7 +130,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     public function adjust(TemporalAdjuster $adjuster)
     {
         return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::adjust($adjuster));
-}
+    }
 
     /**
      * @inheritdoc

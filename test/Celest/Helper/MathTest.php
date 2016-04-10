@@ -11,7 +11,8 @@ namespace Celest\Helper;
 
 class MathTest extends \PHPUnit_Framework_TestCase
 {
-    public function testLong() {
+    public function testLong()
+    {
         $this->assertTrue(Long::MAX_VALUE === PHP_INT_MAX);
     }
 
@@ -24,7 +25,8 @@ class MathTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(-2, Math::floorDiv(-4, 3));
     }
 
-    public function testFloorDivMaxEpoch() {
+    public function testFloorDivMaxEpoch()
+    {
         $this->assertEquals(365241780471, Math::floorDiv(31556889832780799, 86400));
     }
 }

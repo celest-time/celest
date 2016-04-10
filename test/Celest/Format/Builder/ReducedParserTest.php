@@ -110,14 +110,12 @@ class ReducedParserTest extends AbstractTestPrinterParser
         return $this->builder->appendValueReduced($field, $width, $width, $baseValue)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    private
-    function getFormatter1(TemporalField $field, $minWidth, $maxWidth, $baseValue)
+    private function getFormatter1(TemporalField $field, $minWidth, $maxWidth, $baseValue)
     {
         return $this->builder->appendValueReduced($field, $minWidth, $maxWidth, $baseValue)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    private
-    function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
+    private function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
     {
         return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::of($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
@@ -431,8 +429,7 @@ class ReducedParserTest extends AbstractTestPrinterParser
         }
     }
 
-    private
-    function assertParsed(TemporalAccessor $parsed, TemporalField $field, $value)
+    private function assertParsed(TemporalAccessor $parsed, TemporalField $field, $value)
     {
         if ($value === null) {
             $this->assertNull(null, $parsed, "Parsed Value");

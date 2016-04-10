@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\Locale;
 
 /**
@@ -83,7 +84,7 @@ final class DecimalStyle
      */
     public static function STANDARD()
     {
-        if(self::$STANDARD === null) {
+        if (self::$STANDARD === null) {
             self::$STANDARD = new DecimalStyle('0', '+', '-', '.');
         }
 
@@ -147,8 +148,7 @@ final class DecimalStyle
      * @see java.util.Locale.Category#FORMAT
      * @return DecimalStyle the decimal style, not null
      */
-    public
-    static function ofDefaultLocale()
+    public static function ofDefaultLocale()
     {
         return self::of(Locale::getDefault());
     }
@@ -161,21 +161,19 @@ final class DecimalStyle
      * @param Locale $locale the locale, not null
      * @return DecimalStyle the decimal style, not null
      */
-    public
-    static function of(Locale $locale)
+    public static function of(Locale $locale)
     {
         $info = @self::$CACHE[$locale->getLocale()];
         if ($info === null) {
             $info = self::create($locale);
-            self::$CACHE[$locale->getLocale()] =  $info;
+            self::$CACHE[$locale->getLocale()] = $info;
             $info = self::$CACHE[$locale->getLocale()];
         }
 
         return $info;
     }
 
-    private
-    static function create(Locale $locale)
+    private static function create(Locale $locale)
     {
         $formatter = \NumberFormatter::create($locale->getLocale(), \NumberFormatter::DEFAULT_STYLE);
         $zeroDigit = $formatter->getSymbol(\NumberFormatter::ZERO_DIGIT_SYMBOL);
@@ -215,8 +213,7 @@ final class DecimalStyle
      *
      * @return string the character for zero
      */
-    public
-    function getZeroDigit()
+    public function getZeroDigit()
     {
         return $this->zeroDigit;
     }
@@ -230,8 +227,7 @@ final class DecimalStyle
      * @param string $zeroDigit the character for zero
      * @return DecimalStyle a copy with a new character that represents zero, not null
      */
-    public
-    function withZeroDigit($zeroDigit)
+    public function withZeroDigit($zeroDigit)
     {
         if ($zeroDigit === $this->zeroDigit) {
             return $this;
@@ -249,8 +245,7 @@ final class DecimalStyle
      *
      * @return string the character for the positive sign
      */
-    public
-    function getPositiveSign()
+    public function getPositiveSign()
     {
         return $this->positiveSign;
     }
@@ -264,8 +259,7 @@ final class DecimalStyle
      * @param string $positiveSign the character for the positive sign
      * @return DecimalStyle a copy with a new character that represents the positive sign, not null
      */
-    public
-    function withPositiveSign($positiveSign)
+    public function withPositiveSign($positiveSign)
     {
         if ($positiveSign === $this->positiveSign) {
             return $this;
@@ -283,8 +277,7 @@ final class DecimalStyle
      *
      * @return string the character for the negative sign
      */
-    public
-    function getNegativeSign()
+    public function getNegativeSign()
     {
         return $this->negativeSign;
     }
@@ -298,8 +291,7 @@ final class DecimalStyle
      * @param string $negativeSign the character for the negative sign
      * @return DecimalStyle a copy with a new character that represents the negative sign, not null
      */
-    public
-    function withNegativeSign($negativeSign)
+    public function withNegativeSign($negativeSign)
     {
         if ($negativeSign === $this->negativeSign) {
             return $this;
@@ -317,8 +309,7 @@ final class DecimalStyle
      *
      * @return string the character for the decimal point
      */
-    public
-    function getDecimalSeparator()
+    public function getDecimalSeparator()
     {
         return $this->decimalSeparator;
     }
@@ -332,8 +323,7 @@ final class DecimalStyle
      * @param string $decimalSeparator the character for the decimal point
      * @return DecimalStyle a copy with a new character that represents the decimal point, not null
      */
-    public
-    function withDecimalSeparator($decimalSeparator)
+    public function withDecimalSeparator($decimalSeparator)
     {
         if ($decimalSeparator === $this->decimalSeparator) {
             return $this;

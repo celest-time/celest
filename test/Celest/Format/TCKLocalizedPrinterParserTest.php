@@ -205,7 +205,7 @@ class TCKLocalizedPrinterParserTest extends \PHPUnit_Framework_TestCase
     public function test_time_print(LocalTime $time, FormatStyle $timeStyle, $timeStyleOld, Locale $locale)
     {
         $old = \IntlDateFormatter::create($locale->getLocale(), \IntlDateFormatter::NONE, $timeStyleOld, new \DateTimeZone('UTC'));
-        $oldDate = new \DateTime('1970-0-0T' . $time->getHour() . ':' . $time->getMinute(). ':' . $time->getSecond(), new \DateTimeZone('UTC'));
+        $oldDate = new \DateTime('1970-0-0T' . $time->getHour() . ':' . $time->getMinute() . ':' . $time->getSecond(), new \DateTimeZone('UTC'));
         $text = $old->format($oldDate);
 
         $f = $this->builder->appendLocalized(null, $timeStyle)->toFormatter2($locale);
@@ -219,7 +219,7 @@ class TCKLocalizedPrinterParserTest extends \PHPUnit_Framework_TestCase
     public function test_time_parse(LocalTime $time, FormatStyle $timeStyle, $timeStyleOld, Locale $locale)
     {
         $old = \IntlDateFormatter::create($locale->getLocale(), \IntlDateFormatter::NONE, $timeStyleOld, new \DateTimeZone('UTC'));
-        $oldDate = new \DateTime('1970-0-0T' . $time->getHour() . ':' . $time->getMinute(). ':' . $time->getSecond(), new \DateTimeZone('UTC'));
+        $oldDate = new \DateTime('1970-0-0T' . $time->getHour() . ':' . $time->getMinute() . ':' . $time->getSecond(), new \DateTimeZone('UTC'));
         $text = $old->format($oldDate);
 
         $f = $this->builder->appendLocalized(null, $timeStyle)->toFormatter2($locale);

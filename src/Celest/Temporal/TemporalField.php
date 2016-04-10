@@ -371,7 +371,7 @@ interface TemporalField
      * @throws DateTimeException if resolving results in an error. This must not be thrown
      *  by querying a field on the temporal without first checking if it is supported
      */
-    public function  resolve(
+    public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle);

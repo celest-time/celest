@@ -3,13 +3,13 @@
 namespace Celest\Format\Builder;
 
 use Celest\Chrono\AbstractChronology;
-use Celest\Format\FormatStyle;
-use Celest\Format\DateTimeFormatter;
-use Celest\Format\DateTimePrintContext;
 use Celest\Chrono\Chronology;
-use Celest\Format\DateTimeParseContext;
-use Celest\IllegalArgumentException;
+use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimeFormatterBuilder;
+use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
+use Celest\Format\FormatStyle;
+use Celest\IllegalArgumentException;
 use Celest\Locale;
 
 
@@ -64,8 +64,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
      * @return DateTimeFormatter the formatter, not null
      * @throws IllegalArgumentException if the formatter cannot be found
      */
-    private
-    function formatter(Locale $locale, Chronology $chrono)
+    private function formatter(Locale $locale, Chronology $chrono)
     {
         $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . '|' . $this->timeStyle;
         $formatter = @self::$FORMATTER_CACHE[$key];

@@ -22,7 +22,7 @@ class WeekOfWeekBasedYear implements TemporalField
 {
     public function getDisplayName(Locale $locale)
     {
-       $name = DateTimeTextProvider::tryField('week', $locale);
+        $name = DateTimeTextProvider::tryField('week', $locale);
         return $name !== null ? $name : $this->__toString();
     }
 

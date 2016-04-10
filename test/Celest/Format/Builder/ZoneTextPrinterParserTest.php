@@ -90,8 +90,7 @@ class TestZoneTextPrinterParser extends AbstractTestPrinterParser
             ];
     }
 
-    private
-    static function preferred_s()
+    private static function preferred_s()
     {
         return [
             //ZoneId::of("EST", ZoneId::SHORT_IDS),

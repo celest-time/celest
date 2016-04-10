@@ -157,8 +157,8 @@ class test_date_TemporalAccessor implements TemporalAccessor
     public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::localDate()) {
-        return LocalDate::of(2012, 6, 30);
-                }
+            return LocalDate::of(2012, 6, 30);
+        }
         throw new UnsupportedOperationException();
     }
 

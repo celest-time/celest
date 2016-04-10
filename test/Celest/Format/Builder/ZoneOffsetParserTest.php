@@ -102,8 +102,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertParsed($parsed, ZoneOffset::UTC());
     }
 
-    public
-    function test_parse_startStringMatch_UTC()
+    public function test_parse_startStringMatch_UTC()
     {
         $pos = new ParsePosition(0);
         $parsed = $this->getFormatterPattern("+HH:MM:ss", "Z")->parseUnresolved("ZOTHER", $pos);
@@ -111,8 +110,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertParsed($parsed, ZoneOffset::UTC());
     }
 
-    public
-    function test_parse_midStringMatch_UTC()
+    public function test_parse_midStringMatch_UTC()
     {
         $pos = new ParsePosition(5);
         $parsed = $this->getFormatterPattern("+HH:MM:ss", "Z")->parseUnresolved("OTHERZOTHER", $pos);
@@ -443,8 +441,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_badOffsets()
+    public function provider_badOffsets()
     {
         return [
             [
@@ -570,8 +567,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
 //-----------------------------------------------------------------------
-    public
-    function test_parse_caseSensitiveUTC_matchedCase()
+    public function test_parse_caseSensitiveUTC_matchedCase()
     {
         $this->setCaseSensitive(true);
         $pos = new ParsePosition(0);
@@ -580,8 +576,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertParsed($parsed, ZoneOffset::UTC());
     }
 
-    public
-    function test_parse_caseSensitiveUTC_unmatchedCase()
+    public function test_parse_caseSensitiveUTC_unmatchedCase()
     {
         $this->setCaseSensitive(true);
         $pos = new ParsePosition(0);
@@ -590,8 +585,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertEquals($parsed, null);
     }
 
-    public
-    function test_parse_caseInsensitiveUTC_matchedCase()
+    public function test_parse_caseInsensitiveUTC_matchedCase()
     {
         $this->setCaseSensitive(false);
         $pos = new ParsePosition(0);
@@ -600,8 +594,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertParsed($parsed, ZoneOffset::UTC());
     }
 
-    public
-    function test_parse_caseInsensitiveUTC_unmatchedCase()
+    public function test_parse_caseInsensitiveUTC_unmatchedCase()
     {
         $this->setCaseSensitive(false);
         $pos = new ParsePosition(0);
@@ -610,8 +603,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
         $this->assertParsed($parsed, ZoneOffset::UTC());
     }
 
-    private
-    function assertParsed(TemporalAccessor $parsed, ZoneOffset $expectedOffset)
+    private function assertParsed(TemporalAccessor $parsed, ZoneOffset $expectedOffset)
     {
         if ($expectedOffset === null) {
             $this->assertEquals(null, $parsed);

@@ -72,8 +72,7 @@ class TestStringLiteralPrinter extends AbstractTestPrinterParser
         $this->assertEquals($buf, "EXISTINGhello");
     }
 
-    public
-    function test_print_dateTime()
+    public function test_print_dateTime()
     {
         $buf = "EXISTING";
         $this->getFormatterString("hello")->formatTo($this->dta, $buf);
@@ -81,8 +80,7 @@ class TestStringLiteralPrinter extends AbstractTestPrinterParser
     }
 
 
-    public
-    function test_print_emptyAppendable()
+    public function test_print_emptyAppendable()
     {
         $buf = '';
         $this->getFormatterString("hello")->formatTo($this->dta, $buf);

@@ -25,7 +25,7 @@ class Long
     {
         $val = intval($str, 10);
 
-        if((string)($val) !== $str && '+'.$val !== $str) {
+        if ((string)($val) !== $str && '+' . $val !== $str) {
             throw new ArithmeticException();
         }
 

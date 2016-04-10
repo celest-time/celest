@@ -2,13 +2,13 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\Helper\Long;
-use Celest\Temporal\TemporalField;
-use Celest\Format\SignStyle;
-use Celest\Format\DateTimePrintContext;
 use Celest\DateTimeException;
-use Celest\Helper\Math;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
+use Celest\Format\SignStyle;
+use Celest\Helper\Long;
+use Celest\Helper\Math;
+use Celest\Temporal\TemporalField;
 
 /**
  * Prints and parses a numeric date-time field with optional padding.
@@ -142,7 +142,7 @@ class NumberPrinterParser implements DateTimePrinterParser
     /**
      * Gets the value to output.
      *
-     * @param DateTimePrintContext $context  the context
+     * @param DateTimePrintContext $context the context
      * @param int $value the value of the field, not null
      * @return int the value
      */
@@ -171,7 +171,7 @@ class NumberPrinterParser implements DateTimePrinterParser
             return ~$position;
         }
 
-        if($position < 0 || $position >= $length) throw new \OutOfRangeException();
+        if ($position < 0 || $position >= $length) throw new \OutOfRangeException();
         $sign = $text[$position];
         $negative = false;
         $positive = false;
@@ -260,9 +260,9 @@ class NumberPrinterParser implements DateTimePrinterParser
         if ($totalBig !== null) {
             if (gmp_cmp($totalBig, "-9223372036854775808") < 0 || gmp_cmp($totalBig, "9223372036854775807") > 0) {
                 // overflow, parse 1 less digit
-            $totalBig = gmp_div($totalBig, "10");
-            $pos--;
-        }
+                $totalBig = gmp_div($totalBig, "10");
+                $pos--;
+            }
             return $this->setValue($context, gmp_intval($totalBig), $position, $pos);
         }
         return $this->setValue($context, $total, $position, $pos);

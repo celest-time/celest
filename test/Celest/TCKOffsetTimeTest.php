@@ -263,8 +263,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
 //-----------------------------------------------------------------------
 
-    public
-    function test_factory_intsHMSN()
+    public function test_factory_intsHMSN()
     {
         $test = OffsetTime::of(11, 30, 10, 500, self::OFFSET_PONE());
         $this->check($test, 11, 30, 10, 500, self::OFFSET_PONE());
@@ -272,8 +271,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
 //-----------------------------------------------------------------------
 
-    public
-    function test_factory_LocalTimeZoneOffset()
+    public function test_factory_LocalTimeZoneOffset()
     {
         $localTime = LocalTime::of(11, 30, 10, 500);
         $test = OffsetTime::ofLocalTime($localTime, self::OFFSET_PONE());
@@ -429,8 +427,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
      * @dataProvider provider_sampleBadParse
      * @expectedException \Celest\DateTimeParseException
      */
-    public
-    function test_factory_parse_invalidText($unparsable)
+    public function test_factory_parse_invalidText($unparsable)
     {
         OffsetTime::parse($unparsable);
     }
@@ -784,7 +781,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
     public function test_with_adjustment()
     {
         $sample = OffsetTime::of(23, 5, 0, 0, self::OFFSET_PONE());
-        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
+        $adjuster = TemporalAdjusters::fromCallable(function () use ($sample) {
             return $sample;
         });
         $this->assertEquals(self::TEST_11_30_59_500_PONE()->adjust($adjuster), $sample);
@@ -814,7 +811,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
     public function test_with_adjustment_AmPm()
     {
-        $adjuster = TemporalAdjusters::fromCallable(function(Temporal $dateTime) {
+        $adjuster = TemporalAdjusters::fromCallable(function (Temporal $dateTime) {
             return $dateTime->with(CF::HOUR_OF_DAY(), 23);
         });
         $test = self::TEST_11_30_59_500_PONE()->adjust($adjuster);
@@ -1355,8 +1352,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 // isAfter() / isBefore() / isEqual()
 //-----------------------------------------------------------------------
 
-    public
-    function test_isBeforeIsAfterIsEqual1()
+    public function test_isBeforeIsAfterIsEqual1()
     {
         $a = OffsetTime::of(11, 30, 58, 0, self::OFFSET_PONE());
         $b = OffsetTime::of(11, 30, 59, 0, self::OFFSET_PONE());  // a is before b due to time
@@ -1379,8 +1375,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual1nanos()
+    public function test_isBeforeIsAfterIsEqual1nanos()
     {
         $a = OffsetTime::of(11, 30, 59, 3, self::OFFSET_PONE());
         $b = OffsetTime::of(11, 30, 59, 4, self::OFFSET_PONE());  // a is before b due to time
@@ -1403,8 +1398,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual2()
+    public function test_isBeforeIsAfterIsEqual2()
     {
         $a = OffsetTime::of(11, 30, 59, 0, self::OFFSET_PTWO());
         $b = OffsetTime::of(11, 30, 58, 0, self::OFFSET_PONE());  // a is before b due to offset
@@ -1427,8 +1421,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual2nanos()
+    public function test_isBeforeIsAfterIsEqual2nanos()
     {
         $a = OffsetTime::of(11, 30, 59, 4, ZoneOffset::ofTotalSeconds(self::OFFSET_PONE()->getTotalSeconds() + 1));
         $b = OffsetTime::of(11, 30, 59, 3, self::OFFSET_PONE());  // a is before b due to offset
@@ -1451,8 +1444,7 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual_instantComparison()
+    public function test_isBeforeIsAfterIsEqual_instantComparison()
     {
         $a = OffsetTime::of(11, 30, 59, 0, self::OFFSET_PTWO());
         $b = OffsetTime::of(10, 30, 59, 0, self::OFFSET_PONE());  // a is same instant as b

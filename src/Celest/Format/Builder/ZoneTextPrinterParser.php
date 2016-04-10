@@ -3,13 +3,13 @@
 namespace Celest\Format\Builder;
 
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
 use Celest\Format\DateTimeTextProvider;
 use Celest\Format\TextStyle;
 use Celest\Instant;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalQueries;
-use Celest\Format\DateTimePrintContext;
 use Celest\Zone\ZoneRulesProvider;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
@@ -39,6 +39,7 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
     public function __construct(TextStyle $textStyle, $preferredZones)
     {
         parent::__construct(TemporalQueries::zone(), "ZoneText(" . $textStyle . ")");
+        $this->textStyle = $textStyle;
         if ($preferredZones !== null && count($preferredZones) !== 0) {
             $this->preferredZones = [];
             foreach ($preferredZones as $id) {
@@ -61,11 +62,11 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
 
         switch ($type) {
             case self::$STD:
-                return $names[$this->textStyle->zoneNameStyleIndex() + 1];
+                return $names[$this->textStyle->zoneNameStyleIndex() . 'g'];
             case self::$DST:
-                return $names[$this->textStyle->zoneNameStyleIndex() + 3];
+                return $names[$this->textStyle->zoneNameStyleIndex() . 'd'];
         }
-        return $names[$this->textStyle->zoneNameStyleIndex() + 5];
+        return $names[$this->textStyle->zoneNameStyleIndex() . 's'];
     }
 
     public function format(DateTimePrintContext $context, &$buf)

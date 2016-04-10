@@ -66,10 +66,9 @@ use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
 use Celest\Temporal\AbstractTemporalAccessor;
-use Celest\Temporal\JulianFields;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
-use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\JulianFields;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
@@ -408,24 +407,21 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
 // of(LocalDate, LocalTime, ZoneId)
 //-----------------------------------------------------------------------
 
-    public
-    function test_factory_of_LocalDateLocalTime()
+    public function test_factory_of_LocalDateLocalTime()
     {
         $test = ZonedDateTime::ofDateAndTime(LocalDate::of(2008, 6, 30), LocalTime::of(11, 30, 10, 500), self::ZONE_PARIS());
         $this->check($test, 2008, 6, 30, 11, 30, 10, 500, self::OFFSET_0200(), self::ZONE_PARIS());
     }
 
 
-    public
-    function test_factory_of_LocalDateLocalTime_inGap()
+    public function test_factory_of_LocalDateLocalTime_inGap()
     {
         $test = ZonedDateTime::ofDateAndTime($this->TEST_PARIS_GAP_2008_03_30_02_30->toLocalDate(), $this->TEST_PARIS_GAP_2008_03_30_02_30->toLocalTime(), self::ZONE_PARIS());
         $this->check($test, 2008, 3, 30, 3, 30, 0, 0, self::OFFSET_0200(), self::ZONE_PARIS());  // one $hour later in summer $offset
     }
 
 
-    public
-    function test_factory_of_LocalDateLocalTime_inOverlap()
+    public function test_factory_of_LocalDateLocalTime_inOverlap()
     {
         $test = ZonedDateTime::ofDateAndTime(self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalDate(), self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalTime(), self::ZONE_PARIS());
         $this->check($test, 2008, 10, 26, 2, 30, 0, 0, self::OFFSET_0200(), self::ZONE_PARIS());  // same time in summer $offset

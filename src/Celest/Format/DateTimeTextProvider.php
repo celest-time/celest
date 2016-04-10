@@ -65,7 +65,6 @@
 namespace Celest\Format;
 
 use Celest\Chrono\Chronology;
-use Celest\Chrono\IsoChronology;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\IsoFields;
@@ -102,38 +101,59 @@ class DateTimeTextProvider
         return new DateTimeTextProvider();
     }
 
-    public static function tryField($field,Locale $locale) {
+    public static function tryField($field, Locale $locale)
+    {
         $bundle = new ResourceBundle($locale->getLocale(), null);
-        if(version_compare(INTL_ICU_DATA_VERSION, "51", "<")) {
+        if (version_compare(INTL_ICU_DATA_VERSION, "51", "<")) {
             return $bundle['calendar']['gregorian']['fields'][$field]['dn'];
         } else {
             return $bundle['fields'][$field]['dn'];
         }
     }
 
-    public static function getZoneNames($zoneid, Locale $locale) {
+    public static function getZoneNames($zoneid, Locale $locale)
+    {
+        if ($zoneid === "UTC") {
+            // TODO remove hardcoded string
+            return ['ls' => "Coordinated Universal Time"];
+        }
+
         $meta_names = self::getMetaNames($zoneid);
+
+        if ($meta_names === null) {
+            return null;
+        }
 
         $bundle = new ResourceBundle($locale->getLocale(), 'ICUDATA-zone');
 
         $names = [];
-        foreach($meta_names as $name) {
-            $tmp = [];
-            foreach($bundle['zoneStrings']['meta:' . $name] as $key => $val) {
-                $tmp[$key] = $val;
+        foreach ($meta_names as $name) {
+            foreach ($bundle['zoneStrings']['meta:' . $name] as $key => $val) {
+                $names[$key] = $val;
             }
-            $names[$name] = $tmp;
         }
 
         return $names;
     }
 
-    public static function getMetaNames($zoneid) {
+    public static function getMetaNames($zoneid)
+    {
+        if ($zoneid === 'GMT') {
+            return [$zoneid];
+        }
+
         $name = str_replace('/', ':', $zoneid);
 
         $tmp = [];
         $bundle = new ResourceBundle('metaZones', 'ICUDATA', false);
-        foreach($bundle['metazoneInfo'][$name][0] as $value) {
+
+        $metas = $bundle['metazoneInfo'][$name][0];
+
+        if ($metas === null) {
+            return null;
+        }
+
+        foreach ($metas as $value) {
             $tmp[] = $value;
         }
 
@@ -176,15 +196,15 @@ class DateTimeTextProvider
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);
 
-        if($style === null) {
+        if ($style === null) {
             $tmp = [];
-            foreach(['stand-alone', 'format'] as $id) {
-                foreach(['wide', 'abbreviated', 'narrow'] as $style) {
+            foreach (['stand-alone', 'format'] as $id) {
+                foreach (['wide', 'abbreviated', 'narrow'] as $style) {
                     $values = $bundle['calendar']['gregorian'][$field][$id][$style];
-                    if($values === null)
+                    if ($values === null)
                         continue;
 
-                    foreach($values as $key => $value) {
+                    foreach ($values as $key => $value) {
                         $tmp[$value] = $transformer($key);
                     }
                 }
@@ -215,11 +235,11 @@ class DateTimeTextProvider
         if ($values === null)
             $values = $bundle['calendar']['gregorian'][$field];
 
-        if(!$values)
+        if (!$values)
             return null;
 
         $tmp = [];
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             $tmp[$value] = $transformer($key);
         }
 
@@ -242,27 +262,27 @@ class DateTimeTextProvider
      */
     public function getText(TemporalField $field, $value, TextStyle $style, Locale $locale)
     {
-        if($field == ChronoField::DAY_OF_WEEK()) {
-            if($value === 7)
+        if ($field == ChronoField::DAY_OF_WEEK()) {
+            if ($value === 7)
                 $value = 0;
 
-            return  self::tryFetch('dayNames', $value, $style, $locale);
+            return self::tryFetch('dayNames', $value, $style, $locale);
         }
 
-        if($field == ChronoField::MONTH_OF_YEAR()) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
             return self::tryFetch('monthNames', $value - 1, $style, $locale);
         }
 
-        if($field == ChronoField::AMPM_OF_DAY()) {
+        if ($field == ChronoField::AMPM_OF_DAY()) {
             $bundle = new ResourceBundle($locale->getLocale(), null);
             return $bundle['calendar']['gregorian']['AmPmMarkers'][$value];
         }
 
-        if($field == ChronoField::ERA()) {
+        if ($field == ChronoField::ERA()) {
             return self::tryFetch('eras', $value, $style, $locale);
         }
 
-        if($field == IsoFields::QUARTER_OF_YEAR()) {
+        if ($field == IsoFields::QUARTER_OF_YEAR()) {
             return self::tryFetch('quarters', $value - 1, $style, $locale);
         }
 
@@ -284,9 +304,8 @@ class DateTimeTextProvider
      * @param Locale $locale the locale to get text for, not null
      * @return string|null the text for the field value, null if no text found
      */
-    public
-    function getText2(Chronology $chrono, TemporalField $field, $value,
-                      TextStyle $style, Locale $locale)
+    public function getText2(Chronology $chrono, TemporalField $field, $value,
+                             TextStyle $style, Locale $locale)
     {
         /*if ($chrono == IsoChronology::INSTANCE()
             || !($field instanceof ChronoField)
@@ -345,30 +364,30 @@ class DateTimeTextProvider
     {
         $values = null;
 
-        if($field == ChronoField::DAY_OF_WEEK()) {
-            $values = self::tryFetchStyleValues('dayNames', $style, $locale, function($i) {
+        if ($field == ChronoField::DAY_OF_WEEK()) {
+            $values = self::tryFetchStyleValues('dayNames', $style, $locale, function ($i) {
                 return $i === 0 ? 7 : $i;
             });
         }
-        if($field == ChronoField::MONTH_OF_YEAR()) {
-            $values = self::tryFetchStyleValues('monthNames', $style, $locale, function($i) {
+        if ($field == ChronoField::MONTH_OF_YEAR()) {
+            $values = self::tryFetchStyleValues('monthNames', $style, $locale, function ($i) {
                 return $i + 1;
             });
         }
 
-        if($field == IsoFields::QUARTER_OF_YEAR()) {
-            $values = self::tryFetchStyleValues('quarters', $style, $locale, function($i) {
+        if ($field == IsoFields::QUARTER_OF_YEAR()) {
+            $values = self::tryFetchStyleValues('quarters', $style, $locale, function ($i) {
                 return $i + 1;
             });
         }
 
-        if($field == ChronoField::AMPM_OF_DAY()) {
-            $values = self::tryFetchStyleValues('AmPmMarkers', $style, $locale, function($i) {
+        if ($field == ChronoField::AMPM_OF_DAY()) {
+            $values = self::tryFetchStyleValues('AmPmMarkers', $style, $locale, function ($i) {
                 return $i;
             });
         }
 
-        if($values === null)
+        if ($values === null)
             return null;
 
         \uksort($values, function ($a, $b) {

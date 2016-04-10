@@ -64,10 +64,10 @@
 namespace Celest\Zone;
 
 use Celest\Duration;
-use Celest\LocalDateTime;
-use Celest\ZoneOffset;
 use Celest\IllegalArgumentException;
 use Celest\Instant;
+use Celest\LocalDateTime;
+use Celest\ZoneOffset;
 
 /**
  * A transition between two offsets caused by a discontinuity in the local time-line.
@@ -202,8 +202,7 @@ final class ZoneOffsetTransition
      *
      * @return LocalDateTime the transition date-time expressed with the before offset, not null
      */
-    public
-    function getDateTimeBefore()
+    public function getDateTimeBefore()
     {
         return $this->transition;
     }
@@ -218,8 +217,7 @@ final class ZoneOffsetTransition
      *
      * @return LocalDateTime the transition date-time expressed with the after offset, not null
      */
-    public
-    function getDateTimeAfter()
+    public function getDateTimeAfter()
     {
         return $this->transition->plusSeconds($this->getDurationSeconds());
     }
@@ -231,8 +229,7 @@ final class ZoneOffsetTransition
      *
      * @return ZoneOffset the offset before the transition, not null
      */
-    public
-    function getOffsetBefore()
+    public function getOffsetBefore()
     {
         return $this->offsetBefore;
     }
@@ -244,8 +241,7 @@ final class ZoneOffsetTransition
      *
      * @return ZoneOffset the offset after the transition, not null
      */
-    public
-    function getOffsetAfter()
+    public function getOffsetAfter()
     {
         return $this->offsetAfter;
     }

@@ -382,8 +382,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_dayOfWeekInMonth_zero
      */
-    public
-    function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $expected)
+    public function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $expected)
     {
         for ($day = 1; $day <= Month::of($month)->length(false);
              $day++) {

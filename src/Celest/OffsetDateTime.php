@@ -212,8 +212,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param ZoneId $zone the zone ID to use, not null
      * @return OffsetDateTime the current date-time using the system clock, not null
      */
-    public
-    static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone)
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -230,8 +229,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param Clock $clock the clock to use, not null
      * @return OffsetDateTime the current date-time, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone()->getRules()->getOffset($now));
@@ -248,8 +246,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetDateTime the offset date-time, not null
      */
-    public
-    static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneOffset $offset)
+    public static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneOffset $offset)
     {
         $dt = LocalDateTime::ofDateAndTime($date, $time);
         return new OffsetDateTime($dt, $offset);
@@ -264,8 +261,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetDateTime the offset date-time, not null
      */
-    public
-    static function ofDateTime(LocalDateTime $dateTime, ZoneOffset $offset)
+    public static function ofDateTime(LocalDateTime $dateTime, ZoneOffset $offset)
     {
         return new OffsetDateTime($dateTime, $offset);
     }
@@ -294,9 +290,8 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws DateTimeException if the value of any field is out of range, or
      *  if the day-of-month is invalid for the month-year
      */
-    public
-    static function of($year, $month, $dayOfMonth,
-                       $hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
+    public static function of($year, $month, $dayOfMonth,
+                              $hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
     {
         $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return new OffsetDateTime($dt, $offset);
@@ -315,8 +310,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime the offset date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public
-    static function ofInstant(Instant $instant, ZoneId $zone)
+    public static function ofInstant(Instant $instant, ZoneId $zone)
     {
         $rules = $zone->getRules();
         $offset = $rules->getOffset($instant);
@@ -346,8 +340,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime the offset date-time, not null
      * @throws DateTimeException if unable to convert to an {@code OffsetDateTime}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof OffsetDateTime) {
             return $temporal;
@@ -396,8 +389,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime the parsed offset date-time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([OffsetDateTime::class, 'from']));
     }
@@ -409,8 +401,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param LocalDateTime $dateTime the local date-time, not null
      * @param ZoneOffset $offset the zone offset, not null
      */
-    private
-    function __construct(LocalDateTime $dateTime, ZoneOffset $offset)
+    private function __construct(LocalDateTime $dateTime, ZoneOffset $offset)
     {
         $this->dateTime = $dateTime;
         $this->offset = $offset;
@@ -523,7 +514,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param TemporalUnit $unit  the unit to check, null returns false
+     * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool if the unit can be added/subtracted, false if not
      */
     public function isUnitSupported(TemporalUnit $unit)
@@ -740,8 +731,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *
      * @return LocalDate the date part of this date-time, not null
      */
-    public
-    function toLocalDate()
+    public function toLocalDate()
     {
         return $this->dateTime->toLocalDate();
     }
@@ -756,8 +746,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public
-    function getYear()
+    public function getYear()
     {
         return $this->dateTime->getYear();
     }
@@ -1040,8 +1029,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public
-    function withMonth($month)
+    public function withMonth($month)
     {
         return $this->_with($this->dateTime->withMonth($month), $this->offset);
     }
@@ -1059,8 +1047,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    function withDayOfMonth($dayOfMonth)
+    public function withDayOfMonth($dayOfMonth)
     {
         return $this->_with($this->dateTime->withDayOfMonth($dayOfMonth), $this->offset);
     }
@@ -1078,8 +1065,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws DateTimeException if the day-of-year value is invalid,
      *  or if the day-of-year is invalid for the year
      */
-    public
-    function withDayOfYear($dayOfYear)
+    public function withDayOfYear($dayOfYear)
     {
         return $this->_with($this->dateTime->withDayOfYear($dayOfYear), $this->offset);
     }
@@ -1096,8 +1082,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
-    public
-    function withHour($hour)
+    public function withHour($hour)
     {
         return $this->_with($this->dateTime->withHour($hour), $this->offset);
     }
@@ -1113,8 +1098,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
-    public
-    function withMinute($minute)
+    public function withMinute($minute)
     {
         return $this->_with($this->dateTime->withMinute($minute), $this->offset);
     }
@@ -1130,8 +1114,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
-    public
-    function withSecond($second)
+    public function withSecond($second)
     {
         return $this->_with($this->dateTime->withSecond($second), $this->offset);
     }
@@ -1147,8 +1130,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the requested nanosecond, not null
      * @throws DateTimeException if the nano value is invalid
      */
-    public
-    function withNano($nanoOfSecond)
+    public function withNano($nanoOfSecond)
     {
         return $this->_with($this->dateTime->withNano($nanoOfSecond), $this->offset);
     }
@@ -1176,8 +1158,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public
-    function truncatedTo(TemporalUnit $unit)
+    public function truncatedTo(TemporalUnit $unit)
     {
         return $this->_with($this->dateTime->truncatedTo($unit), $this->offset);
     }
@@ -1459,8 +1440,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusYears($years)
+    public function minusYears($years)
     {
         return ($years == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
@@ -1485,8 +1465,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusMonths($months)
+    public function minusMonths($months)
     {
         return ($months == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
@@ -1506,8 +1485,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusWeeks($weeks)
+    public function minusWeeks($weeks)
     {
         return ($weeks == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
@@ -1527,8 +1505,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusDays($days)
+    public function minusDays($days)
     {
         return ($days == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
@@ -1542,8 +1519,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the hours subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusHours($hours)
+    public function minusHours($hours)
     {
         return ($hours == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
     }
@@ -1571,8 +1547,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the seconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusSeconds($seconds)
+    public function minusSeconds($seconds)
     {
         return ($seconds == Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
     }
@@ -1586,8 +1561,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @return OffsetDateTime an {@code OffsetDateTime} based on this date-time with the nanoseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusNanos($nanos)
+    public function minusNanos($nanos)
     {
         return ($nanos == Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
     }
@@ -1624,7 +1598,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
                 return $this->toLocalTime();
             } else if ($query == TemporalQueries::chronology()) {
                 return IsoChronology::INSTANCE();
-        } else if ($query == TemporalQueries::precision()) {
+            } else if ($query == TemporalQueries::precision()) {
                 return ChronoUnit::NANOS();
             }
         // inline TemporalAccessor.super.query(query) as an optimization
@@ -1805,8 +1779,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *
      * @return OffsetTime an OffsetTime representing the time and offset, not null
      */
-    public
-    function toOffsetTime()
+    public function toOffsetTime()
     {
         return OffsetTime::ofLocalTime($this->dateTime->toLocalTime(), $this->offset);
     }
@@ -1822,8 +1795,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *
      * @return ZonedDateTime a zoned date-time representing the same local date-time and offset, not null
      */
-    public
-    function toZonedDateTime()
+    public function toZonedDateTime()
     {
         return ZonedDateTime::ofDateTime($this->dateTime, $this->offset);
     }
@@ -1918,8 +1890,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param OffsetDateTime $other the other date-time to compare to, not null
      * @return bool true if this is before the instant of the specified date-time
      */
-    public
-    function isBefore(OffsetDateTime $other)
+    public function isBefore(OffsetDateTime $other)
     {
         $thisEpochSec = $this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
@@ -1937,8 +1908,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param OffsetDateTime $other the other date-time to compare to, not null
      * @return true if the instant equals the instant of the specified date-time
      */
-    public
-    function isEqual(OffsetDateTime $other)
+    public function isEqual(OffsetDateTime $other)
     {
         return $this->toEpochSecond() == $other->toEpochSecond() &&
         $this->toLocalTime()->getNano() == $other->toLocalTime()->getNano();

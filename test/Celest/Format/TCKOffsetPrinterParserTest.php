@@ -148,9 +148,6 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
             [
 
 
-
-
-
                 [
                     "+HHMM", "Z", self::DT_2012_06_30_12_30_40(), self::OFFSET_P000045(), "Z"],
                 [
@@ -405,8 +402,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_print
      */
-    public
-    function test_print_pattern_Z($offsetPattern, $noOffset, LocalDateTime $ldt, ZoneId $zone, $expected)
+    public function test_print_pattern_Z($offsetPattern, $noOffset, LocalDateTime $ldt, ZoneId $zone, $expected)
     {
         $pattern = null;
         if ($offsetPattern === "+HHMM" && $noOffset === "Z") {
@@ -471,8 +467,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_X6rejected()
+    public function test_print_pattern_X6rejected()
     {
         $this->builder->appendPattern("XXXXXX");
     }
@@ -480,8 +475,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_x6rejected_()
+    public function test_print_pattern_x6rejected_()
     {
         $this->builder->appendPattern("xxxxxx");
     }
@@ -489,8 +483,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_Z6rejected()
+    public function test_print_pattern_Z6rejected()
     {
         $this->builder->appendPattern("ZZZZZZ");
     }
@@ -498,8 +491,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_O2rejected()
+    public function test_print_pattern_O2rejected()
     {
         $this->builder->appendPattern("OO");
     }
@@ -507,8 +499,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_O3rejected()
+    public function test_print_pattern_O3rejected()
     {
         $this->builder->appendPattern("OOO");
     }
@@ -524,8 +515,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_localzed_full_standline()
+    public function test_print_pattern_localzed_full_standline()
     {
         $this->builder->appendLocalizedOffset(TextStyle::FULL_STANDALONE());
     }
@@ -533,8 +523,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_localzed_short_standalone()
+    public function test_print_pattern_localzed_short_standalone()
     {
         $this->builder->appendLocalizedOffset(TextStyle::SHORT_STANDALONE());
     }
@@ -542,8 +531,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_localzed_narrow()
+    public function test_print_pattern_localzed_narrow()
     {
         $this->builder->appendLocalizedOffset(TextStyle::NARROW());
     }
@@ -551,8 +539,7 @@ class TCKOffsetPrinterParser extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_print_pattern_localzed_narrow_standalone()
+    public function test_print_pattern_localzed_narrow_standalone()
     {
         $this->builder->appendLocalizedOffset(TextStyle::NARROW_STANDALONE());
     }

@@ -422,8 +422,7 @@ class ChronoUnit implements TemporalUnit
     }
 
 //-----------------------------------------------------------------------
-    public
-    function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive)
+    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive)
     {
         return $temporal1Inclusive->until($temporal2Exclusive, $this);
     }

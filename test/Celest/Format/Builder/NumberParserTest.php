@@ -461,8 +461,7 @@ class NumberParserTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_parseSignsLenient()
+    public function provider_parseSignsLenient()
     {
         return [
 // never
@@ -654,8 +653,7 @@ class NumberParserTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_parseDigitsLenient()
+    public function provider_parseDigitsLenient()
     {
         return [
 // never
@@ -809,8 +807,7 @@ class NumberParserTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_parseDigitsAdjacentLenient()
+    public function provider_parseDigitsAdjacentLenient()
     {
         return [
 // never

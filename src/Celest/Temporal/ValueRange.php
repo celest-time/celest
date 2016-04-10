@@ -231,8 +231,7 @@ final class ValueRange
      *
      * @return int the largest possible minimum value for this field
      */
-    public
-    function getLargestMinimum()
+    public function getLargestMinimum()
     {
         return $this->minLargest;
     }
@@ -303,8 +302,7 @@ final class ValueRange
      * @param int $value the value to check
      * @return true if the value is valid and fits in an {@code int}
      */
-    public
-    function isValidIntValue($value)
+    public function isValidIntValue($value)
     {
         return $this->isIntValue() && $this->isValidValue($value);
     }

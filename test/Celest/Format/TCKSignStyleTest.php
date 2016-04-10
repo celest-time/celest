@@ -125,8 +125,7 @@ class TCKSignStyleTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_signStyle
      */
-    public
-    function test_signStyle(LocalDate $localDate, SignStyle $style, $expectedEx, $expectedStr)
+    public function test_signStyle(LocalDate $localDate, SignStyle $style, $expectedEx, $expectedStr)
     {
         $builder = new DateTimeFormatterBuilder();
         $formatter = $builder->appendValue3(ChronoField::YEAR(), 2, 4, $style)

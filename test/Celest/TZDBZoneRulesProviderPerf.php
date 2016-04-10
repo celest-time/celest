@@ -20,7 +20,7 @@ class TZDBZoneRulesProviderPerf
         $ids = ZoneRulesProvider::getAvailableZoneIds();
 
         $start = Instant::now();
-        foreach($ids as $id) {
+        foreach ($ids as $id) {
             TZDBZoneRulesProvider::getRules($id, false);
         }
         $end = Instant::now();

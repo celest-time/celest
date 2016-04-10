@@ -740,7 +740,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
     public function test_with_adjustment()
     {
         $sample = OffsetDateTime::ofDateAndTime(LocalDate::of(2012, 3, 4), LocalTime::of(23, 5), self::OFFSET_PONE());
-        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
+        $adjuster = TemporalAdjusters::fromCallable(function () use ($sample) {
             return $sample;
         });
         $this->assertEquals(self::TEST_2008_6_30_11_30_59_000000500()->adjust($adjuster), $sample);
@@ -864,8 +864,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 // withYear()
 //-----------------------------------------------------------------------
 
-    public
-    function test_withYear_normal()
+    public function test_withYear_normal()
     {
         $base = OffsetDateTime::ofDateAndTime(LocalDate::of(2008, 6, 30), LocalTime::of(11, 30, 59), self::OFFSET_PONE());
         $test = $base->withYear(2007);
@@ -876,8 +875,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 // withMonth()
 //-----------------------------------------------------------------------
 
-    public
-    function test_withMonth_normal()
+    public function test_withMonth_normal()
     {
         $base = OffsetDateTime::ofDateAndTime(LocalDate::of(2008, 6, 30), LocalTime::of(11, 30, 59), self::OFFSET_PONE());
         $test = $base->withMonth(1);
@@ -888,8 +886,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 // withDayOfMonth()
 //-----------------------------------------------------------------------
 
-    public
-    function test_withDayOfMonth_normal()
+    public function test_withDayOfMonth_normal()
     {
         $base = OffsetDateTime::ofDateAndTime(LocalDate::of(2008, 6, 30), LocalTime::of(11, 30, 59), self::OFFSET_PONE());
         $test = $base->withDayOfMonth(15);
@@ -900,8 +897,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 // withDayOfYear(int)
 //-----------------------------------------------------------------------
 
-    public
-    function test_withDayOfYear_normal()
+    public function test_withDayOfYear_normal()
     {
         $t = self::TEST_2008_6_30_11_30_59_000000500()->withDayOfYear(33);
         $this->assertEquals($t, OffsetDateTime::ofDateAndTime(LocalDate::of(2008, 2, 2), LocalTime::of(11, 30, 59, 500), self::OFFSET_PONE()));
@@ -1583,8 +1579,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 // isAfter() / isBefore() / isEqual()
 //-----------------------------------------------------------------------
 
-    public
-    function test_isBeforeIsAfterIsEqual1()
+    public function test_isBeforeIsAfterIsEqual1()
     {
         $a = OffsetDateTime::of(2008, 6, 30, 11, 30, 58, 3, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 30, 59, 2, self::OFFSET_PONE());  // a is before b due to time
@@ -1607,8 +1602,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual2()
+    public function test_isBeforeIsAfterIsEqual2()
     {
         $a = OffsetDateTime::of(2008, 6, 30, 11, 30, 59, 2, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 30, 59, 3, self::OFFSET_PONE());  // a is before b due to time
@@ -1631,8 +1625,7 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_isBeforeIsAfterIsEqual_instantComparison()
+    public function test_isBeforeIsAfterIsEqual_instantComparison()
     {
         $a = OffsetDateTime::of(2008, 6, 30, 10, 0, 0, 0, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 0, 0, 0, self::OFFSET_PTWO());  // a is same instant as b

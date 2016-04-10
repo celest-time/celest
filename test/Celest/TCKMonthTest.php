@@ -63,8 +63,8 @@ namespace Celest;
 
 use Celest\Chrono\IsoChronology;
 use Celest\Format\TextStyle;
-use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\TemporalAccessor;
@@ -452,7 +452,7 @@ class TCKMonthTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_minus
      */
-    public function test_minus_long( $base,  $amount,  $expected)
+    public function test_minus_long($base, $amount, $expected)
     {
         $this->assertEquals(Month::of($base)->minus($amount), Month::of($expected));
     }

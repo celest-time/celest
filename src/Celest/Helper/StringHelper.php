@@ -16,7 +16,8 @@ class StringHelper
      * @param $haystack
      * @return bool
      */
-    public static function startsWith($needle, $haystack) {
+    public static function startsWith($needle, $haystack)
+    {
         return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }
 

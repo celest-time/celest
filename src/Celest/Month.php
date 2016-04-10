@@ -63,7 +63,6 @@
 namespace Celest;
 
 use Celest\Chrono\AbstractChronology;
-use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\TextStyle;
@@ -377,7 +376,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
 
     public static function valueOf($string)
     {
-        switch($string) {
+        switch ($string) {
             case 'JANUARY':
                 return self::JANUARY();
             case 'FEBRUARY':
@@ -575,7 +574,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $months  the months to add, positive or negative
+     * @param int $months the months to add, positive or negative
      * @return Month the resulting month, not null
      */
     public function plus($months)
@@ -595,8 +594,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param int $months the months to subtract, positive or negative
      * @return Month the resulting month, not null
      */
-    public
-    function minus($months)
+    public function minus($months)
     {
         return $this->plus(-($months % 12));
     }
@@ -614,8 +612,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param bool $leapYear true if the length is required for a leap year
      * @return int the length of this month in days, from 28 to 31
      */
-    public
-    function length($leapYear)
+    public function length($leapYear)
     {
         switch ($this->val) {
             case 2:
@@ -639,8 +636,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return int the minimum length of this month in days, from 28 to 31
      */
-    public
-    function minLength()
+    public function minLength()
     {
         switch ($this->val) {
             case 2:
@@ -664,8 +660,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return int the maximum length of this month in days, from 29 to 31
      */
-    public
-    function maxLength()
+    public function maxLength()
     {
         switch ($this->val) {
             case 2:
@@ -690,8 +685,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param bool $leapYear true if the length is required for a leap year
      * @return int the day of year corresponding to the first day of this month, from 1 to 336
      */
-    public
-    function firstDayOfYear($leapYear)
+    public function firstDayOfYear($leapYear)
     {
         $leap = $leapYear ? 1 : 0;
         switch ($this->val) {
@@ -735,8 +729,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return Month the first month of the quarter corresponding to this month, not null
      */
-    public
-    function firstMonthOfQuarter()
+    public function firstMonthOfQuarter()
     {
         return self::$ENUMS[(int)(($this->val - 1) / 3) * 3];
     }

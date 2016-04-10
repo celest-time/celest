@@ -73,8 +73,7 @@ class MockTemporalAccessor extends AbstractTemporalAccessor
         return false;
     }
 
-    public
-    function getLong(TemporalField $field)
+    public function getLong(TemporalField $field)
     {
         throw new DateTimeException("Mock");
     }
@@ -312,11 +311,9 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test->getId(), "UTC" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        // TODO
-        //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UTC" . $id));
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UTC" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
-        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     /**
@@ -328,28 +325,23 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test->getId(), "GMT" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        // TODO
-        //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("GMT" . $id));
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("GMT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
-        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     /**
      * @dataProvider data_offsetBasedValidPrefix
      */
-    public
-    function test_factory_of_String_offsetBasedValid_prefixUT($input, $id, $offsetId)
+    public function test_factory_of_String_offsetBasedValid_prefixUT($input, $id, $offsetId)
     {
         $test = ZoneId::of("UT" . $input);
         $this->assertEquals($test->getId(), "UT" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        // TODO
-        //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UT" . $id));
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
-        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     private function displayName($id)
@@ -420,16 +412,14 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_nullPrefixOfOffset()
+    public function test_nullPrefixOfOffset()
     {
         TestHelper::assertNullException($this, function () {
             ZoneId::ofOffset(null, ZoneOffset::ofTotalSeconds(1));
         });
     }
 
-    public
-    function test_nullOffsetOfOffset()
+    public function test_nullOffsetOfOffset()
     {
         TestHelper::assertNullException($this, function () {
             ZoneId::ofOffset("GMT", null);
@@ -437,8 +427,7 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
     }
 
 //-----------------------------------------------------------------------
-    public
-    function data_offsetBasedValidOther()
+    public function data_offsetBasedValidOther()
     {
         return [
             [

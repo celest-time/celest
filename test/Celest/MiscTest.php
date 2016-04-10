@@ -3,9 +3,6 @@
 namespace Celest;
 
 
-use Celest\Helper\Long;
-use Celest\Helper\Math;
-use IntlCalendar;
 use PHPUnit_Framework_TestCase;
 use ResourceBundle;
 
@@ -61,7 +58,7 @@ class MiscTest extends PHPUnit_Framework_TestCase
         $bundle = new ResourceBundle('de', 'ICUDATA-zone');
         $this->assertEquals('Brüssel', $bundle['zoneStrings']['Europe:Brussels']['ec']);
 
-        if(defined('HHVM_VERSION')) {
+        if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('See https://github.com/facebook/hhvm/issues/6852');
         }
         $bundle = new ResourceBundle('metaZones', 'ICUDATA', false);

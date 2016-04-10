@@ -217,22 +217,22 @@ final class TzdbZoneRulesCompiler
     /**
      * @param string $dstDir
      * @param string $version
-     * @param ZoneRules $builtZones[]
-     * @param string $links[]
+     * @param ZoneRules $builtZones []
+     * @param string $links []
      */
     private function output($dstDir, $version,
-                        array $builtZones,
-                        array $links)
+                            array $builtZones,
+                            array $links)
     {
         $baseDir = $dstDir . '/';
 
-        foreach($builtZones as $name => $zone) {
-            if(array_key_exists($name, $links))
+        foreach ($builtZones as $name => $zone) {
+            if (array_key_exists($name, $links))
                 continue;
 
             $p = explode('/', $name);
-            if(count($p) > 1) {
-                @mkdir(\dirname($baseDir. 'zones/' . $name), 0777, true);
+            if (count($p) > 1) {
+                @mkdir(\dirname($baseDir . 'zones/' . $name), 0777, true);
             }
             $file = fopen($baseDir . 'zones/' . $name . '.php', 'w');
             fwrite($file, "<?php\nreturn '");
@@ -284,8 +284,7 @@ final class TzdbZoneRulesCompiler
      * @param string $file the file being read, not null
      * @throws \Exception if an error occurs
      */
-    private
-    function parseFile($file)
+    private function parseFile($file)
     {
         $lineNumber = 1;
         $line = null;
@@ -393,8 +392,7 @@ final class TzdbZoneRulesCompiler
      * @param $zoneList
      * @return true if the zone is complete
      */
-    private
-    function parseZoneLine(\CachingIterator $s, &$zoneList)
+    private function parseZoneLine(\CachingIterator $s, &$zoneList)
     {
         $zone = new TZDBZone();
         $zoneList[] = $zone;
@@ -434,8 +432,7 @@ final class TzdbZoneRulesCompiler
      * @param $s \CachingIterator the line scanner, not null
      * @param TZDBMonthDayTime $mdt the object to parse into, not null
      */
-    private
-    function parseMonthDayTime(\CachingIterator $s, TZDBMonthDayTime $mdt)
+    private function parseMonthDayTime(\CachingIterator $s, TZDBMonthDayTime $mdt)
     {
         $mdt->month = $this->parseMonth($s);
         if ($s->hasNext()) {
@@ -474,8 +471,7 @@ final class TzdbZoneRulesCompiler
         }
     }
 
-    private
-    function parseYear(\CachingIterator $s, $defaultYear)
+    private function parseYear(\CachingIterator $s, $defaultYear)
     {
         $s->next();
         $year = $s->current();
@@ -504,8 +500,7 @@ final class TzdbZoneRulesCompiler
         throw new IllegalArgumentException("Unknown year: " . $year);
     }
 
-    private
-    function parseMonth(\CachingIterator $s)
+    private function parseMonth(\CachingIterator $s)
     {
         $s->next();
         $month = $s->current();
@@ -618,7 +613,7 @@ final class TzdbZoneRulesCompiler
 
         // build aliases
         foreach ($this->links as $aliasId => $realId) {
-            $this->printVerbose("Linking alias " . $aliasId . " to " . $realId. "\n");
+            $this->printVerbose("Linking alias " . $aliasId . " to " . $realId . "\n");
             $realRules = @$this->builtZones[$realId];
             if ($realRules === null) {
                 $realId = @$this->links[$realId];  // try again (handle alias liked to alias)

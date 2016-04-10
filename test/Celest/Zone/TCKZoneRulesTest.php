@@ -103,8 +103,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->isFixedOffset(), false);
     }
 
-    public
-    function test_London_preTimeZones()
+    public function test_London_preTimeZones()
     {
         $test = $this->europeLondon();
         $old = $this->createZDT(1800, 1, 1, ZoneOffset::UTC());
@@ -117,8 +116,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->isDaylightSavings($instant), false);
     }
 
-    public
-    function test_London_getOffset()
+    public function test_London_getOffset()
     {
         $test = $this->europeLondon();
         $this->assertEquals($test->getOffset($this->createInstant(2008, 1, 1, ZoneOffset::UTC())), self::$OFFSET_ZERO);
@@ -1147,8 +1145,7 @@ class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
         return LocalDateTime::of($year, $month, $day, 0, 0);
     }
 
-    private
-    function checkOffset(ZoneRules $rules, LocalDateTime $dateTime, ZoneOffset $offset, $type)
+    private function checkOffset(ZoneRules $rules, LocalDateTime $dateTime, ZoneOffset $offset, $type)
     {
         $validOffsets = $rules->getValidOffsets($dateTime);
         $this->assertEquals(count($validOffsets), $type);

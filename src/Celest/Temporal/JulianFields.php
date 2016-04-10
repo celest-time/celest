@@ -63,8 +63,8 @@
 
 namespace Celest\Temporal;
 
-use Celest\Temporal\Misc\JulianField;
 use Celest\Temporal\ChronoUnit as CU;
+use Celest\Temporal\Misc\JulianField;
 
 /**
  * A set of date fields that provide access to Julian Days.

@@ -230,8 +230,7 @@ class TCKDayOfWeekTest extends AbstractDateTimeTest
         $this->assertEquals($query->queryFrom($temporal), $expected);
     }
 
-    public
-    function test_query_null()
+    public function test_query_null()
     {
         TestHelper::assertNullException($this, function () {
             DayOfWeek::FRIDAY()->query(null);
@@ -242,22 +241,19 @@ class TCKDayOfWeekTest extends AbstractDateTimeTest
 // getText()
 //-----------------------------------------------------------------------
 
-    public
-    function test_getText()
+    public function test_getText()
     {
         $this->assertEquals(DayOfWeek::MONDAY()->getDisplayName(TextStyle::SHORT(), Locale::US()), "Mon");
     }
 
-    public
-    function test_getText_nullStyle()
+    public function test_getText_nullStyle()
     {
         TestHelper::assertNullException($this, function () {
             DayOfWeek::MONDAY()->getDisplayName(null, Locale::US());
         });
     }
 
-    public
-    function test_getText_nullLocale()
+    public function test_getText_nullLocale()
     {
         TestHelper::assertNullException($this, function () {
             DayOfWeek::MONDAY()->getDisplayName(TextStyle::FULL(), null);

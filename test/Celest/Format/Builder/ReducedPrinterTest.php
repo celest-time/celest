@@ -84,8 +84,7 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
         return $this->builder->appendValueReduced($field, $minWidth, $maxWidth, $baseValue)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    private
-    function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
+    private function getFormatterBaseDate(TemporalField $field, $minWidth, $maxWidth, $baseValue)
     {
         return $this->builder->appendValueReduced2($field, $minWidth, $maxWidth, LocalDate::of($baseValue, 1, 1))->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
@@ -101,8 +100,7 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function test_print_append()
+    public function test_print_append()
     {
         $buf = "EXISTING";
         $this->getFormatter0(ChronoField::YEAR(), 2, 2010)->formatTo(LocalDate::of(2012, 1, 1), $buf);
@@ -284,47 +282,46 @@ class ReducedPrinterTest extends AbstractTestPrinterParser
     }
 
     //-----------------------------------------------------------------------
-    
-    
-     public function test_minguoChrono_fixedWidth()
-     {
-     // ISO 2021 is Minguo 110
-     $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 2, 2021);
-     $date = MinguoDate::of(109, 6, 30);
-     $this->assertEquals($f->format($date), "09");
-     $date = MinguoDate::of(110, 6, 30);
-     $this->assertEquals($f->format($date), "10");
-     $date = MinguoDate::of(199, 6, 30);
-     $this->assertEquals($f->format($date), "99");
-     $date = MinguoDate::of(200, 6, 30);
-     $this->assertEquals($f->format($date), "00");
-     $date = MinguoDate::of(209, 6, 30);
-     $this->assertEquals($f->format($date), "09");
-     $date = MinguoDate::of(210, 6, 30);
-     $this->assertEquals($f->format($date), "10");
-     }
-    
-     public function test_minguoChrono_extendedWidth() 
-     {
-     // ISO 2021 is Minguo 110
-     $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 4, 2021);
-     $date = MinguoDate::of(109, 6, 30);
-     $this->assertEquals($f->format($date), "109");
-     $date = MinguoDate::of(110, 6, 30);
-     $this->assertEquals($f->format($date), "10");
-     $date = MinguoDate::of(199, 6, 30);
-     $this->assertEquals($f->format($date), "99");
-     $date = MinguoDate::of(200, 6, 30);
-     $this->assertEquals($f->format($date), "00");
-     $date = MinguoDate::of(209, 6, 30);
-     $this->assertEquals($f->format($date), "09");
-     $date = MinguoDate::of(210, 6, 30);
-     $this->assertEquals($f->format($date), "210");
-     }
-    
+
+
+    public function test_minguoChrono_fixedWidth()
+    {
+        // ISO 2021 is Minguo 110
+        $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 2, 2021);
+        $date = MinguoDate::of(109, 6, 30);
+        $this->assertEquals($f->format($date), "09");
+        $date = MinguoDate::of(110, 6, 30);
+        $this->assertEquals($f->format($date), "10");
+        $date = MinguoDate::of(199, 6, 30);
+        $this->assertEquals($f->format($date), "99");
+        $date = MinguoDate::of(200, 6, 30);
+        $this->assertEquals($f->format($date), "00");
+        $date = MinguoDate::of(209, 6, 30);
+        $this->assertEquals($f->format($date), "09");
+        $date = MinguoDate::of(210, 6, 30);
+        $this->assertEquals($f->format($date), "10");
+    }
+
+    public function test_minguoChrono_extendedWidth()
+    {
+        // ISO 2021 is Minguo 110
+        $f = $this->getFormatterBaseDate(ChronoField::YEAR(), 2, 4, 2021);
+        $date = MinguoDate::of(109, 6, 30);
+        $this->assertEquals($f->format($date), "109");
+        $date = MinguoDate::of(110, 6, 30);
+        $this->assertEquals($f->format($date), "10");
+        $date = MinguoDate::of(199, 6, 30);
+        $this->assertEquals($f->format($date), "99");
+        $date = MinguoDate::of(200, 6, 30);
+        $this->assertEquals($f->format($date), "00");
+        $date = MinguoDate::of(209, 6, 30);
+        $this->assertEquals($f->format($date), "09");
+        $date = MinguoDate::of(210, 6, 30);
+        $this->assertEquals($f->format($date), "210");
+    }
+
 //-----------------------------------------------------------------------
-    public
-    function test_toString()
+    public function test_toString()
     {
         $this->assertEquals($this->getFormatter1(ChronoField::YEAR(), 2, 2, 2005)->__toString(), "ReducedValue(Year,2,2,2005)");
     }

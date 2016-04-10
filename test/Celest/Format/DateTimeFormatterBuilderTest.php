@@ -1094,22 +1094,19 @@ class TestDateTimeFormatterBuilder extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\IllegalArgumentException
      */
-    public
-    function test_getLocalizedDateTimePatternIAE()
+    public function test_getLocalizedDateTimePatternIAE()
     {
         DateTimeFormatterBuilder::getLocalizedDateTimePattern(null, null, IsoChronology::INSTANCE(), Locale::US());
     }
 
-    public
-    function test_getLocalizedChronoNPE()
+    public function test_getLocalizedChronoNPE()
     {
         TestHelper::assertNullException($this, function () {
             DateTimeFormatterBuilder::getLocalizedDateTimePattern(FormatStyle::SHORT(), FormatStyle::SHORT(), null, Locale::US());
         });
     }
 
-    public
-    function test_getLocalizedLocaleNPE()
+    public function test_getLocalizedLocaleNPE()
     {
         TestHelper::assertNullException($this, function () {
             DateTimeFormatterBuilder::getLocalizedDateTimePattern(FormatStyle::SHORT(), FormatStyle::SHORT(), IsoChronology::INSTANCE(), null);

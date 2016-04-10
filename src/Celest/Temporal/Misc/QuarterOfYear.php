@@ -37,8 +37,7 @@ class QuarterOfYear implements TemporalField
         return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && IsoFields::isIso($temporal);
     }
 
-    public
-    function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal)
     {
         if ($this->isSupportedBy($temporal) == false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
@@ -55,8 +54,7 @@ class QuarterOfYear implements TemporalField
         return $temporal->with(ChronoField::MONTH_OF_YEAR(), $temporal->getLong(ChronoField::MONTH_OF_YEAR()) + ($newValue - $curValue) * 3);
     }
 
-    public
-    function __toString()
+    public function __toString()
     {
         return "QuarterOfYear";
     }

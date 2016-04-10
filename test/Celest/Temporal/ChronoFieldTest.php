@@ -132,7 +132,7 @@ class TestChronoField extends \PHPUnit_Framework_TestCase
     public function test_nullIsoFields_week_based_year()
     {
         TestHelper::assertNullException($this, function () {
-             IsoFields::WEEK_OF_WEEK_BASED_YEAR()->getDisplayName(null);
+            IsoFields::WEEK_OF_WEEK_BASED_YEAR()->getDisplayName(null);
         });
     }
 

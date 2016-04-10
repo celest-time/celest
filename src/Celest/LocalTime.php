@@ -292,8 +292,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param Clock $clock the clock to use, not null
      * @return LocalTime the current time, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         // inline OffsetTime factory to avoid creating object and InstantProvider checks
         $now = $clock->instant();  // called once
@@ -341,8 +340,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the second-of-day value is invalid
      */
-    public
-    static function ofSecondOfDay($secondOfDay)
+    public static function ofSecondOfDay($secondOfDay)
     {
         ChronoField::SECOND_OF_DAY()->checkValidValue($secondOfDay);
         $hours = Math::div($secondOfDay, self::SECONDS_PER_HOUR);
@@ -361,8 +359,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the nanos of day value is invalid
      */
-    public
-    static function ofNanoOfDay($nanoOfDay)
+    public static function ofNanoOfDay($nanoOfDay)
     {
         ChronoField::NANO_OF_DAY()->checkValidValue($nanoOfDay);
         $hours = Math::div($nanoOfDay, self::NANOS_PER_HOUR);
@@ -392,8 +389,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if unable to convert to a {@code LocalTime}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         $time = $temporal->query(TemporalQueries::localTime());
         if ($time === null) {
@@ -415,8 +411,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parse($text)
+    public static function parse($text)
     {
         return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_TIME());
     }
@@ -431,8 +426,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([self::class, 'from']));
     }
@@ -716,8 +710,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the minute-of-hour, from 0 to 59
      */
-    public
-    function getMinute()
+    public function getMinute()
     {
         return $this->minute;
     }
@@ -1287,8 +1280,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $hoursToSubtract the hours to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the hours subtracted, not null
      */
-    public
-    function minusHours($hoursToSubtract)
+    public function minusHours($hoursToSubtract)
     {
         return $this->plusHours(-($hoursToSubtract % self::HOURS_PER_DAY));
     }
@@ -1304,8 +1296,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $minutesToSubtract the minutes to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the minutes subtracted, not null
      */
-    public
-    function minusMinutes($minutesToSubtract)
+    public function minusMinutes($minutesToSubtract)
     {
         return $this->plusMinutes(-($minutesToSubtract % self::MINUTES_PER_DAY));
     }
@@ -1507,8 +1498,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param LocalDate $date the date to combine with, not null
      * @return LocalDateTime LocalTime the local date-time formed from this time and the specified date, not null
      */
-    public
-    function atDate(LocalDate $date)
+    public function atDate(LocalDate $date)
     {
         return LocalDateTime::ofDateAndTime($date, $this);
     }
@@ -1592,8 +1582,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return bool true if this is after the specified time
      * @throws NullPointerException if {@code other} is null
      */
-    public
-    function isAfter(LocalTime $other)
+    public function isAfter(LocalTime $other)
     {
         return $this->compareTo($other) > 0;
     }
@@ -1607,8 +1596,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return true if this point is before the specified time
      * @throws NullPointerException if {@code other} is null
      */
-    public
-    function isBefore(LocalTime $other)
+    public function isBefore(LocalTime $other)
     {
         return $this->compareTo($other) < 0;
     }

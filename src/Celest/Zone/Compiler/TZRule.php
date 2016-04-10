@@ -40,7 +40,7 @@ class TZRule
      * Constructor.
      *
      * @param int $year the year
-     * @param Month $month  the month, not null
+     * @param Month $month the month, not null
      * @param int $dayOfMonthIndicator the day-of-month of the transition, adjusted by dayOfWeek,
      *   from 1 to 31 adjusted later, or -1 to -28 adjusted earlier from the last day of the month
      * @param |null $dayOfWeek DayOfWeek the day-of-week, null if day-of-month is exact
@@ -156,7 +156,7 @@ class TZRule
     function __toString()
     {
         return $this->year . '-' . $this->month . '-' . $this->dayOfMonthIndicator
-        . 'T'.  $this->time
+        . 'T' . $this->time
         . ' ' . $this->timeDefinition
         . ' ' . $this->savingAmountSecs
         . ' ' . $this->dayOfWeek

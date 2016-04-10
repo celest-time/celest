@@ -63,10 +63,10 @@
 
 namespace Celest;
 
-use Celest\Clocks\TickClock;
 use Celest\Clocks\FixedClock;
 use Celest\Clocks\OffsetClock;
 use Celest\Clocks\SystemClock;
+use Celest\Clocks\TickClock;
 
 /**
  * A clock providing access to the current instant, date and time using a time-zone.
@@ -242,7 +242,7 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      * It is equivalent to {@code tick(system(zone), Duration.ofMinutes(1))}.
      *
-     * @param ZoneId $zone  the time-zone to use to convert the instant to date-time, not null
+     * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that ticks in whole minutes using the specified zone, not null
      */
     public static function tickMinutes(ZoneId $zone)
@@ -274,7 +274,7 @@ abstract class Clock
      * providing that the base clock is.
      *
      * @param Clock $baseClock the base clock to base the ticking clock on, not null
-     * @param Duration $tickDuration  the duration of each visible tick, not negative, not null
+     * @param Duration $tickDuration the duration of each visible tick, not negative, not null
      * @return Clock clock that ticks in whole units of the duration, not null
      * @throws \InvalidArgumentException if the duration is negative, or has a
      *  part smaller than a whole millisecond such that the whole duration is not
@@ -312,7 +312,7 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}.
      *
      * @param Instant $fixedInstant the instant to use as the clock, not null
-     * @param ZoneId $zone  the time-zone to use to convert the instant to date-time, not null
+     * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that always returns the same instant, not null
      */
     public static function fixed(Instant $fixedInstant, ZoneId $zone)
@@ -336,7 +336,7 @@ abstract class Clock
      * The returned implementation is immutable, thread-safe and {@code Serializable}
      * providing that the base clock is.
      *
-     * @param Clock $baseClock  the base clock to add the duration to, not null
+     * @param Clock $baseClock the base clock to add the duration to, not null
      * @param Duration $offsetDuration the duration to add, not null
      * @return Clock clock based on the base clock with the duration added, not null
      */
@@ -424,7 +424,8 @@ abstract class Clock
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other clock
      */
-    public function equals(/** @noinspection PhpUnusedParameterInspection */ $obj)
+    public function equals(/** @noinspection PhpUnusedParameterInspection */
+        $obj)
     {
         return true;
     }

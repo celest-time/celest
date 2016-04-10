@@ -65,8 +65,8 @@
 namespace Celest\Temporal;
 
 use Celest\ArithmeticException;
-use Celest\Duration;
 use Celest\DateTimeException;
+use Celest\Duration;
 
 /**
  * A unit of date-time, such as Days or Hours.
@@ -162,7 +162,7 @@ interface TemporalUnit
      * This default implementation derives the value using
      * {@link Temporal#plus(long, TemporalUnit)}.
      *
-     * @param Temporal $temporal  the temporal object to check, not null
+     * @param Temporal $temporal the temporal object to check, not null
      * @return bool true if the unit is supported
      */
     public function isSupportedBy(Temporal $temporal);
@@ -196,7 +196,7 @@ interface TemporalUnit
      *
      * @param <R>  the type of the Temporal object
      * @param Temporal $temporal mixed the temporal object to adjust, not null
-     * @param int $amount  the amount of this unit to add, positive or negative
+     * @param int $amount the amount of this unit to add, positive or negative
      * @return mixed the adjusted temporal object, not null
      * @throws DateTimeException if the amount cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal

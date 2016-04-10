@@ -1,28 +1,28 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.  Oracle designates this
-     * particular file as subject to the "Classpath" exception as provided
-     * by Oracle in the LICENSE file that accompanied this code.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
@@ -105,7 +105,6 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  *        int year = date.get(ChronoField.YEAR);
  *        System.out.printf("  Today is %s %s %d-%s-%d%n", date.getChronology().getID(),
  *                dow, day, month, year);
-
  *        // Print today's date and the last day of the year
  *        ChronoLocalDate now1 = Chronology.of("Hijrah").dateNow();
  *        ChronoLocalDate first = now1.with(ChronoField.DAY_OF_MONTH, 1)
@@ -135,18 +134,20 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  * @param <D> the ChronoLocalDate of this date-time
  * @since 1.8
  */
-abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Temporal, TemporalAdjuster {
+abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Temporal, TemporalAdjuster
+{
 
     /**
      * Casts the {@code Temporal} to {@code ChronoLocalDate} ensuring it bas the specified chronology.
      *
-     * @param Chronology $chrono  the chronology to check for, not null
-     * @param Temporal $temporal  a date-time to cast, not null
+     * @param Chronology $chrono the chronology to check for, not null
+     * @param Temporal $temporal a date-time to cast, not null
      * @return static the date-time checked and cast to {@code ChronoLocalDate}, not null
      * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDate
      *  or the chronology is not equal this Chronology
      */
-    static function ensureValid(Chronology $chrono, Temporal $temporal) {
+    static function ensureValid(Chronology $chrono, Temporal $temporal)
+    {
         /** @var ChronoLocalDate $other */
         $other = $temporal;
         if ($chrono->equals($other->getChronology()) === false) {
@@ -162,17 +163,26 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static
      * @throws UnsupportedTemporalTypeException
      */
-    public function plus($amountToAdd, TemporalUnit $unit) {
+    public function plus($amountToAdd, TemporalUnit $unit)
+    {
         if ($unit instanceof CU) {
             switch ($unit) {
-                case CU::DAYS(): return $this->plusDays($amountToAdd);
-                case CU::WEEKS(): return $this->plusDays(Math::multiplyExact($amountToAdd, 7));
-                case CU::MONTHS(): return $this->plusMonths($amountToAdd);
-                case CU::YEARS(): return $this->plusYears($amountToAdd);
-                case CU::DECADES(): return $this->plusYears(Math::multiplyExact($amountToAdd, 10));
-                case CU::CENTURIES(): return $this->plusYears(Math::multiplyExact($amountToAdd, 100));
-                case CU::MILLENNIA(): return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
-                case CU::ERAS(): return $this->with(CF::ERA(), Math::addExact($this->getLong(CF::ERA()), $amountToAdd));
+                case CU::DAYS():
+                    return $this->plusDays($amountToAdd);
+                case CU::WEEKS():
+                    return $this->plusDays(Math::multiplyExact($amountToAdd, 7));
+                case CU::MONTHS():
+                    return $this->plusMonths($amountToAdd);
+                case CU::YEARS():
+                    return $this->plusYears($amountToAdd);
+                case CU::DECADES():
+                    return $this->plusYears(Math::multiplyExact($amountToAdd, 10));
+                case CU::CENTURIES():
+                    return $this->plusYears(Math::multiplyExact($amountToAdd, 100));
+                case CU::MILLENNIA():
+                    return $this->plusYears(Math::multiplyExact($amountToAdd, 1000));
+                case CU::ERAS():
+                    return $this->with(CF::ERA(), Math::addExact($this->getLong(CF::ERA()), $amountToAdd));
             }
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
         }
@@ -190,7 +200,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $yearsToAdd  the years to add, may be negative
+     * @param int $yearsToAdd the years to add, may be negative
      * @return static a date based on this one with the years added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -206,7 +216,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $monthsToAdd  the months to add, may be negative
+     * @param int $monthsToAdd the months to add, may be negative
      * @return static a date based on this one with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
@@ -223,11 +233,12 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $weeksToAdd  the weeks to add, may be negative
+     * @param int $weeksToAdd the weeks to add, may be negative
      * @return static a date based on this one with the weeks added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function plusWeeks($weeksToAdd) {
+    function plusWeeks($weeksToAdd)
+    {
         return $this->plusDays(Math::multiplyExact($weeksToAdd, 7));
     }
 
@@ -257,11 +268,12 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $yearsToSubtract  the years to subtract, may be negative
+     * @param int $yearsToSubtract the years to subtract, may be negative
      * @return static a date based on this one with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusYears($yearsToSubtract) {
+    function minusYears($yearsToSubtract)
+    {
         return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
 
@@ -277,11 +289,12 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $monthsToSubtract  the months to subtract, may be negative
+     * @param int $monthsToSubtract the months to subtract, may be negative
      * @return static a date based on this one with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusMonths($monthsToSubtract) {
+    function minusMonths($monthsToSubtract)
+    {
         return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
 
@@ -296,11 +309,12 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $weeksToSubtract  the weeks to subtract, may be negative
+     * @param int $weeksToSubtract the weeks to subtract, may be negative
      * @return static a date based on this one with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusWeeks($weeksToSubtract) {
+    function minusWeeks($weeksToSubtract)
+    {
         return ($weeksToSubtract === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeksToSubtract));
     }
 
@@ -313,38 +327,50 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $daysToSubtract  the days to subtract, may be negative
+     * @param int $daysToSubtract the days to subtract, may be negative
      * @return static a date based on this one with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusDays($daysToSubtract) {
+    function minusDays($daysToSubtract)
+    {
         return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
 
     //-----------------------------------------------------------------------
-    public function until(Temporal $endExclusive, TemporalUnit $unit) {
+    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    {
         $end = $this->getChronology()->dateFrom($endExclusive);
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
-            case CU::DAYS(): return $this->daysUntil($end);
-            case CU::WEEKS(): return $this->daysUntil($end) / 7;
-            case CU::MONTHS(): return $this->monthsUntil($end);
-            case CU::YEARS(): return $this->monthsUntil($end) / 12;
-            case CU::DECADES(): return $this->monthsUntil($end) / 120;
-            case CU::CENTURIES(): return $this->monthsUntil($end) / 1200;
-            case CU::MILLENNIA(): return $this->monthsUntil($end) / 12000;
-            case CU::ERAS(): return $end->getLong(CF::ERA()) - $this->getLong(CF::ERA());
+                case CU::DAYS():
+                    return $this->daysUntil($end);
+                case CU::WEEKS():
+                    return $this->daysUntil($end) / 7;
+                case CU::MONTHS():
+                    return $this->monthsUntil($end);
+                case CU::YEARS():
+                    return $this->monthsUntil($end) / 12;
+                case CU::DECADES():
+                    return $this->monthsUntil($end) / 120;
+                case CU::CENTURIES():
+                    return $this->monthsUntil($end) / 1200;
+                case CU::MILLENNIA():
+                    return $this->monthsUntil($end) / 12000;
+                case CU::ERAS():
+                    return $end->getLong(CF::ERA()) - $this->getLong(CF::ERA());
             }
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
         }
         return $unit->between($this, $end);
     }
 
-    private function daysUntil(ChronoLocalDate $end) {
+    private function daysUntil(ChronoLocalDate $end)
+    {
         return $end->toEpochDay() - $this->toEpochDay();  // no overflow
     }
 
-    private function monthsUntil(ChronoLocalDate $end) {
+    private function monthsUntil(ChronoLocalDate $end)
+    {
         $range = $this->getChronology()->range(CF::MONTH_OF_YEAR());
         if ($range->getMaximum() !== 12) {
             throw new \AssertionError("ChronoLocalDateImpl only supports Chronologies with 12 months per year");
@@ -354,7 +380,8 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         return ($packed2 - $packed1) / 32;
     }
 
-    public function equals($obj) {
+    public function equals($obj)
+    {
         if ($this === $obj) {
             return true;
         }
@@ -364,9 +391,10 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         return false;
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         // getLong() reduces chances of exceptions in toString()
-    $yoe = $this->getLong(CF::YEAR_OF_ERA());
+        $yoe = $this->getLong(CF::YEAR_OF_ERA());
         $moy = $this->getLong(CF::MONTH_OF_YEAR());
         $dom = $this->getLong(CF::DAY_OF_MONTH());
         return $this->getChronology()->__toString()
@@ -374,8 +402,8 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         . $this->getEra()
         . " "
         . $yoe
-        . ($moy < 10 ? "-0" : "-").$moy
-        . ($dom < 10 ? "-0" : "-").$dom;
+        . ($moy < 10 ? "-0" : "-") . $moy
+        . ($dom < 10 ? "-0" : "-") . $dom;
     }
 
 }

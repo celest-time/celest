@@ -163,9 +163,9 @@ final class ZoneRules
      *
      * @param ZoneOffset $baseStandardOffset the standard offset to use before legal rules were set, not null
      * @param ZoneOffset $baseWallOffset the wall offset to use before legal rules were set, not null
-     * @param ZoneOffsetTransition $standardOffsetTransitionList[] the list of changes to the standard offset, not null
-     * @param ZoneOffsetTransition $transitionList[] the list of transitions, not null
-     * @param ZoneOffsetTransitionRule $lastRules[] the recurring last rules, size 16 or less, not null
+     * @param ZoneOffsetTransition $standardOffsetTransitionList [] the list of changes to the standard offset, not null
+     * @param ZoneOffsetTransition $transitionList [] the list of transitions, not null
+     * @param ZoneOffsetTransitionRule $lastRules [] the recurring last rules, size 16 or less, not null
      * @return ZoneRules the zone rules, not null
      */
     public static function of(ZoneOffset $baseStandardOffset,
@@ -821,8 +821,7 @@ final class ZoneRules
      * @param mixed $otherRules the other rules, null returns false
      * @return bool true if this rules is the same as that specified
      */
-    public
-    function equals($otherRules)
+    public function equals($otherRules)
     {
         if ($this === $otherRules) {
             return true;
@@ -843,8 +842,7 @@ final class ZoneRules
      *
      * @return string a string for debugging, not null
      */
-    public
-    function __toString()
+    public function __toString()
     {
         return "ZoneRules[currentStandardOffset=" . $this->standardOffsets[count($this->standardOffsets) - 1] . "]";
     }

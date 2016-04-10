@@ -62,7 +62,6 @@
  */
 namespace Celest\Format;
 
-use Celest\ArithmeticException;
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\ChronoLocalDateTime;
 use Celest\Chrono\Chronology;
@@ -76,12 +75,11 @@ use Celest\Period;
 use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\FieldValues;
-use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\UnsupportedTemporalTypeException;
-use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
 
@@ -260,8 +258,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    private
-    function resolveFields()
+    private function resolveFields()
     {
         // resolve CF
         $this->resolveInstantFields();
@@ -326,8 +323,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function updateCheckConflict3(TemporalField $targetField, TemporalField $changeField, $changeValue)
+    private function updateCheckConflict3(TemporalField $targetField, TemporalField $changeField, $changeValue)
     {
         $old = $this->fieldValues->put($changeField, $changeValue);
 
@@ -339,8 +335,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    private
-    function resolveInstantFields()
+    private function resolveInstantFields()
     {
         // resolve parsed instant seconds to date and time if zone available
         if ($this->fieldValues->has(CF::INSTANT_SECONDS())) {
@@ -356,8 +351,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolveInstantFields0(ZoneId $selectedZone)
+    private function resolveInstantFields0(ZoneId $selectedZone)
     {
         $instant = Instant::ofEpochSecond($this->fieldValues->remove(CF::INSTANT_SECONDS()));
         $zdt = $this->chrono->zonedDateTime($instant, $selectedZone);
@@ -366,8 +360,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    private
-    function resolveDateFields()
+    private function resolveDateFields()
     {
         $this->updateCheckConflict1($this->chrono->resolveDate($this->fieldValues, $this->resolverStyle));
     }
@@ -376,8 +369,7 @@ final class Parsed extends AbstractTemporalAccessor
      * @param ChronoLocalDate|null $cld
      * @throws DateTimeException
      */
-    private
-    function updateCheckConflict1($cld)
+    private function updateCheckConflict1($cld)
     {
         if ($this->date != null) {
             if ($cld != null && $this->date->equals($cld) == false) {
@@ -392,8 +384,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    private
-    function resolveTimeFields()
+    private function resolveTimeFields()
     {
 // simplify fields
         if ($this->fieldValues->has(CF::CLOCK_HOUR_OF_DAY())) {
@@ -493,7 +484,7 @@ final class Parsed extends AbstractTemporalAccessor
 
 // convert to time if all four fields available (optimization)
         if ($this->fieldValues->has(CF::HOUR_OF_DAY()) && $this->fieldValues->has(CF::MINUTE_OF_HOUR()) &&
-        $this->fieldValues->has(CF::SECOND_OF_MINUTE()) && $this->fieldValues->has(CF::NANO_OF_SECOND())
+            $this->fieldValues->has(CF::SECOND_OF_MINUTE()) && $this->fieldValues->has(CF::NANO_OF_SECOND())
         ) {
             $hod = $this->fieldValues->remove(CF::HOUR_OF_DAY());
             $moh = $this->fieldValues->remove(CF::MINUTE_OF_HOUR());
@@ -504,8 +495,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolveTimeLenient()
+    private function resolveTimeLenient()
     {
 // leniently create a time from incomplete information
 // done after everything else as it creates information from nothing
@@ -568,8 +558,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolveTime($hod, $moh, $som, $nos)
+    private function resolveTime($hod, $moh, $som, $nos)
     {
         if ($this->resolverStyle == ResolverStyle::LENIENT()) {
             $totalNanos = Math::multiplyExact($hod, 3600000000000);
@@ -593,8 +582,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolvePeriod()
+    private function resolvePeriod()
     {
 // add whole days if we have both date and time
         if ($this->date != null && $this->time != null && $this->excessDays->isZero() == false) {
@@ -603,8 +591,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolveFractional()
+    private function resolveFractional()
     {
 // ensure fractional seconds available as CF requires
 // resolveTimeLenient() will have merged CF::MICRO_OF_SECOND()/MILLI_OF_SECOND to NANO_OF_SECOND
@@ -625,8 +612,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function resolveInstant()
+    private function resolveInstant()
     {
 // add instant seconds if we have date, time and zone
         if ($this->date !== null && $this->time !== null) {
@@ -644,8 +630,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function updateCheckConflict(LocalTime $timeToSet, Period $periodToSet)
+    private function updateCheckConflict(LocalTime $timeToSet, Period $periodToSet)
     {
         if ($this->time != null) {
             if ($this->time->equals($timeToSet) == false) {
@@ -663,8 +648,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    private
-    function crossCheck()
+    private function crossCheck()
     {
 // only cross-check date, time and date-time
 // avoid object creation if possible
@@ -679,8 +663,7 @@ final class Parsed extends AbstractTemporalAccessor
         }
     }
 
-    private
-    function crossCheck1(TemporalAccessor $target)
+    private function crossCheck1(TemporalAccessor $target)
     {
         foreach ($this->fieldValues as $field => $entry) {
             /** @var CF $field */

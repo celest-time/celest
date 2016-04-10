@@ -59,12 +59,12 @@
 namespace Celest\Temporal;
 
 use Celest\DateTimeParseException;
-use Celest\LocalDateTime;
-use Celest\Temporal\ChronoField as CF;
 use Celest\DayOfWeek;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\ResolverStyle;
 use Celest\LocalDate;
+use Celest\LocalDateTime;
+use Celest\Temporal\ChronoField as CF;
 
 /**
  * Test.
@@ -223,8 +223,7 @@ class TCKIsoFieldsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_parseLenientQuarter
      */
-    public
-    function test_parse_parseLenientQuarter_SMART($str, LocalDate $expected, $smart)
+    public function test_parse_parseLenientQuarter_SMART($str, LocalDate $expected, $smart)
     {
         $f = (new DateTimeFormatterBuilder())
             ->appendValue(CF::YEAR())->appendLiteral(':')
@@ -306,8 +305,7 @@ class TCKIsoFieldsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_quartersBetween
      */
-    public
-    function test_quarters_between_until(LocalDate $start, Temporal $end, $expected)
+    public function test_quarters_between_until(LocalDate $start, Temporal $end, $expected)
     {
         $this->assertEquals($start->until($end, IsoFields::QUARTER_YEARS()), $expected);
     }
@@ -339,16 +337,14 @@ class TCKIsoFieldsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_week
      */
-    public
-    function test_WOWBY(LocalDate $date, DayOfWeek $dow, $week, $wby)
+    public function test_WOWBY(LocalDate $date, DayOfWeek $dow, $week, $wby)
     {
         $this->assertEquals($date->getDayOfWeek(), $dow);
         $this->assertEquals(IsoFields::WEEK_OF_WEEK_BASED_YEAR()->getFrom($date), $week);
         $this->assertEquals($date->get(IsoFields::WEEK_OF_WEEK_BASED_YEAR()), $week);
     }
 
-    public
-    function test_WOWBY_basics()
+    public function test_WOWBY_basics()
     {
         $this->assertEquals(IsoFields::WEEK_OF_WEEK_BASED_YEAR()->isDateBased(), true);
         $this->assertEquals(IsoFields::WEEK_OF_WEEK_BASED_YEAR()->isTimeBased(), false);
@@ -360,8 +356,7 @@ class TCKIsoFieldsTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_week
      */
-    public
-    function test_WBY(LocalDate $date, DayOfWeek $dow, $week, $wby)
+    public function test_WBY(LocalDate $date, DayOfWeek $dow, $week, $wby)
     {
         $this->assertEquals($date->getDayOfWeek(), $dow);
         $this->assertEquals(IsoFields::WEEK_BASED_YEAR()->getFrom($date), $wby);

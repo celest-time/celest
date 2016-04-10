@@ -132,8 +132,9 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      */
     const MAX_VALUE = 999999999;
 
-    private static function PARSER() {
-        if(self::$PARSER === null) {
+    private static function PARSER()
+    {
+        if (self::$PARSER === null) {
             self::$PARSER = (new DateTimeFormatterBuilder())
                 ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
                 ->toFormatter();
@@ -197,8 +198,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @param Clock $clock the clock to use, not null
      * @return Year the current year, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         $now = LocalDate::nowOf($clock);  // called once
         return Year::of($now->getYear());
@@ -219,8 +219,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @return Year the year, not null
      * @throws DateTimeException if the field is invalid
      */
-    public
-    static function of($isoYear)
+    public static function of($isoYear)
     {
         ChronoField::YEAR()->checkValidValue($isoYear);
         return new Year($isoYear);
@@ -245,8 +244,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @return Year the year, not null
      * @throws DateTimeException if unable to convert to a {@code Year}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof Year) {
             return $temporal;
@@ -292,8 +290,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @return Year the parsed year, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         if (!is_string($text)) {
             throw new \InvalidArgumentException();
@@ -345,8 +342,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      *
      * @return Year the year, {@code MIN_VALUE} to {@code MAX_VALUE}
      */
-    public
-    function getValue()
+    public function getValue()
     {
         return $this->year;
     }
@@ -558,8 +554,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @param MonthDay|null $monthDay the month-day to validate, null returns false
      * @return true if the month and day are valid for this year
      */
-    public
-    function isValidMonthDay($monthDay)
+    public function isValidMonthDay($monthDay)
     {
         return $monthDay != null && $monthDay->isValidYear($this->year);
     }
@@ -569,8 +564,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      *
      * @return int the length of this year in days, 365 or 366
      */
-    public
-    function length()
+    public function length()
     {
         return $this->isLeap() ? 366 : 365;
     }
@@ -831,8 +825,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @return Year a {@code Year} based on this year with the year subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public
-    function minusYears($yearsToSubtract)
+    public function minusYears($yearsToSubtract)
     {
         return ($yearsToSubtract == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
@@ -999,8 +992,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @throws DateTimeException if the day of year is zero or less, 366 or greater or equal
      *  to 366 and this is not a leap year
      */
-    public
-    function atDay($dayOfYear)
+    public function atDay($dayOfYear)
     {
         return LocalDate::ofYearDay($this->year, $dayOfYear);
     }
@@ -1019,8 +1011,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @param Month $month the month-of-year to use, not null
      * @return YearMonth Year the year-month formed from this year and the specified month, not null
      */
-    public
-    function atMonth(Month $month)
+    public function atMonth(Month $month)
     {
         return YearMonth::ofMonth($this->year, $month);
     }
@@ -1040,8 +1031,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @return YearMonth Year the year-month formed from this year and the specified month, not null
      * @throws DateTimeException if the month is invalid
      */
-    public
-    function atMonthNumerical($month)
+    public function atMonthNumerical($month)
     {
         return YearMonth::of($this->year, $month);
     }
@@ -1057,8 +1047,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * @param MonthDay $monthDay the month-day to use, not null
      * @return LocalDate the local date formed from this year and the specified month-day, not null
      */
-    public
-    function atMonthDay(MonthDay $monthDay)
+    public function atMonthDay(MonthDay $monthDay)
     {
         return $monthDay->atYear($this->year);
     }

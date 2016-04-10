@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Locale;
@@ -206,8 +207,9 @@ final class DateTimeParseContext
     /** @var \Transliterator */
     private static $to_upper;
 
-    private static function toUpperMb($str) {
-        if(self::$to_upper === null)
+    private static function toUpperMb($str)
+    {
+        if (self::$to_upper === null)
             self::$to_upper = \Transliterator::create('Any-Upper');
         return self::$to_upper->transliterate($str);
     }
@@ -215,8 +217,9 @@ final class DateTimeParseContext
     /** @var \Transliterator */
     private static $to_lower;
 
-    private static function toLowerMb($str) {
-        if(self::$to_lower === null)
+    private static function toLowerMb($str)
+    {
+        if (self::$to_lower === null)
             self::$to_lower = \Transliterator::create('Any-Lower');
         return self::$to_lower->transliterate($str);
     }
@@ -338,8 +341,7 @@ final class DateTimeParseContext
      *
      * @return Parsed the current temporal objects, not null
      */
-    private
-    function currentParsed()
+    private function currentParsed()
     {
         return end($this->parsed);
     }
@@ -418,7 +420,7 @@ final class DateTimeParseContext
      *
      * @param Chronology $chrono the parsed chronology, not null
      */
-    public function  setParsed(Chronology $chrono)
+    public function setParsed(Chronology $chrono)
     {
         $this->currentParsed()->chrono = $chrono;
         if ($this->chronoListeners !== null && !empty($this->chronoListeners)) {
@@ -436,7 +438,7 @@ final class DateTimeParseContext
      * if the Chronology changes.
      * @param callable $listener a Consumer<Chronology> to be called when Chronology changes
      */
-    public function  addChronoChangedListener($listener)
+    public function addChronoChangedListener($listener)
     {
         if ($this->chronoListeners === null) {
             $this->chronoListeners = [];
@@ -461,8 +463,7 @@ final class DateTimeParseContext
     /**
      * Stores the parsed leap second.
      */
-    public
-    function setParsedLeapSecond()
+    public function setParsedLeapSecond()
     {
         $this->currentParsed()->leapSecond = true;
     }
@@ -473,8 +474,7 @@ final class DateTimeParseContext
      *
      * @return string a string representation of the context data, not null
      */
-    public
-    function __toString()
+    public function __toString()
     {
         return $this->currentParsed()->__toString();
     }

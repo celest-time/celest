@@ -1,28 +1,28 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.  Oracle designates this
-     * particular file as subject to the "Classpath" exception as provided
-     * by Oracle in the LICENSE file that accompanied this code.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
@@ -56,6 +56,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Chrono;
+
 use Celest\Clock;
 use Celest\DateTimeException;
 use Celest\LocalDate;
@@ -92,13 +93,15 @@ use Celest\ZoneId;
  *
  * @since 1.8
  */
-final class MinguoChronology extends AbstractChronology {
+final class MinguoChronology extends AbstractChronology
+{
 
     /**
      * Singleton instance for the Minguo chronology.
      */
-    public static function INSTANCE() {
-      return new MinguoChronology();
+    public static function INSTANCE()
+    {
+        return new MinguoChronology();
     }
 
     /**
@@ -109,7 +112,8 @@ final class MinguoChronology extends AbstractChronology {
     /**
      * Restricted constructor.
      */
-    protected function __construct() {
+    protected function __construct()
+    {
     }
 
     //-----------------------------------------------------------------------
@@ -122,7 +126,8 @@ final class MinguoChronology extends AbstractChronology {
      * @return string the chronology ID - 'Minguo'
      * @see #getCalendarType()
      */
-    public function getId() {
+    public function getId()
+    {
         return "Minguo";
     }
 
@@ -138,7 +143,8 @@ final class MinguoChronology extends AbstractChronology {
      * @return string the calendar system type - 'roc'
      * @see #getId()
      */
-    public function getCalendarType() {
+    public function getCalendarType()
+    {
         return "roc";
     }
 
@@ -147,89 +153,98 @@ final class MinguoChronology extends AbstractChronology {
      * Obtains a local date in Minguo calendar system from the
      * era, year-of-era, month-of-year and day-of-month fields.
      *
-     * @param Era $era  the Minguo era, not null
-     * @param int $yearOfEra  the year-of-era
-     * @param int $month  the month-of-year
-     * @param int $dayOfMonth  the day-of-month
+     * @param Era $era the Minguo era, not null
+     * @param int $yearOfEra the year-of-era
+     * @param int $month the month-of-year
+     * @param int $dayOfMonth the day-of-month
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
-    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth) {
-    return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
-}
+    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    {
+        return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
+    }
 
     /**
      * Obtains a local date in Minguo calendar system from the
      * proleptic-year, month-of-year and day-of-month fields.
      *
-     * @param int $prolepticYear  the proleptic-year
-     * @param int $month  the month-of-year
-     * @param int $dayOfMonth  the day-of-month
+     * @param int $prolepticYear the proleptic-year
+     * @param int $month the month-of-year
+     * @param int $dayOfMonth the day-of-month
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function date($prolepticYear, $month, $dayOfMonth) {
-    return MinguoDate::ofIsoDate(LocalDate::of($prolepticYear + self::YEARS_DIFFERENCE, $month, $dayOfMonth));
-}
+    public function date($prolepticYear, $month, $dayOfMonth)
+    {
+        return MinguoDate::ofIsoDate(LocalDate::of($prolepticYear + self::YEARS_DIFFERENCE, $month, $dayOfMonth));
+    }
 
     /**
      * Obtains a local date in Minguo calendar system from the
      * era, year-of-era and day-of-year fields.
      *
-     * @param Era $era  the Minguo era, not null
-     * @param int $yearOfEra  the year-of-era
-     * @param int $dayOfYear  the day-of-year
+     * @param Era $era the Minguo era, not null
+     * @param int $yearOfEra the year-of-era
+     * @param int $dayOfYear the day-of-year
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
-    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear) {
-    return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
-}
+    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    {
+        return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
+    }
 
     /**
      * Obtains a local date in Minguo calendar system from the
      * proleptic-year and day-of-year fields.
      *
-     * @param int $prolepticYear  the proleptic-year
-     * @param int $dayOfYear  the day-of-year
+     * @param int $prolepticYear the proleptic-year
+     * @param int $dayOfYear the day-of-year
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateYearDay($prolepticYear, $dayOfYear) {
-    return MinguoDate::ofIsoDate(LocalDate::ofYearDay($prolepticYear + self::YEARS_DIFFERENCE, $dayOfYear));
-}
+    public function dateYearDay($prolepticYear, $dayOfYear)
+    {
+        return MinguoDate::ofIsoDate(LocalDate::ofYearDay($prolepticYear + self::YEARS_DIFFERENCE, $dayOfYear));
+    }
 
     /**
      * Obtains a local date in the Minguo calendar system from the epoch-day.
      *
-     * @param int $epochDay  the epoch day
+     * @param int $epochDay the epoch day
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateEpochDay($epochDay) {
-    return MinguoDate::ofIsoDate(LocalDate::ofEpochDay($epochDay));
-}
+    public function dateEpochDay($epochDay)
+    {
+        return MinguoDate::ofIsoDate(LocalDate::ofEpochDay($epochDay));
+    }
 
-    public function dateNow() {
+    public function dateNow()
+    {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
-    public function dateNowIn(ZoneId $zone) {
-    return $this->dateNowOf(Clock::system($zone));
-}
+    public function dateNowIn(ZoneId $zone)
+    {
+        return $this->dateNowOf(Clock::system($zone));
+    }
 
-    public function dateNowOf(Clock $clock) {
-    return $this->dateFrom(LocalDate::nowof($clock));
-}
+    public function dateNowOf(Clock $clock)
+    {
+        return $this->dateFrom(LocalDate::nowof($clock));
+    }
 
-    public function dateFrom(TemporalAccessor $temporal) {
-    if ($temporal instanceof MinguoDate) {
-        return $temporal;
+    public function dateFrom(TemporalAccessor $temporal)
+    {
+        if ($temporal instanceof MinguoDate) {
+            return $temporal;
         }
-    return MinguoDate::ofIsoDate(LocalDate::from($temporal));
-}
+        return MinguoDate::ofIsoDate(LocalDate::from($temporal));
+    }
 
     //-----------------------------------------------------------------------
     /**
@@ -239,44 +254,49 @@ final class MinguoChronology extends AbstractChronology {
      * This method does not validate the year passed in, and only has a
      * well-defined result for years in the supported range.
      *
-     * @param int $prolepticYear  the proleptic-year to check, not validated for range
+     * @param int $prolepticYear the proleptic-year to check, not validated for range
      * @return true if the year is a leap year
      */
-    public function isLeapYear($prolepticYear) {
-    return IsoChronology::INSTANCE()->isLeapYear($prolepticYear + self::YEARS_DIFFERENCE);
-}
-
-    public function prolepticYear(Era $era, $yearOfEra) {
-    if ($era instanceof MinguoEra === false) {
-        throw new ClassCastException("Era must be MinguoEra");
+    public function isLeapYear($prolepticYear)
+    {
+        return IsoChronology::INSTANCE()->isLeapYear($prolepticYear + self::YEARS_DIFFERENCE);
     }
-    return ($era == MinguoEra::ROC() ? $yearOfEra : 1 - $yearOfEra);
-}
 
-    public function eraOf($eraValue) {
-    return MinguoEra::of($eraValue);
-}
+    public function prolepticYear(Era $era, $yearOfEra)
+    {
+        if ($era instanceof MinguoEra === false) {
+            throw new ClassCastException("Era must be MinguoEra");
+        }
+        return ($era == MinguoEra::ROC() ? $yearOfEra : 1 - $yearOfEra);
+    }
 
-    public function eras() {
+    public function eraOf($eraValue)
+    {
+        return MinguoEra::of($eraValue);
+    }
+
+    public function eras()
+    {
         return MinguoEra::values();
     }
 
     //-----------------------------------------------------------------------
-    public function range(ChronoField $field) {
-    switch ($field) {
-        case ChronoField::PROLEPTIC_MONTH(): {
-            $range = ChronoField::PROLEPTIC_MONTH()->range();
+    public function range(ChronoField $field)
+    {
+        switch ($field) {
+            case ChronoField::PROLEPTIC_MONTH(): {
+                $range = ChronoField::PROLEPTIC_MONTH()->range();
                 return ValueRange::of($range->getMinimum() - self::YEARS_DIFFERENCE * 12, $range->getMaximum() - self::YEARS_DIFFERENCE * 12);
             }
-        case ChronoField::YEAR_OF_ERA(): {
-            $range = ChronoField::YEAR()->range();
+            case ChronoField::YEAR_OF_ERA(): {
+                $range = ChronoField::YEAR()->range();
                 return ValueRange::ofVariable(1, $range->getMaximum() - self::YEARS_DIFFERENCE, -$range->getMinimum() + 1 + self::YEARS_DIFFERENCE);
             }
-        case ChronoField::YEAR(): {
-            $range = ChronoField::YEAR()->range();
+            case ChronoField::YEAR(): {
+                $range = ChronoField::YEAR()->range();
                 return ValueRange::of($range->getMinimum() - self::YEARS_DIFFERENCE, $range->getMaximum() - self::YEARS_DIFFERENCE);
             }
+        }
+        return $field->range();
     }
-    return $field->range();
-}
 }

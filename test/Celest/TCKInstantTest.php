@@ -220,8 +220,7 @@ class TCKInstantTest extends AbstractDateTimeTest
 // ofEpochSecond(long,long)
 //-----------------------------------------------------------------------
 
-    public
-    function test_factory_seconds_long_long()
+    public function test_factory_seconds_long_long()
     {
         for ($i = -2; $i <= 2; $i++) {
             for ($j = 0; $j < 10; $j++) {
@@ -452,14 +451,12 @@ class TCKInstantTest extends AbstractDateTimeTest
      * @dataProvider data_query
      */
 
-    public
-    function test_queryFrom(TemporalAccessor $temporal, TemporalQuery $query, $expected)
+    public function test_queryFrom(TemporalAccessor $temporal, TemporalQuery $query, $expected)
     {
         $this->assertEquals($query->queryFrom($temporal), $expected);
     }
 
-    public
-    function test_query_null()
+    public function test_query_null()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_12345123456789()->query(null);
@@ -492,8 +489,7 @@ class TCKInstantTest extends AbstractDateTimeTest
      * @dataProvider data_adjustInto
      */
 
-    public
-    function test_adjustInto(Instant $test, $temporal, $expected, $expectedEx)
+    public function test_adjustInto(Instant $test, $temporal, $expected, $expectedEx)
     {
         if ($expectedEx === null) {
             $result = $test->adjustInto($temporal);
@@ -1573,8 +1569,7 @@ class TCKInstantTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\ArithmeticException
      */
-    public
-    function test_minusSeconds_long_overflowTooSmall()
+    public function test_minusSeconds_long_overflowTooSmall()
     {
         $i = Instant::ofEpochSecond(-2, 0);
         $i->minusSeconds(Long::MAX_VALUE);

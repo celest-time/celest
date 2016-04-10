@@ -2,11 +2,11 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\Format\TextStyle;
-use Celest\Format\DateTimePrintContext;
-use Celest\Temporal\ChronoField;
-use Celest\Helper\Math;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
+use Celest\Format\TextStyle;
+use Celest\Helper\Math;
+use Celest\Temporal\ChronoField;
 
 /**
  * Prints or parses an offset ID.
@@ -26,8 +26,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         $this->style = $style;
     }
 
-    private
-    static function appendHMS(&$buf, $t)
+    private static function appendHMS(&$buf, $t)
     {
         $buf .= Math::div($t, 10) . ($t % 10);
     }
@@ -49,29 +48,29 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
             $absMinutes = Math::abs(($totalSecs / 60) % 60);
             $absSeconds = Math::abs($totalSecs % 60);
             $buf .= $totalSecs < 0 ? "-" : "+";
-                if ($this->style == TextStyle::FULL()) {
-                    $this->appendHMS($buf, $absHours);
+            if ($this->style == TextStyle::FULL()) {
+                $this->appendHMS($buf, $absHours);
+                $buf .= ':';
+                $this->appendHMS($buf, $absMinutes);
+                if ($absSeconds != 0) {
+                    $buf .= ':';
+                    $this->appendHMS($buf, $absSeconds);
+                }
+            } else {
+                if ($absHours >= 10) {
+                    $buf .= Math::div($absHours, 10);
+                }
+                $buf .= ($absHours % 10);
+                if ($absMinutes != 0 || $absSeconds != 0) {
                     $buf .= ':';
                     $this->appendHMS($buf, $absMinutes);
                     if ($absSeconds != 0) {
                         $buf .= ':';
-                        $this->appendHMS($buf, $absSeconds);
-                    }
-                } else {
-                    if ($absHours >= 10) {
-                        $buf .= Math::div($absHours, 10);
-                    }
-                    $buf .= ($absHours % 10);
-                    if ($absMinutes != 0 || $absSeconds != 0) {
-                        $buf .= ':';
-                        $this->appendHMS($buf, $absMinutes);
-                        if ($absSeconds != 0) {
-                            $buf .= ':';
-                            self::appendHMS($buf, $absSeconds);
-                        }
+                        self::appendHMS($buf, $absSeconds);
                     }
                 }
             }
+        }
         return true;
     }
 

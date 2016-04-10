@@ -63,7 +63,6 @@ namespace Celest\Format\Builder;
 use Celest\Format\ParsePosition;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalQueries;
-use RuntimeException;
 
 /**
  * Test StringLiteralPrinterParser.

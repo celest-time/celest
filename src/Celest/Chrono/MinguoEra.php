@@ -1,28 +1,28 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.  Oracle designates this
-     * particular file as subject to the "Classpath" exception as provided
-     * by Oracle in the LICENSE file that accompanied this code.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * This file is available under and governed by the GNU General Public
@@ -62,6 +62,7 @@
  */
 
 namespace Celest\Chrono;
+
 use Celest\DateTimeException;
 
 /**
@@ -105,21 +106,25 @@ use Celest\DateTimeException;
  *
  * @since 1.8
  */
-final class MinguoEra extends AbstractEra implements Era {
+final class MinguoEra extends AbstractEra implements Era
+{
     /**
      * The singleton instance for the era before the current one, 'Before Republic of China Era',
      * which has the numeric value 0.
      * @return MinguoEra
      */
-    public static function BEFORE_ROC() {
+    public static function BEFORE_ROC()
+    {
         return new MinguoEra(0);
     }
+
     /**
      * The singleton instance for the current era, 'Republic of China Era',
      * which has the numeric value 1.
      * @return MinguoEra
      */
-    public static function ROC() {
+    public static function ROC()
+    {
         return new MinguoEra(1);
     }
 
@@ -137,11 +142,12 @@ final class MinguoEra extends AbstractEra implements Era {
      * {@code MinguoEra} is an enum representing the Minguo eras of BEFORE_ROC/ROC.
      * This factory allows the enum to be obtained from the {@code int} value.
      *
-     * @param int $minguoEra  the BEFORE_ROC/ROC value to represent, from 0 (BEFORE_ROC) to 1 (ROC)
+     * @param int $minguoEra the BEFORE_ROC/ROC value to represent, from 0 (BEFORE_ROC) to 1 (ROC)
      * @return MinguoEra the era singleton, not null
      * @throws DateTimeException if the value is invalid
      */
-    public static function of($minguoEra) {
+    public static function of($minguoEra)
+    {
         switch ($minguoEra) {
             case 0:
                 return self::BEFORE_ROC();
@@ -160,7 +166,8 @@ final class MinguoEra extends AbstractEra implements Era {
      *
      * @return int the era value, from 0 (BEFORE_ROC) to 1 (ROC)
      */
-    public function getValue() {
+    public function getValue()
+    {
         return $this->ordinal;
     }
 

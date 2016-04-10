@@ -208,8 +208,7 @@ class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_getters_floatingWeekBackwards()
+    public function test_getters_floatingWeekBackwards()
     {
         $test = ZoneOffsetTransitionRule::of(
             Month::MARCH(), -1, DayOfWeek::SUNDAY(), self::TIME_0100(), false, TimeDefinition::WALL(),

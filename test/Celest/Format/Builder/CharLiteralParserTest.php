@@ -110,9 +110,8 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
     /**
      * @dataProvider provider_dataSuccess
      */
-    public
-    function test_parse_success($c, $caseSensitive,
-                                $text, $pos, $expectedPos)
+    public function test_parse_success($c, $caseSensitive,
+                                       $text, $pos, $expectedPos)
     {
         $this->setCaseSensitive($caseSensitive);
         $ppos = new ParsePosition($pos);
@@ -128,8 +127,7 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_dataError()
+    public function provider_dataError()
     {
         return [
             [
@@ -142,8 +140,7 @@ class CharLiteralParserTest extends AbstractTestPrinterParser
     /**
      * @dataProvider provider_dataError
      */
-    public
-    function test_parse_error($c, $text, $pos, $expected)
+    public function test_parse_error($c, $text, $pos, $expected)
     {
         try {
             $ppos = new ParsePosition($pos);

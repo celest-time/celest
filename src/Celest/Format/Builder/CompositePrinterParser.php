@@ -1,6 +1,7 @@
 <?php
 
 namespace Celest\Format\Builder;
+
 use Celest\Format\DateTimePrintContext;
 use Celest\Format\DateTimeParseContext;
 
@@ -92,7 +93,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
             }
 
             $buf .= $this->optional ? "]" : ")";
-            }
+        }
         return $buf;
     }
 }

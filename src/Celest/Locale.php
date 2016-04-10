@@ -15,7 +15,8 @@ class Locale
         ]));
     }
 
-    private function __construct($locale) {
+    private function __construct($locale)
+    {
         $this->locale = $locale;
     }
 

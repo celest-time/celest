@@ -9,13 +9,13 @@
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
-          <root url="phar://$MODULE_DIR$/apigen.phar/" />
           <root url="phar://$MODULE_DIR$/sami.phar/" />
+          <root url="phar://$MODULE_DIR$/apigen.phar/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="phar://$MODULE_DIR$/apigen.phar/" />
           <root url="phar://$MODULE_DIR$/sami.phar/" />
+          <root url="phar://$MODULE_DIR$/apigen.phar/" />
         </SOURCES>
       </library>
     </orderEntry>

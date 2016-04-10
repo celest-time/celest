@@ -287,7 +287,7 @@ interface Temporal extends TemporalAccessor
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
      * @param int $amountToAdd the amount of the specified unit to add, may be negative
-     * @param TemporalUnit $unit  the unit of the amount to add, not null
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return Temporal an object of the same type with the specified period added, not null
      * @throws DateTimeException if the unit cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported

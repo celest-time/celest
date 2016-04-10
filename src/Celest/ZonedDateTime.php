@@ -63,7 +63,6 @@
 namespace Celest;
 
 use Celest\Chrono\AbstractChronoZonedDateTime;
-use Celest\Chrono\Chronology;
 use Celest\Chrono\ChronoZonedDateTime;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
@@ -216,8 +215,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param Clock $clock the clock to use, not null
      * @return ZonedDateTime the current date-time, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone());
@@ -250,11 +248,10 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the offset date-time, not null
      */
-    public
-    static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone)
+    public static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone)
     {
         return self::ofDateTime(LocalDateTime::ofDateAndTime($date, $time), $zone);
-}
+    }
 
     /**
      * Obtains an instance of {@code ZonedDateTime} from a local date-time.
@@ -280,8 +277,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public
-    static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone)
+    public static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone)
     {
         return self::ofLocal($localDateTime, $zone, null);
     }
@@ -326,8 +322,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @throws DateTimeException if the value of any field is out of range, or
      *  if the day-of-month is invalid for the month-year
      */
-    public
-    static function of(
+    public static function of(
         $year, $month, $dayOfMonth,
         $hour, $minute, $second, $nanoOfSecond, ZoneId $zone)
     {
@@ -358,8 +353,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param ZoneOffset|null $preferredOffset the zone offset, null if no preference
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public
-    static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, $preferredOffset)
+    public static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, $preferredOffset)
     {
         if ($zone instanceof ZoneOffset) {
             return new ZonedDateTime($localDateTime, $zone, $zone);
@@ -380,7 +374,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
                 $offset = $preferredOffset;
             } else {
                 $offset = $validOffsets[0];  // protect against bad ZoneRules
-                if($offset === null)
+                if ($offset === null)
                     throw new \InvalidArgumentException('offset');
             }
         }
@@ -427,8 +421,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public
-    static function ofInstantWithOffset(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    public static function ofInstantWithOffset(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
         if ($zone->getRules()->isValidOffset($localDateTime, $offset)) {
             return new ZonedDateTime($localDateTime, $offset, $zone);
@@ -471,8 +464,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException
      */
-    public
-    static function ofStrict(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    public static function ofStrict(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
         $rules = $zone->getRules();
         if ($rules->isValidOffset($localDateTime, $offset) == false) {
@@ -513,8 +505,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime the zoned date-time, not null
      * @throws IllegalArgumentException
      */
-    private
-    static function ofLenient(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    private static function ofLenient(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
         if ($zone instanceof ZoneOffset && $offset->equals($zone) == false) {
             throw new IllegalArgumentException("ZoneId must match ZoneOffset");
@@ -546,8 +537,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if unable to convert to an {@code ZonedDateTime}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof ZonedDateTime) {
             return $temporal;
@@ -597,8 +587,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime the parsed zoned date-time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([ZonedDateTime::class, 'from']));
     }
@@ -648,7 +637,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @param ZoneOffset $offset the offset, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    private function  resolveOffset(ZoneOffset $offset)
+    private function resolveOffset(ZoneOffset $offset)
     {
         if ($offset->equals($this->offset) == false && $this->zone->getRules()->isValidOffset($this->dateTime, $offset)) {
             return new ZonedDateTime($this->dateTime, $offset, $this->zone);
@@ -1064,8 +1053,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public
-    function getYear()
+    public function getYear()
     {
         return $this->dateTime->getYear();
     }
@@ -1080,8 +1068,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return int the month-of-year, from 1 to 12
      * @see #getMonth()
      */
-    public
-    function getMonthValue()
+    public function getMonthValue()
     {
         return $this->dateTime->getMonthValue();
     }
@@ -1382,8 +1369,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public
-    function withMonth($month)
+    public function withMonth($month)
     {
         return $this->resolveLocal($this->dateTime->withMonth($month));
     }
@@ -1407,8 +1393,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    function withDayOfMonth($dayOfMonth)
+    public function withDayOfMonth($dayOfMonth)
     {
         return $this->resolveLocal($this->dateTime->withDayOfMonth($dayOfMonth));
     }
@@ -1687,8 +1672,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function plusMonths($months)
+    public function plusMonths($months)
     {
         return $this->resolveLocal($this->dateTime->plusMonths($months));
     }
@@ -1914,8 +1898,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusYears($years)
+    public function minusYears($years)
     {
         return ($years == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
@@ -1938,8 +1921,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusMonths($months)
+    public function minusMonths($months)
     {
         return ($months == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
@@ -1962,8 +1944,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusWeeks($weeks)
+    public function minusWeeks($weeks)
     {
         return ($weeks == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
@@ -1986,8 +1967,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusDays($days)
+    public function minusDays($days)
     {
         return ($days == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
@@ -2017,8 +1997,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the hours subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusHours($hours)
+    public function minusHours($hours)
     {
         return ($hours == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
     }
@@ -2037,8 +2016,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the minutes subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusMinutes($minutes)
+    public function minusMinutes($minutes)
     {
         return ($minutes == Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
     }
@@ -2057,8 +2035,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the seconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusSeconds($seconds)
+    public function minusSeconds($seconds)
     {
         return ($seconds == Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
     }
@@ -2077,8 +2054,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the nanoseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusNanos($nanos)
+    public function minusNanos($nanos)
     {
         return ($nanos == Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
     }
@@ -2214,8 +2190,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      *
      * @return OffsetDateTime an offset date-time representing the same local date-time and offset, not null
      */
-    public
-    function toOffsetDateTime()
+    public function toOffsetDateTime()
     {
         return OffsetDateTime::ofDateTime($this->dateTime, $this->offset);
     }

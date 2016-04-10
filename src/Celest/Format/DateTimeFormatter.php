@@ -79,7 +79,6 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalQuery\FuncTemporalQuery;
 use Celest\ZoneId;
-use RuntimeException;
 
 /**
  * Formatter for printing and parsing date-time objects.
@@ -548,8 +547,7 @@ class DateTimeFormatter
      * @throws IllegalArgumentException if the pattern is invalid
      * @see DateTimeFormatterBuilder#appendPattern(String)
      */
-    public
-    static function ofPatternLocale($pattern, Locale $locale)
+    public static function ofPatternLocale($pattern, Locale $locale)
     {
         return (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter2($locale);
     }
@@ -577,8 +575,7 @@ class DateTimeFormatter
      * @param FormatStyle $dateStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the date formatter, not null
      */
-    public
-    static function ofLocalizedDate(FormatStyle $dateStyle)
+    public static function ofLocalizedDate(FormatStyle $dateStyle)
     {
         return (new DateTimeFormatterBuilder())->appendLocalized($dateStyle, null)
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
@@ -606,8 +603,7 @@ class DateTimeFormatter
      * @param FormatStyle $timeStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the time formatter, not null
      */
-    public
-    static function ofLocalizedTime(FormatStyle $timeStyle)
+    public static function ofLocalizedTime(FormatStyle $timeStyle)
     {
         return (new DateTimeFormatterBuilder())->appendLocalized(null, $timeStyle)
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
@@ -635,8 +631,7 @@ class DateTimeFormatter
      * @param FormatStyle $dateTimeStyle the formatter style to obtain, not null
      * @return DateTimeFormatter the date-time formatter, not null
      */
-    public
-    static function ofLocalizedDateTime(FormatStyle $dateTimeStyle)
+    public static function ofLocalizedDateTime(FormatStyle $dateTimeStyle)
     {
         return (new DateTimeFormatterBuilder())->appendLocalized($dateTimeStyle, $dateTimeStyle)
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
@@ -665,8 +660,7 @@ class DateTimeFormatter
      * @param FormatStyle $timeStyle the time formatter style to obtain, not null
      * @return DateTimeFormatter the date, time or date-time formatter, not null
      */
-    public
-    static function ofLocalizedDateTimeSplit(FormatStyle $dateStyle, FormatStyle $timeStyle)
+    public static function ofLocalizedDateTimeSplit(FormatStyle $dateStyle, FormatStyle $timeStyle)
     {
         return (new DateTimeFormatterBuilder())->appendLocalized($dateStyle, $timeStyle)
             ->toFormatter3(ResolverStyle::SMART(), IsoChronology::INSTANCE());
@@ -733,8 +727,7 @@ class DateTimeFormatter
      * It has no override zone and uses the {@link ResolverStyle#STRICT STRICT} resolver style.
      * @var DateTimeFormatter
      */
-    private
-    static $ISO_OFFSET_DATE;
+    private static $ISO_OFFSET_DATE;
 
     public static function ISO_OFFSET_DATE()
     {
@@ -877,8 +870,7 @@ class DateTimeFormatter
      * The returned formatter has no override chronology or zone.
      * It uses the {@link ResolverStyle#STRICT STRICT} resolver style.
      */
-    public
-    static $ISO_TIME;
+    public static $ISO_TIME;
 
     public static function ISO_TIME()
     {
@@ -1392,8 +1384,7 @@ class DateTimeFormatter
      * </pre>
      * @return TemporalQuery a query that provides access to whether a leap-second was parsed
      */
-    public
-    static function parsedLeapSecond()
+    public static function parsedLeapSecond()
     {
         return self::$PARSED_LEAP_SECOND = new FuncTemporalQuery(function (TemporalAccessor $t) {
             if ($t instanceof Parsed) {
@@ -1441,8 +1432,7 @@ class DateTimeFormatter
      *
      * @return Locale the locale of this formatter, not null
      */
-    public
-    function getLocale()
+    public function getLocale()
     {
         return $this->locale;
     }
@@ -1458,8 +1448,7 @@ class DateTimeFormatter
      * @param Locale $locale the new locale, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested locale, not null
      */
-    public
-    function withLocale(Locale $locale)
+    public function withLocale(Locale $locale)
     {
         if ($this->locale == $locale) {
             return $this;
@@ -1486,8 +1475,7 @@ class DateTimeFormatter
      * @param DecimalStyle $decimalStyle the new DecimalStyle, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested DecimalStyle, not null
      */
-    public
-    function withDecimalStyle(DecimalStyle $decimalStyle)
+    public function withDecimalStyle(DecimalStyle $decimalStyle)
     {
         if ($this->decimalStyle->equals($decimalStyle)) {
             return $this;
@@ -1506,8 +1494,7 @@ class DateTimeFormatter
      *
      * @return Chronology the override chronology of this formatter, null if no override
      */
-    public
-    function getChronology()
+    public function getChronology()
     {
         return $this->chrono;
     }
@@ -1604,8 +1591,7 @@ class DateTimeFormatter
      * @param ZoneId|null $zone the new override zone, null if no override
      * @return DateTimeFormatter a formatter based on this formatter with the requested override zone, not null
      */
-    public
-    function withZone($zone)
+    public function withZone($zone)
     {
         if ($this->zone == $zone) {
             return $this;
@@ -1625,8 +1611,7 @@ class DateTimeFormatter
      *
      * @return ResolverStyle the resolver style of this formatter, not null
      */
-    public
-    function getResolverStyle()
+    public function getResolverStyle()
     {
         return $this->resolverStyle;
     }
@@ -1650,8 +1635,7 @@ class DateTimeFormatter
      * @param ResolverStyle $resolverStyle the new resolver style, not null
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
-    public
-    function withResolverStyle(ResolverStyle $resolverStyle)
+    public function withResolverStyle(ResolverStyle $resolverStyle)
     {
         if ($resolverStyle == $this->resolverStyle) {
             return $this;
@@ -1720,7 +1704,7 @@ class DateTimeFormatter
             return $this;
         }
 
-        if($resolverFields == [null])
+        if ($resolverFields == [null])
             $resolverFields = null;
 
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);
@@ -1766,8 +1750,7 @@ class DateTimeFormatter
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
 // TODO same as above?
-    public
-    function  withResolverFields2($resolverFields)
+    public function withResolverFields2($resolverFields)
     {
         /*if (Objects . equals(this . resolverFields, resolverFields)) {
             return this;
@@ -1789,8 +1772,7 @@ class DateTimeFormatter
      * @return String the formatted string, not null
      * @throws DateTimeException if an error occurs during formatting
      */
-    public
-    function format(TemporalAccessor $temporal)
+    public function format(TemporalAccessor $temporal)
     {
         $buf = "";
         $this->formatTo($temporal, $buf);
@@ -1813,10 +1795,9 @@ class DateTimeFormatter
      * @param string $appendable the appendable to format to, not null
      * @throws DateTimeException if an error occurs during formatting
      */
-    public
-    function formatTo(TemporalAccessor $temporal, &$appendable)
+    public function formatTo(TemporalAccessor $temporal, &$appendable)
     {
-        if(!is_string($appendable) && !is_null($appendable)) {
+        if (!is_string($appendable) && !is_null($appendable)) {
             throw new \InvalidArgumentException();
         }
 
@@ -1839,10 +1820,9 @@ class DateTimeFormatter
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public
-    function parse($text)
+    public function parse($text)
     {
-        if(!is_string($text)) {
+        if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
 
@@ -1887,7 +1867,7 @@ class DateTimeFormatter
      */
     public function parsePos($text, ParsePosition $position)
     {
-        if(!is_string($text)) {
+        if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
 
@@ -1922,7 +1902,7 @@ class DateTimeFormatter
      */
     public function parseQuery($text, TemporalQuery $query)
     {
-        if(!is_string($text)) {
+        if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
 
@@ -1970,7 +1950,7 @@ class DateTimeFormatter
      */
     public function parseBest($text, ...$queries)
     {
-        if(!is_string($text)) {
+        if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
 
@@ -2081,7 +2061,7 @@ class DateTimeFormatter
      */
     public function parseUnresolved($text, ParsePosition $position)
     {
-        if(!is_string($text)) {
+        if (!is_string($text)) {
             throw new \InvalidArgumentException();
         }
 
@@ -2093,8 +2073,7 @@ class DateTimeFormatter
         return $context->toUnresolved();
     }
 
-    private
-    function parseUnresolved0($text, ParsePosition $position)
+    private function parseUnresolved0($text, ParsePosition $position)
     {
         $context = new DateTimeParseContext($this);
         $pos = $position->getIndex();

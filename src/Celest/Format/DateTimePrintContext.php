@@ -64,18 +64,18 @@ namespace Celest\Format;
 
 use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Chronology;
+use Celest\Chrono\IsoChronology;
+use Celest\DateTimeException;
+use Celest\Instant;
 use Celest\Locale;
 use Celest\Temporal\AbstractTemporalAccessor;
-use Celest\Temporal\TemporalAccessor;
-use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\ChronoField;
+use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
-use Celest\Chrono\IsoChronology;
+use Celest\Temporal\TemporalQueries;
+use Celest\Temporal\TemporalQuery;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
-use Celest\Instant;
-use Celest\DateTimeException;
-use Celest\Temporal\TemporalQuery;
 
 class Test extends AbstractTemporalAccessor
 {
@@ -338,8 +338,7 @@ final class DateTimePrintContext
      * @return int the value, null if not found and optional is true
      * @throws DateTimeException if the field is not available and the section is not optional
      */
-    public
-    function getValueField(TemporalField $field)
+    public function getValueField(TemporalField $field)
     {
         try {
             return $this->temporal->getLong($field);
@@ -357,8 +356,7 @@ final class DateTimePrintContext
      *
      * @return string a string representation of the context, not null
      */
-    public
-    function __toString()
+    public function __toString()
     {
         return $this->temporal->toString();
     }

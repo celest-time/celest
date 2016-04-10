@@ -157,7 +157,7 @@ class TCKJulianFieldTest extends \PHPUnit_Framework_TestCase
     public function test_samples_parse_STRICT(TemporalField $field, LocalDate $date, $value)
     {
         $f = (new DateTimeFormatterBuilder())->appendValue($field)
-       ->toFormatter()->withResolverStyle(ResolverStyle::STRICT());
+            ->toFormatter()->withResolverStyle(ResolverStyle::STRICT());
         $parsed = LocalDate::parseWith(strval($value), $f);
         $this->assertEquals($parsed, $date);
     }
@@ -168,7 +168,7 @@ class TCKJulianFieldTest extends \PHPUnit_Framework_TestCase
     public function test_samples_parse_SMART(TemporalField $field, LocalDate $date, $value)
     {
         $f = (new DateTimeFormatterBuilder())->appendValue($field)
-       ->toFormatter()->withResolverStyle(ResolverStyle::SMART());
+            ->toFormatter()->withResolverStyle(ResolverStyle::SMART());
         $parsed = LocalDate::parseWith(strval($value), $f);
         $this->assertEquals($parsed, $date);
     }
@@ -179,7 +179,7 @@ class TCKJulianFieldTest extends \PHPUnit_Framework_TestCase
     public function test_samples_parse_LENIENT(TemporalField $field, LocalDate $date, $value)
     {
         $f = (new DateTimeFormatterBuilder())->appendValue($field)
-       ->toFormatter()->withResolverStyle(ResolverStyle::LENIENT());
+            ->toFormatter()->withResolverStyle(ResolverStyle::LENIENT());
         $parsed = LocalDate::parseWith(strval($value), $f);
         $this->assertEquals($parsed, $date);
     }

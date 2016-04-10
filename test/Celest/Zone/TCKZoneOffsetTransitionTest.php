@@ -156,8 +156,7 @@ class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
         $this->assertEquals($test->getDuration(), Duration::of(1, ChronoUnit::HOURS()));
     }
 
-    public
-    function test_getters_overlap()
+    public function test_getters_overlap()
     {
         $before = LocalDateTime::of(2010, 10, 31, 1, 0);
         $after = LocalDateTime::of(2010, 10, 31, 0, 0);

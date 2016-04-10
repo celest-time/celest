@@ -62,6 +62,7 @@
  */
 
 namespace Celest\Temporal;
+
 use Celest\ArithmeticException;
 use Celest\DateTimeException;
 

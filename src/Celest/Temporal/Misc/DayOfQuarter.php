@@ -40,8 +40,7 @@ class DayOfQuarter implements TemporalField
         $temporal->isSupported(ChronoField::YEAR()) && IsoFields::isIso($temporal);
     }
 
-    public
-    function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal)
     {
         if ($this->isSupportedBy($temporal) == false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");

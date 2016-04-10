@@ -97,8 +97,7 @@ class TestTextParser extends AbstractTestPrinterParser
     /**
      * @dataProvider data_error
      */
-    public
-    function test_parse_error(TemporalField $field, TextStyle $style, $text, $pos, $expected)
+    public function test_parse_error(TemporalField $field, TextStyle $style, $text, $pos, $expected)
     {
         try {
             $this->getFormatterFieldStyle($field, $style)->parseUnresolved($text, new ParsePosition($pos));
@@ -109,8 +108,7 @@ class TestTextParser extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function test_parse_midStr()
+    public function test_parse_midStr()
     {
         $pos = new ParsePosition(3);
         $this->assertEquals($this->getFormatterFieldStyle(ChronoField::DAY_OF_WEEK(), TextStyle::FULL())
@@ -119,8 +117,7 @@ class TestTextParser extends AbstractTestPrinterParser
         $this->assertEquals($pos->getIndex(), 9);
     }
 
-    public
-    function test_parse_remainderIgnored()
+    public function test_parse_remainderIgnored()
     {
         $pos = new ParsePosition(0);
         $this->assertEquals($this->getFormatterFieldStyle(ChronoField::DAY_OF_WEEK(), TextStyle::SHORT())
@@ -130,8 +127,7 @@ class TestTextParser extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function test_parse_noMatch1()
+    public function test_parse_noMatch1()
     {
         $pos = new ParsePosition(0);
         $parsed =
@@ -140,8 +136,7 @@ class TestTextParser extends AbstractTestPrinterParser
         $this->assertEquals($parsed, null);
     }
 
-    public
-    function test_parse_noMatch2()
+    public function test_parse_noMatch2()
     {
         $pos = new ParsePosition(3);
         $parsed =
@@ -150,8 +145,7 @@ class TestTextParser extends AbstractTestPrinterParser
         $this->assertEquals($parsed, null);
     }
 
-    public
-    function test_parse_noMatch_atEnd()
+    public function test_parse_noMatch_atEnd()
     {
         $pos = new ParsePosition(6);
         $parsed =

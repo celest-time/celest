@@ -1,9 +1,10 @@
 <?php
 
 namespace Celest\Format\Builder;
-use Celest\Format\DateTimePrintContext;
+
 use Celest\DateTimeException;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
 
 /**
  * Pads the output to a fixed width.

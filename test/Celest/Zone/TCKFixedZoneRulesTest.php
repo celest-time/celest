@@ -62,8 +62,6 @@ namespace Celest\Zone;
 
 use Celest\Duration;
 use Celest\LocalDateTime;
-use Celest\LocalTime;
-use Celest\Month;
 use Celest\ZoneOffset;
 use PHPUnit_Framework_TestCase;
 
@@ -84,8 +82,7 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
         return ZoneOffset::ofHours(2);
     }
 
-    private
-    static function OFFSET_M18()
+    private static function OFFSET_M18()
     {
         return ZoneOffset::ofHours(-18);
     }
@@ -125,8 +122,7 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider_rules
      */
-    public
-    function test_getOffset_Instant(ZoneRules $test, ZoneOffset $expectedOffset)
+    public function test_getOffset_Instant(ZoneRules $test, ZoneOffset $expectedOffset)
     {
         $this->assertEquals($test->getOffset(self::INSTANT()), $expectedOffset);
         $this->assertEquals($test->getOffsetDateTime(null), $expectedOffset);
@@ -135,8 +131,7 @@ class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider_rules
      */
-    public
-    function test_getOffset_LocalDateTime(ZoneRules $test, ZoneOffset $expectedOffset)
+    public function test_getOffset_LocalDateTime(ZoneRules $test, ZoneOffset $expectedOffset)
     {
         $this->assertEquals($test->getOffsetDateTime(self::LDT()), $expectedOffset);
         $this->assertEquals($test->getOffset(null), $expectedOffset);

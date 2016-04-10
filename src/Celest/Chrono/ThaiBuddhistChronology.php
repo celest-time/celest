@@ -264,8 +264,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return ThaiBuddhistDate the Thai Buddhist local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public
-    function dateEpochDay($epochDay)
+    public function dateEpochDay($epochDay)
     {
         return ThaiBuddhistDate::ofIsoDate(LocalDate::ofEpochDay($epochDay));
     }

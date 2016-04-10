@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\IllegalArgumentException;
 
 /**
@@ -169,7 +170,7 @@ class ResolverStyle
      */
     public static function valueOf($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'STRICT':
                 return self::STRICT();
             case 'SMART':
@@ -184,8 +185,9 @@ class ResolverStyle
     /**
      * @return string
      */
-    public function name() {
-        switch($this->ordinal) {
+    public function name()
+    {
+        switch ($this->ordinal) {
             case 0:
                 return 'STRICT';
             case 1:

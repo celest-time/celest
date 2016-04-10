@@ -302,7 +302,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
 
     public static function valueOf($string)
     {
-        switch($string) {
+        switch ($string) {
             case 'MONDAY':
                 return self::MONDAY();
             case 'TUESDAY':
@@ -430,7 +430,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param TemporalField $field  the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field, within the valid range of values
      * @throws DateTimeException if a value for the field cannot be obtained or
      *         the value is outside the range of valid values for the field
@@ -462,7 +462,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param TemporalField $field  the field to get, not null
+     * @param TemporalField $field the field to get, not null
      * @return int the value for the field
      * @throws DateTimeException if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported

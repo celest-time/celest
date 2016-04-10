@@ -59,6 +59,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format\Builder;
+
 use Celest\DateTimeException;
 use Celest\LocalDate;
 
@@ -85,8 +86,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
         $this->assertEquals($buf, "--Z");
     }
 
-    public
-    function test__print_append()
+    public function test__print_append()
     {
         $buf = 'EXISTING';
         $this->builder->padNext2(3, '-')->appendLiteral('Z');
@@ -103,8 +103,7 @@ class PadPrinterDecoratorTest extends AbstractTestPrinterParser
         $this->assertEquals($buf, "Z");
     }
 
-    public
-    function test__print_padRequiredSingle()
+    public function test__print_padRequiredSingle()
     {
         $buf = '';
         $this->builder->padNext2(5, '-')->appendLiteral('Z');

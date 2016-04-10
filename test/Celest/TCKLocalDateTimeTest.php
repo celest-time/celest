@@ -2456,8 +2456,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider plusNanos_fromZero
      */
-    public
-    function test_plusNanos_fromZero($nanoseconds, LocalDate $date, $hour, $min, $sec, $nanos)
+    public function test_plusNanos_fromZero($nanoseconds, LocalDate $date, $hour, $min, $sec, $nanos)
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $t = $base->plusNanos($nanoseconds);
@@ -2470,8 +2469,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_plusNanos_noChange_oneDay()
+    public function test_plusNanos_noChange_oneDay()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->plusNanos(24 * 60 * 60 * 1000000000);
         $this->assertEquals($t->toLocalDate(), self::TEST_200707_15_12_30_40_987654321()->toLocalDate()->plusDays(1));
@@ -2481,8 +2479,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minus(TemporalAmount)
 //-----------------------------------------------------------------------
 
-    public
-    function test_minus_TemporalAmount_positiveMonths()
+    public function test_minus_TemporalAmount_positiveMonths()
     {
         $period = MockSimplePeriod::of(7, CU::MONTHS());
         $t = self::TEST_200707_15_12_30_40_987654321()->minusAmount($period);
@@ -2490,8 +2487,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minus_TemporalAmount_negativeDays()
+    public function test_minus_TemporalAmount_negativeDays()
     {
         $period = MockSimplePeriod::of(-25, CU::DAYS());
         $t = self::TEST_200707_15_12_30_40_987654321()->minusAmount($period);
@@ -2501,8 +2497,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minus_TemporalAmount_invalidTooLarge()
+    public function test_minus_TemporalAmount_invalidTooLarge()
     {
         $period = MockSimplePeriod::of(-1, CU::YEARS());
         LocalDateTime::of(Year::MAX_VALUE, 1, 1, 0, 0)->minusAmount($period);
@@ -2511,15 +2506,13 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minus_TemporalAmount_invalidTooSmall()
+    public function test_minus_TemporalAmount_invalidTooSmall()
     {
         $period = MockSimplePeriod::of(1, CU::YEARS());
         LocalDateTime::of(Year::MIN_VALUE, 1, 1, 0, 0)->minusAmount($period);
     }
 
-    public
-    function test_minus_TemporalAmount_null()
+    public function test_minus_TemporalAmount_null()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->minusAmount(null);
@@ -2530,23 +2523,20 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minus(long,TemporalUnit)
 //-----------------------------------------------------------------------
 
-    public
-    function test_minus_longTemporalUnit_positiveMonths()
+    public function test_minus_longTemporalUnit_positiveMonths()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minus(7, CU::MONTHS());
         $this->assertEquals($t, LocalDateTime::of(2006, 12, 15, 12, 30, 40, 987654321));
     }
 
 
-    public
-    function test_minus_longTemporalUnit_negativeDays()
+    public function test_minus_longTemporalUnit_negativeDays()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minus(-25, CU::DAYS());
         $this->assertEquals($t, LocalDateTime::of(2007, 8, 9, 12, 30, 40, 987654321));
     }
 
-    public
-    function test_minus_longTemporalUnit_null()
+    public function test_minus_longTemporalUnit_null()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->minus(1, null);
@@ -2556,8 +2546,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minus_longTemporalUnit_invalidTooLarge()
+    public function test_minus_longTemporalUnit_invalidTooLarge()
     {
         LocalDateTime::of(Year::MAX_VALUE, 1, 1, 0, 0)->minus(-1, CU::YEARS());
     }
@@ -2565,8 +2554,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minus_longTemporalUnit_invalidTooSmall()
+    public function test_minus_longTemporalUnit_invalidTooSmall()
     {
         LocalDateTime::of(Year::MIN_VALUE, 1, 1, 0, 0)->minus(1, CU::YEARS());
     }
@@ -2575,24 +2563,21 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusYears()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusYears_int_normal()
+    public function test_minusYears_int_normal()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusYears(1);
         $this->check($t, 2006, 7, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusYears_int_negative()
+    public function test_minusYears_int_negative()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusYears(-1);
         $this->check($t, 2008, 7, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusYears_int_adjustDay()
+    public function test_minusYears_int_adjustDay()
     {
         $t = $this->createDateMidnight(2008, 2, 29)->minusYears(1);
         $this->check($t, 2007, 2, 28, 0, 0, 0, 0);
@@ -2601,8 +2586,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusYears_int_invalidTooLarge()
+    public function test_minusYears_int_invalidTooLarge()
     {
         $this->createDateMidnight(Year::MAX_VALUE, 1, 1)->minusYears(-1);
     }
@@ -2610,8 +2594,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusYears_int_invalidTooSmall()
+    public function test_minusYears_int_invalidTooSmall()
     {
         $this->createDateMidnight(Year::MIN_VALUE, 1, 1)->minusYears(1);
     }
@@ -2620,56 +2603,49 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusMonths()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusMonths_int_normal()
+    public function test_minusMonths_int_normal()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMonths(1);
         $this->check($t, 2007, 6, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusMonths_int_overYears()
+    public function test_minusMonths_int_overYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMonths(25);
         $this->check($t, 2005, 6, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusMonths_int_negative()
+    public function test_minusMonths_int_negative()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMonths(-1);
         $this->check($t, 2007, 8, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusMonths_int_negativeAcrossYear()
+    public function test_minusMonths_int_negativeAcrossYear()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMonths(-7);
         $this->check($t, 2008, 2, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusMonths_int_negativeOverYears()
+    public function test_minusMonths_int_negativeOverYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMonths(-31);
         $this->check($t, 2010, 2, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusMonths_int_adjustDayFromLeapYear()
+    public function test_minusMonths_int_adjustDayFromLeapYear()
     {
         $t = $this->createDateMidnight(2008, 2, 29)->minusMonths(12);
         $this->check($t, 2007, 2, 28, 0, 0, 0, 0);
     }
 
 
-    public
-    function test_minusMonths_int_adjustDayFromMonthLength()
+    public function test_minusMonths_int_adjustDayFromMonthLength()
     {
         $t = $this->createDateMidnight(2007, 3, 31)->minusMonths(1);
         $this->check($t, 2007, 2, 28, 0, 0, 0, 0);
@@ -2678,8 +2654,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusMonths_int_invalidTooLarge()
+    public function test_minusMonths_int_invalidTooLarge()
     {
         $this->createDateMidnight(Year::MAX_VALUE, 12, 1)->minusMonths(-1);
     }
@@ -2687,8 +2662,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusMonths_int_invalidTooSmall()
+    public function test_minusMonths_int_invalidTooSmall()
     {
         $this->createDateMidnight(Year::MIN_VALUE, 1, 1)->minusMonths(1);
     }
@@ -2732,8 +2706,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
      * @dataProvider provider_sampleMinusWeeksSymmetry
      * @group long
      */
-    public
-    function test_minusWeeks_symmetry(LocalDateTime $reference)
+    public function test_minusWeeks_symmetry(LocalDateTime $reference)
     {
         for ($weeks = 0; $weeks < 365 * 8;
              $weeks++) {
@@ -2746,72 +2719,63 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusWeeks_normal()
+    public function test_minusWeeks_normal()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusWeeks(1);
         $this->check($t, 2007, 7, 8, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_overMonths()
+    public function test_minusWeeks_overMonths()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusWeeks(9);
         $this->check($t, 2007, 5, 13, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_overYears()
+    public function test_minusWeeks_overYears()
     {
         $t = LocalDateTime::of(2008, 7, 13, 12, 30, 40, 987654321)->minusWeeks(52);
         $this->assertEquals($t, self::TEST_200707_15_12_30_40_987654321());
     }
 
 
-    public
-    function test_minusWeeks_overLeapYears()
+    public function test_minusWeeks_overLeapYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusYears(-1)->minusWeeks(104);
         $this->check($t, 2006, 7, 18, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_negative()
+    public function test_minusWeeks_negative()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusWeeks(-1);
         $this->check($t, 2007, 7, 22, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_negativeAcrossYear()
+    public function test_minusWeeks_negativeAcrossYear()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusWeeks(-28);
         $this->check($t, 2008, 1, 27, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_negativeOverYears()
+    public function test_minusWeeks_negativeOverYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusWeeks(-104);
         $this->check($t, 2009, 7, 12, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusWeeks_maximum()
+    public function test_minusWeeks_maximum()
     {
         $t = $this->createDateMidnight(Year::MAX_VALUE, 12, 24)->minusWeeks(-1);
         $this->check($t, Year::MAX_VALUE, 12, 31, 0, 0, 0, 0);
     }
 
 
-    public
-    function test_minusWeeks_minimum()
+    public function test_minusWeeks_minimum()
     {
         $t = $this->createDateMidnight(Year::MIN_VALUE, 1, 8)->minusWeeks(1);
         $this->check($t, Year::MIN_VALUE, 1, 1, 0, 0, 0, 0);
@@ -2820,8 +2784,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusWeeks_invalidTooLarge()
+    public function test_minusWeeks_invalidTooLarge()
     {
         $this->createDateMidnight(Year::MAX_VALUE, 12, 25)->minusWeeks(-1);
     }
@@ -2829,8 +2792,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusWeeks_invalidTooSmall()
+    public function test_minusWeeks_invalidTooSmall()
     {
         $this->createDateMidnight(Year::MIN_VALUE, 1, 7)->minusWeeks(1);
     }
@@ -2874,8 +2836,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
      * @dataProvider provider_sampleMinusDaysSymmetry
      * @group long
      */
-    public
-    function test_minusDays_symmetry(LocalDateTime $reference)
+    public function test_minusDays_symmetry(LocalDateTime $reference)
     {
         for ($days = 0; $days < 365 * 8;
              $days++) {
@@ -2888,72 +2849,63 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusDays_normal()
+    public function test_minusDays_normal()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusDays(1);
         $this->check($t, 2007, 7, 14, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusDays_overMonths()
+    public function test_minusDays_overMonths()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusDays(62);
         $this->check($t, 2007, 5, 14, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusDays_overYears()
+    public function test_minusDays_overYears()
     {
         $t = LocalDateTime::of(2008, 7, 16, 12, 30, 40, 987654321)->minusDays(367);
         $this->assertEquals($t, self::TEST_200707_15_12_30_40_987654321());
     }
 
 
-    public
-    function test_minusDays_overLeapYears()
+    public function test_minusDays_overLeapYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->plusYears(2)->minusDays(365 + 366);
         $this->assertEquals($t, self::TEST_200707_15_12_30_40_987654321());
     }
 
 
-    public
-    function test_minusDays_negative()
+    public function test_minusDays_negative()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusDays(-1);
         $this->check($t, 2007, 7, 16, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusDays_negativeAcrossYear()
+    public function test_minusDays_negativeAcrossYear()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusDays(-169);
         $this->check($t, 2007, 12, 31, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusDays_negativeOverYears()
+    public function test_minusDays_negativeOverYears()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusDays(-731);
         $this->check($t, 2009, 7, 15, 12, 30, 40, 987654321);
     }
 
 
-    public
-    function test_minusDays_maximum()
+    public function test_minusDays_maximum()
     {
         $t = $this->createDateMidnight(Year::MAX_VALUE, 12, 30)->minusDays(-1);
         $this->check($t, Year::MAX_VALUE, 12, 31, 0, 0, 0, 0);
     }
 
 
-    public
-    function test_minusDays_minimum()
+    public function test_minusDays_minimum()
     {
         $t = $this->createDateMidnight(Year::MIN_VALUE, 1, 2)->minusDays(1);
         $this->check($t, Year::MIN_VALUE, 1, 1, 0, 0, 0, 0);
@@ -2962,8 +2914,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusDays_invalidTooLarge()
+    public function test_minusDays_invalidTooLarge()
     {
         $this->createDateMidnight(Year::MAX_VALUE, 12, 31)->minusDays(-1);
     }
@@ -2971,8 +2922,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusDays_invalidTooSmall()
+    public function test_minusDays_invalidTooSmall()
     {
         $this->createDateMidnight(Year::MIN_VALUE, 1, 1)->minusDays(1);
     }
@@ -2980,8 +2930,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusDays_overflowTooLarge()
+    public function test_minusDays_overflowTooLarge()
     {
         $this->createDateMidnight(Year::MAX_VALUE, 12, 31)->minusDays(Long::MIN_VALUE);
     }
@@ -2989,8 +2938,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_minusDays_overflowTooSmall()
+    public function test_minusDays_overflowTooSmall()
     {
         $this->createDateMidnight(Year::MIN_VALUE, 1, 1)->minusDays(Long::MAX_VALUE);
     }
@@ -2999,8 +2947,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusHours()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusHours_one()
+    public function test_minusHours_one()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $t->toLocalDate();
@@ -3018,8 +2965,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusHours_fromZero()
+    public function test_minusHours_fromZero()
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $base->toLocalDate()->plusDays(2);
@@ -3039,8 +2985,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusHours_fromOne()
+    public function test_minusHours_fromOne()
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::of(1, 0));
         $d = $base->toLocalDate()->plusDays(2);
@@ -3064,8 +3009,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusMinutes()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusMinutes_one()
+    public function test_minusMinutes_one()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $t->toLocalDate()->minusDays(1);
@@ -3091,8 +3035,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusMinutes_fromZero()
+    public function test_minusMinutes_fromZero()
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $base->toLocalDate()->minusDays(1);
@@ -3112,8 +3055,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_minusMinutes_noChange_oneDay()
+    public function test_minusMinutes_noChange_oneDay()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->minusMinutes(24 * 60);
         $this->assertEquals($t->toLocalDate(), self::TEST_200707_15_12_30_40_987654321()->toLocalDate()->minusDays(1));
@@ -3123,8 +3065,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // minusSeconds()
 //-----------------------------------------------------------------------
 
-    public
-    function test_minusSeconds_one()
+    public function test_minusSeconds_one()
     {
         $t = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $d = $t->toLocalDate()->minusDays(1);
@@ -3198,8 +3139,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider minusSeconds_fromZero
      */
-    public
-    function test_minusSeconds_fromZero($seconds, LocalDate $date, $hour, $min, $sec)
+    public function test_minusSeconds_fromZero($seconds, LocalDate $date, $hour, $min, $sec)
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $t = $base->minusSeconds($seconds);
@@ -3301,8 +3241,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider minusNanos_fromZero
      */
-    public
-    function test_minusNanos_fromZero($nanoseconds, LocalDate $date, $hour, $min, $sec, $nanos)
+    public function test_minusNanos_fromZero($nanoseconds, LocalDate $date, $hour, $min, $sec, $nanos)
     {
         $base = self::TEST_200707_15_12_30_40_987654321()->adjust(LocalTime::MIDNIGHT());
         $t = $base->minusNanos($nanoseconds);
@@ -3458,8 +3397,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_periodUntilUnit
      */
-    public
-    function test_until_TemporalUnit(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
+    public function test_until_TemporalUnit(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
     {
         $amount = $dt1->until($dt2, $unit);
         $this->assertEquals($amount, $expected);
@@ -3468,8 +3406,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_periodUntilUnit
      */
-    public
-    function test_until_TemporalUnit_negated(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
+    public function test_until_TemporalUnit_negated(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
     {
         $amount = $dt2->until($dt1, $unit);
         $this->assertEquals($amount, -$expected);
@@ -3478,16 +3415,14 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_periodUntilUnit
      */
-    public
-    function test_until_TemporalUnit_between(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
+    public function test_until_TemporalUnit_between(LocalDateTime $dt1, LocalDateTime $dt2, TemporalUnit $unit, $expected)
     {
         $amount = $unit->between($dt1, $dt2);
         $this->assertEquals($amount, $expected);
     }
 
 
-    public
-    function test_until_convertedType()
+    public function test_until_convertedType()
     {
         $start = LocalDateTime::of(2010, 6, 30, 2, 30);
         $end = $start->plusDays(2)->atOffset(self::OFFSET_PONE());
@@ -3497,23 +3432,20 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_until_invalidType()
+    public function test_until_invalidType()
     {
         $start = LocalDateTime::of(2010, 6, 30, 2, 30);
         $start->until(LocalTime::of(11, 30), CU::DAYS());
     }
 
-    public
-    function test_until_TemporalUnit_nullEnd()
+    public function test_until_TemporalUnit_nullEnd()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->until(null, CU::HOURS());
         });
     }
 
-    public
-    function test_until_TemporalUnit_nullUnit()
+    public function test_until_TemporalUnit_nullUnit()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->until(self::TEST_200707_15_12_30_40_987654321(), null);
@@ -3524,16 +3456,14 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // format(DateTimeFormatter)
 //-----------------------------------------------------------------------
 
-    public
-    function test_format_formatter()
+    public function test_format_formatter()
     {
         $f = DateTimeFormatter::ofPattern("y M d H m s");
         $t = LocalDateTime::of(2010, 12, 3, 11, 30, 45)->format($f);
         $this->assertEquals($t, "2010 12 3 11 30 45");
     }
 
-    public
-    function test_format_formatter_null()
+    public function test_format_formatter_null()
     {
         TestHelper::assertNullException($this, function () {
             LocalDateTime::of(2010, 12, 3, 11, 30, 45)->format(null);
@@ -3544,15 +3474,13 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // atOffset()
 //-----------------------------------------------------------------------
 
-    public
-    function test_atOffset()
+    public function test_atOffset()
     {
         $t = LocalDateTime::of(2008, 6, 30, 11, 30);
         $this->assertEquals($t->atOffset(self::OFFSET_PTWO()), OffsetDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::OFFSET_PTWO()));
     }
 
-    public
-    function test_atOffset_nullZoneOffset()
+    public function test_atOffset_nullZoneOffset()
     {
         TestHelper::assertNullException($this, function () {
             $t = LocalDateTime::of(2008, 6, 30, 11, 30);
@@ -3564,8 +3492,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
 // atZone()
 //-----------------------------------------------------------------------
 
-    public
-    function test_atZone()
+    public function test_atZone()
     {
         $t = LocalDateTime::of(2008, 6, 30, 11, 30);
         $this->assertEquals($t->atZone(self::ZONE_PARIS()),
@@ -3573,16 +3500,14 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_atZone_Offset()
+    public function test_atZone_Offset()
     {
         $t = LocalDateTime::of(2008, 6, 30, 11, 30);
         $this->assertEquals($t->atZone(self::OFFSET_PTWO()), ZonedDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::OFFSET_PTWO()));
     }
 
 
-    public
-    function test_atZone_dstGap()
+    public function test_atZone_dstGap()
     {
         $t = LocalDateTime::of(2007, 4, 1, 0, 0);
         $this->assertEquals($t->atZone(self::ZONE_GAZA()),
@@ -3590,16 +3515,14 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_atZone_dstOverlap()
+    public function test_atZone_dstOverlap()
     {
         $t = LocalDateTime::of(2007, 10, 28, 2, 30);
         $this->assertEquals($t->atZone(self::ZONE_PARIS()),
             ZonedDateTime::ofStrict(LocalDateTime::of(2007, 10, 28, 2, 30), self::OFFSET_PTWO(), self::ZONE_PARIS()));
     }
 
-    public
-    function test_atZone_nullTimeZone()
+    public function test_atZone_nullTimeZone()
     {
         TestHelper::assertNullException($this, function () {
             $t = LocalDateTime::of(2008, 6, 30, 11, 30);
@@ -3615,8 +3538,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @group long
      */
-    public
-    function test_toEpochSecond_afterEpoch()
+    public function test_toEpochSecond_afterEpoch()
     {
         for ($i = -5; $i < 5; $i++) {
             $offset = ZoneOffset::ofHours($i);
@@ -3630,8 +3552,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @group long
      */
-    public
-    function test_toEpochSecond_beforeEpoch()
+    public function test_toEpochSecond_beforeEpoch()
     {
         for ($i = 0; $i < 100000; $i++) {
             $a = LocalDateTime::of(1970, 1, 1, 0, 0)->minusSeconds($i);
@@ -3742,7 +3663,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         });
     }
 
-    public     function test_isAfter_ObjectNull()
+    public function test_isAfter_ObjectNull()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->isAfter(null);
@@ -3779,8 +3700,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_true($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_true($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
@@ -3790,8 +3710,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_year_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_year_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y + 1, $m, $d, $h, $mi, $s, $n);
@@ -3801,8 +3720,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_month_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_month_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m + 1, $d, $h, $mi, $s, $n);
@@ -3812,8 +3730,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_day_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_day_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d + 1, $h, $mi, $s, $n);
@@ -3823,8 +3740,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_hour_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_hour_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d, $h + 1, $mi, $s, $n);
@@ -3834,8 +3750,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_minute_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_minute_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d, $h, $mi + 1, $s, $n);
@@ -3845,8 +3760,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_second_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_second_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d, $h, $mi, $s + 1, $n);
@@ -3856,8 +3770,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleDateTimes
      */
-    public
-    function test_equals_false_nano_differs($y, $m, $d, $h, $mi, $s, $n)
+    public function test_equals_false_nano_differs($y, $m, $d, $h, $mi, $s, $n)
     {
         $a = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $b = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n + 1);
@@ -3865,22 +3778,19 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_equals_itself_true()
+    public function test_equals_itself_true()
     {
         $this->assertEquals(self::TEST_200707_15_12_30_40_987654321()->equals(self::TEST_200707_15_12_30_40_987654321()), true);
     }
 
 
-    public
-    function test_equals_string_false()
+    public function test_equals_string_false()
     {
         $this->assertEquals(self::TEST_200707_15_12_30_40_987654321()->equals("2007-07-15T12:30:40.987654321"), false);
     }
 
 
-    public
-    function test_equals_null_false()
+    public function test_equals_null_false()
     {
         $this->assertEquals(self::TEST_200707_15_12_30_40_987654321()->equals(null), false);
     }
@@ -3916,28 +3826,24 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
     /**
      * @dataProvider provider_sampleToString
      */
-    public
-    function test_toString($y, $m, $d, $h, $mi, $s, $n, $expected)
+    public function test_toString($y, $m, $d, $h, $mi, $s, $n, $expected)
     {
         $t = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
         $str = $t->__toString();
         $this->assertEquals($str, $expected);
     }
 
-    private
-    function dtNoon($year, $month, $day)
+    private function dtNoon($year, $month, $day)
     {
         return LocalDateTime::of($year, $month, $day, 12, 0);
     }
 
-    private
-    function dtEpoch($hour, $min, $sec, $nano)
+    private function dtEpoch($hour, $min, $sec, $nano)
     {
         return LocalDateTime::of(1970, 1, 1, $hour, $min, $sec, $nano);
     }
 
-    private
-    function dt($year, $month, $day, $hour, $min, $sec, $nano)
+    private function dt($year, $month, $day, $hour, $min, $sec, $nano)
     {
         return LocalDateTime::of($year, $month, $day, $hour, $min, $sec, $nano);
     }

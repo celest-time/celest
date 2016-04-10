@@ -165,8 +165,7 @@ abstract class ZoneRulesProvider
      * otherwise not null
      * @throws ZoneRulesException if rules cannot be obtained for the zone ID
      */
-    public
-    static function  getRules($zoneId, $forCaching)
+    public static function getRules($zoneId, $forCaching)
     {
         return self::getProvider($zoneId)->provideRules($zoneId, $forCaching);
     }
@@ -207,8 +206,7 @@ abstract class ZoneRulesProvider
      * @return ZoneRulesProvider he provider, not null
      * @throws ZoneRulesException if the zone ID is unknown
      */
-    private
-    static function getProvider($zoneId)
+    private static function getProvider($zoneId)
     {
         $provider = @self::$ZONES[$zoneId];
         if ($provider == null) {
@@ -237,8 +235,7 @@ abstract class ZoneRulesProvider
      * @param ZoneRulesProvider $provider the provider to register, not null
      * @throws ZoneRulesException if a zone ID is already registered
      */
-    public
-    static function registerProvider(ZoneRulesProvider $provider)
+    public static function registerProvider(ZoneRulesProvider $provider)
     {
         self::registerProvider0($provider);
         self::$PROVIDERS[] = $provider;
@@ -286,8 +283,7 @@ abstract class ZoneRulesProvider
      * @return true if the rules were updated
      * @throws ZoneRulesException if an error occurs during the refresh
      */
-    public
-    static function refresh()
+    public static function refresh()
     {
         $changed = false;
         foreach (self::$PROVIDERS as $provider) {

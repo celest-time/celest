@@ -1,6 +1,7 @@
 <?php
 
 namespace Celest\Format\Builder;
+
 use Celest\Format\DateTimeParseContext;
 use Celest\Format\DateTimePrintContext;
 
@@ -10,36 +11,40 @@ use Celest\Format\DateTimePrintContext;
 class SettingsParser implements DateTimePrinterParser
 {
     public static $SENSITIVE;
+
     public static function SENSITIVE()
     {
-        if(self::$SENSITIVE === null)
+        if (self::$SENSITIVE === null)
             self::$SENSITIVE = new SettingsParser(0);
 
         return self::$SENSITIVE;
     }
 
     public static $INSENSITIVE;
+
     public static function INSENSITIVE()
     {
-        if(self::$INSENSITIVE === null)
+        if (self::$INSENSITIVE === null)
             self::$INSENSITIVE = new SettingsParser(1);
 
         return self::$INSENSITIVE;
     }
 
     public static $STRICT;
+
     public static function STRICT()
     {
-        if(self::$STRICT === null)
+        if (self::$STRICT === null)
             self::$STRICT = new SettingsParser(2);
 
         return self::$STRICT;
     }
 
     public static $LENIENT;
+
     public static function LENIENT()
     {
-        if(self::$LENIENT === null)
+        if (self::$LENIENT === null)
             self::$LENIENT = new SettingsParser(3);
 
         return self::$LENIENT;

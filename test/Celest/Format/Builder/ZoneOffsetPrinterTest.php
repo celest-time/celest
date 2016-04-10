@@ -75,8 +75,7 @@ class TestZoneOffsetPrinter extends AbstractTestPrinterParser
     }
 
 //-----------------------------------------------------------------------
-    public
-    function provider_offsets()
+    public function provider_offsets()
     {
         return [
             ["+HH", "NO-OFFSET", ZoneOffset::UTC()],
@@ -175,8 +174,7 @@ class TestZoneOffsetPrinter extends AbstractTestPrinterParser
         $this->getFormatterPattern("+HH:MM:ss", "Z")->formatTo(self::EMPTY_DTA(), $buf);
     }
 
-    public
-    function test_print_emptyAppendable()
+    public function test_print_emptyAppendable()
     {
         $buf = '';
         $this->getFormatterPattern("+HH:MM:ss", "Z")->formatTo(self::OFFSET_0130(), $buf);

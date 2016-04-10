@@ -92,8 +92,7 @@ class ParsePosition
      *
      * @param int $index initial index
      */
-    public
-    function __construct($index)
+    public function __construct($index)
     {
         $this->index = $index;
     }
@@ -106,8 +105,7 @@ class ParsePosition
      * @param int $ei the index at which an error occurred
      * @since 1.2
      */
-    public
-    function setErrorIndex($ei)
+    public function setErrorIndex($ei)
     {
         $this->errorIndex = $ei;
     }
@@ -119,8 +117,7 @@ class ParsePosition
      * @return int the index at which an error occurred
      * @since 1.2
      */
-    public
-    function getErrorIndex()
+    public function getErrorIndex()
     {
         return $this->errorIndex;
     }
@@ -129,8 +126,7 @@ class ParsePosition
      * Return a string representation of this ParsePosition.
      * @return string a string representation of this object
      */
-    public
-    function __toString()
+    public function __toString()
     {
         return get_class() .
         "[index=" . $this->index .

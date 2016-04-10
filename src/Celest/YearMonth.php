@@ -63,7 +63,6 @@
 namespace Celest;
 
 use Celest\Chrono\AbstractChronology;
-use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\DateTimeFormatterBuilder;
@@ -170,8 +169,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param ZoneId $zone the zone ID to use, not null
      * @return YearMonth the current year-month using the system clock, not null
      */
-    public
-    static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone)
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -186,8 +184,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param Clock $clock the clock to use, not null
      * @return YearMonth the current year-month, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         $now = LocalDate::nowOf($clock);  // called once
         return YearMonth::ofMonth($now->getYear(), $now->getMonth());
@@ -202,8 +199,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if the year value is invalid
      */
-    public
-    static function ofMonth($year, Month $month)
+    public static function ofMonth($year, Month $month)
     {
         return self::of($year, $month->getValue());
     }
@@ -216,8 +212,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if either field value is invalid
      */
-    public
-    static function of($year, $month)
+    public static function of($year, $month)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -244,8 +239,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if unable to convert to a {@code YearMonth}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof YearMonth) {
             return $temporal;
@@ -289,8 +283,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the parsed year-month, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([YearMonth::class, 'from']));
     }
@@ -302,8 +295,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param int $year the year to represent, validated from MIN_YEAR to MAX_YEAR
      * @param int $month the month-of-year to represent, validated from 1 (January) to 12 (December)
      */
-    private
-    function __construct($year, $month)
+    private function __construct($year, $month)
     {
         $this->year = $year;
         $this->month = $month;
@@ -313,7 +305,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * Returns a copy of this year-month with the new year and month, checking
      * to see if a new object is in fact required.
      *
-     * @param int $newYear  the year to represent, validated from MIN_YEAR to MAX_YEAR
+     * @param int $newYear the year to represent, validated from MIN_YEAR to MAX_YEAR
      * @param int $newMonth the month-of-year to represent, validated not null
      * @return YearMonth the year-month, not null
      */
@@ -524,8 +516,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public
-    function getYear()
+    public function getYear()
     {
         return $this->year;
     }
@@ -619,8 +610,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return int 366 if the year is leap, 365 otherwise
      */
-    public
-    function lengthOfYear()
+    public function lengthOfYear()
     {
         return ($this->isLeapYear() ? 366 : 365);
     }
@@ -749,8 +739,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public
-    function withMonth($month)
+    public function withMonth($month)
     {
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
         return $this->_with($this->year, $month);
@@ -833,8 +822,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function plus($amountToAdd, TemporalUnit $unit)
+    public function plus($amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
@@ -880,7 +868,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $monthsToAdd  the months to add, may be negative
+     * @param int $monthsToAdd the months to add, may be negative
      * @return YearMonth a {@code YearMonth} based on this year-month with the months added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
@@ -891,7 +879,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
         }
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;
-        if(!is_int($calcMonths)) {
+        if (!is_int($calcMonths)) {
             throw new DateTimeException('Overflow'); // Todo better message
         }
         $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
@@ -1146,8 +1134,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if the day is invalid for the year-month
      * @see #isValidDay(int)
      */
-    public
-    function atDay($dayOfMonth)
+    public function atDay($dayOfMonth)
     {
         return LocalDate::of($this->year, $this->month, $dayOfMonth);
     }

@@ -194,7 +194,7 @@ final class ZoneOffsetTransitionRule
      * @param int $dayOfMonthIndicator the day of the month-day of the cutover week, positive if the week is that
      *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
      *  from -28 to 31 excluding 0
-     * @param $dayOfWeek|null DayOfWeek the required day-of-week, null if the month-day should not be changed
+     * @param $dayOfWeek |null DayOfWeek the required day-of-week, null if the month-day should not be changed
      * @param LocalTime $time the cutover time in the 'before' offset, not null
      * @param bool $timeEndOfDay whether the time is midnight at the end of day
      * @param TimeDefinition $timeDefinition how to interpret the cutover
@@ -336,8 +336,7 @@ final class ZoneOffsetTransitionRule
      *
      * @return ZoneOffset the offset before, not null
      */
-    public
-    function getOffsetBefore()
+    public function getOffsetBefore()
     {
         return $this->offsetBefore;
     }
@@ -404,7 +403,7 @@ final class ZoneOffsetTransitionRule
             $this->time->equals($other->time) &&
             $this->timeEndOfDay == $other->timeEndOfDay &&
             $this->standardOffset->equals($other->standardOffset) &&
-            $this-> offsetBefore->equals($other->offsetBefore) &&
+            $this->offsetBefore->equals($other->offsetBefore) &&
             $this->offsetAfter->equals($other->offsetAfter);
         }
         return false;
@@ -416,8 +415,7 @@ final class ZoneOffsetTransitionRule
      *
      * @return string a string for debugging, not null
      */
-    public
-    function __toString()
+    public function __toString()
     {
         $buf = "TransitionRule["
             . ($this->offsetBefore->compareTo($this->offsetAfter) > 0 ? "Gap " : "Overlap ")

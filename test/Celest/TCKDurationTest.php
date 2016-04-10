@@ -1307,8 +1307,7 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\ArithmeticException
      */
-    public
-    function test_plusDays_long_overflowTooBig()
+    public function test_plusDays_long_overflowTooBig()
     {
         $t = Duration::ofDays(1);
         $t->plusDays(Math::div(Math::div(Long::MAX_VALUE, 3600), 24));
@@ -2830,8 +2829,7 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
 // equals()
 //-----------------------------------------------------------------------
 
-    public
-    function test_equals()
+    public function test_equals()
     {
         $test5a = Duration::ofSeconds(5, 20);
         $test5b = Duration::ofSeconds(5, 20);
@@ -2860,16 +2858,14 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_equals_null()
+    public function test_equals_null()
     {
         $test5 = Duration::ofSeconds(5, 20);
         $this->assertEquals($test5->equals(null), false);
     }
 
 
-    public
-    function test_equals_otherClass()
+    public function test_equals_otherClass()
     {
         $test5 = Duration::ofSeconds(5, 20);
         $this->assertEquals($test5->equals(""), false);

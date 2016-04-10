@@ -61,7 +61,6 @@
 
 namespace Celest\Format;
 
-use Celest\ArithmeticException;
 use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\DateTimeException;
@@ -154,30 +153,26 @@ class MockAccessor extends AbstractTemporalAccessor
         }
     }
 
-    public
-    function setOffset($offsetId)
+    public function setOffset($offsetId)
     {
         if ($offsetId !== null) {
             $this->fields->put(ChronoField::OFFSET_SECONDS(), ZoneOffset::of($offsetId)->getTotalSeconds());
         }
     }
 
-    public
-    function setZone($zoneId)
+    public function setZone($zoneId)
     {
         if ($zoneId !== null) {
             $this->zoneId = ZoneId::of($zoneId);
         }
     }
 
-    public
-    function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field)
     {
         return $this->fields->has($field);
     }
 
-    public
-    function getLong(TemporalField $field)
+    public function getLong(TemporalField $field)
     {
         $val = $this->fields->get($field);
 
@@ -187,8 +182,7 @@ class MockAccessor extends AbstractTemporalAccessor
         return $val;
     }
 
-    public
-    function query(TemporalQuery $query)
+    public function query(TemporalQuery $query)
     {
         if ($query == TemporalQueries::zoneId()) {
             return $this->zoneId;
@@ -196,8 +190,7 @@ class MockAccessor extends AbstractTemporalAccessor
         return parent::query($query);
     }
 
-    public
-    function __toString()
+    public function __toString()
     {
         return print_r($this->fields, true) . ($this->zoneId !== null ? " " . $this->zoneId : "");
     }
@@ -216,14 +209,12 @@ class MockAccessor extends AbstractTemporalAccessor
 
 class TestAccessor extends AbstractTemporalAccessor
 {
-    public
-    function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field)
     {
         return $field == ChronoField::YEAR() || $field == ChronoField::DAY_OF_YEAR();
     }
 
-    public
-    function getLong(TemporalField $field)
+    public function getLong(TemporalField $field)
     {
         if ($field == ChronoField::YEAR()) {
             return 2008;
@@ -424,8 +415,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_parse_isoLocalDate_999999999()
+    public function test_parse_isoLocalDate_999999999()
     {
         $expected = $this->createDate(999999999, 8, 6);
         $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE()->parseUnresolved("+999999999-08-06", new ParsePosition(0)), $expected);
@@ -433,8 +423,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_parse_isoLocalDate_1000000000()
+    public function test_parse_isoLocalDate_1000000000()
     {
         $expected = $this->createDate(1000000000, 8, 6);
         $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE()->parseUnresolved("+1000000000-08-06", new ParsePosition(0)), $expected);
@@ -715,8 +704,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider_sample_isoLocalTime
      */
-    public
-    function test_parse_isoLocalTime(
+    public function test_parse_isoLocalTime(
         $hour, $min, $sec, $nano, $offsetId, $zoneId,
         $input, $invalid)
     {
@@ -1611,16 +1599,14 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_print_isoWeekDate_zoned_largeYear()
+    public function test_print_isoWeekDate_zoned_largeYear()
     {
         $test = $this->buildAccessorDateTime(LocalDateTime::of(123456, 6, 3, 11, 5, 30), "Z", null);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->format($test), "+123456-W23-2Z");
     }
 
 
-    public
-    function test_print_isoWeekDate_fields()
+    public function test_print_isoWeekDate_fields()
     {
         $test = $this->buildAccessorDate(LocalDate::of(2004, 1, 27), null, null);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->format($test), "2004-W05-2");
@@ -1629,8 +1615,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_print_isoWeekDate_missingField()
+    public function test_print_isoWeekDate_missingField()
     {
         $test = YearMonth::of(2008, 6);
         DateTimeFormatter::ISO_WEEK_DATE()->format($test);
@@ -1638,16 +1623,14 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
 
     //-----------------------------------------------------------------------
 
-    public
-    function test_parse_weekDate()
+    public function test_parse_weekDate()
     {
         $expected = LocalDate::of(2004, 1, 28);
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->parseQuery("2004-W05-3", TemporalQueries::fromCallable([LocalDate::class, 'from'])), $expected);
     }
 
 
-    public
-    function test_parse_weekDate_largeYear()
+    public function test_parse_weekDate_largeYear()
     {
         $parsed = DateTimeFormatter::ISO_WEEK_DATE()->parseUnresolved("+123456-W04-5", new ParsePosition(0));
         $this->assertEquals($parsed->getLong(IsoFields::WEEK_BASED_YEAR()), 123456);
@@ -1656,8 +1639,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_isoWeekDate_basics()
+    public function test_isoWeekDate_basics()
     {
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->getChronology(), IsoChronology::INSTANCE());
         $this->assertEquals(DateTimeFormatter::ISO_WEEK_DATE()->getZone(), null);
@@ -1702,8 +1684,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider_sample_isoInstant
      */
-    public
-    function test_print_isoInstant(
+    public function test_print_isoInstant(
         $instantSecs, $nano, $expected, $expectedEx)
     {
         $test = $this->buildAccessorInstant($instantSecs, $nano);
@@ -1722,8 +1703,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provider_sample_isoInstant
      */
-    public
-    function test_parse_isoInstant(
+    public function test_parse_isoInstant(
         $instantSecs, $nano, $input, $invalid)
     {
         if ($input !== null) {
@@ -1734,8 +1714,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_isoInstant_basics()
+    public function test_isoInstant_basics()
     {
         $this->assertEquals(DateTimeFormatter::ISO_INSTANT()->getChronology(), null);
         $this->assertEquals(DateTimeFormatter::ISO_INSTANT()->getZone(), null);
@@ -1763,8 +1742,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_rfc
      */
-    public
-    function test_print_rfc1123(LocalDateTime $base, $offsetId, $expected)
+    public function test_print_rfc1123(LocalDateTime $base, $offsetId, $expected)
     {
         $test = $this->buildAccessorDateTime($base, $offsetId, null);
         $this->assertEquals(DateTimeFormatter::RFC_1123_DATE_TIME()->format($test), $expected);
@@ -1773,8 +1751,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_rfc
      */
-    public
-    function test_print_rfc1123_french(LocalDateTime $base, $offsetId, $expected)
+    public function test_print_rfc1123_french(LocalDateTime $base, $offsetId, $expected)
     {
         $test = $this->buildAccessorDateTime($base, $offsetId, null);
         $this->assertEquals(DateTimeFormatter::RFC_1123_DATE_TIME()->withLocale(Locale::FRENCH())->format($test), $expected);
@@ -1783,16 +1760,14 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_print_rfc1123_missingField()
+    public function test_print_rfc1123_missingField()
     {
         $test = YearMonth::of(2008, 6);
         DateTimeFormatter::RFC_1123_DATE_TIME()->format($test);
     }
 
 
-    public
-    function test_rfc1123_basics()
+    public function test_rfc1123_basics()
     {
         $this->assertEquals(DateTimeFormatter::RFC_1123_DATE_TIME()->getChronology(), IsoChronology::INSTANCE());
         $this->assertEquals(DateTimeFormatter::RFC_1123_DATE_TIME()->getZone(), null);
@@ -1802,8 +1777,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
     //-----------------------------------------------------------------------
-    private
-    function createDate($year, $month, $day)
+    private function createDate($year, $month, $day)
     {
         $test = new Expected();
         if ($year !== null) {
@@ -1819,8 +1793,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $test;
     }
 
-    private
-    function createTime($hour, $min, $sec, $nano)
+    private function createTime($hour, $min, $sec, $nano)
     {
         $test = new Expected();
         if ($hour !== null) {
@@ -1838,8 +1811,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $test;
     }
 
-    private
-    function createDateTime(
+    private function createDateTime(
         $year, $month, $day,
         $hour, $min, $sec, $nano)
     {
@@ -1868,8 +1840,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $test;
     }
 
-    private
-    function buildAccessor(
+    private function buildAccessor(
         $year, $month, $day,
         $hour, $min, $sec, $nano,
         $offsetId, $zoneId)
@@ -1901,8 +1872,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 
-    private
-    function buildAccessorDateTime(LocalDateTime $base, $offsetId, $zoneId)
+    private function buildAccessorDateTime(LocalDateTime $base, $offsetId, $zoneId)
     {
         $mock = new MockAccessor();
         $mock->setFieldsDateTime($base);
@@ -1911,8 +1881,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 
-    private
-    function buildAccessorDate(LocalDate $base, $offsetId, $zoneId)
+    private function buildAccessorDate(LocalDate $base, $offsetId, $zoneId)
     {
         $mock = new MockAccessor();
         $mock->setFields($base);
@@ -1921,8 +1890,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 
-    private
-    function buildAccessorInstant($instantSecs, $nano)
+    private function buildAccessorInstant($instantSecs, $nano)
     {
         $mock = new MockAccessor();
         $mock->fields->put(ChronoField::INSTANT_SECONDS(), $instantSecs);
@@ -1938,8 +1906,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
      * @param $zoneId
      * @throws DateTimeException
      */
-    private
-    function buildCalendrical($expected, $offsetId, $zoneId)
+    private function buildCalendrical($expected, $offsetId, $zoneId)
     {
         if ($offsetId !== null) {
             $expected->add(ZoneOffset::of($offsetId));
@@ -1953,8 +1920,7 @@ class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
      * @param TemporalAccessor $parsed
      * @param Expected $expected
      */
-    private
-    function assertParseMatch($parsed, $expected)
+    private function assertParseMatch($parsed, $expected)
     {
         foreach ($expected->fieldValues as $field => $val) {
             $this->assertEquals($parsed->isSupported($field), true);

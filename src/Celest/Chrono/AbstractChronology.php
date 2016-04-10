@@ -525,8 +525,7 @@ abstract class AbstractChronology implements Chronology
         return null;
     }
 
-    protected
-    function resolveYMD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYMD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -548,8 +547,7 @@ abstract class AbstractChronology implements Chronology
         return $this->date($y, $moy, $dom);
     }
 
-    protected
-    function resolveYD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -560,8 +558,7 @@ abstract class AbstractChronology implements Chronology
         return $this->dateYearDay($y, $doy);  // smart is same as strict
     }
 
-    protected
-    function resolveYMAA(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYMAA(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -580,8 +577,7 @@ abstract class AbstractChronology implements Chronology
         return $date;
     }
 
-    protected
-    function resolveYMAD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYMAD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -601,8 +597,7 @@ abstract class AbstractChronology implements Chronology
         return $date;
     }
 
-    protected
-    function resolveYAA(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYAA(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -619,8 +614,7 @@ abstract class AbstractChronology implements Chronology
         return $date;
     }
 
-    protected
-    function resolveYAD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYAD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $y = $this->range(ChronoField::YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::YEAR()), ChronoField::YEAR());
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -637,8 +631,7 @@ abstract class AbstractChronology implements Chronology
         return $date;
     }
 
-    protected
-    function resolveAligned(ChronoLocalDate $base, $months, $weeks, $dow)
+    protected function resolveAligned(ChronoLocalDate $base, $months, $weeks, $dow)
     {
         $date = $base->plus($months, ChronoUnit::MONTHS())->plus($weeks, ChronoUnit::WEEKS());
         if ($dow > 7) {
@@ -726,32 +719,32 @@ abstract class AbstractChronology implements Chronology
         return $this->getId();
     }
 
-    public  function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
 
-    public  function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
 
-    public  function dateNow()
+    public function dateNow()
     {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
-    public  function dateNowIn(ZoneId $zone)
+    public function dateNowIn(ZoneId $zone)
     {
         return $this->dateNowOf(Clock::system($zone));
     }
 
-    public  function dateNowOf(Clock $clock)
+    public function dateNowOf(Clock $clock)
     {
         return $this->dateFrom(LocalDate::nowOf($clock));
     }
 
-    public  function localDateTime(TemporalAccessor $temporal)
+    public function localDateTime(TemporalAccessor $temporal)
     {
         try {
             return $this->dateFrom($temporal)->atTime(LocalTime::from($temporal));
@@ -761,7 +754,7 @@ abstract class AbstractChronology implements Chronology
         }
     }
 
-    public  function zonedDateTimeFrom(TemporalAccessor $temporal)
+    public function zonedDateTimeFrom(TemporalAccessor $temporal)
     {
         try {
             $zone = ZoneId::from($temporal);
@@ -779,7 +772,7 @@ abstract class AbstractChronology implements Chronology
         }
     }
 
-    public  function zonedDateTime(Instant $instant, ZoneId $zone)
+    public function zonedDateTime(Instant $instant, ZoneId $zone)
     {
         return ChronoZonedDateTimeImpl::ofInstant($this, $instant, $zone);
     }

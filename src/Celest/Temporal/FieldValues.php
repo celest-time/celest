@@ -7,12 +7,14 @@ class FieldValues implements \Iterator
 {
     /** @var array */
     private $fieldValues = [];
+
     /**
      * @param TemporalField $field
      * @param int $value
      * @return int|null
      */
-    public function put(TemporalField $field, $value) {
+    public function put(TemporalField $field, $value)
+    {
         $prev = @$this->fieldValues[$field->__toString()];
 
         $this->fieldValues[$field->__toString()] = [$field, $value];
@@ -24,7 +26,8 @@ class FieldValues implements \Iterator
      * @param TemporalField $field
      * @return int
      */
-    public function remove(TemporalField $field) {
+    public function remove(TemporalField $field)
+    {
         $prev = @$this->fieldValues[$field->__toString()];
 
         unset($this->fieldValues[$field->__toString()]);
@@ -36,7 +39,8 @@ class FieldValues implements \Iterator
      * @param TemporalField $field
      * @return bool
      */
-    public function has(TemporalField $field) {
+    public function has(TemporalField $field)
+    {
         return isset($this->fieldValues[$field->__toString()]);
     }
 
@@ -111,8 +115,8 @@ class FieldValues implements \Iterator
     public function filter(array $resolverFields)
     {
         $fields = [];
-        foreach($resolverFields as $field) {
-            if($field instanceof TemporalField)
+        foreach ($resolverFields as $field) {
+            if ($field instanceof TemporalField)
                 $fields[$field->__toString()] = null;
         }
 

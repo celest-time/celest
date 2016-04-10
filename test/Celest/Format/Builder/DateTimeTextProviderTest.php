@@ -74,11 +74,13 @@ use Celest\ZonedDateTime;
 class DateTimeTextProviderTest extends AbstractTestPrinterParser
 {
 
-    private static function enUS() {
+    private static function enUS()
+    {
         return Locale::of("en", "US");
     }
-    
-    private static function ptBR() {
+
+    private static function ptBR()
+    {
         return Locale::of("pt", "BR");
     }
 

@@ -7,8 +7,8 @@ use Celest\DateTimeException;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\Locale;
-use Celest\Temporal\FieldValues;
 use Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
@@ -73,8 +73,7 @@ final class JulianField implements TemporalField
         return $temporal->isSupported(CF::EPOCH_DAY());
     }
 
-    public
-    function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal)
     {
         if ($this->isSupportedBy($temporal) == false) {
             throw new DateTimeException("Unsupported field: " . $this);
@@ -93,19 +92,19 @@ final class JulianField implements TemporalField
             throw new DateTimeException("Invalid value: " . $this->name . " " . $newValue);
         }
         return $temporal->with(CF::EPOCH_DAY(), Math::subtractExact($newValue, $this->offset));
-        }
+    }
 
     //-----------------------------------------------------------------------
     public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
     {
         $value = $fieldValues->remove($this);
-            $chrono = AbstractChronology::from($partialTemporal);
-            if ($resolverStyle == ResolverStyle::LENIENT()) {
-                return $chrono->dateEpochDay(Math::subtractExact($value, $this->offset));
-            }
-            $this->range()->checkValidValue($value, $this);
-            return $chrono->dateEpochDay($value - $this->offset);
+        $chrono = AbstractChronology::from($partialTemporal);
+        if ($resolverStyle == ResolverStyle::LENIENT()) {
+            return $chrono->dateEpochDay(Math::subtractExact($value, $this->offset));
         }
+        $this->range()->checkValidValue($value, $this);
+        return $chrono->dateEpochDay($value - $this->offset);
+    }
 
     //-----------------------------------------------------------------------
     public function __toString()

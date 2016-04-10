@@ -136,7 +136,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function  toInstant(ZoneOffset $offset)
+    public function toInstant(ZoneOffset $offset)
     {
         return Instant::ofEpochSecond($this->toEpochSecond($offset), $this->toLocalTime()->getNano());
     }

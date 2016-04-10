@@ -1,26 +1,26 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * This file is available under and governed by the GNU General Public
@@ -67,51 +67,63 @@ use Celest\Locale;
 /**
  * Mock TemporalField that returns null.
  */
-class MockFieldNoValue implements TemporalField {
+class MockFieldNoValue implements TemporalField
+{
 
 
-    public static function INSTANCE() {
+    public static function INSTANCE()
+    {
         return new MockFieldNoValue();
     }
 
-    public function getBaseUnit() {
+    public function getBaseUnit()
+    {
         return ChronoUnit::WEEKS();
     }
 
-    public function getRangeUnit() {
+    public function getRangeUnit()
+    {
         return ChronoUnit::MONTHS();
     }
 
-    public function range() {
+    public function range()
+    {
         return ValueRange::of(1, 20);
     }
 
-    public function isDateBased() {
+    public function isDateBased()
+    {
         return false;
     }
 
-    public function isTimeBased() {
+    public function isTimeBased()
+    {
         return false;
     }
 
     //-----------------------------------------------------------------------
-    public function isSupportedBy(TemporalAccessor $temporal) {
+    public function isSupportedBy(TemporalAccessor $temporal)
+    {
         return true;
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal) {
+    public function rangeRefinedBy(TemporalAccessor $temporal)
+    {
         return ValueRange::of(1, 20);
     }
 
-    public function getFrom(TemporalAccessor $temporal) {
+    public function getFrom(TemporalAccessor $temporal)
+    {
         throw new DateTimeException("Mock");
     }
 
-    public function adjustInto(Temporal $temporal, $newValue) {
+    public function adjustInto(Temporal $temporal, $newValue)
+    {
         throw new DateTimeException("Mock");
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return null;
     }
 

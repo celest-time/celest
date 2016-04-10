@@ -2,9 +2,9 @@
 
 namespace Celest\Format\Builder;
 
-use Celest\Format\DateTimePrintContext;
 use Celest\DateTimeException;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
 
 /**
  * Strategy for formatting/parsing date-time information.

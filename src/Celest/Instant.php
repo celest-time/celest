@@ -340,15 +340,15 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @return Instant an instant, not null
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      */
-    public
-    static function ofEpochMilli($epochMilli)
+    public static function ofEpochMilli($epochMilli)
     {
         $secs = Math::floorDiv($epochMilli, 1000);
         $mos = (int)Math::floorMod($epochMilli, 1000);
         return self::create($secs, $mos * 1000000);
     }
 
-    public static function fromQuery() {
+    public static function fromQuery()
+    {
         return TemporalQueries::fromCallable([self::class, 'from']);
     }
 
@@ -412,8 +412,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @return Instant
      * @throws DateTimeException if the instant exceeds the maximum or minimum instant
      */
-    private
-    static function create($seconds, $nanoOfSecond)
+    private static function create($seconds, $nanoOfSecond)
     {
         if (($seconds | $nanoOfSecond) == 0) {
             return self::$EPOCH;
@@ -539,7 +538,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
     public function range(TemporalField $field)
     {
         return parent::range($field);
-}
+    }
 
     /**
      * Gets the value of the specified field from this instant as an {@code int}.
@@ -785,7 +784,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
             throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
         }
         $dur = $unitDur->toNanos();
-        if ( (LocalTime::NANOS_PER_DAY % $dur) !== 0) {
+        if ((LocalTime::NANOS_PER_DAY % $dur) !== 0) {
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
         $nod = ($this->seconds % LocalTime::SECONDS_PER_DAY) * LocalTime::NANOS_PER_SECOND + $this->nanos;
@@ -930,8 +929,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function plusMillis($millisToAdd)
+    public function plusMillis($millisToAdd)
     {
         return $this->_plus(Math::div((int)$millisToAdd, 1000), ($millisToAdd % 1000) * 1000000);
     }
@@ -1036,8 +1034,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusSeconds($secondsToSubtract)
+    public function minusSeconds($secondsToSubtract)
     {
         if ($secondsToSubtract === Long::MIN_VALUE) {
             return $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1);
@@ -1056,8 +1053,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusMillis($millisToSubtract)
+    public function minusMillis($millisToSubtract)
     {
         if ($millisToSubtract == Long::MIN_VALUE) {
             return $this->plusMillis(Long::MAX_VALUE)->plusMillis(1);
@@ -1076,8 +1072,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @throws DateTimeException if the result exceeds the maximum or minimum instant
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusNanos($nanosToSubtract)
+    public function minusNanos($nanosToSubtract)
     {
         if ($nanosToSubtract == Long::MIN_VALUE) {
             return $this->plusNanos(Long::MAX_VALUE)->plusNanos(1);
@@ -1216,7 +1211,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
                 case ChronoUnit::HALF_DAYS():
                     return Math::div($this->secondsUntil($end), (12 * LocalTime::SECONDS_PER_HOUR));
                 case ChronoUnit::DAYS():
-                    return Math::div($this->secondsUntil($end),  LocalTime::SECONDS_PER_DAY);
+                    return Math::div($this->secondsUntil($end), LocalTime::SECONDS_PER_DAY);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1278,8 +1273,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @return ZonedDateTime the zoned date-time formed from this instant and the specified zone, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public
-    function atZone(ZoneId $zone)
+    public function atZone(ZoneId $zone)
     {
         return ZonedDateTime::ofInstant($this, $zone);
     }
@@ -1349,8 +1343,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      * @return bool true if this instant is before the specified instant
      * @throws NullPointerException if otherInstant is null
      */
-    public
-    function isBefore(Instant $otherInstant)
+    public function isBefore(Instant $otherInstant)
     {
         return $this->compareTo($otherInstant) < 0;
     }

@@ -85,7 +85,7 @@ class TCKClock_SystemTest extends \PHPUnit_Framework_TestCase
         for ($i = 0; $i < 10000; $i++) {
             // assume can eventually get these within 10 milliseconds
             $instant = $system->instant();
-            $systemMillis =  \gettimeofday(true) / 1000;
+            $systemMillis = \gettimeofday(true) / 1000;
             if ($systemMillis - $instant->toEpochMilli() < 10) {
                 return;  // success
             }
@@ -131,7 +131,7 @@ class TCKClock_SystemTest extends \PHPUnit_Framework_TestCase
 
     public function test_zoneId_nullZoneId()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Clock::system(null);
         });
     }
@@ -140,7 +140,7 @@ class TCKClock_SystemTest extends \PHPUnit_Framework_TestCase
     public function test_withZone()
     {
         $test = Clock::system(self::PARIS());
-         $changed = $test->withZone(self::MOSCOW());
+        $changed = $test->withZone(self::MOSCOW());
         $this->assertEquals($test->getZone(), self::PARIS());
         $this->assertEquals($changed->getZone(), self::MOSCOW());
     }
@@ -148,20 +148,20 @@ class TCKClock_SystemTest extends \PHPUnit_Framework_TestCase
     public function test_withZone_equal()
     {
         $test = Clock::system(self::PARIS());
-         $changed = $test->withZone(self::PARIS());
+        $changed = $test->withZone(self::PARIS());
         $this->assertEquals($changed->getZone(), self::PARIS());
     }
 
     public function test_withZone_fromUTC()
     {
         $test = Clock::systemUTC();
-         $changed = $test->withZone(self::PARIS());
+        $changed = $test->withZone(self::PARIS());
         $this->assertEquals($changed->getZone(), self::PARIS());
     }
 
     public function test_withZone_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Clock::systemUTC()->withZone(null);
         });
     }

@@ -265,8 +265,7 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_factory_from_TemporalAmount_Duration()
+    public function test_factory_from_TemporalAmount_Duration()
     {
         Period::from(Duration::ZERO());
     }

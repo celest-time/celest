@@ -59,6 +59,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest;
+
 use Celest\Format\TextStyle;
 use Celest\Zone\ZoneRules;
 
@@ -621,8 +622,7 @@ class ZoneIdTest extends \PHPUnit_Framework_TestCase
         return LocalDateTime::of($year, $month, $day, 0, 0)->toInstant($offset);
     }
 
-    private
-    function createInstant8($year, $month, $day, $hour, $min, $sec, $nano, ZoneOffset $offset)
+    private function createInstant8($year, $month, $day, $hour, $min, $sec, $nano, ZoneOffset $offset)
     {
         return LocalDateTime::of($year, $month, $day, $hour, $min, $sec, $nano)->toInstant($offset);
     }

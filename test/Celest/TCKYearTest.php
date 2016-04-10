@@ -13,7 +13,6 @@ use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
-use PHPUnit_Framework_TestCase;
 
 class TCKYearTest extends AbstractDateTimeTest
 {
@@ -357,8 +356,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_query
      */
-    public
-    function test_queryFrom(TemporalAccessor $temporal, TemporalQuery $query, $expected)
+    public function test_queryFrom(TemporalAccessor $temporal, TemporalQuery $query, $expected)
     {
         $this->assertEquals($query->queryFrom($temporal), $expected);
     }
@@ -373,8 +371,7 @@ class TCKYearTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // isLeap()
 //-----------------------------------------------------------------------
-    public
-    function test_isLeap()
+    public function test_isLeap()
     {
         $this->assertEquals(Year::of(1999)->isLeap(), false);
         $this->assertEquals(Year::of(2000)->isLeap(), true);
@@ -473,8 +470,7 @@ class TCKYearTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // plusYears()
 //-----------------------------------------------------------------------
-    public
-    function test_plusYears()
+    public function test_plusYears()
     {
         $this->assertEquals(Year::of(2007)->plusYears(-1), Year::of(2006));
         $this->assertEquals(Year::of(2007)->plusYears(0), Year::of(2007));
@@ -488,15 +484,13 @@ class TCKYearTest extends AbstractDateTimeTest
         $this->assertEquals(Year::of(Year::MIN_VALUE)->plusYears(0), Year::of(Year::MIN_VALUE));
     }
 
-    public
-    function test_plusYear_zero_equals()
+    public function test_plusYear_zero_equals()
     {
         $base = Year::of(2007);
         $this->assertEquals($base->plusYears(0), $base);
     }
 
-    public
-    function test_plusYears_big()
+    public function test_plusYears_big()
     {
         $years = 20 + Year::MAX_VALUE;
         $this->assertEquals(Year::of(-40)->plusYears($years), Year::of((int)(-40 + $years)));
@@ -505,8 +499,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException     \Celest\DateTimeException
      */
-    public
-    function test_plusYears_max()
+    public function test_plusYears_max()
     {
         Year::of(Year :: MAX_VALUE)->plusYears(1);
     }
@@ -514,8 +507,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException     \Celest\DateTimeException
      */
-    public
-    function test_plusYears_maxLots()
+    public function test_plusYears_maxLots()
     {
         Year::of(Year :: MAX_VALUE)->plusYears(1000);
     }
@@ -523,8 +515,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException     \Celest\DateTimeException
      */
-    public
-    function test_plusYears_min()
+    public function test_plusYears_min()
     {
         Year::of(Year :: MIN_VALUE)->plusYears(-1);
     }
@@ -532,8 +523,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException     \Celest\DateTimeException
      */
-    public
-    function test_plusYears_minLots()
+    public function test_plusYears_minLots()
     {
         Year::of(Year :: MIN_VALUE)->plusYears(-1000);
     }
@@ -583,8 +573,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_plus_long_TemporalUnit
      */
-    public
-    function test_plus_long_TemporalUnit(Year $base, $amount, TemporalUnit $unit, $expectedYear, $expectedEx)
+    public function test_plus_long_TemporalUnit(Year $base, $amount, TemporalUnit $unit, $expectedYear, $expectedEx)
     {
         if ($expectedEx == null) {
             $this->assertEquals($base->plus($amount, $unit), $expectedYear);
@@ -785,8 +774,7 @@ class TCKYearTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // adjustInto()
 //-----------------------------------------------------------------------
-    public
-    function test_adjustDate()
+    public function test_adjustDate()
     {
         $base = LocalDate::of(2007, 2, 12);
         for ($i = -4; $i <= 2104; $i++) {
@@ -795,15 +783,13 @@ class TCKYearTest extends AbstractDateTimeTest
         }
     }
 
-    public
-    function test_adjustDate_resolve()
+    public function test_adjustDate_resolve()
     {
         $test = Year::of(2011);
         $this->assertEquals($test->adjustInto(LocalDate::of(2012, 2, 29)), LocalDate::of(2011, 2, 28));
     }
 
-    public
-    function test_adjustDate_nullLocalDate()
+    public function test_adjustDate_nullLocalDate()
     {
         TestHelper::assertNullException($this, function () {
             $test = Year::of(1);
@@ -1030,8 +1016,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_periodUntilUnit
      */
-    public
-    function test_until_TemporalUnit_negated(Year $year1, Year $year2, TemporalUnit $unit, $expected)
+    public function test_until_TemporalUnit_negated(Year $year1, Year $year2, TemporalUnit $unit, $expected)
     {
         $amount = $year2->until($year1, $unit);
         $this->assertEquals($amount, -$expected);
@@ -1040,15 +1025,13 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @dataProvider data_periodUntilUnit
      */
-    public
-    function test_until_TemporalUnit_between(Year $year1, Year $year2, TemporalUnit $unit, $expected)
+    public function test_until_TemporalUnit_between(Year $year1, Year $year2, TemporalUnit $unit, $expected)
     {
         $amount = $unit->between($year1, $year2);
         $this->assertEquals($amount, $expected);
     }
 
-    public
-    function test_until_convertedType()
+    public function test_until_convertedType()
     {
         $start = Year::of(2010);
         $end = $start->plusYears(2)->atMonth(Month::APRIL());
@@ -1161,8 +1144,7 @@ class TCKYearTest extends AbstractDateTimeTest
         $this->assertEquals($year->atMonthDay($monthDay), $expected);
     }
 
-    public
-    function test_atMonthDay_nullMonthDay()
+    public function test_atMonthDay_nullMonthDay()
     {
         TestHelper::assertNullException($this, function () {
             $test = Year::of(2008);
@@ -1173,8 +1155,7 @@ class TCKYearTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // atDay(int)
 //-----------------------------------------------------------------------
-    public
-    function test_atDay_notLeapYear()
+    public function test_atDay_notLeapYear()
     {
         $test = Year::of(2007);
         $expected = LocalDate::of(2007, 1, 1);
@@ -1187,15 +1168,13 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_atDay_notLeapYear_day366()
+    public function test_atDay_notLeapYear_day366()
     {
         $test = Year::of(2007);
         $test->atDay(366);
     }
 
-    public
-    function test_atDay_leapYear()
+    public function test_atDay_leapYear()
     {
         $test = Year::of(2008);
         $expected = LocalDate::of(2008, 1, 1);
@@ -1208,8 +1187,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_atDay_day0()
+    public function test_atDay_day0()
     {
         $test = Year::of(2007);
         $test->atDay(0);
@@ -1218,8 +1196,7 @@ class TCKYearTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_atDay_day367()
+    public function test_atDay_day367()
     {
         $test = Year::of(2007);
         $test->atDay(367);
@@ -1313,8 +1290,7 @@ class TCKYearTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // toString()
 //-----------------------------------------------------------------------
-    public
-    function test_toString()
+    public function test_toString()
     {
         for ($i = -4; $i <= 2104;
              $i++) {

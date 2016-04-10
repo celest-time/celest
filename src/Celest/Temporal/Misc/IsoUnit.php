@@ -26,6 +26,7 @@ class IsoUnit implements TemporalUnit
         }
         return self::$WEEK_BASED_YEARS;
     }
+
     /** @var IsoUnit */
     private static $WEEK_BASED_YEARS;
 
@@ -40,6 +41,7 @@ class IsoUnit implements TemporalUnit
         }
         return self::$QUARTER_YEARS;
     }
+
     /** @var IsoUnit */
     private static $QUARTER_YEARS;
 
@@ -59,20 +61,17 @@ class IsoUnit implements TemporalUnit
         return $this->duration;
     }
 
-    public
-    function isDurationEstimated()
+    public function isDurationEstimated()
     {
         return true;
     }
 
-    public
-    function isDateBased()
+    public function isDateBased()
     {
         return true;
     }
 
-    public
-    function isTimeBased()
+    public function isTimeBased()
     {
         return false;
     }
@@ -114,8 +113,7 @@ class IsoUnit implements TemporalUnit
         }
     }
 
-    public
-    function __toString()
+    public function __toString()
     {
         return $this->name;
     }

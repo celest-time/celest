@@ -292,14 +292,12 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
         return $field->getFrom($this);
     }
 
-    private
-    function getProlepticMonth()
+    private function getProlepticMonth()
     {
         return $this->getProlepticYear() * 12 + $this->isoDate->getMonthValue() - 1;
     }
 
-    private
-    function getProlepticYear()
+    private function getProlepticYear()
     {
         return $this->isoDate->getYear() + ThaiBuddhistChronology::YEARS_DIFFERENCE;
     }

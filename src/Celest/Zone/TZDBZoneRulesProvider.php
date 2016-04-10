@@ -9,7 +9,7 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
     /** @var ZoneRules[] */
     private static $rulesCache = [];
 
-    /** @var string[]  */
+    /** @var string[] */
     private static $links = null;
 
     /** @var string[] */
@@ -29,7 +29,7 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
      */
     protected function provideZoneIds()
     {
-        if(self::$provides === null) {
+        if (self::$provides === null) {
             self::$provides = TzData::load('provides.php');
         }
         return self::$provides;
@@ -63,12 +63,12 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
      */
     protected function provideRules($zoneId, $forCaching)
     {
-        if(!array_key_exists($zoneId, self::$rulesCache)) {
-            if(self::$links === null) {
+        if (!array_key_exists($zoneId, self::$rulesCache)) {
+            if (self::$links === null) {
                 self::$links = TzData::load('links.php');
             }
 
-            if(array_key_exists($zoneId, self::$links)) {
+            if (array_key_exists($zoneId, self::$links)) {
                 $this->loadFromFile(self::$links[$zoneId]);
                 self::$rulesCache[$zoneId] = self::$rulesCache[self::$links[$zoneId]];
             } else {
@@ -79,8 +79,9 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
         return self::$rulesCache[$zoneId];
     }
 
-    protected function loadFromFile($zoneId) {
-        if(!array_key_exists($zoneId, self::$rulesCache)) {
+    protected function loadFromFile($zoneId)
+    {
+        if (!array_key_exists($zoneId, self::$rulesCache)) {
             self::$rulesCache[$zoneId] = unserialize(TzData::load('zones/' . $zoneId . '.php'));
         }
 

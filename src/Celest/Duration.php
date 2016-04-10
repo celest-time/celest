@@ -132,11 +132,11 @@ final class Duration implements TemporalAmount
      * The pattern for parsing.
      */
     private static $PATTERN =
-        '/^([-+]?)'.
-        'P'.
-        '(?:([-+]?[0-9]+)D)?'.
-        '(T(?:([-+]?[0-9]+)H)?'.
-        '(?:([-+]?[0-9]+)M)?'.
+        '/^([-+]?)' .
+        'P' .
+        '(?:([-+]?[0-9]+)D)?' .
+        '(T(?:([-+]?[0-9]+)H)?' .
+        '(?:([-+]?[0-9]+)M)?' .
         '(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?$/i';
 
     /**
@@ -165,7 +165,7 @@ final class Duration implements TemporalAmount
      */
     public static function ofDays($days)
     {
-        return self::create(Math::multiplyExact($days,LocalTime::SECONDS_PER_DAY), 0);
+        return self::create(Math::multiplyExact($days, LocalTime::SECONDS_PER_DAY), 0);
     }
 
     /**
@@ -179,10 +179,9 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input hours exceeds the capacity of {@code Duration}
      */
-    public
-    static function ofHours($hours)
+    public static function ofHours($hours)
     {
-        return self::create(Math::multiplyExact($hours,LocalTime::SECONDS_PER_HOUR), 0);
+        return self::create(Math::multiplyExact($hours, LocalTime::SECONDS_PER_HOUR), 0);
     }
 
     /**
@@ -196,10 +195,9 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input minutes exceeds the capacity of {@code Duration}
      */
-    public
-    static function ofMinutes($minutes)
+    public static function ofMinutes($minutes)
     {
-        return self::create(Math::multiplyExact($minutes,LocalTime::SECONDS_PER_MINUTE), 0);
+        return self::create(Math::multiplyExact($minutes, LocalTime::SECONDS_PER_MINUTE), 0);
     }
 
     //-----------------------------------------------------------------------
@@ -666,8 +664,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this period with the requested nano-of-second, not null
      * @throws DateTimeException if the nano-of-second is invalid
      */
-    public
-    function withNanos($nanoOfSecond)
+    public function withNanos($nanoOfSecond)
     {
         ChronoField::NANO_OF_SECOND()->checkValidIntValue($nanoOfSecond);
         return self::create($this->seconds, $nanoOfSecond);
@@ -698,8 +695,8 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $amountToAdd  the amount to add, measured in terms of the unit, positive or negative
-     * @param TemporalUnit $unit  the unit that the amount is measured in, must have an exact duration, not null
+     * @param int $amountToAdd the amount to add, measured in terms of the unit, positive or negative
+     * @param TemporalUnit $unit the unit that the amount is measured in, must have an exact duration, not null
      * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
@@ -742,7 +739,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param int $daysToAdd  the days to add, positive or negative
+     * @param int $daysToAdd the days to add, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -760,8 +757,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified hours added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function plusHours($hoursToAdd)
+    public function plusHours($hoursToAdd)
     {
         return $this->_plus(Math::multiplyExact($hoursToAdd, LocalTime::SECONDS_PER_HOUR), 0);
     }
@@ -899,8 +895,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusDays($daysToSubtract)
+    public function minusDays($daysToSubtract)
     {
         return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
@@ -916,8 +911,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified hours subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusHours($hoursToSubtract)
+    public function minusHours($hoursToSubtract)
     {
         return ($hoursToSubtract == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hoursToSubtract));
     }
@@ -933,8 +927,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified minutes subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function minusMinutes($minutesToSubtract)
+    public function minusMinutes($minutesToSubtract)
     {
         return ($minutesToSubtract == Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutesToSubtract));
     }
@@ -1227,7 +1220,7 @@ final class Duration implements TemporalAmount
      * @return int the total length of the duration in nanoseconds
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function  toNanos()
+    public function toNanos()
     {
         $totalNanos = Math::multiplyExact($this->seconds, LocalTime::NANOS_PER_SECOND);
         $totalNanos = Math::addExact($totalNanos, $this->nanos);

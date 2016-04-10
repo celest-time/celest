@@ -66,7 +66,6 @@ namespace Celest;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\TextStyle;
 use Celest\Helper\StringHelper;
-use Celest\Temporal\AbstractTemporal;
 use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
@@ -299,8 +298,7 @@ abstract class ZoneId
      * @throws DateTimeException if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
      */
-    public
-    static function of($zoneId)
+    public static function of($zoneId)
     {
         if (!is_string($zoneId))
             throw new \InvalidArgumentException();
@@ -374,8 +372,7 @@ abstract class ZoneId
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if the zone ID has an invalid format
      */
-    private
-    static function ofWithPrefix($zoneId, $prefixLength, $checkAvailable)
+    private static function ofWithPrefix($zoneId, $prefixLength, $checkAvailable)
     {
         $prefix = substr($zoneId, 0, $prefixLength);
         if (strlen($zoneId) === $prefixLength) {
@@ -566,8 +563,7 @@ abstract class ZoneId
      *
      * @return string a string representation of this time-zone ID, not null
      */
-    public
-    function __toString()
+    public function __toString()
     {
         return $this->getId();
     }

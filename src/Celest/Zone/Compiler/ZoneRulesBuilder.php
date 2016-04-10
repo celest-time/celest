@@ -253,8 +253,7 @@ class ZoneRulesBuilder
      * @throws \LogicException if the window already has fixed savings
      * @throws \LogicException if the window has reached the maximum capacity of 2000 rules
      */
-    public
-    function addRuleToWindow9(
+    public function addRuleToWindow9(
         $startYear,
         $endYear,
         Month $month,

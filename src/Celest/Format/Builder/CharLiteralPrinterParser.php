@@ -1,6 +1,7 @@
 <?php
 
 namespace Celest\Format\Builder;
+
 use Celest\Format\DateTimePrintContext;
 use Celest\Format\DateTimeParseContext;
 use Celest\IllegalArgumentException;
@@ -15,7 +16,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
 
     public function __construct($literal)
     {
-        if(strlen($literal) !== 1) {
+        if (strlen($literal) !== 1) {
             throw new IllegalArgumentException();
         }
         $this->literal = $literal;
@@ -34,7 +35,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
             return ~$position;
         }
 
-        if($position < 0 || $position >= $length) throw new \OutOfRangeException();
+        if ($position < 0 || $position >= $length) throw new \OutOfRangeException();
         $ch = $text[$position];
         if ($ch !== $this->literal) {
             if ($context->isCaseSensitive() ||

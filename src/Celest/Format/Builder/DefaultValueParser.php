@@ -38,6 +38,6 @@ class DefaultValueParser implements DateTimePrinterParser
 
     function __toString()
     {
-        return 'Default(' . $this->field . ':' . $this->value .')';
+        return 'Default(' . $this->field . ':' . $this->value . ')';
     }
 }

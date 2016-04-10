@@ -95,8 +95,7 @@ class ResolvingField implements TemporalField
         throw new UnsupportedOperationException();
     }
 
-    public
-    function getRangeUnit()
+    public function getRangeUnit()
     {
         throw new UnsupportedOperationException();
     }
@@ -860,20 +859,20 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
         $styles = ($style !== null ? [$style] : ResolverStyle::values());
 
         foreach ($styles as $s) {
-                if ($expectedTime !== null) {
-                    $accessor = $f->withResolverStyle($s)->parse("");
-                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " . $s);
-                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime->minusNanos($nano), "ResolverStyle: " . $s);
-                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " . $s);
-                } else {
-                    try {
-                        $f->withResolverStyle($style)->parse("");
-                        $this->fail();
-                    } catch (DateTimeParseException $ex) {
-                        // $expected
-                    }
+            if ($expectedTime !== null) {
+                $accessor = $f->withResolverStyle($s)->parse("");
+                $this->assertEquals($accessor->query(TemporalQueries::localDate()), null, "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime->minusNanos($nano), "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), $excessPeriod, "ResolverStyle: " . $s);
+            } else {
+                try {
+                    $f->withResolverStyle($style)->parse("");
+                    $this->fail();
+                } catch (DateTimeParseException $ex) {
+                    // $expected
                 }
             }
+        }
     }
 
     /**
@@ -892,15 +891,15 @@ class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
 
         $styles = ($style !== null ? [$style] : ResolverStyle::values());
 
-            if ($expectedTime !== null && $excessPeriod !== null) {
-                $expectedDate = LocalDate::of(2012, 6, 30)->plusAmount($excessPeriod);
-                foreach ($styles as $s) {
-                    $accessor = $f->withResolverStyle($s)->parse("");
-                    $this->assertEquals($accessor->query(TemporalQueries::localDate()), $expectedDate, "ResolverStyle: " . $s);
-                    $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " . $s);
-                    $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), Period::ZERO(), "ResolverStyle: " . $s);
-                }
+        if ($expectedTime !== null && $excessPeriod !== null) {
+            $expectedDate = LocalDate::of(2012, 6, 30)->plusAmount($excessPeriod);
+            foreach ($styles as $s) {
+                $accessor = $f->withResolverStyle($s)->parse("");
+                $this->assertEquals($accessor->query(TemporalQueries::localDate()), $expectedDate, "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " . $s);
+                $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), Period::ZERO(), "ResolverStyle: " . $s);
             }
+        }
     }
 
     //-----------------------------------------------------------------------

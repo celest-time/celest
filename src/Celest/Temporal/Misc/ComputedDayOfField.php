@@ -455,7 +455,7 @@ class ComputedDayOfField implements TemporalField
     {
         if ($this->rangeUnit == ChronoUnit::YEARS()) {  // only have values for week-of-year
             $name = DateTimeTextProvider::tryField('week', $locale);
-            if($name !== null) {
+            if ($name !== null) {
                 return $name;
             }
         }

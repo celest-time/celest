@@ -4,10 +4,10 @@ namespace Celest\Format\Builder;
 
 use Celest\DateTimeException;
 use Celest\Format\DateTimeParseContext;
+use Celest\Format\DateTimePrintContext;
 use Celest\Format\ParsePosition;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalQuery;
-use Celest\Format\DateTimePrintContext;
 use Celest\Zone\ZoneRulesProvider;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
@@ -189,7 +189,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     {
         $ids = ZoneId::getAvailableZoneIds();
 
-        if(!$isCaseSensitive) {
+        if (!$isCaseSensitive) {
             $ids = \array_map('\strtolower', $ids);
             $text = \strtolower($text);
         }
@@ -200,9 +200,9 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         $max = \strlen($text) - 1;
 
 
-        for($i = $max; $i >= $pos; $i--) {
+        for ($i = $max; $i >= $pos; $i--) {
             $str = \substr($text, $pos, $i - $pos + 1);
-            if(isset($ids[$str])) {
+            if (isset($ids[$str])) {
                 $ppos->setIndex($i + 1);
                 return ZoneId::getAvailableZoneIds()[$ids[$str]];
             }

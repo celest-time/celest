@@ -803,8 +803,7 @@ class TCKYearMonth extends AbstractDateTimeTest
      * @expectedException \Celest\DateTimeException
      */
 
-    public
-    function test_plusMonths_long_invalidTooLarge()
+    public function test_plusMonths_long_invalidTooLarge()
     {
         $test = YearMonth::of(Year::MAX_VALUE, 12);
         $test->plusMonths(1);

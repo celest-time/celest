@@ -61,8 +61,8 @@
 namespace Celest\Format;
 
 use Celest\Instant;
-use Celest\Temporal\ChronoField as CF;
 use Celest\LocalDateTime;
+use Celest\Temporal\ChronoField as CF;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;

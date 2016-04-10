@@ -17,7 +17,8 @@ use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use PHPUnit_Framework_TestCase;
 
-class TemporalTest extends AbstractTemporalAccessor {
+class TemporalTest extends AbstractTemporalAccessor
+{
 
     public function isSupported(TemporalField $field)
     {
@@ -54,8 +55,7 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
         $this->decimalStyle = DecimalStyle::STANDARD();
     }
 
-    protected
-    function setCaseSensitive($caseSensitive)
+    protected function setCaseSensitive($caseSensitive)
     {
         if ($caseSensitive) {
             $this->builder->parseCaseSensitive();
@@ -64,8 +64,7 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected
-    function setStrict($strict)
+    protected function setStrict($strict)
     {
         if ($strict) {
             $this->builder->parseStrict();
@@ -74,50 +73,42 @@ class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
         }
     }
 
-    protected
-    function getFormatter()
+    protected function getFormatter()
     {
         return $this->builder->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterChar($c)
+    protected function getFormatterChar($c)
     {
         return $this->builder->appendLiteral($c)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterString($s)
+    protected function getFormatterString($s)
     {
         return $this->builder->appendLiteral2($s)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterField(TemporalField $field)
+    protected function getFormatterField(TemporalField $field)
     {
         return $this->builder->appendText($field)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterFieldStyle(TemporalField $field, TextStyle $style)
+    protected function getFormatterFieldStyle(TemporalField $field, TextStyle $style)
     {
         return $this->builder->appendText2($field, $style)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterWidth(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
+    protected function getFormatterWidth(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
     {
         return $this->builder->appendValue3($field, $minWidth, $maxWidth, $signStyle)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getFormatterPattern($pattern, $noOffsetText)
+    protected function getFormatterPattern($pattern, $noOffsetText)
     {
         return $this->builder->appendOffset($pattern, $noOffsetText)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }
 
-    protected
-    function getPatternFormatter($pattern)
+    protected function getPatternFormatter($pattern)
     {
         return $this->builder->appendPattern($pattern)->toFormatter2($this->locale)->withDecimalStyle($this->decimalStyle);
     }

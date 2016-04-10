@@ -63,8 +63,8 @@
  */
 namespace Celest;
 
-use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\AbstractChronoLocalDate;
+use Celest\Chrono\ChronoLocalDate;
 use Celest\Chrono\Era;
 use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
@@ -246,8 +246,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    static function ofMonth($year, Month $month, $dayOfMonth)
+    public static function ofMonth($year, Month $month, $dayOfMonth)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
@@ -261,14 +260,13 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * The day must be valid for the year and month, otherwise an exception will be thrown.
      *
      * @param int $year the year to represent, from MIN_YEAR to MAX_YEAR
-     * @param int $month  the month-of-year to represent, from 1 (January) to 12 (December)
+     * @param int $month the month-of-year to represent, from 1 (January) to 12 (December)
      * @param int $dayOfMonth the day-of-month to represent, from 1 to 31
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    static function of($year, $month, $dayOfMonth)
+    public static function of($year, $month, $dayOfMonth)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -276,7 +274,8 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         return self::create($year, $month, $dayOfMonth);
     }
 
-    public static function fromQuery() {
+    public static function fromQuery()
+    {
         return TemporalQueries::fromCallable([self::class, 'from']);
     }
 
@@ -293,8 +292,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-year is invalid for the year
      */
-    public
-    static function ofYearDay($year, $dayOfYear)
+    public static function ofYearDay($year, $dayOfYear)
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::DAY_OF_YEAR()->checkValidValue($dayOfYear);
@@ -415,8 +413,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return LocalDate the parsed local date, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([self::class, 'from']));
     }
@@ -431,8 +428,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return LocalDate the local date, not null
      * @throws DateTimeException if the day-of-month is invalid for the month-year
      */
-    private
-    static function create($year, $month, $dayOfMonth)
+    private static function create($year, $month, $dayOfMonth)
     {
         if ($dayOfMonth > 28) {
             $dom = 31;
@@ -467,8 +463,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @param int $day the day-of-month to represent, validated from 1 to 31
      * @return LocalDate the resolved date, not null
      */
-    private
-    static function resolvePreviousValid($year, $month, $day)
+    private static function resolvePreviousValid($year, $month, $day)
     {
         switch ($month) {
             case 2:
@@ -492,8 +487,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @param int $month the month-of-year to represent, not null
      * @param int $dayOfMonth the day-of-month to represent, valid for year-month, from 1 to 31
      */
-    private
-    function __construct($year, $month, $dayOfMonth)
+    private function __construct($year, $month, $dayOfMonth)
     {
         $this->year = $year;
         $this->month = $month;
@@ -533,7 +527,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param TemporalField $field  the field to check, null returns false
+     * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this date, false if not
      */
     public function isSupported(TemporalField $field)
@@ -731,8 +725,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
     }
 
-    private
-    function getProlepticMonth()
+    private function getProlepticMonth()
     {
         return ($this->year * 12 + $this->month - 1);
     }
@@ -786,8 +779,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public
-    function getYear()
+    public function getYear()
     {
         return $this->year;
     }
@@ -818,8 +810,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return Month the month-of-year, not null
      * @see #getMonthValue()
      */
-    public
-    function getMonth()
+    public function getMonth()
     {
         return Month::of($this->month);
     }
@@ -843,8 +834,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      *
      * @return int the day-of-year, from 1 to 365, or 366 in a leap year
      */
-    public
-    function getDayOfYear()
+    public function getDayOfYear()
     {
         return $this->getMonth()->firstDayOfYear($this->isLeapYear()) + $this->day - 1;
     }
@@ -862,8 +852,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      *
      * @return DayOfWeek the day-of-week, not null
      */
-    public
-    function getDayOfWeek()
+    public function getDayOfWeek()
     {
         $dow0 = Math::floorMod($this->toEpochDay() + 3, 7);
         return DayOfWeek::of($dow0 + 1);
@@ -1405,7 +1394,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
 
         $monthCount = $this->year * 12 + ($this->month - 1);
         $calcMonths = $monthCount + $monthsToAdd;  // safe overflow
-        if(!is_int($calcMonths)) {
+        if (!is_int($calcMonths)) {
             throw new DateTimeException('Overflow'); // Todo better message
         }
         $newYear = ChronoField::YEAR()->checkValidIntValue(Math::floorDiv($calcMonths, 12));
@@ -1539,8 +1528,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return LocalDate a {@code LocalDate} based on this date with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusYears($yearsToSubtract)
+    public function minusYears($yearsToSubtract)
     {
         return ($yearsToSubtract == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
@@ -1565,8 +1553,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @return LocalDate a {@code LocalDate} based on this date with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public
-    function minusMonths($monthsToSubtract)
+    public function minusMonths($monthsToSubtract)
     {
         return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
@@ -1870,8 +1857,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      * @param OffsetTime $time the time to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this date and the specified time, not null
      */
-    public
-    function atOffsetTime(OffsetTime $time)
+    public function atOffsetTime(OffsetTime $time)
     {
         return OffsetDateTime::ofDateTime(LocalDateTime::ofDateAndTime($this, $time->toLocalTime()), $time->getOffset());
     }

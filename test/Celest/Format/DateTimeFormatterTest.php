@@ -59,6 +59,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeException;
 use Celest\DayOfWeek;
@@ -88,12 +89,12 @@ class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $base =
             (new DateTimeFormatterBuilder())->appendLiteral2("ONE")
-       ->appendValue3(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NOT_NEGATIVE())
-       ->toFormatter2(Locale::ENGLISH())
-       ->withDecimalStyle(DecimalStyle::STANDARD());
-$test = $base->withLocale(Locale::ENGLISH());
-$this->assertSame($test, $base);
-}
+                ->appendValue3(ChronoField::DAY_OF_MONTH(), 1, 2, SignStyle::NOT_NEGATIVE())
+                ->toFormatter2(Locale::ENGLISH())
+                ->withDecimalStyle(DecimalStyle::STANDARD());
+        $test = $base->withLocale(Locale::ENGLISH());
+        $this->assertSame($test, $base);
+    }
 
     public function test_parse_errorMessage()
     {
@@ -131,13 +132,13 @@ $this->assertSame($test, $base);
 
     private function assertGoodErrorDate($function, $expectedText)
     {
-         $f = DateTimeFormatter::ofPattern("yyyy-mm-dd");
-         $temporal = $f->parse("2010-06-30");
+        $f = DateTimeFormatter::ofPattern("yyyy-mm-dd");
+        $temporal = $f->parse("2010-06-30");
         try {
             $function($temporal);
             $this->fail("Should have failed");
         } catch (DateTimeException $ex) {
-             $msg = $ex->getMessage();
+            $msg = $ex->getMessage();
             $this->assertContains($expectedText, $msg, $msg);
             $this->assertContains("Year", $msg, $msg);
             $this->assertContains("MinuteOfHour", $msg, $msg);
@@ -147,8 +148,8 @@ $this->assertSame($test, $base);
 
     private function assertGoodErrorTime($function, $expectedText)
     {
-         $f = DateTimeFormatter::ofPattern("HH:MM:ss");
-         $temporal = $f->parse("11:30:56");
+        $f = DateTimeFormatter::ofPattern("HH:MM:ss");
+        $temporal = $f->parse("11:30:56");
         try {
             $function($temporal);
             $this->fail("Should have failed");
@@ -163,27 +164,27 @@ $this->assertSame($test, $base);
 
     public function test_parsed_toString_resolvedTime()
     {
-         $f = DateTimeFormatter::ofPattern("HH:mm:ss");
-         $temporal = $f->parse("11:30:56");
-         $msg = $temporal->__toString();
-        $this->assertContains("11:30:56",$msg, $msg);
+        $f = DateTimeFormatter::ofPattern("HH:mm:ss");
+        $temporal = $f->parse("11:30:56");
+        $msg = $temporal->__toString();
+        $this->assertContains("11:30:56", $msg, $msg);
     }
 
     public function test_parsed_toString_resolvedDate()
     {
-         $f = DateTimeFormatter::ofPattern("yyyy-MM-dd");
-         $temporal = $f->parse("2010-06-30");
-         $msg = $temporal->__toString();
-        $this->assertContains("2010-06-30",$msg, $msg);
+        $f = DateTimeFormatter::ofPattern("yyyy-MM-dd");
+        $temporal = $f->parse("2010-06-30");
+        $msg = $temporal->__toString();
+        $this->assertContains("2010-06-30", $msg, $msg);
     }
 
     public function test_parsed_toString_resolvedDateTime()
     {
-         $f = DateTimeFormatter::ofPattern("yyyy-MM-dd HH:mm:ss");
-         $temporal = $f->parse("2010-06-30 11:30:56");
-         $msg = $temporal->__toString();
-        $this->assertContains("2010-06-30",$msg, $msg);
-        $this->assertContains("11:30:56",$msg, $msg);
+        $f = DateTimeFormatter::ofPattern("yyyy-MM-dd HH:mm:ss");
+        $temporal = $f->parse("2010-06-30 11:30:56");
+        $msg = $temporal->__toString();
+        $this->assertContains("2010-06-30", $msg, $msg);
+        $this->assertContains("11:30:56", $msg, $msg);
     }
 
 }

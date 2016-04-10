@@ -104,7 +104,7 @@ class FormatStyle
      */
     public static function valueOf($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'FULL':
                 return self::FULL();
             case 'LONG':
@@ -117,7 +117,8 @@ class FormatStyle
         throw new IllegalArgumentException();
     }
 
-    function ordinal() {
+    function ordinal()
+    {
         return $this->val;
     }
 

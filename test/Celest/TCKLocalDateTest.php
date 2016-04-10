@@ -627,8 +627,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
      * @dataProvider provider_sampleBadParse
      * @expectedException \Celest\DateTimeParseException
      */
-    public
-    function test_factory_parse_invalidText($unparsable)
+    public function test_factory_parse_invalidText($unparsable)
     {
         LocalDate::parse($unparsable);
     }
@@ -671,7 +670,8 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     {
         TestHelper::assertNullException($this, function () {
             $f = DateTimeFormatter::ofPattern("y M d");
-            LocalDate::parseWith(null, $f);});
+            LocalDate::parseWith(null, $f);
+        });
 
     }
 
@@ -945,7 +945,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     public function test_with_adjustment()
     {
         $sample = LocalDate::of(2012, 3, 4);
-        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
+        $adjuster = TemporalAdjusters::fromCallable(function () use ($sample) {
             return $sample;
         });
         $this->assertEquals(self::TEST_2007_07_15()->adjust($adjuster), $sample);
@@ -1345,8 +1345,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_plusMonths_long_invalidTooLarge()
+    public function test_plusMonths_long_invalidTooLarge()
     {
         LocalDate::of(Year::MAX_VALUE, 12, 1)->plusMonths(1);
     }
@@ -1372,71 +1371,62 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_plusMonths_long_invalidTooSmall()
+    public function test_plusMonths_long_invalidTooSmall()
     {
         LocalDate::of(Year::MIN_VALUE, 1, 1)->plusMonths(-1);
     }
 
 
-    public
-    function test_plusWeeks_normal()
+    public function test_plusWeeks_normal()
     {
         $t = self::TEST_2007_07_15()->plusWeeks(1);
         $this->assertEquals($t, LocalDate::of(2007, 7, 22));
     }
 
 
-    public
-    function test_plusWeeks_overMonths()
+    public function test_plusWeeks_overMonths()
     {
         $t = self::TEST_2007_07_15()->plusWeeks(9);
         $this->assertEquals($t, LocalDate::of(2007, 9, 16));
     }
 
 
-    public
-    function test_plusWeeks_overYears()
+    public function test_plusWeeks_overYears()
     {
         $t = LocalDate::of(2006, 7, 16)->plusWeeks(52);
         $this->assertEquals($t, self::TEST_2007_07_15());
     }
 
 
-    public
-    function test_plusWeeks_overLeapYears()
+    public function test_plusWeeks_overLeapYears()
     {
         $t = self::TEST_2007_07_15()->plusYears(-1)->plusWeeks(104);
         $this->assertEquals($t, LocalDate::of(2008, 7, 12));
     }
 
 
-    public
-    function test_plusWeeks_negative()
+    public function test_plusWeeks_negative()
     {
         $t = self::TEST_2007_07_15()->plusWeeks(-1);
         $this->assertEquals($t, LocalDate::of(2007, 7, 8));
     }
 
 
-    public
-    function test_plusWeeks_negativeAcrossYear()
+    public function test_plusWeeks_negativeAcrossYear()
     {
         $t = self::TEST_2007_07_15()->plusWeeks(-28);
         $this->assertEquals($t, LocalDate::of(2006, 12, 31));
     }
 
 
-    public
-    function test_plusWeeks_negativeOverYears()
+    public function test_plusWeeks_negativeOverYears()
     {
         $t = self::TEST_2007_07_15()->plusWeeks(-104);
         $this->assertEquals($t, LocalDate::of(2005, 7, 17));
     }
 
 
-    public
-    function test_plusWeeks_maximum()
+    public function test_plusWeeks_maximum()
     {
         $t = LocalDate::of(Year::MAX_VALUE, 12, 24)->plusWeeks(1);
         $expected = LocalDate::of(Year::MAX_VALUE, 12, 31);
@@ -1444,8 +1434,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     }
 
 
-    public
-    function test_plusWeeks_minimum()
+    public function test_plusWeeks_minimum()
     {
         $t = LocalDate::of(Year::MIN_VALUE, 1, 8)->plusWeeks(-1);
         $expected = LocalDate::of(Year::MIN_VALUE, 1, 1);
@@ -1455,8 +1444,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\DateTimeException
      */
-    public
-    function test_plusWeeks_invalidTooLarge()
+    public function test_plusWeeks_invalidTooLarge()
     {
         LocalDate::of(Year::MAX_VALUE, 12, 25)->plusWeeks(1);
     }
@@ -1472,8 +1460,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\ArithmeticException
      */
-    public
-    function test_plusWeeks_invalidMaxMinusMax()
+    public function test_plusWeeks_invalidMaxMinusMax()
     {
         LocalDate::of(Year::MAX_VALUE, 12, 25)->plusWeeks(Long::MAX_VALUE);
     }
@@ -1932,8 +1919,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     /**
      * @expectedException \Celest\ArithmeticException
      */
-    public
-    function test_minusWeeks_invalidMaxMinusMax()
+    public function test_minusWeeks_invalidMaxMinusMax()
     {
         LocalDate::of(Year::MAX_VALUE, 12, 25)->minusWeeks(Long::MAX_VALUE);
     }
@@ -2306,7 +2292,8 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     {
         TestHelper::assertNullException($this, function () {
             $t = LocalDate::of(2008, 6, 30);
-            $t->atTime(null);});
+            $t->atTime(null);
+        });
 
     }
 
@@ -2506,7 +2493,8 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     {
         TestHelper::assertNullException($this, function () {
             $t = LocalDate::of(2008, 6, 30);
-            $t->atTime(null);});
+            $t->atTime(null);
+        });
 
     }
 
@@ -2553,7 +2541,8 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     {
         TestHelper::assertNullException($this, function () {
             $t = LocalDate::of(2008, 6, 30);
-            $t->atStartOfDayWithZone(null);});
+            $t->atStartOfDayWithZone(null);
+        });
 
     }
 

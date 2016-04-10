@@ -1,28 +1,28 @@
 <?php
-    /*
-     * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
-     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-     *
-     * This code is free software; you can redistribute it and/or modify it
-     * under the terms of the GNU General Public License version 2 only, as
-     * published by the Free Software Foundation.  Oracle designates this
-     * particular file as subject to the "Classpath" exception as provided
-     * by Oracle in the LICENSE file that accompanied this code.
-     *
-     * This code is distributed in the hope that it will be useful, but WITHOUT
-     * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-     * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-     * version 2 for more details (a copy is included in the LICENSE file that
-     * accompanied this code).
-     *
-     * You should have received a copy of the GNU General Public License version
-     * 2 along with this work; if not, write to the Free Software Foundation,
-     * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
-     *
-     * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-     * or visit www.oracle.com if you need additional information or have any
-     * questions.
-     */
+/*
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 
 /*
  * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
@@ -86,7 +86,8 @@ use Celest\ZoneId;
  *
  * @since 1.8
  */
-final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
+final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
+{
 
     /**
      * The underlying date.
@@ -106,7 +107,8 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      *
      * @return MinguoDate the current date using the system clock and default time-zone, not null
      */
-    public static function now() {
+    public static function now()
+    {
         return self::nowOf(Clock::systemDefaultZone());
     }
 
@@ -119,10 +121,11 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param ZoneId $zone  the zone ID to use, not null
+     * @param ZoneId $zone the zone ID to use, not null
      * @return MinguoDate the current date using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone) {
+    public static function nowIn(ZoneId $zone)
+    {
         return self::nowOf(Clock::system($zone));
     }
 
@@ -133,11 +136,12 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
      *
-     * @param Clock $clock  the clock to use, not null
+     * @param Clock $clock the clock to use, not null
      * @return MinguoDate the current date, not null
      * @throws DateTimeException if the current date cannot be obtained
      */
-    public static function nowOf(Clock $clock) {
+    public static function nowOf(Clock $clock)
+    {
         return new MinguoDate(LocalDate::nowOf($clock));
     }
 
@@ -148,14 +152,15 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      * This returns a {@code MinguoDate} with the specified fields.
      * The day must be valid for the year and month, otherwise an exception will be thrown.
      *
-     * @param int $prolepticYear  the Minguo proleptic-year
-     * @param int $month  the Minguo month-of-year, from 1 to 12
-     * @param int $dayOfMonth  the Minguo day-of-month, from 1 to 31
+     * @param int $prolepticYear the Minguo proleptic-year
+     * @param int $month the Minguo month-of-year, from 1 to 12
+     * @param int $dayOfMonth the Minguo day-of-month, from 1 to 31
      * @return MinguoDate the date in Minguo calendar system, not null
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public static function of($prolepticYear, $month, $dayOfMonth) {
+    public static function of($prolepticYear, $month, $dayOfMonth)
+    {
         return new MinguoDate(LocalDate::of($prolepticYear + MinguoChronology::YEARS_DIFFERENCE, $month, $dayOfMonth));
     }
 
@@ -180,12 +185,13 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code MinguoDate::from}.
      *
-     * @param TemporalAccessor $temporal  the temporal object to convert, not null
+     * @param TemporalAccessor $temporal the temporal object to convert, not null
      * @return MinguoDate the date in Minguo calendar system, not null
      * @throws DateTimeException if unable to convert to a {@code MinguoDate}
      */
-    public static function from(TemporalAccessor $temporal) {
-        return MinguoChronology::INSTANCE().date($temporal);
+    public static function from(TemporalAccessor $temporal)
+    {
+        return MinguoChronology::INSTANCE() . date($temporal);
     }
 
     //-----------------------------------------------------------------------
@@ -194,7 +200,8 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      *
      * @param LocalDate $isoDate the standard local date, validated not null
      */
-    private function __construct(LocalDate $isoDate) {
+    private function __construct(LocalDate $isoDate)
+    {
         $this->isoDate = $isoDate;
     }
 
@@ -207,7 +214,8 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      *
      * @return MinguoChronology the Minguo chronology, not null
      */
-    public function getChronology() {
+    public function getChronology()
+    {
         return MinguoChronology::INSTANCE();
     }
 
@@ -219,7 +227,8 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      *
      * @return MinguoEra the era applicable at this date, not null
      */
-    public function getEra() {
+    public function getEra()
+    {
         return ($this->getProlepticYear() >= 1 ? MinguoEra::ROC() : MinguoEra::BEFORE_ROC());
     }
 
@@ -231,12 +240,14 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      *
      * @return int the length of the month in days
      */
-    public function lengthOfMonth() {
+    public function lengthOfMonth()
+    {
         return $this->isoDate->lengthOfMonth();
     }
 
     //-----------------------------------------------------------------------
-    public function range(TemporalField $field) {
+    public function range(TemporalField $field)
+    {
         if ($field instanceof ChronoField) {
             if ($this->isSupported($field)) {
                 switch ($field) {
@@ -257,35 +268,39 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
         return $field->rangeRefinedBy($this);
     }
 
-    public function getLong(TemporalField $field) {
+    public function getLong(TemporalField $field)
+    {
         if ($field instanceof ChronoField) {
             switch ($field) {
-            case ChronoField::PROLEPTIC_MONTH():
-                return $this->getProlepticMonth();
-            case ChronoField::YEAR_OF_ERA(): {
+                case ChronoField::PROLEPTIC_MONTH():
+                    return $this->getProlepticMonth();
+                case ChronoField::YEAR_OF_ERA(): {
                     $prolepticYear = $this->getProlepticYear();
                     return ($prolepticYear >= 1 ? $prolepticYear : 1 - $prolepticYear);
                 }
-            case ChronoField::YEAR():
-                return $this->getProlepticYear();
-            case ChronoField::ERA():
-                return ($this->getProlepticYear() >= 1 ? 1 : 0);
+                case ChronoField::YEAR():
+                    return $this->getProlepticYear();
+                case ChronoField::ERA():
+                    return ($this->getProlepticYear() >= 1 ? 1 : 0);
             }
             return $this->isoDate->getLong($field);
         }
         return $field->getFrom($this);
     }
 
-    private function getProlepticMonth() {
+    private function getProlepticMonth()
+    {
         return $this->getProlepticYear() * 12 + $this->isoDate->getMonthValue() - 1;
     }
 
-    private function getProlepticYear() {
+    private function getProlepticYear()
+    {
         return $this->isoDate->getYear() - MinguoChronology::YEARS_DIFFERENCE;
     }
 
     //-----------------------------------------------------------------------
-    public function with(TemporalField $field, $newValue) {
+    public function with(TemporalField $field, $newValue)
+    {
         if ($field instanceof ChronoField) {
             $f = $field;
             if ($this->getLong($f) === $newValue) {
@@ -301,7 +316,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
                     $nvalue = $this->getChronology()->range($f)->checkValidIntValue($newValue, $f);
                     switch ($f) {
                         case ChronoField::YEAR_OF_ERA():
-                            return $this->withDate($this->isoDate->withYear($this->getProlepticYear() >= 1 ? $nvalue + MinguoChronology::YEARS_DIFFERENCE : (1 - $nvalue)  + MinguoChronology::YEARS_DIFFERENCE));
+                            return $this->withDate($this->isoDate->withYear($this->getProlepticYear() >= 1 ? $nvalue + MinguoChronology::YEARS_DIFFERENCE : (1 - $nvalue) + MinguoChronology::YEARS_DIFFERENCE));
                         case ChronoField::YEAR():
                             return $this->withDate($this->isoDate->withYear($nvalue + MinguoChronology::YEARS_DIFFERENCE));
                         case ERA:
@@ -315,28 +330,34 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
     }
 
     //-----------------------------------------------------------------------
-    function plusYears($years) {
+    function plusYears($years)
+    {
         return $this->withDate($this->isoDate->plusYears($years));
     }
 
-    function plusMonths($months) {
+    function plusMonths($months)
+    {
         return $this->withDate($this->isoDate->plusMonths($months));
     }
 
-    function plusDays($days) {
+    function plusDays($days)
+    {
         return $this->withDate($this->isoDate->plusDays($days));
     }
 
-    private function withDate(LocalDate $newDate) {
+    private function withDate(LocalDate $newDate)
+    {
         return ($newDate->equals($this->isoDate) ? $this : new MinguoDate($newDate));
     }
 
-    public function untilDate(ChronoLocalDate $endDate) {
+    public function untilDate(ChronoLocalDate $endDate)
+    {
         $period = $this->isoDate->untilDate($endDate);
         return $this->getChronology()->period($period->getYears(), $period->getMonths(), $period->getDays());
     }
 
-    public function toEpochDay() {
+    public function toEpochDay()
+    {
         return $this->isoDate->toEpochDay();
     }
 
@@ -350,10 +371,11 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate {
      * To compare the dates of two {@code TemporalAccessor} instances, including dates
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
-     * @param mixed $obj  the object to check, null returns false
+     * @param mixed $obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
-    public function equals($obj) {
+    public function equals($obj)
+    {
         if ($this === $obj) {
             return true;
         }

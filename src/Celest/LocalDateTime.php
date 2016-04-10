@@ -62,8 +62,8 @@
  */
 namespace Celest;
 
-use Celest\Chrono\ChronoLocalDateTime;
 use Celest\Chrono\AbstractChronoLocalDateTime;
+use Celest\Chrono\ChronoLocalDateTime;
 use Celest\Chrono\Comparator;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
@@ -196,8 +196,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @param ZoneId $zone the zone ID to use, not null
      * @return LocalDateTime the current date-time using the system clock, not null
      */
-    public
-    static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone)
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -212,8 +211,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @param Clock $clock the clock to use, not null
      * @return LocalDateTime the current date-time, not null
      */
-    public
-    static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock)
     {
         $now = $clock->instant();  // called once
         $offset = $clock->getZone()->getRules()->getOffset($now);
@@ -240,8 +238,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    static function ofMonth($year, Month $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
+    public static function ofMonth($year, Month $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         $date = LocalDate::ofMonth($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
@@ -267,8 +264,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    static function of($year, $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
+    public static function of($year, $month, $dayOfMonth, $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         $date = LocalDate::of($year, $month, $dayOfMonth);
         $time = LocalTime::of($hour, $minute, $second, $nanoOfSecond);
@@ -282,8 +278,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @param LocalTime $time the local time, not null
      * @return LocalDateTime the local date-time, not null
      */
-    public
-    static function ofDateAndTime(LocalDate $date, LocalTime $time)
+    public static function ofDateAndTime(LocalDate $date, LocalTime $time)
     {
         return new LocalDateTime($date, $time);
     }
@@ -302,8 +297,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime the local date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public
-    static function ofInstant(Instant $instant, ZoneId $zone)
+    public static function ofInstant(Instant $instant, ZoneId $zone)
     {
         $rules = $zone->getRules();
         $offset = $rules->getOffset($instant);
@@ -325,8 +319,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @throws DateTimeException if the result exceeds the supported range,
      *  or if the nano-of-second is invalid
      */
-    public
-    static function ofEpochSecond($epochSecond, $nanoOfSecond, ZoneOffset $offset)
+    public static function ofEpochSecond($epochSecond, $nanoOfSecond, ZoneOffset $offset)
     {
         try {
             ChronoField::NANO_OF_SECOND()->checkValidValue($nanoOfSecond);
@@ -336,7 +329,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
             $date = LocalDate::ofEpochDay($localEpochDay);
             $time = LocalTime::ofNanoOfDay($secsOfDay * LocalTime::NANOS_PER_SECOND + $nanoOfSecond);
             return new LocalDateTime($date, $time);
-        } catch(ArithmeticException $ex) {
+        } catch (ArithmeticException $ex) {
             throw new DateTimeException("Value out of bounds", $ex);
         }
     }
@@ -361,8 +354,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime the local date-time, not null
      * @throws DateTimeException if unable to convert to a {@code LocalDateTime}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         if ($temporal instanceof LocalDateTime) {
             return $temporal;
@@ -408,8 +400,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime the parsed local date-time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public
-    static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith($text, DateTimeFormatter $formatter)
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([LocalDateTime::class, 'from']));
     }
@@ -421,8 +412,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @param LocalDate $date the date part of the date-time, validated not null
      * @param LocalTime $time the time part of the date-time, validated not null
      */
-    private
-    function __construct(LocalDate $date, LocalTime $time)
+    private function __construct(LocalDate $date, LocalTime $time)
     {
         $this->date = $date;
         $this->time = $time;
@@ -693,8 +683,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return int the month-of-year, from 1 to 12
      * @see #getMonth()
      */
-    public
-    function getMonthValue()
+    public function getMonthValue()
     {
         return $this->date->getMonthValue();
     }
@@ -710,8 +699,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return Month the month-of-year, not null
      * @see #getMonthValue()
      */
-    public
-    function getMonth()
+    public function getMonth()
     {
         return $this->date->getMonth();
     }
@@ -777,8 +765,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      *
      * @return int the hour-of-day, from 0 to 23
      */
-    public
-    function getHour()
+    public function getHour()
     {
         return $this->time->getHour();
     }
@@ -788,8 +775,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      *
      * @return int the minute-of-hour, from 0 to 59
      */
-    public
-    function getMinute()
+    public function getMinute()
     {
         return $this->time->getMinute();
     }
@@ -950,8 +936,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime a {@code LocalDateTime} based on this date-time with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public
-    function withMonth($month)
+    public function withMonth($month)
     {
         return $this->_with($this->date->withMonth($month), $this->time);
     }
@@ -969,8 +954,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month-year
      */
-    public
-    function withDayOfMonth($dayOfMonth)
+    public function withDayOfMonth($dayOfMonth)
     {
         return $this->_with($this->date->withDayOfMonth($dayOfMonth), $this->time);
     }
@@ -987,8 +971,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @throws DateTimeException if the day-of-year value is invalid,
      *  or if the day-of-year is invalid for the year
      */
-    public
-    function withDayOfYear($dayOfYear)
+    public function withDayOfYear($dayOfYear)
     {
         return $this->_with($this->date->withDayOfYear($dayOfYear), $this->time);
     }
@@ -1018,8 +1001,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime a {@code LocalDateTime} based on this date-time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
-    public
-    function withMinute($minute)
+    public function withMinute($minute)
     {
         $newTime = $this->time->withMinute($minute);
         return $this->_with($this->date, $newTime);
@@ -1034,8 +1016,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @return LocalDateTime a {@code LocalDateTime} based on this date-time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
-    public
-    function withSecond($second)
+    public function withSecond($second)
     {
         $newTime = $this->time->withSecond($second);
         return $this->_with($this->date, $newTime);
@@ -1132,7 +1113,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * This instance is immutable and unaffected by this method call.
      *
      * @param int $amountToAdd the amount of the unit to add to the result, may be negative
-     * @param TemporalUnit $unit  the unit of the amount to add, not null
+     * @param TemporalUnit $unit the unit of the amount to add, not null
      * @return LocalDateTime a {@code LocalDateTime} based on this date-time with the specified amount added, not null
      * @throws DateTimeException if the addition cannot be made
      * @throws UnsupportedTemporalTypeException if the unit is not supported
@@ -1654,7 +1635,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * This instance is immutable and unaffected by this method call.
      *
      * @param Temporal $endExclusive the end date, exclusive, which is converted to a {@code LocalDateTime}, not null
-     * @param TemporalUnit $unit  the unit to measure the amount in, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this date-time and the end date-time
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to a {@code LocalDateTime}
@@ -1745,8 +1726,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * @param ZoneOffset $offset the offset to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this date-time and the specified offset, not null
      */
-    public
-    function atOffset(ZoneOffset $offset)
+    public function atOffset(ZoneOffset $offset)
     {
         return OffsetDateTime::ofDateTime($this, $offset);
     }

@@ -61,6 +61,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 namespace Celest\Format;
+
 use Celest\IllegalArgumentException;
 
 /**
@@ -193,7 +194,7 @@ class SignStyle
      */
     public static function valueOf($name)
     {
-        switch($name) {
+        switch ($name) {
             case 'NORMAL':
                 return self::NORMAL();
             case 'ALWAYS':
@@ -250,7 +251,8 @@ class SignStyle
         return '';
     }
 
-    function name() {
+    function name()
+    {
         return $this->__toString();
     }
 }

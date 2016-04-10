@@ -61,14 +61,11 @@
 
 namespace Celest\Format;
 
-use Celest\ArithmeticException;
-use Celest\Chrono\Chronology;
 use Celest\Chrono\IsoChronology;
 use Celest\Chrono\ThaiBuddhistChronology;
 use Celest\DateTimeException;
 use Celest\DateTimeParseException;
 use Celest\DayOfWeek;
-use Celest\IllegalArgumentException;
 use Celest\Instant;
 use Celest\LocalDate;
 use Celest\LocalDateTime;
@@ -83,7 +80,6 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\UnsupportedTemporalTypeException;
-use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use Celest\YearMonth;
 use Celest\ZonedDateTime;
@@ -429,8 +425,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public
-    function test_format_withChronology_nonChronoFieldMapLink()
+    public function test_format_withChronology_nonChronoFieldMapLink()
     {
         $temporal = new format_withChronology_nonChronoFieldMapLink();
         $test = (new DateTimeFormatterBuilder())
@@ -443,8 +438,7 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 //-----------------------------------------------------------------------
 
-    public
-    function test_format_TemporalAccessor_simple()
+    public function test_format_TemporalAccessor_simple()
     {
         $test = $this->fmt->withLocale(Locale::ENGLISH())->withDecimalStyle(DecimalStyle::STANDARD());
         $result = $test->format(LocalDate::of(2008, 6, 30));

@@ -330,8 +330,7 @@ class TCKInstantPrinterParserTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public
-    function test_parse_endOfDay()
+    public function test_parse_endOfDay()
     {
         $expected = OffsetDateTime::of(1970, 2, 4, 0, 0, 0, 0, ZoneOffset::UTC())->toInstant();
         $f = (new DateTimeFormatterBuilder())->appendInstant4(-1)->toFormatter();

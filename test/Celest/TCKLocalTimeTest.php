@@ -65,8 +65,8 @@ use Celest\Format\DateTimeFormatter;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
-use \Celest\Temporal\ChronoUnit as CU;
-use \Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\FieldValues;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\Temporal;
@@ -175,21 +175,18 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
         return LocalTime::of(12, 30, 40, 987654321);
     }
 
-    private
-    static function INVALID_UNITS()
+    private static function INVALID_UNITS()
     {
         return [CU::DAYS(), CU::FOREVER()];
     }
 
 //-----------------------------------------------------------------------
-    protected
-    function samples()
+    protected function samples()
     {
         return [self::TEST_123040987654321(), LocalTime::MIN(), LocalTime::MAX(), LocalTime::MIDNIGHT(), LocalTime::NOON()];
     }
 
-    protected
-    function validFields()
+    protected function validFields()
     {
         return [
             CF::NANO_OF_SECOND(),
@@ -210,8 +207,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
         ];
     }
 
-    protected
-    function invalidFields()
+    protected function invalidFields()
     {
         $list = array_diff(CF::values(), $this->validFields());
         $list[] = JulianFields::JULIAN_DAY();
@@ -222,8 +218,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
 
 //-----------------------------------------------------------------------
 
-    private
-    function check(LocalTime $test, $h, $m, $s, $n)
+    private function check(LocalTime $test, $h, $m, $s, $n)
     {
         $this->assertEquals($test->getHour(), $h);
         $this->assertEquals($test->getMinute(), $m);
@@ -237,29 +232,25 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
 // constants
 //-----------------------------------------------------------------------
 
-    public
-    function test_constant_MIDNIGHT()
+    public function test_constant_MIDNIGHT()
     {
         $this->check(LocalTime::MIDNIGHT(), 0, 0, 0, 0);
     }
 
 
-    public
-    function test_constant_MIDDAY()
+    public function test_constant_MIDDAY()
     {
         $this->check(LocalTime::NOON(), 12, 0, 0, 0);
     }
 
 
-    public
-    function test_constant_MIN()
+    public function test_constant_MIN()
     {
         $this->check(LocalTime::MIN(), 0, 0, 0, 0);
     }
 
 
-    public
-    function test_constant_MAX()
+    public function test_constant_MAX()
     {
         $this->check(LocalTime::MAX(), 23, 59, 59, 999999999);
     }
@@ -692,8 +683,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     }
 
     //-----------------------------------------------------------------------$s
-    public
-    function test_factory_parse_nullTest()
+    public function test_factory_parse_nullTest()
     {
         TestHelper::assertNullException($this, function () {
             LocalTime::parse(null);
@@ -704,8 +694,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
 // parse(DateTimeFormatter)
 //-----------------------------------------------------------------------
 
-    public
-    function test_factory_parse_formatter()
+    public function test_factory_parse_formatter()
     {
         $f = DateTimeFormatter::ofPattern("H m s");
         $test = LocalTime::parseWith("14 30 40", $f);
@@ -993,8 +982,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
 // Returns $a {@code LocalTime} with the specified $nano-of-second.
 // The $hour, minute and second will be unchanged.
 
-    public
-    function test_with_longTemporalField_nanoOfSecond()
+    public function test_with_longTemporalField_nanoOfSecond()
     {
         foreach ($this->points(1000000000) as $i) {
             $test = self::TEST_123040987654321()->with(CF::NANO_OF_SECOND(), $i);

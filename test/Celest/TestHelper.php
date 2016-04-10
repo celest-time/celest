@@ -39,7 +39,8 @@ class TestHelper
         } catch (\PHPUnit_Framework_Error $e) {
             // PHP 5
             if (strpos($e->getMessage(), 'must implement interface') === false
-                && strpos($e->getMessage(), 'must be an instance of') === false) {
+                && strpos($e->getMessage(), 'must be an instance of') === false
+            ) {
                 $_this->fail('Expected Type Error/Exception');
             }
             $catched = true;

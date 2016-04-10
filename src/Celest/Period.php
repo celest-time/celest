@@ -190,8 +190,7 @@ final class Period implements ChronoPeriod
      * @param int $months the number of months, positive or negative
      * @return Period the period of months, not null
      */
-    public
-    static function ofMonths($months)
+    public static function ofMonths($months)
     {
         return self::create(0, $months, 0);
     }
@@ -409,8 +408,7 @@ final class Period implements ChronoPeriod
      * @param int $days the amount
      * @return Period
      */
-    private
-    static function create($years, $months, $days)
+    private static function create($years, $months, $days)
     {
         if (($years | $months | $days) == 0) {
             return self::$ZERO;
@@ -513,8 +511,7 @@ final class Period implements ChronoPeriod
      *
      * @return bool true if any unit of this period is negative
      */
-    public
-    function isNegative()
+    public function isNegative()
     {
         return $this->years < 0 || $this->months < 0 || $this->days < 0;
     }
@@ -531,8 +528,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the amount of years of this period, may be negative
      */
-    public
-    function getYears()
+    public function getYears()
     {
         return $this->years;
     }
@@ -548,8 +544,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the amount of months of this period, may be negative
      */
-    public
-    function getMonths()
+    public function getMonths()
     {
         return $this->months;
     }
@@ -675,8 +670,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified years added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public
-    function plusYears($yearsToAdd)
+    public function plusYears($yearsToAdd)
     {
         if ($yearsToAdd == 0) {
             return $this;

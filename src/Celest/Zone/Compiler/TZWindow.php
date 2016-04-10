@@ -102,22 +102,22 @@ class TZWindow
             throw new \LogicException("Window has reached the maximum number of allowed rules");
         }
         $lastRule = false;
-            if ($endYear === Year::MAX_VALUE) {
-                $lastRule = true;
-                $endYear = $startYear;
-            }
-            $year = $startYear;
-            while ($year <= $endYear) {
-                $rule = new TZRule($year, $month, $dayOfMonthIndicator, $dayOfWeek, $time, $timeEndOfDay, $timeDefinition, $savingAmountSecs);
-                if ($lastRule) {
-                    $this->lastRuleList[] = $rule;
-                    $this->maxLastRuleStartYear = Math::max($startYear, $this->maxLastRuleStartYear);
-                } else {
-                    $this->ruleList[] = $rule;
-                }
-                $year++;
-            }
+        if ($endYear === Year::MAX_VALUE) {
+            $lastRule = true;
+            $endYear = $startYear;
         }
+        $year = $startYear;
+        while ($year <= $endYear) {
+            $rule = new TZRule($year, $month, $dayOfMonthIndicator, $dayOfWeek, $time, $timeEndOfDay, $timeDefinition, $savingAmountSecs);
+            if ($lastRule) {
+                $this->lastRuleList[] = $rule;
+                $this->maxLastRuleStartYear = Math::max($startYear, $this->maxLastRuleStartYear);
+            } else {
+                $this->ruleList[] = $rule;
+            }
+            $year++;
+        }
+    }
 
     /**
      * Validates that this window is after the previous one.
@@ -155,31 +155,31 @@ class TZWindow
                     $lastRule->dayOfWeek, $lastRule->time, $lastRule->timeEndOfDay, $lastRule->timeDefinition, $lastRule->savingAmountSecs);
                 $lastRule->year = $this->maxLastRuleStartYear + 1;
             }
-                if ($this->maxLastRuleStartYear == Year::MAX_VALUE) {
-                    $this->lastRuleList = [];
-                } else {
-                    $this->maxLastRuleStartYear++;
-                }
+            if ($this->maxLastRuleStartYear == Year::MAX_VALUE) {
+                $this->lastRuleList = [];
             } else {
+                $this->maxLastRuleStartYear++;
+            }
+        } else {
             // convert all within the endYear limit
             $endYear = $this->windowEnd->getYear();
-                foreach ($this->lastRuleList as $lastRule) {
-                    $this->addRule($lastRule->year, $endYear + 1, $lastRule->month, $lastRule->dayOfMonthIndicator,
-                        $lastRule->dayOfWeek, $lastRule->time, $lastRule->timeEndOfDay, $lastRule->timeDefinition, $lastRule->savingAmountSecs);
-                }
-                $this->lastRuleList = [];
+            foreach ($this->lastRuleList as $lastRule) {
+                $this->addRule($lastRule->year, $endYear + 1, $lastRule->month, $lastRule->dayOfMonthIndicator,
+                    $lastRule->dayOfWeek, $lastRule->time, $lastRule->timeEndOfDay, $lastRule->timeDefinition, $lastRule->savingAmountSecs);
+            }
+            $this->lastRuleList = [];
             $this->maxLastRuleStartYear = Year::MAX_VALUE;
-            }
-
-            // ensure lists are sorted
-            usort($this->ruleList, [TZRule::class, 'compareTo']);
-            usort($this->lastRuleList, [TZRule::class, 'compareTo']);
-
-            // default fixed savings to zero
-            if (count($this->ruleList) === 0 && $this->fixedSavingAmountSecs === null) {
-                $this->fixedSavingAmountSecs = 0;
-            }
         }
+
+        // ensure lists are sorted
+        usort($this->ruleList, [TZRule::class, 'compareTo']);
+        usort($this->lastRuleList, [TZRule::class, 'compareTo']);
+
+        // default fixed savings to zero
+        if (count($this->ruleList) === 0 && $this->fixedSavingAmountSecs === null) {
+            $this->fixedSavingAmountSecs = 0;
+        }
+    }
 
     /**
      * Checks if the window is empty.

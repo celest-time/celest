@@ -53,7 +53,7 @@ final class TickClock extends Clock
         if (($this->tickNanos % 1000000) == 0) {
             $millis = $this->baseClock->millis();
             return Instant::ofEpochMilli($millis - Math::floorMod($millis, $this->tickNanos / 1000000));
-    }
+        }
         $instant = $this->baseClock->instant();
         $nanos = $instant->getNano();
         $adjust = Math::floorMod($nanos, $this->tickNanos);

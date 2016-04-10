@@ -147,8 +147,7 @@ class TCKChronoUnit extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider data_unitAndTemporal
      */
-    public
-    function test_unitAndTemporal(ChronoUnit $unit, Temporal $base, $isSupportedBy, $amount, $target)
+    public function test_unitAndTemporal(ChronoUnit $unit, Temporal $base, $isSupportedBy, $amount, $target)
     {
         $this->assertEquals($unit->isSupportedBy($base), $isSupportedBy);
         if ($isSupportedBy) {
@@ -161,8 +160,7 @@ class TCKChronoUnit extends \PHPUnit_Framework_TestCase
 //-----------------------------------------------------------------------
 // valueOf()
 //-----------------------------------------------------------------------
-    public
-    function test_valueOf()
+    public function test_valueOf()
     {
         $this->markTestIncomplete('ChronoUnit::values');
         foreach (ChronoUnit::values() as $unit) {

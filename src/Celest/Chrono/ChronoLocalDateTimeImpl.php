@@ -348,13 +348,13 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
             return $this->_with($newDate, $this->time);
         }
         $totDays = Math::div($nanos, self::NANOS_PER_DAY) +             //   max/24*60*60*1B
-        Math::div($seconds, self::SECONDS_PER_DAY) +                //   max/24*60*60
-        Math::div($minutes, self::MINUTES_PER_DAY) +                //   max/24*60
-        Math::div($hours, self::HOURS_PER_DAY);                     //   max/24
+            Math::div($seconds, self::SECONDS_PER_DAY) +                //   max/24*60*60
+            Math::div($minutes, self::MINUTES_PER_DAY) +                //   max/24*60
+            Math::div($hours, self::HOURS_PER_DAY);                     //   max/24
         $totNanos = $$nanos % self::NANOS_PER_DAY +                    //   max  86400000000000
-        ($seconds % self::SECONDS_PER_DAY) * self::NANOS_PER_SECOND +   //   max  86400000000000
-        ($minutes % self::MINUTES_PER_DAY) * self::NANOS_PER_MINUTE +   //   max  86400000000000
-        ($hours % self::HOURS_PER_DAY) * self::NANOS_PER_HOUR;          //   max  86400000000000
+            ($seconds % self::SECONDS_PER_DAY) * self::NANOS_PER_SECOND +   //   max  86400000000000
+            ($minutes % self::MINUTES_PER_DAY) * self::NANOS_PER_MINUTE +   //   max  86400000000000
+            ($hours % self::HOURS_PER_DAY) * self::NANOS_PER_HOUR;          //   max  86400000000000
         $curNoD = $this->time->toNanoOfDay();                          //   max  86400000000000
         $totNanos = $totNanos + $curNoD;                              // total 432000000000000
         $totDays += Math::floorDiv($totNanos, self::NANOS_PER_DAY);
@@ -377,27 +377,27 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
             if ($unit->isTimeBased()) {
                 $amount = $end->getLong(ChronoField::EPOCH_DAY()) - $this->date->getLong(ChronoField::EPOCH_DAY());
                 switch ($unit) {
-                case ChronoUnit::NANOS():
-                    $amount = Math::multiplyExact($amount, self::NANOS_PER_DAY);
-                    break;
-                case ChronoUnit::MICROS():
-                    $amount = Math::multiplyExact($amount, self::MICROS_PER_DAY);
-                    break;
-                case ChronoUnit::MILLIS():
-                    $amount = Math::multiplyExact($amount, self::MILLIS_PER_DAY);
-                    break;
-                case ChronoUnit::SECONDS():
-                    $amount = Math::multiplyExact($amount, self::SECONDS_PER_DAY);
-                    break;
-                case ChronoUnit::MINUTES():
-                    $amount = Math::multiplyExact($amount, self::MINUTES_PER_DAY);
-                    break;
-                case ChronoUnit::HOURS():
-                    $amount = Math::multiplyExact($amount, self::HOURS_PER_DAY);
-                    break;
-                case ChronoUnit::HALF_DAYS():
-                    $amount = Math::multiplyExact($amount, 2);
-                    break;
+                    case ChronoUnit::NANOS():
+                        $amount = Math::multiplyExact($amount, self::NANOS_PER_DAY);
+                        break;
+                    case ChronoUnit::MICROS():
+                        $amount = Math::multiplyExact($amount, self::MICROS_PER_DAY);
+                        break;
+                    case ChronoUnit::MILLIS():
+                        $amount = Math::multiplyExact($amount, self::MILLIS_PER_DAY);
+                        break;
+                    case ChronoUnit::SECONDS():
+                        $amount = Math::multiplyExact($amount, self::SECONDS_PER_DAY);
+                        break;
+                    case ChronoUnit::MINUTES():
+                        $amount = Math::multiplyExact($amount, self::MINUTES_PER_DAY);
+                        break;
+                    case ChronoUnit::HOURS():
+                        $amount = Math::multiplyExact($amount, self::HOURS_PER_DAY);
+                        break;
+                    case ChronoUnit::HALF_DAYS():
+                        $amount = Math::multiplyExact($amount, 2);
+                        break;
                 }
                 return Math::addExact($amount, $this->time->until($end->toLocalTime(), $unit));
             }

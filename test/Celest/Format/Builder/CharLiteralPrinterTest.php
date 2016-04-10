@@ -19,8 +19,7 @@ class CharLiteralPrinterTest extends AbstractTestPrinterParser
         $this->assertEquals($buf, "EXISTINGa");
     }
 
-    public
-    function test_print_emptyAppendable()
+    public function test_print_emptyAppendable()
     {
         $buf = '';
         $this->getFormatterChar('a')->formatTo($this->dta, $buf);

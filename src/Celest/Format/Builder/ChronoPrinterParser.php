@@ -1,6 +1,7 @@
 <?php
 
 namespace Celest\Format\Builder;
+
 use Celest\Chrono\AbstractChronology;
 use Celest\Format\DateTimePrintContext;
 use Celest\Format\TextStyle;
@@ -38,9 +39,9 @@ final class ChronoPrinterParser implements DateTimePrinterParser
 
         if ($this->textStyle == null) {
             $buf .= $chrono->getId();
-            } else {
+        } else {
             $buf .= $this->getChronologyName($chrono, $context->getLocale());
-            }
+        }
         return true;
     }
 

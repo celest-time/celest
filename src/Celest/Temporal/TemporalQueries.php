@@ -275,6 +275,7 @@ final class TemporalQueries
     {
         return self::$ZONE_ID;
     }
+
     /** @var TemporalQuery */
     private static $ZONE_ID;
 
@@ -317,6 +318,7 @@ final class TemporalQueries
     {
         return self::$CHRONO;
     }
+
     /** @var TemporalQuery */
     private static $CHRONO;
 
@@ -357,6 +359,7 @@ final class TemporalQueries
     {
         return self::$PRECISION;
     }
+
     /** @var TemporalQuery */
     private static $PRECISION;
 
@@ -384,6 +387,7 @@ final class TemporalQueries
     {
         return self::$ZONE;
     }
+
     /** @var TemporalQuery */
     private static $ZONE;
 
@@ -410,6 +414,7 @@ final class TemporalQueries
     {
         return self::$OFFSET;
     }
+
     /** @var TemporalQuery */
     private static $OFFSET;
 
@@ -436,6 +441,7 @@ final class TemporalQueries
     {
         return self::$LOCAL_DATE;
     }
+
     /** @var TemporalQuery */
     private static $LOCAL_DATE;
 
@@ -462,6 +468,7 @@ final class TemporalQueries
     {
         return self::$LOCAL_TIME;
     }
+
     /** @var TemporalQuery */
     private static $LOCAL_TIME;
 }

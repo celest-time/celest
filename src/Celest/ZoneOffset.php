@@ -221,9 +221,9 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset ID is invalid
      */
-    public static function  of($offsetId)
+    public static function of($offsetId)
     {
-        if(!is_string($offsetId))
+        if (!is_string($offsetId))
             throw new \InvalidArgumentException();
 
         // "Z" is always in the cache
@@ -327,8 +327,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
-    public
-    static function ofHoursMinutes($hours, $minutes)
+    public static function ofHoursMinutes($hours, $minutes)
     {
         return self::ofHoursMinutesSeconds($hours, $minutes, 0);
     }
@@ -346,8 +345,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
-    public
-    static function ofHoursMinutesSeconds($hours, $minutes, $seconds)
+    public static function ofHoursMinutesSeconds($hours, $minutes, $seconds)
     {
         self::validate($hours, $minutes, $seconds);
         $totalSeconds = self::totalSeconds($hours, $minutes, $seconds);
@@ -375,8 +373,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @return ZoneOffset the zone-offset, not null
      * @throws DateTimeException if unable to convert to an {@code ZoneOffset}
      */
-    public
-    static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal)
     {
         $offset = $temporal->query(TemporalQueries::offset());
         if ($offset == null) {
@@ -396,8 +393,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @param int $seconds the time-zone offset in seconds, from 0 to &plusmn;59
      * @throws DateTimeException if the offset is not in the required range
      */
-    private
-    static function validate($hours, $minutes, $seconds)
+    private static function validate($hours, $minutes, $seconds)
     {
         if ($hours < -18 || $hours > 18) {
             throw new DateTimeException("Zone offset hours not in valid range: value " . $hours .
@@ -436,8 +432,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @param int $seconds the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
      * @return int the total in seconds
      */
-    private
-    static function totalSeconds($hours, $minutes, $seconds)
+    private static function totalSeconds($hours, $minutes, $seconds)
     {
         return $hours * LocalTime::SECONDS_PER_HOUR + $minutes * LocalTime::SECONDS_PER_MINUTE + $seconds;
     }
@@ -452,8 +447,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      * @return ZoneOffset the ZoneOffset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
-    public
-    static function ofTotalSeconds($totalSeconds)
+    public static function ofTotalSeconds($totalSeconds)
     {
         if (Math::abs($totalSeconds) > self::MAX_SECONDS) {
             throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
@@ -467,7 +461,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
                 $result = new ZoneOffset($totalSeconds);
                 self::$SECONDS_CACHE[$totalSecs] = $result;
                 $result = self::$SECONDS_CACHE[$totalSecs];
-                self::$ID_CACHE[$result->getId()] =  $result;
+                self::$ID_CACHE[$result->getId()] = $result;
             }
             return $result;
         } else {
@@ -488,8 +482,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         $this->id = $this->buildId($totalSeconds);
     }
 
-    private
-    static function buildId($totalSeconds)
+    private static function buildId($totalSeconds)
     {
         if ($totalSeconds === 0) {
             return "Z";
@@ -499,8 +492,8 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             $absHours = Math::div($absTotalSeconds, LocalTime::SECONDS_PER_HOUR);
             $absMinutes = Math::div($absTotalSeconds, LocalTime::SECONDS_PER_MINUTE) % LocalTime::MINUTES_PER_HOUR;
             $buf .= ($totalSeconds < 0 ? "-" : "+")
-            . ($absHours < 10 ? "0" : "") . $absHours
-            . ($absMinutes < 10 ? ":0" : ":") . $absMinutes;
+                . ($absHours < 10 ? "0" : "") . $absHours
+                . ($absMinutes < 10 ? ":0" : ":") . $absMinutes;
             $absSeconds = $absTotalSeconds % LocalTime::SECONDS_PER_MINUTE;
             if ($absSeconds !== 0) {
                 $buf .= ($absSeconds < 10 ? ":0" : ":") . $absSeconds;
