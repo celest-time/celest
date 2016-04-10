@@ -71,6 +71,7 @@ use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\MockFieldNoValue;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAdjusters;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
@@ -946,15 +947,11 @@ class TCKLocalDateTest extends AbstractDateTimeTest
 
     public function test_with_adjustment()
     {
-        $this->markTestIncomplete();
         $sample = LocalDate::of(2012, 3, 4);
-        /*TemporalAdjuster $adjuster = new TemporalAdjuster() { TODO
-    @Override
-            public Temporal adjustInto(Temporal $dateTime) {
-        return $sample;
-    }
-        };
-        $this->assertEquals(self::TEST_2007_07_15()->with($adjuster), $sample);*/
+        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
+            return $sample;
+        });
+        $this->assertEquals(self::TEST_2007_07_15()->adjust($adjuster), $sample);
     }
 
     public function test_with_adjustment_null()

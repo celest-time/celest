@@ -1247,7 +1247,7 @@ final class Duration implements TemporalAmount
     public function compareTo(Duration $otherDuration)
     {
         $cmp = Long::compare($this->seconds, $otherDuration->seconds);
-        if ($cmp != 0) {
+        if ($cmp !== 0) {
             return $cmp;
         }
 
@@ -1265,13 +1265,13 @@ final class Duration implements TemporalAmount
      */
     public function equals($otherDuration)
     {
-        if ($this == $otherDuration) {
+        if ($this === $otherDuration) {
             return true;
         }
 
         if ($otherDuration instanceof Duration) {
-            return $this->seconds == $otherDuration->seconds &&
-            $this->nanos == $otherDuration->nanos;
+            return $this->seconds === $otherDuration->seconds &&
+            $this->nanos === $otherDuration->nanos;
         }
         return false;
     }
@@ -1302,7 +1302,7 @@ final class Duration implements TemporalAmount
      */
     public function __toString()
     {
-        if ($this == self::$ZERO) {
+        if ($this === self::$ZERO) {
             return "PT0S";
         }
         $hours = Math::div($this->seconds, LocalTime::SECONDS_PER_HOUR);

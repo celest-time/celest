@@ -67,6 +67,7 @@ use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAdjusters;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
@@ -782,15 +783,11 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
     public function test_with_adjustment()
     {
-        $this->markTestIncomplete();
-        /*$sample = OffsetTime::of(23, 5, 0, 0, self::OFFSET_PONE());
-         $adjuster = new TemporalAdjuster() { TODO
-            @Override
-        public Temporal adjustInto(Temporal $dateTime) {
-                return $sample;
-            }
-        }
-        $this->assertEquals(self::TEST_11_30_59_500_PONE()->adjust($adjuster), $sample);*/
+        $sample = OffsetTime::of(23, 5, 0, 0, self::OFFSET_PONE());
+        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
+            return $sample;
+        });
+        $this->assertEquals(self::TEST_11_30_59_500_PONE()->adjust($adjuster), $sample);
     }
 
 
@@ -817,14 +814,11 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
     public function test_with_adjustment_AmPm()
     {
-        $this->markTestIncomplete();
-        /*         $test = self::TEST_11_30_59_500_PONE()->with(new TemporalAdjuster() { TODO
-        @Override
-        public Temporal adjustInto(Temporal $dateTime) {
-                return $dateTime->with(CF::HOUR_OF_DAY(), 23);
-            }
+        $adjuster = TemporalAdjusters::fromCallable(function(Temporal $dateTime) {
+            return $dateTime->with(CF::HOUR_OF_DAY(), 23);
         });
-        $this->assertEquals($test, OffsetTime::of(23, 30, 59, 500, self::OFFSET_PONE()));*/
+        $test = self::TEST_11_30_59_500_PONE()->adjust($adjuster);
+        $this->assertEquals($test, OffsetTime::of(23, 30, 59, 500, self::OFFSET_PONE()));
     }
 
     public function test_with_adjustment_null()

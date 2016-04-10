@@ -75,6 +75,92 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Exception;
 
+class NINETY_MINS implements TemporalUnit
+{
+    public function getDuration()
+    {
+        return Duration::ofMinutes(90);
+    }
+
+    public function isDurationEstimated()
+    {
+        return false;
+    }
+
+    public function isDateBased()
+    {
+        return false;
+    }
+
+    public function isTimeBased()
+    {
+        return true;
+    }
+
+    public function isSupportedBy(Temporal $temporal)
+    {
+        return false;
+    }
+
+    public function addTo(Temporal $temporal, $amount)
+    {
+        throw new \LogicException();
+    }
+
+    public function between(Temporal $temporal1, Temporal $temporal2)
+    {
+        throw new \LogicException();
+    }
+
+    public function __toString()
+    {
+        return "NinetyMins";
+    }
+}
+
+class NINETY_FIVE_MINS implements TemporalUnit
+{
+    public function getDuration()
+    {
+        return Duration::ofMinutes(95);
+    }
+
+    public function isDurationEstimated()
+    {
+        return false;
+    }
+
+    public function isDateBased()
+    {
+        return false;
+    }
+
+    public function isTimeBased()
+    {
+        return false;
+    }
+
+    public function isSupportedBy(Temporal $temporal)
+    {
+        return false;
+    }
+
+    public function addTo(Temporal $temporal, $amount)
+    {
+        throw new \LogicException();
+    }
+
+    public function between(Temporal $temporal1, Temporal $temporal2)
+    {
+        throw new \LogicException();
+    }
+
+    public function __toString()
+    {
+        return "NinetyFiveMins";
+    }
+}
+
 class TCKLocalTimeTest extends AbstractDateTimeTest
 {
 
@@ -149,7 +235,6 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
         $this->assertEquals($test->getSecond(), $s);
         $this->assertEquals($test->getNano(), $n);
         $this->assertEquals($test, $test);
-        //$this->assertEquals($test.hashCode(), $test.hashCode());
         $this->assertEquals(LocalTime::of($h, $m, $s, $n), $test);
     }
 
@@ -1458,78 +1543,6 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     //-----------------------------------------------------------------------
     // truncated(TemporalUnit)
     //-----------------------------------------------------------------------
-    /*TemporalUnit NINETY_MINS = new TemporalUnit()
-    {
-    @Override
-    public Duration getDuration()
-    {
-    return Duration->ofMinutes(90);
-    }
-    
-    @Override
-        public boolean isDurationEstimated(){
-        return false;
-        }
-        @Override
-        public boolean isDateBased(){
-        return false;
-        }
-        @Override
-        public boolean isTimeBased(){
-        return true;
-        }
-        @Override
-        public boolean isSupportedBy(Temporal $temporal) {
-        return false;
-    }
-        @Override
-        public <R extends Temporal > R addTo(R $temporal, $amount) {
-        throw new UnsupportedOperationException();
-    }
-            @Override
-            public between(Temporal temporal1, Temporal temporal2) {
-        throw new UnsupportedOperationException();
-    }
-            @Override
-            public toString(){
-            return "NinetyMins";
-            }
-            };
-    
-            TemporalUnit NINETY_FIVE_MINS = new TemporalUnit() {
-        @Override
-            public Duration getDuration(){
-            return Duration->ofMinutes(95);
-            }
-            @Override
-            public boolean isDurationEstimated(){
-            return false;
-            }
-            @Override
-            public boolean isDateBased(){
-            return false;
-            }
-            @Override
-            public boolean isTimeBased(){
-            return false;
-            }
-            @Override
-            public boolean isSupportedBy(Temporal $temporal) {
-            return false;
-        }
-            @Override
-            public <R extends Temporal > R addTo(R $temporal, $amount) {
-            throw new UnsupportedOperationException();
-        }
-                @Override
-                public between(Temporal temporal1, Temporal temporal2) {
-            throw new UnsupportedOperationException();
-        }
-                @Override
-                public toString(){
-                return "NinetyFiveMins";
-                }
-                };*/
 
     function data_truncatedToValid()
     {
@@ -1542,9 +1555,9 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
             [LocalTime::of(1, 2, 3, 123456789), CU::HOURS(), LocalTime::of(1, 0)],
             [LocalTime::of(1, 2, 3, 123456789), CU::DAYS(), LocalTime::MIDNIGHT()],
 
-            /*[LocalTime::of(1, 1, 1, 123456789), NINETY_MINS, LocalTime::of(0, 0)], TODO
-            [LocalTime::of(2, 1, 1, 123456789), NINETY_MINS, LocalTime::of(1, 30)],
-            [LocalTime::of(3, 1, 1, 123456789), NINETY_MINS, LocalTime::of(3, 0)],*/
+            [LocalTime::of(1, 1, 1, 123456789), new NINETY_MINS(), LocalTime::of(0, 0)],
+            [LocalTime::of(2, 1, 1, 123456789), new NINETY_MINS(), LocalTime::of(1, 30)],
+            [LocalTime::of(3, 1, 1, 123456789), new NINETY_MINS(), LocalTime::of(3, 0)],
         ];
     }
 
@@ -1559,7 +1572,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     function data_truncatedToInvalid()
     {
         return [
-            // [LocalTime::of(1, 2, 3, 123456789), NINETY_FIVE_MINS], TODO
+            [LocalTime::of(1, 2, 3, 123456789), new NINETY_FIVE_MINS()],
             [LocalTime::of(1, 2, 3, 123456789), CU::WEEKS()],
             [LocalTime::of(1, 2, 3, 123456789), CU::MONTHS()],
             [LocalTime::of(1, 2, 3, 123456789), CU::YEARS()],
@@ -1848,28 +1861,20 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
         }
     }
 
+
     function plusSeconds_fromZero()
     {
-        /*return new Iterator < Object[]>()
-{
-    delta = 30;
-    $i = -3660;
-    $hour = 22;
-    $min = 59;
-    $sec = 0;
+        $delta = 30;
+        $hour = 22;
+        $min = 59;
+        $sec = 0;
 
-    public
-    boolean hasNext()
-{
-return $i <= 3660;
-}
+        $ret = [];
 
-public
-Object[] next(){
-            final Object[] ret = new Object[] {
-    $i, $hour, $min, $sec};
-            $i += delta;
-            $sec += delta;
+        for ($i = -3660; $i <= 3660;) {
+            $ret[] = [$i, $hour, $min, $sec];
+            $i += $delta;
+            $sec += $delta;
 
             if ($sec >= 60) {
                 $min++;
@@ -1884,15 +1889,8 @@ Object[] next(){
                     }
                 }
             }
-
-            return ret;
-            }
-
-            public void remove(){
-            throw new UnsupportedOperationException();
-            }
-            };*/
-        return [[0, 0, 0, 0]];
+        }
+        return $ret;
     }
 
     /**
@@ -1900,7 +1898,6 @@ Object[] next(){
      */
     public function test_plusSeconds_fromZero($seconds, $hour, $min, $sec)
     {
-        $this->markTestIncomplete();
         $base = LocalTime::MIDNIGHT();
         $t = $base->plusSeconds($seconds);
 
@@ -1972,55 +1969,39 @@ Object[] next(){
 
     function plusNanos_fromZero()
     {
-        /*return new Iterator < Object[]>()
-        {
-        delta = 7500000000;
-        $i = -3660 * 1000000000;
+        $delta = 7500000000;
         $hour = 22;
         $min = 59;
         $sec = 0;
         $nanos = 0;
-        
-        public
-        boolean hasNext()
-        {
-        return $i <= 3660 * 1000000000;
-        }
-        
-        public
-        Object[] next(){
-                    final Object[] ret = new Object[] {
-            $i, $hour, $min, $sec, (int)$nanos};
-                    $i += delta;
-                    $nanos += delta;
-        
-                    if ($nanos >= 1000000000) {
-                        $sec += $nanos / 1000000000;
-                        $nanos %= 1000000000;
-        
-                        if ($sec >= 60) {
-                            $min++;
-                            $sec %= 60;
-        
-                            if ($min == 60) {
-                                $hour++;
-                                $min = 0;
-        
-                                if ($hour == 24) {
-                                    $hour = 0;
-                                }
-                            }
+
+        $ret = [];
+
+        for ($i = -3660 * 1000000000; $i <= 3660 * 1000000000;) {
+            $ret[] = [$i, $hour, $min, $sec, $nanos];
+            $i += $delta;
+            $nanos += $delta;
+
+            if ($nanos >= 1000000000) {
+                $sec += Math::div($nanos, 1000000000);
+                $nanos %= 1000000000;
+
+                if ($sec >= 60) {
+                    $min++;
+                    $sec %= 60;
+
+                    if ($min == 60) {
+                        $hour++;
+                        $min = 0;
+
+                        if ($hour == 24) {
+                            $hour = 0;
                         }
                     }
-        
-                    return ret;
-                    }
-        
-                    public void remove(){
-                    throw new UnsupportedOperationException();
-                    }
-                    };*/
-        return [[0, 0, 0, 0, 0]];
+                }
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -2028,7 +2009,6 @@ Object[] next(){
      */
     public function test_plusNanos_fromZero($nanoseconds, $hour, $min, $sec, $nanos)
     {
-        $this->markTestIncomplete();
         $base = LocalTime::MIDNIGHT();
         $t = $base->plusNanos($nanoseconds);
 
@@ -2343,49 +2323,33 @@ Object[] next(){
 
     function minusSeconds_fromZero()
     {
-        /*return new Iterator < Object[]>()
-        {
-        delta = 30;
-        $i = 3660;
+        $delta = 30;
         $hour = 22;
         $min = 59;
         $sec = 0;
 
-        public
-        boolean hasNext()
-        {
-        return $i >= -3660;
+        $ret = [];
+
+        for ($i = 3660; $i >= -3660;) {
+            $ret[] = [$i, $hour, $min, $sec];
+            $i -= $delta;
+            $sec += $delta;
+
+            if ($sec >= 60) {
+                $min++;
+                $sec -= 60;
+
+                if ($min == 60) {
+                    $hour++;
+                    $min = 0;
+
+                    if ($hour == 24) {
+                        $hour = 0;
+                    }
+                }
+            }
         }
-
-        public
-        Object[] next(){
-                    final Object[] ret = new Object[] {
-            $i, $hour, $min, $sec};
-                    $i -= delta;
-                    $sec += delta;
-
-                    if ($sec >= 60) {
-                        $min++;
-                        $sec -= 60;
-
-                        if ($min == 60) {
-                            $hour++;
-                            $min = 0;
-
-                            if ($hour == 24) {
-                                $hour = 0;
-                            }
-                        }
-                    }
-
-                    return ret;
-                    }
-
-                    public void remove(){
-                    throw new UnsupportedOperationException();
-                    }
-                    };*/
-        return [[0, 0, 0, 0]];
+        return $ret;
     }
 
     /**
@@ -2393,7 +2357,6 @@ Object[] next(){
      */
     public function test_minusSeconds_fromZero($seconds, $hour, $min, $sec)
     {
-        $this->markTestIncomplete();
         $base = LocalTime::MIDNIGHT();
         $t = $base->minusSeconds($seconds);
 
@@ -2481,55 +2444,39 @@ Object[] next(){
 
     function minusNanos_fromZero()
     {
-        /*return new Iterator < Object[]>()
-        {
-        delta = 7500000000;
-        $i = 3660 * 1000000000;
+        $delta = 7500000000;
         $hour = 22;
         $min = 59;
         $sec = 0;
         $nanos = 0;
-        
-        public
-        boolean hasNext()
-        {
-        return $i >= -3660 * 1000000000;
-        }
-        
-        public
-        Object[] next(){
-                    final Object[] ret = new Object[] {
-            $i, $hour, $min, $sec, (int)$nanos};
-                    $i -= delta;
-                    $nanos += delta;
-        
-                    if ($nanos >= 1000000000) {
-                        $sec += $nanos / 1000000000;
-                        $nanos %= 1000000000;
-        
-                        if ($sec >= 60) {
-                            $min++;
-                            $sec %= 60;
-        
-                            if ($min == 60) {
-                                $hour++;
-                                $min = 0;
-        
-                                if ($hour == 24) {
-                                    $hour = 0;
-                                }
-                            }
+
+        $ret = [];
+
+        for ($i = 3660 * 1000000000; $i >= -3660 * 1000000000;) {
+            $ret[] = [$i, $hour, $min, $sec, $nanos];
+            $i -= $delta;
+            $nanos += $delta;
+
+            if ($nanos >= 1000000000) {
+                $sec += Math::div($nanos, 1000000000);
+                $nanos %= 1000000000;
+
+                if ($sec >= 60) {
+                    $min++;
+                    $sec %= 60;
+
+                    if ($min == 60) {
+                        $hour++;
+                        $min = 0;
+
+                        if ($hour == 24) {
+                            $hour = 0;
                         }
                     }
-        
-                    return ret;
-                    }
-        
-                    public void remove(){
-                    throw new UnsupportedOperationException();
-                    }
-                    };*/
-        return [[0, 0, 0, 0, 0]];
+                }
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -2537,7 +2484,6 @@ Object[] next(){
      */
     public function test_minusNanos_fromZero($nanoseconds, $hour, $min, $sec, $nanos)
     {
-        $this->markTestIncomplete();
         $base = LocalTime::MIDNIGHT();
         $t = $base->minusNanos($nanoseconds);
 

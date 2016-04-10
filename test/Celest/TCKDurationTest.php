@@ -64,7 +64,62 @@ namespace Celest;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
 use Celest\Temporal\ChronoUnit as CU;
+use Celest\Temporal\Temporal;
+use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalUnit;
+
+class TemporalAmount_DaysNanos implements TemporalAmount
+{
+    public function get(TemporalUnit $unit)
+    {
+        if ($unit == CU::DAYS()) {
+            return 23;
+        } else {
+            return 45;
+        }
+    }
+
+    public function getUnits()
+    {
+        return [
+            CU::DAYS(),
+            CU::NANOS(),
+        ];
+    }
+
+    public function addTo(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function subtractFrom(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+}
+
+class TemporalAmount_Minutes_tooBig implements TemporalAmount
+{
+    public function get(TemporalUnit $unit)
+    {
+        return Math::div(Long::MAX_VALUE, 60) + 2;
+    }
+
+    public function getUnits()
+    {
+        return [CU::MINUTES()];
+    }
+
+    public function addTo(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function subtractFrom(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+}
 
 class TCKDurationTest extends \PHPUnit_Framework_TestCase
 {
@@ -460,35 +515,10 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
 
     public function test_factory_from_TemporalAmount_DaysNanos()
     {
-        $this->markTestIncomplete();
-        /*$amount = new TemporalAmount() {
-        @Override
-            public get(TemporalUnit $unit) {
-            if ($unit == DAYS) {
-                return 23;
-            } else {
-                return 45;
-            }
-        }
-            @Override
-            public List<TemporalUnit > getUnits(){
-        List<TemporalUnit > list = new ArrayList <> ();
-                list.add(DAYS);
-                list.add(NANOS);
-                return list;
-            }
-            @Override
-            public Temporal addTo(Temporal temporal) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public Temporal subtractFrom(Temporal temporal) {
-            throw new UnsupportedOperationException();
-        }
-        };
+        $amount = new TemporalAmount_DaysNanos();
         $t = Duration::from($amount);
         $this->assertEquals($t->getSeconds(), 23 * 86400);
-        $this->assertEquals($t->getNano(), 45);*/
+        $this->assertEquals($t->getNano(), 45);
     }
 
     /**
@@ -496,26 +526,8 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
      */
     public function test_factory_from_TemporalAmount_Minutes_tooBig()
     {
-        $this->markTestIncomplete();/*
-        $amount = new TemporalAmount() {
-        @Override
-            public get(TemporalUnit $unit) {
-            return (Math::div(Long::MAX_VALUE, 60)) + 2;
-        }
-            @Override
-            public List<TemporalUnit > getUnits(){
-                return Collections .<TemporalUnit > singletonList(MINUTES);
-            }
-            @Override
-            public Temporal addTo(Temporal temporal) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public Temporal subtractFrom(Temporal temporal) {
-            throw new UnsupportedOperationException();
-        }
-        };
-        Duration::from($amount);*/
+        $amount = new TemporalAmount_Minutes_tooBig();
+        Duration::from($amount);
     }
 
     /**
@@ -717,7 +729,7 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
     function data_parseFailure()
     {
         return [
-          /* [""],
+            [""],
             ["ABCDEF"],
             [" PT0S"],
             ["PT0S "],
@@ -751,7 +763,7 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
             ["PT+.S"],
 
             ["PT1ABC2S"],
-            ["PT1.1ABC2S"],*/
+            ["PT1.1ABC2S"],
 
             ["PT123456789123456789123456789S"],
             ["PT0.1234567891S"],
@@ -2806,13 +2818,12 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public
-    function test_compareToNonDuration()
+    public function test_compareToNonDuration()
     {
-        // TODO
-        $this->markTestIncomplete();
-        $c = Duration::ofSeconds(0);
-        $c->compareTo(new Object());
+        TestHelper::assertTypeError($this, function () {
+            $c = Duration::ofSeconds(0);
+            $c->compareTo(new \stdClass());
+        });
     }
 
 //-----------------------------------------------------------------------
@@ -2860,7 +2871,6 @@ class TCKDurationTest extends \PHPUnit_Framework_TestCase
     public
     function test_equals_otherClass()
     {
-        $this->markTestSkipped('equals');
         $test5 = Duration::ofSeconds(5, 20);
         $this->assertEquals($test5->equals(""), false);
     }

@@ -66,7 +66,92 @@ use Celest\Helper\Integer;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
 use Celest\Temporal\ChronoUnit as CU;
+use Celest\Temporal\Temporal;
+use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalUnit;
+
+class TemporalAmount_Years_tooBig implements TemporalAmount
+{
+    public function get(TemporalUnit $unit)
+    {
+        return Integer::MAX_VALUE + 1;
+    }
+
+    public function getUnits()
+    {
+        return [CU::YEARS()];
+    }
+
+    public function addTo(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function subtractFrom(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+}
+
+class TemporalAmount_YearsDays implements TemporalAmount
+{
+    public function get(TemporalUnit $unit)
+    {
+        if ($unit == CU::YEARS()) {
+            return 23;
+        } else {
+            return 45;
+        }
+    }
+
+    public function getUnits()
+    {
+        return [
+            CU::YEARS(),
+            CU::DAYS(),
+        ];
+    }
+
+    public function addTo(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function subtractFrom(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+}
+
+class TemporalAmount_DaysHours implements TemporalAmount
+{
+    public function get(TemporalUnit $unit)
+    {
+        if ($unit == CU::DAYS()) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
+
+    public function getUnits()
+    {
+        return [
+            CU::DAYS(),
+            CU::HOURS(),
+        ];
+    }
+
+    public function addTo(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function subtractFrom(Temporal $temporal)
+    {
+        throw new \LogicException();
+    }
+}
 
 /**
  * Test Period.
@@ -153,94 +238,20 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
         $this->assertPeriod(Period::from($amount), 1, 2, 3);
     }
 
-    /*
-       public function test_factory_from_TemporalAmount_YearsDays()
-       {
-           $amount = new TemporalAmount() { TODO
-           @Override
-               public get(TemporalUnit $unit) {
-               if ($unit == CU::YEARS()) {
-                   return 23;
-               } else {
-                   return 45;
-               }
-           }
-               @Override
-               public List<TemporalUnit > getUnits(){
-           List<TemporalUnit > list = new ArrayList <> ();
-                   list.add(CU::YEARS());
-                   list.add(CU::DAYS());
-                   return list;
-               }
-               @Override
-               public Temporal addTo(Temporal $temporal) {
-               throw new UnsupportedOperationException();
-           }
-               @Override
-               public Temporal subtractFrom(Temporal $temporal) {
-               throw new UnsupportedOperationException();
-           }
-           };
-           $this->assertPeriod(Period::from($amount), 23, 0, 45);
-       }
-
-   (expectedExceptions = ArithmeticException.class)
-       public function test_factory_from_TemporalAmount_Years_tooBig()
-       {
-           TemporalAmount $amount = new TemporalAmount() {
-           @Override
-               public get(TemporalUnit $unit) {
-               return ((long) (Integer::MAX_VALUE)) +1;
-               }
-               @Override
-               public List<TemporalUnit > getUnits(){
-                   return Collections .<TemporalUnit > singletonList(CU::YEARS());
-               }
-               @Override
-               public Temporal addTo(Temporal $temporal) {
-               throw new UnsupportedOperationException();
-           }
-               @Override
-               public Temporal subtractFrom(Temporal $temporal) {
-               throw new UnsupportedOperationException();
-           }
-           };
-           Period::from($amount);
-       }*/
+    public function test_factory_from_TemporalAmount_YearsDays()
+    {
+        $amount = new TemporalAmount_YearsDays();
+        $this->assertPeriod(Period::from($amount), 23, 0, 45);
+    }
 
     /**
      * @expectedException \Celest\DateTimeException
      */
-    /* public
-     function test_factory_from_TemporalAmount_DaysHours()
-     {
-         TemporalAmount $amount = new TemporalAmount() {
-         @Override
-         public get(TemporalUnit $unit) {
-             if ($unit == CU::DAYS()) {
-                 return 1;
-             } else {
-                 return 2;
-             }
-         }
-         @Override
-         public List<TemporalUnit > getUnits(){
-         List<TemporalUnit > list = new ArrayList <> ();
-             list.add(CU::DAYS());
-             list.add(CU::HOURS());
-             return list;
-         }
-         @Override
-         public Temporal addTo(Temporal $temporal) {
-             throw new UnsupportedOperationException();
-         }
-         @Override
-         public Temporal subtractFrom(Temporal $temporal) {
-             throw new UnsupportedOperationException();
-         }
-     };
-     Period::from($amount);
- }*/
+    public function test_factory_from_TemporalAmount_DaysHours()
+    {
+        $amount = new TemporalAmount_DaysHours();
+        Period::from($amount);
+    }
 
     /**
      * @expectedException \Celest\DateTimeException
@@ -262,7 +273,7 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
 
     public function test_factory_from_TemporalAmount_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::from(null);
         });
     }
@@ -454,7 +465,7 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
 
     public function test_factory_parse_null()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::parse(null);
         });
     }
@@ -563,14 +574,14 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
 
     public function test_factory_between_LocalDate_nullFirst()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::between(null, LocalDate::of(2010, 1, 1));
         });
     }
 
     public function test_factory_between_LocalDate_nullSecond()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::between(LocalDate::of(2010, 1, 1), null);
         });
     }
@@ -691,33 +702,8 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
      */
     public function test_plus_TemporalAmount_DaysHours()
     {
-        $this->markTestIncomplete();
-        /*TemporalAmount $amount = new TemporalAmount() { TODO
-        @Override
-            public get(TemporalUnit $unit) {
-            if ($unit == CU::DAYS()) {
-                return 1;
-            } else {
-                return 2;
-            }
-        }
-            @Override
-            public List<TemporalUnit > getUnits(){
-        List<TemporalUnit > list = new ArrayList <> ();
-                list.add(CU::DAYS());
-                list.add(CU::HOURS());
-                return list;
-            }
-            @Override
-            public Temporal addTo(Temporal $temporal) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public Temporal subtractFrom(Temporal $temporal) {
-            throw new UnsupportedOperationException();
-        }
-        };
-        $this->pymd(4, 5, 6)->plus($amount);*/
+        $amount = new TemporalAmount_DaysHours();
+        $this->pymd(4, 5, 6)->plusAmount($amount);
     }
 
     //-----------------------------------------------------------------------
@@ -868,33 +854,8 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
      */
     public function test_minus_TemporalAmount_DaysHours()
     {
-        $this->markTestIncomplete();
-        /*TemporalAmount $amount = new TemporalAmount() { TODO
-        @Override
-            public get(TemporalUnit $unit) {
-            if ($unit == CU::DAYS()) {
-                return 1;
-            } else {
-                return 2;
-            }
-        }
-            @Override
-            public List<TemporalUnit > getUnits(){
-        List<TemporalUnit > list = new ArrayList <> ();
-                list.add(CU::DAYS());
-                list.add(CU::HOURS());
-                return list;
-            }
-            @Override
-            public Temporal addTo(Temporal $temporal) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public Temporal subtractFrom(Temporal $temporal) {
-            throw new UnsupportedOperationException();
-        }
-        };
-        $this->pymd(4, 5, 6)->minus($amount);*/
+        $amount = new TemporalAmount_DaysHours();
+        $this->pymd(4, 5, 6)->minusAmount($amount);
     }
 
     //-----------------------------------------------------------------------
@@ -1207,14 +1168,14 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
 
     public function test_addTo_nullZero()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::ZERO()->addTo(null);
         });
     }
 
     public function test_addTo_nullNonZero()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::ofDays(2)->addTo(null);
         });
     }
@@ -1270,14 +1231,14 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
 
     public function test_subtractFrom_nullZero()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::ZERO()->subtractFrom(null);
         });
     }
 
     public function test_subtractFrom_nullNonZero()
     {
-        TestHelper::assertNullException($this, function() {
+        TestHelper::assertNullException($this, function () {
             Period::ofDays(2)->subtractFrom(null);
         });
     }

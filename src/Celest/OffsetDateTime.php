@@ -151,26 +151,6 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
     private static $MAX;
 
     /**
-     * Gets a comparator that compares two {@code OffsetDateTime} instances
-     * based solely on the instant.
-     * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying instant.
-     *
-     * @return callable a comparator that compares in time-line order
-     * 
-     * TODO check comparator
-     *
-     * @see #isAfter
-     * @see #isBefore
-     * @see #isEqual
-     */
-    public static function timeLineOrder()
-    {
-        return [OffsetDateTime::class, 'compareInstant'];
-    }
-
-    /**
      * Compares this {@code OffsetDateTime} to another date-time.
      * The comparison is based on the instant.
      *
@@ -178,13 +158,13 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param $datetime2 OffsetDateTime the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    private static function compareInstant(OffsetDateTime $datetime1, OffsetDateTime $datetime2)
+    public static function compareInstant(OffsetDateTime $datetime1, OffsetDateTime $datetime2)
     {
         if ($datetime1->getOffset()->equals($datetime2->getOffset())) {
             return $datetime1->toLocalDateTime()->compareTo($datetime2->toLocalDateTime());
         }
         $cmp = Long::compare($datetime1->toEpochSecond(), $datetime2->toEpochSecond());
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = $datetime1->toLocalTime()->getNano() - $datetime2->toLocalTime()->getNano();
         }
         return $cmp;

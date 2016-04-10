@@ -758,8 +758,8 @@ List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoFi
     function data_badPlusTemporalAmount()
     {
         return [
-            /*[MockSimplePeriod::of(2, CU::YEARS())], TODO
-            [MockSimplePeriod::of(2, CU::MONTHS())],*/
+            [MockSimplePeriod::of(2, CU::YEARS())],
+            [MockSimplePeriod::of(2, CU::MONTHS())],
         ];
     }
 
@@ -767,9 +767,8 @@ List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoFi
      * @expectedException \Celest\DateTimeException
      * @dataProvider data_badPlusTemporalAmount
      */
-    public function test_badPlusTemporalAmount()
+    public function test_badPlusTemporalAmount(TemporalAmount $amount)
     {
-        $this->markTestIncomplete('TBD');
         $inst = Instant::ofEpochMilli(1000);
         $inst->plusAmount($amount);
     }

@@ -69,6 +69,7 @@ use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAdjusters;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
@@ -741,15 +742,11 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 
     public function test_with_adjustment()
     {
-        $this->markTestIncomplete();
-        /*$sample = OffsetDateTime::ofDateAndTime(LocalDate::of(2012, 3, 4), LocalTime::of(23, 5), self::OFFSET_PONE());
-        $adjuster = new TemporalAdjuster() {
-        @Override
-    public Temporal adjustInto(Temporal $dateTime) {
+        $sample = OffsetDateTime::ofDateAndTime(LocalDate::of(2012, 3, 4), LocalTime::of(23, 5), self::OFFSET_PONE());
+        $adjuster = TemporalAdjusters::fromCallable(function() use ($sample) {
             return $sample;
-        }
-    };
-        $this->assertEquals(self::TEST_2008_6_30_11_30_59_000000500()->adjust($adjuster), $sample);*/
+        });
+        $this->assertEquals(self::TEST_2008_6_30_11_30_59_000000500()->adjust($adjuster), $sample);
     }
 
 
@@ -1438,7 +1435,6 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
 
     public function test_compareTo_timeMins()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 29, 3, 0, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 30, 2, 0, self::OFFSET_PONE());  // a is before b due to time
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1446,13 +1442,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_timeSecs()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 29, 2, 0, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 29, 3, 0, self::OFFSET_PONE());  // a is before b due to time
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1460,13 +1455,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_timeNanos()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 29, 40, 4, self::OFFSET_PONE());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 29, 40, 5, self::OFFSET_PONE());  // a is before b due to time
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1474,13 +1468,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_offset()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 30, 0, 0, self::OFFSET_PTWO());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 30, 0, 0, self::OFFSET_PONE());  // a is before b due to offset
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1488,13 +1481,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_offsetNanos()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 30, 40, 6, self::OFFSET_PTWO());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 30, 40, 5, self::OFFSET_PONE());  // a is before b due to offset
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1502,13 +1494,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_both()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 50, 0, 0, self::OFFSET_PTWO());
         $b = OffsetDateTime::of(2008, 6, 30, 11, 20, 0, 0, self::OFFSET_PONE());  // a is before b on instant scale
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1516,13 +1507,12 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_bothNanos()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 20, 40, 4, self::OFFSET_PTWO());
         $b = OffsetDateTime::of(2008, 6, 30, 10, 20, 40, 5, self::OFFSET_PONE());  // a is before b on instant scale
         $this->assertEquals($a->compareTo($b) < 0, true);
@@ -1530,16 +1520,15 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($a->compareTo($a) == 0, true);
         $this->assertEquals($b->compareTo($b) == 0, true);
         $this->assertEquals($a->toInstant()->compareTo($b->toInstant()) < 0, true);
-        $this->assertEquals(OffsetDateTime::timeLineOrder()->compare($a, $b) < 0, true);
+        $this->assertEquals(OffsetDateTime::compareInstant($a, $b) < 0, true);
     }
 
 
     public function test_compareTo_bothInstantComparator()
     {
-        $this->markTestIncomplete('Comparator');
         $a = OffsetDateTime::of(2008, 6, 30, 11, 20, 40, 4, self::OFFSET_PTWO());
         $b = OffsetDateTime::of(2008, 6, 30, 10, 20, 40, 5, self::OFFSET_PONE());
-        $this->assertEquals($a->compareTo($b), OffsetDateTime::timeLineOrder()->compare($a, $b), "for nano != nano, compareTo and timeLineOrder() should be the same");
+        $this->assertEquals($a->compareTo($b), OffsetDateTime::compareInstant($a, $b), "for nano != nano, compareTo and timeLineOrder() should be the same");
     }
 
 
