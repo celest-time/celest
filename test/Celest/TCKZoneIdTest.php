@@ -311,9 +311,12 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test->getId(), "UTC" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UTC" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('See https://github.com/facebook/hhvm/issues/6852');
+        }
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UTC" . $id));
     }
 
     /**
@@ -325,9 +328,12 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test->getId(), "GMT" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("GMT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('See https://github.com/facebook/hhvm/issues/6852');
+        }
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("GMT" . $id));
     }
 
     /**
@@ -339,9 +345,12 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($test->getId(), "UT" . $id);
         $this->assertEquals($test->getRules(), ZoneOffset::of($offsetId)->getRules());
         $this->assertEquals($test->normalized(), ZoneOffset::of($offsetId));
-        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('See https://github.com/facebook/hhvm/issues/6852');
+        }
+        $this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UT" . $id));
     }
 
     private function displayName($id)
