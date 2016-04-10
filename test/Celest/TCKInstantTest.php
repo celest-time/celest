@@ -600,76 +600,6 @@ class TCKInstantTest extends AbstractDateTimeTest
 //-----------------------------------------------------------------------
 // truncated(TemporalUnit)
 //-----------------------------------------------------------------------
-    /*TemporalUnit NINETY_MINS = new TemporalUnit() {
-        @Override
-    public Duration getDuration(){
-    return Duration::ofMinutes(90);
-    }
-    @Override
-    public boolean isDurationEstimated(){
-    return false;
-    }
-    @Override
-    public boolean isDateBased(){
-    return false;
-    }
-    @Override
-    public boolean isTimeBased(){
-    return true;
-    }
-    @Override
-    public boolean isSupportedBy(Temporal $temporal) {
-            return false;
-        }
-    @Override
-    public  addTo(R $temporal, $amount) {
-            throw new UnsupportedOperationException();
-        }
-        @Override
-        public between(Temporal temporal1, Temporal temporal2) {
-            throw new UnsupportedOperationException();
-        }
-        @Override
-        public toString(){
-        return "NinetyMins";
-        }
-        };
-    
-        TemporalUnit NINETY_FIVE_MINS = new TemporalUnit() {
-        @Override
-        public Duration getDuration(){
-        return Duration::ofMinutes(95);
-        }
-        @Override
-        public boolean isDurationEstimated(){
-        return false;
-        }
-        @Override
-        public boolean isDateBased(){
-        return false;
-        }
-        @Override
-        public boolean isTimeBased(){
-        return false;
-        }
-        @Override
-        public boolean isSupportedBy(Temporal $temporal) {
-            return false;
-        }
-        @Override
-        public  addTo(R $temporal, $amount) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public between(Temporal temporal1, Temporal temporal2) {
-            throw new UnsupportedOperationException();
-        }
-            @Override
-            public toString(){
-            return "NinetyFiveMins";
-            }
-            };*/
-
     function data_truncatedToValid()
     {
         return [
@@ -681,9 +611,9 @@ class TCKInstantTest extends AbstractDateTimeTest
             [Instant::ofEpochSecond(86400 + 3600 + 60 + 1, 123456789), CU::HOURS(), Instant::ofEpochSecond(86400 + 3600, 0)],
             [Instant::ofEpochSecond(86400 + 3600 + 60 + 1, 123456789), CU::DAYS(), Instant::ofEpochSecond(86400, 0)],
 
-            /* [Instant::ofEpochSecond(86400 + 3600 + 60 + 1, 123456789), CU::NINETY_MINS(), Instant::ofEpochSecond(86400 + 0, 0)], TODO
-             [Instant::ofEpochSecond(86400 + 7200 + 60 + 1, 123456789), CU::NINETY_MINS(), Instant::ofEpochSecond(86400 + 5400, 0)],
-             [Instant::ofEpochSecond(86400 + 10800 + 60 + 1, 123456789), CU::NINETY_MINS(), Instant::ofEpochSecond(86400 + 10800, 0)],*/
+            [Instant::ofEpochSecond(86400 + 3600 + 60 + 1, 123456789), new NINETY_MINS(), Instant::ofEpochSecond(86400 + 0, 0)],
+            [Instant::ofEpochSecond(86400 + 7200 + 60 + 1, 123456789), new NINETY_MINS(), Instant::ofEpochSecond(86400 + 5400, 0)],
+            [Instant::ofEpochSecond(86400 + 10800 + 60 + 1, 123456789), new NINETY_MINS(), Instant::ofEpochSecond(86400 + 10800, 0)],
         ];
     }
 
@@ -698,7 +628,7 @@ class TCKInstantTest extends AbstractDateTimeTest
     function data_truncatedToInvalid()
     {
         return [
-            //[Instant::ofEpochSecond(1, 123456789), CU::NINETY_FIVE_MINS()], TODO
+            [Instant::ofEpochSecond(1, 123456789), new NINETY_FIVE_MINS()],
             [Instant::ofEpochSecond(1, 123456789), CU::WEEKS()],
             [Instant::ofEpochSecond(1, 123456789), CU::MONTHS()],
             [Instant::ofEpochSecond(1, 123456789), CU::YEARS()],
@@ -727,16 +657,16 @@ class TCKInstantTest extends AbstractDateTimeTest
     function data_plusTemporalAmount()
     {
         return [
-            /*[CU::DAYS(), MockSimplePeriod::of(1, CU::DAYS()), 86401, 0],
+            [CU::DAYS(), MockSimplePeriod::of(1, CU::DAYS()), 86401, 0],
             [CU::HOURS(), MockSimplePeriod::of(2, CU::HOURS()), 7201, 0],
             [CU::MINUTES(), MockSimplePeriod::of(4, CU::MINUTES()), 241, 0],
             [CU::SECONDS(), MockSimplePeriod::of(5, CU::SECONDS()), 6, 0],
-            [CU::NANOS(), MockSimplePeriod::of(6, CU::NANOS()), 1, 6], TODO
+            [CU::NANOS(), MockSimplePeriod::of(6, CU::NANOS()), 1, 6],
             [CU::DAYS(), MockSimplePeriod::of(10, CU::DAYS()), 864001, 0],
             [CU::HOURS(), MockSimplePeriod::of(11, CU::HOURS()), 39601, 0],
             [CU::MINUTES(), MockSimplePeriod::of(12, CU::MINUTES()), 721, 0],
             [CU::SECONDS(), MockSimplePeriod::of(13, CU::SECONDS()), 14, 0],
-            [CU::NANOS(), MockSimplePeriod::of(14, CU::NANOS()), 1, 14],*/
+            [CU::NANOS(), MockSimplePeriod::of(14, CU::NANOS()), 1, 14],
             [CU::SECONDS(), Duration::ofSeconds(20, 40), 21, 40],
             [CU::NANOS(), Duration::ofSeconds(30, 300), 31, 300],
         ];

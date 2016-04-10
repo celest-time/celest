@@ -65,11 +65,70 @@ use Celest\Chrono\IsoChronology;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
+use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
+use Celest\Temporal\TemporalQuery;
+
+class TemporalAccessor_LDT_ZoneId extends AbstractTemporalAccessor
+{
+    private $base;
+
+    public function __construct(ZonedDateTime $base)
+    {
+        $this->base = $base;
+    }
+
+    public function isSupported(TemporalField $field)
+    {
+        return $this->base->toLocalDateTime()->isSupported($field);
+    }
+
+    public function getLong(TemporalField $field)
+    {
+        return $this->base->toLocalDateTime()->getLong($field);
+    }
+
+    public function query(TemporalQuery $query)
+    {
+        if ($query == TemporalQueries::zoneId()) {
+            return $this->base->getZone();
+        }
+        return parent::query($query);
+    }
+}
+
+class TemporalAccessor_Instant_ZoneId extends AbstractTemporalAccessor
+{
+    private $base;
+
+    public function __construct(ZonedDateTime $base)
+    {
+        $this->base = $base;
+    }
+
+    public function isSupported(TemporalField $field)
+    {
+        return $field == CF::INSTANT_SECONDS() || $field == CF::NANO_OF_SECOND();
+    }
+
+    public function getLong(TemporalField $field)
+    {
+        return $this->base->toInstant()->getLong($field);
+    }
+
+    public function query(TemporalQuery $query)
+    {
+        if ($query == TemporalQueries::zoneId()) {
+            return $this->base->getZone();
+        }
+        return parent::query($query);
+    }
+}
 
 /**
  * Test ZonedDateTime::
@@ -127,11 +186,13 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         return ZoneId::of("Europe/Paris");
     }
 
-    private static function TEST_LOCAL_2008_06_30_11_30_59_500() {
+    private static function TEST_LOCAL_2008_06_30_11_30_59_500()
+    {
         return LocalDateTime::of(2008, 6, 30, 11, 30, 59, 500);
     }
 
-    private static function TEST_PARIS_OVERLAP_2008_10_26_02_30() {
+    private static function TEST_PARIS_OVERLAP_2008_10_26_02_30()
+    {
         return LocalDateTime::of(2008, 10, 26, 2, 30);
     }
 
@@ -366,7 +427,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     public
     function test_factory_of_LocalDateLocalTime_inOverlap()
     {
-            $test = ZonedDateTime::ofDateAndTime(self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalDate(), self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalTime(), self::ZONE_PARIS());
+        $test = ZonedDateTime::ofDateAndTime(self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalDate(), self::TEST_PARIS_OVERLAP_2008_10_26_02_30()->toLocalTime(), self::ZONE_PARIS());
         $this->check($test, 2008, 10, 26, 2, 30, 0, 0, self::OFFSET_0200(), self::ZONE_PARIS());  // same time in summer $offset
     }
 
@@ -737,54 +798,16 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     }
 
 
-    /*public function test_factory_from_TemporalAccessor_LDT_ZoneId()
+    public function test_factory_from_TemporalAccessor_LDT_ZoneId()
     {
-        $this->assertEquals(ZonedDateTime::from(new TemporalAccessor() {
-            @Override
-            public boolean isSupported(TemporalField $field) {
-        return $this->TEST_DATE_TIME_PARIS->toLocalDateTime()->isSupported($field);
-    }
-
-            @Override
-            public getLong(TemporalField $field) {
-        return $this->TEST_DATE_TIME_PARIS->toLocalDateTime()->getLong($field);
-    }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public <R > R query(TemporalQuery < R> query) {
-        if (query == TemporalQueries::zoneId()) {
-            return (R) $this->TEST_DATE_TIME_PARIS->getZone();
-                }
-        return TemporalAccessor->super->query(query);
-}
-        }), $this->TEST_DATE_TIME_PARIS);
+        $this->assertEquals(ZonedDateTime::from(new TemporalAccessor_LDT_ZoneId($this->TEST_DATE_TIME_PARIS)), $this->TEST_DATE_TIME_PARIS);
     }
 
 
     public function test_factory_from_TemporalAccessor_Instant_ZoneId()
     {
-        $this->assertEquals(ZonedDateTime::from(new TemporalAccessor() {
-            @Override
-            public boolean isSupported(TemporalField $field) {
-        return $field == INSTANT_SECONDS || $field == NANO_OF_SECOND;
+        $this->assertEquals(ZonedDateTime::from(new TemporalAccessor_Instant_ZoneId($this->TEST_DATE_TIME_PARIS)), $this->TEST_DATE_TIME_PARIS);
     }
-
-            @Override
-            public getLong(TemporalField $field) {
-        return $this->TEST_DATE_TIME_PARIS->toInstant()->getLong($field);
-    }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public <R > R query(TemporalQuery < R> query) {
-        if (query == TemporalQueries::zoneId()) {
-            return (R) $this->TEST_DATE_TIME_PARIS->getZone();
-                }
-        return TemporalAccessor->super->query(query);
-}
-        }), $this->TEST_DATE_TIME_PARIS);
-    }TODO */
 
     /**
      * @expectedException \Celest\DateTimeException
@@ -2816,7 +2839,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
 
     private static function dateTime(
         $year, $month, $dayOfMonth,
-        $hour, $minute, $second = 0 , $nanoOfSecond = 0)
+        $hour, $minute, $second = 0, $nanoOfSecond = 0)
     {
         return LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
     }

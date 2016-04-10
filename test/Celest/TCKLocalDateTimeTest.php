@@ -1019,7 +1019,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
      */
     public function test_factory_ofEpochSecond_longOffset_tooBig()
     {
-        LocalDateTime::ofEpochSecond(Long::MAX_VALUE, 500, self::OFFSET_PONE());  // TODO: better $test
+        LocalDateTime::ofEpochSecond(Long::MAX_VALUE, 500, self::OFFSET_PONE());  // TODO: better test
     }
 
     /**
@@ -1027,7 +1027,7 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
      */
     public function test_factory_ofEpochSecond_longOffset_tooSmall()
     {
-        LocalDateTime::ofEpochSecond(Long::MIN_VALUE, 500, self::OFFSET_PONE());  // TODO: better $test
+        LocalDateTime::ofEpochSecond(Long::MIN_VALUE, 500, self::OFFSET_PONE());  // TODO: better test
     }
 
     /**

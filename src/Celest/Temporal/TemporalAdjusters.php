@@ -64,6 +64,7 @@
 namespace Celest\Temporal;
 
 use Celest\DayOfWeek;
+use Celest\LocalDate;
 use Celest\Temporal\TemporalQuery\FuncTemporalAdjuster;
 
 /**
@@ -123,6 +124,32 @@ final class TemporalAdjusters
     }
 
 //-----------------------------------------------------------------------
+    /**
+     * Obtains a {@code TemporalAdjuster} that wraps a date adjuster.
+     * <p>
+     * The {@code TemporalAdjuster} is based on the low level {@code Temporal} interface.
+     * This method allows an adjustment from {@code LocalDate} to {@code LocalDate}
+     * to be wrapped to match the temporal-based interface.
+     * This is provided for convenience to make user-written adjusters simpler.
+     * <p>
+     * In general, user-written adjusters should be static constants:
+     * <pre>{@code
+     *  static TemporalAdjuster TWO_DAYS_LATER =
+     *       TemporalAdjusters.ofDateAdjuster(date -> date.plusDays(2));
+     * }</pre>
+     *
+     * @param $dateBasedAdjuster callable the date-based adjuster, not null
+     * @return TemporalAdjuster the temporal adjuster wrapping on the date adjuster, not null
+     */
+    public static function ofDateAdjuster(callable $dateBasedAdjuster)
+    {
+        return TemporalAdjusters::fromCallable(function (Temporal $temporal) use ($dateBasedAdjuster) {
+            $input = LocalDate::from($temporal);
+            $output = $dateBasedAdjuster($input);
+            return $temporal->adjust($output);
+        });
+    }
+
     /**
      * Returns the "first day of month" adjuster, which returns a new date set to
      * the first day of the current month.

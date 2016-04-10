@@ -62,10 +62,12 @@
 namespace Celest;
 
 use Celest\Format\DateTimeFormatter;
+use Celest\Format\ResolverStyle;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
 use \Celest\Temporal\ChronoUnit as CU;
 use \Celest\Temporal\ChronoField as CF;
+use Celest\Temporal\FieldValues;
 use Celest\Temporal\JulianFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
@@ -76,89 +78,82 @@ use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Exception;
 
-class NINETY_MINS implements TemporalUnit
+class TemporalField_notChronoField implements TemporalField
 {
-    public function getDuration()
+    private $_this;
+    private $result;
+    private $base;
+
+    public function __construct(\PHPUnit_Framework_Assert $_this, $base, $result)
     {
-        return Duration::ofMinutes(90);
+        $this->_this = $_this;
+        $this->result = $result;
+        $this->base = $base;
     }
 
-    public function isDurationEstimated()
-    {
-        return false;
-    }
-
-    public function isDateBased()
-    {
-        return false;
-    }
-
-    public function isTimeBased()
-    {
-        return true;
-    }
-
-    public function isSupportedBy(Temporal $temporal)
-    {
-        return false;
-    }
-
-    public function addTo(Temporal $temporal, $amount)
+    public function rangeRefinedBy(TemporalAccessor $temporal)
     {
         throw new \LogicException();
     }
 
-    public function between(Temporal $temporal1, Temporal $temporal2)
+    public function range()
+    {
+        return null;
+    }
+
+    public function isTimeBased()
+    {
+        throw new \LogicException();
+    }
+
+    public function isSupportedBy(TemporalAccessor $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function isDateBased()
+    {
+        throw new \LogicException();
+    }
+
+    public function getRangeUnit()
+    {
+        throw new \LogicException();
+    }
+
+    public function getFrom(TemporalAccessor $temporal)
+    {
+        throw new \LogicException();
+    }
+
+    public function getBaseUnit()
+    {
+        throw new \LogicException();
+    }
+
+    public function adjustInto(Temporal $temporal, $newValue)
+    {
+        $this->_this->assertEquals($temporal, $this->base);
+        $this->_this->assertEquals($newValue, 12);
+        return $this->result;
+    }
+
+    public function getDisplayName(Locale $locale)
+    {
+        throw new \LogicException();
+    }
+
+    public function resolve(
+        FieldValues $fieldValues,
+        TemporalAccessor $partialTemporal,
+        ResolverStyle $resolverStyle)
     {
         throw new \LogicException();
     }
 
     public function __toString()
     {
-        return "NinetyMins";
-    }
-}
-
-class NINETY_FIVE_MINS implements TemporalUnit
-{
-    public function getDuration()
-    {
-        return Duration::ofMinutes(95);
-    }
-
-    public function isDurationEstimated()
-    {
-        return false;
-    }
-
-    public function isDateBased()
-    {
-        return false;
-    }
-
-    public function isTimeBased()
-    {
-        return false;
-    }
-
-    public function isSupportedBy(Temporal $temporal)
-    {
-        return false;
-    }
-
-    public function addTo(Temporal $temporal, $amount)
-    {
         throw new \LogicException();
-    }
-
-    public function between(Temporal $temporal1, Temporal $temporal2)
-    {
-        throw new \LogicException();
-    }
-
-    public function __toString()
-    {
-        return "NinetyFiveMins";
     }
 }
 
@@ -1284,42 +1279,9 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     {
         $result = LocalTime::of(12, 30);
         $base = LocalTime::of(15, 45);
-        /*TemporalField $field = new TemporalField() { TODO
-                public
-                ValueRange rangeRefinedBy(TemporalAccessor $temporal) {
-                    throw new UnsupportedOperationException();
-                }
-        public ValueRange range(){
-        return null;
-        }
-        public boolean isTimeBased(){
-        throw new UnsupportedOperationException();
-        }
-        public boolean isSupportedBy(TemporalAccessor $temporal) {
-                    throw new UnsupportedOperationException();
-                }
-        public boolean isDateBased(){
-        throw new UnsupportedOperationException();
-        }
-        public TemporalUnit getRangeUnit(){
-        throw new UnsupportedOperationException();
-        }
-        public getFrom(TemporalAccessor $temporal) {
-                    throw new UnsupportedOperationException();
-                }
-        public TemporalUnit getBaseUnit(){
-        throw new UnsupportedOperationException();
-        }
-        public <R extends Temporal > R adjustInto(R $temporal, $newValue) {
-                    $this->assertEquals($temporal, $base);
-                    $this->assertEquals($newValue, 12);
-                    @SuppressWarnings("unchecked")
-            R r = (R) $result;
-            return r;
-            }
-            };
-            $test = $base->with($field, 12);
-        $this->assertSame($test, $result);*/
+        $field = new TemporalField_notChronoField($this, $base, $result);
+        $test = $base->with($field, 12);
+        $this->assertSame($test, $result);
     }
 
     public function test_with_longTemporalField_null()

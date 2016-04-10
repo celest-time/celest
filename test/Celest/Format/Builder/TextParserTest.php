@@ -299,7 +299,6 @@ class TestTextParser extends AbstractTestPrinterParser
     }
 
 // Test data is dependent on localized resources.
-// TODO double check why short format vs. short standalone are different / use different test case
     function providerLenientText()
     {
 // Locale, TemporalField, expected value, input text

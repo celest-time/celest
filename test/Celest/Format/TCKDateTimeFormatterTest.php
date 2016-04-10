@@ -122,7 +122,9 @@ class format_withChronology_nonChronoFieldMapLink implements TemporalAccessor
         }
         throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
     }
-};
+}
+
+;
 
 /**
  * Test DateTimeFormatter.
@@ -292,13 +294,13 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** Does not apply
-    public function test_resolverFields_listOfOneNull()
-    {
-        $f = (new DateTimeFormatterBuilder())
-            ->appendValue(CF::YEAR())->toFormatter()->withResolverFields(null);
-        $parsed = $f->parse("2012");
-        $this->assertEquals($parsed->isSupported(CF::YEAR()), false);  // not in the list of resolverFields
-    } */
+     * public function test_resolverFields_listOfOneNull()
+     * {
+     * $f = (new DateTimeFormatterBuilder())
+     * ->appendValue(CF::YEAR())->toFormatter()->withResolverFields(null);
+     * $parsed = $f->parse("2012");
+     * $this->assertEquals($parsed->isSupported(CF::YEAR()), false);  // not in the list of resolverFields
+     * } */
 
 
     public function test_resolverFields_Array_null()
@@ -311,13 +313,13 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
 
 
     /** Does not apply
-    public function test_resolverFields_Set_null()
-    {
-        $f = DateTimeFormatter::ISO_DATE()->withResolverFields(CF::MONTH_OF_YEAR());
-        $this->assertEquals(count($f->getResolverFields()), 1);
-        $f = $f->withResolverFields();
-        $this->assertEquals($f->getResolverFields(), null);
-    }*/
+     * public function test_resolverFields_Set_null()
+     * {
+     * $f = DateTimeFormatter::ISO_DATE()->withResolverFields(CF::MONTH_OF_YEAR());
+     * $this->assertEquals(count($f->getResolverFields()), 1);
+     * $f = $f->withResolverFields();
+     * $this->assertEquals($f->getResolverFields(), null);
+     * }*/
 
     //-----------------------------------------------------------------------
     // format TODO
@@ -333,127 +335,70 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $zdt = ZonedDateTime::ofDateTime(LocalDateTime::of(2008, 6, 30, 11, 30), self::ZONE_PARIS());
         $thaiZdt = ThaiBuddhistChronology::INSTANCE()->zonedDateTimeFrom($zdt);
         $instant = Instant::ofEpochSecond(3600);
-        return [/*
-            [
-                null, null, DayOfWeek::MONDAY(), "::::"],
-            [
-                null, null, $ym, "2008::::ISO"],
-            [
-                null, null, $ld, "2008::::ISO"],
-            [
-                null, null, $lt, ":11:::"],
-            [
-                null, null, $ldt, "2008:11:::ISO"],
-            [
-                null, null, $ot, ":11:+01:00::"],
-            [
-                null, null, $odt, "2008:11:+01:00::ISO"],
-            [
-                null, null, $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
-            [
-                null, null, $instant, "::::"],
+        return [
+            [null, null, DayOfWeek::MONDAY(), "::::"],
+            [null, null, $ym, "2008::::ISO"],
+            [null, null, $ld, "2008::::ISO"],
+            [null, null, $lt, ":11:::"],
+            [null, null, $ldt, "2008:11:::ISO"],
+            [null, null, $ot, ":11:+01:00::"],
+            [null, null, $odt, "2008:11:+01:00::ISO"],
+            [null, null, $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
+            [null, null, $instant, "::::"],
 
-            [
-                IsoChronology::INSTANCE(), null, DayOfWeek::MONDAY(), "::::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $ym, "2008::::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $ld, "2008::::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $lt, ":11:::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $ldt, "2008:11:::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $ot, ":11:+01:00::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $odt, "2008:11:+01:00::ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
-            [
-                IsoChronology::INSTANCE(), null, $instant, "::::ISO"],
+            [IsoChronology::INSTANCE(), null, DayOfWeek::MONDAY(), "::::ISO"],
+            [IsoChronology::INSTANCE(), null, $ym, "2008::::ISO"],
+            [IsoChronology::INSTANCE(), null, $ld, "2008::::ISO"],
+            [IsoChronology::INSTANCE(), null, $lt, ":11:::ISO"],
+            [IsoChronology::INSTANCE(), null, $ldt, "2008:11:::ISO"],
+            [IsoChronology::INSTANCE(), null, $ot, ":11:+01:00::ISO"],
+            [IsoChronology::INSTANCE(), null, $odt, "2008:11:+01:00::ISO"],
+            [IsoChronology::INSTANCE(), null, $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
+            [IsoChronology::INSTANCE(), null, $instant, "::::ISO"],
 
-            [
-                null, self::ZONE_PARIS(), DayOfWeek::MONDAY(), ":::Europe/Paris:"],
-            [
-                null, self::ZONE_PARIS(), $ym, "2008:::Europe/Paris:ISO"],
-            [
-                null, self::ZONE_PARIS(), $ld, "2008:::Europe/Paris:ISO"],
-            [
-                null, self::ZONE_PARIS(), $lt, ":11::Europe/Paris:"],
-            [
-                null, self::ZONE_PARIS(), $ldt, "2008:11::Europe/Paris:ISO"],
-            [
-                null, self::ZONE_PARIS(), $ot, ":11:+01:00:Europe/Paris:"],
-            [
-                null, self::ZONE_PARIS(), $odt, "2008:12:+02:00:Europe/Paris:ISO"],
-            [
-                null, self::ZONE_PARIS(), $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
-            [
-                null, self::ZONE_PARIS(), $instant, "1970:02:+01:00:Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), DayOfWeek::MONDAY(), ":::Europe/Paris:"],
+            [null, self::ZONE_PARIS(), $ym, "2008:::Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), $ld, "2008:::Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), $lt, ":11::Europe/Paris:"],
+            [null, self::ZONE_PARIS(), $ldt, "2008:11::Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), $ot, ":11:+01:00:Europe/Paris:"],
+            [null, self::ZONE_PARIS(), $odt, "2008:12:+02:00:Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), $zdt, "2008:11:+02:00:Europe/Paris:ISO"],
+            [null, self::ZONE_PARIS(), $instant, "1970:02:+01:00:Europe/Paris:ISO"],
 
-            [
-                null, self::OFFSET_PTHREE(), DayOfWeek::MONDAY(), ":::+03:00:"],
-            [
-                null, self::OFFSET_PTHREE(), $ym, "2008:::+03:00:ISO"],
-            [
-                null, self::OFFSET_PTHREE(), $ld, "2008:::+03:00:ISO"],
-            [
-                null, self::OFFSET_PTHREE(), $lt, ":11::+03:00:"],
-            [
-                null, self::OFFSET_PTHREE(), $ldt, "2008:11::+03:00:ISO"],
-            [
-                null, self::OFFSET_PTHREE(), $ot, null],  // offset and zone clash
-            [
-                null, self::OFFSET_PTHREE(), $odt, "2008:13:+03:00:+03:00:ISO"],
-            [
-                null, self::OFFSET_PTHREE(), $zdt, "2008:12:+03:00:+03:00:ISO"],
-            [
-                null, self::OFFSET_PTHREE(), $instant, "1970:04:+03:00:+03:00:ISO"],
-*/
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, DayOfWeek::MONDAY(), null],  // not a complete date
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $ym, null],  // not a complete date
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $ld, "2551::::ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $lt, ":11:::ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $ldt, "2551:11:::ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $ot, ":11:+01:00::ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $odt, "2551:11:+01:00::ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $zdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, $instant, "::::ThaiBuddhist"],
+            [null, self::OFFSET_PTHREE(), DayOfWeek::MONDAY(), ":::+03:00:"],
+            [null, self::OFFSET_PTHREE(), $ym, "2008:::+03:00:ISO"],
+            [null, self::OFFSET_PTHREE(), $ld, "2008:::+03:00:ISO"],
+            [null, self::OFFSET_PTHREE(), $lt, ":11::+03:00:"],
+            [null, self::OFFSET_PTHREE(), $ldt, "2008:11::+03:00:ISO"],
+            [null, self::OFFSET_PTHREE(), $ot, null],  // offset and zone clash
+            [null, self::OFFSET_PTHREE(), $odt, "2008:13:+03:00:+03:00:ISO"],
+            [null, self::OFFSET_PTHREE(), $zdt, "2008:12:+03:00:+03:00:ISO"],
+            [null, self::OFFSET_PTHREE(), $instant, "1970:04:+03:00:+03:00:ISO"],
 
-            [
-                ThaiBuddhistChronology::INSTANCE(), null, DayOfWeek::MONDAY(), null],  // not a complete date
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ym, null],  // not a complete date
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ld, "2551:::Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $lt, ":11::Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ldt, "2551:11::Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ot, ":11:+01:00:Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $odt, "2551:12:+02:00:Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $zdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $instant, "2513:02:+01:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, DayOfWeek::MONDAY(), null],  // not a complete date
+            [ThaiBuddhistChronology::INSTANCE(), null, $ym, null],  // not a complete date
+            [ThaiBuddhistChronology::INSTANCE(), null, $ld, "2551::::ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $lt, ":11:::ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $ldt, "2551:11:::ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $ot, ":11:+01:00::ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $odt, "2551:11:+01:00::ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $zdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), null, $instant, "::::ThaiBuddhist"],
 
-            [
-                null, self::ZONE_PARIS(), $thaiZdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
-            [
-                ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
-            [
-                IsoChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2008:11:+02:00:Europe/Paris:ISO"],
+            [ThaiBuddhistChronology::INSTANCE(), null, DayOfWeek::MONDAY(), null],  // not a complete date
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ym, null],  // not a complete date
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ld, "2551:::Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $lt, ":11::Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ldt, "2551:11::Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $ot, ":11:+01:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $odt, "2551:12:+02:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $zdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $instant, "2513:02:+01:00:Europe/Paris:ThaiBuddhist"],
+
+            [null, self::ZONE_PARIS(), $thaiZdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
+            [ThaiBuddhistChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2551:11:+02:00:Europe/Paris:ThaiBuddhist"],
+            [IsoChronology::INSTANCE(), self::ZONE_PARIS(), $thaiZdt, "2008:11:+02:00:Europe/Paris:ISO"],
         ];
     }
 

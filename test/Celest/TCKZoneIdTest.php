@@ -316,6 +316,7 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UTC" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     /**
@@ -331,6 +332,7 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("GMT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     /**
@@ -347,6 +349,7 @@ class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
         //$this->assertEquals($test->getDisplayName(TextStyle::FULL(), Locale::UK()), $this->displayName("UT" . $id));
         $this->assertEquals($test->getRules()->isFixedOffset(), true);
         $this->assertEquals($test->getRules()->getOffset(Instant::EPOCH()), ZoneOffset::of($offsetId));
+        $this->markTestIncomplete('DateTimeTextProvider.php');
     }
 
     private function displayName($id)

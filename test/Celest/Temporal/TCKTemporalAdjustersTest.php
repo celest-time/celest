@@ -75,16 +75,20 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // ofDateAdjuster()
     //-----------------------------------------------------------------------
+    public function test_factory_ofDateAdjuster()
+    {
+        $test = TemporalAdjusters::ofDateAdjuster(function (LocalDate $date) {
+            return $date->plusDays(2);
+        });
+        $this->assertEquals(LocalDate::of(2012, 6, 30)->adjust($test), LocalDate::of(2012, 7, 2));
+    }
 
-    /** TODO
-     * public function test_factory_ofDateAdjuster() {
-     * $test = TemporalAdjusters::ofDateAdjuster($date -> $date.plusDays(2));
-     * $this->assertEquals(LocalDate::of(2012, 6, 30).with($test), LocalDate::of(2012, 7, 2));
-     * }
-     *
-     * public function test_factory_ofDateAdjuster_null() {
-     * TemporalAdjusters::ofDateAdjuster(null);
-     * }*/
+    public function test_factory_ofDateAdjuster_null()
+    {
+        TestHelper::assertNullException($this, function () {
+            TemporalAdjusters::ofDateAdjuster(null);
+        });
+    }
 
 
     //-----------------------------------------------------------------------
@@ -110,7 +114,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_firstDayOfMonth_leap()
     {
         foreach (Month::values() as $month) {
@@ -127,13 +131,13 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // lastDayOfMonth()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_lastDayOfMonth()
     {
         $this->assertNotNull(TemporalAdjusters::lastDayOfMonth());
     }
 
-    
+
     public function test_lastDayOfMonth_nonLeap()
     {
         foreach (Month::values() as $month) {
@@ -147,7 +151,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_lastDayOfMonth_leap()
     {
         foreach (Month::values() as $month) {
@@ -164,13 +168,13 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // firstDayOfNextMonth()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_firstDayOfNextMonth()
     {
         $this->assertNotNull(TemporalAdjusters::firstDayOfNextMonth());
     }
 
-    
+
     public function test_firstDayOfNextMonth_nonLeap()
     {
         foreach (Month::values() as $month) {
@@ -184,7 +188,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_firstDayOfNextMonth_leap()
     {
         foreach (Month::values() as $month) {
@@ -201,13 +205,13 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // firstDayOfYear()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_firstDayOfYear()
     {
         $this->assertNotNull(TemporalAdjusters::firstDayOfYear());
     }
 
-    
+
     public function test_firstDayOfYear_nonLeap()
     {
         foreach (Month::values() as $month) {
@@ -221,7 +225,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_firstDayOfYear_leap()
     {
         foreach (Month::values() as $month) {
@@ -238,13 +242,13 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // lastDayOfYear()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_lastDayOfYear()
     {
         $this->assertNotNull(TemporalAdjusters::lastDayOfYear());
     }
 
-    
+
     public function test_lastDayOfYear_nonLeap()
     {
         foreach (Month::values() as $month) {
@@ -258,7 +262,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_lastDayOfYear_leap()
     {
         foreach (Month::values() as $month) {
@@ -275,13 +279,13 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // firstDayOfNextYear()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_firstDayOfNextYear()
     {
         $this->assertNotNull(TemporalAdjusters::firstDayOfNextYear());
     }
 
-    
+
     public function test_firstDayOfNextYear_nonLeap()
     {
         foreach (Month::values() as $month) {
@@ -295,7 +299,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    
+
     public function test_firstDayOfNextYear_leap()
     {
         foreach (Month::values() as $month) {
@@ -312,7 +316,7 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
     //-----------------------------------------------------------------------
     // dayOfWeekInMonth()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_dayOfWeekInMonth()
     {
         $this->assertNotNull(TemporalAdjusters::dayOfWeekInMonth(1, DayOfWeek::MONDAY()));
@@ -343,9 +347,9 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-        /**
-         * @dataProvider data_dayOfWeekInMonth_positive
-         */
+    /**
+     * @dataProvider data_dayOfWeekInMonth_positive
+     */
     public function test_dayOfWeekInMonth_positive($year, $month, DayOfWeek $dow, LocalDate $expected)
     {
         for ($ordinal = 1; $ordinal <= 5; $ordinal++) {
@@ -357,37 +361,37 @@ class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-function data_dayOfWeekInMonth_zero()
-{
-    return [
-        [2011, 1, DayOfWeek::TUESDAY(), LocalDate::of(2010, 12, 28)],
-        [2011, 2, DayOfWeek::TUESDAY(), LocalDate::of(2011, 1, 25)],
-        [2011, 3, DayOfWeek::TUESDAY(), LocalDate::of(2011, 2, 22)],
-        [2011, 4, DayOfWeek::TUESDAY(), LocalDate::of(2011, 3, 29)],
-        [2011, 5, DayOfWeek::TUESDAY(), LocalDate::of(2011, 4, 26)],
-        [2011, 6, DayOfWeek::TUESDAY(), LocalDate::of(2011, 5, 31)],
-        [2011, 7, DayOfWeek::TUESDAY(), LocalDate::of(2011, 6, 28)],
-        [2011, 8, DayOfWeek::TUESDAY(), LocalDate::of(2011, 7, 26)],
-        [2011, 9, DayOfWeek::TUESDAY(), LocalDate::of(2011, 8, 30)],
-        [2011, 10, DayOfWeek::TUESDAY(), LocalDate::of(2011, 9, 27)],
-        [2011, 11, DayOfWeek::TUESDAY(), LocalDate::of(2011, 10, 25)],
-        [2011, 12, DayOfWeek::TUESDAY(), LocalDate::of(2011, 11, 29)],
-    ];
-}
-
-/**
- * @dataProvider data_dayOfWeekInMonth_zero
- */
-public
-function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $expected)
-{
-    for ($day = 1; $day <= Month::of($month)->length(false);
-         $day++) {
-        $date = LocalDate::of($year, $month, $day);
-        $test = TemporalAdjusters::dayOfWeekInMonth(0, $dow)->adjustInto($date);
-        $this->assertEquals($test, $expected);
+    function data_dayOfWeekInMonth_zero()
+    {
+        return [
+            [2011, 1, DayOfWeek::TUESDAY(), LocalDate::of(2010, 12, 28)],
+            [2011, 2, DayOfWeek::TUESDAY(), LocalDate::of(2011, 1, 25)],
+            [2011, 3, DayOfWeek::TUESDAY(), LocalDate::of(2011, 2, 22)],
+            [2011, 4, DayOfWeek::TUESDAY(), LocalDate::of(2011, 3, 29)],
+            [2011, 5, DayOfWeek::TUESDAY(), LocalDate::of(2011, 4, 26)],
+            [2011, 6, DayOfWeek::TUESDAY(), LocalDate::of(2011, 5, 31)],
+            [2011, 7, DayOfWeek::TUESDAY(), LocalDate::of(2011, 6, 28)],
+            [2011, 8, DayOfWeek::TUESDAY(), LocalDate::of(2011, 7, 26)],
+            [2011, 9, DayOfWeek::TUESDAY(), LocalDate::of(2011, 8, 30)],
+            [2011, 10, DayOfWeek::TUESDAY(), LocalDate::of(2011, 9, 27)],
+            [2011, 11, DayOfWeek::TUESDAY(), LocalDate::of(2011, 10, 25)],
+            [2011, 12, DayOfWeek::TUESDAY(), LocalDate::of(2011, 11, 29)],
+        ];
     }
-}
+
+    /**
+     * @dataProvider data_dayOfWeekInMonth_zero
+     */
+    public
+    function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $expected)
+    {
+        for ($day = 1; $day <= Month::of($month)->length(false);
+             $day++) {
+            $date = LocalDate::of($year, $month, $day);
+            $test = TemporalAdjusters::dayOfWeekInMonth(0, $dow)->adjustInto($date);
+            $this->assertEquals($test, $expected);
+        }
+    }
 
     function data_dayOfWeekInMonth_negative()
     {
@@ -426,7 +430,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // firstInMonth()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_firstInMonth()
     {
         $this->assertNotNull(TemporalAdjusters::firstInMonth(DayOfWeek::MONDAY()));
@@ -455,7 +459,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // lastInMonth()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_lastInMonth()
     {
         $this->assertNotNull(TemporalAdjusters::lastInMonth(DayOfWeek::MONDAY()));
@@ -484,7 +488,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // next()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_next()
     {
         $this->assertNotNull(TemporalAdjusters::next(DayOfWeek::MONDAY()));
@@ -497,7 +501,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
         });
     }
 
-    
+
     public function test_next()
     {
         foreach (Month::values() as $month) {
@@ -527,7 +531,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // nextOrSame()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_nextOrCurrent()
     {
         $this->assertNotNull(TemporalAdjusters::nextOrSame(DayOfWeek::MONDAY()));
@@ -540,7 +544,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
         });
     }
 
-    
+
     public function test_nextOrCurrent()
     {
         foreach (Month::values() as $month) {
@@ -572,7 +576,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // previous()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_previous()
     {
         $this->assertNotNull(TemporalAdjusters::previous(DayOfWeek::MONDAY()));
@@ -585,7 +589,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
         });
     }
 
-    
+
     public function test_previous()
     {
         foreach (Month::values() as $month) {
@@ -615,7 +619,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
     //-----------------------------------------------------------------------
     // previousOrSame()
     //-----------------------------------------------------------------------
-    
+
     public function test_factory_previousOrCurrent()
     {
         $this->assertNotNull(TemporalAdjusters::previousOrSame(DayOfWeek::MONDAY()));
@@ -628,7 +632,7 @@ function test_dayOfWeekInMonth_zero($year, $month, DayOfWeek $dow, LocalDate $ex
         });
     }
 
-    
+
     public function test_previousOrCurrent()
     {
         foreach (Month::values() as $month) {
