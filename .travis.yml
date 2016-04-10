@@ -10,7 +10,7 @@ cache:
     - vendor
     - dl
 
-before_install: phpenv config-rm xdebug.ini
+before_install: phpenv config-rm xdebug.ini || true
 
 install: composer install --optimize-autoloader
 script: vendor/bin/phpunit
