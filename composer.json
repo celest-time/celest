@@ -18,17 +18,11 @@
       "Celest\\": "test/Celest"
     }
   },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "tzdata"
-    }
-  ],
   "prefer-stable": true,
   "minimum-stability": "dev",
   "require": {
     "php" : ">=5.6",
-    "celest/prototype-tzdata" : "*",
+    "celest/tzdata" : "*",
     "ext-gmp": "*",
     "ext-intl": "*"
   },

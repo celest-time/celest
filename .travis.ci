@@ -1,0 +1,16 @@
+language: php
+php:
+- 5.6
+- 7.0
+- hhvm
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - vendor
+    - dl
+
+before_install: phpenv config-rm xdebug.ini
+
+install: composer install --optimize-autoloader
+script: vendor/bin/phpunit
