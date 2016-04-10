@@ -64,7 +64,6 @@ namespace Celest;
 
 use Celest\Chrono\AbstractChronoLocalDateTime;
 use Celest\Chrono\ChronoLocalDateTime;
-use Celest\Chrono\Comparator;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
 use Celest\Helper\Math;
