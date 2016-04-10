@@ -31,6 +31,33 @@ class TestHelper
         }
     }
 
+    public static function assertTypeError(PHPUnit_Framework_Assert $_this, callable $func)
+    {
+        $catched = false;
+        try {
+            $func();
+        } catch (\PHPUnit_Framework_Error $e) {
+            // PHP 5
+            if (strpos($e->getMessage(), 'must implement interface') === false
+                && strpos($e->getMessage(), 'must be an instance of') === false) {
+                $_this->fail('Expected Type Error/Exception');
+            }
+            $catched = true;
+        } catch (\InvalidArgumentException $e) {
+            // Custom
+            $catched = true;
+        } catch (\Throwable $e) {
+            // PHP 7
+            $_this->assertInstanceOf('\TypeError', $e);
+            $catched = true;
+        }
+
+        if (!$catched) {
+            $_this->fail('Expected Type Error/Exception');
+        }
+
+    }
+
     public static function INTLinfo($locale)
     {
         $bundle = new ResourceBundle($locale, null);
@@ -40,7 +67,8 @@ class TestHelper
             ', ICU data version: ' . INTL_ICU_DATA_VERSION;
     }
 
-    public static function getEnglishWeek() {
+    public static function getEnglishWeek()
+    {
         if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {
             return 'Week';
         } else {
@@ -48,7 +76,8 @@ class TestHelper
         }
     }
 
-    public static function getRussianJanFormat() {
+    public static function getRussianJanFormat()
+    {
         if (version_compare(INTL_ICU_DATA_VERSION, "49", "<")) {
             return 'янв';
         } else if (version_compare(INTL_ICU_DATA_VERSION, "54", "<")) {

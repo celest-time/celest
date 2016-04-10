@@ -2688,9 +2688,10 @@ class TCKLocalDateTest extends AbstractDateTimeTest
 
     public function test_compareToNonLocalDate()
     {
-        $this->markTestSkipped('compareTo');
-        $c = self::TEST_2007_07_15();
-        $c->compareTo(new Object());
+        TestHelper::assertTypeError($this, function () {
+            $c = self::TEST_2007_07_15();
+            $c->compareTo(new \stdClass());
+        });
     }
 
     //-----------------------------------------------------------------------

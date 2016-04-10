@@ -68,6 +68,7 @@ use \Celest\Temporal\ChronoUnit as CU;
 use \Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\TemporalAdjusters;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
@@ -878,15 +879,11 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
 
     public function test_with_adjustment()
     {
-        $this->markTestIncomplete();
         $sample = LocalTime::of(23, 5);
-        /*TemporalAdjuster adjuster = new TemporalAdjuster() {
-                @Override
-        public Temporal adjustInto(Temporal dateTime) {
-                    return sample;
-                }
-        };*/
-        //$this->assertEquals(self::TEST_123040987654321()->adjust($adjuster), $sample);
+        $adjuster = TemporalAdjusters::fromCallable(function (Temporal $dateTime) use ($sample) {
+            return $sample;
+        });
+        $this->assertEquals(self::TEST_123040987654321()->adjust($adjuster), $sample);
     }
 
     public function test_with_adjustment_null()
@@ -2886,12 +2883,12 @@ Object[] next(){
         });
     }
 
-    public
-    function test_compareToNonLocalTime()
+    public function test_compareToNonLocalTime()
     {
-        $this->markTestIncomplete();
-        $c = self::TEST_123040987654321();
-        // TODO $c->compareTo(new Object());
+        TestHelper::assertTypeError($this, function () {
+            $c = self::TEST_123040987654321();
+            $c->compareTo(new \stdClass());
+        });
     }
 
 //-----------------------------------------------------------------------

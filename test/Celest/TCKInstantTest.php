@@ -2228,14 +2228,12 @@ List<TemporalField> list = new ArrayList<>(Arrays.<TemporalField>asList(ChronoFi
 
     }
 
-    /**
-     * @expectedException \Exception
-     */
     public function test_compareToNonInstant()
     {
-        $this->markTestIncomplete('TBD');
-        $c = Instant::ofEpochSecond(0);
-        $c->compareTo(new \stdClass());
+        TestHelper::assertTypeError($this, function () {
+            $c = Instant::ofEpochSecond(0);
+            $c->compareTo(new \stdClass());
+        });
     }
 
     //-----------------------------------------------------------------------

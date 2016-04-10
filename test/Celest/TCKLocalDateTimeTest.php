@@ -3730,35 +3730,33 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         }
     }
 
-    public
-    function test_compareTo_ObjectNull()
+    public function test_compareTo_ObjectNull()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->compareTo(null);
         });
     }
 
-    public
-    function test_isBefore_ObjectNull()
+    public function test_isBefore_ObjectNull()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->isBefore(null);
         });
     }
 
-    public
-    function test_isAfter_ObjectNull()
+    public     function test_isAfter_ObjectNull()
     {
         TestHelper::assertNullException($this, function () {
             self::TEST_200707_15_12_30_40_987654321()->isAfter(null);
         });
     }
 
-    public
-    function compareToNonLocalDateTime()
+    public function test_compareToNonLocalDateTime()
     {
-        $c = self::TEST_200707_15_12_30_40_987654321();
-        $c->compareTo(new Object());
+        TestHelper::assertTypeError($this, function () {
+            $c = self::TEST_200707_15_12_30_40_987654321();
+            $c->compareTo(new \stdClass());
+        });
     }
 
 //-----------------------------------------------------------------------

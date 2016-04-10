@@ -1344,16 +1344,15 @@ class TCKOffsetTimeTest extends AbstractDateTimeTest
 
     }
 
-    public
-    function test_compareToNonOffsetTime()
+    public function test_compareToNonOffsetTime()
     {
-        $this->markTestSkipped('compareTo');
-        $c = self::TEST_11_30_59_500_PONE();
-        $c->compareTo(new Object());
+        TestHelper::assertTypeError($this, function () {
+            $c = self::TEST_11_30_59_500_PONE();
+            $c->compareTo(new \stdClass());
+        });
     }
 
-    private
-    function convertInstant(OffsetTime $ot)
+    private function convertInstant(OffsetTime $ot)
     {
         return self::DATE()->atTime($ot->toLocalTime())->toInstant($ot->getOffset());
     }
