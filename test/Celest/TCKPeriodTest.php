@@ -258,7 +258,6 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
      */
     public function test_factory_from_TemporalAmount_NonISO()
     {
-        $this->markTestIncomplete('ChronoPeriodImpl');
         Period::from(ThaiBuddhistChronology::INSTANCE()->period(1, 1, 1));
     }
 
@@ -692,7 +691,6 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
      */
     public function test_plus_TemporalAmount_nonISO()
     {
-        $this->markTestIncomplete('ChronoPeriodImpl');
         $this->pymd(4, 5, 6)->plusAmount(ThaiBuddhistChronology::INSTANCE()->period(1, 0, 0));
     }
 
@@ -844,7 +842,6 @@ class TCKPeriod extends \PHPUnit_Framework_TestCase
      */
     public function test_minus_TemporalAmount_nonISO()
     {
-        $this->markTestIncomplete('ChronoPeriodImpl');
         $this->pymd(4, 5, 6)->minusAmount(ThaiBuddhistChronology::INSTANCE()->period(1, 0, 0));
     }
 

@@ -334,8 +334,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
                 $range = CF::PROLEPTIC_MONTH()->range();
                 return ValueRange::of($range->getMinimum() + self::YEARS_DIFFERENCE * 12, $range->getMaximum() + self::YEARS_DIFFERENCE * 12);
             }
-
-            case            CF::YEAR_OF_ERA(): {
+            case CF::YEAR_OF_ERA(): {
                 $range = CF::YEAR()->range();
                 return ValueRange::ofVariable(1, -($range->getMinimum() + self::YEARS_DIFFERENCE) + 1, $range->getMaximum() + self::YEARS_DIFFERENCE);
             }
