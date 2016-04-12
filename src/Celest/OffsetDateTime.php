@@ -154,8 +154,8 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * Compares this {@code OffsetDateTime} to another date-time.
      * The comparison is based on the instant.
      *
-     * @param $datetime1 OffsetDateTime the first date-time to compare, not null
-     * @param $datetime2 OffsetDateTime the other date-time to compare to, not null
+     * @param OffsetDateTime $datetime1 the first date-time to compare, not null
+     * @param OffsetDateTime $datetime2 the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
     public static function compareInstant(OffsetDateTime $datetime1, OffsetDateTime $datetime2)

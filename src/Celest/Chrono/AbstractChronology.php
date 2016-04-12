@@ -719,41 +719,49 @@ abstract class AbstractChronology implements Chronology
         return $this->getId();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function dateNow()
     {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function dateNowIn(ZoneId $zone)
     {
         return $this->dateNowOf(Clock::system($zone));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function dateNowOf(Clock $clock)
     {
         return $this->dateFrom(LocalDate::nowOf($clock));
     }
 
-    public function localDateTime(TemporalAccessor $temporal)
-    {
-        try {
-            return $this->dateFrom($temporal)->atTime(LocalTime::from($temporal));
-        } catch
-        (DateTimeException $ex) {
-            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " . get_class($temporal), $ex);
-        }
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function zonedDateTimeFrom(TemporalAccessor $temporal)
     {
         try {
@@ -772,11 +780,30 @@ abstract class AbstractChronology implements Chronology
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function localDateTime(TemporalAccessor $temporal)
+    {
+        try {
+            return $this->dateFrom($temporal)->atTime(LocalTime::from($temporal));
+        } catch
+        (DateTimeException $ex) {
+            throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " . get_class($temporal), $ex);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function zonedDateTime(Instant $instant, ZoneId $zone)
     {
         return ChronoZonedDateTimeImpl::ofInstant($this, $instant, $zone);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getDisplayName(TextStyle $style, Locale $locale)
     {
         // TODO implement
@@ -805,6 +832,9 @@ abstract class AbstractChronology implements Chronology
         return "";
     }
 
+    /**
+     * @inheritdoc
+     */
     public function period($years, $months, $days)
     {
         return new ChronoPeriodImpl($this, $years, $months, $days);

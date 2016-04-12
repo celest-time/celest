@@ -965,7 +965,7 @@ final class Duration implements TemporalAmount
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $nanosToSubtract int the nanoseconds to subtract, positive or negative
+     * @param int $nanosToSubtract the nanoseconds to subtract, positive or negative
      * @return Duration a {@code Duration} based on this duration with the specified nanoseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -1024,7 +1024,7 @@ final class Duration implements TemporalAmount
     /**
      * Creates an instance of {@code Duration} from a number of seconds.
      *
-     * @param $nanos mixed the number of nanoseconds, positive or negative
+     * @param int $nanos mixed the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if numeric overflow occurs
      */

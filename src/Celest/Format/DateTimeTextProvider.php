@@ -186,7 +186,7 @@ class DateTimeTextProvider
     }
 
     /**
-     * @param $field
+     * @param string $field
      * @param TextStyle $style
      * @param Locale $locale
      * @param callable $transformer
@@ -355,7 +355,7 @@ class DateTimeTextProvider
      * Text can only be parsed if all the values for that field-style-locale combination are unique.
      *
      * @param TemporalField $field the field to get text for, not null
-     * @param TextStyle $style the style to get text for, null for all parsable text
+     * @param TextStyle|null $style the style to get text for, null for all parsable text
      * @param Locale $locale the locale to get text for, not null
      * @return array the iterator of text to field pairs, in order from longest text to shortest text,
      *  null if the field or style is not parsable
@@ -409,7 +409,7 @@ class DateTimeTextProvider
      *
      * @param Chronology $chrono the Chronology to get text for, not null
      * @param TemporalField $field the field to get text for, not null
-     * @param TextStyle $style the style to get text for, null for all parsable text
+     * @param TextStyle|null $style the style to get text for, null for all parsable text
      * @param Locale $locale the locale to get text for, not null
      * @return array the iterator of text to field pairs, in order from longest text to shortest text,
      *  null if the field or style is not parsable

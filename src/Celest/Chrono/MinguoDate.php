@@ -191,7 +191,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      */
     public static function from(TemporalAccessor $temporal)
     {
-        return MinguoChronology::INSTANCE() . date($temporal);
+        return MinguoChronology::INSTANCE()->dateFrom($temporal);
     }
 
     //-----------------------------------------------------------------------

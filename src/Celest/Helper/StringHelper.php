@@ -12,8 +12,8 @@ namespace Celest\Helper;
 class StringHelper
 {
     /**
-     * @param $needle
-     * @param $haystack
+     * @param string $needle
+     * @param string $haystack
      * @return bool
      */
     public static function startsWith($needle, $haystack)

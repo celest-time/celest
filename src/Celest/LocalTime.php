@@ -1440,7 +1440,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * This instance is immutable and unaffected by this method call.
      *
      * @param Temporal $endExclusive the end time, exclusive, which is converted to a {@code LocalTime}, not null
-     * @param $unit $unit the unit to measure the amount in, not null
+     * @param TemporalUnit $unit the unit to measure the amount in, not null
      * @return int the amount of time between this time and the end time
      * @throws DateTimeException if the amount cannot be calculated, or the end
      *  temporal cannot be converted to a {@code LocalTime}

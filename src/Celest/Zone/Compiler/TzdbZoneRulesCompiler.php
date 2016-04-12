@@ -388,8 +388,8 @@ final class TzdbZoneRulesCompiler
     /**
      * Parses a Zone line.
      *
-     * @param $s \CachingIterator the line scanner, not null
-     * @param $zoneList
+     * @param \CachingIterator $s the line scanner, not null
+     * @param TZDBZone[] $zoneList
      * @return true if the zone is complete
      */
     private function parseZoneLine(\CachingIterator $s, &$zoneList)
@@ -429,7 +429,7 @@ final class TzdbZoneRulesCompiler
     /**
      * Parses a Rule line.
      *
-     * @param $s \CachingIterator the line scanner, not null
+     * @param \CachingIterator $s the line scanner, not null
      * @param TZDBMonthDayTime $mdt the object to parse into, not null
      */
     private function parseMonthDayTime(\CachingIterator $s, TZDBMonthDayTime $mdt)

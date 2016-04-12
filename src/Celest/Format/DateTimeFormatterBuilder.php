@@ -1908,7 +1908,7 @@ final class DateTimeFormatterBuilder
      * the pad character, it will not be parsed.
      *
      * @param int $padWidth the pad width, 1 or greater
-     * @param int $padChar the pad character
+     * @param string $padChar the pad character
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if pad width is too small
      */
@@ -2007,7 +2007,7 @@ final class DateTimeFormatterBuilder
                 $pp = new PadPrinterParserDecorator($pp, $this->active->padNextWidth, $this->active->padNextChar);
             }
             $this->active->padNextWidth = 0;
-            $this->active->padNextChar = 0;
+            $this->active->padNextChar = '';
         }
         $this->active->printerParsers[] = $pp;
         $this->active->valueParserIndex = -1;

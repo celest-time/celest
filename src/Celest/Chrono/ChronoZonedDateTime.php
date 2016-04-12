@@ -190,7 +190,7 @@ interface ChronoZonedDateTime extends Temporal
      * This returns a local date with the same year, month and day
      * as this date-time.
      *
-     * @return LocalDateTime the local date-time part of this date-time, not null
+     * @return ChronoLocalDateTime the local date-time part of this date-time, not null
      */
     function toLocalDateTime();
 

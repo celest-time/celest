@@ -164,7 +164,7 @@ class ResolverStyle
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return ResolverStyle
      * @throws IllegalArgumentException
      */

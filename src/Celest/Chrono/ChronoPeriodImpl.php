@@ -174,8 +174,9 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     /**
      * Obtains an instance of {@code ChronoPeriodImpl} from a temporal amount.
      *
-     * @param $amount TemporalAmount the temporal amount to convert, not null
+     * @param TemporalAmount $amount the temporal amount to convert, not null
      * @return ChronoPeriodImpl the period, not null
+     * @throws DateTimeException
      */
     private function validateAmount(TemporalAmount $amount)
     {

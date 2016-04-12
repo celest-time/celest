@@ -305,7 +305,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
 
     public function until(Temporal $endExclusive, TemporalUnit $unit)
     {
-        $end = $this->getChronology()->zonedDateTime($endExclusive);
+        $end = $this->getChronology()->zonedDateTimeFrom($endExclusive);
         if ($unit instanceof ChronoUnit) {
             $end = $end->withZoneSameInstant($this->offset);
             return $this->dateTime->until($end->toLocalDateTime(), $unit);

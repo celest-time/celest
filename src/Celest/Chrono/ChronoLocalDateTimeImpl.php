@@ -170,12 +170,13 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
      *
      * @param Chronology $chrono the chronology to check for, not null
      * @param Temporal $temporal a date-time to cast, not null
-     * @return ChronoLocalDateTime the date-time checked and cast to {@code ChronoLocalDateTime}, not null
+     * @return ChronoLocalDateTimeImpl the date-time checked and cast to {@code ChronoLocalDateTimeImpl}, not null
      * @throws ClassCastException if the date-time cannot be cast to ChronoLocalDateTimeImpl
      *  or the chronology is not equal this Chronology
      */
     static function ensureValid(Chronology $chrono, Temporal $temporal)
     {
+        // TODO check cast
         $other = $temporal;
         if ($chrono->equals($other->getChronology()) === false) {
             throw new ClassCastException("Chronology mismatch, required: " . $chrono->getId()

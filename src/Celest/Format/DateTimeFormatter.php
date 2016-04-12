@@ -1405,7 +1405,7 @@ class DateTimeFormatter
      * @param Locale $locale the locale to use, not null
      * @param DecimalStyle $decimalStyle the DecimalStyle to use, not null
      * @param ResolverStyle $resolverStyle the resolver style to use, not null
-     * @param $resolverFields TemporalField[]|null TemporalField the fields to use during resolving, null for all fields
+     * @param TemporalField[]|null $resolverFields the fields to use during resolving, null for all fields
      * @param Chronology|null $chrono the chronology to use, null for no override
      * @param ZoneId|null $zone the zone to use, null for no override
      */
@@ -1746,7 +1746,7 @@ class DateTimeFormatter
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param $resolverFields \SplObjectStorage TemporalField the new set of resolver fields, null if no fields
+     * @param TemporalField[] $resolverFields the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
 // TODO same as above?

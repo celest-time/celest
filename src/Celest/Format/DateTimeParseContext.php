@@ -229,10 +229,10 @@ final class DateTimeParseContext
      * Helper to compare two {@code CharSequence} instances.
      * This uses {@link #isCaseSensitive()}.
      *
-     * @param $cs1 string the first character sequence, not null
-     * @param $offset1 int the offset into the first sequence, valid
-     * @param $cs2 string the second character sequence, not null
-     * @param $offset2 int the offset into the second sequence, valid
+     * @param string $cs1 the first character sequence, not null
+     * @param int $offset1 the offset into the first sequence, valid
+     * @param string $cs2 the second character sequence, not null
+     * @param int $offset2 the offset into the second sequence, valid
      * @param int $length the length to check, valid
      * @return bool true if equal
      */
@@ -262,8 +262,8 @@ final class DateTimeParseContext
      * Helper to compare two {@code char}.
      * This uses {@link #isCaseSensitive()}.
      *
-     * @param $ch1 string the first character
-     * @param $ch2 string the second character
+     * @param string $ch1 the first character
+     * @param string $ch2 the second character
      * @return true if equal
      */
     public function charEquals($ch1, $ch2)
@@ -278,8 +278,8 @@ final class DateTimeParseContext
     /**
      * Compares two characters ignoring case.
      *
-     * @param $c1 string the first
-     * @param $c2 string the second
+     * @param string $c1 the first
+     * @param string $c2 the second
      * @return true if equal
      */
     public static function charEqualsIgnoreCase($c1, $c2)

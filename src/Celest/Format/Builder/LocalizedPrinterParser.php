@@ -31,8 +31,8 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
     /**
      * Constructor.
      *
-     * @param FormatStyle $dateStyle the date style to use, may be null
-     * @param FormatStyle $timeStyle the time style to use, may be null
+     * @param FormatStyle|null $dateStyle the date style to use, may be null
+     * @param FormatStyle|null $timeStyle the time style to use, may be null
      */
     public function __construct($dateStyle, $timeStyle)
     {

@@ -101,13 +101,10 @@ interface TemporalField
      * The default implementation must check the locale is not null
      * and return {@code toString()}.
      *
-     * @param $locale Locale the locale to use, not null
+     * @param Locale $locale the locale to use, not null
      * @return String the display name for the locale or a suitable default, not null
      */
     public function getDisplayName(Locale $locale);
-//Objects.requireNonNull(locale, "locale");
-//return toString();
-//}
 
     /**
      * Gets the unit that the field is measured in.
@@ -375,7 +372,6 @@ interface TemporalField
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
         ResolverStyle $resolverStyle);
-    //return null;
 
     /**
      * Gets a descriptive name for the field.

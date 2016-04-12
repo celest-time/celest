@@ -142,7 +142,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$MONDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $MONDAY;
 
     /**
@@ -155,7 +155,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$TUESDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $TUESDAY;
 
     /**
@@ -168,7 +168,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$WEDNESDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $WEDNESDAY;
 
     /**
@@ -181,7 +181,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$THURSDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $THURSDAY;
 
     /**
@@ -194,7 +194,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$FRIDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $FRIDAY;
 
     /**
@@ -207,7 +207,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$SATURDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $SATURDAY;
 
     /**
@@ -220,7 +220,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         return self::$SUNDAY;
     }
 
-    /** @var Month */
+    /** @var DayOfWeek */
     private static $SUNDAY;
 
 

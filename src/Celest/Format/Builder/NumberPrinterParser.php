@@ -20,7 +20,7 @@ class NumberPrinterParser implements DateTimePrinterParser
      * Array of 10 to the power of n.
      * @var int[]
      */
-    static $EXCEED_POINTS =
+    protected static $EXCEED_POINTS =
         [
             0,
             10,

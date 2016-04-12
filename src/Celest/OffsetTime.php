@@ -125,7 +125,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
         return self::$MIN;
     }
 
-    /** @var LocalTime */
+    /** @var OffsetTime */
     private static $MIN;
 
     /**
@@ -141,7 +141,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
         return self::$MAX;
     }
 
-    /** @var LocalTime */
+    /** @var OffsetTime */
     private static $MAX;
 
     /**

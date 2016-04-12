@@ -138,7 +138,7 @@ final class TemporalAdjusters
      *       TemporalAdjusters.ofDateAdjuster(date -> date.plusDays(2));
      * }</pre>
      *
-     * @param $dateBasedAdjuster callable the date-based adjuster, not null
+     * @param callable $dateBasedAdjuster callable the date-based adjuster, not null
      * @return TemporalAdjuster the temporal adjuster wrapping on the date adjuster, not null
      */
     public static function ofDateAdjuster(callable $dateBasedAdjuster)

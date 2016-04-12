@@ -248,8 +248,8 @@ interface TemporalUnit
      * same type using {@code getClass()}. If they do not, then the result must be
      * obtained by calling {@code temporal1Inclusive.until(temporal2Exclusive, this)}.
      *
-     * @param $temporal1Inclusive Temporal the base temporal object, not null
-     * @param $temporal2Exclusive Temporal the other temporal object, exclusive, not null
+     * @param Temporal $temporal1Inclusive the base temporal object, not null
+     * @param Temporal $temporal2Exclusive the other temporal object, exclusive, not null
      * @return int the amount of time between temporal1Inclusive and temporal2Exclusive
      *  in terms of this unit; positive if temporal2Exclusive is later than
      *  temporal1Inclusive, negative if earlier
