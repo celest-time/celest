@@ -33,7 +33,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
      */
     public function __construct(TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
     {
-        if ($field->range()->isFixed() == false) {
+        if ($field->range()->isFixed() === false) {
             throw new IllegalArgumentException("Field must have a fixed set of values: " . $field);
         }
 
@@ -108,7 +108,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
         }
 
         if ($this->decimalPoint) {
-            if ($text[$position] != $context->getDecimalStyle()->getDecimalSeparator()) {
+            if ($text[$position] !== $context->getDecimalStyle()->getDecimalSeparator()) {
                 // valid if whole field is optional, invalid if minimum width
                 return ($effectiveMin > 0 ? ~$position : $position);
             }

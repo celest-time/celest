@@ -50,7 +50,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
 
     public function __toString()
     {
-        if ($this->literal == '\'') {
+        if ($this->literal === '\'') {
             return "''";
         }
 

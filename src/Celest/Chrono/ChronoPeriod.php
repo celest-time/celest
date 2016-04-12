@@ -314,7 +314,7 @@ interface ChronoPeriod
      * of "1 Year and 3 Months".
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other period
+     * @return bool true if this is equal to the other period
      */
     function equals($obj);
 

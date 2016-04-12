@@ -177,11 +177,11 @@ final class ZoneOffsetTransitionRule
         ZoneOffset $offsetBefore,
         ZoneOffset $offsetAfter)
     {
-        if ($dayOfMonthIndicator < -28 || $dayOfMonthIndicator > 31 || $dayOfMonthIndicator == 0) {
+        if ($dayOfMonthIndicator < -28 || $dayOfMonthIndicator > 31 || $dayOfMonthIndicator === 0) {
             throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
         }
 
-        if ($timeEndOfDay && $time->equals(LocalTime::MIDNIGHT()) == false) {
+        if ($timeEndOfDay && $time->equals(LocalTime::MIDNIGHT()) === false) {
             throw new IllegalArgumentException("Time must be midnight when end of day flag is true");
         }
         return new ZoneOffsetTransitionRule($month, $dayOfMonthIndicator, $dayOfWeek, $time, $timeEndOfDay, $timeDefnition, $standardOffset, $offsetBefore, $offsetAfter);
@@ -398,10 +398,10 @@ final class ZoneOffsetTransitionRule
 
         if ($otherRule instanceof ZoneOffsetTransitionRule) {
             $other = $otherRule;
-            return $this->month == $other->month && $this->dom == $other->dom && $this->dow == $other->dow &&
+            return $this->month == $other->month && $this->dom === $other->dom && $this->dow === $other->dow &&
             $this->timeDefinition == $other->timeDefinition &&
             $this->time->equals($other->time) &&
-            $this->timeEndOfDay == $other->timeEndOfDay &&
+            $this->timeEndOfDay === $other->timeEndOfDay &&
             $this->standardOffset->equals($other->standardOffset) &&
             $this->offsetBefore->equals($other->offsetBefore) &&
             $this->offsetAfter->equals($other->offsetAfter);
@@ -420,8 +420,8 @@ final class ZoneOffsetTransitionRule
         $buf = "TransitionRule["
             . ($this->offsetBefore->compareTo($this->offsetAfter) > 0 ? "Gap " : "Overlap ")
             . $this->offsetBefore . " to " . $this->offsetAfter . ", ";
-        if ($this->dow != null) {
-            if ($this->dom == -1) {
+        if ($this->dow !== null) {
+            if ($this->dom === -1) {
                 $buf .= $this->dow . " on or before last day of " . $this->month;
             } else if ($this->dom < 0) {
                 $buf .= $this->dow . " on or before last day minus " . (-$this->dom - 1) . " of " . $this->month;

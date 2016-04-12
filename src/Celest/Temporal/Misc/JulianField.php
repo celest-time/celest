@@ -75,7 +75,7 @@ final class JulianField implements TemporalField
 
     public function rangeRefinedBy(TemporalAccessor $temporal)
     {
-        if ($this->isSupportedBy($temporal) == false) {
+        if ($this->isSupportedBy($temporal) === false) {
             throw new DateTimeException("Unsupported field: " . $this);
         }
         return $this->range();
@@ -88,7 +88,7 @@ final class JulianField implements TemporalField
 
     public function adjustInto(Temporal $temporal, $newValue)
     {
-        if ($this->range()->isValidValue($newValue) == false) {
+        if ($this->range()->isValidValue($newValue) === false) {
             throw new DateTimeException("Invalid value: " . $this->name . " " . $newValue);
         }
         return $temporal->with(CF::EPOCH_DAY(), Math::subtractExact($newValue, $this->offset));

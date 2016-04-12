@@ -340,7 +340,7 @@ final class IsoFields
      */
     public static function ensureIso(TemporalAccessor $temporal)
     {
-        if (self::isIso($temporal) == false) {
+        if (self::isIso($temporal) === false) {
             throw new DateTimeException("Resolve requires IsoChronology");
         }
     }
@@ -393,8 +393,8 @@ final class IsoFields
             return self::getWeekRange($date->withDayOfYear(180)->minusYears(1))->getMaximum();
         }
         $week = Math::div(($doy0 - $firstMonDoy0), 7) + 1;
-        if ($week == 53) {
-            if (($firstMonDoy0 == -3 || ($firstMonDoy0 == -2 && $date->isLeapYear())) == false) {
+        if ($week === 53) {
+            if (($firstMonDoy0 === -3 || ($firstMonDoy0 === -2 && $date->isLeapYear())) === false) {
                 $week = 1;
             }
         }

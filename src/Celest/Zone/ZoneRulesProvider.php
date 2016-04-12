@@ -209,7 +209,7 @@ abstract class ZoneRulesProvider
     private static function getProvider($zoneId)
     {
         $provider = @self::$ZONES[$zoneId];
-        if ($provider == null) {
+        if ($provider === null) {
             if (empty(self::$ZONES)) {
                 throw new ZoneRulesException("No time-zone data files registered");
             }

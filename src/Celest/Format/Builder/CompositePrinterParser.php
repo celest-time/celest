@@ -29,7 +29,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
      */
     public function withOptional($optional)
     {
-        if ($optional == $this->optional) {
+        if ($optional === $this->optional) {
             return $this;
         }
 

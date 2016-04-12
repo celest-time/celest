@@ -467,9 +467,9 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
     public static function ofStrict(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
         $rules = $zone->getRules();
-        if ($rules->isValidOffset($localDateTime, $offset) == false) {
+        if ($rules->isValidOffset($localDateTime, $offset) === false) {
             $trans = $rules->getTransition($localDateTime);
-            if ($trans != null && $trans->isGap()) {
+            if ($trans !== null && $trans->isGap()) {
                 // error message says daylight savings for simplicity
                 // even though there are other kinds of gaps
                 throw new DateTimeException("LocalDateTime '" . $localDateTime .
@@ -507,7 +507,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     private static function ofLenient(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
     {
-        if ($zone instanceof ZoneOffset && $offset->equals($zone) == false) {
+        if ($zone instanceof ZoneOffset && $offset->equals($zone) === false) {
             throw new IllegalArgumentException("ZoneId must match ZoneOffset");
         }
 
@@ -639,7 +639,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     private function resolveOffset(ZoneOffset $offset)
     {
-        if ($offset->equals($this->offset) == false && $this->zone->getRules()->isValidOffset($this->dateTime, $offset)) {
+        if ($offset->equals($this->offset) === false && $this->zone->getRules()->isValidOffset($this->dateTime, $offset)) {
             return new ZonedDateTime($this->dateTime, $offset, $this->zone);
         }
         return $this;
@@ -700,7 +700,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function isSupported(TemporalField $field)
     {
-        return $field instanceof ChronoField || ($field != null && $field->isSupportedBy($this));
+        return $field instanceof ChronoField || ($field !== null && $field->isSupportedBy($this));
     }
 
     /**
@@ -892,9 +892,9 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
     public function withEarlierOffsetAtOverlap()
     {
         $trans = $this->getZone()->getRules()->getTransition($this->dateTime);
-        if ($trans != null && $trans->isOverlap()) {
+        if ($trans !== null && $trans->isOverlap()) {
             $earlierOffset = $trans->getOffsetBefore();
-            if ($earlierOffset->equals($this->offset) == false) {
+            if ($earlierOffset->equals($this->offset) === false) {
                 return new ZonedDateTime($this->dateTime, $earlierOffset, $this->zone);
             }
         }
@@ -920,9 +920,9 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
     public function withLaterOffsetAtOverlap()
     {
         $trans = $this->getZone()->getRules()->getTransition($this->toLocalDateTime());
-        if ($trans != null) {
+        if ($trans !== null) {
             $laterOffset = $trans->getOffsetAfter();
-            if ($laterOffset->equals($this->offset) == false) {
+            if ($laterOffset->equals($this->offset) === false) {
                 return new ZonedDateTime($this->dateTime, $laterOffset, $this->zone);
             }
         }
@@ -1876,7 +1876,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -1900,7 +1900,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusYears($years)
     {
-        return ($years == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
+        return ($years === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
 
     /**
@@ -1923,7 +1923,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusMonths($months)
     {
-        return ($months == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
+        return ($months === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
 
     /**
@@ -1946,7 +1946,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusWeeks($weeks)
     {
-        return ($weeks == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
+        return ($weeks === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
 
     /**
@@ -1969,7 +1969,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusDays($days)
     {
-        return ($days == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
+        return ($days === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
 
 //-----------------------------------------------------------------------
@@ -1999,7 +1999,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusHours($hours)
     {
-        return ($hours == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
+        return ($hours === Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
     }
 
     /**
@@ -2018,7 +2018,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusMinutes($minutes)
     {
-        return ($minutes == Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
+        return ($minutes === Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
     }
 
     /**
@@ -2037,7 +2037,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusSeconds($seconds)
     {
-        return ($seconds == Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
+        return ($seconds === Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
     }
 
     /**
@@ -2056,7 +2056,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
      */
     public function minusNanos($nanos)
     {
-        return ($nanos == Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
+        return ($nanos === Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
     }
 
 //-----------------------------------------------------------------------
@@ -2234,8 +2234,7 @@ class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, Chr
     public function __toString()
     {
         $str = $this->dateTime->__toString() . $this->offset->__toString();
-        // equals
-        if ($this->offset != $this->zone) {
+        if ($this->offset !== $this->zone) {
             $str .= '[' . $this->zone->__toString() . ']';
         }
         return $str;

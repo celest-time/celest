@@ -512,7 +512,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             return $field->isTimeBased();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -549,7 +549,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             return $unit->isTimeBased();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     //-----------------------------------------------------------------------
@@ -682,11 +682,11 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
                 return $this->hour % 12;
             case ChronoField::CLOCK_HOUR_OF_AMPM():
                 $ham = $this->hour % 12;
-                return ($ham % 12 == 0 ? 12 : $ham);
+                return ($ham % 12 === 0 ? 12 : $ham);
             case ChronoField::HOUR_OF_DAY():
                 return $this->hour;
             case ChronoField::CLOCK_HOUR_OF_DAY():
-                return ($this->hour == 0 ? 24 : $this->hour);
+                return ($this->hour === 0 ? 24 : $this->hour);
             case ChronoField::AMPM_OF_DAY():
                 return Math::div($this->hour, 12);
         }
@@ -1001,7 +1001,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             throw new UnsupportedTemporalTypeException("Unit is too large to be used for truncation");
         }
         $dur = $unitDur->toNanos();
-        if ((self::NANOS_PER_DAY % $dur) != 0) {
+        if ((self::NANOS_PER_DAY % $dur) !== 0) {
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
         $nod = $this->toNanoOfDay();
@@ -1265,7 +1265,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -1561,11 +1561,11 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
     public function compareTo(LocalTime $other)
     {
         $cmp = Integer::compare($this->hour, $other->hour);
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = Integer::compare($this->minute, $other->minute);
-            if ($cmp == 0) {
+            if ($cmp === 0) {
                 $cmp = Integer::compare($this->second, $other->second);
-                if ($cmp == 0) {
+                if ($cmp === 0) {
                     $cmp = Integer::compare($this->nano, $other->nano);
                 }
             }
@@ -1616,14 +1616,14 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      */
     public function equals($obj)
     {
-        if ($this == $obj) {
+        if ($this === $obj) {
             return true;
         }
 
         if ($obj instanceof LocalTime) {
             $other = $obj;
-            return $this->hour == $other->hour && $this->minute == $other->minute &&
-            $this->second == $other->second && $this->nano == $other->nano;
+            return $this->hour === $other->hour && $this->minute === $other->minute &&
+            $this->second === $other->second && $this->nano === $other->nano;
         }
         return false;
     }
@@ -1658,9 +1658,9 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             $buf .= ($secondValue < 10 ? ":0" : ":") . $secondValue;
             if ($nanoValue > 0) {
                 $buf .= '.';
-                if ($nanoValue % 1000000 == 0) {
+                if ($nanoValue % 1000000 === 0) {
                     $buf .= substr(Math::div($nanoValue, 1000000) + 1000, 1);
-                } else if ($nanoValue % 1000 == 0) {
+                } else if ($nanoValue % 1000 === 0) {
                     $buf .= substr(Math::div($nanoValue, 1000) + 1000000, 1);
                 } else {
                     $buf .= substr(($nanoValue) + 1000000000, 1);

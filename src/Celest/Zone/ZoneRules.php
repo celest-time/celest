@@ -520,7 +520,7 @@ final class ZoneRules
                 return $trans->getOffsetAfter();
             }
         } else {
-            if ($dt->isBefore($localTransition) == false) {
+            if ($dt->isBefore($localTransition) === false) {
                 return $trans->getOffsetAfter();
             }
             if ($dt->isBefore($trans->getDateTimeAfter())) {
@@ -541,7 +541,7 @@ final class ZoneRules
     {
         /** @var ZoneOffsetTransition[] $transArray */
         $transArray = @$this->lastRulesCache[$year];
-        if ($transArray != null) {
+        if ($transArray !== null) {
             return $transArray;
         }
 
@@ -629,7 +629,7 @@ final class ZoneRules
      */
     public function isDaylightSavings($instant)
     {
-        return ($this->getStandardOffset($instant)->equals($this->getOffset($instant)) == false);
+        return ($this->getStandardOffset($instant)->equals($this->getOffset($instant)) === false);
     }
 
     /**

@@ -218,7 +218,7 @@ final class Parsed extends AbstractTemporalAccessor
             if ($query == TemporalQueries::chronology()) {
                 return $this->chrono;
             } else if ($query == TemporalQueries::localDate()) {
-                return ($this->date != null ? LocalDate::from($this->date) : null);
+                return ($this->date !== null ? LocalDate::from($this->date) : null);
             } else if ($query == TemporalQueries::localTime()) {
                 return $this->time;
             } else if ($query == TemporalQueries::zone() || $query == TemporalQueries::offset()) {
@@ -280,7 +280,7 @@ final class Parsed extends AbstractTemporalAccessor
                             if ($this->zone === null) {
                                 $this->zone = $czdt->getZone();
                             } else
-                                if ($this->zone->equals($czdt->getZone()) == false) {
+                                if ($this->zone->equals($czdt->getZone()) === false) {
                                     throw new DateTimeException("ChronoZonedDateTime must use the effective parsed zone: " . $this->zone);
                                 }
                             $resolvedObject = $czdt->toLocalDateTime();
@@ -371,12 +371,12 @@ final class Parsed extends AbstractTemporalAccessor
      */
     private function updateCheckConflict1($cld)
     {
-        if ($this->date != null) {
-            if ($cld != null && $this->date->equals($cld) == false) {
+        if ($this->date !== null) {
+            if ($cld !== null && $this->date->equals($cld) === false) {
                 throw new DateTimeException("Conflict found: Fields resolved to two different dates: " . $this->date . " " . $cld);
             }
-        } else if ($cld != null) {
-            if ($this->chrono->equals($cld->getChronology()) == false) {
+        } else if ($cld !== null) {
+            if ($this->chrono->equals($cld->getChronology()) === false) {
                 throw new DateTimeException("ChronoLocalDate must use the effective parsed chronology: " . $this->chrono);
             }
             $this->date = $cld;
@@ -390,19 +390,19 @@ final class Parsed extends AbstractTemporalAccessor
         if ($this->fieldValues->has(CF::CLOCK_HOUR_OF_DAY())) {
 // lenient allows anything, smart allows 0-24, strict allows 1-24
             $ch = $this->fieldValues->remove(CF::CLOCK_HOUR_OF_DAY());
-            if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch != 0)) {
+            if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch !== 0)) {
                 CF::CLOCK_HOUR_OF_DAY()->checkValidValue($ch);
             }
 
-            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_DAY(), CF::HOUR_OF_DAY(), $ch == 24 ? 0 : $ch);
+            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_DAY(), CF::HOUR_OF_DAY(), $ch === 24 ? 0 : $ch);
         }
         if ($this->fieldValues->has(CF::CLOCK_HOUR_OF_AMPM())) {
 // lenient allows anything, smart allows 0-12, strict allows 1-12
             $ch = $this->fieldValues->remove(CF::CLOCK_HOUR_OF_AMPM());
-            if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch != 0)) {
+            if ($this->resolverStyle == ResolverStyle::STRICT() || ($this->resolverStyle == ResolverStyle::SMART() && $ch !== 0)) {
                 CF::CLOCK_HOUR_OF_AMPM()->checkValidValue($ch);
             }
-            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_AMPM(), CF::HOUR_OF_AMPM(), $ch == 12 ? 0 : $ch);
+            $this->updateCheckConflict3(CF::CLOCK_HOUR_OF_AMPM(), CF::HOUR_OF_AMPM(), $ch === 12 ? 0 : $ch);
         }
         if ($this->fieldValues->has(CF::AMPM_OF_DAY()) && $this->fieldValues->has(CF::HOUR_OF_AMPM())) {
             $ap = $this->fieldValues->remove(CF::AMPM_OF_DAY());
@@ -572,7 +572,7 @@ final class Parsed extends AbstractTemporalAccessor
             $mohVal = CF::MINUTE_OF_HOUR()->checkValidIntValue($moh);
             $nosVal = CF::NANO_OF_SECOND()->checkValidIntValue($nos);
 // handle 24:00 end of day
-            if ($this->resolverStyle == ResolverStyle::SMART() && $hod == 24 && $mohVal == 0 && $som == 0 && $nosVal == 0) {
+            if ($this->resolverStyle == ResolverStyle::SMART() && $hod === 24 && $mohVal === 0 && $som === 0 && $nosVal === 0) {
                 $this->updateCheckConflict(LocalTime::MIDNIGHT(), Period::ofDays(1));
             } else {
                 $hodVal = CF::HOUR_OF_DAY()->checkValidIntValue($hod);
@@ -585,7 +585,7 @@ final class Parsed extends AbstractTemporalAccessor
     private function resolvePeriod()
     {
 // add whole days if we have both date and time
-        if ($this->date != null && $this->time != null && $this->excessDays->isZero() == false) {
+        if ($this->date !== null && $this->time !== null && $this->excessDays->isZero() === false) {
             $this->date = $this->date->plusAmount($this->excessDays);
             $this->excessDays = Period::ZERO();
         }
@@ -595,7 +595,7 @@ final class Parsed extends AbstractTemporalAccessor
     {
 // ensure fractional seconds available as CF requires
 // resolveTimeLenient() will have merged CF::MICRO_OF_SECOND()/MILLI_OF_SECOND to NANO_OF_SECOND
-        if ($this->time == null &&
+        if ($this->time === null &&
             ($this->fieldValues->has(CF::INSTANT_SECONDS()) ||
                 $this->fieldValues->has(CF::SECOND_OF_DAY()) ||
                 $this->fieldValues->has(CF::SECOND_OF_MINUTE()))
@@ -632,11 +632,11 @@ final class Parsed extends AbstractTemporalAccessor
 
     private function updateCheckConflict(LocalTime $timeToSet, Period $periodToSet)
     {
-        if ($this->time != null) {
-            if ($this->time->equals($timeToSet) == false) {
+        if ($this->time !== null) {
+            if ($this->time->equals($timeToSet) === false) {
                 throw new DateTimeException("Conflict found: Fields resolved to different times: " . $this->time . " " . $timeToSet);
             }
-            if ($this->excessDays->isZero() == false && $periodToSet->isZero() == false && $this->excessDays->equals($periodToSet) == false) {
+            if ($this->excessDays->isZero() === false && $periodToSet->isZero() === false && $this->excessDays->equals($periodToSet) === false) {
                 throw new DateTimeException("Conflict found: Fields resolved to different excess periods: " . $this->excessDays . " " . $periodToSet);
             } else {
                 $this->excessDays = $periodToSet;
@@ -687,14 +687,14 @@ final class Parsed extends AbstractTemporalAccessor
     public function __toString()
     {
         $buf = $this->fieldValues . $this->chrono;
-        if ($this->zone != null) {
+        if ($this->zone !== null) {
             $buf .= ',' . $this->zone;
         }
-        if ($this->date != null || $this->time != null) {
+        if ($this->date !== null || $this->time !== null) {
             $buf .= " resolved to ";
-            if ($this->date != null) {
+            if ($this->date !== null) {
                 $buf .= $this->date;
-                if ($this->time != null) {
+                if ($this->time !== null) {
                     $buf .= 'T' . $this->time;
                 }
             } else {

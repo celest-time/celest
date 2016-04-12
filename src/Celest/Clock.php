@@ -287,9 +287,9 @@ abstract class Clock
             throw new \InvalidArgumentException("Tick duration must not be negative");
         }
         $tickNanos = $tickDuration->toNanos();
-        if ($tickNanos % 1000000 == 0) {
+        if ($tickNanos % 1000000 === 0) {
             // ok, no fraction of millisecond
-        } else if (1000000000 % $tickNanos == 0) {
+        } else if (1000000000 % $tickNanos === 0) {
             // ok, divides into one second without remainder
         } else {
             throw new \InvalidArgumentException("Invalid tick duration");

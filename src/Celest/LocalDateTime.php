@@ -429,7 +429,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function _with(LocalDate $newDate, LocalTime $newTime)
     {
-        if ($this->date == $newDate && $this->time == $newTime) {
+        if ($this->date === $newDate && $this->time === $newTime) {
             return $this;
         }
 
@@ -494,7 +494,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
             return $f->isDateBased() || $f->isTimeBased();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -1346,7 +1346,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
     //-----------------------------------------------------------------------
@@ -1372,7 +1372,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function minusYears($years)
     {
-        return ($years == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
+        return ($years === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
 
     /**
@@ -1397,7 +1397,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function minusMonths($months)
     {
-        return ($months == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
+        return ($months === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
 
     /**
@@ -1417,7 +1417,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function minusWeeks($weeks)
     {
-        return ($weeks == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
+        return ($weeks === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
 
     /**
@@ -1437,7 +1437,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      */
     public function minusDays($days)
     {
-        return ($days == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
+        return ($days === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
 
     //-----------------------------------------------------------------------
@@ -1514,7 +1514,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     private function plusWithOverflow(LocalDate $newDate, $hours, $minutes, $seconds, $nanos, $sign)
     {
         // 9223372036854775808 long, 2147483648 int
-        if (($hours | $minutes | $seconds | $nanos) == 0) {
+        if (($hours | $minutes | $seconds | $nanos) === 0) {
             return $this->_with($newDate, $this->time);
         }
         $totDays = Math::div($nanos, LocalTime::NANOS_PER_DAY) +             //   max/24*60*60*1B
@@ -1790,7 +1790,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     private function compareTo0(LocalDateTime $other)
     {
         $cmp = $this->date->compareTo0($other->toLocalDate());
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = $this->time->compareTo($other->toLocalTime());
         }
         return $cmp;
@@ -1881,7 +1881,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     public function isEqual(ChronoLocalDateTime $other)
     {
         if ($other instanceof LocalDateTime) {
-            return $this->compareTo0($other) == 0;
+            return $this->compareTo0($other) === 0;
         }
 
         return parent::isEqual($other);

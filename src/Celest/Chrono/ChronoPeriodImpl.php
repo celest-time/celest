@@ -184,7 +184,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
         }
         /** @var ChronoPeriodImpl $period */
         $period = $amount;
-        if ($this->chrono->equals($period->getChronology()) == false) {
+        if ($this->chrono->equals($period->getChronology()) === false) {
             throw new \InvalidArgumentException("Chronology mismatch, expected: " . $this->chrono->getId() . ", actual: " . $period->getChronology()->getId());
         }
         return $period;
@@ -290,7 +290,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     private function validateChrono(TemporalAccessor $temporal)
     {
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
-        if ($temporalChrono !== null && $this->chrono->equals($temporalChrono) == false) {
+        if ($temporalChrono !== null && $this->chrono->equals($temporalChrono) === false) {
             throw new DateTimeException("Chronology mismatch, expected: " . $this->chrono->getId() . ", actual: " . $temporalChrono->getId());
         }
     }

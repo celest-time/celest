@@ -98,7 +98,7 @@ class TZRule
                 $this->dayOfMonthIndicator = $this->month->maxLength() - 6;
             }
         }
-        if ($this->timeEndOfDay && $this->dayOfMonthIndicator > 0 && ($this->dayOfMonthIndicator === 28 && $this->month == Month::FEBRUARY()) == false) {
+        if ($this->timeEndOfDay && $this->dayOfMonthIndicator > 0 && ($this->dayOfMonthIndicator === 28 && $this->month == Month::FEBRUARY()) === false) {
             $date = LocalDate::ofMonth(2004, $this->month, $this->dayOfMonthIndicator)->plusDays(1);  // leap-year
             $this->month = $date->getMonth();
             $this->dayOfMonthIndicator = $date->getDayOfMonth();
@@ -143,7 +143,7 @@ class TZRule
             }
         } else {
             $date = LocalDate::ofMonth($this->year, $this->month, $this->dayOfMonthIndicator);
-            if ($this->dayOfWeek != null) {
+            if ($this->dayOfWeek !== null) {
                 $date = $date->adjust(TemporalAdjusters::nextOrSame($this->dayOfWeek));
             }
         }

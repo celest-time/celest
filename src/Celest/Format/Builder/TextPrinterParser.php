@@ -102,7 +102,7 @@ final class TextPrinterParser implements DateTimePrinterParser
      */
     private function numberPrinterParser()
     {
-        if ($this->numberPrinterParser == null) {
+        if ($this->numberPrinterParser === null) {
             $this->numberPrinterParser = new NumberPrinterParser($this->field, 1, 19, SignStyle::NORMAL());
         }
         return $this->numberPrinterParser;

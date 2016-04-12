@@ -77,19 +77,19 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
                 $field = $weekDef->weekOfMonth();
                 break;
             default:
-                throw new IllegalStateException("unreachable");
+                throw new \LogicException("unreachable");
         }
-        return new NumberPrinterParser($field, ($this->count == 2 ? 2 : 1), 2, SignStyle::NOT_NEGATIVE());
+        return new NumberPrinterParser($field, ($this->count === 2 ? 2 : 1), 2, SignStyle::NOT_NEGATIVE());
     }
 
     public function __toString()
     {
         $sb = "Localized(";
         if ($this->chr === 'Y') {
-            if ($this->count == 1) {
+            if ($this->count === 1) {
                 $sb .= "WeekBasedYear";
             } else
-                if ($this->count == 2) {
+                if ($this->count === 2) {
                     $sb .= "ReducedValue(WeekBasedYear,2,2,2000-01-01)";
                 } else {
                     $sb .= "WeekBasedYear," . $this->count . ","

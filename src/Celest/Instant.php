@@ -414,7 +414,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      */
     private static function create($seconds, $nanoOfSecond)
     {
-        if (($seconds | $nanoOfSecond) == 0) {
+        if (($seconds | $nanoOfSecond) === 0) {
             return self::$EPOCH;
         }
 
@@ -470,7 +470,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
             return $field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::NANO_OF_SECOND() || $field == ChronoField::MICRO_OF_SECOND() || $field == ChronoField::MILLI_OF_SECOND();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -508,7 +508,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
             return $unit->isTimeBased() || $unit == ChronoUnit::DAYS();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
 //-----------------------------------------------------------------------
@@ -732,18 +732,18 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
             $f->checkValidValue($newValue);
             switch ($f) {
                 case ChronoField::MILLI_OF_SECOND(): {
-                    $nval = (int)$newValue * 1000000;
-                    return ($nval != $this->nanos ? self::create($this->seconds, $nval) : $this);
+                    $nval = $newValue * 1000000;
+                    return ($nval !== $this->nanos ? self::create($this->seconds, $nval) : $this);
                 }
 
                 case ChronoField::MICRO_OF_SECOND(): {
-                    $nval = (int)$newValue * 1000;
-                    return ($nval != $this->nanos ? self::create($this->seconds, $nval) : $this);
+                    $nval = $newValue * 1000;
+                    return ($nval !== $this->nanos ? self::create($this->seconds, $nval) : $this);
                 }
                 case ChronoField::NANO_OF_SECOND():
-                    return ($newValue != $this->nanos ? self::create($this->seconds, (int)$newValue) : $this);
+                    return ($newValue !== $this->nanos ? self::create($this->seconds, $newValue) : $this);
                 case ChronoField::INSTANT_SECONDS():
-                    return ($newValue != $this->seconds ? self::create($newValue, $this->nanos) : $this);
+                    return ($newValue !== $this->seconds ? self::create($newValue, $this->nanos) : $this);
             }
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
         }
@@ -1055,7 +1055,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      */
     public function minusMillis($millisToSubtract)
     {
-        if ($millisToSubtract == Long::MIN_VALUE) {
+        if ($millisToSubtract === Long::MIN_VALUE) {
             return $this->plusMillis(Long::MAX_VALUE)->plusMillis(1);
         }
 
@@ -1074,7 +1074,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      */
     public function minusNanos($nanosToSubtract)
     {
-        if ($nanosToSubtract == Long::MIN_VALUE) {
+        if ($nanosToSubtract === Long::MIN_VALUE) {
             return $this->plusNanos(Long::MAX_VALUE)->plusNanos(1);
         }
 
@@ -1365,8 +1365,8 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
 
         if ($otherInstant instanceof Instant) {
             $other = $otherInstant;
-            return $this->seconds == $other->seconds &&
-            $this->nanos == $other->nanos;
+            return $this->seconds === $other->seconds &&
+            $this->nanos === $other->nanos;
         }
         return false;
     }

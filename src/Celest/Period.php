@@ -267,7 +267,7 @@ final class Period implements ChronoPeriod
         }
 
         if ($amount instanceof ChronoPeriod) {
-            if (IsoChronology::INSTANCE()->equals($amount->getChronology()) == false) {
+            if (IsoChronology::INSTANCE()->equals($amount->getChronology()) === false) {
                 throw new DateTimeException("Period requires ISO chronology: " . $amount);
             }
         }
@@ -410,7 +410,7 @@ final class Period implements ChronoPeriod
      */
     private static function create($years, $months, $days)
     {
-        if (($years | $months | $days) == 0) {
+        if (($years | $months | $days) === 0) {
             return self::$ZERO;
         }
 
@@ -579,7 +579,7 @@ final class Period implements ChronoPeriod
      */
     public function withYears($years)
     {
-        if ($years == $this->years) {
+        if ($years === $this->years) {
             return $this;
         }
         return $this->create($years, $this->months, $this->days);
@@ -602,7 +602,7 @@ final class Period implements ChronoPeriod
      */
     public function withMonths($months)
     {
-        if ($months == $this->months) {
+        if ($months === $this->months) {
             return $this;
         }
         return $this->create($this->years, $months, $this->days);
@@ -621,7 +621,7 @@ final class Period implements ChronoPeriod
      */
     public function withDays($days)
     {
-        if ($days == $this->days) {
+        if ($days === $this->days) {
             return $this;
         }
         return $this->create($this->years, $this->months, $days);
@@ -672,7 +672,7 @@ final class Period implements ChronoPeriod
      */
     public function plusYears($yearsToAdd)
     {
-        if ($yearsToAdd == 0) {
+        if ($yearsToAdd === 0) {
             return $this;
         }
 
@@ -694,7 +694,7 @@ final class Period implements ChronoPeriod
      */
     public function plusMonths($monthsToAdd)
     {
-        if ($monthsToAdd == 0) {
+        if ($monthsToAdd === 0) {
             return $this;
         }
         return $this->create($this->years, Math::toIntExact(Math::addExact($this->months, $monthsToAdd)), $this->days);
@@ -715,7 +715,7 @@ final class Period implements ChronoPeriod
      */
     public function plusDays($daysToAdd)
     {
-        if ($daysToAdd == 0) {
+        if ($daysToAdd === 0) {
             return $this;
         }
         return $this->create($this->years, $this->months, Math::toIntExact(Math::addExact($this->days, $daysToAdd)));
@@ -766,7 +766,7 @@ final class Period implements ChronoPeriod
      */
     public function minusYears($yearsToSubtract)
     {
-        return ($yearsToSubtract == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
+        return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
 
     /**
@@ -784,7 +784,7 @@ final class Period implements ChronoPeriod
      */
     public function minusMonths($monthsToSubtract)
     {
-        return ($monthsToSubtract == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
+        return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
 
     /**
@@ -802,7 +802,7 @@ final class Period implements ChronoPeriod
      */
     public function minusDays($daysToSubtract)
     {
-        return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
+        return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
 
     //-----------------------------------------------------------------------
@@ -822,7 +822,7 @@ final class Period implements ChronoPeriod
      */
     public function multipliedBy($scalar)
     {
-        if ($this == self::$ZERO || $scalar == 1) {
+        if ($this === self::$ZERO || $scalar === 1) {
             return $this;
         }
         return $this->create(
@@ -931,17 +931,17 @@ final class Period implements ChronoPeriod
     public function addTo(Temporal $temporal)
     {
         $this->validateChrono($temporal);
-        if ($this->months == 0) {
-            if ($this->years != 0) {
+        if ($this->months === 0) {
+            if ($this->years !== 0) {
                 $temporal = $temporal->plus($this->years, ChronoUnit::YEARS());
             }
         } else {
             $totalMonths = $this->toTotalMonths();
-            if ($totalMonths != 0) {
+            if ($totalMonths !== 0) {
                 $temporal = $temporal->plus($totalMonths, ChronoUnit::MONTHS());
             }
         }
-        if ($this->days != 0) {
+        if ($this->days !== 0) {
             $temporal = $temporal->plus($this->days, ChronoUnit::DAYS());
         }
         return $temporal;
@@ -984,17 +984,17 @@ final class Period implements ChronoPeriod
     public function subtractFrom(Temporal $temporal)
     {
         $this->validateChrono($temporal);
-        if ($this->months == 0) {
-            if ($this->years != 0) {
+        if ($this->months === 0) {
+            if ($this->years !== 0) {
                 $temporal = $temporal->minus($this->years, ChronoUnit::YEARS());
             }
         } else {
             $totalMonths = $this->toTotalMonths();
-            if ($totalMonths != 0) {
+            if ($totalMonths !== 0) {
                 $temporal = $temporal->minus($totalMonths, ChronoUnit::MONTHS());
             }
         }
-        if ($this->days != 0) {
+        if ($this->days !== 0) {
             $temporal = $temporal->minus($this->days, ChronoUnit::DAYS());
         }
         return $temporal;
@@ -1006,7 +1006,7 @@ final class Period implements ChronoPeriod
     private function validateChrono(TemporalAccessor $temporal)
     {
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
-        if ($temporalChrono != null && IsoChronology::INSTANCE()->equals($temporalChrono) == false) {
+        if ($temporalChrono !== null && IsoChronology::INSTANCE()->equals($temporalChrono) === false) {
             throw new DateTimeException("Chronology mismatch, expected: ISO, actual: " . $temporalChrono->getId());
         }
     }
@@ -1031,9 +1031,9 @@ final class Period implements ChronoPeriod
 
         if ($obj instanceof Period) {
             $other = $obj;
-            return $this->years == $other->years &&
-            $this->months == $other->months &&
-            $this->days == $other->days;
+            return $this->years === $other->years &&
+            $this->months === $other->months &&
+            $this->days === $other->days;
         }
         return false;
     }
@@ -1049,17 +1049,17 @@ final class Period implements ChronoPeriod
      */
     public function __toString()
     {
-        if ($this == self::$ZERO) {
+        if ($this === self::$ZERO) {
             return "P0D";
         } else {
             $buf = 'P';
-            if ($this->years != 0) {
+            if ($this->years !== 0) {
                 $buf .= $this->years . 'Y';
             }
-            if ($this->months != 0) {
+            if ($this->months !== 0) {
                 $buf .= $this->months . 'M';
             }
-            if ($this->days != 0) {
+            if ($this->days !== 0) {
                 $buf .= $this->days . 'D';
             }
             return $buf;

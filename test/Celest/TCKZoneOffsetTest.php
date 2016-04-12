@@ -727,7 +727,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
             $str .= substr(Math::abs($hours) + 100, 1);
             $str .= ":";
             $str .= substr(Math::abs($minutes) + 100, 1);
-            if ($seconds != 0) {
+            if ($seconds !== 0) {
                 $str .= ":";
                 $str .= substr(Math::abs($seconds) + 100, 1);
             }
@@ -735,9 +735,9 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
         }
         $this->assertEquals($offset->getId(), $id);
         $this->assertEquals($offset, ZoneOffset::ofHoursMinutesSeconds($hours, $minutes, $seconds));
-        if ($seconds == 0) {
+        if ($seconds === 0) {
             $this->assertEquals($offset, ZoneOffset::ofHoursMinutes($hours, $minutes));
-            if ($minutes == 0) {
+            if ($minutes === 0) {
                 $this->assertEquals($offset, ZoneOffset::ofHours($hours));
             }
         }

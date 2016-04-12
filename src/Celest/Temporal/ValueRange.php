@@ -206,7 +206,7 @@ final class ValueRange
      */
     public function isFixed()
     {
-        return $this->minSmallest == $this->minLargest && $this->maxSmallest == $this->maxLargest;
+        return $this->minSmallest === $this->minLargest && $this->maxSmallest === $this->maxLargest;
     }
 
 //-----------------------------------------------------------------------
@@ -353,7 +353,7 @@ final class ValueRange
 
     private function genInvalidFieldMessage(TemporalField $field, $value)
     {
-        if ($field != null) {
+        if ($field !== null) {
             return "Invalid value for " . $field . " (valid values " . $this . "): " . $value;
         } else {
             return "Invalid value (valid values " . $this . "): " . $value;
@@ -373,14 +373,14 @@ final class ValueRange
      */
     public function equals($obj)
     {
-        if ($obj == $this) {
+        if ($obj === $this) {
             return true;
         }
 
         if ($obj instanceof ValueRange) {
             $other = $obj;
-            return $this->minSmallest == $other->minSmallest && $this->minLargest == $other->minLargest &&
-            $this->maxSmallest == $other->maxSmallest && $this->maxLargest == $other->maxLargest;
+            return $this->minSmallest === $other->minSmallest && $this->minLargest === $other->minLargest &&
+            $this->maxSmallest === $other->maxSmallest && $this->maxLargest === $other->maxLargest;
         }
         return false;
     }
@@ -400,12 +400,12 @@ final class ValueRange
     {
         $buf = '';
         $buf .= $this->minSmallest;
-        if ($this->minSmallest != $this->minLargest) {
+        if ($this->minSmallest !== $this->minLargest) {
             $buf .= '/' . $this->minLargest;
         }
 
         $buf .= " - " . $this->maxSmallest;
-        if ($this->maxSmallest != $this->maxLargest) {
+        if ($this->maxSmallest !== $this->maxLargest) {
             $buf .= '/' . $this->maxLargest;
         }
         return $buf;

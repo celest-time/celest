@@ -361,7 +361,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      */
     private function _with(LocalTime $time, ZoneOffset $offset)
     {
-        if ($this->time == $time && $this->offset->equals($offset)) {
+        if ($this->time === $time && $this->offset->equals($offset)) {
             return $this;
         }
 
@@ -413,7 +413,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
             return $field->isTimeBased() || $field == ChronoField::OFFSET_SECONDS();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -450,7 +450,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
             return $unit->isTimeBased();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     //-----------------------------------------------------------------------
@@ -588,7 +588,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      */
     public function withOffsetSameLocal(ZoneOffset $offset)
     {
-        return $offset != null && $offset->equals($this->offset) ? $this : new OffsetTime($this->time, $offset);
+        return $offset !== null && $offset->equals($this->offset) ? $this : new OffsetTime($this->time, $offset);
     }
 
     /**
@@ -1031,7 +1031,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -1321,7 +1321,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
         }
 
         $compare = Long::compare($this->toEpochNano(), $other->toEpochNano());
-        if ($compare == 0) {
+        if ($compare === 0) {
             $compare = $this->time->compareTo($other->time);
         }
         return $compare;
@@ -1373,7 +1373,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      */
     public function isEqual(OffsetTime $other)
     {
-        return $this->toEpochNano() == $other->toEpochNano();
+        return $this->toEpochNano() === $other->toEpochNano();
     }
 
     //-----------------------------------------------------------------------

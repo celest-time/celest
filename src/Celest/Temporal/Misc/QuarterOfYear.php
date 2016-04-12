@@ -39,7 +39,7 @@ class QuarterOfYear implements TemporalField
 
     public function getFrom(TemporalAccessor $temporal)
     {
-        if ($this->isSupportedBy($temporal) == false) {
+        if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
         }
         $moy = $temporal->getLong(ChronoField::MONTH_OF_YEAR());

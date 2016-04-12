@@ -87,7 +87,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
     {
         $absValue = Math::abs($value);
         $baseValue = $this->baseValue;
-        if ($this->baseDate != null) {
+        if ($this->baseDate !== null) {
             $chrono = AbstractChronology::from($context->getTemporal());
             $baseValue = $chrono->dateFrom($this->baseDate)->get($this->field);
         }
@@ -119,7 +119,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
                 });
         }
         $parseLen = $successPos - $errorPos;
-        if ($parseLen == $this->minWidth && $value >= 0) {
+        if ($parseLen === $this->minWidth && $value >= 0) {
             $range = self::$EXCEED_POINTS[$this->minWidth];
             $lastPart = $baseValue % $range;
             $basePart = $baseValue - $lastPart;
@@ -142,7 +142,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      */
     public function withFixedWidth()
     {
-        if ($this->subsequentWidth == -1) {
+        if ($this->subsequentWidth === -1) {
             return $this;
         }
 
@@ -170,7 +170,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      */
     public function isFixedWidth(DateTimeParseContext $context)
     {
-        if ($context->isStrict() == false) {
+        if ($context->isStrict() === false) {
             return false;
         }
 
@@ -179,6 +179,6 @@ final class ReducedPrinterParser extends NumberPrinterParser
 
     public function __toString()
     {
-        return "ReducedValue(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . ($this->baseDate != null ? $this->baseDate : $this->baseValue) . ")";
+        return "ReducedValue(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . ($this->baseDate !== null ? $this->baseDate : $this->baseValue) . ")";
     }
 }

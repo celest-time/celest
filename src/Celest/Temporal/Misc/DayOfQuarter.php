@@ -42,16 +42,16 @@ class DayOfQuarter implements TemporalField
 
     public function rangeRefinedBy(TemporalAccessor $temporal)
     {
-        if ($this->isSupportedBy($temporal) == false) {
+        if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
         }
         $qoy = $temporal->getLong(IsoFields::QUARTER_OF_YEAR());
-        if ($qoy == 1) {
+        if ($qoy === 1) {
             $year = $temporal->getLong(ChronoField::YEAR());
             return (IsoChronology::INSTANCE()->isLeapYear($year) ? ValueRange::of(1, 91) : ValueRange::of(1, 90));
-        } else if ($qoy == 2) {
+        } else if ($qoy === 2) {
             return ValueRange::of(1, 91);
-        } else if ($qoy == 3 || $qoy == 4) {
+        } else if ($qoy === 3 || $qoy === 4) {
             return ValueRange::of(1, 92);
         } // else value not from 1 to 4, so drop through
         return $this->range();
@@ -59,7 +59,7 @@ class DayOfQuarter implements TemporalField
 
     public function getFrom(TemporalAccessor $temporal)
     {
-        if ($this->isSupportedBy($temporal) == false) {
+        if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
         }
 

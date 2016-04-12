@@ -395,13 +395,13 @@ final class IsoChronology extends AbstractChronology
      */
     public function isLeapYear($prolepticYear)
     {
-        return (($prolepticYear & 3) == 0) && (($prolepticYear % 100) != 0 || ($prolepticYear % 400) == 0);
+        return (($prolepticYear & 3) === 0) && (($prolepticYear % 100) !== 0 || ($prolepticYear % 400) === 0);
     }
 
     public function prolepticYear(Era $era, $yearOfEra)
     {
-        if ($era instanceof IsoEra == false) {
-            throw new ClassCastException("Era must be IsoEra");
+        if ($era instanceof IsoEra === false) {
+            throw new \InvalidArgumentException("Era must be IsoEra");
         }
 
         return ($era == IsoEra::CE() ? $yearOfEra : 1 - $yearOfEra);
@@ -572,9 +572,9 @@ final class IsoChronology extends AbstractChronology
         $moy = CF::MONTH_OF_YEAR()->checkValidIntValue($fieldValues->remove(CF::MONTH_OF_YEAR()));
         $dom = CF::DAY_OF_MONTH()->checkValidIntValue($fieldValues->remove(CF::DAY_OF_MONTH()));
         if ($resolverStyle == ResolverStyle::SMART()) {  // previous valid
-            if ($moy == 4 || $moy == 6 || $moy == 9 || $moy == 11) {
+            if ($moy === 4 || $moy === 6 || $moy === 9 || $moy === 11) {
                 $dom = Math::min($dom, 30);
-            } else if ($moy == 2) {
+            } else if ($moy === 2) {
                 $dom = Math::min($dom, Month::FEBRUARY()->length(Year::isLeapYear($y)));
 
             }

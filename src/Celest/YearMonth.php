@@ -246,7 +246,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) === false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::YEAR()), $temporal->get(ChronoField::MONTH_OF_YEAR()));
@@ -311,7 +311,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     private function _with($newYear, $newMonth)
     {
-        if ($this->year == $newYear && $this->month == $newMonth) {
+        if ($this->year === $newYear && $this->month === $newMonth) {
             return $this;
         }
 
@@ -353,7 +353,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
             $field == ChronoField::PROLEPTIC_MONTH() || $field == ChronoField::YEAR_OF_ERA() || $field == ChronoField::ERA();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -389,7 +389,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
             return $unit == ChronoUnit::MONTHS() || $unit == ChronoUnit::YEARS() || $unit == ChronoUnit::DECADES() || $unit == ChronoUnit::CENTURIES() || $unit == ChronoUnit::MILLENNIA() || $unit == ChronoUnit::ERAS();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     //-----------------------------------------------------------------------
@@ -706,7 +706,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
                 case ChronoField::YEAR():
                     return $this->withYear((int)$newValue);
                 case ChronoField::ERA():
-                    return ($this->getLong(ChronoField::ERA()) == $newValue ? $this : $this->withYear(1 - $this->year));
+                    return ($this->getLong(ChronoField::ERA()) === $newValue ? $this : $this->withYear(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -856,7 +856,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function plusYears($yearsToAdd)
     {
-        if ($yearsToAdd == 0) {
+        if ($yearsToAdd === 0) {
             return $this;
         }
         $newYear = ChronoField::YEAR()->checkValidIntValue($this->year + $yearsToAdd);  // safe overflow
@@ -934,7 +934,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
     /**
@@ -948,7 +948,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function minusYears($yearsToSubtract)
     {
-        return ($yearsToSubtract == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
+        return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
 
     /**
@@ -962,7 +962,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function minusMonths($monthsToSubtract)
     {
-        return ($monthsToSubtract == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
+        return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
 
     //-----------------------------------------------------------------------
@@ -1023,7 +1023,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) === false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 
@@ -1171,7 +1171,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
     public function compareTo(YearMonth $other)
     {
         $cmp = ($this->year - $other->year);
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = ($this->month - $other->month);
         }
 
@@ -1217,7 +1217,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
 
         if ($obj instanceof YearMonth) {
             $other = $obj;
-            return $this->year == $other->year && $this->month == $other->month;
+            return $this->year === $other->year && $this->month === $other->month;
         }
         return false;
     }

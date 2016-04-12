@@ -81,7 +81,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
 
     public function __toString()
     {
-        return "Localized(" . ($this->dateStyle != null ? $this->dateStyle : "") . "," .
-        ($this->timeStyle != null ? $this->timeStyle : "") . ")";
+        return "Localized(" . ($this->dateStyle !== null ? $this->dateStyle : "") . "," .
+        ($this->timeStyle !== null ? $this->timeStyle : "") . ")";
     }
 }

@@ -38,7 +38,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
         }
 
         $chrono = $temporal->query(TemporalQueries::chronology());
-        if ($chrono == null) {
+        if ($chrono === null) {
             throw new DateTimeException("Unable to obtain ChronoLocalDateTime from TemporalAccessor: " . get_class($temporal));
         }
         return $chrono->localDateTime($temporal);
@@ -58,10 +58,10 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     public function isUnitSupported(TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
-            return $unit != ChronoUnit::FOREVER();
+            return $unit !== ChronoUnit::FOREVER();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     /**
@@ -158,9 +158,9 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     public function compareTo(ChronoLocalDateTime $other)
     {
         $cmp = $this->toLocalDate()->compareTo($other->toLocalDate());
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = $this->toLocalTime()->compareTo($other->toLocalTime());
-            if ($cmp == 0) {
+            if ($cmp === 0) {
                 $cmp = $this->getChronology()->compareTo($other->getChronology());
             }
         }
@@ -175,7 +175,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
         $thisEpDay = $this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();
         return $thisEpDay > $otherEpDay ||
-        ($thisEpDay == $otherEpDay && $this->toLocalTime()->toNanoOfDay() > $other->toLocalTime()->toNanoOfDay());
+        ($thisEpDay === $otherEpDay && $this->toLocalTime()->toNanoOfDay() > $other->toLocalTime()->toNanoOfDay());
     }
 
     /**
@@ -186,7 +186,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
         $thisEpDay = $this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();
         return $thisEpDay < $otherEpDay ||
-        ($thisEpDay == $otherEpDay && $this->toLocalTime()->toNanoOfDay() < $other->toLocalTime()->toNanoOfDay());
+        ($thisEpDay === $otherEpDay && $this->toLocalTime()->toNanoOfDay() < $other->toLocalTime()->toNanoOfDay());
     }
 
     /**
@@ -195,7 +195,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     public function isEqual(ChronoLocalDateTime $other)
     {
         // Do the time check first, it is cheaper than computing EPOCH day.
-        return $this->toLocalTime()->toNanoOfDay() == $other->toLocalTime()->toNanoOfDay() &&
-        $this->toLocalDate()->toEpochDay() == $other->toLocalDate()->toEpochDay();
+        return $this->toLocalTime()->toNanoOfDay() === $other->toLocalTime()->toNanoOfDay() &&
+        $this->toLocalDate()->toEpochDay() === $other->toLocalDate()->toEpochDay();
     }
 }

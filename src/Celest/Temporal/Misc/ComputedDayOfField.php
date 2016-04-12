@@ -439,7 +439,7 @@ class ComputedDayOfField implements TemporalField
             $wowby = $this->weekDef->weekOfWeekBasedYear->range()->checkValidIntValue(
                 $fieldValues->get($this->weekDef->weekOfWeekBasedYear), $this->weekDef->weekOfWeekBasedYear);  // validate
             $date = $this->ofWeekBasedYear($chrono, $yowby, $wowby, $localDow);
-            if ($resolverStyle == ResolverStyle::STRICT() && $this->localizedWeekBasedYear($date) != $yowby) {
+            if ($resolverStyle == ResolverStyle::STRICT() && $this->localizedWeekBasedYear($date) !== $yowby) {
                 throw new DateTimeException("Strict mode rejected resolved date as it is in a different week-based-year");
             }
         }

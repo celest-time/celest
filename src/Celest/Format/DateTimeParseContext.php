@@ -173,9 +173,9 @@ final class DateTimeParseContext
     public function getEffectiveChronology()
     {
         $chrono = $this->currentParsed()->chrono;
-        if ($chrono == null) {
+        if ($chrono === null) {
             $chrono = $this->formatter->getChronology();
-            if ($chrono == null) {
+            if ($chrono === null) {
                 $chrono = IsoChronology::INSTANCE();
             }
         }

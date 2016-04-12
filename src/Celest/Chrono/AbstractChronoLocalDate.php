@@ -77,7 +77,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
             return $field->isDateBased();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -89,7 +89,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
             return $unit->isDateBased();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     /**
@@ -233,6 +233,6 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
      */
     public function isEqual(ChronoLocalDate $other)
     {
-        return $this->toEpochDay() == $other->toEpochDay();
+        return $this->toEpochDay() === $other->toEpochDay();
     }
 }

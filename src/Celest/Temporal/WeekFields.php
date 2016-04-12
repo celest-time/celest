@@ -615,8 +615,8 @@ final class WeekFields
 
         if ($object instanceof WeekFields) {
             return
-                $this->firstDayOfWeek == $object->firstDayOfWeek
-                && $this->minimalDays == $object->minimalDays;
+                $this->firstDayOfWeek === $object->firstDayOfWeek
+                && $this->minimalDays === $object->minimalDays;
         }
         return false;
     }

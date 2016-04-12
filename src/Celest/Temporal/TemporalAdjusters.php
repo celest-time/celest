@@ -383,7 +383,7 @@ final class TemporalAdjusters
                 $temp = $temporal->with(ChronoField::DAY_OF_MONTH(), $temporal->range(ChronoField::DAY_OF_MONTH())->getMaximum());
                 $curDow = $temp->get(ChronoField::DAY_OF_WEEK());
                 $daysDiff = $dowValue - $curDow;
-                $daysDiff = ($daysDiff == 0 ? 0 : ($daysDiff > 0 ? $daysDiff - 7 : $daysDiff));
+                $daysDiff = ($daysDiff === 0 ? 0 : ($daysDiff > 0 ? $daysDiff - 7 : $daysDiff));
                 $daysDiff -= (-$ordinal - 1) * 7;  // safe from overflow
                 return $temp->plus($daysDiff, ChronoUnit::DAYS());
             });
@@ -496,7 +496,7 @@ final class TemporalAdjusters
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {
             $calDow = $temporal->get(ChronoField::DAY_OF_WEEK());
-            if ($calDow == $dowValue) {
+            if ($calDow === $dowValue) {
                 return $temporal;
             }
 

@@ -297,7 +297,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::DAY_OF_YEAR()->checkValidValue($dayOfYear);
         $leap = IsoChronology::INSTANCE()->isLeapYear($year);
-        if ($dayOfYear == 366 && $leap == false) {
+        if ($dayOfYear === 366 && $leap === false) {
             throw new DateTimeException("Invalid date 'DayOfYear 366' as '" . $year . "' is not a leap year");
         }
 
@@ -445,7 +445,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
             }
 
             if ($dayOfMonth > $dom) {
-                if ($dayOfMonth == 29) {
+                if ($dayOfMonth === 29) {
                     throw new DateTimeException("Invalid date 'February 29' as '" . $year . "' is not a leap year");
                 } else {
                     throw new DateTimeException("Invalid date '" . Month::of($month) . " " . $dayOfMonth . "'");
@@ -605,7 +605,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
                     case ChronoField::DAY_OF_YEAR():
                         return ValueRange::of(1, $this->lengthOfYear());
                     case ChronoField::ALIGNED_WEEK_OF_MONTH():
-                        return ValueRange::of(1, $this->getMonth() == Month::FEBRUARY() && $this->isLeapYear() == false ? 4 : 5);
+                        return ValueRange::of(1, $this->getMonth() == Month::FEBRUARY() && $this->isLeapYear() === false ? 4 : 5);
                     case ChronoField::YEAR_OF_ERA():
                         return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
                 }
@@ -1101,7 +1101,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
                 case ChronoField::YEAR():
                     return $this->withYear((int)$newValue);
                 case ChronoField::ERA():
-                    return ($this->getLong(ChronoField::ERA()) == $newValue ? $this : $this->withYear(1 - $this->year));
+                    return ($this->getLong(ChronoField::ERA()) === $newValue ? $this : $this->withYear(1 - $this->year));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -1123,7 +1123,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function withYear($year)
     {
-        if ($this->year == $year) {
+        if ($this->year === $year) {
             return $this;
         }
 
@@ -1144,7 +1144,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function withMonth($month)
     {
-        if ($this->month == $month) {
+        if ($this->month === $month) {
             return $this;
         }
 
@@ -1166,7 +1166,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function withDayOfMonth($dayOfMonth)
     {
-        if ($this->day == $dayOfMonth) {
+        if ($this->day === $dayOfMonth) {
             return $this;
         }
 
@@ -1187,7 +1187,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function withDayOfYear($dayOfYear)
     {
-        if ($this->getDayOfYear() == $dayOfYear) {
+        if ($this->getDayOfYear() === $dayOfYear) {
             return $this;
         }
 
@@ -1358,7 +1358,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function plusYears($yearsToAdd)
     {
-        if ($yearsToAdd == 0) {
+        if ($yearsToAdd === 0) {
             return $this;
         }
 
@@ -1504,7 +1504,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -1530,7 +1530,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
      */
     public function minusYears($yearsToSubtract)
     {
-        return ($yearsToSubtract == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
+        return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
 
     /**
@@ -1904,7 +1904,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         if ($zone instanceof ZoneOffset === false) {
             $rules = $zone->getRules();
             $trans = $rules->getTransition($ldt);
-            if ($trans != null && $trans->isGap()) {
+            if ($trans !== null && $trans->isGap()) {
                 $ldt = $trans->getDateTimeAfter();
             }
         }
@@ -1927,7 +1927,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         $total += $this->day - 1;
         if ($m > 2) {
             $total--;
-            if ($this->isLeapYear() == false) {
+            if ($this->isLeapYear() === false) {
                 $total--;
             }
         }
@@ -1966,9 +1966,9 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
     function compareTo0(LocalDate $otherDate)
     {
         $cmp = ($this->year - $otherDate->year);
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = ($this->month - $otherDate->month);
-            if ($cmp == 0) {
+            if ($cmp === 0) {
                 $cmp = ($this->day - $otherDate->day);
             }
         }
@@ -2059,7 +2059,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
     public function isEqual(ChronoLocalDate $other)
     {
         if ($other instanceof LocalDate) {
-            return $this->compareTo0($other) == 0;
+            return $this->compareTo0($other) === 0;
         }
 
         return parent::isEqual($other);
@@ -2085,7 +2085,7 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
         }
 
         if ($obj instanceof LocalDate) {
-            return $this->compareTo0($obj) == 0;
+            return $this->compareTo0($obj) === 0;
         }
         return false;
     }

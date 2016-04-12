@@ -114,9 +114,9 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
         $entry = null;
         $tree = null;
         $zoneStrings = null;
-        if (($entry = $cached->get($locale)) == null ||
-            ($entry->getKey() != $regionIdsSize ||
-                ($tree = $entry->getValue()->get()) == null)
+        if (($entry = $cached->get($locale)) === null ||
+            ($entry->getKey() !== $regionIdsSize ||
+                ($tree = $entry->getValue()->get()) === null)
         ) {
             $tree = PrefixTree::newTree($context);
             $zoneStrings = TimeZoneNameUtility::getZoneStrings($locale);
@@ -134,7 +134,7 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
             }
             // if we have a set of preferred zones, need a copy and
             // add the preferred zones again to overwrite
-            if (self::$preferredZones != null) {
+            if (self::$preferredZones !== null) {
                 foreach ($zoneStrings as $names) {
                     $zid = $names[0];
                     if (!self::$preferredZones->contains($zid) || !$regionIds->contains($zid)) {

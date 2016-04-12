@@ -106,7 +106,7 @@ class Test extends AbstractTemporalAccessor
 
     public function isSupported(TemporalField $field)
     {
-        if ($this->effectiveDate != null && $field->isDateBased()) {
+        if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->isSupported($field);
         }
 
@@ -115,7 +115,7 @@ class Test extends AbstractTemporalAccessor
 
     public function range(TemporalField $field)
     {
-        if ($this->effectiveDate != null && $field->isDateBased()) {
+        if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->range($field);
         }
 
@@ -124,7 +124,7 @@ class Test extends AbstractTemporalAccessor
 
     public function getLong(TemporalField $field)
     {
-        if ($this->effectiveDate != null && $field->isDateBased()) {
+        if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->getLong($field);
         }
 
@@ -196,7 +196,7 @@ final class DateTimePrintContext
         // normal case first (early return is an optimization)
         $overrideChrono = $formatter->getChronology();
         $overrideZone = $formatter->getZone();
-        if ($overrideChrono == null && $overrideZone == null) {
+        if ($overrideChrono === null && $overrideZone === null) {
             return $temporal;
         }
 
@@ -214,16 +214,16 @@ final class DateTimePrintContext
         }
 
         // make adjustment
-        $effectiveChrono = ($overrideChrono != null ? $overrideChrono : $temporalChrono);
-        if ($overrideZone != null) {
+        $effectiveChrono = ($overrideChrono !== null ? $overrideChrono : $temporalChrono);
+        if ($overrideZone !== null) {
             // if have zone and instant, calculation is simple, defaulting chrono if necessary
             if ($temporal->isSupported(ChronoField::INSTANT_SECONDS())) {
-                $chrono = ($effectiveChrono != null ? $effectiveChrono : IsoChronology::INSTANCE());
+                $chrono = ($effectiveChrono !== null ? $effectiveChrono : IsoChronology::INSTANCE());
                 return $chrono->zonedDateTime(Instant::from($temporal), $overrideZone);
             }
             // block changing zone on OffsetTime, and similar problem cases
             if ($overrideZone->normalized() instanceof ZoneOffset && $temporal->isSupported(ChronoField::OFFSET_SECONDS()) &&
-                $temporal->get(ChronoField::OFFSET_SECONDS()) != $overrideZone->getRules()->getOffset(Instant::EPOCH())->getTotalSeconds()
+                $temporal->get(ChronoField::OFFSET_SECONDS()) !== $overrideZone->getRules()->getOffset(Instant::EPOCH())->getTotalSeconds()
             ) {
                 throw new DateTimeException("Unable to apply override zone '" . $overrideZone .
                     "' because the temporal object being formatted has a different offset but" .
@@ -238,7 +238,7 @@ final class DateTimePrintContext
                 $effectiveDate = $effectiveChrono->dateFrom($temporal);
             } else {
                 // check for date fields other than epoch-day, ignoring case of converting null to ISO
-                if (!($overrideChrono == IsoChronology::INSTANCE() && $temporalChrono === null)) {
+                if (!($overrideChrono === IsoChronology::INSTANCE() && $temporalChrono === null)) {
                     foreach (ChronoField::values() as $f) {
                         if ($f->isDateBased() && $temporal->isSupported($f)) {
                             throw new DateTimeException("Unable to apply override chronology '" . $overrideChrono .
@@ -322,7 +322,7 @@ final class DateTimePrintContext
     public function getValue(TemporalQuery $query)
     {
         $result = $this->temporal->query($query);
-        if ($result == null && $this->optional == 0) {
+        if ($result === null && $this->optional === 0) {
             throw new DateTimeException("Unable to extract value: " . get_class($this->temporal));
         }
 

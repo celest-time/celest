@@ -121,7 +121,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
             return $unit != ChronoUnit::FOREVER();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     /**

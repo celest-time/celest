@@ -494,7 +494,7 @@ final class Duration implements TemporalAmount
      */
     private static function create($seconds, $nanoAdjustment)
     {
-        if (($seconds | $nanoAdjustment) == 0) {
+        if (($seconds | $nanoAdjustment) === 0) {
             return self::$ZERO;
         }
 
@@ -579,7 +579,7 @@ final class Duration implements TemporalAmount
      */
     public function isZero()
     {
-        return ($this->seconds | $this->nanos) == 0;
+        return ($this->seconds | $this->nanos) === 0;
     }
 
     /**
@@ -710,7 +710,7 @@ final class Duration implements TemporalAmount
         if ($unit->isDurationEstimated()) {
             throw new UnsupportedTemporalTypeException("Unit must not have an estimated duration");
         }
-        if ($amountToAdd == 0) {
+        if ($amountToAdd === 0) {
             return $this;
         }
         if ($unit instanceof ChronoUnit) {
@@ -830,7 +830,7 @@ final class Duration implements TemporalAmount
      */
     private function _plus($secondsToAdd, $nanosToAdd)
     {
-        if (($secondsToAdd | $nanosToAdd) == 0) {
+        if (($secondsToAdd | $nanosToAdd) === 0) {
             return $this;
         }
 
@@ -855,7 +855,7 @@ final class Duration implements TemporalAmount
     {
         $secsToSubtract = $duration->getSeconds();
         $nanosToSubtract = $duration->getNano();
-        if ($secsToSubtract == Long::MIN_VALUE) {
+        if ($secsToSubtract === Long::MIN_VALUE) {
             return $this->_plus(Long::MAX_VALUE, -$nanosToSubtract)->_plus(1, 0);
         }
 
@@ -879,7 +879,7 @@ final class Duration implements TemporalAmount
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -897,7 +897,7 @@ final class Duration implements TemporalAmount
      */
     public function minusDays($daysToSubtract)
     {
-        return ($daysToSubtract == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
+        return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
 
     /**
@@ -913,7 +913,7 @@ final class Duration implements TemporalAmount
      */
     public function minusHours($hoursToSubtract)
     {
-        return ($hoursToSubtract == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hoursToSubtract));
+        return ($hoursToSubtract === Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hoursToSubtract));
     }
 
     /**
@@ -929,7 +929,7 @@ final class Duration implements TemporalAmount
      */
     public function minusMinutes($minutesToSubtract)
     {
-        return ($minutesToSubtract == Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutesToSubtract));
+        return ($minutesToSubtract === Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutesToSubtract));
     }
 
     /**
@@ -943,7 +943,7 @@ final class Duration implements TemporalAmount
      */
     public function minusSeconds($secondsToSubtract)
     {
-        return ($secondsToSubtract == Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$secondsToSubtract));
+        return ($secondsToSubtract === Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$secondsToSubtract));
     }
 
     /**
@@ -957,7 +957,7 @@ final class Duration implements TemporalAmount
      */
     public function minusMillis($millisToSubtract)
     {
-        return ($millisToSubtract == Long::MIN_VALUE ? $this->plusMillis(Long::MAX_VALUE)->plusMillis(1) : $this->plusMillis(-$millisToSubtract));
+        return ($millisToSubtract === Long::MIN_VALUE ? $this->plusMillis(Long::MAX_VALUE)->plusMillis(1) : $this->plusMillis(-$millisToSubtract));
     }
 
     /**
@@ -971,7 +971,7 @@ final class Duration implements TemporalAmount
      */
     public function minusNanos($nanosToSubtract)
     {
-        return ($nanosToSubtract == Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanosToSubtract));
+        return ($nanosToSubtract === Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanosToSubtract));
     }
 
     //-----------------------------------------------------------------------
@@ -986,10 +986,10 @@ final class Duration implements TemporalAmount
      */
     public function multipliedBy($multiplicand)
     {
-        if ($multiplicand == 0) {
+        if ($multiplicand === 0) {
             return self::$ZERO;
         }
-        if ($multiplicand == 1) {
+        if ($multiplicand === 1) {
             return $this;
         }
 
@@ -1098,11 +1098,11 @@ final class Duration implements TemporalAmount
      */
     public function addTo(Temporal $temporal)
     {
-        if ($this->seconds != 0) {
+        if ($this->seconds !== 0) {
             $temporal = $temporal->plus($this->seconds, ChronoUnit::SECONDS());
         }
 
-        if ($this->nanos != 0) {
+        if ($this->nanos !== 0) {
             $temporal = $temporal->plus($this->nanos, ChronoUnit::NANOS());
         }
         return $temporal;
@@ -1134,11 +1134,11 @@ final class Duration implements TemporalAmount
      */
     public function subtractFrom(Temporal $temporal)
     {
-        if ($this->seconds != 0) {
+        if ($this->seconds !== 0) {
             $temporal = $temporal->minus($this->seconds, ChronoUnit::SECONDS());
         }
 
-        if ($this->nanos != 0) {
+        if ($this->nanos !== 0) {
             $temporal = $temporal->minus($this->nanos, ChronoUnit::NANOS());
         }
         return $temporal;

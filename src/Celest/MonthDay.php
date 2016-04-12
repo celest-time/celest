@@ -271,7 +271,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
         }
 
         try {
-            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) === false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()), $temporal->get(ChronoField::DAY_OF_MONTH()));
@@ -355,7 +355,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
             return $field == ChronoField::MONTH_OF_YEAR() || $field == ChronoField::DAY_OF_MONTH();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -519,7 +519,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      */
     public function isValidYear($year)
     {
-        return ($this->day == 29 && $this->month == 2 && Year::isLeapYear($year) == false) == false;
+        return ($this->day === 29 && $this->month === 2 && Year::isLeapYear($year) === false) === false;
     }
 
 //-----------------------------------------------------------------------
@@ -555,7 +555,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      */
     public function with(Month $month)
     {
-        if ($month->getValue() == $this->month) {
+        if ($month->getValue() === $this->month) {
             return $this;
         }
 
@@ -578,7 +578,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      */
     public function withDayOfMonth($dayOfMonth)
     {
-        if ($dayOfMonth == $this->day) {
+        if ($dayOfMonth === $this->day) {
             return $this;
         }
 
@@ -697,7 +697,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
     public function compareTo(MonthDay $other)
     {
         $cmp = ($this->month - $other->month);
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = ($this->day - $other->day);
         }
 
@@ -743,7 +743,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
 
         if ($obj instanceof MonthDay) {
             $other = $obj;
-            return $this->month == $other->month && $this->day == $other->day;
+            return $this->month === $other->month && $this->day === $other->day;
         }
         return false;
     }

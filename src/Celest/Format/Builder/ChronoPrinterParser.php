@@ -4,6 +4,7 @@ namespace Celest\Format\Builder;
 
 use Celest\Chrono\AbstractChronology;
 use Celest\Format\DateTimePrintContext;
+use Celest\Format\DateTimeTextProvider;
 use Celest\Format\TextStyle;
 use Celest\Locale;
 use Celest\Temporal\TemporalQueries;
@@ -33,11 +34,11 @@ final class ChronoPrinterParser implements DateTimePrinterParser
     public function format(DateTimePrintContext $context, &$buf)
     {
         $chrono = $context->getValue(TemporalQueries::chronology());
-        if ($chrono == null) {
+        if ($chrono === null) {
             return false;
         }
 
-        if ($this->textStyle == null) {
+        if ($this->textStyle === null) {
             $buf .= $chrono->getId();
         } else {
             $buf .= $this->getChronologyName($chrono, $context->getLocale());
@@ -88,7 +89,7 @@ final class ChronoPrinterParser implements DateTimePrinterParser
     {
         $key = "calendarname." . $chrono->getCalendarType();
         $name = DateTimeTextProvider::getLocalizedResource($key, $locale);
-        return $name != null ? $name : $chrono->getId();
+        return $name !== null ? $name : $chrono->getId();
     }
 
     function __toString()

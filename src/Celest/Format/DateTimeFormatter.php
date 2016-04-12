@@ -1534,7 +1534,7 @@ class DateTimeFormatter
      */
     public function withChronology($chrono)
     {
-        if ($this->chrono == $chrono) {
+        if ($this->chrono === $chrono) {
             return $this;
         }
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $this->resolverFields, $chrono, $this->zone);
@@ -1593,7 +1593,7 @@ class DateTimeFormatter
      */
     public function withZone($zone)
     {
-        if ($this->zone == $zone) {
+        if ($this->zone === $zone) {
             return $this;
         }
 
@@ -1637,7 +1637,7 @@ class DateTimeFormatter
      */
     public function withResolverStyle(ResolverStyle $resolverStyle)
     {
-        if ($resolverStyle == $this->resolverStyle) {
+        if ($resolverStyle === $this->resolverStyle) {
             return $this;
         }
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $resolverStyle, $this->resolverFields, $this->chrono, $this->zone);
@@ -1704,7 +1704,7 @@ class DateTimeFormatter
             return $this;
         }
 
-        if ($resolverFields == [null])
+        if ($resolverFields === [null])
             $resolverFields = null;
 
         return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);

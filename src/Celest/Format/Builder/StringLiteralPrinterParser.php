@@ -31,7 +31,7 @@ final class StringLiteralPrinterParser implements DateTimePrinterParser
             throw new \OutOfRangeException();
         }
 
-        if ($context->subSequenceEquals($text, $position, $this->literal, 0, strlen($this->literal)) == false) {
+        if ($context->subSequenceEquals($text, $position, $this->literal, 0, strlen($this->literal)) === false) {
             return ~$position;
         }
         return $position + strlen($this->literal);

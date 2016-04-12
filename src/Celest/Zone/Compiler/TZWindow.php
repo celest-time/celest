@@ -94,7 +94,7 @@ class TZWindow
         $savingAmountSecs)
     {
 
-        if ($this->fixedSavingAmountSecs != null) {
+        if ($this->fixedSavingAmountSecs !== null) {
             throw new \LogicException("Window has a fixed DST saving, so cannot have DST rules");
         }
 
@@ -155,7 +155,7 @@ class TZWindow
                     $lastRule->dayOfWeek, $lastRule->time, $lastRule->timeEndOfDay, $lastRule->timeDefinition, $lastRule->savingAmountSecs);
                 $lastRule->year = $this->maxLastRuleStartYear + 1;
             }
-            if ($this->maxLastRuleStartYear == Year::MAX_VALUE) {
+            if ($this->maxLastRuleStartYear === Year::MAX_VALUE) {
                 $this->lastRuleList = [];
             } else {
                 $this->maxLastRuleStartYear++;

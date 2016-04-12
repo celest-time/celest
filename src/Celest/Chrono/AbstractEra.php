@@ -24,7 +24,7 @@ abstract class AbstractEra extends AbstractTemporalAccessor implements Era
         if ($field instanceof ChronoField) {
             return $field == ChronoField::ERA();
         }
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**

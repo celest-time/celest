@@ -380,7 +380,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
         if ($field instanceof ChronoField) {
             return $field == ChronoField::DAY_OF_WEEK();
         }
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**

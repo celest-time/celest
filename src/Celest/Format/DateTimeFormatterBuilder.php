@@ -602,7 +602,7 @@ final class DateTimeFormatterBuilder
 
             // adjacent parsing mode, update setting in previous parsers
             $basePP = $this->active->printerParsers[$activeValueParser];
-            if ($pp->minWidth == $pp->maxWidth && $pp->signStyle == SignStyle::NOT_NEGATIVE()) {
+            if ($pp->minWidth === $pp->maxWidth && $pp->signStyle == SignStyle::NOT_NEGATIVE()) {
                 // Append the width to the subsequentWidth of the active parser
                 $basePP = $basePP->withSubsequentWidth($pp->maxWidth);
                 // Append the new parser as a fixed width
@@ -919,7 +919,7 @@ final class DateTimeFormatterBuilder
      */
     public function appendLocalizedOffset(TextStyle $style)
     {
-        if ($style !== TextStyle::FULL() && $style != TextStyle::SHORT()) {
+        if ($style != TextStyle::FULL() && $style != TextStyle::SHORT()) {
             throw new IllegalArgumentException("Style must be either full or short");
         }
         $this->appendInternal(new LocalizedOffsetIdPrinterParser($style));
@@ -1580,12 +1580,12 @@ final class DateTimeFormatterBuilder
                             $pad = $count;
                             $start = $pos++;
                             for (;
-                                $pos < strlen($pattern) && $pattern[$pos] == $cur;
+                                $pos < strlen($pattern) && $pattern[$pos] === $cur;
                                 $pos++) ;  // short loop
                             $count = $pos - $start;
                         }
                     }
-                    if ($pad == 0) {
+                    if ($pad === 0) {
                         throw new IllegalArgumentException(
                             "Pad letter 'p' must be followed by valid pad pattern: " . $pattern);
                     }
@@ -1595,61 +1595,61 @@ final class DateTimeFormatterBuilder
                 $field = @self::$FIELD_MAP[$cur];
                 if ($field !== null) {
                     $this->parseField($cur, $count, $field);
-                } else if ($cur == 'z') {
+                } else if ($cur === 'z') {
                     if ($count > 4) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
-                    } else if ($count == 4) {
+                    } else if ($count === 4) {
                         $this->appendZoneText(TextStyle::FULL());
                     } else {
                         $this->appendZoneText(TextStyle::SHORT());
                     }
-                } else if ($cur == 'V') {
-                    if ($count != 2) {
+                } else if ($cur === 'V') {
+                    if ($count !== 2) {
                         throw new IllegalArgumentException("Pattern letter count must be 2: " . $cur);
                     }
                     $this->appendZoneId();
-                } else if ($cur == 'Z') {
+                } else if ($cur === 'Z') {
                     if ($count < 4) {
                         $this->appendOffset("+HHMM", "+0000");
-                    } else if ($count == 4) {
+                    } else if ($count === 4) {
                         $this->appendLocalizedOffset(TextStyle::FULL());
-                    } else if ($count == 5) {
+                    } else if ($count === 5) {
                         $this->appendOffset("+HH:MM:ss", "Z");
                     } else {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                     }
-                } else if ($cur == 'O') {
-                    if ($count == 1) {
+                } else if ($cur === 'O') {
+                    if ($count === 1) {
                         $this->appendLocalizedOffset(TextStyle::SHORT());
-                    } else if ($count == 4) {
+                    } else if ($count === 4) {
                         $this->appendLocalizedOffset(TextStyle::FULL());
                     } else {
                         throw new IllegalArgumentException("Pattern letter count must be 1 or 4: " . $cur);
                     }
-                } else if ($cur == 'X') {
+                } else if ($cur === 'X') {
                     if ($count > 5) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                     }
-                    $this->appendOffset(OffsetIdPrinterParser::$PATTERNS[$count + ($count == 1 ? 0 : 1)], "Z");
-                } else if ($cur == 'x') {
+                    $this->appendOffset(OffsetIdPrinterParser::$PATTERNS[$count + ($count === 1 ? 0 : 1)], "Z");
+                } else if ($cur === 'x') {
                     if ($count > 5) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                     }
-                    $zero = ($count == 1 ? "+00" : ($count % 2 == 0 ? "+0000" : "+00:00"));
-                    $this->appendOffset(OffsetIdPrinterParser::$PATTERNS[$count + ($count == 1 ? 0 : 1)], $zero);
-                } else if ($cur == 'W') {
+                    $zero = ($count === 1 ? "+00" : ($count % 2 === 0 ? "+0000" : "+00:00"));
+                    $this->appendOffset(OffsetIdPrinterParser::$PATTERNS[$count + ($count === 1 ? 0 : 1)], $zero);
+                } else if ($cur === 'W') {
                     // Fields defined by Locale
                     if ($count > 1) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                     }
                     $this->appendInternal(new WeekBasedFieldPrinterParser($cur, $count));
-                } else if ($cur == 'w') {
+                } else if ($cur === 'w') {
                     // Fields defined by Locale
                     if ($count > 2) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);
                     }
                     $this->appendInternal(new WeekBasedFieldPrinterParser($cur, $count));
-                } else if ($cur == 'Y') {
+                } else if ($cur === 'Y') {
                     // Fields defined by Locale
                     $this->appendInternal(new WeekBasedFieldPrinterParser($cur, $count));
                 } else {
@@ -1657,7 +1657,7 @@ final class DateTimeFormatterBuilder
                 }
                 $pos--;
 
-            } else if ($cur == '\'') {
+            } else if ($cur === '\'') {
                 // parse literals
                 $start = $pos++;
                 for (; $pos < strlen($pattern); $pos++) {
@@ -1679,15 +1679,15 @@ final class DateTimeFormatterBuilder
                     $this->appendLiteral2(str_replace("''", "'", $str));
                 }
 
-            } else if ($cur == '[') {
+            } else if ($cur === '[') {
                 $this->optionalStart();
-            } else if ($cur == ']') {
+            } else if ($cur === ']') {
                 if ($this->active->parent === null) {
                     throw new IllegalArgumentException("Pattern invalid as it contains ] without previous [");
                 }
                 $this->optionalEnd();
 
-            } else if ($cur == '{' || $cur == '}' || $cur == '#') {
+            } else if ($cur === '{' || $cur === '}' || $cur === '#') {
                 throw new IllegalArgumentException("Pattern includes reserved character: '" . $cur . "'");
             } else {
                 $this->appendLiteral($cur);
@@ -1728,9 +1728,9 @@ final class DateTimeFormatterBuilder
                 switch ($count) {
                     case 1:
                     case 2:
-                        if ($cur == 'c' || $cur == 'e') {
+                        if ($cur === 'c' || $cur === 'e') {
                             $this->appendInternal(new WeekBasedFieldPrinterParser($cur, $count));
-                        } else if ($cur == 'E') {
+                        } else if ($cur === 'E') {
                             $this->appendText2($field, TextStyle::SHORT());
                         } else {
                             if ($count === 1) {
@@ -1781,7 +1781,7 @@ final class DateTimeFormatterBuilder
                 $this->appendFraction(ChronoField::NANO_OF_SECOND(), $count, $count, false);
                 break;
             case 'F':
-                if ($count == 1) {
+                if ($count === 1) {
                     $this->appendValue($field);
                 } else {
                     throw new IllegalArgumentException("Too many pattern letters: " . $cur);
@@ -1803,7 +1803,7 @@ final class DateTimeFormatterBuilder
                 }
                 break;
             case 'D':
-                if ($count == 1) {
+                if ($count === 1) {
                     $this->appendValue($field);
                 } else if ($count <= 3) {
                     $this->appendValue2($field, $count);
@@ -1812,7 +1812,7 @@ final class DateTimeFormatterBuilder
                 }
                 break;
             default:
-                if ($count == 1) {
+                if ($count === 1) {
                     $this->appendValue($field);
                 } else {
                     $this->appendValue2($field, $count);
@@ -2003,7 +2003,7 @@ final class DateTimeFormatterBuilder
     private function appendInternal(DateTimePrinterParser $pp)
     {
         if ($this->active->padNextWidth > 0) {
-            if ($pp != null) {
+            if ($pp !== null) {
                 $pp = new PadPrinterParserDecorator($pp, $this->active->padNextWidth, $this->active->padNextChar);
             }
             $this->active->padNextWidth = 0;

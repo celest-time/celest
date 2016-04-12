@@ -45,14 +45,14 @@ final class TickClock extends Clock
     public function millis()
     {
         $millis = $this->baseClock->millis();
-        return $millis - Math::floorMod($millis, $this->tickNanos / 1000000);
+        return $millis - Math::floorMod($millis, Math::div($this->tickNanos, 1000000));
     }
 
     public function instant()
     {
-        if (($this->tickNanos % 1000000) == 0) {
+        if (($this->tickNanos % 1000000) === 0) {
             $millis = $this->baseClock->millis();
-            return Instant::ofEpochMilli($millis - Math::floorMod($millis, $this->tickNanos / 1000000));
+            return Instant::ofEpochMilli($millis - Math::floorMod($millis, Math::div($this->tickNanos, 1000000)));
         }
         $instant = $this->baseClock->instant();
         $nanos = $instant->getNano();
@@ -63,7 +63,7 @@ final class TickClock extends Clock
     public function equals($obj)
     {
         if ($obj instanceof TickClock) {
-            return $this->baseClock->equals($obj->baseClock) && $this->tickNanos == $obj->tickNanos;
+            return $this->baseClock->equals($obj->baseClock) && $this->tickNanos === $obj->tickNanos;
         } else {
             return false;
         }

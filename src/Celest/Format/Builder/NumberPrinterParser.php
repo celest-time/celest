@@ -284,11 +284,11 @@ class NumberPrinterParser implements DateTimePrinterParser
 
     public function __toString()
     {
-        if ($this->minWidth == 1 && $this->maxWidth == 19 && $this->signStyle == SignStyle::NORMAL()) {
+        if ($this->minWidth === 1 && $this->maxWidth === 19 && $this->signStyle == SignStyle::NORMAL()) {
             return "Value(" . $this->field . ")";
         }
 
-        if ($this->minWidth == $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE()) {
+        if ($this->minWidth === $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE()) {
             return "Value(" . $this->field . "," . $this->minWidth . ")";
         }
         return "Value(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . $this->signStyle . ")";

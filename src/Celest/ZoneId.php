@@ -379,7 +379,7 @@ abstract class ZoneId
             return self::ofOffset($prefix, ZoneOffset::UTC());
         }
 
-        if ($zoneId[$prefixLength] != '+' && $zoneId[$prefixLength] != '-') {
+        if ($zoneId[$prefixLength] !== '+' && $zoneId[$prefixLength] !== '-') {
             return ZoneRegion::ofId($zoneId, $checkAvailable);  // drop through to ZoneRulesProvider
         }
         try {
@@ -417,7 +417,7 @@ abstract class ZoneId
     public static function from(TemporalAccessor $temporal)
     {
         $obj = $temporal->query(TemporalQueries::zone());
-        if ($obj == null) {
+        if ($obj === null) {
             throw new DateTimeException("Unable to obtain ZoneId from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal));
         }
@@ -432,7 +432,7 @@ abstract class ZoneId
      */
     public function __construct()
     {
-        if (get_class($this) != 'Celest\ZoneOffset' && get_class($this) != 'Celest\ZoneRegion') {
+        if (get_class($this) !== 'Celest\ZoneOffset' && get_class($this) !== 'Celest\ZoneRegion') {
             throw new \AssertionError("Invalid subclass");
         }
     }

@@ -138,13 +138,13 @@ class ZoneRegion extends ZoneId
             $c = $zoneId[$i];
             if ($c >= 'a' && $c <= 'z') continue;
             if ($c >= 'A' && $c <= 'Z') continue;
-            if ($c == '/' && $i != 0) continue;
-            if ($c >= '0' && $c <= '9' && $i != 0) continue;
-            if ($c == '~' && $i != 0) continue;
-            if ($c == '.' && $i != 0) continue;
-            if ($c == '_' && $i != 0) continue;
-            if ($c == '+' && $i != 0) continue;
-            if ($c == '-' && $i != 0) continue;
+            if ($c === '/' && $i !== 0) continue;
+            if ($c >= '0' && $c <= '9' && $i !== 0) continue;
+            if ($c === '~' && $i !== 0) continue;
+            if ($c === '.' && $i !== 0) continue;
+            if ($c === '_' && $i !== 0) continue;
+            if ($c === '+' && $i !== 0) continue;
+            if ($c === '-' && $i !== 0) continue;
             throw new DateTimeException("Invalid ID for region-based ZoneId, invalid format: " . $zoneId);
         }
     }

@@ -165,9 +165,9 @@ abstract class AbstractChronology implements Chronology
         }
 
         $prev = self::$CHRONOS_BY_ID->putIfAbsent($id, $chrono);
-        if ($prev == null) {
+        if ($prev === null) {
             $type = $chrono->getCalendarType();
-            if ($type != null) {
+            if ($type !== null) {
                 self::$CHRONOS_BY_TYPE->putIfAbsent($type, $chrono);
             }
         }
@@ -191,7 +191,7 @@ abstract class AbstractChronology implements Chronology
      */
     private static function initCache()
     {
-        if (self::$CHRONOS_BY_ID->get("ISO") == null) {
+        if (self::$CHRONOS_BY_ID->get("ISO") === null) {
 // Initialization is incomplete
 
 // Register built-in Chronologies
@@ -234,7 +234,7 @@ abstract class AbstractChronology implements Chronology
     static function ofLocale(Locale $locale)
     {
         $type = $locale->getUnicodeLocaleType("ca");
-        if ($type == null || "iso" === $type || "iso8601" === $type) {
+        if ($type === null || "iso" === $type || "iso8601" === $type) {
             return IsoChronology::INSTANCE();
         }
 
@@ -274,7 +274,7 @@ abstract class AbstractChronology implements Chronology
     {
         do {
             $chrono = self::of0($id);
-            if ($chrono != null) {
+            if ($chrono !== null) {
                 return $chrono;
             }
 // If not found, do the initialization (once) and repeat the lookup
@@ -302,7 +302,7 @@ abstract class AbstractChronology implements Chronology
     private static function of0($id)
     {
         $chrono = self::$CHRONOS_BY_ID->get($id);
-        if ($chrono == null) {
+        if ($chrono === null) {
             $chrono = self::$CHRONOS_BY_TYPE->get($id);
         }
 
@@ -474,7 +474,7 @@ abstract class AbstractChronology implements Chronology
     protected function resolveProlepticMonth(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $pMonth = $fieldValues->remove(ChronoField::PROLEPTIC_MONTH());
-        if ($pMonth != null) {
+        if ($pMonth !== null) {
             if ($resolverStyle != ResolverStyle::LENIENT()) {
                 ChronoField::PROLEPTIC_MONTH()->checkValidValue($pMonth);
             }
@@ -491,14 +491,14 @@ abstract class AbstractChronology implements Chronology
     protected function resolveYearOfEra(FieldValues $fieldValues, ResolverStyle $resolverStyle)
     {
         $yoeLong = $fieldValues->remove(ChronoField::YEAR_OF_ERA());
-        if ($yoeLong != null) {
+        if ($yoeLong !== null) {
             $eraLong = $fieldValues->remove(ChronoField::ERA());
             if ($resolverStyle != ResolverStyle::LENIENT()) {
                 $yoe = $this->range(ChronoField::YEAR_OF_ERA())->checkValidIntValue($yoeLong, ChronoField::YEAR_OF_ERA());
             } else {
                 $yoe = Math::toIntExact($yoeLong);
             }
-            if ($eraLong != null) {
+            if ($eraLong !== null) {
                 $eraObj = $this->eraOf($this->range(ChronoField::ERA())->checkValidIntValue($eraLong, ChronoField::ERA()));
                 self::addFieldValue($fieldValues, ChronoField::YEAR(), $this->prolepticYear($eraObj, $yoe));
             } else if ($fieldValues->has(ChronoField::YEAR())) {
@@ -571,7 +571,7 @@ abstract class AbstractChronology implements Chronology
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_MONTH())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_WEEK_OF_MONTH()), ChronoField::ALIGNED_WEEK_OF_MONTH());
         $ad = $this->range(ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH()), ChronoField::ALIGNED_DAY_OF_WEEK_IN_MONTH());
         $date = $this->date($y, $moy, 1)->plus(($aw - 1) * 7 + ($ad - 1), ChronoUnit::DAYS());
-        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::MONTH_OF_YEAR()) != $moy) {
+        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::MONTH_OF_YEAR()) !== $moy) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
         }
         return $date;
@@ -591,7 +591,7 @@ abstract class AbstractChronology implements Chronology
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_MONTH())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_WEEK_OF_MONTH()), ChronoField::ALIGNED_WEEK_OF_MONTH());
         $dow = $this->range(ChronoField::DAY_OF_WEEK())->checkValidIntValue($fieldValues->remove(ChronoField::DAY_OF_WEEK()), ChronoField::DAY_OF_WEEK());
         $date = $this->date($y, $moy, 1)->plus(($aw - 1) * 7, ChronoUnit::DAYS())->adjust(TemporalAdjusters::nextOrSame(DayOfWeek::of($dow)));
-        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::MONTH_OF_YEAR()) != $moy) {
+        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::MONTH_OF_YEAR()) !== $moy) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different month");
         }
         return $date;
@@ -608,7 +608,7 @@ abstract class AbstractChronology implements Chronology
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_WEEK_OF_YEAR()), ChronoField::ALIGNED_WEEK_OF_YEAR());
         $ad = $this->range(ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR()), ChronoField::ALIGNED_DAY_OF_WEEK_IN_YEAR());
         $date = $this->dateYearDay($y, 1)->plus(($aw - 1) * 7 + ($ad - 1), ChronoUnit::DAYS());
-        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::YEAR()) != $y) {
+        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::YEAR()) !== $y) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
         }
         return $date;
@@ -625,7 +625,7 @@ abstract class AbstractChronology implements Chronology
         $aw = $this->range(ChronoField::ALIGNED_WEEK_OF_YEAR())->checkValidIntValue($fieldValues->remove(ChronoField::ALIGNED_WEEK_OF_YEAR()), ChronoField::ALIGNED_WEEK_OF_YEAR());
         $dow = $this->range(ChronoField::DAY_OF_WEEK())->checkValidIntValue($fieldValues->remove(ChronoField::DAY_OF_WEEK()), ChronoField::DAY_OF_WEEK());
         $date = $this->dateYearDay($y, 1)->plus(($aw - 1) * 7, ChronoUnit::DAYS())->adjust(TemporalAdjusters::nextOrSame(DayOfWeek::of($dow)));
-        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::YEAR()) != $y) {
+        if ($resolverStyle == ResolverStyle::STRICT() && $date->get(ChronoField::YEAR()) !== $y) {
             throw new DateTimeException("Strict mode rejected resolved date as it is in a different year");
         }
         return $date;
@@ -699,7 +699,7 @@ abstract class AbstractChronology implements Chronology
      */
     public function equals($obj)
     {
-        if ($this == $obj) {
+        if ($this === $obj) {
             return true;
         }
         if ($obj instanceof AbstractChronology) {

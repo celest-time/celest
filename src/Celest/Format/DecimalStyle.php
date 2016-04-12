@@ -378,8 +378,8 @@ final class DecimalStyle
         }
         if ($obj instanceof DecimalStyle) {
             $other = $obj;
-            return ($this->zeroDigit == $other->zeroDigit && $this->positiveSign == $other->positiveSign &&
-                $this->negativeSign == $other->negativeSign && $this->decimalSeparator == $other->decimalSeparator);
+            return ($this->zeroDigit === $other->zeroDigit && $this->positiveSign === $other->positiveSign &&
+                $this->negativeSign === $other->negativeSign && $this->decimalSeparator === $other->decimalSeparator);
         }
         return false;
     }

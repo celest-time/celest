@@ -271,7 +271,7 @@ class ZoneRulesBuilder
             throw new IllegalArgumentException("Day of month indicator must be between -28 and 31 inclusive excluding zero");
         }
 
-        if ($timeEndOfDay && $time->equals(LocalTime::MIDNIGHT()) == false) {
+        if ($timeEndOfDay && $time->equals(LocalTime::MIDNIGHT()) === false) {
             throw new IllegalArgumentException("Time must be midnight when end of day flag is true");
         }
         if (empty($this->windowList)) {

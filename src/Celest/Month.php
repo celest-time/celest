@@ -356,7 +356,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
             return $temporal;
         }
         try {
-            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) == false) {
+            if (IsoChronology::INSTANCE()->equals(AbstractChronology::from($temporal)) === false) {
                 $temporal = LocalDate::from($temporal);
             }
             return self::of($temporal->get(ChronoField::MONTH_OF_YEAR()));
@@ -464,7 +464,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
             return $field == ChronoField::MONTH_OF_YEAR();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -801,7 +801,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      */
     public function adjustInto(Temporal $temporal)
     {
-        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
+        if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) === false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
         }
 

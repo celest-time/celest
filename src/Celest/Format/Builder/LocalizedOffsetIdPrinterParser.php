@@ -52,7 +52,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
                 $this->appendHMS($buf, $absHours);
                 $buf .= ':';
                 $this->appendHMS($buf, $absMinutes);
-                if ($absSeconds != 0) {
+                if ($absSeconds !== 0) {
                     $buf .= ':';
                     $this->appendHMS($buf, $absSeconds);
                 }
@@ -61,10 +61,10 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
                     $buf .= Math::div($absHours, 10);
                 }
                 $buf .= ($absHours % 10);
-                if ($absMinutes != 0 || $absSeconds != 0) {
+                if ($absMinutes !== 0 || $absSeconds !== 0) {
                     $buf .= ':';
                     $this->appendHMS($buf, $absMinutes);
-                    if ($absSeconds != 0) {
+                    if ($absSeconds !== 0) {
                         $buf .= ':';
                         self::appendHMS($buf, $absSeconds);
                     }
@@ -97,13 +97,13 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
             $pos += strlen($gmtText);
         }
         // parse normal plus/minus offset
-        if ($pos == $end) {
+        if ($pos === $end) {
             return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $pos);
         }
         $sign = $text[$pos];  // IOOBE if invalid position
-        if ($sign == '+') {
+        if ($sign === '+') {
             $negative = 1;
-        } else if ($sign == '-') {
+        } else if ($sign === '-') {
             $negative = -1;
         } else {
             return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $pos);

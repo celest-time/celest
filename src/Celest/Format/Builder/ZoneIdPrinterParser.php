@@ -54,10 +54,10 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         $regionIdsSize = count($regionIds);
         $cached = $context->isCaseSensitive()
             ? self::$cachedPrefixTree : self::$cachedPrefixTreeCI;
-        if ($cached == null || $cached->getKey() != $regionIdsSize) {
+        if ($cached === null || $cached->getKey() !== $regionIdsSize) {
             {
                 $cached = $context->isCaseSensitive() ? self::$cachedPrefixTree : self::$cachedPrefixTreeCI;
-                if ($cached == null || $cached->getKey() != $regionIdsSize) {
+                if ($cached === null || $cached->getKey() !== $regionIdsSize) {
                     $cached = new SimpleImmutableEntry($regionIdsSize, PrefixTree::newTree($regionIds, $context));
                     if ($context->isCaseSensitive()) {
                         self::$cachedPrefixTree = $cached;

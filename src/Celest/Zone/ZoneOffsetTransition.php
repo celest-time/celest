@@ -127,7 +127,7 @@ final class ZoneOffsetTransition
         if ($offsetBefore->equals($offsetAfter)) {
             throw new IllegalArgumentException("Offsets must not be equal");
         }
-        if ($transition->getNano() != 0) {
+        if ($transition->getNano() !== 0) {
             throw new IllegalArgumentException("Nano-of-second must be zero");
         }
         return new ZoneOffsetTransition($transition, $offsetBefore, $offsetAfter);

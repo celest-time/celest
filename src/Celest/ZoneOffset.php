@@ -376,7 +376,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
     public static function from(TemporalAccessor $temporal)
     {
         $offset = $temporal->query(TemporalQueries::offset());
-        if ($offset == null) {
+        if ($offset === null) {
             throw new DateTimeException("Unable to obtain ZoneOffset from TemporalAccessor: " .
                 $temporal . " of type " . get_class($temporal));
         }
@@ -419,7 +419,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             throw new DateTimeException("Zone offset seconds not in valid range: abs(value) " .
                 Math::abs($seconds) . " is not in the range 0 to 59");
         }
-        if (Math::abs($hours) == 18 && (Math::abs($minutes) > 0 || Math::abs($seconds) > 0)) {
+        if (Math::abs($hours) === 18 && (Math::abs($minutes) > 0 || Math::abs($seconds) > 0)) {
             throw new DateTimeException("Zone offset not in valid range: -18:00 to +18:00");
         }
     }
@@ -455,7 +455,6 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
 
         if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) === 0) {
             $totalSecs = $totalSeconds;
-            // TODO undefined
             $result = @self::$SECONDS_CACHE[$totalSecs];
             if ($result === null) {
                 $result = new ZoneOffset($totalSeconds);
@@ -574,7 +573,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
             return $field == ChronoField::OFFSET_SECONDS();
         }
 
-        return $field != null && $field->isSupportedBy($this);
+        return $field !== null && $field->isSupportedBy($this);
     }
 
     /**
@@ -783,7 +782,7 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
         }
 
         if ($obj instanceof ZoneOffset) {
-            return $this->totalSeconds == $obj->totalSeconds;
+            return $this->totalSeconds === $obj->totalSeconds;
         }
         return false;
     }

@@ -416,7 +416,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     private function _with(LocalDateTime $dateTime, ZoneOffset $offset)
     {
-        if ($this->dateTime == $dateTime && $this->offset->equals($offset)) {
+        if ($this->dateTime === $dateTime && $this->offset->equals($offset)) {
             return $this;
         }
 
@@ -478,7 +478,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function isSupported(TemporalField $field)
     {
-        return $field instanceof ChronoField || ($field != null && $field->isSupportedBy($this));
+        return $field instanceof ChronoField || ($field !== null && $field->isSupportedBy($this));
     }
 
     /**
@@ -523,7 +523,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
             return $unit != ChronoUnit::FOREVER();
         }
 
-        return $unit != null && $unit->isSupportedBy($this);
+        return $unit !== null && $unit->isSupportedBy($this);
     }
 
     //-----------------------------------------------------------------------
@@ -1416,7 +1416,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minus($amountToSubtract, TemporalUnit $unit)
     {
-        return ($amountToSubtract == Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
+        return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
 
 //-----------------------------------------------------------------------
@@ -1442,7 +1442,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusYears($years)
     {
-        return ($years == Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
+        return ($years === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
 
     /**
@@ -1467,7 +1467,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusMonths($months)
     {
-        return ($months == Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
+        return ($months === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
 
     /**
@@ -1487,7 +1487,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusWeeks($weeks)
     {
-        return ($weeks == Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
+        return ($weeks === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
 
     /**
@@ -1507,7 +1507,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusDays($days)
     {
-        return ($days == Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
+        return ($days === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
 
     /**
@@ -1521,7 +1521,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusHours($hours)
     {
-        return ($hours == Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
+        return ($hours === Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
     }
 
     /**
@@ -1535,7 +1535,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusMinutes($minutes)
     {
-        return ($minutes == Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
+        return ($minutes === Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
     }
 
     /**
@@ -1549,7 +1549,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusSeconds($seconds)
     {
-        return ($seconds == Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
+        return ($seconds === Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
     }
 
     /**
@@ -1563,7 +1563,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function minusNanos($nanos)
     {
-        return ($nanos == Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
+        return ($nanos === Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
     }
 
 //-----------------------------------------------------------------------
@@ -1854,7 +1854,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
     public function compareTo(OffsetDateTime $other)
     {
         $cmp = $this->compareInstant($this, $other);
-        if ($cmp == 0) {
+        if ($cmp === 0) {
             $cmp = $this->toLocalDateTime()->compareTo($other->toLocalDateTime());
         }
 
@@ -1877,7 +1877,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
         $thisEpochSec = $this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
         return $thisEpochSec > $otherEpochSec ||
-        ($thisEpochSec == $otherEpochSec && $this->toLocalTime()->getNano() > $other->toLocalTime()->getNano());
+        ($thisEpochSec === $otherEpochSec && $this->toLocalTime()->getNano() > $other->toLocalTime()->getNano());
     }
 
     /**
@@ -1895,7 +1895,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
         $thisEpochSec = $this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
         return $thisEpochSec < $otherEpochSec ||
-        ($thisEpochSec == $otherEpochSec && $this->toLocalTime()->getNano() < $other->toLocalTime()->getNano());
+        ($thisEpochSec === $otherEpochSec && $this->toLocalTime()->getNano() < $other->toLocalTime()->getNano());
     }
 
     /**
@@ -1910,8 +1910,8 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      */
     public function isEqual(OffsetDateTime $other)
     {
-        return $this->toEpochSecond() == $other->toEpochSecond() &&
-        $this->toLocalTime()->getNano() == $other->toLocalTime()->getNano();
+        return $this->toEpochSecond() === $other->toEpochSecond() &&
+        $this->toLocalTime()->getNano() === $other->toLocalTime()->getNano();
     }
 
 //-----------------------------------------------------------------------

@@ -330,7 +330,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
     public function __toString()
     {
         $str = $this->toLocalDateTime()->__toString() . $this->getOffset()->__toString();
-        if ($this->getOffset() != $this->getZone()) {
+        if ($this->getOffset() !== $this->getZone()) {
             $str .= '[' . $this->getZone()->__toString() . ']';
         }
         return $str;

@@ -18,7 +18,7 @@ abstract class AbstractChronoPeriod implements ChronoPeriod
     public function isZero()
     {
         foreach ($this->getUnits() as $unit) {
-            if ($this->get($unit) != 0) {
+            if ($this->get($unit) !== 0) {
                 return false;
             }
         }
