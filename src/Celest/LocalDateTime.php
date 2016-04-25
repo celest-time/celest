@@ -1816,7 +1816,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * but is the same approach as {@link ChronoLocalDateTime#timeLineOrder()}.
      *
      * @param ChronoLocalDateTime $other the other date-time to compare to, not null
-     * @return true if this date-time is after the specified date-time
+     * @return bool true if this date-time is after the specified date-time
      */
     public function isAfter(ChronoLocalDateTime $other)
     {
@@ -1895,7 +1895,7 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
      * Only objects of type {@code LocalDateTime} are compared, other types return false.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @return bool true if this is equal to the other date-time
      */
     public function equals($obj)
     {

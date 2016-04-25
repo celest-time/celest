@@ -391,7 +391,7 @@ final class IsoChronology extends AbstractChronology
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
      *
      * @param int $prolepticYear the ISO proleptic year to check
-     * @return true if the year is leap, false otherwise
+     * @return bool true if the year is leap, false otherwise
      */
     public function isLeapYear($prolepticYear)
     {

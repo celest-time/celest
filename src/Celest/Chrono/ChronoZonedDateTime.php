@@ -481,7 +481,7 @@ interface ChronoZonedDateTime extends Temporal
      * and nano-of-second.
      *
      * @param ChronoZonedDateTime $other the other date-time to compare to, not null
-     * @return true if this point is before the specified date-time
+     * @return bool true if this point is before the specified date-time
      */
     function isBefore(ChronoZonedDateTime $other);
 

@@ -371,7 +371,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * Whether the field is supported is determined by the field.
      *
      * @param TemporalField $field the field to check, null returns false
-     * @return true if the field is supported on this year, false if not
+     * @return bool true if the field is supported on this year, false if not
      */
     public function isSupported(TemporalField $field)
     {
@@ -552,7 +552,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * a valid date.
      *
      * @param MonthDay|null $monthDay the month-day to validate, null returns false
-     * @return true if the month and day are valid for this year
+     * @return bool true if the month and day are valid for this year
      */
     public function isValidMonthDay($monthDay)
     {

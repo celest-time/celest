@@ -1870,7 +1870,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * {@code dateTime1.toInstant().isAfter(dateTime2.toInstant());}.
      *
      * @param OffsetDateTime $other the other date-time to compare to, not null
-     * @return true if this is after the instant of the specified date-time
+     * @return bool true if this is after the instant of the specified date-time
      */
     public function isAfter(OffsetDateTime $other)
     {
@@ -1906,7 +1906,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * {@code dateTime1.toInstant().equals(dateTime2.toInstant());}.
      *
      * @param OffsetDateTime $other the other date-time to compare to, not null
-     * @return true if the instant equals the instant of the specified date-time
+     * @return bool true if the instant equals the instant of the specified date-time
      */
     public function isEqual(OffsetDateTime $other)
     {
@@ -1923,7 +1923,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * Only objects of type {@code OffsetDateTime} are compared, other types return false.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @return bool true if this is equal to the other date-time
      */
     public function equals($obj)
     {

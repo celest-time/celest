@@ -1388,7 +1388,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * use {@link ChronoField#NANO_OF_DAY} as a comparator.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other time
+     * @return bool true if this is equal to the other time
      */
     public function equals($obj)
     {

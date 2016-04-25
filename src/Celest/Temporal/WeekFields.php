@@ -605,7 +605,7 @@ final class WeekFields
      * the first day-of-week and minimal days.
      *
      * @param mixed $object the other rules to compare to, null returns false
-     * @return true if this is equal to the specified rules
+     * @return bool true if this is equal to the specified rules
      */
     public function equals($object)
     {

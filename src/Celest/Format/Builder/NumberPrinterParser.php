@@ -155,7 +155,7 @@ class NumberPrinterParser implements DateTimePrinterParser
      * For NumberPrinterParser, the width is fixed depending on the
      * minWidth, maxWidth, signStyle and whether subsequent fields are fixed.
      * @param DateTimeParseContext $context the context
-     * @return true if the field is fixed width
+     * @return bool true if the field is fixed width
      * @see DateTimeFormatterBuilder#appendValue(java.time.temporal.TemporalField, int)
      */
     public function isFixedWidth(DateTimeParseContext $context)

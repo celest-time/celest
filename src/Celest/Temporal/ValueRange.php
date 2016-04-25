@@ -300,7 +300,7 @@ final class ValueRange
      * This method combines {@link #isIntValue()} and {@link #isValidValue(long)}.
      *
      * @param int $value the value to check
-     * @return true if the value is valid and fits in an {@code int}
+     * @return bool true if the value is valid and fits in an {@code int}
      */
     public function isValidIntValue($value)
     {

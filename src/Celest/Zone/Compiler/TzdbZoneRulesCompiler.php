@@ -390,7 +390,7 @@ final class TzdbZoneRulesCompiler
      *
      * @param \CachingIterator $s the line scanner, not null
      * @param TZDBZone[] $zoneList
-     * @return true if the zone is complete
+     * @return bool true if the zone is complete
      */
     private function parseZoneLine(\CachingIterator $s, &$zoneList)
     {

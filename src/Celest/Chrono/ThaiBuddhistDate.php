@@ -386,7 +386,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @return bool true if this is equal to the other date
      */
     public function equals($obj)
     {

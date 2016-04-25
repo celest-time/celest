@@ -644,7 +644,7 @@ final class ZoneRules
      * @param LocalDateTime $localDateTime the date-time to check, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @param ZoneOffset $offset the offset to check, null returns false
-     * @return true if the offset date-time is valid for these rules
+     * @return bool true if the offset date-time is valid for these rules
      */
     public function isValidOffset($localDateTime, $offset)
     {
