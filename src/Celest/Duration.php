@@ -1024,7 +1024,7 @@ final class Duration implements TemporalAmount
     /**
      * Creates an instance of {@code Duration} from a number of seconds.
      *
-     * @param int $nanos mixed the number of nanoseconds, positive or negative
+     * @param mixed $nanos the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if numeric overflow occurs
      */

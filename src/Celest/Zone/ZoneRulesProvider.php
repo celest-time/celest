@@ -280,7 +280,7 @@ abstract class ZoneRulesProvider
      * Note that there is likely to be a cost in performance of a dynamic rules
      * provider. Note also that no dynamic rules provider is in this specification.
      *
-     * @return true if the rules were updated
+     * @return bool true if the rules were updated
      * @throws ZoneRulesException if an error occurs during the refresh
      */
     public static function refresh()

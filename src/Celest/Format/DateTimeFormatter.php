@@ -487,17 +487,17 @@ class DateTimeFormatter
     private $resolverStyle;
     /**
      * The fields to use in resolving, null for all fields.
-     * @var array TemporalField
+     * @var TemporalField[]|null TemporalField
      */
     private $resolverFields;
     /**
      * The chronology to use for formatting, null for no override.
-     * @var Chronology
+     * @var Chronology|null
      */
     private $chrono;
     /**
      * The zone to use for formatting, null for no override.
-     * @var ZoneId
+     * @var ZoneId|null
      */
     private $zone;
 
@@ -1749,17 +1749,16 @@ class DateTimeFormatter
      * @param TemporalField[] $resolverFields the new set of resolver fields, null if no fields
      * @return DateTimeFormatter a formatter based on this formatter with the requested resolver style, not null
      */
-// TODO same as above?
     public function withResolverFields2($resolverFields)
     {
-        /*if (Objects . equals(this . resolverFields, resolverFields)) {
-            return this;
+        if ($this->resolverFields === $resolverFields) {
+            return $this;
         }
 
-        if (resolverFields != null) {
-            resolverFields = Collections . unmodifiableSet(new HashSet <> (resolverFields));
-        }
-        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);*/
+        if ($resolverFields === [null])
+            $resolverFields = null;
+
+        return new DateTimeFormatter($this->printerParser, $this->locale, $this->decimalStyle, $this->resolverStyle, $resolverFields, $this->chrono, $this->zone);
     }
 
 //-----------------------------------------------------------------------

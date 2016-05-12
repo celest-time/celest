@@ -301,7 +301,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * well-defined result for years in the supported range.
      *
      * @param int $prolepticYear the proleptic-year to check, not validated for range
-     * @return true if the year is a leap year
+     * @return bool true if the year is a leap year
      */
     public function isLeapYear($prolepticYear)
     {

@@ -255,7 +255,7 @@ final class MinguoChronology extends AbstractChronology
      * well-defined result for years in the supported range.
      *
      * @param int $prolepticYear the proleptic-year to check, not validated for range
-     * @return true if the year is a leap year
+     * @return bool trueif the year is a leap year
      */
     public function isLeapYear($prolepticYear)
     {

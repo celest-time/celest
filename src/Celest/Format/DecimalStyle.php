@@ -369,7 +369,7 @@ final class DecimalStyle
      * Checks if this DecimalStyle is equal to another DecimalStyle.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @return bool true if this is equal to the other date
      */
     public function equals($obj)
     {

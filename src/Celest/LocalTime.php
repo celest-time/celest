@@ -1593,7 +1593,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * The comparison is based on the time-line position of the time within a day.
      *
      * @param LocalTime $other the other time to compare to, not null
-     * @return true if this point is before the specified time
+     * @return bool true if this point is before the specified time
      * @throws NullPointerException if {@code other} is null
      */
     public function isBefore(LocalTime $other)
@@ -1612,7 +1612,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * {@link ChronoField#NANO_OF_DAY} as a comparator.
      *
      * @param mixed $obj the object to check, null returns false
-     * @return true if this is equal to the other time
+     * @return bool true if this is equal to the other time
      */
     public function equals($obj)
     {

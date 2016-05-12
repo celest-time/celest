@@ -264,7 +264,7 @@ final class DateTimeParseContext
      *
      * @param string $ch1 the first character
      * @param string $ch2 the second character
-     * @return true if equal
+     * @return bool true if equal
      */
     public function charEquals($ch1, $ch2)
     {
@@ -280,7 +280,7 @@ final class DateTimeParseContext
      *
      * @param string $c1 the first
      * @param string $c2 the second
-     * @return true if equal
+     * @return bool true if equal
      */
     public static function charEqualsIgnoreCase($c1, $c2)
     {

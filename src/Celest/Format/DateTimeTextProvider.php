@@ -187,7 +187,7 @@ class DateTimeTextProvider
 
     /**
      * @param string $field
-     * @param TextStyle $style
+     * @param TextStyle|null $style
      * @param Locale $locale
      * @param callable $transformer
      * @return array|null

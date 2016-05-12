@@ -306,7 +306,7 @@ final class ZoneOffsetTransition
      * An overlap will return true if the offset is either the before or after offset.
      *
      * @param ZoneOffset $offset the offset to check, null returns false
-     * @return true if the offset is valid during the transition
+     * @return bool true if the offset is valid during the transition
      */
     public function isValidOffset(ZoneOffset $offset)
     {

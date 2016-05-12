@@ -289,14 +289,13 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($parsed->isSupported(CF::MONTH_OF_YEAR()), false);
     }
 
-    /** Does not apply
-     * public function test_resolverFields_listOfOneNull()
-     * {
-     * $f = (new DateTimeFormatterBuilder())
-     * ->appendValue(CF::YEAR())->toFormatter()->withResolverFields(null);
-     * $parsed = $f->parse("2012");
-     * $this->assertEquals($parsed->isSupported(CF::YEAR()), false);  // not in the list of resolverFields
-     * } */
+    public function test_resolverFields_listOfOneNull()
+    {
+        $f = (new DateTimeFormatterBuilder())
+            ->appendValue(CF::YEAR())->toFormatter()->withResolverFields();
+        $parsed = $f->parse("2012");
+        $this->assertEquals($parsed->isSupported(CF::YEAR()), false);  // not in the list of resolverFields
+    }
 
 
     public function test_resolverFields_Array_null()
@@ -308,17 +307,16 @@ class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    /** Does not apply
-     * public function test_resolverFields_Set_null()
-     * {
-     * $f = DateTimeFormatter::ISO_DATE()->withResolverFields(CF::MONTH_OF_YEAR());
-     * $this->assertEquals(count($f->getResolverFields()), 1);
-     * $f = $f->withResolverFields();
-     * $this->assertEquals($f->getResolverFields(), null);
-     * }*/
+    public function test_resolverFields_Set_null()
+    {
+        $f = DateTimeFormatter::ISO_DATE()->withResolverFields(CF::MONTH_OF_YEAR());
+        $this->assertEquals(count($f->getResolverFields()), 1);
+        $f = $f->withResolverFields2(null);
+        $this->assertEquals($f->getResolverFields(), null);
+    }
 
     //-----------------------------------------------------------------------
-    // format TODO
+    // format
     //-----------------------------------------------------------------------
     function data_format_withZone_withChronology()
     {
