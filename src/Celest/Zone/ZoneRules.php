@@ -152,20 +152,15 @@ final class ZoneRules
      * @var ZoneOffsetTransitionRule[]
      */
     private static $EMPTY_LASTRULES = [];
-    /**
-     * The zero-length ldt array.
-     * @var LocalDateTime[]
-     */
-    private static $EMPTY_LDT_ARRAY = [];
 
     /**
      * Obtains an instance of a ZoneRules.
      *
      * @param ZoneOffset $baseStandardOffset the standard offset to use before legal rules were set, not null
      * @param ZoneOffset $baseWallOffset the wall offset to use before legal rules were set, not null
-     * @param ZoneOffsetTransition $standardOffsetTransitionList [] the list of changes to the standard offset, not null
-     * @param ZoneOffsetTransition $transitionList [] the list of transitions, not null
-     * @param ZoneOffsetTransitionRule $lastRules [] the recurring last rules, size 16 or less, not null
+     * @param ZoneOffsetTransition[] $standardOffsetTransitionList the list of changes to the standard offset, not null
+     * @param ZoneOffsetTransition[] $transitionList the list of transitions, not null
+     * @param ZoneOffsetTransitionRule[] $lastRules the recurring last rules, size 16 or less, not null
      * @return ZoneRules the zone rules, not null
      */
     public static function of(ZoneOffset $baseStandardOffset,
@@ -427,7 +422,7 @@ final class ZoneRules
      *  }
      * </pre>
      *
-     * @param |null $localDateTime  LocalDateTime the local date-time to query for offset transition, not null, but null
+     * @param LocalDateTime|null $localDateTime the local date-time to query for offset transition, not null, but null
      *  may be ignored if the rules have a single offset for all instants
      * @return ZoneOffsetTransition the offset transition, null if the local date-time is not in transition
      */
