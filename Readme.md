@@ -39,7 +39,11 @@ timesystems like TAI, UT or scientific uses of UTC
 - https://github.com/briannesbitt/Carbon
 - https://github.com/cakephp/chronos
 - https://packagist.org/packages/icecave/chrono
+
 ### In other languages:
 - http://www.joda.org/joda-time/
 - http://nodatime.org/
 - https://github.com/MenoData/Time4J
+
+## Acknowledgements
+Thanks to Stephen Colebourne and Michael Nascimento Santos the original authors of [JSR-310](http://www.threeten.org/). Also to [Flixbus](https://www.flixbus.de/) who partially sponsored the work on Celest.
