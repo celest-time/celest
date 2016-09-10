@@ -23,6 +23,14 @@ Celest uses IANA's [time zone database](https://www.iana.org/time-zones). Change
 Besides the ISO 8061 calendar, the Minguo and Thai Buddhist calendars are supported. Localication of Month, weekday etc.,
 localized parsing/formatting patterns and names of time zones are supported and provided via the intl extension.
 
+## Interoperability with native \DateTime
+As PHP's native `\DateTime` mixes Instants with local Date/Time there's two different conversions:
+- Instant.fromDateTime creates an Instant from a `\DateTime` object 
+- Instant.toDateTime converts an Instant to a `\DateTime` object in the UTC timezone
+- ZonedDateTime.fromDateTime creates a ZonedDateTime object from a `\DateTime` object
+- ZonedDateTime.toDateTime converts ZonedDateTime object to a `\DateTime` object
+- TODO TimeZones
+
 ## Known limitations
 - No interopablity with `\DateTime` yet
 - No builtin ranges
@@ -32,6 +40,7 @@ localized parsing/formatting patterns and names of time zones are supported and 
 timesystems like TAI, UT or scientific uses of UTC
 
 ## Roadmap
+- Documentation cleanup
 - Support for the Japanese and Hijrah calendars
 - 2.0 with full use of PHP 7 type annotations for primitive types and return values.
 

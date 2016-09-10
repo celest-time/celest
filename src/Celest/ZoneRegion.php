@@ -81,7 +81,7 @@ use Celest\Zone\ZoneRulesProvider;
  *
  * @since 1.8
  */
-class ZoneRegion extends ZoneId
+final class ZoneRegion extends ZoneId
 {
     /**
      * The time-zone ID, not null.

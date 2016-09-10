@@ -343,8 +343,22 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
     public static function ofEpochMilli($epochMilli)
     {
         $secs = Math::floorDiv($epochMilli, 1000);
-        $mos = (int)Math::floorMod($epochMilli, 1000);
+        $mos = Math::floorMod($epochMilli, 1000);
         return self::create($secs, $mos * 1000000);
+    }
+
+    /**
+     * Obtains an instance of {@code Instant} from a DateTime object.
+     * <p>
+     * The seconds and nanoseconds are extracted from the specified milliseconds.
+     *
+     * @param \DateTimeInterface $dateTime the DateTime object
+     * @return Instant an instant, not null
+     * @throws DateTimeException if the DateTime object can not be converted
+     */
+    public static function ofDateTime(\DateTimeInterface $dateTime)
+    {
+        return self::create($dateTime->getTimestamp(), 0);
     }
 
     public static function fromQuery()
@@ -1297,6 +1311,23 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
     {
         $millis = Math::multiplyExact($this->seconds, 1000);
         return $millis + Math::div($this->nanos, 1000000);
+    }
+
+    /**
+     * Convert this instant to a DateTime object with timezone UTC
+     *
+     * @return \DateTimeImmutable
+     * @throws DateTimeException
+     */
+    public function toDateTime()
+    {
+        $dateTime = \DateTimeImmutable::createFromFormat('U', $this->seconds, new \DateTimeZone('UTC'));
+
+        if($dateTime === false) {
+            throw new DateTimeException('Could not convert to DateTime ' . $this->__toString());
+        }
+
+        return $dateTime;
     }
 
 //-----------------------------------------------------------------------

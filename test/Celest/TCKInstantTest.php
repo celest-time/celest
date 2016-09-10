@@ -306,6 +306,25 @@ class TCKInstantTest extends AbstractDateTimeTest
         $this->assertEquals($t->getNano(), $expectedNanoOfSecond);
     }
 
+    function provider_factory_datetime()
+    {
+        return [
+            [new \DateTime('2000-01-01')],
+            [new \DateTime('now', new \DateTimeZone('Europe/Berlin'))],
+            [new \DateTime()],
+        ];
+    }
+
+    /**
+     * @dataProvider provider_factory_datetime
+     */
+    public function test_factory_datetime(\DateTimeInterface $dateTime)
+    {
+        $t = Instant::ofDateTime($dateTime);
+        $this->assertEquals($t->getEpochSecond(), $dateTime->getTimestamp());
+        $this->assertEquals($t->getNano(), 0);
+    }
+
     //-----------------------------------------------------------------------
     // parse(String)
     //-----------------------------------------------------------------------
@@ -2072,6 +2091,59 @@ class TCKInstantTest extends AbstractDateTimeTest
     public function test_toEpochMilli_tooSmall()
     {
         Instant::ofEpochSecond(Math::div(Long::MIN_VALUE, 1000) - 1)->toEpochMilli();
+    }
+
+    public function data_toDateTime()
+    {
+        return [
+            [Instant::ofEpochSecond(1, 0)],
+            [Instant::ofEpochSecond(60, 0)],
+            [Instant::ofEpochSecond(3600, 0)],
+            [Instant::MAX()],
+        ];
+    }
+
+    /**
+     * @dataProvider data_toDateTime
+     */
+    public function test_toDateTime(Instant $instant)
+    {
+        $d = $instant->toDateTime();
+        $this->assertEquals($instant->getEpochSecond(), $d->getTimestamp());
+        $this->assertEquals('+00:00', $d->getTimezone()->getName());
+    }
+
+
+    public function data_toDateTime_error_data()
+    {
+        return [
+            [Instant::ofEpochSecond(-1, 0)],
+        ];
+    }
+
+    /**
+     * @dataProvider data_toDateTime_error_data
+     * @expectedException \Celest\DateTimeException
+     */
+    public function test_toDateTime_error(Instant $instant)
+    {
+        $instant->toDateTime();
+        if(PHP_MAJOR_VERSION > 5) {
+            $this->markTestSkipped('Negative timestamps are supported in PHP >5');
+        }
+    }
+
+    /**
+     * @group long
+     */
+    public function test_datetime_conversion()
+    {
+        for ($i = 0; $i < (24 * 60 * 60); $i++) {
+            $i1= Instant::ofEpochSecond($i);
+            $dt = $i1->toDateTime();
+            $i2 = Instant::ofDateTime($dt);
+            $this->assertEquals($i1, $i2);
+        }
     }
 
     //-----------------------------------------------------------------------

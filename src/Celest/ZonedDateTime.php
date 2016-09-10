@@ -149,7 +149,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, ChronoZonedDateTime
+final class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, ChronoZonedDateTime
 {
     /**
      * The local date-time.
