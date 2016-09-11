@@ -2096,6 +2096,7 @@ class TCKInstantTest extends AbstractDateTimeTest
     public function data_toDateTime()
     {
         return [
+            [Instant::ofEpochSecond(-1, 0)],
             [Instant::ofEpochSecond(1, 0)],
             [Instant::ofEpochSecond(60, 0)],
             [Instant::ofEpochSecond(3600, 0)],
@@ -2110,27 +2111,7 @@ class TCKInstantTest extends AbstractDateTimeTest
     {
         $d = $instant->toDateTime();
         $this->assertEquals($instant->getEpochSecond(), $d->getTimestamp());
-        $this->assertEquals('+00:00', $d->getTimezone()->getName());
-    }
-
-
-    public function data_toDateTime_error_data()
-    {
-        return [
-            [Instant::ofEpochSecond(-1, 0)],
-        ];
-    }
-
-    /**
-     * @dataProvider data_toDateTime_error_data
-     * @expectedException \Celest\DateTimeException
-     */
-    public function test_toDateTime_error(Instant $instant)
-    {
-        $instant->toDateTime();
-        if(PHP_MAJOR_VERSION > 5) {
-            $this->markTestSkipped('Negative timestamps are supported in PHP >5');
-        }
+        $this->assertEquals('UTC', $d->getTimezone()->getName());
     }
 
     /**

@@ -1321,13 +1321,11 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      */
     public function toDateTime()
     {
-        $dateTime = \DateTimeImmutable::createFromFormat('U', (string)$this->seconds, new \DateTimeZone('UTC'));
+        $tz = new \DateTimeZone('UTC');
 
-        if($dateTime === false) {
-            throw new DateTimeException('Could not convert to DateTime ' . $this->__toString());
-        }
+        $dateTime = new \DateTimeImmutable('@' . $this->seconds, $tz);
 
-        return $dateTime;
+        return $dateTime->setTimezone($tz);
     }
 
 //-----------------------------------------------------------------------
