@@ -2469,6 +2469,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         return [
             [ZonedDateTime::of(2008, 6, 30, 11, 30, 39, 1337, self::ZONE_0100())],
+            [ZonedDateTime::of(2008, 6, 30, 11, 30, 39, 1337, self::ZONE_PARIS())],
         ];
     }
 
@@ -2477,6 +2478,11 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
      */
     public function test_toDateTime(ZonedDateTime $zdt)
     {
+        if ($zdt->getZone()->getId()[0] === '+') {
+            // https://github.com/facebook/hhvm/issues/6783
+            $this->markTestSkipped("HHVM doesn't support Offset based timezones");
+        }
+
         $dt = $zdt->toNativeDateTime();
     }
 
