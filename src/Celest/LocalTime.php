@@ -1659,11 +1659,11 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             if ($nanoValue > 0) {
                 $buf .= '.';
                 if ($nanoValue % 1000000 === 0) {
-                    $buf .= substr(Math::div($nanoValue, 1000000) + 1000, 1);
+                    $buf .= \substr(Math::div($nanoValue, 1000000) + 1000, 1);
                 } else if ($nanoValue % 1000 === 0) {
-                    $buf .= substr(Math::div($nanoValue, 1000) + 1000000, 1);
+                    $buf .= \substr(Math::div($nanoValue, 1000) + 1000000, 1);
                 } else {
-                    $buf .= substr(($nanoValue) + 1000000000, 1);
+                    $buf .= \substr($nanoValue + 1000000000, 1);
                 }
             }
         }

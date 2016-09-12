@@ -358,7 +358,7 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
      */
     public static function ofDateTime(\DateTimeInterface $dateTime)
     {
-        return self::create($dateTime->getTimestamp(), 0);
+        return self::create($dateTime->getTimestamp(), $dateTime->format('u') * 1000);
     }
 
     public static function fromQuery()
@@ -1314,18 +1314,26 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
     }
 
     /**
-     * Convert this instant to a DateTime object with timezone UTC
+     * Convert this instant to a DateTime object with timezone UTC.
+     * <p>
+     * If this instant has greater than microsecond precision, then the conversion
+     * will drop any excess precision information as though the amount in nanoseconds
+     * was subject to integer division by one thousand.
+     * <p>
+     * Instants before 1970-01-01T00:00:00Z are not supported with PHP < 5.6.24, < 7.0.9.
      *
      * @return \DateTimeImmutable
      * @throws DateTimeException
      */
     public function toDateTime()
     {
-        $tz = new \DateTimeZone('UTC');
+        $dt = \DateTimeImmutable::createFromFormat('!U/u/e', $this->seconds . '/' . sprintf("%06d", Math::div($this->nanos, 1000)) . '/UTC');
 
-        $dateTime = new \DateTimeImmutable('@' . $this->seconds, $tz);
+        if($dt === false) {
+            throw new DateTimeException('Instants before 1970-01-01T00:00:00Z are not supported with PHP < 5.6.24, < 7.0.9.');
+        }
 
-        return $dateTime->setTimezone($tz);
+        return $dt;
     }
 
 //-----------------------------------------------------------------------

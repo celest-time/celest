@@ -364,6 +364,17 @@ abstract class ZoneId
     }
 
     /**
+     * TODO doc
+     *
+     * @param \DateTimeZone $dateTimeZone
+     * @return ZoneId
+     */
+    public static function ofNativeDateTimezone(\DateTimeZone $dateTimeZone)
+    {
+        return ZoneId::of($dateTimeZone->getName());
+    }
+
+    /**
      * Parse once a prefix is established.
      *
      * @param string $zoneId the time-zone ID, not null
@@ -534,6 +545,15 @@ abstract class ZoneId
             // invalid ZoneRegion is not important to this method
         }
         return $this;
+    }
+
+    /**
+     * TODO doc
+     * @return \DateTimeZone
+     */
+    public function toNativeDateTimezone()
+    {
+        return new \DateTimeZone($this->__toString());
     }
 
     //-----------------------------------------------------------------------

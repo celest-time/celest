@@ -66,6 +66,7 @@ use Celest\Chrono\AbstractChronoZonedDateTime;
 use Celest\Chrono\ChronoZonedDateTime;
 use Celest\Format\DateTimeFormatter;
 use Celest\Helper\Long;
+use Celest\Helper\Math;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
 use Celest\Temporal\Temporal;
@@ -280,6 +281,26 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
     public static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone)
     {
         return self::ofLocal($localDateTime, $zone, null);
+    }
+
+    /**
+     * TODO doc
+     *
+     * @param \DateTimeInterface $dateTime
+     * @return ZonedDateTime
+     */
+    public static function ofNativeDateTime(\DateTimeInterface $dateTime)
+    {
+        return self::of(
+            (int) $dateTime->format('Y'),
+            (int) $dateTime->format('m'),
+            (int) $dateTime->format('d'),
+            (int) $dateTime->format('H'),
+            (int) $dateTime->format('i'),
+            (int) $dateTime->format('s'),
+            (int) $dateTime->format('u') * 1000,
+            ZoneId::ofNativeDateTimezone($dateTime->getTimezone())
+        );
     }
 
     /**
@@ -2193,6 +2214,20 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
     public function toOffsetDateTime()
     {
         return OffsetDateTime::ofDateTime($this->dateTime, $this->offset);
+    }
+
+    /**
+     * TODO doc
+     *
+     * @return \DateTimeImmutable
+     */
+    public function toNativeDateTime()
+    {
+        $time = $this->toLocalTime();
+        $str = $this->dateTime->toLocalDate()->__toString()
+            . ' ' . $time->getHour() . ':' . $time->getMinute() . ':' . $time->getSecond()
+            . '.' . \sprintf("%06d", Math::div($time->getNano(), 1000));
+        return new \DateTimeImmutable($str, $this->zone->toNativeDateTimezone());
     }
 
 //-----------------------------------------------------------------------

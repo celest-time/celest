@@ -784,6 +784,22 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         });
     }
 
+    public function test_factory_ofNative_data()
+    {
+        return [
+            [new \DateTime('now')],
+            [new \DateTime('now', new \DateTimeZone('Europe/Berlin'))],
+        ];
+    }
+
+    /**
+     * @dataProvider test_factory_ofNative_data
+     */
+    public function test_factory_ofNative(\DateTimeInterface $dateTime)
+    {
+        $dt = ZonedDateTime::ofNativeDateTime($dateTime);
+    }
+
     //-----------------------------------------------------------------------
     // from(TemporalAccessor)
     //-----------------------------------------------------------------------
@@ -2449,6 +2465,21 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($this->TEST_DATE_TIME->toOffsetDateTime(), OffsetDateTime::ofDateTime($this->TEST_DATE_TIME->toLocalDateTime(), $this->TEST_DATE_TIME->getOffset()));
     }
 
+    public function test_toDateTime_data()
+    {
+        return [
+            [ZonedDateTime::of(2008, 6, 30, 11, 30, 39, 1337, self::ZONE_0100())],
+        ];
+    }
+
+    /**
+     * @dataProvider test_toDateTime_data
+     */
+    public function test_toDateTime(ZonedDateTime $zdt)
+    {
+        $dt = $zdt->toNativeDateTime();
+    }
+
     //-----------------------------------------------------------------------
     // toInstant()
     //-----------------------------------------------------------------------
@@ -2644,6 +2675,24 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
             $a->compareTo(null);
         });
 
+    }
+
+    public function test_datetime_conversion_data()
+    {
+        return [
+            [ZonedDateTime::of(2008, 6, 30, 10, 12, 35, 12345000, self::ZONE_0100())],
+            [ZonedDateTime::of(2008, 6, 30, 10, 12, 35, 12345000, self::ZONE_LONDON())],
+        ];
+    }
+
+    /**
+     * @dataProvider test_datetime_conversion_data
+     */
+    public function test_datetime_conversion(ZonedDateTime $zdt)
+    {
+        $dt = $zdt->toNativeDateTime();
+        $zdt2 = ZonedDateTime::ofNativeDateTime($dt);
+        $this->assertEquals($zdt, $zdt2);
     }
 
     //-----------------------------------------------------------------------

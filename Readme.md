@@ -40,6 +40,7 @@ As PHP's native `\DateTime` mixes Instants with local Date/Time there's two diff
 timesystems like TAI, UT or scientific uses of UTC
 
 ## Roadmap
+- Check passed types to behave like php 7 with type annotations
 - Documentation cleanup
 - Support for the Japanese and Hijrah calendars
 - 2.0 with full use of PHP 7 type annotations for primitive types and return values.

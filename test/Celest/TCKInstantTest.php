@@ -2098,6 +2098,7 @@ class TCKInstantTest extends AbstractDateTimeTest
         return [
             [Instant::ofEpochSecond(-1, 0)],
             [Instant::ofEpochSecond(1, 0)],
+            [Instant::ofEpochSecond(1, 1337)],
             [Instant::ofEpochSecond(60, 0)],
             [Instant::ofEpochSecond(3600, 0)],
             [Instant::MAX()],
@@ -2109,18 +2110,41 @@ class TCKInstantTest extends AbstractDateTimeTest
      */
     public function test_toDateTime(Instant $instant)
     {
+        if ((version_compare(PHP_VERSION, "5.6.24", "<") || version_compare(PHP_VERSION, "7.0.9", "<")) && $instant->getEpochSecond() < 0) {
+            $this->markTestSkipped('Negative timestamps are not supported #66836');
+        }
+
         $d = $instant->toDateTime();
         $this->assertEquals($instant->getEpochSecond(), $d->getTimestamp());
+        $this->assertEquals(Math::div($instant->getNano(), 1000), $d->format('u'));
         $this->assertEquals('UTC', $d->getTimezone()->getName());
     }
 
+    public function data_toDateTime_error_data()
+    {
+        return [
+            [Instant::ofEpochSecond(-1, 0)],
+        ];
+    }
+
+    /**
+     * @dataProvider data_toDateTime_error_data
+     * @expectedException \Celest\DateTimeException
+     */
+    public function test_toDateTime_error(Instant $instant)
+    {
+        $instant->toDateTime();
+        if (version_compare(PHP_VERSION, "5.6.24", ">=") || version_compare(PHP_VERSION, "7.0.9", ">=")) {
+            $this->markTestSkipped('Negative timestamps  are supported #66836');
+        }
+    }
     /**
      * @group long
      */
     public function test_datetime_conversion()
     {
         for ($i = 0; $i < (24 * 60 * 60); $i++) {
-            $i1= Instant::ofEpochSecond($i);
+            $i1= Instant::ofEpochSecond($i * 1000, $i * 1000);
             $dt = $i1->toDateTime();
             $i2 = Instant::ofDateTime($dt);
             $this->assertEquals($i1, $i2);
