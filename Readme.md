@@ -36,6 +36,7 @@ As PHP's native `\DateTime` mixes Instants with local Date/Time there's two diff
 - No builtin ranges
 - Multibyte string parsing is not fully tested
 - Parsing of timezone names is broken on HHVM. See [#6852](https://github.com/facebook/hhvm/issues/6852)
+- Offset based timezones can't be converted to native `\DatetimeZones` on HVVM. See [#6783](https://github.com/facebook/hhvm/issues/6783)
 - Celest is not suited if you care about correct historical dates before ~1970 or subsecond synchronization with external
 timesystems like TAI, UT or scientific uses of UTC
 

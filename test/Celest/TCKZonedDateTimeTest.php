@@ -2690,6 +2690,11 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
      */
     public function test_datetime_conversion(ZonedDateTime $zdt)
     {
+        if ($zdt->getZone()->getId()[0] === '+') {
+            // https://github.com/facebook/hhvm/issues/6783
+            $this->markTestSkipped("HHVM doesn't support Offset based timezones");
+        }
+
         $dt = $zdt->toNativeDateTime();
         $zdt2 = ZonedDateTime::ofNativeDateTime($dt);
         $this->assertEquals($zdt, $zdt2);
