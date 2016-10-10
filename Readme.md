@@ -19,8 +19,8 @@ PHP >= 5.6 with GMP and intl extension or a current release of HHVM
 Celest uses IANA's [time zone database](https://www.iana.org/time-zones). Changes are distributed via the
 [Celest tzdata](https://github.com/celest-time/tzdata) repo.
 
-## Localication
-Besides the ISO 8061 calendar, the Minguo and Thai Buddhist calendars are supported. Localication of Month, weekday etc.,
+## Localization
+Besides the ISO 8061 calendar, the Minguo and Thai Buddhist calendars are supported. Localization of Month, weekday etc.,
 localized parsing/formatting patterns and names of time zones are supported and provided via the intl extension.
 
 ## Interoperability with native \DateTime
@@ -32,7 +32,6 @@ As PHP's native `\DateTime` mixes Instants with local Date/Time there's two diff
 - TODO TimeZones
 
 ## Known limitations
-- No interopablity with `\DateTime` yet
 - No builtin ranges
 - Multibyte string parsing is not fully tested
 - Parsing of timezone names is broken on HHVM. See [#6852](https://github.com/facebook/hhvm/issues/6852)
@@ -41,6 +40,9 @@ As PHP's native `\DateTime` mixes Instants with local Date/Time there's two diff
 timesystems like TAI, UT or scientific uses of UTC
 
 ## Roadmap
+- Performance optimizations
+- Optimized serialization
+- Doctrine mappings
 - Check passed types to behave like php 7 with type annotations
 - Documentation cleanup
 - Support for the Japanese and Hijrah calendars
