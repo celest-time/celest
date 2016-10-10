@@ -22,11 +22,17 @@
   "minimum-stability": "dev",
   "require": {
     "php" : ">=5.6",
-    "celest/tzdata" : "*",
+    "celest/tzdata" : "~0.1",
+    "php-64bit": "*",
     "ext-gmp": "*",
     "ext-intl": "*"
   },
   "require-dev": {
     "phpunit/phpunit": ">=4.8"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1.x-dev"
+    }
   }
 }
