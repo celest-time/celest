@@ -173,13 +173,12 @@ final class TzdbZoneRulesCompiler
 
         try {
             // get tzdb source version
-            $contents = file_get_contents($srcDir . "/Makefile");
-            $m = preg_match("/VERSION=\t(?<ver>[0-9]{4}[A-z])/", $contents, $matches);
-            if ($m === 1) {
-                $version = $matches['ver'];
-            } else {
-                echo "Source directory does not contain file: Makefile\n";
+            $version = file_get_contents($srcDir . "/version");
+            if ($version === false) {
+                echo "Source directory does not contain file: version\n";
                 exit(1);
+            } else {
+                $version = trim($version);
             }
             $this->printVerbose("Compiling TZDB version " . $version . "\n");
             // parse source files
