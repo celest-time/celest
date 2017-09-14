@@ -66,12 +66,12 @@ use Celest\LocalTime;
 use Celest\Month;
 use Celest\TestHelper;
 use Celest\ZoneOffset;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test ZoneOffsetTransitionRule.
  */
-class TCKZoneOffsetTransitionRuleTest extends PHPUnit_Framework_TestCase
+class TCKZoneOffsetTransitionRuleTest extends TestCase
 {
 
     private static function TIME_0100()

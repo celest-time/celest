@@ -63,12 +63,12 @@ namespace Celest\Zone;
 use Celest\Duration;
 use Celest\LocalDateTime;
 use Celest\ZoneOffset;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test ZoneRules for fixed offset time-zones.
  */
-class TCKFixedZoneRules extends PHPUnit_Framework_TestCase
+class TCKFixedZoneRules extends TestCase
 {
 
 

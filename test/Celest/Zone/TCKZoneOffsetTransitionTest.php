@@ -65,12 +65,12 @@ use Celest\LocalDateTime;
 use Celest\Temporal\ChronoUnit;
 use Celest\TestHelper;
 use Celest\ZoneOffset;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test ZoneOffsetTransition.
  */
-class TCKZoneOffsetTransition extends PHPUnit_Framework_TestCase
+class TCKZoneOffsetTransition extends TestCase
 {
 
     private static function OFFSET_0100()

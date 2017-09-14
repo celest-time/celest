@@ -4,7 +4,6 @@ namespace Celest;
 
 
 use PHPUnit\Framework\TestCase;
-use PHPUnit_Framework_TestCase;
 use ResourceBundle;
 
 class MiscTest extends TestCase

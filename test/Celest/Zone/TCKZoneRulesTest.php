@@ -71,9 +71,9 @@ use Celest\Year;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class TCKZoneRulesTest extends PHPUnit_Framework_TestCase
+class TCKZoneRulesTest extends TestCase
 {
     private static $OFFSET_ZERO;
     private static $OFFSET_PONE;
