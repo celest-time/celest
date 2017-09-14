@@ -23,6 +23,14 @@ Celest uses IANA's [time zone database](https://www.iana.org/time-zones). Change
 Besides the ISO 8061 calendar, the Minguo and Thai Buddhist calendars are supported. Localization of Month, weekday etc.,
 localized parsing/formatting patterns and names of time zones are supported and provided via the intl extension.
 
+## Testing
+You need to install phpunit manually and a version of doctrine/instantiator that's compatible with php5:
+```
+composer require --dev phpunit/phpunit:^5.7 rianium/paratest:~0.15.0 doctrine/instantiator:~1.0.5
+```
+Then run `make test` for the full testsuite or `make test-short` for a testsuite that runs in under a minute.
+
+
 ## Interoperability with native \DateTime
 As PHP's native `\DateTime` mixes Instants with local Date/Time there's two different conversions:
 - Instant.fromDateTime creates an Instant from a `\DateTime` object 
