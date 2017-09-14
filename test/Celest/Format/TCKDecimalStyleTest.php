@@ -61,11 +61,12 @@
 namespace Celest\Format;
 
 use Celest\Locale;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test DecimalStyle.
  */
-class TCKDecimalStyleTest extends \PHPUnit_Framework_TestCase
+class TCKDecimalStyleTest extends TestCase
 {
 
     public function test_getAvailableLocales()

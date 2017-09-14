@@ -69,6 +69,7 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\TestHelper;
+use PHPUnit\Framework\TestCase;
 
 
 class test_factory_from_TemporalAccessor_chronology implements TemporalAccessor
@@ -178,7 +179,7 @@ class test_date_TemporalAccessor implements TemporalAccessor
 /**
  * Test.
  */
-class TCKIsoChronologyTest extends \PHPUnit_Framework_TestCase
+class TCKIsoChronologyTest extends TestCase
 {
     // Can only work with IsoChronology here
     // others may be in separate module

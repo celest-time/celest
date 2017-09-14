@@ -12,10 +12,9 @@ use Celest\Locale;
 use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
-use Celest\Temporal\TemporalQuery;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 class TemporalTest extends AbstractTemporalAccessor
 {
@@ -32,7 +31,7 @@ class TemporalTest extends AbstractTemporalAccessor
 
 }
 
-class AbstractTestPrinterParser extends PHPUnit_Framework_TestCase
+class AbstractTestPrinterParser extends TestCase
 {
 
     /** @var DateTimeFormatterBuilder */

@@ -62,11 +62,12 @@ namespace Celest;
 
 use Celest\Format\TextStyle;
 use Celest\Zone\ZoneRules;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test ZoneId.
  */
-class ZoneIdTest extends \PHPUnit_Framework_TestCase
+class ZoneIdTest extends TestCase
 {
 
     private static $OVERLAP = 2;

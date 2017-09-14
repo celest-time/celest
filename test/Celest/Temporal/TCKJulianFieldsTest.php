@@ -64,11 +64,12 @@ namespace Celest\Temporal;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\Format\ResolverStyle;
 use Celest\LocalDate;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test Julian Fields.
  */
-class TCKJulianFieldTest extends \PHPUnit_Framework_TestCase
+class TCKJulianFieldTest extends TestCase
 {
 
     private static function JAN01_1970()

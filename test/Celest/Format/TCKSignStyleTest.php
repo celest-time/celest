@@ -61,8 +61,9 @@ use Celest\DateTimeException;
 use Celest\LocalDate;
 use Celest\Temporal\ChronoField;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
-class TCKSignStyleTest extends \PHPUnit_Framework_TestCase
+class TCKSignStyleTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

@@ -61,11 +61,12 @@ namespace Celest\Temporal;
 use Celest\LocalDate;
 use Celest\LocalTime;
 use Celest\Temporal\ChronoUnit as CU;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
  */
-class TCKChronoUnit extends \PHPUnit_Framework_TestCase
+class TCKChronoUnit extends TestCase
 {
 
     //-----------------------------------------------------------------------

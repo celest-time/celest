@@ -62,11 +62,12 @@ namespace Celest\Zone;
 
 use Celest\Duration;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test ZoneRules for fixed offset time-zones.
  */
-class FixedZoneRulesTest extends \PHPUnit_Framework_TestCase
+class FixedZoneRulesTest extends TestCase
 {
 
     private static function OFFSET_PONE()

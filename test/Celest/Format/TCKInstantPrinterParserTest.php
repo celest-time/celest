@@ -65,11 +65,12 @@ use Celest\Instant;
 use Celest\OffsetDateTime;
 use Celest\Period;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test DateTimeFormatterBuilder.appendInstant().
  */
-class TCKInstantPrinterParserTest extends \PHPUnit_Framework_TestCase
+class TCKInstantPrinterParserTest extends TestCase
 {
 
     function data_printGrouped()

@@ -65,11 +65,12 @@ use Celest\LocalDateTime;
 use Celest\Temporal\TemporalQueries;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test DateTimeFormatterBuilder.appendZoneId().
  */
-class TCKZoneIdPrinterParserTest extends \PHPUnit_Framework_TestCase
+class TCKZoneIdPrinterParserTest extends TestCase
 {
 
     private static function OFFSET_UTC()

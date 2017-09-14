@@ -59,8 +59,9 @@ namespace Celest\Temporal;
 
 use Celest\Locale;
 use Celest\TestHelper;
+use PHPUnit\Framework\TestCase;
 
-class TestChronoField extends \PHPUnit_Framework_TestCase
+class TestChronoField extends TestCase
 {
     /** @var FieldValues */
     private $fieldMap;

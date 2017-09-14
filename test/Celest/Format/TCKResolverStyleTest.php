@@ -59,8 +59,9 @@ namespace Celest\Format;
 
 use Celest\DateTimeException;
 use Celest\Temporal\ChronoField;
+use PHPUnit\Framework\TestCase;
 
-class TCKResolverStyleTest extends \PHPUnit_Framework_TestCase
+class TCKResolverStyleTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

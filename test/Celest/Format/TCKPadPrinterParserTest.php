@@ -61,11 +61,12 @@
 namespace Celest\Format;
 
 use Celest\Temporal\ChronoField;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test padding behavior of formatter.
  */
-class TCKPadPrinterParserTest extends \PHPUnit_Framework_TestCase
+class TCKPadPrinterParserTest extends TestCase
 {
 
     /** @var DateTimeFormatterBuilder */

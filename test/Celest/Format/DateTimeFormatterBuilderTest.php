@@ -72,11 +72,12 @@ use Celest\Temporal\TemporalQueries;
 use Celest\TestHelper;
 use Celest\YearMonth;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test DateTimeFormatterBuilder.
  */
-class TestDateTimeFormatterBuilder extends \PHPUnit_Framework_TestCase
+class TestDateTimeFormatterBuilder extends TestCase
 {
 
     /** @var DateTimeFormatterBuilder */

@@ -66,11 +66,12 @@ use Celest\Temporal\ChronoField as CF;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test parsing of edge cases.
  */
-class DateTimeParsingTest extends \PHPUnit_Framework_TestCase
+class DateTimeParsingTest extends TestCase
 {
 
     private static function PARIS()

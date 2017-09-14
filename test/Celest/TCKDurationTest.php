@@ -67,6 +67,7 @@ use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalUnit;
+use PHPUnit\Framework\TestCase;
 
 class TemporalAmount_DaysNanos implements TemporalAmount
 {
@@ -121,7 +122,7 @@ class TemporalAmount_Minutes_tooBig implements TemporalAmount
     }
 }
 
-class TCKDurationTest extends \PHPUnit_Framework_TestCase
+class TCKDurationTest extends TestCase
 {
 
     const CYCLE_SECS = 146097 * 86400;

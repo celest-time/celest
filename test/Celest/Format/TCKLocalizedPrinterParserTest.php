@@ -65,11 +65,12 @@ namespace Celest\Format;
 use Celest\LocalDate;
 use Celest\Locale;
 use Celest\LocalTime;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test localized behavior of formatter.
  */
-class TCKLocalizedPrinterParserTest extends \PHPUnit_Framework_TestCase
+class TCKLocalizedPrinterParserTest extends TestCase
 {
     /** @var DateTimeFormatterBuilder */
     private $builder;

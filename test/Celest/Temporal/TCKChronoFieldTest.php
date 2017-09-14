@@ -63,11 +63,12 @@ use Celest\LocalDateTime;
 use Celest\LocalTime;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
  */
-class TCKChronoFieldTest extends \PHPUnit_Framework_TestCase
+class TCKChronoFieldTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

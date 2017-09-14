@@ -69,6 +69,7 @@ use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalUnit;
+use PHPUnit\Framework\TestCase;
 
 class TemporalAmount_Years_tooBig implements TemporalAmount
 {
@@ -156,7 +157,7 @@ class TemporalAmount_DaysHours implements TemporalAmount
 /**
  * Test Period.
  */
-class TCKPeriod extends \PHPUnit_Framework_TestCase
+class TCKPeriod extends TestCase
 {
 
     //-----------------------------------------------------------------------

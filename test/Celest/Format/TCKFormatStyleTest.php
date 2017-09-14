@@ -63,11 +63,12 @@ use Celest\Temporal\Temporal;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
  */
-class TCKFormatStyleTest extends \PHPUnit_Framework_TestCase
+class TCKFormatStyleTest extends TestCase
 {
 
     private static function ZONEID_PARIS()

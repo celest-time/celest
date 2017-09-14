@@ -65,11 +65,12 @@ use Celest\DayOfWeek;
 use Celest\LocalDate;
 use Celest\Month;
 use Celest\TestHelper;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test TemporalAdjusters
  */
-class TCKTemporalAdjustersTest extends \PHPUnit_Framework_TestCase
+class TCKTemporalAdjustersTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

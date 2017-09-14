@@ -62,8 +62,9 @@ namespace Celest;
 
 use Celest\Helper\Long;
 use Celest\Helper\Math;
+use PHPUnit\Framework\TestCase;
 
-class TCKClock_Tick extends \PHPUnit_Framework_TestCase
+class TCKClock_Tick extends TestCase
 {
 
     private static function MOSCOW()

@@ -82,11 +82,12 @@ use Celest\YearMonth;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test DateTimeFormatter.
  */
-class DateTimeFormatterTest extends \PHPUnit_Framework_TestCase
+class DateTimeFormatterTest extends TestCase
 {
 
     public function test_withLocale_same()

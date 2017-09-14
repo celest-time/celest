@@ -64,11 +64,12 @@ use Celest\LocalDateTime;
 use Celest\Locale;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\TemporalField;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test text printing.
  */
-class TCKDateTimeTextPrintingTest extends \PHPUnit_Framework_TestCase
+class TCKDateTimeTextPrintingTest extends TestCase
 {
 
     /** @var DateTimeFormatterBuilder */

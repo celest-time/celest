@@ -64,11 +64,12 @@ use Celest\Format\ResolverStyle;
 use Celest\Helper\Math;
 use Celest\LocalDate;
 use Celest\Temporal\ChronoField as CF;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test WeekFields.
  */
-class TCKWeekFieldsTest extends \PHPUnit_Framework_TestCase
+class TCKWeekFieldsTest extends TestCase
 {
 
     /**

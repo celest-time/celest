@@ -64,11 +64,12 @@ use Celest\DateTimeException;
 use Celest\Format\DateTimeFormatterBuilder;
 use Celest\IllegalArgumentException;
 use Celest\LocalDate;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
  */
-class DateTimeBuilderCombinationsTest extends \PHPUnit_Framework_TestCase
+class DateTimeBuilderCombinationsTest extends TestCase
 {
 
     function data_combine()

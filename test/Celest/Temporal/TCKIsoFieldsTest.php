@@ -65,11 +65,12 @@ use Celest\Format\ResolverStyle;
 use Celest\LocalDate;
 use Celest\LocalDateTime;
 use Celest\Temporal\ChronoField as CF;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test.
  */
-class TCKIsoFieldsTest extends \PHPUnit_Framework_TestCase
+class TCKIsoFieldsTest extends TestCase
 {
 
     function data_quarter()

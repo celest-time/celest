@@ -85,6 +85,7 @@ use Celest\YearMonth;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 class format_withChronology_nonChronoFieldMapLink implements TemporalAccessor
 {
@@ -125,7 +126,7 @@ class format_withChronology_nonChronoFieldMapLink implements TemporalAccessor
 /**
  * Test DateTimeFormatter.
  */
-class TCKDateTimeFormatterTest extends \PHPUnit_Framework_TestCase
+class TCKDateTimeFormatterTest extends TestCase
 {
     private static function OFFSET_PONE()
     {

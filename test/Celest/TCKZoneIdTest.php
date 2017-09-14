@@ -65,6 +65,7 @@ use Celest\Temporal\AbstractTemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
+use PHPUnit\Framework\TestCase;
 
 class MockTemporalAccessor extends AbstractTemporalAccessor
 {
@@ -90,7 +91,7 @@ class MockTemporalAccessor extends AbstractTemporalAccessor
 
 ;
 
-class TCKZoneIdTest extends \PHPUnit_Framework_TestCase
+class TCKZoneIdTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

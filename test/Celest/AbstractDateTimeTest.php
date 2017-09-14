@@ -6,8 +6,9 @@ use Celest\Temporal\MockFieldNoValue;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractDateTimeTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractDateTimeTest extends TestCase
 {
     /**
      * Sample {@code Temporal} objects.

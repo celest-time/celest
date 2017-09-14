@@ -60,10 +60,12 @@
  */
 namespace Celest;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test fixed clock.
  */
-class TCKClock_FixedTest extends \PHPUnit_Framework_TestCase
+class TCKClock_FixedTest extends TestCase
 {
 
     private static function MOSCOW()

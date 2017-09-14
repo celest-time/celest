@@ -61,7 +61,9 @@
 
 namespace Celest;
 
-class TCKClock_OffsetTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TCKClock_OffsetTest extends TestCase
 {
 
     private static function MOSCOW()

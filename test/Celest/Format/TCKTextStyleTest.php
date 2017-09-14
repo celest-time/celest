@@ -61,10 +61,12 @@
 
 namespace Celest\Format;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Test DecimalStyle.
  */
-class TCKTextStyleTest extends \PHPUnit_Framework_TestCase
+class TCKTextStyleTest extends TestCase
 {
 
     public function test_standaloneNormal()

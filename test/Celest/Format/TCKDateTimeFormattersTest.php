@@ -83,6 +83,7 @@ use Celest\YearMonth;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
+use PHPUnit\Framework\TestCase;
 
 class Expected
 {
@@ -235,7 +236,7 @@ class TestAccessor extends AbstractTemporalAccessor
  * Test DateTimeFormatter.
  *
  */
-class TCKDateTimeFormattersTest extends \PHPUnit_Framework_TestCase
+class TCKDateTimeFormattersTest extends TestCase
 {
 
     //-----------------------------------------------------------------------

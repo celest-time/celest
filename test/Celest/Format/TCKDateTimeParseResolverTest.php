@@ -80,6 +80,7 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
+use PHPUnit\Framework\TestCase;
 
 class ResolvingField implements TemporalField
 {
@@ -155,7 +156,7 @@ class ResolvingField implements TemporalField
 /**
  * Test parse resolving.
  */
-class TCKDateTimeParseResolverTest extends \PHPUnit_Framework_TestCase
+class TCKDateTimeParseResolverTest extends TestCase
 {
     // TODO: tests with weird TenporalField implementations
     // TODO: tests with non-ISO chronologies

@@ -320,13 +320,9 @@ class TextPrinterTest extends AbstractTestPrinterParser
     {
         return
             [
-                [
-                    ChronoField::ERA(), TextStyle::FULL(), 2, "Heisei"
-                ], // Note: CLDR doesn't define "wide" Japanese era names.
-                [
-                    ChronoField::ERA(), TextStyle::SHORT(), 2, "Heisei"],
-                [
-                    ChronoField::ERA(), TextStyle::NARROW(), 2, "H"],
+                [ChronoField::ERA(), TextStyle::FULL(), 2, "Heisei"], // Note: CLDR doesn't define "wide" Japanese era names.
+                [ChronoField::ERA(), TextStyle::SHORT(), 2, "Heisei"],
+                [ChronoField::ERA(), TextStyle::NARROW(), 2, "H"],
             ];
     }
 
