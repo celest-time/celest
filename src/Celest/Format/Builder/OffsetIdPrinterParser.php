@@ -105,6 +105,8 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
                 return ~$position;
             }
 
+            if ($position < 0 || $position >= $length) throw new \OutOfRangeException();
+
             if ($context->subSequenceEquals($text, $position, $this->noOffsetText, 0, $noOffsetLen)) {
                 return $context->setParsedField(ChronoField::OFFSET_SECONDS(), 0, $position, $position + $noOffsetLen);
             }
