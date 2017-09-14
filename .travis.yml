@@ -13,5 +13,8 @@ cache:
 
 before_install: phpenv config-rm xdebug.ini || true
 
-install: composer install --optimize-autoloader
-script: phpunit
+install:
+ - composer require brianium/paratest
+ - composer install --optimize-autoloader
+
+script: vendor/bin/paratest -p 8
