@@ -68,18 +68,19 @@ use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
+use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 
 class test_factory_from_TemporalAccessor_chronology implements TemporalAccessor
 {
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         throw new UnsupportedOperationException();
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         throw new UnsupportedOperationException();
     }
@@ -92,15 +93,15 @@ class test_factory_from_TemporalAccessor_chronology implements TemporalAccessor
         throw new UnsupportedOperationException();
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
     }
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
     }
 
-    public function __toString()
+    public function __toString() : string
     {
     }
 }
@@ -116,30 +117,30 @@ class test_factory_from_TemporalAccessor_noChronology implements TemporalAccesso
         throw new UnsupportedOperationException();
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
     }
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
     }
 
-    public function __toString()
+    public function __toString() : string
     {
     }
 }
 
 class test_date_TemporalAccessor implements TemporalAccessor
 {
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field == ChronoField::EPOCH_DAY()) {
             return true;
@@ -147,7 +148,7 @@ class test_date_TemporalAccessor implements TemporalAccessor
         throw new UnsupportedOperationException();
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == ChronoField::EPOCH_DAY()) {
             return LocalDate::of(2012, 6, 30)->toEpochDay();
@@ -163,15 +164,15 @@ class test_date_TemporalAccessor implements TemporalAccessor
         throw new UnsupportedOperationException();
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
     }
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
     }
 
-    public function __toString()
+    public function __toString() : string
     {
     }
 }

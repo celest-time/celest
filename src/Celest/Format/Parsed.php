@@ -174,7 +174,7 @@ final class Parsed extends AbstractTemporalAccessor
      * @param TemporalField $field
      * @return bool
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($this->fieldValues->has($field) ||
             ($this->date !== null && $this->date->isSupported($field)) ||
@@ -191,7 +191,7 @@ final class Parsed extends AbstractTemporalAccessor
      * @return int
      * @throws UnsupportedTemporalTypeException
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         $value = $this->fieldValues->get($field);
         if ($value !== null) {
@@ -420,9 +420,9 @@ final class Parsed extends AbstractTemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 CF::NANO_OF_DAY()->checkValidValue($nod);
             }
-            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($nod, 3600000000000));
-            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::MINUTE_OF_HOUR(), Math::div($nod, 60000000000) % 60);
-            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::SECOND_OF_MINUTE(), Math::div($nod, 1000000000) % 60);
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::HOUR_OF_DAY(), \intdiv($nod, 3600000000000));
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::MINUTE_OF_HOUR(), \intdiv($nod, 60000000000) % 60);
+            $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::SECOND_OF_MINUTE(), \intdiv($nod, 1000000000) % 60);
             $this->updateCheckConflict3(CF::NANO_OF_DAY(), CF::NANO_OF_SECOND(), $nod % 1000000000);
         }
         if ($this->fieldValues->has(CF::MICRO_OF_DAY())) {
@@ -430,7 +430,7 @@ final class Parsed extends AbstractTemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 CF::MICRO_OF_DAY()->checkValidValue($cod);
             }
-            $this->updateCheckConflict3(CF::MICRO_OF_DAY(), CF::SECOND_OF_DAY(), Math::div($cod, 1000000));
+            $this->updateCheckConflict3(CF::MICRO_OF_DAY(), CF::SECOND_OF_DAY(), \intdiv($cod, 1000000));
             $this->updateCheckConflict3(CF::MICRO_OF_DAY(), CF::MICRO_OF_SECOND(), $cod % 1000000);
         }
         if ($this->fieldValues->has(CF::MILLI_OF_DAY())) {
@@ -438,7 +438,7 @@ final class Parsed extends AbstractTemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 CF::MILLI_OF_DAY()->checkValidValue($lod);
             }
-            $this->updateCheckConflict3(CF::MILLI_OF_DAY(), CF::SECOND_OF_DAY(), Math::div($lod, 1000));
+            $this->updateCheckConflict3(CF::MILLI_OF_DAY(), CF::SECOND_OF_DAY(), \intdiv($lod, 1000));
             $this->updateCheckConflict3(CF::MILLI_OF_DAY(), CF::MILLI_OF_SECOND(), $lod % 1000);
         }
         if ($this->fieldValues->has(CF::SECOND_OF_DAY())) {
@@ -446,8 +446,8 @@ final class Parsed extends AbstractTemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 CF::SECOND_OF_DAY()->checkValidValue($sod);
             }
-            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($sod, 3600));
-            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::MINUTE_OF_HOUR(), Math::div($sod, 60) % 60);
+            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::HOUR_OF_DAY(), \intdiv($sod, 3600));
+            $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::MINUTE_OF_HOUR(), \intdiv($sod, 60) % 60);
             $this->updateCheckConflict3(CF::SECOND_OF_DAY(), CF::SECOND_OF_MINUTE(), $sod % 60);
         }
         if ($this->fieldValues->has(CF::MINUTE_OF_DAY())) {
@@ -455,7 +455,7 @@ final class Parsed extends AbstractTemporalAccessor
             if ($this->resolverStyle != ResolverStyle::LENIENT()) {
                 CF::MINUTE_OF_DAY()->checkValidValue($mod);
             }
-            $this->updateCheckConflict3(CF::MINUTE_OF_DAY(), CF::HOUR_OF_DAY(), Math::div($mod, 60));
+            $this->updateCheckConflict3(CF::MINUTE_OF_DAY(), CF::HOUR_OF_DAY(), \intdiv($mod, 60));
             $this->updateCheckConflict3(CF::MINUTE_OF_DAY(), CF::MINUTE_OF_HOUR(), $mod % 60);
         }
 
@@ -602,8 +602,8 @@ final class Parsed extends AbstractTemporalAccessor
         ) {
             if ($this->fieldValues->has(CF::NANO_OF_SECOND())) {
                 $nos = $this->fieldValues->get(CF::NANO_OF_SECOND());
-                $this->fieldValues->put(CF::MICRO_OF_SECOND(), Math::div($nos, 1000));
-                $this->fieldValues->put(CF::MILLI_OF_SECOND(), Math::div($nos, 1000000));
+                $this->fieldValues->put(CF::MICRO_OF_SECOND(), \intdiv($nos, 1000));
+                $this->fieldValues->put(CF::MILLI_OF_SECOND(), \intdiv($nos, 1000000));
             } else {
                 $this->fieldValues->put(CF::NANO_OF_SECOND(), 0);
                 $this->fieldValues->put(CF::MICRO_OF_SECOND(), 0);
@@ -684,7 +684,7 @@ final class Parsed extends AbstractTemporalAccessor
     }
 
 //-----------------------------------------------------------------------
-    public function __toString()
+    public function __toString() : string
     {
         $buf = $this->fieldValues . $this->chrono;
         if ($this->zone !== null) {

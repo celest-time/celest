@@ -69,7 +69,7 @@ class DayOfQuarter implements TemporalField
 
         $quarterDays = [0, 90, 181, 273, 0, 91, 182, 274];
 
-        return $doy - $quarterDays[Math::div(($moy - 1), 3) + (IsoChronology::INSTANCE()->isLeapYear($year) ? 4 : 0)];
+        return $doy - $quarterDays[\intdiv(($moy - 1), 3) + (IsoChronology::INSTANCE()->isLeapYear($year) ? 4 : 0)];
     }
 
     public function adjustInto(Temporal $temporal, $newValue)

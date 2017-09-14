@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Clocks;
 
@@ -24,12 +24,12 @@ final class FixedClock extends Clock
         $this->zone = $zone;
     }
 
-    public function getZone()
+    public function getZone() : ZoneId
     {
         return $this->zone;
     }
 
-    public function withZone(ZoneId $zone)
+    public function withZone(ZoneId $zone) : Clock
     {
         if ($zone->equals($this->zone)) {  // intentional NPE
             return $this;
@@ -37,17 +37,17 @@ final class FixedClock extends Clock
         return new FixedClock($this->instant, $zone);
     }
 
-    public function millis()
+    public function millis() : int
     {
         return $this->instant->toEpochMilli();
     }
 
-    public function instant()
+    public function instant() : Instant
     {
         return $this->instant;
     }
 
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($obj instanceof FixedClock) {
             return $this->instant->equals($obj->instant) && $this->zone->equals($obj->zone);
@@ -55,7 +55,7 @@ final class FixedClock extends Clock
         return false;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "FixedClock[" . $this->instant . "," . $this->zone . "]";
     }

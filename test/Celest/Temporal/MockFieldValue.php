@@ -75,12 +75,12 @@ final class MockFieldValue extends AbstractTemporalAccessor
         $this->value = $value;
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field != null && $field->equals($this->field);
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($this->isSupported($field)) {
@@ -92,7 +92,7 @@ final class MockFieldValue extends AbstractTemporalAccessor
         return $field->rangeRefinedBy($this);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($this->field == $field) {
             return $this->value;

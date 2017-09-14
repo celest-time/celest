@@ -163,7 +163,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static
      * @throws UnsupportedTemporalTypeException
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof CU) {
             switch ($unit) {
@@ -380,7 +380,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         return ($packed2 - $packed1) / 32;
     }
 
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -391,7 +391,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         return false;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         // getLong() reduces chances of exceptions in toString()
         $yoe = $this->getLong(CF::YEAR_OF_ERA());

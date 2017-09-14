@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest;
 
@@ -22,7 +22,7 @@ class DateTimeParseException extends DateTimeException
      * @param int $errorIndex the index in the parsed string that was invalid, should be a valid index
      * @param \Exception $cause the cause exception, may be null
      */
-    public function __construct($message, $parsedData, $errorIndex, $cause = null)
+    public function __construct(string $message, string $parsedData, int $errorIndex, \Exception $cause = null)
     {
         parent::__construct($message, $cause);
         $this->parsedString = $parsedData;
@@ -34,7 +34,7 @@ class DateTimeParseException extends DateTimeException
      *
      * @return string the string that was being parsed, should not be null.
      */
-    public function getParsedString()
+    public function getParsedString() : string
     {
         return $this->parsedString;
     }
@@ -44,7 +44,7 @@ class DateTimeParseException extends DateTimeException
      *
      * @return int the index in the parsed string that was invalid, should be a valid index
      */
-    public function getErrorIndex()
+    public function getErrorIndex() : int
     {
         return $this->errorIndex;
     }

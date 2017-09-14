@@ -192,7 +192,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-----------------------------------------------------------------------
-    public function multipliedBy($scalar)
+    public function multipliedBy(int $scalar)
     {
         if ($this->isZero() || $scalar === 1) {
             return $this;
@@ -210,7 +210,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
         $monthRange = $this->monthRange();
         if ($monthRange > 0) {
             $totalMonths = $this->years * $monthRange + $this->months;
-            $splitYears = Math::div($totalMonths, $monthRange);
+            $splitYears = \intdiv($totalMonths, $monthRange);
             $splitMonths = $totalMonths % $monthRange;  // no overflow
             if ($splitYears === $this->years && $splitMonths === $this->months) {
                 return $this;

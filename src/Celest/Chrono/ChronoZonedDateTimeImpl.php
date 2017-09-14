@@ -267,14 +267,14 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
 
     //-----------------------------------------------------------------------
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field instanceof ChronoField || ($field !== null && $field->isSupportedBy($this));
     }
 
 //-----------------------------------------------------------------------
 
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue)
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -293,7 +293,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
 
     //-----------------------------------------------------------------------
 
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             return $this->adjust($this->dateTime->plus($amountToAdd, $unit));
@@ -327,7 +327,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
     }
 
 
-    public function __toString()
+    public function __toString() : string
     {
         $str = $this->toLocalDateTime()->__toString() . $this->getOffset()->__toString();
         if ($this->getOffset() !== $this->getZone()) {

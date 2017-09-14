@@ -128,7 +128,7 @@ interface TemporalAccessor
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if this date-time can be queried for the field, false if not
      */
-    public function isSupported(TemporalField $field);
+    public function isSupported(TemporalField $field) : bool;
 
     /**
      * Gets the range of valid values for the specified field.
@@ -171,7 +171,7 @@ interface TemporalAccessor
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field);
+    public function range(TemporalField $field) : ValueRange;
 
     /**
      * Gets the value of the specified field as an {@code int}.
@@ -210,7 +210,7 @@ interface TemporalAccessor
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field);
+    public function get(TemporalField $field) : int;
 
     /**
      * Gets the value of the specified field as a {@code long}.
@@ -238,7 +238,7 @@ interface TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field);
+    public function getLong(TemporalField $field) : int;
 
     /**
      * Queries this date-time.
@@ -293,5 +293,5 @@ interface TemporalAccessor
      */
     public function query(TemporalQuery $query);
 
-    public function __toString();
+    public function __toString() : string;
 }

@@ -74,6 +74,7 @@ use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
+use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
 
@@ -104,7 +105,7 @@ class Test extends AbstractTemporalAccessor
     }
 
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->isSupported($field);
@@ -113,7 +114,7 @@ class Test extends AbstractTemporalAccessor
         return $this->temporal->isSupported($field);
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->range($field);
@@ -122,7 +123,7 @@ class Test extends AbstractTemporalAccessor
         return $this->temporal->range($field);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($this->effectiveDate !== null && $field->isDateBased()) {
             return $this->effectiveDate->getLong($field);

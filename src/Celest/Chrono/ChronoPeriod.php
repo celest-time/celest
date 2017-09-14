@@ -218,7 +218,7 @@ interface ChronoPeriod
      *  by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function multipliedBy($scalar);
+    function multipliedBy(int $scalar);
 
     /**
      * Returns a new instance with each amount in this period negated.

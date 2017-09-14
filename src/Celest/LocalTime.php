@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
@@ -163,7 +163,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      */
     const NANOS_PER_DAY = self::NANOS_PER_HOUR * self::HOURS_PER_DAY;
 
-    public static function init()
+    public static function init() : void
     {
         for ($i = 0; $i < 24; $i++) {
             self::$HOURS[$i] = new LocalTime($i, 0, 0, 0);
@@ -179,7 +179,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * This is the time of midnight at the start of the day.
      * @return LocalTime
      */
-    public static function MIN()
+    public static function MIN() : LocalTime
     {
         return self::$MIN;
     }
@@ -191,7 +191,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * The maximum supported {@code LocalTime}, '23:59:59.999999999'.
      * This is the time just before midnight at the end of the day.
      */
-    public static function MAX()
+    public static function MAX() : LocalTime
     {
         return self::$MAX;
     }
@@ -202,7 +202,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
     /**
      * The time of midnight at the start of the day, '00:00'.
      */
-    public static function MIDNIGHT()
+    public static function MIDNIGHT() : LocalTime
     {
         return self::$MIDNIGHT;
     }
@@ -213,7 +213,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
     /**
      * The time of noon in the middle of the day, '12:00'.
      */
-    public static function NOON()
+    public static function NOON() : LocalTime
     {
         return self::$NOON;
     }
@@ -260,7 +260,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return LocalTime the current time using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : LocalTime
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -277,7 +277,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param ZoneId $zone the zone ID to use, not null
      * @return LocalTime the current time using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : LocalTime
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -292,7 +292,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param Clock $clock the clock to use, not null
      * @return LocalTime the current time, not null
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : LocalTime
     {
         // inline OffsetTime factory to avoid creating object and InstantProvider checks
         $now = $clock->instant();  // called once
@@ -315,7 +315,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
-    public static function of($hour, $minute, $second = 0, $nanoOfSecond = 0)
+    public static function of(int $hour, int $minute, int $second = 0, int $nanoOfSecond = 0) : LocalTime
     {
         ChronoField::HOUR_OF_DAY()->checkValidValue($hour);
 
@@ -340,12 +340,12 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the second-of-day value is invalid
      */
-    public static function ofSecondOfDay($secondOfDay)
+    public static function ofSecondOfDay(int $secondOfDay) : LocalTime
     {
         ChronoField::SECOND_OF_DAY()->checkValidValue($secondOfDay);
-        $hours = Math::div($secondOfDay, self::SECONDS_PER_HOUR);
+        $hours = \intdiv($secondOfDay, self::SECONDS_PER_HOUR);
         $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
-        $minutes = Math::div($secondOfDay, self::SECONDS_PER_MINUTE);
+        $minutes = \intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
         $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
         return self::create($hours, $minutes, (int)$secondOfDay, 0);
     }
@@ -359,14 +359,14 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if the nanos of day value is invalid
      */
-    public static function ofNanoOfDay($nanoOfDay)
+    public static function ofNanoOfDay(int $nanoOfDay) : LocalTime
     {
         ChronoField::NANO_OF_DAY()->checkValidValue($nanoOfDay);
-        $hours = Math::div($nanoOfDay, self::NANOS_PER_HOUR);
+        $hours = \intdiv($nanoOfDay, self::NANOS_PER_HOUR);
         $nanoOfDay -= $hours * self::NANOS_PER_HOUR;
-        $minutes = Math::div($nanoOfDay, self::NANOS_PER_MINUTE);
+        $minutes = \intdiv($nanoOfDay, self::NANOS_PER_MINUTE);
         $nanoOfDay -= $minutes * self::NANOS_PER_MINUTE;
-        $seconds = Math::div($nanoOfDay, self::NANOS_PER_SECOND);
+        $seconds = \intdiv($nanoOfDay, self::NANOS_PER_SECOND);
         $nanoOfDay -= $seconds * self::NANOS_PER_SECOND;
         return self::create($hours, $minutes, $seconds, (int)$nanoOfDay);
     }
@@ -389,7 +389,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the local time, not null
      * @throws DateTimeException if unable to convert to a {@code LocalTime}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : LocalTime
     {
         $time = $temporal->query(TemporalQueries::localTime());
         if ($time === null) {
@@ -411,7 +411,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parse($text)
+    public static function parse(string $text) : LocalTime
     {
         return self::parseWith($text, DateTimeFormatter::ISO_LOCAL_TIME());
     }
@@ -426,7 +426,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith(string $text, DateTimeFormatter $formatter) : LocalTime
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([self::class, 'from']));
     }
@@ -443,7 +443,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $nanoOfSecond the nano-of-second to represent, validated from 0 to 999,999,999
      * @return LocalTime LocalTime the local time, not null
      */
-    private static function create($hour, $minute, $second, $nanoOfSecond)
+    private static function create(int $hour, int $minute, int $second, int $nanoOfSecond) : LocalTime
     {
         if (($minute | $second | $nanoOfSecond) === 0) {
             return self::$HOURS[$hour];
@@ -460,7 +460,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $second the second-of-minute to represent, validated from 0 to 59
      * @param int $nanoOfSecond the nano-of-second to represent, validated from 0 to 999,999,999
      */
-    private function __construct($hour, $minute, $second, $nanoOfSecond)
+    private function __construct(int $hour, int $minute, int $second, int $nanoOfSecond)
     {
         $this->hour = $hour;
         $this->minute = $minute;
@@ -506,7 +506,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this time, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field->isTimeBased();
@@ -543,7 +543,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit->isTimeBased();
@@ -576,7 +576,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         return parent::range($field);
     }
@@ -608,7 +608,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             return $this->get0($field);
@@ -640,7 +640,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::NANO_OF_DAY()) {
@@ -648,7 +648,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             }
 
             if ($field == ChronoField::MICRO_OF_DAY()) {
-                return Math::div($this->toNanoOfDay(), 1000);
+                return \intdiv($this->toNanoOfDay(), 1000);
             }
             return $this->get0($field);
         }
@@ -663,13 +663,13 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             case ChronoField::NANO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'NanoOfDay' for get() method, use getLong() instead");
             case ChronoField::MICRO_OF_SECOND():
-                return Math::div($this->nano, 1000);
+                return \intdiv($this->nano, 1000);
             case ChronoField::MICRO_OF_DAY():
                 throw new UnsupportedTemporalTypeException("Invalid field 'MicroOfDay' for get() method, use getLong() instead");
             case ChronoField::MILLI_OF_SECOND():
-                return Math::div($this->nano, 1000000);
+                return \intdiv($this->nano, 1000000);
             case ChronoField::MILLI_OF_DAY():
-                return Math::div($this->toNanoOfDay(), 1000000);
+                return \intdiv($this->toNanoOfDay(), 1000000);
             case ChronoField::SECOND_OF_MINUTE():
                 return $this->second;
             case ChronoField::SECOND_OF_DAY():
@@ -688,7 +688,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             case ChronoField::CLOCK_HOUR_OF_DAY():
                 return ($this->hour === 0 ? 24 : $this->hour);
             case ChronoField::AMPM_OF_DAY():
-                return Math::div($this->hour, 12);
+                return \intdiv($this->hour, 12);
         }
 
         throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -700,7 +700,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the hour-of-day, from 0 to 23
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->hour;
     }
@@ -710,7 +710,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the minute-of-hour, from 0 to 59
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->minute;
     }
@@ -720,7 +720,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the second-of-minute, from 0 to 59
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->second;
     }
@@ -730,7 +730,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the nano-of-second, from 0 to 999,999,999
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->nano;
     }
@@ -757,7 +757,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjust(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster) : LocalTime
     {
         // optimizations
         if ($adjuster instanceof LocalTime) {
@@ -849,7 +849,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : LocalTime
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -884,7 +884,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
                 case ChronoField::CLOCK_HOUR_OF_DAY():
                     return $this->withHour((int)($newValue === 24 ? 0 : $newValue));
                 case ChronoField::AMPM_OF_DAY():
-                    return $this->plusHours(($newValue - Math::div($this->hour, 12)) * 12);
+                    return $this->plusHours(($newValue - \intdiv($this->hour, 12)) * 12);
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -902,7 +902,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime a {@code LocalTime} based on this time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : LocalTime
     {
         if ($this->hour === $hour) {
             return $this;
@@ -921,7 +921,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime a {@code LocalTime} based on this time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : LocalTime
     {
         if ($this->minute === $minute) {
             return $this;
@@ -940,7 +940,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime a {@code LocalTime} based on this time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : LocalTime
     {
         if ($this->second === $second) {
             return $this;
@@ -959,7 +959,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return LocalTime a {@code LocalTime} based on this time with the requested nanosecond, not null
      * @throws DateTimeException if the nanos value is invalid
      */
-    public function withNano($nanoOfSecond)
+    public function withNano(int $nanoOfSecond) : LocalTime
     {
         if ($this->nano === $nanoOfSecond) {
             return $this;
@@ -990,7 +990,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public function truncatedTo(TemporalUnit $unit)
+    public function truncatedTo(TemporalUnit $unit) : LocalTime
     {
         if ($unit == ChronoUnit::NANOS()) {
             return $this;
@@ -1005,7 +1005,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             throw new UnsupportedTemporalTypeException("Unit must divide into a standard day without remainder");
         }
         $nod = $this->toNanoOfDay();
-        return $this->ofNanoOfDay(Math::div($nod, $dur) * $dur);
+        return $this->ofNanoOfDay(\intdiv($nod, $dur) * $dur);
     }
 
     //-----------------------------------------------------------------------
@@ -1029,7 +1029,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusAmount(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd) : LocalTime
     {
         return $amountToAdd->addTo($this);
     }
@@ -1086,7 +1086,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : LocalTime
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
@@ -1123,7 +1123,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $hoursToAdd the hours to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the hours added, not null
      */
-    public function plusHours($hoursToAdd)
+    public function plusHours(int $hoursToAdd) : LocalTime
     {
         if ($hoursToAdd === 0) {
             return $this;
@@ -1144,7 +1144,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $minutesToAdd the minutes to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the minutes added, not null
      */
-    public function plusMinutes($minutesToAdd)
+    public function plusMinutes(int $minutesToAdd) : LocalTime
     {
         if ($minutesToAdd === 0) {
             return $this;
@@ -1155,7 +1155,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
         if ($mofd === $newMofd) {
             return $this;
         }
-        $newHour = Math::div($newMofd, self::MINUTES_PER_HOUR);
+        $newHour = \intdiv($newMofd, self::MINUTES_PER_HOUR);
         $newMinute = $newMofd % self::MINUTES_PER_HOUR;
         return self::create($newHour, $newMinute, $this->second, $this->nano);
     }
@@ -1171,7 +1171,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $secondstoAdd the seconds to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the seconds added, not null
      */
-    public function plusSeconds($secondstoAdd)
+    public function plusSeconds(int $secondstoAdd) : LocalTime
     {
         if ($secondstoAdd === 0) {
             return $this;
@@ -1183,8 +1183,8 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
         if ($sofd === $newSofd) {
             return $this;
         }
-        $newHour = Math::div($newSofd, self::SECONDS_PER_HOUR);
-        $newMinute = Math::div($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $newHour = \intdiv($newSofd, self::SECONDS_PER_HOUR);
+        $newMinute = \intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
         $newSecond = $newSofd % self::SECONDS_PER_MINUTE;
         return self::create($newHour, $newMinute, $newSecond, $this->nano);
     }
@@ -1200,7 +1200,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $nanosToAdd the nanos to add, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the nanoseconds added, not null
      */
-    public function plusNanos($nanosToAdd)
+    public function plusNanos(int $nanosToAdd) : LocalTime
     {
         if ($nanosToAdd === 0) {
             return $this;
@@ -1211,9 +1211,9 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
         if ($nofd === $newNofd) {
             return $this;
         }
-        $newHour = Math::div($newNofd, self::NANOS_PER_HOUR);
-        $newMinute = Math::div($newNofd, self::NANOS_PER_MINUTE) % self::MINUTES_PER_HOUR;
-        $newSecond = Math::div($newNofd, self::NANOS_PER_SECOND) % self::SECONDS_PER_MINUTE;
+        $newHour = \intdiv($newNofd, self::NANOS_PER_HOUR);
+        $newMinute = \intdiv($newNofd, self::NANOS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $newSecond = \intdiv($newNofd, self::NANOS_PER_SECOND) % self::SECONDS_PER_MINUTE;
         $newNano = $newNofd % self::NANOS_PER_SECOND;
         return self::create($newHour, $newMinute, $newSecond, $newNano);
     }
@@ -1239,7 +1239,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract) : LocalTime
     {
         return $amountToSubtract->subtractFrom($this);
     }
@@ -1263,7 +1263,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : LocalTime
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -1280,7 +1280,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $hoursToSubtract the hours to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the hours subtracted, not null
      */
-    public function minusHours($hoursToSubtract)
+    public function minusHours(int $hoursToSubtract) : LocalTime
     {
         return $this->plusHours(-($hoursToSubtract % self::HOURS_PER_DAY));
     }
@@ -1296,7 +1296,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $minutesToSubtract the minutes to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the minutes subtracted, not null
      */
-    public function minusMinutes($minutesToSubtract)
+    public function minusMinutes(int $minutesToSubtract) : LocalTime
     {
         return $this->plusMinutes(-($minutesToSubtract % self::MINUTES_PER_DAY));
     }
@@ -1312,7 +1312,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $secondsToSubtract the seconds to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the seconds subtracted, not null
      */
-    public function minusSeconds($secondsToSubtract)
+    public function minusSeconds(int $secondsToSubtract) : LocalTime
     {
         return $this->plusSeconds(-($secondsToSubtract % self::SECONDS_PER_DAY));
     }
@@ -1328,7 +1328,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param int $nanosToSubtract the nanos to subtract, may be negative
      * @return LocalTime a {@code LocalTime} based on this time with the nanoseconds subtracted, not null
      */
-    public function minusNanos($nanosToSubtract)
+    public function minusNanos(int $nanosToSubtract) : LocalTime
     {
         return $this->plusNanos(-($nanosToSubtract % self::NANOS_PER_DAY));
     }
@@ -1395,7 +1395,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         return $temporal->with(ChronoField::NANO_OF_DAY(), $this->toNanoOfDay());
     }
@@ -1447,7 +1447,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = self::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -1456,17 +1456,17 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
                 case ChronoUnit::NANOS():
                     return $nanosUntil;
                 case ChronoUnit::MICROS():
-                    return Math::div($nanosUntil, 1000);
+                    return \intdiv($nanosUntil, 1000);
                 case ChronoUnit::MILLIS():
-                    return Math::div($nanosUntil, 1000000);
+                    return \intdiv($nanosUntil, 1000000);
                 case ChronoUnit::SECONDS():
-                    return Math::div($nanosUntil, self::NANOS_PER_SECOND);
+                    return \intdiv($nanosUntil, self::NANOS_PER_SECOND);
                 case ChronoUnit::MINUTES():
-                    return Math::div($nanosUntil, self::NANOS_PER_MINUTE);
+                    return \intdiv($nanosUntil, self::NANOS_PER_MINUTE);
                 case ChronoUnit::HOURS():
-                    return Math::div($nanosUntil, self::NANOS_PER_HOUR);
+                    return \intdiv($nanosUntil, self::NANOS_PER_HOUR);
                 case ChronoUnit::HALF_DAYS():
-                    return Math::div($nanosUntil, (12 * self::NANOS_PER_HOUR));
+                    return \intdiv($nanosUntil, (12 * self::NANOS_PER_HOUR));
             }
 
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -1483,7 +1483,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return string the formatted time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -1498,7 +1498,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param LocalDate $date the date to combine with, not null
      * @return LocalDateTime LocalTime the local date-time formed from this time and the specified date, not null
      */
-    public function atDate(LocalDate $date)
+    public function atDate(LocalDate $date)  : LocalDateTime
     {
         return LocalDateTime::ofDateAndTime($date, $this);
     }
@@ -1512,7 +1512,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param ZoneOffset $offset the offset to combine with, not null
      * @return OffsetTime the offset time formed from this time and the specified offset, not null
      */
-    public function atOffset(ZoneOffset $offset)
+    public function atOffset(ZoneOffset $offset) : OffsetTime
     {
         return OffsetTime::ofLocalTime($this, $offset);
     }
@@ -1524,7 +1524,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the second-of-day equivalent to this time
      */
-    public function toSecondOfDay()
+    public function toSecondOfDay() : int
     {
         $total = $this->hour * self::SECONDS_PER_HOUR;
         $total += $this->minute * self::SECONDS_PER_MINUTE;
@@ -1538,7 +1538,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return int the nano of day equivalent to this time
      */
-    public function toNanoOfDay()
+    public function toNanoOfDay() : int
     {
         $total = $this->hour * self::NANOS_PER_HOUR;
         $total += $this->minute * self::NANOS_PER_MINUTE;
@@ -1558,7 +1558,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return int the comparator value, negative if less, positive if greater
      * @throws NullPointerException if {@code other} is null
      */
-    public function compareTo(LocalTime $other)
+    public function compareTo(LocalTime $other) : int
     {
         $cmp = Integer::compare($this->hour, $other->hour);
         if ($cmp === 0) {
@@ -1582,7 +1582,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return bool true if this is after the specified time
      * @throws NullPointerException if {@code other} is null
      */
-    public function isAfter(LocalTime $other)
+    public function isAfter(LocalTime $other) : bool
     {
         return $this->compareTo($other) > 0;
     }
@@ -1596,7 +1596,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @return bool true if this point is before the specified time
      * @throws NullPointerException if {@code other} is null
      */
-    public function isBefore(LocalTime $other)
+    public function isBefore(LocalTime $other) : bool
     {
         return $this->compareTo($other) < 0;
     }
@@ -1614,7 +1614,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other time
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -1645,7 +1645,7 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
      *
      * @return string a string representation of this time, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         $buf = "";
         $hourValue = $this->hour;
@@ -1659,11 +1659,11 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             if ($nanoValue > 0) {
                 $buf .= '.';
                 if ($nanoValue % 1000000 === 0) {
-                    $buf .= \substr(Math::div($nanoValue, 1000000) + 1000, 1);
+                    $buf .= \substr((string)(\intdiv($nanoValue, 1000000) + 1000), 1);
                 } else if ($nanoValue % 1000 === 0) {
-                    $buf .= \substr(Math::div($nanoValue, 1000) + 1000000, 1);
+                    $buf .= \substr((string)(\intdiv($nanoValue, 1000) + 1000000), 1);
                 } else {
-                    $buf .= \substr($nanoValue + 1000000000, 1);
+                    $buf .= \substr((string)($nanoValue + 1000000000), 1);
                 }
             }
         }

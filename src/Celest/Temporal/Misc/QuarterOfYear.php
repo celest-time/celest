@@ -43,7 +43,7 @@ class QuarterOfYear implements TemporalField
             throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
         }
         $moy = $temporal->getLong(ChronoField::MONTH_OF_YEAR());
-        return Math::div(($moy + 2), 3);
+        return \intdiv(($moy + 2), 3);
     }
 
     public function adjustInto(Temporal $temporal, $newValue)

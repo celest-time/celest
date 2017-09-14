@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
 * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
 * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -114,7 +114,7 @@ final class Duration implements TemporalAmount
     /** @var Duration $ZERO */
     private static $ZERO;
 
-    public static function init()
+    public static function init() : void
     {
         self::$ZERO = new Duration(0, 0);
     }
@@ -123,7 +123,7 @@ final class Duration implements TemporalAmount
      * Constant for a duration of zero.
      * @return Duration
      */
-    public static function ZERO()
+    public static function ZERO() : Duration
     {
         return self::$ZERO;
     }
@@ -163,7 +163,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input days exceeds the capacity of {@code Duration}
      */
-    public static function ofDays($days)
+    public static function ofDays(int $days) : Duration
     {
         return self::create(Math::multiplyExact($days, LocalTime::SECONDS_PER_DAY), 0);
     }
@@ -179,7 +179,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input hours exceeds the capacity of {@code Duration}
      */
-    public static function ofHours($hours)
+    public static function ofHours(int $hours) : Duration
     {
         return self::create(Math::multiplyExact($hours, LocalTime::SECONDS_PER_HOUR), 0);
     }
@@ -195,7 +195,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the input minutes exceeds the capacity of {@code Duration}
      */
-    public static function ofMinutes($minutes)
+    public static function ofMinutes(int $minutes) : Duration
     {
         return self::create(Math::multiplyExact($minutes, LocalTime::SECONDS_PER_MINUTE), 0);
     }
@@ -220,7 +220,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if the adjustment causes the seconds to exceed the capacity of {@code Duration}
      */
-    public static function ofSeconds($seconds, $nanoAdjustment = 0)
+    public static function ofSeconds(int $seconds, int $nanoAdjustment = 0) : Duration
     {
         $secs = Math::addExact($seconds, Math::floorDiv($nanoAdjustment, LocalTime::NANOS_PER_SECOND));
         $nos = Math::floorMod($nanoAdjustment, LocalTime::NANOS_PER_SECOND);
@@ -236,9 +236,9 @@ final class Duration implements TemporalAmount
      * @param int $millis the number of milliseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      */
-    public static function ofMillis($millis)
+    public static function ofMillis(int $millis) : Duration
     {
-        $secs = Math::div($millis, 1000);
+        $secs = \intdiv($millis, 1000);
         $mos = $millis % 1000;
         if ($mos < 0) {
             $mos += 1000;
@@ -256,9 +256,9 @@ final class Duration implements TemporalAmount
      * @param int $nanos the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      */
-    public static function ofNanos($nanos)
+    public static function ofNanos(int $nanos) : Duration
     {
-        $secs = Math::div($nanos, LocalTime::NANOS_PER_SECOND);
+        $secs = \intdiv($nanos, LocalTime::NANOS_PER_SECOND);
         $nos = $nanos % LocalTime::NANOS_PER_SECOND;
         if ($nos < 0) {
             $nos += LocalTime::NANOS_PER_SECOND;
@@ -286,7 +286,7 @@ final class Duration implements TemporalAmount
      * @throws DateTimeException if the period unit has an estimated duration
      * @throws ArithmeticException if a numeric overflow occurs
      */
-    public static function of($amount, TemporalUnit $unit)
+    public static function of(int $amount, TemporalUnit $unit) : Duration
     {
         return self::$ZERO->plus($amount, $unit);
     }
@@ -312,7 +312,7 @@ final class Duration implements TemporalAmount
      * @throws DateTimeException if unable to convert to a {@code Duration}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public static function from(TemporalAmount $amount)
+    public static function from(TemporalAmount $amount) : Duration
     {
         $duration = self::$ZERO;
         foreach ($amount->getUnits() as $unit) {
@@ -366,12 +366,8 @@ final class Duration implements TemporalAmount
      * @return Duration the parsed duration, not null
      * @throws DateTimeParseException if the text cannot be parsed to a duration
      */
-    public static function parse($text)
+    public static function parse(string $text) : Duration
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         $m = preg_match(self::$PATTERN, $text, $matches);
         if ($m === 1) {
             // check for letter T but no time sections
@@ -399,7 +395,7 @@ final class Duration implements TemporalAmount
         throw new DateTimeParseException("Text cannot be parsed to a Duration", $text, 0);
     }
 
-    private static function parseNumber($text, $parsed, $multiplier, $errorText)
+    private static function parseNumber(string $text, ?string $parsed, int $multiplier, string $errorText) : int
     {
         // regex limits to [-+]?[0-9]+
         if ($parsed === null || $parsed === '') {
@@ -414,7 +410,7 @@ final class Duration implements TemporalAmount
         }
     }
 
-    private static function parseFraction($text, $parsed, $negate)
+    private static function parseFraction(string $text, ?string $parsed, int $negate) : int
     {
         // regex limits to [0-9]{0,9}
         if ($parsed === null || strlen($parsed) === 0) {
@@ -429,7 +425,7 @@ final class Duration implements TemporalAmount
         }
     }
 
-    private static function createSpecial($negate, $daysAsSecs, $hoursAsSecs, $minsAsSecs, $secs, $nanos)
+    private static function createSpecial(bool $negate, int $daysAsSecs, int $hoursAsSecs, int $minsAsSecs, int $secs, int $nanos) : Duration
     {
         $seconds = Math::addExact($daysAsSecs, Math::addExact($hoursAsSecs, Math::addExact($minsAsSecs, $secs)));
         if ($negate) {
@@ -463,7 +459,7 @@ final class Duration implements TemporalAmount
      *
      * TODO check
      */
-    public static function between(Temporal $startInclusive, Temporal $endExclusive)
+    public static function between(Temporal $startInclusive, Temporal $endExclusive) : Duration
     {
         try {
             return self::ofNanos($startInclusive->until($endExclusive, ChronoUnit::NANOS()));
@@ -492,7 +488,7 @@ final class Duration implements TemporalAmount
      * @param int $nanoAdjustment the nanosecond adjustment within the second, from 0 to 999,999,999
      * @return Duration
      */
-    private static function create($seconds, $nanoAdjustment)
+    private static function create(int $seconds, int $nanoAdjustment) : Duration
     {
         if (($seconds | $nanoAdjustment) === 0) {
             return self::$ZERO;
@@ -507,7 +503,7 @@ final class Duration implements TemporalAmount
      * @param int $seconds the length of the duration in seconds, positive or negative
      * @param int $nanos the nanoseconds within the second, from 0 to 999,999,999
      */
-    private function __construct($seconds, $nanos)
+    private function __construct(int $seconds, int $nanos)
     {
         $this->seconds = $seconds;
         $this->nanos = $nanos;
@@ -526,7 +522,7 @@ final class Duration implements TemporalAmount
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit): int
     {
         if ($unit == ChronoUnit::SECONDS()) {
             return $this->seconds;
@@ -550,7 +546,7 @@ final class Duration implements TemporalAmount
      *
      * @return TemporalUnit[] a list containing the seconds and nanos units, not null
      */
-    public function getUnits()
+    public function getUnits() : array
     {
         return [ChronoUnit::SECONDS(), ChronoUnit::NANOS()];
     }
@@ -577,7 +573,7 @@ final class Duration implements TemporalAmount
      *
      * @return bool true if this duration has a total length equal to zero
      */
-    public function isZero()
+    public function isZero() : bool
     {
         return ($this->seconds | $this->nanos) === 0;
     }
@@ -591,7 +587,7 @@ final class Duration implements TemporalAmount
      *
      * @return bool true if this duration has a total length less than zero
      */
-    public function isNegative()
+    public function isNegative() : bool
     {
         return $this->seconds < 0;
     }
@@ -611,7 +607,7 @@ final class Duration implements TemporalAmount
      *
      * @return int the whole seconds part of the length of the duration, positive or negative
      */
-    public function getSeconds()
+    public function getSeconds() : int
     {
         return $this->seconds;
     }
@@ -630,7 +626,7 @@ final class Duration implements TemporalAmount
      *
      * @return int the nanoseconds within the second part of the length of the duration, from 0 to 999,999,999
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->nanos;
     }
@@ -647,7 +643,7 @@ final class Duration implements TemporalAmount
      * @param int $seconds the seconds to represent, may be negative
      * @return Duration a {@code Duration} based on this period with the requested seconds, not null
      */
-    public function withSeconds($seconds)
+    public function withSeconds(int $seconds) : Duration
     {
         return self::create($seconds, $this->nanos);
     }
@@ -664,27 +660,13 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this period with the requested nano-of-second, not null
      * @throws DateTimeException if the nano-of-second is invalid
      */
-    public function withNanos($nanoOfSecond)
+    public function withNanos(int $nanoOfSecond) : Duration
     {
         ChronoField::NANO_OF_SECOND()->checkValidIntValue($nanoOfSecond);
         return self::create($this->seconds, $nanoOfSecond);
     }
 
     //-----------------------------------------------------------------------
-    /**
-     * Returns a copy of this duration with the specified duration added.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param Duration $duration the duration to add, positive or negative, not null
-     * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
-     * @throws ArithmeticException if numeric overflow occurs
-     */
-    public function plusAmount(Duration $duration)
-    {
-        return $this->_plus($duration->getSeconds(), $duration->getNano());
-    }
-
     /**
      * Returns a copy of this duration with the specified duration added.
      * <p>
@@ -701,7 +683,7 @@ final class Duration implements TemporalAmount
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : Duration
     {
         if ($unit == ChronoUnit::DAYS()) {
             return $this->_plus(Math::multiplyExact($amountToAdd, LocalTime::SECONDS_PER_DAY), 0);
@@ -718,7 +700,7 @@ final class Duration implements TemporalAmount
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plusSeconds(Math::div($amountToAdd, (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
+                    return $this->plusSeconds(\intdiv($amountToAdd, (1000000 * 1000)) * 1000)->plusNanos(($amountToAdd % (1000000 * 1000)) * 1000);
                 case ChronoUnit::MILLIS():
                     return $this->plusMillis($amountToAdd);
                 case ChronoUnit::SECONDS():
@@ -728,6 +710,20 @@ final class Duration implements TemporalAmount
         }
         $duration = $unit->getDuration()->multipliedBy($amountToAdd);
         return $this->plusSeconds($duration->getSeconds())->plusNanos($duration->getNano());
+    }
+
+    /**
+     * Returns a copy of this duration with the specified duration added.
+     * <p>
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @param Duration $duration the duration to add, positive or negative, not null
+     * @return Duration a {@code Duration} based on this duration with the specified duration added, not null
+     * @throws ArithmeticException if numeric overflow occurs
+     */
+    public function plusAmount(Duration $duration) : Duration
+    {
+        return $this->_plus($duration->getSeconds(), $duration->getNano());
     }
 
     //-----------------------------------------------------------------------
@@ -743,7 +739,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusDays($daysToAdd)
+    public function plusDays(int $daysToAdd) : Duration
     {
         return $this->_plus(Math::multiplyExact($daysToAdd, LocalTime::SECONDS_PER_DAY), 0);
     }
@@ -757,7 +753,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified hours added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusHours($hoursToAdd)
+    public function plusHours(int $hoursToAdd) : Duration
     {
         return $this->_plus(Math::multiplyExact($hoursToAdd, LocalTime::SECONDS_PER_HOUR), 0);
     }
@@ -771,7 +767,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified minutes added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusMinutes($minutesToAdd)
+    public function plusMinutes(int $minutesToAdd) : Duration
     {
         return $this->_plus(Math::multiplyExact($minutesToAdd, LocalTime::SECONDS_PER_MINUTE), 0);
     }
@@ -785,7 +781,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified seconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusSeconds($secondsToAdd)
+    public function plusSeconds(int $secondsToAdd) : Duration
     {
         return $this->_plus($secondsToAdd, 0);
     }
@@ -799,9 +795,9 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified milliseconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusMillis($millisToAdd)
+    public function plusMillis(int $millisToAdd) : Duration
     {
-        return $this->_plus(Math::div($millisToAdd, 1000), ($millisToAdd % 1000) * 1000000);
+        return $this->_plus(\intdiv($millisToAdd, 1000), ($millisToAdd % 1000) * 1000000);
     }
 
     /**
@@ -813,7 +809,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified nanoseconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusNanos($nanosToAdd)
+    public function plusNanos(int $nanosToAdd) : Duration
     {
         return $this->_plus(0, $nanosToAdd);
     }
@@ -828,14 +824,14 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified seconds added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private function _plus($secondsToAdd, $nanosToAdd)
+    private function _plus(int $secondsToAdd, int $nanosToAdd) : Duration
     {
         if (($secondsToAdd | $nanosToAdd) === 0) {
             return $this;
         }
 
         $epochSec = Math::addExact($this->seconds, $secondsToAdd);
-        $epochSec = Math::addExact($epochSec, Math::div($nanosToAdd, LocalTime::NANOS_PER_SECOND));
+        $epochSec = Math::addExact($epochSec, \intdiv($nanosToAdd, LocalTime::NANOS_PER_SECOND));
         $nanosToAdd = $nanosToAdd % LocalTime::NANOS_PER_SECOND;
         $nanoAdjustment = $this->nanos + $nanosToAdd;  // safe int LocalTime::NANOS_PER_SECOND
         return self::ofSeconds($epochSec, $nanoAdjustment);
@@ -851,7 +847,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified duration subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(Duration $duration)
+    public function minusAmount(Duration $duration) : Duration
     {
         $secsToSubtract = $duration->getSeconds();
         $nanosToSubtract = $duration->getNano();
@@ -877,7 +873,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified duration subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : Duration
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -895,7 +891,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusDays($daysToSubtract)
+    public function minusDays(int $daysToSubtract) : Duration
     {
         return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
@@ -911,7 +907,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified hours subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusHours($hoursToSubtract)
+    public function minusHours(int $hoursToSubtract) : Duration
     {
         return ($hoursToSubtract === Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hoursToSubtract));
     }
@@ -927,7 +923,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified minutes subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusMinutes($minutesToSubtract)
+    public function minusMinutes(int $minutesToSubtract) : Duration
     {
         return ($minutesToSubtract === Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutesToSubtract));
     }
@@ -941,7 +937,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified seconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusSeconds($secondsToSubtract)
+    public function minusSeconds(int $secondsToSubtract) : Duration
     {
         return ($secondsToSubtract === Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$secondsToSubtract));
     }
@@ -955,7 +951,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified milliseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusMillis($millisToSubtract)
+    public function minusMillis(int $millisToSubtract) : Duration
     {
         return ($millisToSubtract === Long::MIN_VALUE ? $this->plusMillis(Long::MAX_VALUE)->plusMillis(1) : $this->plusMillis(-$millisToSubtract));
     }
@@ -969,7 +965,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the specified nanoseconds subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusNanos($nanosToSubtract)
+    public function minusNanos(int $nanosToSubtract) : Duration
     {
         return ($nanosToSubtract === Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanosToSubtract));
     }
@@ -984,7 +980,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration multiplied by the specified scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function multipliedBy($multiplicand)
+    public function multipliedBy(int $multiplicand) : Duration
     {
         if ($multiplicand === 0) {
             return self::$ZERO;
@@ -1007,7 +1003,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration divided by the specified divisor, not null
      * @throws ArithmeticException if the divisor is zero or if numeric overflow occurs
      */
-    public function dividedBy($divisor)
+    public function dividedBy(int $divisor) : Duration
     {
         if ($divisor === 0) {
             throw new ArithmeticException("Cannot divide by zero");
@@ -1024,11 +1020,11 @@ final class Duration implements TemporalAmount
     /**
      * Creates an instance of {@code Duration} from a number of seconds.
      *
-     * @param mixed $nanos the number of nanoseconds, positive or negative
+     * @param \GMP $nanos the number of nanoseconds, positive or negative
      * @return Duration a {@code Duration}, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    private static function createBC($nanos)
+    private static function createBC(\GMP $nanos) : Duration
     {
         $divRem = gmp_div_qr($nanos, LocalTime::NANOS_PER_SECOND);
         if (gmp_cmp($divRem[0], "-9223372036854775808") < 0 || gmp_cmp($divRem[0], "9223372036854775807") > 0) {
@@ -1050,7 +1046,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with the amount negated, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function negated()
+    public function negated() : Duration
     {
         return $this->multipliedBy(-1);
     }
@@ -1066,7 +1062,7 @@ final class Duration implements TemporalAmount
      * @return Duration a {@code Duration} based on this duration with an absolute length, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function abs()
+    public function abs() : Duration
     {
         return $this->isNegative() ? $this->negated() : $this;
     }
@@ -1096,7 +1092,7 @@ final class Duration implements TemporalAmount
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function addTo(Temporal $temporal)
+    public function addTo(Temporal $temporal) : Temporal
     {
         if ($this->seconds !== 0) {
             $temporal = $temporal->plus($this->seconds, ChronoUnit::SECONDS());
@@ -1132,7 +1128,7 @@ final class Duration implements TemporalAmount
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function subtractFrom(Temporal $temporal)
+    public function subtractFrom(Temporal $temporal) : Temporal
     {
         if ($this->seconds !== 0) {
             $temporal = $temporal->minus($this->seconds, ChronoUnit::SECONDS());
@@ -1156,9 +1152,9 @@ final class Duration implements TemporalAmount
      *
      * @return int the number of days in the duration, may be negative
      */
-    public function toDays()
+    public function toDays() : int
     {
-        return Math::div($this->seconds, LocalTime::SECONDS_PER_DAY);
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_DAY);
     }
 
     /**
@@ -1171,9 +1167,9 @@ final class Duration implements TemporalAmount
      *
      * @return int the number of hours in the duration, may be negative
      */
-    public function toHours()
+    public function toHours() : int
     {
-        return Math::div($this->seconds, LocalTime::SECONDS_PER_HOUR);
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_HOUR);
     }
 
     /**
@@ -1186,9 +1182,9 @@ final class Duration implements TemporalAmount
      *
      * @return int the number of minutes in the duration, may be negative
      */
-    public function toMinutes()
+    public function toMinutes() : int
     {
-        return Math::div($this->seconds, LocalTime::SECONDS_PER_MINUTE);
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_MINUTE);
     }
 
     /**
@@ -1204,10 +1200,10 @@ final class Duration implements TemporalAmount
      * @return int the total length of the duration in milliseconds
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function toMillis()
+    public function toMillis() : int
     {
         $millis = Math::multiplyExact($this->seconds, 1000);
-        $millis = Math::addExact($millis, Math::div($this->nanos, 1000000));
+        $millis = Math::addExact($millis, \intdiv($this->nanos, 1000000));
         return $millis;
     }
 
@@ -1220,7 +1216,7 @@ final class Duration implements TemporalAmount
      * @return int the total length of the duration in nanoseconds
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function toNanos()
+    public function toNanos() : int
     {
         $totalNanos = Math::multiplyExact($this->seconds, LocalTime::NANOS_PER_SECOND);
         $totalNanos = Math::addExact($totalNanos, $this->nanos);
@@ -1237,7 +1233,7 @@ final class Duration implements TemporalAmount
      * @param Duration $otherDuration the other duration to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    public function compareTo(Duration $otherDuration)
+    public function compareTo(Duration $otherDuration) : int
     {
         $cmp = Long::compare($this->seconds, $otherDuration->seconds);
         if ($cmp !== 0) {
@@ -1256,7 +1252,7 @@ final class Duration implements TemporalAmount
      * @param Duration $otherDuration the other duration, null returns false
      * @return bool true if the other duration is equal to this one
      */
-    public function equals($otherDuration)
+    public function equals($otherDuration) : bool
     {
         if ($this === $otherDuration) {
             return true;
@@ -1293,13 +1289,13 @@ final class Duration implements TemporalAmount
      *
      * @return string an ISO-8601 representation of this duration, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         if ($this === self::$ZERO) {
             return "PT0S";
         }
-        $hours = Math::div($this->seconds, LocalTime::SECONDS_PER_HOUR);
-        $minutes = Math::div(($this->seconds % LocalTime::SECONDS_PER_HOUR), LocalTime::SECONDS_PER_MINUTE);
+        $hours = \intdiv($this->seconds, LocalTime::SECONDS_PER_HOUR);
+        $minutes = \intdiv(($this->seconds % LocalTime::SECONDS_PER_HOUR), LocalTime::SECONDS_PER_MINUTE);
         $secs = $this->seconds % LocalTime::SECONDS_PER_MINUTE;
         $buf = "PT";
         if ($hours !== 0) {

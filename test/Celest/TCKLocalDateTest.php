@@ -1341,7 +1341,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
     {
         $months = 20 + Integer::MAX_VALUE;
         $test = LocalDate::of(-40, 6, 1)->plusMonths($months);
-        $this->assertEquals($test, LocalDate::of((-40 + Math::div($months, 12)), 6 + ($months % 12), 1));
+        $this->assertEquals($test, LocalDate::of((-40 + \intdiv($months, 12)), 6 + ($months % 12), 1));
     }
 
     /**

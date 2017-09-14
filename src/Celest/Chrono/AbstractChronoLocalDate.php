@@ -55,7 +55,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isLeapYear()
+    public function isLeapYear() : bool
     {
         return $this->getChronology()->isLeapYear($this->getLong(ChronoField::YEAR()));
     }
@@ -63,7 +63,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function lengthOfYear()
+    public function lengthOfYear() : int
     {
         return ($this->isLeapYear() ? 366 : 365);
     }
@@ -71,7 +71,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field->isDateBased();
@@ -83,7 +83,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit->isDateBased();
@@ -103,7 +103,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue)
     {
         if ($field instanceof ChronoField) {
             throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
@@ -123,7 +123,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             throw new UnsupportedTemporalTypeException("Unsupported unit: " . $unit);
@@ -142,7 +142,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit)
     {
         return ChronoLocalDateImpl::ensureValid($this->getChronology(), parent::minus($amountToSubtract, $unit));
     }
@@ -194,7 +194,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function toEpochDay()
+    public function toEpochDay() : int
     {
         return $this->getLong(ChronoField::EPOCH_DAY());
     }
@@ -202,7 +202,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function compareTo(ChronoLocalDate $other)
+    public function compareTo(ChronoLocalDate $other) : int
     {
         $cmp = Long::compare($this->toEpochDay(), $other->toEpochDay());
         if ($cmp === 0) {
@@ -215,7 +215,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isAfter(ChronoLocalDate $other)
+    public function isAfter(ChronoLocalDate $other) : bool
     {
         return $this->toEpochDay() > $other->toEpochDay();
     }
@@ -223,7 +223,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isBefore(ChronoLocalDate $other)
+    public function isBefore(ChronoLocalDate $other) : bool
     {
         return $this->toEpochDay() < $other->toEpochDay();
     }
@@ -231,7 +231,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function isEqual(ChronoLocalDate $other)
+    public function isEqual(ChronoLocalDate $other) : bool
     {
         return $this->toEpochDay() === $other->toEpochDay();
     }

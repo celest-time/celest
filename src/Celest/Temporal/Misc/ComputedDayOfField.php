@@ -312,7 +312,7 @@ class ComputedDayOfField implements TemporalField
      */
     private function computeWeek($offset, $day)
     {
-        return Math::div((7 + $offset + ($day - 1)), 7);
+        return \intdiv((7 + $offset + ($day - 1)), 7);
     }
 
     public function adjustInto(Temporal $temporal, $newValue)

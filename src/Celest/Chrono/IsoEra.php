@@ -184,7 +184,7 @@ class IsoEra extends AbstractEra implements Era
         return $this->val;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->val === 0 ? 'BCE' : 'CE';
     }

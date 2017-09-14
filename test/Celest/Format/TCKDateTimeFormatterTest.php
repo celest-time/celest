@@ -80,6 +80,7 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use Celest\YearMonth;
 use Celest\ZonedDateTime;
@@ -90,11 +91,11 @@ use PHPUnit\Framework\TestCase;
 class format_withChronology_nonChronoFieldMapLink implements TemporalAccessor
 {
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
     }
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
     }
 
@@ -102,17 +103,17 @@ class format_withChronology_nonChronoFieldMapLink implements TemporalAccessor
     {
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return '';
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field == IsoFields::WEEK_BASED_YEAR();
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == IsoFields::WEEK_BASED_YEAR()) {
             return 2345;

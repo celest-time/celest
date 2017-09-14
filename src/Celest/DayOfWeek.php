@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest;
 
@@ -111,7 +111,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
     /**
      * @internal
      */
-    public static function init()
+    public static function init() : void
     {
         self::$MONDAY = new DayOfWeek(0, "MONDAY");
         self::$TUESDAY = new DayOfWeek(1, "TUESDAY");
@@ -137,7 +137,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 1}.
      * @return DayOfWeek
      */
-    public static function MONDAY()
+    public static function MONDAY() : DayOfWeek
     {
         return self::$MONDAY;
     }
@@ -150,7 +150,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 2}.
      * @return DayOfWeek
      */
-    public static function TUESDAY()
+    public static function TUESDAY() : DayOfWeek
     {
         return self::$TUESDAY;
     }
@@ -163,7 +163,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 3}.
      * @return DayOfWeek
      */
-    public static function WEDNESDAY()
+    public static function WEDNESDAY() : DayOfWeek
     {
         return self::$WEDNESDAY;
     }
@@ -176,7 +176,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 4}.
      * @return DayOfWeek
      */
-    public static function THURSDAY()
+    public static function THURSDAY() : DayOfWeek
     {
         return self::$THURSDAY;
     }
@@ -189,7 +189,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 5}.
      * @return DayOfWeek
      */
-    public static function FRIDAY()
+    public static function FRIDAY() : DayOfWeek
     {
         return self::$FRIDAY;
     }
@@ -202,7 +202,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 6}.
      * @return DayOfWeek
      */
-    public static function SATURDAY()
+    public static function SATURDAY() : DayOfWeek
     {
         return self::$SATURDAY;
     }
@@ -215,7 +215,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * This has the numeric value of {@code 7}.
      * @return DayOfWeek
      */
-    public static function SUNDAY()
+    public static function SUNDAY() : DayOfWeek
     {
         return self::$SUNDAY;
     }
@@ -235,7 +235,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
     /** @var string */
     private $name;
 
-    private function __construct($ordinal, $name)
+    private function __construct(int $ordinal, string $name)
     {
         $this->ordinal = $ordinal;
         $this->name = $name;
@@ -253,7 +253,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @return DayOfWeek the day-of-week singleton, not null
      * @throws DateTimeException if the day-of-week is invalid
      */
-    public static function of($dayOfWeek)
+    public static function of(int $dayOfWeek) : DayOfWeek
     {
         if ($dayOfWeek < 1 || $dayOfWeek > 7) {
             throw new DateTimeException("Invalid value for DayOfWeek: " . $dayOfWeek);
@@ -278,7 +278,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @return DayOfWeek the day-of-week, not null
      * @throws DateTimeException if unable to convert to a {@code DayOfWeek}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : DayOfWeek
     {
         if ($temporal instanceof DayOfWeek) {
             return $temporal;
@@ -294,13 +294,13 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
     /**
      * @return DayOfWeek[]
      */
-    public static function values()
+    public static function values(): array
     {
         return self::$ENUMS;
     }
 
 
-    public static function valueOf($string)
+    public static function valueOf($string) : DayOfWeek
     {
         switch ($string) {
             case 'MONDAY':
@@ -331,7 +331,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      *
      * @return int the day-of-week, from 1 (Monday) to 7 (Sunday)
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->ordinal + 1;
     }
@@ -350,7 +350,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @param Locale $locale the locale to use, not null
      * @return String the text value of the day-of-week, not null
      */
-    public function getDisplayName(TextStyle $style, Locale $locale)
+    public function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         return (new DateTimeFormatterBuilder())->appendText2(ChronoField::DAY_OF_WEEK(), $style)->toFormatter2($locale)->format($this);
     }
@@ -375,7 +375,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @param TemporalField $field the field to check, null returns false
      * @return boolean true if the field is supported on this day-of-week, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::DAY_OF_WEEK();
@@ -405,7 +405,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $field->range();
@@ -438,7 +438,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
@@ -468,7 +468,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             return $this->getValue();
@@ -490,7 +490,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @param int $days the days to add, positive or negative
      * @return DayOfWeek the resulting day-of-week, not null
      */
-    public function plus($days)
+    public function plus($days) : DayOfWeek
     {
         return self::$ENUMS[($this->ordinal + (($days % 7) + 7)) % 7];
     }
@@ -506,7 +506,7 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @param int $days the days to subtract, positive or negative
      * @return DayOfWeek the resulting day-of-week, not null
      */
-    public function minus($days)
+    public function minus($days) : DayOfWeek
     {
         return $this->plus(-($days % 7));
     }
@@ -577,12 +577,12 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         return $temporal->with(ChronoField::DAY_OF_WEEK(), $this->getValue());
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }

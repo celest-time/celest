@@ -9,7 +9,7 @@ abstract class AbstractTemporalAccessor implements TemporalAccessor
     /**
      * @inheritdoc
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($this->isSupported($field)) {
@@ -24,7 +24,7 @@ abstract class AbstractTemporalAccessor implements TemporalAccessor
     /**
      * @inheritdoc
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         $range = $this->range($field);
         if ($range->isIntValue() === false) {
@@ -56,7 +56,7 @@ abstract class AbstractTemporalAccessor implements TemporalAccessor
     /**
      * @inheritdoc
      */
-    function __toString()
+    function __toString() : string
     {
         return get_class($this);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
 * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
 * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -152,7 +152,7 @@ abstract class Clock
      *
      * @return Clock clock that uses the best available system clock in the UTC zone, not null
      */
-    public static function systemUTC()
+    public static function systemUTC() : Clock
     {
         return new SystemClock(ZoneOffset::UTC());
     }
@@ -176,7 +176,7 @@ abstract class Clock
      * @return Clock clock that uses the best available system clock in the default zone, not null
      * @see ZoneId#systemDefault()
      */
-    public static function systemDefaultZone()
+    public static function systemDefaultZone() : Clock
     {
         return new SystemClock(ZoneId::systemDefault());
     }
@@ -196,7 +196,7 @@ abstract class Clock
      * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that uses the best available system clock in the specified zone, not null
      */
-    public static function system(ZoneId $zone)
+    public static function system(ZoneId $zone) : Clock
     {
         return new SystemClock($zone);
     }
@@ -221,7 +221,7 @@ abstract class Clock
      * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that ticks in whole seconds using the specified zone, not null
      */
-    public static function tickSeconds(ZoneId $zone)
+    public static function tickSeconds(ZoneId $zone) : Clock
     {
         return new TickClock(self::system($zone), LocalTime::NANOS_PER_SECOND);
     }
@@ -245,7 +245,7 @@ abstract class Clock
      * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that ticks in whole minutes using the specified zone, not null
      */
-    public static function tickMinutes(ZoneId $zone)
+    public static function tickMinutes(ZoneId $zone) : Clock
     {
         return new TickClock(self::system($zone), LocalTime::NANOS_PER_MINUTE);
     }
@@ -281,7 +281,7 @@ abstract class Clock
      *  divisible into one second
      * @throws ArithmeticException if the duration is too large to be represented as nanos
      */
-    public static function tick(Clock $baseClock, Duration $tickDuration)
+    public static function tick(Clock $baseClock, Duration $tickDuration) : Clock
     {
         if ($tickDuration->isNegative()) {
             throw new \InvalidArgumentException("Tick duration must not be negative");
@@ -315,7 +315,7 @@ abstract class Clock
      * @param ZoneId $zone the time-zone to use to convert the instant to date-time, not null
      * @return Clock clock that always returns the same instant, not null
      */
-    public static function fixed(Instant $fixedInstant, ZoneId $zone)
+    public static function fixed(Instant $fixedInstant, ZoneId $zone) : Clock
     {
         return new FixedClock($fixedInstant, $zone);
     }
@@ -340,7 +340,7 @@ abstract class Clock
      * @param Duration $offsetDuration the duration to add, not null
      * @return Clock clock based on the base clock with the duration added, not null
      */
-    public static function offset(Clock $baseClock, Duration $offsetDuration)
+    public static function offset(Clock $baseClock, Duration $offsetDuration) : Clock
     {
         if ($offsetDuration->equals(Duration::ZERO())) {
             return $baseClock;
@@ -365,7 +365,7 @@ abstract class Clock
      *
      * @return ZoneId time-zone being used to interpret instants, not null
      */
-    public abstract function getZone();
+    public abstract function getZone() : ZoneId;
 
     /**
      * Returns a copy of this clock with a different time-zone.
@@ -377,7 +377,7 @@ abstract class Clock
      * @param ZoneId $zone the time-zone to change to, not null
      * @return Clock clock based on this clock with the specified time-zone, not null
      */
-    public abstract function withZone(ZoneId $zone);
+    public abstract function withZone(ZoneId $zone) : Clock;
 
     //-------------------------------------------------------------------------
     /**
@@ -397,7 +397,7 @@ abstract class Clock
      *  the Java epoch of 1970-01-01T00:00Z (UTC), not null
      * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
      */
-    public function millis()
+    public function millis() : int
     {
         return $this->instant()->toEpochMilli();
     }
@@ -411,7 +411,7 @@ abstract class Clock
      * @return Instant the current instant from this clock, not null
      * @throws DateTimeException if the instant cannot be obtained, not thrown by most implementations
      */
-    public abstract function instant();
+    public abstract function instant() : Instant;
 
     //-----------------------------------------------------------------------
     /**
@@ -424,8 +424,7 @@ abstract class Clock
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other clock
      */
-    public function equals(/** @noinspection PhpUnusedParameterInspection */
-        $obj)
+    public function equals(/** @noinspection PhpUnusedParameterInspection */ $obj) : bool
     {
         return true;
     }

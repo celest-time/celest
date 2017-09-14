@@ -138,7 +138,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this era, false if not
      */
-    function isSupported(TemporalField $field);
+    function isSupported(TemporalField $field) : bool;
 
 
     /**
@@ -166,7 +166,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    function range(TemporalField $field);
+    function range(TemporalField $field) : ValueRange;
 
     /**
      * Gets the value of the specified field from this era as an {@code int}.
@@ -193,7 +193,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function get(TemporalField $field);
+    function get(TemporalField $field) : int;
 
     /**
      * Gets the value of the specified field from this era as a {@code long}.
@@ -217,7 +217,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function getLong(TemporalField $field);
+    function getLong(TemporalField $field) : int;
 //-----------------------------------------------------------------------
     /**
      * Queries this era using the specified query.

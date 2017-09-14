@@ -5,6 +5,8 @@ Celest
 
 Celest provides a alternative date and time API for PHP. It allows you to correctly manage date and time and to do operations on them. It is based on the [JSR-310](http://www.threeten.org/) project for Java 8.
 
+# This is the 2.0 branch which drops compatibility with php 5 and 7.1, but remains compatible otherwise.
+
 ## Installation
 The recommended way to install Celest is through [Composer](https://getcomposer.org/):
 
@@ -13,7 +15,7 @@ composer require celest/celest
 ```
 
 ## Requirements
-PHP >= 5.6 with GMP and intl extension or a current release of HHVM
+PHP >= 7.1 with GMP and intl extension
 
 ## Timezone Data
 Celest uses IANA's [time zone database](https://www.iana.org/time-zones). Changes are distributed via the
@@ -26,7 +28,7 @@ localized parsing/formatting patterns and names of time zones are supported and 
 ## Testing
 You need to install phpunit manually and a version of doctrine/instantiator that's compatible with php5:
 ```
-composer require --dev phpunit/phpunit:^5.7 rianium/paratest:~0.15.0 doctrine/instantiator:~1.0.5
+composer require --dev phpunit/phpunit brianium/paratest
 ```
 Then run `make test` for the full testsuite or `make test-short` for a testsuite that runs in under a minute.
 Warning: Paratest currently doesn't display skipped or incomplete tests in all cases.

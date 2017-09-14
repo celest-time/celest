@@ -227,7 +227,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      *
      * @return MinguoEra the era applicable at this date, not null
      */
-    public function getEra()
+    public function getEra() : MinguoEra
     {
         return ($this->getProlepticYear() >= 1 ? MinguoEra::ROC() : MinguoEra::BEFORE_ROC());
     }
@@ -240,13 +240,13 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      *
      * @return int the length of the month in days
      */
-    public function lengthOfMonth()
+    public function lengthOfMonth() : int
     {
         return $this->isoDate->lengthOfMonth();
     }
 
     //-----------------------------------------------------------------------
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($this->isSupported($field)) {
@@ -268,7 +268,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
         return $field->rangeRefinedBy($this);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -299,7 +299,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : MinguoDate
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -356,7 +356,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
         return $this->getChronology()->period($period->getYears(), $period->getMonths(), $period->getDays());
     }
 
-    public function toEpochDay()
+    public function toEpochDay() : int
     {
         return $this->isoDate->toEpochDay();
     }
@@ -374,7 +374,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;

@@ -10,7 +10,7 @@ final class Math
     {
     }
 
-    public static function binarySearch(array $a, $key)
+    public static function binarySearch(array $a, $key) : int
     {
         $low = 0;
         $high = count($a) - 1;
@@ -33,9 +33,9 @@ final class Math
      * @param int $val
      * @return int
      */
-    public static function abs($val)
+    public static function abs(int $val) : int
     {
-        return \abs((int)$val);
+        return \abs($val);
     }
 
     /**
@@ -44,9 +44,9 @@ final class Math
      * @return int
      * @throws ArithmeticException
      */
-    public static function multiplyExact($l, $r)
+    public static function multiplyExact(int $l, int $r) : int
     {
-        $res = (int)$l * (int)$r;
+        $res = $l * $r;
         // HD 2-12 Overflow iff both arguments have the opposite sign of the result
         if (!\is_int($res)) {
             throw new ArithmeticException("integer overflow");
@@ -60,9 +60,9 @@ final class Math
      * @return int
      * @throws ArithmeticException
      */
-    public static function addExact($l, $r)
+    public static function addExact(int $l, int $r) : int
     {
-        $res = (int)$l + (int)$r;
+        $res = $l + $r;
         if (!\is_int($res)) {
             throw new ArithmeticException("integer overflow");
         }
@@ -74,7 +74,7 @@ final class Math
      * @param int $divisor
      * @return int
      */
-    public static function floorMod($dividend, $divisor)
+    public static function floorMod(int $dividend, int $divisor) : int
     {
         return $dividend - Math::floorDiv($dividend, $divisor) * $divisor;
     }
@@ -84,13 +84,9 @@ final class Math
      * @param int $divisor
      * @return int
      */
-    public static function floorDiv($dividend, $divisor)
+    public static function floorDiv(int $dividend, int $divisor) : int
     {
-        if (\function_exists('\intdiv')) {
-            $r = \intdiv($dividend, $divisor);
-        } else {
-            $r = Math::div($dividend, $divisor);
-        }
+        $r = \intdiv($dividend, $divisor);
 
         if (($dividend ^ $divisor) < 0 && ($r * $divisor !== $dividend)) {
             $r--;
@@ -103,9 +99,9 @@ final class Math
      * @param int $r
      * @return int
      */
-    public static function subtractExact($l, $r)
+    public static function subtractExact(int $l, int $r) : int
     {
-        return (int)($l - $r);
+        return $l - $r;
     }
 
     /**
@@ -113,7 +109,7 @@ final class Math
      * @param int $b
      * @return int
      */
-    public static function min($a, $b)
+    public static function min(int $a, int $b) : int
     {
         return \min($a, $b);
     }
@@ -122,20 +118,12 @@ final class Math
      * @param int $val
      * @return int
      */
-    public static function toIntExact($val)
+    public static function toIntExact(int $val) : int
     {
-        return (int)$val;
+        return $val;
     }
 
-    public static function div($dividend, $divisor)
-    {
-        if (\function_exists('\intdiv')) {
-            return \intdiv($dividend, $divisor);
-        }
-        return ($dividend - ($dividend % $divisor)) / $divisor;
-    }
-
-    public static function max($a, $b)
+    public static function max(int $a, int $b) : int
     {
         return \max($a, $b);
     }

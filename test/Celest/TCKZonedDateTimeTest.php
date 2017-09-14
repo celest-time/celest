@@ -82,12 +82,12 @@ class TemporalAccessor_LDT_ZoneId extends AbstractTemporalAccessor
         $this->base = $base;
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $this->base->toLocalDateTime()->isSupported($field);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         return $this->base->toLocalDateTime()->getLong($field);
     }
@@ -110,12 +110,12 @@ class TemporalAccessor_Instant_ZoneId extends AbstractTemporalAccessor
         $this->base = $base;
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field == CF::INSTANT_SECONDS() || $field == CF::NANO_OF_SECOND();
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         return $this->base->toInstant()->getLong($field);
     }
@@ -590,7 +590,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         $days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
         $year = Year::MIN_VALUE;
-        $days = ($year * 365 + (Math::div($year, 4) - Math::div($year, 100) + Math::div($year, 400))) - $days_0000_to_1970;
+        $days = ($year * 365 + (\intdiv($year, 4) - \intdiv($year, 100) + \intdiv($year, 400))) - $days_0000_to_1970;
         $instant = Instant::ofEpochSecond($days * 24 * 60 * 60 - self::OFFSET_MIN()->getTotalSeconds());
         $test = ZonedDateTime::ofInstant($instant, self::OFFSET_MIN());
         $this->assertEquals($test->getYear(), Year::MIN_VALUE);
@@ -608,7 +608,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         $days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
         $year = Year::MIN_VALUE;
-        $days = ($year * 365 + (Math::div($year, 4) - Math::div($year, 100) + Math::div($year, 400))) - $days_0000_to_1970;
+        $days = ($year * 365 + (\intdiv($year, 4) - \intdiv($year, 100) + \intdiv($year, 400))) - $days_0000_to_1970;
         $instant = Instant::ofEpochSecond($days * 24 * 60 * 60 - self::OFFSET_MAX()->getTotalSeconds());
         $test = ZonedDateTime::ofInstant($instant, self::OFFSET_MAX());
         $this->assertEquals($test->getYear(), Year::MIN_VALUE);
@@ -626,7 +626,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         $days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
         $year = Year::MAX_VALUE;
-        $days = ($year * 365 + (Math::div($year, 4) - Math::div($year, 100) + Math::div($year, 400))) + 365 - $days_0000_to_1970;
+        $days = ($year * 365 + (\intdiv($year, 4) - \intdiv($year, 100) + \intdiv($year, 400))) + 365 - $days_0000_to_1970;
         $instant = Instant::ofEpochSecond(($days + 1) * 24 * 60 * 60 - 1 - self::OFFSET_MIN()->getTotalSeconds());
         $test = ZonedDateTime::ofInstant($instant, self::OFFSET_MIN());
         $this->assertEquals($test->getYear(), Year::MAX_VALUE);
@@ -644,7 +644,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         $days_0000_to_1970 = (146097 * 5) - (30 * 365 + 7);
         $year = Year::MAX_VALUE;
-        $days = ($year * 365 + (Math::div($year, 4) - Math::div($year, 100) + Math::div($year, 400))) + 365 - $days_0000_to_1970;
+        $days = ($year * 365 + (\intdiv($year, 4) - \intdiv($year, 100) + \intdiv($year, 400))) + 365 - $days_0000_to_1970;
         $instant = Instant::ofEpochSecond(($days + 1) * 24 * 60 * 60 - 1 - self::OFFSET_MAX()->getTotalSeconds());
         $test = ZonedDateTime::ofInstant($instant, self::OFFSET_MAX());
         $this->assertEquals($test->getYear(), Year::MAX_VALUE);

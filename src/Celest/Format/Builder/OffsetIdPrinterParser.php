@@ -73,14 +73,14 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
             $bufPos = strlen($buf);
             $output = $absHours;
             $buf .= ($totalSecs < 0 ? "-" : "+")
-                . Math::div($absHours, 10) . ($absHours % 10);
+                . \intdiv($absHours, 10) . ($absHours % 10);
             if ($this->type >= 3 || ($this->type >= 1 && $absMinutes > 0)) {
                 $buf .= (($this->type % 2) === 0 ? ":" : "")
-                    . Math::div($absMinutes, 10) . ($absMinutes % 10);
+                    . \intdiv($absMinutes, 10) . ($absMinutes % 10);
                 $output += $absMinutes;
                 if ($this->type >= 7 || ($this->type >= 5 && $absSeconds > 0)) {
                     $buf .= (($this->type % 2) === 0 ? ":" : "")
-                        . Math::div($absSeconds, 10) . ($absSeconds % 10);
+                        . \intdiv($absSeconds, 10) . ($absSeconds % 10);
                     $output += $absSeconds;
                 }
             }

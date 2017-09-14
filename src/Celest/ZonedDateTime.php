@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -181,7 +181,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZonedDateTime the current date-time using the system clock, not null
      */
-    public static function now()
+    public static function now() : ZonedDateTime
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -199,7 +199,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneId $zone the zone ID to use, not null
      * @return ZonedDateTime the current date-time using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : ZonedDateTime
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -216,7 +216,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param Clock $clock the clock to use, not null
      * @return ZonedDateTime the current date-time, not null
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : ZonedDateTime
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone());
@@ -249,7 +249,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the offset date-time, not null
      */
-    public static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone)
+    public static function ofDateAndTime(LocalDate $date, LocalTime $time, ZoneId $zone) : ZonedDateTime
     {
         return self::ofDateTime(LocalDateTime::ofDateAndTime($date, $time), $zone);
     }
@@ -278,7 +278,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone)
+    public static function ofDateTime(LocalDateTime $localDateTime, ZoneId $zone) : ZonedDateTime
     {
         return self::ofLocal($localDateTime, $zone, null);
     }
@@ -289,7 +289,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param \DateTimeInterface $dateTime
      * @return ZonedDateTime
      */
-    public static function ofNativeDateTime(\DateTimeInterface $dateTime)
+    public static function ofNativeDateTime(\DateTimeInterface $dateTime) : ZonedDateTime
     {
         return self::of(
             (int) $dateTime->format('Y'),
@@ -344,8 +344,8 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *  if the day-of-month is invalid for the month-year
      */
     public static function of(
-        $year, $month, $dayOfMonth,
-        $hour, $minute, $second, $nanoOfSecond, ZoneId $zone)
+        int $year, int $month, int $dayOfMonth,
+        int $hour, int $minute, int $second, int $nanoOfSecond, ZoneId $zone) : ZonedDateTime
     {
         $dt = LocalDateTime::of($year, $month, $dayOfMonth, $hour, $minute, $second, $nanoOfSecond);
         return self::ofLocal($dt, $zone, null);
@@ -374,7 +374,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneOffset|null $preferredOffset the zone offset, null if no preference
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, $preferredOffset)
+    public static function ofLocal(LocalDateTime $localDateTime, ZoneId $zone, ?ZoneOffset $preferredOffset) : ZonedDateTime
     {
         if ($zone instanceof ZoneOffset) {
             return new ZonedDateTime($localDateTime, $zone, $zone);
@@ -417,7 +417,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public static function ofInstant(Instant $instant, ZoneId $zone)
+    public static function ofInstant(Instant $instant, ZoneId $zone) : ZonedDateTime
     {
         return self::create($instant->getEpochSecond(), $instant->getNano(), $zone);
     }
@@ -442,7 +442,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneId $zone the time-zone, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    public static function ofInstantWithOffset(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    public static function ofInstantWithOffset(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone) : ZonedDateTime
     {
         if ($zone->getRules()->isValidOffset($localDateTime, $offset)) {
             return new ZonedDateTime($localDateTime, $offset, $zone);
@@ -461,7 +461,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    private static function create($epochSecond, $nanoOfSecond, ZoneId $zone)
+    private static function create(int $epochSecond, int $nanoOfSecond, ZoneId $zone) : ZonedDateTime
     {
         $rules = $zone->getRules();
         $instant = Instant::ofEpochSecond($epochSecond, $nanoOfSecond);  // TODO: rules should be queryable by epochSeconds
@@ -485,7 +485,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException
      */
-    public static function ofStrict(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    public static function ofStrict(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone) : ZonedDateTime
     {
         $rules = $zone->getRules();
         if ($rules->isValidOffset($localDateTime, $offset) === false) {
@@ -526,7 +526,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the zoned date-time, not null
      * @throws IllegalArgumentException
      */
-    private static function ofLenient(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone)
+    private static function ofLenient(LocalDateTime $localDateTime, ZoneOffset $offset, ZoneId $zone) : ZonedDateTime
     {
         if ($zone instanceof ZoneOffset && $offset->equals($zone) === false) {
             throw new IllegalArgumentException("ZoneId must match ZoneOffset");
@@ -558,7 +558,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if unable to convert to an {@code ZonedDateTime}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : ZonedDateTime
     {
         if ($temporal instanceof ZonedDateTime) {
             return $temporal;
@@ -593,7 +593,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the parsed zoned date-time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parse($text)
+    public static function parse(string $text) : ZonedDateTime
     {
         return self::parseWith($text, DateTimeFormatter::ISO_ZONED_DATE_TIME());
     }
@@ -608,7 +608,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime the parsed zoned date-time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith(string $text, DateTimeFormatter $formatter) : ZonedDateTime
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([ZonedDateTime::class, 'from']));
     }
@@ -634,7 +634,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param LocalDateTime $newDateTime the new local date-time, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    private function resolveLocal(LocalDateTime $newDateTime)
+    private function resolveLocal(LocalDateTime $newDateTime) : ZonedDateTime
     {
         return self::ofLocal($newDateTime, $this->zone, $this->offset);
     }
@@ -645,7 +645,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param LocalDateTime $newDateTime the new local date-time, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    private function resolveInstant(LocalDateTime $newDateTime)
+    private function resolveInstant(LocalDateTime $newDateTime) : ZonedDateTime
     {
         return self::ofInstantWithOffset($newDateTime, $this->offset, $this->zone);
     }
@@ -658,7 +658,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneOffset $offset the offset, not null
      * @return ZonedDateTime the zoned date-time, not null
      */
-    private function resolveOffset(ZoneOffset $offset)
+    private function resolveOffset(ZoneOffset $offset) : ZonedDateTime
     {
         if ($offset->equals($this->offset) === false && $this->zone->getRules()->isValidOffset($this->dateTime, $offset)) {
             return new ZonedDateTime($this->dateTime, $offset, $this->zone);
@@ -719,7 +719,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this date-time, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field instanceof ChronoField || ($field !== null && $field->isSupportedBy($this));
     }
@@ -760,7 +760,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         return parent::isUnitSupported($unit);
     }
@@ -789,7 +789,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::OFFSET_SECONDS()) {
@@ -829,7 +829,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -867,7 +867,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -889,7 +889,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZoneOffset the zone offset, not null
      */
-    public function getOffset()
+    public function getOffset() : ZoneOffset
     {
         return $this->offset;
     }
@@ -910,7 +910,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the earlier offset, not null
      */
-    public function withEarlierOffsetAtOverlap()
+    public function withEarlierOffsetAtOverlap() : ZonedDateTime
     {
         $trans = $this->getZone()->getRules()->getTransition($this->dateTime);
         if ($trans !== null && $trans->isOverlap()) {
@@ -938,7 +938,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the later offset, not null
      */
-    public function withLaterOffsetAtOverlap()
+    public function withLaterOffsetAtOverlap() : ZonedDateTime
     {
         $trans = $this->getZone()->getRules()->getTransition($this->toLocalDateTime());
         if ($trans !== null) {
@@ -964,7 +964,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZoneId the time-zone, not null
      */
-    public function getZone()
+    public function getZone() : ZoneId
     {
         return $this->zone;
     }
@@ -986,7 +986,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param ZoneId $zone the time-zone to change to, not null
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested zone, not null
      */
-    public function withZoneSameLocal(ZoneId $zone)
+    public function withZoneSameLocal(ZoneId $zone) : ZonedDateTime
     {
         return $this->zone->equals($zone) ? $this : self::ofLocal($this->dateTime, $zone, $this->offset);
     }
@@ -1008,7 +1008,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested zone, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function withZoneSameInstant(ZoneId $zone)
+    public function withZoneSameInstant(ZoneId $zone) : ZonedDateTime
     {
         return $this->zone->equals($zone) ? $this :
             self::create($this->dateTime->toEpochSecond($this->offset), $this->dateTime->getNano(), $zone);
@@ -1031,7 +1031,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return ZonedDateTime a {@code ZonedDateTime} with the zone ID set to the offset, not null
      */
-    public function withFixedOffsetZone()
+    public function withFixedOffsetZone() : ZonedDateTime
     {
         return $this->zone->equals($this->offset) ? $this : new ZonedDateTime($this->dateTime, $this->offset, $this->offset);
     }
@@ -1045,7 +1045,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return LocalDateTime the local date-time part of this date-time, not null
      */
-    public function toLocalDateTime()
+    public function toLocalDateTime() : LocalDateTime
     {
         return $this->dateTime;
     }
@@ -1059,7 +1059,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return LocalDate the date part of this date-time, not null
      */
-    public function toLocalDate()
+    public function toLocalDate() : LocalDate
     {
         return $this->dateTime->toLocalDate();
     }
@@ -1074,7 +1074,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->dateTime->getYear();
     }
@@ -1089,7 +1089,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return int the month-of-year, from 1 to 12
      * @see #getMonth()
      */
-    public function getMonthValue()
+    public function getMonthValue() : int
     {
         return $this->dateTime->getMonthValue();
     }
@@ -1105,7 +1105,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return Month the month-of-year, not null
      * @see #getMonthValue()
      */
-    public function getMonth()
+    public function getMonth() : Month
     {
         return $this->dateTime->getMonth();
     }
@@ -1117,7 +1117,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the day-of-month, from 1 to 31
      */
-    public function getDayOfMonth()
+    public function getDayOfMonth() : int
     {
         return $this->dateTime->getDayOfMonth();
     }
@@ -1129,7 +1129,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the day-of-year, from 1 to 365, or 366 in a leap year
      */
-    public function getDayOfYear()
+    public function getDayOfYear() : int
     {
         return $this->dateTime->getDayOfYear();
     }
@@ -1147,7 +1147,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return DayOfWeek the day-of-week, not null
      */
-    public function getDayOfWeek()
+    public function getDayOfWeek() : DayOfWeek
     {
         return $this->dateTime->getDayOfWeek();
     }
@@ -1161,7 +1161,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return LocalTime the time part of this date-time, not null
      */
-    public function toLocalTime()
+    public function toLocalTime() : LocalTime
     {
         return $this->dateTime->toLocalTime();
     }
@@ -1171,7 +1171,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the hour-of-day, from 0 to 23
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->dateTime->getHour();
     }
@@ -1181,7 +1181,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the minute-of-hour, from 0 to 59
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->dateTime->getMinute();
     }
@@ -1191,7 +1191,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the second-of-minute, from 0 to 59
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->dateTime->getSecond();
     }
@@ -1201,7 +1201,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return int the nano-of-second, from 0 to 999,999,999
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->dateTime->getNano();
     }
@@ -1257,7 +1257,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjust(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster) : ZonedDateTime
     {
         // optimizations
         if ($adjuster instanceof LocalDate) {
@@ -1331,7 +1331,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : ZonedDateTime
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -1367,7 +1367,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested year, not null
      * @throws DateTimeException if the year value is invalid
      */
-    public function withYear($year)
+    public function withYear(int $year) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withYear($year));
     }
@@ -1390,7 +1390,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withMonth($month));
     }
@@ -1414,7 +1414,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month-year
      */
-    public function withDayOfMonth($dayOfMonth)
+    public function withDayOfMonth(int $dayOfMonth) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withDayOfMonth($dayOfMonth));
     }
@@ -1438,7 +1438,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the day-of-year value is invalid,
      *  or if the day-of-year is invalid for the year
      */
-    public function withDayOfYear($dayOfYear)
+    public function withDayOfYear(int $dayOfYear) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withDayOfYear($dayOfYear));
     }
@@ -1462,7 +1462,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withHour($hour));
     }
@@ -1485,7 +1485,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withMinute($minute));
     }
@@ -1508,7 +1508,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withSecond($second));
     }
@@ -1531,7 +1531,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the requested nanosecond, not null
      * @throws DateTimeException if the nano value is invalid
      */
-    public function withNano($nanoOfSecond)
+    public function withNano(int $nanoOfSecond) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->withNano($nanoOfSecond));
     }
@@ -1566,7 +1566,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public function truncatedTo(TemporalUnit $unit)
+    public function truncatedTo(TemporalUnit $unit) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->truncatedTo($unit));
     }
@@ -1592,7 +1592,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusAmount(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd) : ZonedDateTime
     {
         if ($amountToAdd instanceof Period) {
             $periodToAdd = $amountToAdd;
@@ -1639,7 +1639,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : ZonedDateTime
     {
         if ($unit instanceof ChronoUnit) {
             if ($unit->isDateBased()) {
@@ -1670,7 +1670,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the years added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->plusYears($years));
     }
@@ -1693,7 +1693,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->plusMonths($months));
     }
@@ -1716,7 +1716,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the weeks added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusWeeks($weeks)
+    public function plusWeeks(int $weeks) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->plusWeeks($weeks));
     }
@@ -1739,7 +1739,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the days added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : ZonedDateTime
     {
         return $this->resolveLocal($this->dateTime->plusDays($days));
     }
@@ -1769,7 +1769,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the hours added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : ZonedDateTime
     {
         return $this->resolveInstant($this->dateTime->plusHours($hours));
     }
@@ -1788,7 +1788,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the minutes added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : ZonedDateTime
     {
         return $this->resolveInstant($this->dateTime->plusMinutes($minutes));
     }
@@ -1807,7 +1807,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the seconds added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : ZonedDateTime
     {
         return $this->resolveInstant($this->dateTime->plusSeconds($seconds));
     }
@@ -1826,7 +1826,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the nanoseconds added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function plusNanos($nanos)
+    public function plusNanos(int $nanos) : ZonedDateTime
     {
         return $this->resolveInstant($this->dateTime->plusNanos($nanos));
     }
@@ -1852,7 +1852,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract) : ZonedDateTime
     {
         if ($amountToSubtract instanceof Period) {
             $periodToSubtract = $amountToSubtract;
@@ -1895,7 +1895,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : ZonedDateTime
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -1919,7 +1919,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : ZonedDateTime
     {
         return ($years === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$years));
     }
@@ -1942,7 +1942,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : ZonedDateTime
     {
         return ($months === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$months));
     }
@@ -1965,7 +1965,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusWeeks($weeks)
+    public function minusWeeks(int $weeks) : ZonedDateTime
     {
         return ($weeks === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeks));
     }
@@ -1988,7 +1988,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : ZonedDateTime
     {
         return ($days === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$days));
     }
@@ -2018,7 +2018,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the hours subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : ZonedDateTime
     {
         return ($hours === Long::MIN_VALUE ? $this->plusHours(Long::MAX_VALUE)->plusHours(1) : $this->plusHours(-$hours));
     }
@@ -2037,7 +2037,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the minutes subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : ZonedDateTime
     {
         return ($minutes === Long::MIN_VALUE ? $this->plusMinutes(Long::MAX_VALUE)->plusMinutes(1) : $this->plusMinutes(-$minutes));
     }
@@ -2056,7 +2056,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the seconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : ZonedDateTime
     {
         return ($seconds === Long::MIN_VALUE ? $this->plusSeconds(Long::MAX_VALUE)->plusSeconds(1) : $this->plusSeconds(-$seconds));
     }
@@ -2075,7 +2075,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return ZonedDateTime a {@code ZonedDateTime} based on this date-time with the nanoseconds subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    public function minusNanos($nanos)
+    public function minusNanos(int $nanos) : ZonedDateTime
     {
         return ($nanos === Long::MIN_VALUE ? $this->plusNanos(Long::MAX_VALUE)->plusNanos(1) : $this->plusNanos(-$nanos));
     }
@@ -2174,7 +2174,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = ZonedDateTime::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -2197,7 +2197,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @return string the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -2211,7 +2211,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return OffsetDateTime an offset date-time representing the same local date-time and offset, not null
      */
-    public function toOffsetDateTime()
+    public function toOffsetDateTime() : OffsetDateTime
     {
         return OffsetDateTime::ofDateTime($this->dateTime, $this->offset);
     }
@@ -2221,12 +2221,12 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return \DateTimeImmutable
      */
-    public function toNativeDateTime()
+    public function toNativeDateTime() : \DateTimeImmutable
     {
         $time = $this->toLocalTime();
         $str = $this->dateTime->toLocalDate()->__toString()
             . ' ' . $time->getHour() . ':' . $time->getMinute() . ':' . $time->getSecond()
-            . '.' . \sprintf("%06d", Math::div($time->getNano(), 1000));
+            . '.' . \sprintf("%06d", \intdiv($time->getNano(), 1000));
         return new \DateTimeImmutable($str, $this->zone->toNativeDateTimezone());
     }
 
@@ -2240,7 +2240,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date-time
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -2266,7 +2266,7 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
      *
      * @return string a string representation of this date-time, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         $str = $this->dateTime->__toString() . $this->offset->__toString();
         if ($this->offset !== $this->zone) {

@@ -28,7 +28,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
 
     private static function appendHMS(&$buf, $t)
     {
-        $buf .= Math::div($t, 10) . ($t % 10);
+        $buf .= \intdiv($t, 10) . ($t % 10);
     }
 
     public function format(DateTimePrintContext $context, &$buf)
@@ -58,7 +58,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
                 }
             } else {
                 if ($absHours >= 10) {
-                    $buf .= Math::div($absHours, 10);
+                    $buf .= \intdiv($absHours, 10);
                 }
                 $buf .= ($absHours % 10);
                 if ($absMinutes !== 0 || $absSeconds !== 0) {

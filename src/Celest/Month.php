@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -107,7 +107,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
     /**
      * @internal
      */
-    public static function init()
+    public static function init() : void
     {
         self::$JANUARY = new Month(1, "JANUARY");
         self::$FEBRUARY = new Month(2, "FEBRUARY");
@@ -143,7 +143,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 1}.
      * @return Month
      */
-    public static function JANUARY()
+    public static function JANUARY() : Month
     {
         return self::$JANUARY;
     }
@@ -156,7 +156,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 2}.
      * @return Month
      */
-    public static function FEBRUARY()
+    public static function FEBRUARY() : Month
     {
         return self::$FEBRUARY;
     }
@@ -169,7 +169,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 3}.
      * @return Month
      */
-    public static function MARCH()
+    public static function MARCH() : Month
     {
         return self::$MARCH;
     }
@@ -182,7 +182,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 4}.
      * @return Month
      */
-    public static function APRIL()
+    public static function APRIL() : Month
     {
         return self::$APRIL;
     }
@@ -195,7 +195,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 5}.
      * @return Month
      */
-    public static function MAY()
+    public static function MAY() : Month
     {
         return self::$MAY;
     }
@@ -208,7 +208,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 6}.
      * @return Month
      */
-    public static function JUNE()
+    public static function JUNE() : Month
     {
         return self::$JUNE;
     }
@@ -221,7 +221,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 7}.
      * @return Month
      */
-    public static function JULY()
+    public static function JULY() : Month
     {
         return self::$JULY;
     }
@@ -234,7 +234,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 8}.
      * @return Month
      */
-    public static function AUGUST()
+    public static function AUGUST() : Month
     {
         return self::$AUGUST;
     }
@@ -247,7 +247,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 9}.
      * @return Month
      */
-    public static function SEPTEMBER()
+    public static function SEPTEMBER() : Month
     {
         return self::$SEPTEMBER;
     }
@@ -260,7 +260,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 10}.
      * @return Month
      */
-    public static function OCTOBER()
+    public static function OCTOBER() : Month
     {
         return self::$OCTOBER;
     }
@@ -273,7 +273,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 11}.
      * @return Month
      */
-    public static function NOVEMBER()
+    public static function NOVEMBER() : Month
     {
         return self::$NOVEMBER;
     }
@@ -286,7 +286,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * This has the numeric value of {@code 12}.
      * @return Month
      */
-    public static function DECEMBER()
+    public static function DECEMBER() : Month
     {
         return self::$DECEMBER;
     }
@@ -305,7 +305,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
     /** @var string */
     private $name;
 
-    private function __construct($val, $name)
+    private function __construct(int $val, string $name)
     {
         $this->val = $val;
         $this->name = $name;
@@ -323,7 +323,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @return Month the month-of-year, not null
      * @throws DateTimeException if the month-of-year is invalid
      */
-    public static function of($month)
+    public static function of(int $month) : Month
     {
         if ($month < 1 || $month > 12) {
             throw new DateTimeException("Invalid value for MonthOfYear: " . $month);
@@ -350,7 +350,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @return Month the month-of-year, not null
      * @throws DateTimeException if unable to convert to a {@code Month}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : Month
     {
         if ($temporal instanceof Month) {
             return $temporal;
@@ -369,12 +369,12 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
     /**
      * @return Month[]
      */
-    public static function values()
+    public static function values() : array
     {
         return self::$ENUMS;
     }
 
-    public static function valueOf($string)
+    public static function valueOf(string $string) : Month
     {
         switch ($string) {
             case 'JANUARY':
@@ -414,7 +414,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return int the month-of-year, from 1 (January) to 12 (December)
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->val;
     }
@@ -433,7 +433,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param Locale $locale the locale to use, not null
      * @return string the text value of the month-of-year, not null
      */
-    public function getDisplayName(TextStyle $style, Locale $locale)
+    public function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         return (new DateTimeFormatterBuilder())->appendText2(ChronoField::MONTH_OF_YEAR(), $style)->toFormatter2($locale)->format($this);
     }
@@ -458,7 +458,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this month-of-year, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::MONTH_OF_YEAR();
@@ -489,7 +489,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $field->range();
@@ -523,7 +523,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $this->getValue();
@@ -554,7 +554,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $this->getValue();
@@ -577,7 +577,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param int $months the months to add, positive or negative
      * @return Month the resulting month, not null
      */
-    public function plus($months)
+    public function plus(int $months) : Month
     {
         $amount = (int)($months % 12);
         return self::$ENUMS[($this->val + ($amount + 11)) % 12];
@@ -594,7 +594,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param int $months the months to subtract, positive or negative
      * @return Month the resulting month, not null
      */
-    public function minus($months)
+    public function minus(int $months) : Month
     {
         return $this->plus(-($months % 12));
     }
@@ -612,7 +612,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param bool $leapYear true if the length is required for a leap year
      * @return int the length of this month in days, from 28 to 31
      */
-    public function length($leapYear)
+    public function length(bool $leapYear) : int
     {
         switch ($this->val) {
             case 2:
@@ -636,7 +636,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return int the minimum length of this month in days, from 28 to 31
      */
-    public function minLength()
+    public function minLength() : int
     {
         switch ($this->val) {
             case 2:
@@ -660,7 +660,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return int the maximum length of this month in days, from 29 to 31
      */
-    public function maxLength()
+    public function maxLength() : int
     {
         switch ($this->val) {
             case 2:
@@ -685,7 +685,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @param bool $leapYear true if the length is required for a leap year
      * @return int the day of year corresponding to the first day of this month, from 1 to 336
      */
-    public function firstDayOfYear($leapYear)
+    public function firstDayOfYear(bool $leapYear) : int
     {
         $leap = $leapYear ? 1 : 0;
         switch ($this->val) {
@@ -729,7 +729,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      *
      * @return Month the first month of the quarter corresponding to this month, not null
      */
-    public function firstMonthOfQuarter()
+    public function firstMonthOfQuarter() : Month
     {
         return self::$ENUMS[(int)(($this->val - 1) / 3) * 3];
     }
@@ -799,7 +799,7 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) === false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
@@ -808,17 +808,17 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
         return $temporal->with(ChronoField::MONTH_OF_YEAR(), $this->getValue());
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
 
-    public function compareTo(Month $other)
+    public function compareTo(Month $other) : int
     {
         return $this->val - $other->val;
     }
 
-    public function name()
+    public function name() : string
     {
         return $this->__toString();
     }

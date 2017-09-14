@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -106,7 +106,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
 {
 
 
-    public static function init()
+    public static function init() : void
     {
         self::$MIN = LocalTime::MIN()->atOffset(ZoneOffset::MAX());
         self::$MAX = LocalTime::MAX()->atOffset(ZoneOffset::MIN());
@@ -120,7 +120,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * This could be used by an application as a "far past" date.
      * @return OffsetTime
      */
-    public static function MIN()
+    public static function MIN() : OffsetTime
     {
         return self::$MIN;
     }
@@ -136,7 +136,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * This could be used by an application as a "far future" date.
      * @return OffsetTime
      */
-    public static function MAX()
+    public static function MAX() : OffsetTime
     {
         return self::$MAX;
     }
@@ -168,7 +168,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return OffsetTime the current time using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : OffsetTime
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -186,7 +186,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneId $zone the zone ID to use, not null
      * @return OffsetTime the current time using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : OffsetTime
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -203,7 +203,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param Clock $clock the clock to use, not null
      * @return OffsetTime the current time, not null
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : OffsetTime
     {
         $now = $clock->instant();  // called once
         return self::ofInstant($now, $clock->getZone()->getRules()->getOffset($now));
@@ -217,7 +217,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneOffset $offset the zone offset, not null
      * @return OffsetTime the offset time, not null
      */
-    public static function ofLocalTime(LocalTime $time, ZoneOffset $offset)
+    public static function ofLocalTime(LocalTime $time, ZoneOffset $offset) : OffsetTime
     {
         return new OffsetTime($time, $offset);
     }
@@ -241,7 +241,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime the offset time, not null
      * @throws DateTimeException if the value of any field is out of range
      */
-    public static function of($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset)
+    public static function of($hour, $minute, $second, $nanoOfSecond, ZoneOffset $offset) : OffsetTime
     {
         return new OffsetTime(LocalTime::of($hour, $minute, $second, $nanoOfSecond), $offset);
     }
@@ -262,7 +262,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneId $zone the time-zone, which may be an offset, not null
      * @return OffsetTime the offset time, not null
      */
-    public static function ofInstant(Instant $instant, ZoneId $zone)
+    public static function ofInstant(Instant $instant, ZoneId $zone) : OffsetTime
     {
         $rules = $zone->getRules();
         $offset = $rules->getOffset($instant);
@@ -292,7 +292,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime the offset time, not null
      * @throws DateTimeException if unable to convert to an {@code OffsetTime}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : OffsetTime
     {
         if ($temporal instanceof OffsetTime) {
             return $temporal;
@@ -319,7 +319,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime the parsed local time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parse($text)
+    public static function parse(string $text) : OffsetTime
     {
         return self::parseWith($text, DateTimeFormatter::ISO_OFFSET_TIME());
     }
@@ -334,7 +334,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime the parsed offset time, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith(string $text, DateTimeFormatter $formatter) : OffsetTime
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([OffsetTime::class, 'from']));
     }
@@ -359,7 +359,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneOffset $offset the zone offset to create with, not null
      * @return OffsetTime
      */
-    private function _with(LocalTime $time, ZoneOffset $offset)
+    private function _with(LocalTime $time, ZoneOffset $offset) : OffsetTime
     {
         if ($this->time === $time && $this->offset->equals($offset)) {
             return $this;
@@ -407,7 +407,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this time, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field->isTimeBased() || $field == ChronoField::OFFSET_SECONDS();
@@ -444,7 +444,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit->isTimeBased();
@@ -477,7 +477,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::OFFSET_SECONDS()) {
@@ -516,7 +516,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         return parent::get($field);
     }
@@ -544,7 +544,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::OFFSET_SECONDS()) {
@@ -564,7 +564,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return ZoneOffset the zone offset, not null
      */
-    public function getOffset()
+    public function getOffset() : ZoneOffset
     {
         return $this->offset;
     }
@@ -586,7 +586,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneOffset $offset the zone offset to change to, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested offset, not null
      */
-    public function withOffsetSameLocal(ZoneOffset $offset)
+    public function withOffsetSameLocal(ZoneOffset $offset) : OffsetTime
     {
         return $offset !== null && $offset->equals($this->offset) ? $this : new OffsetTime($this->time, $offset);
     }
@@ -609,7 +609,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param ZoneOffset $offset the zone offset to change to, not null
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested offset, not null
      */
-    public function withOffsetSameInstant(ZoneOffset $offset)
+    public function withOffsetSameInstant(ZoneOffset $offset) : OffsetTime
     {
         if ($offset->equals($this->offset)) {
             return $this;
@@ -629,7 +629,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return LocalTime the time part of this date-time, not null
      */
-    public function toLocalTime()
+    public function toLocalTime() : LocalTime
     {
         return $this->time;
     }
@@ -640,7 +640,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return int the hour-of-day, from 0 to 23
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->time->getHour();
     }
@@ -650,7 +650,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return int the minute-of-hour, from 0 to 59
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->time->getMinute();
     }
@@ -660,7 +660,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return int the second-of-minute, from 0 to 59
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->time->getSecond();
     }
@@ -670,7 +670,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return int the nano-of-second, from 0 to 999,999,999
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->time->getNano();
     }
@@ -704,7 +704,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if the adjustment cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjust(TemporalAdjuster $adjuster)
+    public function adjust(TemporalAdjuster $adjuster) : OffsetTime
     {
         // optimizations
         if ($adjuster instanceof LocalTime) {
@@ -753,7 +753,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : OffsetTime
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::OFFSET_SECONDS()) {
@@ -778,7 +778,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested hour, not null
      * @throws DateTimeException if the hour value is invalid
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : OffsetTime
     {
         return $this->_with($this->time->withHour($hour), $this->offset);
     }
@@ -794,7 +794,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested minute, not null
      * @throws DateTimeException if the minute value is invalid
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : OffsetTime
     {
         return $this->_with($this->time->withMinute($minute), $this->offset);
     }
@@ -810,7 +810,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested second, not null
      * @throws DateTimeException if the second value is invalid
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : OffsetTime
     {
         return $this->_with($this->time->withSecond($second), $this->offset);
     }
@@ -826,7 +826,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return OffsetTime an {@code OffsetTime} based on this time with the requested nanosecond, not null
      * @throws DateTimeException if the nanos value is invalid
      */
-    public function withNano($nanoOfSecond)
+    public function withNano(int $nanoOfSecond) : OffsetTime
     {
         return $this->_with($this->time->withNano($nanoOfSecond), $this->offset);
     }
@@ -854,7 +854,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if unable to truncate
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public function truncatedTo(TemporalUnit $unit)
+    public function truncatedTo(TemporalUnit $unit) : OffsetTime
     {
         return $this->_with($this->time->truncatedTo($unit), $this->offset);
     }
@@ -880,7 +880,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusAmount(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd) : OffsetTime
     {
         return $amountToAdd->addTo($this);
     }
@@ -910,7 +910,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : OffsetTime
     {
         if ($unit instanceof ChronoUnit) {
             return $this->_with($this->time->plus($amountToAdd, $unit), $this->offset);
@@ -931,7 +931,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $hours the hours to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the hours added, not null
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : OffsetTime
     {
         return $this->_with($this->time->plusHours($hours), $this->offset);
     }
@@ -947,7 +947,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $minutes the minutes to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the minutes added, not null
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : OffsetTime
     {
         return $this->_with($this->time->plusMinutes($minutes), $this->offset);
     }
@@ -963,7 +963,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $seconds the seconds to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the seconds added, not null
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : OffsetTime
     {
         return $this->_with($this->time->plusSeconds($seconds), $this->offset);
     }
@@ -979,7 +979,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $nanos the nanos to add, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the nanoseconds added, not null
      */
-    public function plusNanos($nanos)
+    public function plusNanos(int $nanos) : OffsetTime
     {
         return $this->_with($this->time->plusNanos($nanos), $this->offset);
     }
@@ -1005,7 +1005,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract) : OffsetTime
     {
         return $amountToSubtract->subtractFrom($this);
     }
@@ -1029,7 +1029,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : OffsetTime
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -1046,7 +1046,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $hours the hours to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the hours subtracted, not null
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : OffsetTime
     {
         return $this->_with($this->time->minusHours($hours), $this->offset);
     }
@@ -1062,7 +1062,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $minutes the minutes to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the minutes subtracted, not null
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : OffsetTime
     {
         return $this->_with($this->time->minusMinutes($minutes), $this->offset);
     }
@@ -1078,7 +1078,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $seconds the seconds to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the seconds subtracted, not null
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : OffsetTime
     {
         return $this->_with($this->time->minusSeconds($seconds), $this->offset);
     }
@@ -1094,7 +1094,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param int $nanos the nanos to subtract, may be negative
      * @return OffsetTime an {@code OffsetTime} based on this time with the nanoseconds subtracted, not null
      */
-    public function minusNanos($nanos)
+    public function minusNanos(int $nanos) : OffsetTime
     {
         return $this->_with($this->time->minusNanos($nanos), $this->offset);
     }
@@ -1160,7 +1160,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         return $temporal
             ->with(ChronoField::NANO_OF_DAY(), $this->time->toNanoOfDay())
@@ -1217,7 +1217,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = OffsetTime::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -1253,7 +1253,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return string the formatted time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -1268,7 +1268,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param LocalDate $date the date to combine with, not null
      * @return OffsetDateTime the offset date-time formed from this time and the specified date, not null
      */
-    public function atDate(LocalDate $date)
+    public function atDate(LocalDate $date) : OffsetDateTime
     {
         return OffsetDateTime::ofDateAndTime($date, $this->time, $this->offset);
     }
@@ -1279,7 +1279,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return int the epoch nanos value
      */
-    private function toEpochNano()
+    private function toEpochNano() : int
     {
         $nod = $this->time->toNanoOfDay();
         $offsetNanos = $this->offset->getTotalSeconds() * LocalTime::NANOS_PER_SECOND;
@@ -1314,7 +1314,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @return int the comparator value, negative if less, positive if greater
      * @throws NullPointerException if {@code other} is null
      */
-    public function compareTo(OffsetTime $other)
+    public function compareTo(OffsetTime $other) : int
     {
         if ($this->offset->equals($other->offset)) {
             return $this->time->compareTo($other->time);
@@ -1339,7 +1339,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is after the instant of the specified time
      */
-    public function isAfter(OffsetTime $other)
+    public function isAfter(OffsetTime $other) : bool
     {
         return $this->toEpochNano() > $other->toEpochNano();
     }
@@ -1355,7 +1355,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is before the instant of the specified time
      */
-    public function isBefore(OffsetTime $other)
+    public function isBefore(OffsetTime $other) : bool
     {
         return $this->toEpochNano() < $other->toEpochNano();
     }
@@ -1371,7 +1371,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param OffsetTime $other the other time to compare to, not null
      * @return bool true if this is equal to the instant of the specified time
      */
-    public function isEqual(OffsetTime $other)
+    public function isEqual(OffsetTime $other) : bool
     {
         return $this->toEpochNano() === $other->toEpochNano();
     }
@@ -1390,7 +1390,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other time
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -1421,7 +1421,7 @@ final class OffsetTime extends AbstractTemporal implements Temporal, TemporalAdj
      *
      * @return string a string representation of this time, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->time->__toString() . $this->offset->__toString();
     }

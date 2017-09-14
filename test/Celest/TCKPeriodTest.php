@@ -198,8 +198,8 @@ class TCKPeriod extends TestCase
         $this->assertPeriod(Period::ofWeeks(1), 0, 0, 7);
         $this->assertPeriod(Period::ofWeeks(234), 0, 0, 234 * 7);
         $this->assertPeriod(Period::ofWeeks(-100), 0, 0, -100 * 7);
-        $this->assertPeriod(Period::ofWeeks(Math::div(Integer::MAX_VALUE, 7)), 0, 0, Math::div(Integer::MAX_VALUE, 7) * 7);
-        $this->assertPeriod(Period::ofWeeks(Math::div(Integer::MIN_VALUE, 7)), 0, 0, Math::div(Integer::MIN_VALUE, 7) * 7);
+        $this->assertPeriod(Period::ofWeeks(\intdiv(Integer::MAX_VALUE, 7)), 0, 0, \intdiv(Integer::MAX_VALUE, 7) * 7);
+        $this->assertPeriod(Period::ofWeeks(\intdiv(Integer::MIN_VALUE, 7)), 0, 0, \intdiv(Integer::MIN_VALUE, 7) * 7);
     }
 
     //-----------------------------------------------------------------------
@@ -984,7 +984,7 @@ class TCKPeriod extends TestCase
      */
     public function test_multipliedBy_overflowTooBig()
     {
-        $test = Period::ofYears(Math::div(Long::MAX_VALUE, 2) + 1);
+        $test = Period::ofYears(\intdiv(Long::MAX_VALUE, 2) + 1);
         $test->multipliedBy(2);
     }
 
@@ -993,7 +993,7 @@ class TCKPeriod extends TestCase
      */
     public function test_multipliedBy_overflowTooSmall()
     {
-        $test = Period::ofYears(Math::div(Long::MIN_VALUE, 2) - 1);
+        $test = Period::ofYears(\intdiv(Long::MIN_VALUE, 2) - 1);
         $test->multipliedBy(2);
     }
 

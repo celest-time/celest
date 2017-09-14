@@ -13,13 +13,14 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 
 abstract class AbstractEra extends AbstractTemporalAccessor implements Era
 {
     /**
      * @inheritdoc
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::ERA();
@@ -30,7 +31,7 @@ abstract class AbstractEra extends AbstractTemporalAccessor implements Era
     /**
      * @inheritdoc
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         return parent::range($field);
     }
@@ -38,7 +39,7 @@ abstract class AbstractEra extends AbstractTemporalAccessor implements Era
     /**
      * @inheritdoc
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field == ChronoField::ERA()) {
             return $this->getValue();
@@ -50,7 +51,7 @@ abstract class AbstractEra extends AbstractTemporalAccessor implements Era
     /**
      * @inheritdoc
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == ChronoField::ERA()) {
             return $this->getValue();

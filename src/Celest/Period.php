@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -121,7 +121,7 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  */
 final class Period implements ChronoPeriod
 {
-    public static function init()
+    public static function init() : void
     {
         self::$ZERO = new Period(0, 0, 0);
         self::$SUPPORTED_UNITS = [ChronoUnit::YEARS(), ChronoUnit::MONTHS(), ChronoUnit::DAYS()];
@@ -131,7 +131,7 @@ final class Period implements ChronoPeriod
      * A constant for a period of zero.
      * @return Period
      */
-    public static function ZERO()
+    public static function ZERO() : Period
     {
         return self::$ZERO;
     }
@@ -176,7 +176,7 @@ final class Period implements ChronoPeriod
      * @param int $years the number of years, positive or negative
      * @return Period the period of years, not null
      */
-    public static function ofYears($years)
+    public static function ofYears(int $years) : Period
     {
         return self::create($years, 0, 0);
     }
@@ -190,7 +190,7 @@ final class Period implements ChronoPeriod
      * @param int $months the number of months, positive or negative
      * @return Period the period of months, not null
      */
-    public static function ofMonths($months)
+    public static function ofMonths(int $months) : Period
     {
         return self::create(0, $months, 0);
     }
@@ -205,7 +205,7 @@ final class Period implements ChronoPeriod
      * @param int $weeks the number of weeks, positive or negative
      * @return Period the period, with the input weeks converted to days, not null
      */
-    public static function ofWeeks($weeks)
+    public static function ofWeeks(int $weeks) : Period
     {
         return self::create(0, 0, Math::multiplyExact($weeks, 7));
     }
@@ -219,7 +219,7 @@ final class Period implements ChronoPeriod
      * @param int $days the number of days, positive or negative
      * @return Period the period of days, not null
      */
-    public static function ofDays($days)
+    public static function ofDays(int $days) : Period
     {
         return self::create(0, 0, $days);
     }
@@ -235,7 +235,7 @@ final class Period implements ChronoPeriod
      * @param int $days the amount of days, may be negative
      * @return Period the period of years, months and days, not null
      */
-    public static function of($years, $months, $days)
+    public static function of(int $years, int $months, int $days) : Period
     {
         return self::create($years, $months, $days);
     }
@@ -260,7 +260,7 @@ final class Period implements ChronoPeriod
      * @throws DateTimeException if unable to convert to a {@code Period}
      * @throws ArithmeticException if the amount of years, months or days exceeds an int
      */
-    public static function from(TemporalAmount $amount)
+    public static function from(TemporalAmount $amount) : Period
     {
         if ($amount instanceof Period) {
             return $amount;
@@ -329,12 +329,8 @@ final class Period implements ChronoPeriod
      * @return Period the parsed period, not null
      * @throws DateTimeParseException if the text cannot be parsed to a period
      */
-    public static function parse($text)
+    public static function parse(string $text) : Period
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         $m = preg_match(self::$PATTERN, $text, $matches);
         if ($m === 1) {
             $negate = ("-" === @$matches[1] ? -1 : 1);
@@ -358,7 +354,7 @@ final class Period implements ChronoPeriod
         throw new DateTimeParseException("Text cannot be parsed to a Period", $text, 0);
     }
 
-    private static function parseNumber($text, $str, $negate)
+    private static function parseNumber(string $text, ?string $str, int $negate) : int
     {
         if ($str === null) {
             return 0;
@@ -394,7 +390,7 @@ final class Period implements ChronoPeriod
      * @return Period the period between this date and the end date, not null
      * @see ChronoLocalDate#untilDate(ChronoLocalDate)
      */
-    public static function between(ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive)
+    public static function between(ChronoLocalDate $startDateInclusive, ChronoLocalDate $endDateExclusive) : Period
     {
         return $startDateInclusive->untilDate($endDateExclusive);
     }
@@ -408,7 +404,7 @@ final class Period implements ChronoPeriod
      * @param int $days the amount
      * @return Period
      */
-    private static function create($years, $months, $days)
+    private static function create(int $years, int $months, int $days) : Period
     {
         if (($years | $months | $days) === 0) {
             return self::$ZERO;
@@ -424,7 +420,7 @@ final class Period implements ChronoPeriod
      * @param int $months the amount
      * @param int $days the amount
      */
-    private function __construct($years, $months, $days)
+    private function __construct(int $years, int $months, int $days)
     {
         $this->years = $years;
         $this->months = $months;
@@ -445,7 +441,7 @@ final class Period implements ChronoPeriod
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         if ($unit == ChronoUnit::YEARS()) {
             return $this->getYears();
@@ -471,7 +467,7 @@ final class Period implements ChronoPeriod
      *
      * @return TemporalUnit[] a list containing the years, months and days units, not null
      */
-    public function getUnits()
+    public function getUnits() : array
     {
         return self::$SUPPORTED_UNITS;
     }
@@ -486,7 +482,7 @@ final class Period implements ChronoPeriod
      *
      * @return IsoChronology the ISO chronology, not null
      */
-    public function getChronology()
+    public function getChronology() : IsoChronology
     {
         return IsoChronology::INSTANCE();
     }
@@ -499,7 +495,7 @@ final class Period implements ChronoPeriod
      *
      * @return bool true if this period is zero-length
      */
-    public function isZero()
+    public function isZero() : bool
     {
         return $this->equals(self::$ZERO);
     }
@@ -511,7 +507,7 @@ final class Period implements ChronoPeriod
      *
      * @return bool true if any unit of this period is negative
      */
-    public function isNegative()
+    public function isNegative() : bool
     {
         return $this->years < 0 || $this->months < 0 || $this->days < 0;
     }
@@ -528,7 +524,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the amount of years of this period, may be negative
      */
-    public function getYears()
+    public function getYears() : int
     {
         return $this->years;
     }
@@ -544,7 +540,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the amount of months of this period, may be negative
      */
-    public function getMonths()
+    public function getMonths() : int
     {
         return $this->months;
     }
@@ -556,7 +552,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the amount of days of this period, may be negative
      */
-    public function getDays()
+    public function getDays() : int
     {
         return $this->days;
     }
@@ -577,7 +573,7 @@ final class Period implements ChronoPeriod
      * @param int $years the years to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested years, not null
      */
-    public function withYears($years)
+    public function withYears(int $years) : Period
     {
         if ($years === $this->years) {
             return $this;
@@ -600,7 +596,7 @@ final class Period implements ChronoPeriod
      * @param int $months the months to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested months, not null
      */
-    public function withMonths($months)
+    public function withMonths(int $months) : Period
     {
         if ($months === $this->months) {
             return $this;
@@ -619,7 +615,7 @@ final class Period implements ChronoPeriod
      * @param int $days the days to represent, may be negative
      * @return Period a {@code Period} based on this period with the requested days, not null
      */
-    public function withDays($days)
+    public function withDays(int $days) : Period
     {
         if ($days === $this->days) {
             return $this;
@@ -648,7 +644,7 @@ final class Period implements ChronoPeriod
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusAmount(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd) : Period
     {
         $isoAmount = Period::from($amountToAdd);
         return self::create(
@@ -670,7 +666,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified years added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusYears($yearsToAdd)
+    public function plusYears(int $yearsToAdd) : Period
     {
         if ($yearsToAdd === 0) {
             return $this;
@@ -692,7 +688,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified months added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusMonths($monthsToAdd)
+    public function plusMonths(int $monthsToAdd) : Period
     {
         if ($monthsToAdd === 0) {
             return $this;
@@ -713,7 +709,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusDays($daysToAdd)
+    public function plusDays(int $daysToAdd) : Period
     {
         if ($daysToAdd === 0) {
             return $this;
@@ -742,7 +738,7 @@ final class Period implements ChronoPeriod
      *  contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract) : Period
     {
         $isoAmount = Period::from($amountToSubtract);
         return $this->create(
@@ -764,7 +760,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified years subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusYears($yearsToSubtract)
+    public function minusYears(int $yearsToSubtract) : Period
     {
         return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
@@ -782,7 +778,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified months subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusMonths($monthsToSubtract)
+    public function minusMonths(int $monthsToSubtract) : Period
     {
         return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
@@ -800,7 +796,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusDays($daysToSubtract)
+    public function minusDays(int $daysToSubtract) : Period
     {
         return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
@@ -820,7 +816,7 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with the amounts multiplied by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function multipliedBy($scalar)
+    public function multipliedBy(int $scalar) : Period
     {
         if ($this === self::$ZERO || $scalar === 1) {
             return $this;
@@ -844,7 +840,7 @@ final class Period implements ChronoPeriod
      * @throws ArithmeticException if numeric overflow occurs, which only happens if
      *  one of the units has the value {@code Long.MIN_VALUE}
      */
-    public function negated()
+    public function negated() : Period
     {
         return $this->multipliedBy(-1);
     }
@@ -867,10 +863,10 @@ final class Period implements ChronoPeriod
      * @return Period a {@code Period} based on this period with excess months normalized to years, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function normalized()
+    public function normalized() : Period
     {
         $totalMonths = $this->toTotalMonths();
-        $splitYears = Math::div($totalMonths, 12);
+        $splitYears = \intdiv($totalMonths, 12);
         $splitMonths = $totalMonths % 12;  // no overflow
         if ($splitYears === $this->years && $splitMonths === $this->months) {
             return $this;
@@ -888,7 +884,7 @@ final class Period implements ChronoPeriod
      *
      * @return int the total number of months in the period, may be negative
      */
-    public function toTotalMonths()
+    public function toTotalMonths() : int
     {
         return Math::addExact(Math::multiplyExact($this->years, 12), $this->months);
     }
@@ -928,7 +924,7 @@ final class Period implements ChronoPeriod
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function addTo(Temporal $temporal)
+    public function addTo(Temporal $temporal) : Temporal
     {
         $this->validateChrono($temporal);
         if ($this->months === 0) {
@@ -981,7 +977,7 @@ final class Period implements ChronoPeriod
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function subtractFrom(Temporal $temporal)
+    public function subtractFrom(Temporal $temporal) : Temporal
     {
         $this->validateChrono($temporal);
         if ($this->months === 0) {
@@ -1003,7 +999,7 @@ final class Period implements ChronoPeriod
     /**
      * Validates that the temporal has the correct chronology.
      */
-    private function validateChrono(TemporalAccessor $temporal)
+    private function validateChrono(TemporalAccessor $temporal) : void
     {
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
         if ($temporalChrono !== null && IsoChronology::INSTANCE()->equals($temporalChrono) === false) {
@@ -1023,7 +1019,7 @@ final class Period implements ChronoPeriod
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other period
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -1047,7 +1043,7 @@ final class Period implements ChronoPeriod
      *
      * @return string a string representation of this period, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         if ($this === self::$ZERO) {
             return "P0D";

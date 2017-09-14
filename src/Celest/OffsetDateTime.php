@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -476,7 +476,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this date-time, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field instanceof ChronoField || ($field !== null && $field->isSupportedBy($this));
     }
@@ -550,7 +550,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::OFFSET_SECONDS()) {
@@ -590,7 +590,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -628,7 +628,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -983,7 +983,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : OffsetDateTime
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -1214,7 +1214,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : OffsetDateTime
     {
         if ($unit instanceof ChronoUnit) {
             return $this->_with($this->dateTime->plus($amountToAdd, $unit), $this->offset);
@@ -1414,7 +1414,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : OffsetDateTime
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -1955,7 +1955,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      *
      * @return string a string representation of this date-time, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->dateTime->__toString() . $this->offset->__toString();
     }

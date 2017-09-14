@@ -1,10 +1,4 @@
-<?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 24.07.15
- * Time: 13:39
- */
+<?php declare(strict_types=1);
 
 namespace Celest\Clocks;
 
@@ -28,12 +22,12 @@ final class SystemClock extends Clock
         $this->zone = $zone;
     }
 
-    public function getZone()
+    public function getZone() : ZoneId
     {
         return $this->zone;
     }
 
-    public function withZone(ZoneId $zone)
+    public function withZone(ZoneId $zone) : Clock
     {
         if ($zone->equals($this->zone)) {  // intentional NPE
             return $this;
@@ -41,18 +35,18 @@ final class SystemClock extends Clock
         return new SystemClock($zone);
     }
 
-    public function millis()
+    public function millis() : int
     {
         $tofd = \gettimeofday();
         return $tofd['sec'] * 1000 + Math::floorDiv($tofd['usec'], 1000);
     }
 
-    public function instant()
+    public function instant() : Instant
     {
         return Instant::ofEpochMilli($this->millis());
     }
 
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($obj instanceof SystemClock) {
             return $this->zone->equals($obj->zone);
@@ -60,7 +54,7 @@ final class SystemClock extends Clock
         return false;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "SystemClock[" . $this->zone . "]";
     }

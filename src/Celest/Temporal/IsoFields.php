@@ -382,7 +382,7 @@ final class IsoFields
         $dow0 = $date->getDayOfWeek()->getValue() - 1;
         $doy0 = $date->getDayOfYear() - 1;
         $doyThu0 = $doy0 + (3 - $dow0);  // adjust to mid-week Thursday (which is 3 indexed from zero)
-        $alignedWeek = Math::div($doyThu0, 7);
+        $alignedWeek = \intdiv($doyThu0, 7);
         $firstThuDoy0 = $doyThu0 - ($alignedWeek * 7);
         $firstMonDoy0 = $firstThuDoy0 - 3;
         if ($firstMonDoy0 < -3) {
@@ -392,7 +392,7 @@ final class IsoFields
         if ($doy0 < $firstMonDoy0) {
             return self::getWeekRange($date->withDayOfYear(180)->minusYears(1))->getMaximum();
         }
-        $week = Math::div(($doy0 - $firstMonDoy0), 7) + 1;
+        $week = \intdiv(($doy0 - $firstMonDoy0), 7) + 1;
         if ($week === 53) {
             if (($firstMonDoy0 === -3 || ($firstMonDoy0 === -2 && $date->isLeapYear())) === false) {
                 $week = 1;

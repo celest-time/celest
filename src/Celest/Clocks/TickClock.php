@@ -29,12 +29,12 @@ final class TickClock extends Clock
         $this->tickNanos = $tickNanos;
     }
 
-    public function getZone()
+    public function getZone() : ZoneId
     {
         return $this->baseClock->getZone();
     }
 
-    public function withZone(ZoneId $zone)
+    public function withZone(ZoneId $zone) : Clock
     {
         if ($zone->equals($this->baseClock->getZone())) {  // intentional NPE
             return $this;
@@ -42,17 +42,17 @@ final class TickClock extends Clock
         return new TickClock($this->baseClock->withZone($zone), $this->tickNanos);
     }
 
-    public function millis()
+    public function millis() : int
     {
         $millis = $this->baseClock->millis();
-        return $millis - Math::floorMod($millis, Math::div($this->tickNanos, 1000000));
+        return $millis - Math::floorMod($millis, \intdiv($this->tickNanos, 1000000));
     }
 
-    public function instant()
+    public function instant() : Instant
     {
         if (($this->tickNanos % 1000000) === 0) {
             $millis = $this->baseClock->millis();
-            return Instant::ofEpochMilli($millis - Math::floorMod($millis, Math::div($this->tickNanos, 1000000)));
+            return Instant::ofEpochMilli($millis - Math::floorMod($millis, \intdiv($this->tickNanos, 1000000)));
         }
         $instant = $this->baseClock->instant();
         $nanos = $instant->getNano();
@@ -60,7 +60,7 @@ final class TickClock extends Clock
         return $instant->minusNanos($adjust);
     }
 
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($obj instanceof TickClock) {
             return $this->baseClock->equals($obj->baseClock) && $this->tickNanos === $obj->tickNanos;
@@ -69,7 +69,7 @@ final class TickClock extends Clock
         }
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "TickClock[" . $this->baseClock . "," . Duration::ofNanos($this->tickNanos) . "]";
     }

@@ -20,10 +20,10 @@ class MathTest extends TestCase
 
     public function testFloorDiv()
     {
-        $this->assertEquals(1, Math::div(4, 3));
+        $this->assertEquals(1, \intdiv(4, 3));
         $this->assertEquals(1, Math::floorDiv(4, 3));
 
-        $this->assertEquals(-1, Math::div(-4, 3));
+        $this->assertEquals(-1, \intdiv(-4, 3));
         $this->assertEquals(-2, Math::floorDiv(-4, 3));
     }
 

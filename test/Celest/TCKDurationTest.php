@@ -103,7 +103,7 @@ class TemporalAmount_Minutes_tooBig implements TemporalAmount
 {
     public function get(TemporalUnit $unit)
     {
-        return Math::div(Long::MAX_VALUE, 60) + 2;
+        return \intdiv(Long::MAX_VALUE, 60) + 2;
     }
 
     public function getUnits()
@@ -251,7 +251,7 @@ class TCKDurationTest extends TestCase
     public function test_factory_nanos_max()
     {
         $test = Duration::ofNanos(Long::MAX_VALUE);
-        $this->assertEquals($test->getSeconds(), Math::div(Long::MAX_VALUE, 1000000000));
+        $this->assertEquals($test->getSeconds(), \intdiv(Long::MAX_VALUE, 1000000000));
         $this->assertEquals($test->getNano(), Long::MAX_VALUE % 1000000000);
     }
 
@@ -259,7 +259,7 @@ class TCKDurationTest extends TestCase
     public function test_factory_nanos_min()
     {
         $test = Duration::ofNanos(Long::MIN_VALUE);
-        $this->assertEquals($test->getSeconds(), Math::div(Long::MIN_VALUE, 1000000000) - 1);
+        $this->assertEquals($test->getSeconds(), \intdiv(Long::MIN_VALUE, 1000000000) - 1);
         $this->assertEquals($test->getNano(), Long::MIN_VALUE % 1000000000 + 1000000000);
     }
 
@@ -277,16 +277,16 @@ class TCKDurationTest extends TestCase
 
     public function test_factory_minutes_max()
     {
-        $test = Duration::ofMinutes(Math::div(Long::MAX_VALUE, 60));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MAX_VALUE, 60)) * 60);
+        $test = Duration::ofMinutes(\intdiv(Long::MAX_VALUE, 60));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MAX_VALUE, 60)) * 60);
         $this->assertEquals($test->getNano(), 0);
     }
 
 
     public function test_factory_minutes_min()
     {
-        $test = Duration::ofMinutes(Math::div(Long::MIN_VALUE, 60));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MIN_VALUE, 60)) * 60);
+        $test = Duration::ofMinutes(\intdiv(Long::MIN_VALUE, 60));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MIN_VALUE, 60)) * 60);
         $this->assertEquals($test->getNano(), 0);
     }
 
@@ -296,7 +296,7 @@ class TCKDurationTest extends TestCase
 
     public function test_factory_minutes_tooBig()
     {
-        Duration::ofMinutes(Math::div(Long::MAX_VALUE, 60) + 1);
+        Duration::ofMinutes(\intdiv(Long::MAX_VALUE, 60) + 1);
     }
 
     /**
@@ -305,7 +305,7 @@ class TCKDurationTest extends TestCase
 
     public function test_factory_minutes_tooSmall()
     {
-        Duration::ofMinutes(Math::div(Long::MIN_VALUE, 60) - 1);
+        Duration::ofMinutes(\intdiv(Long::MIN_VALUE, 60) - 1);
     }
 
     //-----------------------------------------------------------------------
@@ -322,16 +322,16 @@ class TCKDurationTest extends TestCase
 
     public function test_factory_hours_max()
     {
-        $test = Duration::ofHours(Math::div(Long::MAX_VALUE, 3600));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MAX_VALUE, 3600)) * 3600);
+        $test = Duration::ofHours(\intdiv(Long::MAX_VALUE, 3600));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MAX_VALUE, 3600)) * 3600);
         $this->assertEquals($test->getNano(), 0);
     }
 
 
     public function test_factory_hours_min()
     {
-        $test = Duration::ofHours(Math::div(Long::MIN_VALUE, 3600));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MIN_VALUE, 3600)) * 3600);
+        $test = Duration::ofHours(\intdiv(Long::MIN_VALUE, 3600));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MIN_VALUE, 3600)) * 3600);
         $this->assertEquals($test->getNano(), 0);
     }
 
@@ -340,7 +340,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_factory_hours_tooBig()
     {
-        Duration::ofHours(Math::div(Long::MAX_VALUE, 3600) + 1);
+        Duration::ofHours(\intdiv(Long::MAX_VALUE, 3600) + 1);
     }
 
     /**
@@ -348,7 +348,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_factory_hours_tooSmall()
     {
-        Duration::ofHours(Math::div(Long::MIN_VALUE, 3600) - 1);
+        Duration::ofHours(\intdiv(Long::MIN_VALUE, 3600) - 1);
     }
 
     //-----------------------------------------------------------------------
@@ -365,16 +365,16 @@ class TCKDurationTest extends TestCase
 
     public function test_factory_days_max()
     {
-        $test = Duration::ofDays(Math::div(Long::MAX_VALUE, 86400));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MAX_VALUE, 86400)) * 86400);
+        $test = Duration::ofDays(\intdiv(Long::MAX_VALUE, 86400));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MAX_VALUE, 86400)) * 86400);
         $this->assertEquals($test->getNano(), 0);
     }
 
 
     public function test_factory_days_min()
     {
-        $test = Duration::ofDays(Math::div(Long::MIN_VALUE, 86400));
-        $this->assertEquals($test->getSeconds(), (Math::div(Long::MIN_VALUE, 86400)) * 86400);
+        $test = Duration::ofDays(\intdiv(Long::MIN_VALUE, 86400));
+        $this->assertEquals($test->getSeconds(), (\intdiv(Long::MIN_VALUE, 86400)) * 86400);
         $this->assertEquals($test->getNano(), 0);
     }
 
@@ -383,7 +383,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_factory_days_tooBig()
     {
-        Duration::ofDays(Math::div(Long::MAX_VALUE, 86400) + 1);
+        Duration::ofDays(\intdiv(Long::MAX_VALUE, 86400) + 1);
     }
 
     /**
@@ -391,7 +391,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_factory_days_tooSmall()
     {
-        Duration::ofDays(Math::div(Long::MIN_VALUE, 86400) - 1);
+        Duration::ofDays(\intdiv(Long::MIN_VALUE, 86400) - 1);
     }
 
     //-----------------------------------------------------------------------
@@ -440,20 +440,20 @@ class TCKDurationTest extends TestCase
             [-3, CU::HOURS(), -3 * 3600, 0],
             [-3, CU::HALF_DAYS(), -3 * 43200, 0],
             [-3, CU::DAYS(), -3 * 86400, 0],
-            [Long::MAX_VALUE, CU::NANOS(), Math::div(Long::MAX_VALUE, 1000000000), (int)(Long::MAX_VALUE % 1000000000)],
-            [Long::MIN_VALUE, CU::NANOS(), Math::div(Long::MIN_VALUE, 1000000000) - 1, (int)(Long::MIN_VALUE % 1000000000 + 1000000000)],
-            [Long::MAX_VALUE, CU::MICROS(), Math::div(Long::MAX_VALUE, 1000000), (int)((Long::MAX_VALUE % 1000000) * 1000)],
-            [Long::MIN_VALUE, CU::MICROS(), Math::div(Long::MIN_VALUE, 1000000) - 1, (int)((Long::MIN_VALUE % 1000000 + 1000000) * 1000)],
-            [Long::MAX_VALUE, CU::MILLIS(), Math::div(Long::MAX_VALUE, 1000), (int)((Long::MAX_VALUE % 1000) * 1000000)],
-            [Long::MIN_VALUE, CU::MILLIS(), Math::div(Long::MIN_VALUE, 1000) - 1, (int)((Long::MIN_VALUE % 1000 + 1000) * 1000000)],
+            [Long::MAX_VALUE, CU::NANOS(), \intdiv(Long::MAX_VALUE, 1000000000), (int)(Long::MAX_VALUE % 1000000000)],
+            [Long::MIN_VALUE, CU::NANOS(), \intdiv(Long::MIN_VALUE, 1000000000) - 1, (int)(Long::MIN_VALUE % 1000000000 + 1000000000)],
+            [Long::MAX_VALUE, CU::MICROS(), \intdiv(Long::MAX_VALUE, 1000000), (int)((Long::MAX_VALUE % 1000000) * 1000)],
+            [Long::MIN_VALUE, CU::MICROS(), \intdiv(Long::MIN_VALUE, 1000000) - 1, (int)((Long::MIN_VALUE % 1000000 + 1000000) * 1000)],
+            [Long::MAX_VALUE, CU::MILLIS(), \intdiv(Long::MAX_VALUE, 1000), (int)((Long::MAX_VALUE % 1000) * 1000000)],
+            [Long::MIN_VALUE, CU::MILLIS(), \intdiv(Long::MIN_VALUE, 1000) - 1, (int)((Long::MIN_VALUE % 1000 + 1000) * 1000000)],
             [Long::MAX_VALUE, CU::SECONDS(), Long::MAX_VALUE, 0],
             [Long::MIN_VALUE, CU::SECONDS(), Long::MIN_VALUE, 0],
-            [Math::div(Long::MAX_VALUE, 60), CU::MINUTES(), Math::div(Long::MAX_VALUE, 60) * 60, 0],
-            [Math::div(Long::MIN_VALUE, 60), CU::MINUTES(), Math::div(Long::MIN_VALUE, 60) * 60, 0],
-            [Math::div(Long::MAX_VALUE, 3600), CU::HOURS(), Math::div(Long::MAX_VALUE, 3600) * 3600, 0],
-            [Math::div(Long::MIN_VALUE, 3600), CU::HOURS(), Math::div(Long::MIN_VALUE, 3600) * 3600, 0],
-            [Math::div(Long::MAX_VALUE, 43200), CU::HALF_DAYS(), Math::div(Long::MAX_VALUE, 43200) * 43200, 0],
-            [Math::div(Long::MIN_VALUE, 43200), CU::HALF_DAYS(), Math::div(Long::MIN_VALUE, 43200) * 43200, 0],
+            [\intdiv(Long::MAX_VALUE, 60), CU::MINUTES(), \intdiv(Long::MAX_VALUE, 60) * 60, 0],
+            [\intdiv(Long::MIN_VALUE, 60), CU::MINUTES(), \intdiv(Long::MIN_VALUE, 60) * 60, 0],
+            [\intdiv(Long::MAX_VALUE, 3600), CU::HOURS(), \intdiv(Long::MAX_VALUE, 3600) * 3600, 0],
+            [\intdiv(Long::MIN_VALUE, 3600), CU::HOURS(), \intdiv(Long::MIN_VALUE, 3600) * 3600, 0],
+            [\intdiv(Long::MAX_VALUE, 43200), CU::HALF_DAYS(), \intdiv(Long::MAX_VALUE, 43200) * 43200, 0],
+            [\intdiv(Long::MIN_VALUE, 43200), CU::HALF_DAYS(), \intdiv(Long::MIN_VALUE, 43200) * 43200, 0],
         ];
     }
 
@@ -470,12 +470,12 @@ class TCKDurationTest extends TestCase
     function provider_factory_of_longTemporalUnit_outOfRange()
     {
         return [
-            [Math::div(Long::MAX_VALUE, 60) + 1, CU::MINUTES()],
-            [Math::div(Long::MIN_VALUE, 60) - 1, CU::MINUTES()],
-            [Math::div(Long::MAX_VALUE, 3600) + 1, CU::HOURS()],
-            [Math::div(Long::MIN_VALUE, 3600) - 1, CU::HOURS()],
-            [Math::div(Long::MAX_VALUE, 43200) + 1, CU::HALF_DAYS()],
-            [Math::div(Long::MIN_VALUE, 43200) - 1, CU::HALF_DAYS()],
+            [\intdiv(Long::MAX_VALUE, 60) + 1, CU::MINUTES()],
+            [\intdiv(Long::MIN_VALUE, 60) - 1, CU::MINUTES()],
+            [\intdiv(Long::MAX_VALUE, 3600) + 1, CU::HOURS()],
+            [\intdiv(Long::MIN_VALUE, 3600) - 1, CU::HOURS()],
+            [\intdiv(Long::MAX_VALUE, 43200) + 1, CU::HALF_DAYS()],
+            [\intdiv(Long::MIN_VALUE, 43200) - 1, CU::HALF_DAYS()],
         ];
     }
 
@@ -1279,19 +1279,19 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, 1],
             [0, -1, -1],
-            [Math::div(Math::div(Long::MAX_VALUE, 3600), 24), 0, Math::div(Math::div(Long::MAX_VALUE, 3600), 24)],
-            [Math::div(Math::div(Long::MIN_VALUE, 3600), 24), 0, Math::div(Math::div(Long::MIN_VALUE, 3600), 24)],
+            [\intdiv(\intdiv(Long::MAX_VALUE, 3600), 24), 0, \intdiv(\intdiv(Long::MAX_VALUE, 3600), 24)],
+            [\intdiv(\intdiv(Long::MIN_VALUE, 3600), 24), 0, \intdiv(\intdiv(Long::MIN_VALUE, 3600), 24)],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
-            [1, Math::div(Math::div(Long::MIN_VALUE, 3600), 24), Math::div(Math::div(Long::MIN_VALUE, 3600), 24) + 1],
+            [1, \intdiv(\intdiv(Long::MIN_VALUE, 3600), 24), \intdiv(\intdiv(Long::MIN_VALUE, 3600), 24) + 1],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
             [-1, 0, -1],
             [-1, 1, 0],
             [-1, -1, -2],
-            [-1, Math::div(Math::div(Long::MAX_VALUE, 3600), 24), Math::div(Math::div(Long::MAX_VALUE, 3600), 24) - 1],
+            [-1, \intdiv(\intdiv(Long::MAX_VALUE, 3600), 24), \intdiv(\intdiv(Long::MAX_VALUE, 3600), 24) - 1],
         ];
     }
 
@@ -1311,7 +1311,7 @@ class TCKDurationTest extends TestCase
     public function test_plusDays_long_overflowTooBig()
     {
         $t = Duration::ofDays(1);
-        $t->plusDays(Math::div(Math::div(Long::MAX_VALUE, 3600), 24));
+        $t->plusDays(\intdiv(\intdiv(Long::MAX_VALUE, 3600), 24));
     }
 
     /**
@@ -1320,7 +1320,7 @@ class TCKDurationTest extends TestCase
     public function test_plusDays_long_overflowTooSmall()
     {
         $t = Duration::ofDays(-1);
-        $t->plusDays(Math::div(Math::div(Long::MIN_VALUE, 3600), 24));
+        $t->plusDays(\intdiv(\intdiv(Long::MIN_VALUE, 3600), 24));
     }
 
     //-----------------------------------------------------------------------
@@ -1330,19 +1330,19 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, 1],
             [0, -1, -1],
-            [Math::div(Long::MAX_VALUE, 3600), 0, Math::div(Long::MAX_VALUE, 3600)],
-            [Math::div(Long::MIN_VALUE, 3600), 0, Math::div(Long::MIN_VALUE, 3600)],
+            [\intdiv(Long::MAX_VALUE, 3600), 0, \intdiv(Long::MAX_VALUE, 3600)],
+            [\intdiv(Long::MIN_VALUE, 3600), 0, \intdiv(Long::MIN_VALUE, 3600)],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
-            [1, Math::div(Long::MIN_VALUE, 3600), Math::div(Long::MIN_VALUE, 3600) + 1],
+            [1, \intdiv(Long::MIN_VALUE, 3600), \intdiv(Long::MIN_VALUE, 3600) + 1],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
             [-1, 0, -1],
             [-1, 1, 0],
             [-1, -1, -2],
-            [-1, Math::div(Long::MAX_VALUE, 3600), Math::div(Long::MAX_VALUE, 3600) - 1],
+            [-1, \intdiv(Long::MAX_VALUE, 3600), \intdiv(Long::MAX_VALUE, 3600) - 1],
         ];
     }
 
@@ -1362,7 +1362,7 @@ class TCKDurationTest extends TestCase
     public function test_plusHours_long_overflowTooBig()
     {
         $t = Duration::ofHours(1);
-        $t->plusHours(Math::div(Long::MAX_VALUE, 3600));
+        $t->plusHours(\intdiv(Long::MAX_VALUE, 3600));
     }
 
     /**
@@ -1371,7 +1371,7 @@ class TCKDurationTest extends TestCase
     public function test_plusHours_long_overflowTooSmall()
     {
         $t = Duration::ofHours(-1);
-        $t->plusHours(Math::div(Long::MIN_VALUE, 3600));
+        $t->plusHours(\intdiv(Long::MIN_VALUE, 3600));
     }
 
     //-----------------------------------------------------------------------
@@ -1381,19 +1381,19 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, 1],
             [0, -1, -1],
-            [Math::div(Long::MAX_VALUE, 60), 0, Math::div(Long::MAX_VALUE, 60)],
-            [Math::div(Long::MIN_VALUE, 60), 0, Math::div(Long::MIN_VALUE, 60)],
+            [\intdiv(Long::MAX_VALUE, 60), 0, \intdiv(Long::MAX_VALUE, 60)],
+            [\intdiv(Long::MIN_VALUE, 60), 0, \intdiv(Long::MIN_VALUE, 60)],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
-            [1, Math::div(Long::MIN_VALUE, 60), Math::div(Long::MIN_VALUE, 60) + 1],
+            [1, \intdiv(Long::MIN_VALUE, 60), \intdiv(Long::MIN_VALUE, 60) + 1],
             [1, 0, 1],
             [1, 1, 2],
             [1, -1, 0],
             [-1, 0, -1],
             [-1, 1, 0],
             [-1, -1, -2],
-            [-1, Math::div(Long::MAX_VALUE, 60), Math::div(Long::MAX_VALUE, 60) - 1],
+            [-1, \intdiv(Long::MAX_VALUE, 60), \intdiv(Long::MAX_VALUE, 60) - 1],
         ];
     }
 
@@ -1413,7 +1413,7 @@ class TCKDurationTest extends TestCase
     public function test_plusMinutes_long_overflowTooBig()
     {
         $t = Duration::ofMinutes(1);
-        $t->plusMinutes(Math::div(Long::MAX_VALUE, 60));
+        $t->plusMinutes(\intdiv(Long::MAX_VALUE, 60));
     }
 
     /**
@@ -1422,7 +1422,7 @@ class TCKDurationTest extends TestCase
     public function test_plusMinutes_long_overflowTooSmall()
     {
         $t = Duration::ofMinutes(-1);
-        $t->plusMinutes(Math::div(Long::MIN_VALUE, 60));
+        $t->plusMinutes(\intdiv(Long::MIN_VALUE, 60));
     }
 
     //-----------------------------------------------------------------------
@@ -1978,13 +1978,13 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, -1],
             [0, -1, 1],
-            [Math::div(Math::div(Long::MAX_VALUE, 3600), 24), 0, Math::div(Math::div(Long::MAX_VALUE, 3600), 24)],
-            [Math::div(Math::div(Long::MIN_VALUE, 3600), 24), 0, Math::div(Math::div(Long::MIN_VALUE, 3600), 24)],
+            [\intdiv(\intdiv(Long::MAX_VALUE, 3600), 24), 0, \intdiv(\intdiv(Long::MAX_VALUE, 3600), 24)],
+            [\intdiv(\intdiv(Long::MIN_VALUE, 3600), 24), 0, \intdiv(\intdiv(Long::MIN_VALUE, 3600), 24)],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
-            [Math::div(Math::div(Long::MAX_VALUE, 3600), 24), 1, Math::div(Math::div(Long::MAX_VALUE, 3600), 24) - 1],
-            [Math::div(Math::div(Long::MIN_VALUE, 3600), 24), -1, Math::div(Math::div(Long::MIN_VALUE, 3600), 24) + 1],
+            [\intdiv(\intdiv(Long::MAX_VALUE, 3600), 24), 1, \intdiv(\intdiv(Long::MAX_VALUE, 3600), 24) - 1],
+            [\intdiv(\intdiv(Long::MIN_VALUE, 3600), 24), -1, \intdiv(\intdiv(Long::MIN_VALUE, 3600), 24) + 1],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
@@ -2009,7 +2009,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusDays_long_overflowTooBig()
     {
-        $t = Duration::ofDays(Math::div(Math::div(Long::MAX_VALUE, 3600), 24));
+        $t = Duration::ofDays(\intdiv(\intdiv(Long::MAX_VALUE, 3600), 24));
         $t->minusDays(-1);
     }
 
@@ -2018,7 +2018,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusDays_long_overflowTooSmall()
     {
-        $t = Duration::ofDays(Math::div(Math::div(Long::MIN_VALUE, 3600), 24));
+        $t = Duration::ofDays(\intdiv(\intdiv(Long::MIN_VALUE, 3600), 24));
         $t->minusDays(1);
     }
 
@@ -2029,13 +2029,13 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, -1],
             [0, -1, 1],
-            [Math::div(Long::MAX_VALUE, 3600), 0, Math::div(Long::MAX_VALUE, 3600)],
-            [Math::div(Long::MIN_VALUE, 3600), 0, Math::div(Long::MIN_VALUE, 3600)],
+            [\intdiv(Long::MAX_VALUE, 3600), 0, \intdiv(Long::MAX_VALUE, 3600)],
+            [\intdiv(Long::MIN_VALUE, 3600), 0, \intdiv(Long::MIN_VALUE, 3600)],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
-            [Math::div(Long::MAX_VALUE, 3600), 1, Math::div(Long::MAX_VALUE, 3600) - 1],
-            [Math::div(Long::MIN_VALUE, 3600), -1, Math::div(Long::MIN_VALUE, 3600) + 1],
+            [\intdiv(Long::MAX_VALUE, 3600), 1, \intdiv(Long::MAX_VALUE, 3600) - 1],
+            [\intdiv(Long::MIN_VALUE, 3600), -1, \intdiv(Long::MIN_VALUE, 3600) + 1],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
@@ -2060,7 +2060,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusHours_long_overflowTooBig()
     {
-        $t = Duration::ofHours(Math::div(Long::MAX_VALUE, 3600));
+        $t = Duration::ofHours(\intdiv(Long::MAX_VALUE, 3600));
         $t->minusHours(-1);
     }
 
@@ -2069,7 +2069,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusHours_long_overflowTooSmall()
     {
-        $t = Duration::ofHours(Math::div(Long::MIN_VALUE, 3600));
+        $t = Duration::ofHours(\intdiv(Long::MIN_VALUE, 3600));
         $t->minusHours(1);
     }
 
@@ -2080,13 +2080,13 @@ class TCKDurationTest extends TestCase
             [0, 0, 0],
             [0, 1, -1],
             [0, -1, 1],
-            [Math::div(Long::MAX_VALUE, 60), 0, Math::div(Long::MAX_VALUE, 60)],
-            [Math::div(Long::MIN_VALUE, 60), 0, Math::div(Long::MIN_VALUE, 60)],
+            [\intdiv(Long::MAX_VALUE, 60), 0, \intdiv(Long::MAX_VALUE, 60)],
+            [\intdiv(Long::MIN_VALUE, 60), 0, \intdiv(Long::MIN_VALUE, 60)],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
-            [Math::div(Long::MAX_VALUE, 60), 1, Math::div(Long::MAX_VALUE, 60) - 1],
-            [Math::div(Long::MIN_VALUE, 60), -1, Math::div(Long::MIN_VALUE, 60) + 1],
+            [\intdiv(Long::MAX_VALUE, 60), 1, \intdiv(Long::MAX_VALUE, 60) - 1],
+            [\intdiv(Long::MIN_VALUE, 60), -1, \intdiv(Long::MIN_VALUE, 60) + 1],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
@@ -2111,7 +2111,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusMinutes_long_overflowTooBig()
     {
-        $t = Duration::ofMinutes(Math::div(Long::MAX_VALUE, 60));
+        $t = Duration::ofMinutes(\intdiv(Long::MAX_VALUE, 60));
         $t->minusMinutes(-1);
     }
 
@@ -2120,7 +2120,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_minusMinutes_long_overflowTooSmall()
     {
-        $t = Duration::ofMinutes(Math::div(Long::MIN_VALUE, 60));
+        $t = Duration::ofMinutes(\intdiv(Long::MIN_VALUE, 60));
         $t->minusMinutes(1);
     }
 
@@ -2750,7 +2750,7 @@ class TCKDurationTest extends TestCase
 
     public function test_toMillis_max()
     {
-        $test = Duration::ofSeconds(Math::div(Long::MAX_VALUE, 1000), (Long::MAX_VALUE % 1000) * 1000000);
+        $test = Duration::ofSeconds(\intdiv(Long::MAX_VALUE, 1000), (Long::MAX_VALUE % 1000) * 1000000);
         $this->assertEquals($test->toMillis(), Long::MAX_VALUE);
     }
 
@@ -2759,7 +2759,7 @@ class TCKDurationTest extends TestCase
      */
     public function test_toMillis_tooBig()
     {
-        $test = Duration::ofSeconds(Math::div(Long::MAX_VALUE, 1000), ((Long::MAX_VALUE % 1000) + 1) * 1000000);
+        $test = Duration::ofSeconds(\intdiv(Long::MAX_VALUE, 1000), ((Long::MAX_VALUE % 1000) + 1) * 1000000);
         $test->toMillis();
     }
 
@@ -2982,10 +2982,10 @@ class TCKDurationTest extends TestCase
             [-1, 0, "PT-1S"],
             [-1, 1000, "PT-0.999999S"],
             [-1, 900000000, "PT-0.1S"],
-            [Long::MAX_VALUE, 0, "PT" . (Math::div(Long::MAX_VALUE, 3600)) . "H" .
-                Math::div((Long::MAX_VALUE % 3600), 60) . "M" . (Long::MAX_VALUE % 60) . "S"],
-            [Long::MIN_VALUE, 0, "PT" . (Math::div(Long::MIN_VALUE, 3600)) . "H" .
-                Math::div((Long::MIN_VALUE % 3600), 60) . "M" . (Long::MIN_VALUE % 60) . "S"],
+            [Long::MAX_VALUE, 0, "PT" . (\intdiv(Long::MAX_VALUE, 3600)) . "H" .
+                \intdiv((Long::MAX_VALUE % 3600), 60) . "M" . (Long::MAX_VALUE % 60) . "S"],
+            [Long::MIN_VALUE, 0, "PT" . (\intdiv(Long::MIN_VALUE, 3600)) . "H" .
+                \intdiv((Long::MIN_VALUE % 3600), 60) . "M" . (Long::MIN_VALUE % 60) . "S"],
         ];
     }
 

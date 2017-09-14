@@ -18,6 +18,7 @@ use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 
 abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements ChronoZonedDateTime
 {
@@ -41,7 +42,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($field == ChronoField::INSTANT_SECONDS() || $field == ChronoField::OFFSET_SECONDS()) {
@@ -56,7 +57,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -74,7 +75,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -151,7 +152,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit)
     {
         return ChronoZonedDateTimeImpl::ensureValid($this->getChronology(), parent::minus($amountToSubtract, $unit));
     }

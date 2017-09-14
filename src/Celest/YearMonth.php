@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -114,7 +114,7 @@ use Celest\Temporal\ValueRange;
  */
 final class YearMonth extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
 {
-    public static function init()
+    public static function init() : void
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
             ->appendValue3(ChronoField::YEAR(), 4, 10, SignStyle::EXCEEDS_PAD())
@@ -152,7 +152,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return YearMonth the current year-month using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : YearMonth
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -169,7 +169,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param ZoneId $zone the zone ID to use, not null
      * @return YearMonth the current year-month using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : YearMonth
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -184,7 +184,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param Clock $clock the clock to use, not null
      * @return YearMonth the current year-month, not null
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : YearMonth
     {
         $now = LocalDate::nowOf($clock);  // called once
         return YearMonth::ofMonth($now->getYear(), $now->getMonth());
@@ -199,7 +199,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if the year value is invalid
      */
-    public static function ofMonth($year, Month $month)
+    public static function ofMonth(int $year, Month $month) : YearMonth
     {
         return self::of($year, $month->getValue());
     }
@@ -212,7 +212,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if either field value is invalid
      */
-    public static function of($year, $month)
+    public static function of(int $year, int $month) : YearMonth
     {
         ChronoField::YEAR()->checkValidValue($year);
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
@@ -239,7 +239,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the year-month, not null
      * @throws DateTimeException if unable to convert to a {@code YearMonth}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : YearMonth
     {
         if ($temporal instanceof YearMonth) {
             return $temporal;
@@ -268,7 +268,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the parsed year-month, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parse($text)
+    public static function parse(string $text) : YearMonth
     {
         return self::parseWith($text, self::$PARSER);
     }
@@ -283,7 +283,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth the parsed year-month, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith(string $text, DateTimeFormatter $formatter) : YearMonth
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([YearMonth::class, 'from']));
     }
@@ -295,7 +295,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param int $year the year to represent, validated from MIN_YEAR to MAX_YEAR
      * @param int $month the month-of-year to represent, validated from 1 (January) to 12 (December)
      */
-    private function __construct($year, $month)
+    private function __construct(int $year, int $month)
     {
         $this->year = $year;
         $this->month = $month;
@@ -309,7 +309,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param int $newMonth the month-of-year to represent, validated not null
      * @return YearMonth the year-month, not null
      */
-    private function _with($newYear, $newMonth)
+    private function _with(int $newYear, int $newMonth) : YearMonth
     {
         if ($this->year === $newYear && $this->month === $newMonth) {
             return $this;
@@ -346,7 +346,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this year-month, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::YEAR() || $field == ChronoField::MONTH_OF_YEAR() ||
@@ -383,7 +383,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit == ChronoUnit::MONTHS() || $unit == ChronoUnit::YEARS() || $unit == ChronoUnit::DECADES() || $unit == ChronoUnit::CENTURIES() || $unit == ChronoUnit::MILLENNIA() || $unit == ChronoUnit::ERAS();
@@ -416,7 +416,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field == ChronoField::YEAR_OF_ERA()) {
             return ($this->getYear() <= 0 ? ValueRange::of(1, Year::MAX_VALUE + 1) : ValueRange::of(1, Year::MAX_VALUE));
@@ -452,7 +452,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         return $this->range($field)->checkValidIntValue($this->getLong($field), $field);
     }
@@ -480,7 +480,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -501,7 +501,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
         return $field->getFrom($this);
     }
 
-    private function getProlepticMonth()
+    private function getProlepticMonth() : int
     {
         return ($this->year * 12 + $this->month - 1);
     }
@@ -516,7 +516,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return int the year, from MIN_YEAR to MAX_YEAR
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->year;
     }
@@ -531,7 +531,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return int the month-of-year, from 1 to 12
      * @see #getMonth()
      */
-    public function getMonthValue()
+    public function getMonthValue() : int
     {
         return $this->month;
     }
@@ -571,7 +571,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return bool true if the year is leap, false otherwise
      */
-    public function isLeapYear()
+    public function isLeapYear() : bool
     {
         return IsoChronology::INSTANCE()->isLeapYear($this->year);
     }
@@ -585,7 +585,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param int $dayOfMonth the day-of-month to validate, from 1 to 31, invalid value returns false
      * @return bool true if the day is valid for this year-month
      */
-    public function isValidDay($dayOfMonth)
+    public function isValidDay(int $dayOfMonth) : bool
     {
         return $dayOfMonth >= 1 && $dayOfMonth <= $this->lengthOfMonth();
     }
@@ -598,7 +598,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return int the length of the month in days, from 28 to 31
      */
-    public function lengthOfMonth()
+    public function lengthOfMonth() : int
     {
         return $this->getMonth()->length($this->isLeapYear());
     }
@@ -610,7 +610,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return int 366 if the year is leap, 365 otherwise
      */
-    public function lengthOfYear()
+    public function lengthOfYear() : int
     {
         return ($this->isLeapYear() ? 366 : 365);
     }
@@ -691,7 +691,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : YearMonth
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -724,7 +724,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the requested year, not null
      * @throws DateTimeException if the year value is invalid
      */
-    public function withYear($year)
+    public function withYear(int $year) : YearMonth
     {
         ChronoField::YEAR()->checkValidValue($year);
         return $this->_with($year, $this->month);
@@ -739,7 +739,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : YearMonth
     {
         ChronoField::MONTH_OF_YEAR()->checkValidValue($month);
         return $this->_with($this->year, $month);
@@ -766,7 +766,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if the addition cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plusAmount(TemporalAmount $amountToAdd)
+    public function plusAmount(TemporalAmount $amountToAdd) : YearMonth
     {
         return $amountToAdd->addTo($this);
     }
@@ -822,7 +822,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit) : YearMonth
     {
         if ($unit instanceof ChronoUnit) {
             switch ($unit) {
@@ -854,7 +854,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the years added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public function plusYears($yearsToAdd)
+    public function plusYears(int $yearsToAdd) : YearMonth
     {
         if ($yearsToAdd === 0) {
             return $this;
@@ -872,7 +872,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the months added, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public function plusMonths($monthsToAdd)
+    public function plusMonths(int $monthsToAdd) : YearMonth
     {
         if ($monthsToAdd === 0) {
             return $this;
@@ -908,7 +908,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if the subtraction cannot be made
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minusAmount(TemporalAmount $amountToSubtract)
+    public function minusAmount(TemporalAmount $amountToSubtract) : YearMonth
     {
         return $amountToSubtract->subtractFrom($this);
     }
@@ -932,7 +932,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit) : YearMonth
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }
@@ -946,7 +946,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public function minusYears($yearsToSubtract)
+    public function minusYears(int $yearsToSubtract) : YearMonth
     {
         return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
@@ -960,7 +960,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return YearMonth a {@code YearMonth} based on this year-month with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public function minusMonths($monthsToSubtract)
+    public function minusMonths(int $monthsToSubtract) : YearMonth
     {
         return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
@@ -1021,7 +1021,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) === false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
@@ -1077,7 +1077,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = YearMonth::from($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -1086,13 +1086,13 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
                 case ChronoUnit::MONTHS():
                     return $monthsUntil;
                 case ChronoUnit::YEARS():
-                    return Math::div($monthsUntil, 12);
+                    return \intdiv($monthsUntil, 12);
                 case ChronoUnit::DECADES():
-                    return Math::div($monthsUntil, 120);
+                    return \intdiv($monthsUntil, 120);
                 case ChronoUnit::CENTURIES():
-                    return Math::div($monthsUntil, 1200);
+                    return \intdiv($monthsUntil, 1200);
                 case ChronoUnit::MILLENNIA():
-                    return Math::div($monthsUntil, 12000);
+                    return \intdiv($monthsUntil, 12000);
                 case ChronoUnit::ERAS():
                     return $end->getLong(ChronoField::ERA()) - $this->getLong(ChronoField::ERA());
             }
@@ -1111,7 +1111,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @return string the formatted year-month string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -1134,7 +1134,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @throws DateTimeException if the day is invalid for the year-month
      * @see #isValidDay(int)
      */
-    public function atDay($dayOfMonth)
+    public function atDay(int $dayOfMonth) : LocalDate
     {
         return LocalDate::of($this->year, $this->month, $dayOfMonth);
     }
@@ -1153,7 +1153,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return LocalDate the last valid date of this year-month, not null
      */
-    public function atEndOfMonth()
+    public function atEndOfMonth() : LocalDate
     {
         return LocalDate::of($this->year, $this->month, $this->lengthOfMonth());
     }
@@ -1168,7 +1168,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param YearMonth $other the other year-month to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    public function compareTo(YearMonth $other)
+    public function compareTo(YearMonth $other) : int
     {
         $cmp = ($this->year - $other->year);
         if ($cmp === 0) {
@@ -1184,7 +1184,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param YearMonth $other the other year-month to compare to, not null
      * @return bool true if this is after the specified year-month
      */
-    public function isAfter(YearMonth $other)
+    public function isAfter(YearMonth $other) : bool
     {
         return $this->compareTo($other) > 0;
     }
@@ -1195,7 +1195,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param YearMonth $other the other year-month to compare to, not null
      * @return bool true if this point is before the specified year-month
      */
-    public function isBefore(YearMonth $other)
+    public function isBefore(YearMonth $other) : bool
     {
         return $this->compareTo($other) < 0;
     }
@@ -1209,7 +1209,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other year-month
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -1230,7 +1230,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
      *
      * @return string a string representation of this year-month, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         $absYear = Math::abs($this->year);
         $buf = '';
@@ -1239,7 +1239,7 @@ final class YearMonth extends AbstractTemporalAccessor implements Temporal, Temp
                 $y = (string)($this->year - 10000);
                 $buf .= substr($y, 0, 1) . substr($y, 2);
             } else {
-                $buf .= substr($this->year + 10000, 1);
+                $buf .= substr((string) ($this->year + 10000), 1);
             }
         } else {
             $buf .= $this->year;

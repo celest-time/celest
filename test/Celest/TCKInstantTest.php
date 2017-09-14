@@ -1089,8 +1089,8 @@ class TCKInstantTest extends AbstractDateTimeTest
             [0, 999999999, -1000, -1, 999999999],
             [0, 999999999, -1001, -1, 998999999],
 
-            [0, 0, Long::MAX_VALUE, Math::div(Long::MAX_VALUE, 1000), (Long::MAX_VALUE % 1000) * 1000000],
-            [0, 0, Long::MIN_VALUE, Math::div(Long::MIN_VALUE, 1000) - 1, (Long::MIN_VALUE % 1000) * 1000000 + 1000000000],
+            [0, 0, Long::MAX_VALUE, \intdiv(Long::MAX_VALUE, 1000), (Long::MAX_VALUE % 1000) * 1000000],
+            [0, 0, Long::MIN_VALUE, \intdiv(Long::MIN_VALUE, 1000) - 1, (Long::MIN_VALUE % 1000) * 1000000 + 1000000000],
         ];
     }
 
@@ -1238,8 +1238,8 @@ class TCKInstantTest extends AbstractDateTimeTest
             [self::MIN_SECOND(), 1, -1, self::MIN_SECOND(), 0],
             [self::MIN_SECOND() + 1, 1, -1000000001, self::MIN_SECOND(), 0],
 
-            [0, 0, self::MAX_SECOND(), Math::div(self::MAX_SECOND(), 1000000000), (int)(self::MAX_SECOND() % 1000000000)],
-            [0, 0, self::MIN_SECOND(), Math::div(self::MIN_SECOND(), 1000000000) - 1, (int)(self::MIN_SECOND() % 1000000000) + 1000000000],
+            [0, 0, self::MAX_SECOND(), \intdiv(self::MAX_SECOND(), 1000000000), (int)(self::MAX_SECOND() % 1000000000)],
+            [0, 0, self::MIN_SECOND(), \intdiv(self::MIN_SECOND(), 1000000000) - 1, (int)(self::MIN_SECOND() % 1000000000) + 1000000000],
         ];
     }
 
@@ -1648,8 +1648,8 @@ class TCKInstantTest extends AbstractDateTimeTest
             [0, 999999999, -1000, 1, 999999999],
             [0, 999999999, -1001, 2, 999999],
 
-            [0, 0, Long::MAX_VALUE, -Math::div(Long::MAX_VALUE, 1000) - 1, (int)-(Long::MAX_VALUE % 1000) * 1000000 + 1000000000],
-            [0, 0, Long::MIN_VALUE, -Math::div(Long::MIN_VALUE, 1000), (int)-(Long::MIN_VALUE % 1000) * 1000000],
+            [0, 0, Long::MAX_VALUE, -\intdiv(Long::MAX_VALUE, 1000) - 1, (int)-(Long::MAX_VALUE % 1000) * 1000000 + 1000000000],
+            [0, 0, Long::MIN_VALUE, -\intdiv(Long::MIN_VALUE, 1000), (int)-(Long::MIN_VALUE % 1000) * 1000000],
         ];
     }
 
@@ -1798,8 +1798,8 @@ class TCKInstantTest extends AbstractDateTimeTest
             [self::MIN_SECOND(), 1, 1, self::MIN_SECOND(), 0],
             [self::MIN_SECOND() + 1, 1, 1000000001, self::MIN_SECOND(), 0],
 
-            [0, 0, Long::MAX_VALUE, -Math::div(Long::MAX_VALUE, 1000000000) - 1, (int)-(Long::MAX_VALUE % 1000000000) + 1000000000],
-            [0, 0, Long::MIN_VALUE, -Math::div(Long::MIN_VALUE, 1000000000), (int)-(Long::MIN_VALUE % 1000000000)],
+            [0, 0, Long::MAX_VALUE, -\intdiv(Long::MAX_VALUE, 1000000000) - 1, (int)-(Long::MAX_VALUE % 1000000000) + 1000000000],
+            [0, 0, Long::MIN_VALUE, -\intdiv(Long::MIN_VALUE, 1000000000), (int)-(Long::MIN_VALUE % 1000000000)],
         ];
     }
 
@@ -2064,8 +2064,8 @@ class TCKInstantTest extends AbstractDateTimeTest
         $this->assertEquals(Instant::ofEpochSecond(1, 1000000)->toEpochMilli(), 1001);
         $this->assertEquals(Instant::ofEpochSecond(1, 2000000)->toEpochMilli(), 1002);
         $this->assertEquals(Instant::ofEpochSecond(1, 567)->toEpochMilli(), 1000);
-        $this->assertEquals(Instant::ofEpochSecond(Math::div(Long::MAX_VALUE, 1000))->toEpochMilli(), Math::div(Long::MAX_VALUE, 1000) * 1000);
-        $this->assertEquals(Instant::ofEpochSecond(Math::div(Long::MIN_VALUE, 1000))->toEpochMilli(), Math::div(Long::MIN_VALUE, 1000) * 1000);
+        $this->assertEquals(Instant::ofEpochSecond(\intdiv(Long::MAX_VALUE, 1000))->toEpochMilli(), \intdiv(Long::MAX_VALUE, 1000) * 1000);
+        $this->assertEquals(Instant::ofEpochSecond(\intdiv(Long::MIN_VALUE, 1000))->toEpochMilli(), \intdiv(Long::MIN_VALUE, 1000) * 1000);
         $this->assertEquals(Instant::ofEpochSecond(0, -1000000)->toEpochMilli(), -1);
         $this->assertEquals(Instant::ofEpochSecond(0, 1000000)->toEpochMilli(), 1);
         $this->assertEquals(Instant::ofEpochSecond(0, 999999)->toEpochMilli(), 0);
@@ -2082,7 +2082,7 @@ class TCKInstantTest extends AbstractDateTimeTest
      */
     public function test_toEpochMilli_tooBig()
     {
-        Instant::ofEpochSecond(Math::div(Long::MAX_VALUE, 1000) + 1)->toEpochMilli();
+        Instant::ofEpochSecond(\intdiv(Long::MAX_VALUE, 1000) + 1)->toEpochMilli();
     }
 
     /**
@@ -2090,7 +2090,7 @@ class TCKInstantTest extends AbstractDateTimeTest
      */
     public function test_toEpochMilli_tooSmall()
     {
-        Instant::ofEpochSecond(Math::div(Long::MIN_VALUE, 1000) - 1)->toEpochMilli();
+        Instant::ofEpochSecond(\intdiv(Long::MIN_VALUE, 1000) - 1)->toEpochMilli();
     }
 
     public function data_toDateTime()
@@ -2116,7 +2116,7 @@ class TCKInstantTest extends AbstractDateTimeTest
 
         $d = $instant->toDateTime();
         $this->assertEquals($instant->getEpochSecond(), $d->getTimestamp());
-        $this->assertEquals(Math::div($instant->getNano(), 1000), $d->format('u'));
+        $this->assertEquals(\intdiv($instant->getNano(), 1000), $d->format('u'));
         $this->assertEquals('UTC', $d->getTimezone()->getName());
     }
 

@@ -312,7 +312,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      *
      * @return bool true if this date is in a leap year, false otherwise
      */
-    public function isLeapYear();
+    public function isLeapYear() : bool;
 
     /**
      * Returns the length of the month represented by this date, as defined by the calendar system.
@@ -321,7 +321,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      *
      * @return int the length of the month in days
      */
-    function lengthOfMonth();
+    function lengthOfMonth() : int;
 
     /**
      * Returns the length of the year represented by this date, as defined by the calendar system.
@@ -332,7 +332,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      *
      * @return int the length of the year in days
      */
-    public function lengthOfYear();
+    public function lengthOfYear() : int;
 
     /**
      * Checks if the specified field is supported.
@@ -353,7 +353,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field can be queried, false if not
      */
-    public function isSupported(TemporalField $field);
+    public function isSupported(TemporalField $field) : bool;
 
     /**
      * Checks if the specified unit is supported.
@@ -373,7 +373,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit);
+    public function isUnitSupported(TemporalUnit $unit) : bool;
 
     //-----------------------------------------------------------------------
     // override for covariant return type
@@ -392,7 +392,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDate
      */
-    public function with(TemporalField $field, $newValue);
+    public function with(TemporalField $field, int $newValue);
 
     /**
      * {@inheritDoc}
@@ -408,7 +408,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDate
      */
-    public function plus($amountToAdd, TemporalUnit $unit);
+    public function plus(int $amountToAdd, TemporalUnit $unit);
 
     /**
      * {@inheritDoc}
@@ -425,7 +425,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDate
      */
-    public function minus($amountToSubtract, TemporalUnit $unit);
+    public function minus(int $amountToSubtract, TemporalUnit $unit);
 
     //-----------------------------------------------------------------------
     /**
@@ -584,7 +584,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      *
      * @return int the Epoch Day equivalent to this date
      */
-    public function toEpochDay();
+    public function toEpochDay() : int;
 
 //-----------------------------------------------------------------------
     /**
@@ -621,7 +621,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param ChronoLocalDate $other the other date to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    public function compareTo(ChronoLocalDate $other);
+    public function compareTo(ChronoLocalDate $other) : int;
 
     /**
      * Checks if this date is after the specified date ignoring the chronology.
@@ -637,7 +637,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if this is after the specified date
      */
-    public function isAfter(ChronoLocalDate $other);
+    public function isAfter(ChronoLocalDate $other) : bool;
 
     /**
      * Checks if this date is before the specified date ignoring the chronology.
@@ -653,7 +653,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if this is before the specified date
      */
-    public function isBefore(ChronoLocalDate $other);
+    public function isBefore(ChronoLocalDate $other) : bool;
 
     /**
      * Checks if this date is equal to the specified date ignoring the chronology.
@@ -669,7 +669,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param ChronoLocalDate $other the other date to compare to, not null
      * @return bool true if the underlying date is equal to the specified date
      */
-    public function isEqual(ChronoLocalDate $other);
+    public function isEqual(ChronoLocalDate $other) : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -683,7 +683,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
-    function equals($obj);
+    function equals($obj) : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -693,6 +693,6 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      *
      * @return string the formatted date, not null
      */
-    function __toString();
+    function __toString() : string;
 
 }

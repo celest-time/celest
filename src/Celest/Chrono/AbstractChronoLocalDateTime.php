@@ -91,7 +91,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit)
     {
         return ChronoLocalDateTimeImpl::ensureValid($this->getChronology(), parent::minus($amountToSubtract, $unit));
     }
@@ -192,7 +192,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isEqual(ChronoLocalDateTime $other)
+    public function isEqual(ChronoLocalDateTime $other) : bool
     {
         // Do the time check first, it is cheaper than computing EPOCH day.
         return $this->toLocalTime()->toNanoOfDay() === $other->toLocalTime()->toNanoOfDay() &&

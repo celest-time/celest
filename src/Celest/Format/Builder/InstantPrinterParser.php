@@ -63,7 +63,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
         } else {
             // before current era
             $zeroSecs = $inSec + self::SECONDS_0000_TO_1970;
-            $hi = Math::div($zeroSecs, self::SECONDS_PER_10000_YEARS);
+            $hi = \intdiv($zeroSecs, self::SECONDS_PER_10000_YEARS);
             $lo = $zeroSecs % self::SECONDS_PER_10000_YEARS;
             $ldt = LocalDateTime::ofEpochSecond($lo - self::SECONDS_0000_TO_1970, 0, ZoneOffset::UTC());
             $pos = strlen($buf);
@@ -88,10 +88,10 @@ final class InstantPrinterParser implements DateTimePrinterParser
             for ($i = 0; (($this->fractionalDigits === -1 && $inNano > 0) ||
                 ($this->fractionalDigits === -2 && ($inNano > 0 || ($i % 3) !== 0)) ||
                 $i < $this->fractionalDigits); $i++) {
-                $digit = Math::div($inNano, $div);
+                $digit = \intdiv($inNano, $div);
                 $buf .= $digit;
                 $inNano = $inNano - ($digit * $div);
-                $div = Math::div($div, 10);
+                $div = \intdiv($div, 10);
             }
         }
         $buf .= 'Z';
@@ -141,7 +141,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
         try {
             $ldt = LocalDateTime::of($year, $month, $day, $hour, $min, $sec, 0)->plusDays($days);
             $instantSecs = $ldt->toEpochSecond(ZoneOffset::UTC());
-            $instantSecs += Math::multiplyExact(Math::div($yearParsed, 10000), self::SECONDS_PER_10000_YEARS);
+            $instantSecs += Math::multiplyExact(\intdiv($yearParsed, 10000), self::SECONDS_PER_10000_YEARS);
         } catch (RuntimeException $ex) {
             // TODO What do we actually catch here and why
             return ~$position;

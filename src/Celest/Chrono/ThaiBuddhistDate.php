@@ -228,7 +228,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      *
      * @return ThaiBuddhistEra the era applicable at this date, not null
      */
-    public function getEra()
+    public function getEra() : ThaiBuddhistEra
     {
         return ($this->getProlepticYear() >= 1 ? ThaiBuddhistEra::BE() : ThaiBuddhistEra::BEFORE_BE());
     }
@@ -241,13 +241,13 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      *
      * @return int the length of the month in days
      */
-    public function lengthOfMonth()
+    public function lengthOfMonth() : int
     {
         return $this->isoDate->lengthOfMonth();
     }
 
     //-----------------------------------------------------------------------
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             if ($this->isSupported($field)) {
@@ -271,7 +271,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
     }
 
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -304,7 +304,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
 
     //-----------------------------------------------------------------------
 
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue) : ThaiBuddhistDate
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -370,7 +370,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
     }
 
     // override for performance
-    public function toEpochDay()
+    public function toEpochDay() : int
     {
         return $this->isoDate->toEpochDay();
     }
@@ -388,7 +388,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;

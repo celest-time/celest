@@ -973,10 +973,10 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
             0,
             1,
             2,
-            Math::div($max, 7),
-            Math::div($max, 7) * 2,
-            Math::div($max, 2),
-            Math::div($max, 7) * 6,
+            \intdiv($max, 7),
+            \intdiv($max, 7) * 2,
+            \intdiv($max, 2),
+            \intdiv($max, 7) * 6,
             $max - 2,
             $max - 1];
     }
@@ -1937,7 +1937,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
             $nanos += $delta;
 
             if ($nanos >= 1000000000) {
-                $sec += Math::div($nanos, 1000000000);
+                $sec += \intdiv($nanos, 1000000000);
                 $nanos %= 1000000000;
 
                 if ($sec >= 60) {
@@ -2413,7 +2413,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
             $nanos += $delta;
 
             if ($nanos >= 1000000000) {
-                $sec += Math::div($nanos, 1000000000);
+                $sec += \intdiv($nanos, 1000000000);
                 $nanos %= 1000000000;
 
                 if ($sec >= 60) {

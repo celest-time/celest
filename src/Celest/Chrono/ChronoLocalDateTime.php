@@ -180,7 +180,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      *
      * @return LocalTime the time part of this date-time, not null
      */
-    function toLocalTime();
+    function toLocalTime() : LocalTime;
 
     /**
      * Checks if the specified field is supported.
@@ -201,7 +201,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field can be queried, false if not
      */
-    function isSupported(TemporalField $field);
+    function isSupported(TemporalField $field) : bool;
 
     /**
      * Checks if the specified unit is supported.
@@ -239,7 +239,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDateTime
      */
-    function with(TemporalField $field, $newValue);
+    function with(TemporalField $field, int $newValue);
 
     /**
      * {@inheritDoc}
@@ -255,7 +255,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDateTime
      */
-    function plus($amountToAdd, TemporalUnit $unit);
+    function plus(int $amountToAdd, TemporalUnit $unit);
 
     /**
      * {@inheritDoc}
@@ -271,7 +271,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoLocalDateTime
      */
-    function minus($amountToSubtract, TemporalUnit $unit);
+    function minus(int $amountToSubtract, TemporalUnit $unit);
     //-----------------------------------------------------------------------
     /**
      * Queries this date-time using the specified query.
@@ -492,6 +492,6 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      *
      * @return string a string representation of this date-time, not null
      */
-    function __toString();
+    function __toString() : string;
 
 }

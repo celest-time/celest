@@ -77,6 +77,7 @@ use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
+use Celest\Temporal\ValueRange;
 use Celest\TestHelper;
 use Celest\Year;
 use Celest\YearMonth;
@@ -168,12 +169,12 @@ class MockAccessor extends AbstractTemporalAccessor
         }
     }
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $this->fields->has($field);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         $val = $this->fields->get($field);
 
@@ -191,18 +192,18 @@ class MockAccessor extends AbstractTemporalAccessor
         return parent::query($query);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return print_r($this->fields, true) . ($this->zoneId !== null ? " " . $this->zoneId : "");
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         throw new \Exception();
     }
 
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         throw new \Exception();
     }
@@ -210,12 +211,12 @@ class MockAccessor extends AbstractTemporalAccessor
 
 class TestAccessor extends AbstractTemporalAccessor
 {
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return $field == ChronoField::YEAR() || $field == ChronoField::DAY_OF_YEAR();
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field == ChronoField::YEAR()) {
             return 2008;
@@ -226,7 +227,7 @@ class TestAccessor extends AbstractTemporalAccessor
         throw new DateTimeException("Unsupported");
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         return null;
     }

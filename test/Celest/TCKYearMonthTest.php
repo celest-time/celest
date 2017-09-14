@@ -798,7 +798,7 @@ class TCKYearMonth extends AbstractDateTimeTest
     {
         $test = YearMonth::of(-40, 6);
         $months = 20 + Integer::MAX_VALUE;
-        $this->assertEquals($test->plusMonths($months), YearMonth::of((-40 + Math::div($months, 12)), 6 + ($months % 12)));
+        $this->assertEquals($test->plusMonths($months), YearMonth::of((-40 + \intdiv($months, 12)), 6 + ($months % 12)));
     }
 
     /**
@@ -1062,7 +1062,7 @@ class TCKYearMonth extends AbstractDateTimeTest
     {
         $test = YearMonth::of(40, 6);
         $months = 20 + Integer::MAX_VALUE;
-        $this->assertEquals($test->minusMonths($months), YearMonth::of((40 - Math::div($months, 12)), 6 - ($months % 12)));
+        $this->assertEquals($test->minusMonths($months), YearMonth::of((40 - \intdiv($months, 12)), 6 - ($months % 12)));
     }
 
     /**

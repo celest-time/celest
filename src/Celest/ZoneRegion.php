@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -105,7 +105,7 @@ final class ZoneRegion extends ZoneId
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
      */
-    static function ofId($zoneId, $checkAvailable)
+    static function ofId(string $zoneId, bool $checkAvailable) : ZoneRegion
     {
         self::checkName($zoneId);
         $rules = null;
@@ -127,7 +127,7 @@ final class ZoneRegion extends ZoneId
      * @param string $zoneId the time-zone ID, not null
      * @throws DateTimeException if the ID format is invalid
      */
-    private static function checkName($zoneId)
+    private static function checkName(string $zoneId) : void
     {
         $n = strlen($zoneId);
         if ($n < 2) {
@@ -156,7 +156,7 @@ final class ZoneRegion extends ZoneId
      * @param string $id the time-zone ID, not null
      * @param ZoneRules $rules the rules, null for lazy lookup
      */
-    public function __construct($id, ZoneRules $rules)
+    public function __construct(string $id, ZoneRules $rules)
     {
         parent::__construct();
         $this->id = $id;
@@ -167,7 +167,7 @@ final class ZoneRegion extends ZoneId
     /**
      * @return string
      */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
@@ -175,7 +175,7 @@ final class ZoneRegion extends ZoneId
     /**
      * @return ZoneRules
      */
-    public function getRules()
+    public function getRules() : ZoneRules
     {
         // additional query for group provider when null allows for possibility
         // that the provider was updated after the ZoneId was created

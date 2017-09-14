@@ -223,7 +223,7 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function with(TemporalField $field, $newValue);
+    public function with(TemporalField $field, int $newValue);
 
     //-----------------------------------------------------------------------
     /**
@@ -293,7 +293,7 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function plus($amountToAdd, TemporalUnit $unit);
+    function plus(int $amountToAdd, TemporalUnit $unit);
 
     //-----------------------------------------------------------------------
     /**
@@ -363,7 +363,7 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function minus($amountToSubtract, TemporalUnit $unit);
+    public function minus(int $amountToSubtract, TemporalUnit $unit);
     //return (amountToSubtract == Long . MIN_VALUE ? plus(Long . MAX_VALUE, unit) . plus(1, unit) : plus(-amountToSubtract, unit));
 
 //-----------------------------------------------------------------------

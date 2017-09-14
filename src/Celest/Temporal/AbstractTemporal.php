@@ -33,7 +33,7 @@ abstract class AbstractTemporal extends AbstractTemporalAccessor implements Temp
     /**
      * @inheritdoc
      */
-    public function minus($amountToSubtract, TemporalUnit $unit)
+    public function minus(int $amountToSubtract, TemporalUnit $unit)
     {
         return ($amountToSubtract === Long::MIN_VALUE ? $this->plus(Long::MAX_VALUE, $unit)->plus(1, $unit) : $this->plus(-$amountToSubtract, $unit));
     }

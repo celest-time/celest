@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -118,7 +118,7 @@ use Celest\Temporal\ValueRange;
  */
 final class MonthDay extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
 {
-    public static function init()
+    public static function init() : void
     {
         self::$PARSER = (new DateTimeFormatterBuilder())
             ->appendLiteral2("--")
@@ -157,7 +157,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      *
      * @return MonthDay the current month-day using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : MonthDay
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -174,7 +174,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param ZoneId $zone the zone ID to use, not null
      * @return MonthDay the current month-day using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : MonthDay
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -189,7 +189,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param Clock $clock the clock to use, not null
      * @return MonthDay the current month-day, not null
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : MonthDay
     {
         $now = LocalDate::nowOf($clock);  // called once
         return MonthDay::ofMonth($now->getMonth(), $now->getDayOfMonth());
@@ -212,7 +212,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month
      */
-    public static function ofMonth(Month $month, $dayOfMonth)
+    public static function ofMonth(Month $month, int $dayOfMonth) : MonthDay
     {
         ChronoField::DAY_OF_MONTH()->checkValidValue($dayOfMonth);
         if ($dayOfMonth > $month->maxLength()) {
@@ -239,7 +239,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month
      */
-    public static function of($month, $dayOfMonth)
+    public static function of(int $month, int $dayOfMonth) : MonthDay
     {
         return self::ofMonth(Month::of($month), $dayOfMonth);
     }
@@ -264,7 +264,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return MonthDay the month-day, not null
      * @throws DateTimeException if unable to convert to a {@code MonthDay}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : MonthDay
     {
         if ($temporal instanceof MonthDay) {
             return $temporal;
@@ -292,7 +292,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return MonthDay the parsed month-day, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parse($text)
+    public static function parse(string $text) : MonthDay
     {
         return self::parseWith($text, self::$PARSER);
     }
@@ -307,7 +307,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return MonthDay the parsed month-day, not null
      * @throws DateTimeParseException if the text cannot be parsed
      */
-    public static function parseWith($text, DateTimeFormatter $formatter)
+    public static function parseWith(string $text, DateTimeFormatter $formatter) : MonthDay
     {
         return $formatter->parseQuery($text, TemporalQueries::fromCallable([MonthDay::class, 'from']));
     }
@@ -319,7 +319,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param int $month the month-of-year to represent, validated from 1 to 12
      * @param int $dayOfMonth the day-of-month to represent, validated from 1 to 29-31
      */
-    private function __construct($month, $dayOfMonth)
+    private function __construct(int $month, int $dayOfMonth)
     {
         $this->month = $month;
         $this->day = $dayOfMonth;
@@ -349,7 +349,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field is supported on this month-day, false if not
      */
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             return $field == ChronoField::MONTH_OF_YEAR() || $field == ChronoField::DAY_OF_MONTH();
@@ -381,7 +381,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field == ChronoField::MONTH_OF_YEAR()) {
             return $field->range();
@@ -418,7 +418,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      *         the range of values exceeds an {@code int}
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         return $this->range($field)->checkValidIntValue($this->getLong($field), $field);
     }
@@ -446,7 +446,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws UnsupportedTemporalTypeException if the field is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             switch ($field) {
@@ -473,7 +473,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return int the month-of-year, from 1 to 12
      * @see #getMonth()
      */
-    public function getMonthValue()
+    public function getMonthValue() : int
     {
         return $this->month;
     }
@@ -489,7 +489,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return Month the month-of-year, not null
      * @see #getMonthValue()
      */
-    public function getMonth()
+    public function getMonth() : Month
     {
         return Month::of($this->month);
     }
@@ -501,7 +501,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      *
      * @return int the day-of-month, from 1 to 31
      */
-    public function getDayOfMonth()
+    public function getDayOfMonth() : int
     {
         return $this->day;
     }
@@ -517,7 +517,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return bool true if the year is valid for this month-day
      * @see Year#isValidMonthDay(MonthDay)
      */
-    public function isValidYear($year)
+    public function isValidYear(int $year) : bool
     {
         return ($this->day === 29 && $this->month === 2 && Year::isLeapYear($year) === false) === false;
     }
@@ -536,7 +536,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return MonthDay a {@code MonthDay} based on this month-day with the requested month, not null
      * @throws DateTimeException if the month-of-year value is invalid
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : MonthDay
     {
         return self::with(Month::of($month));
     }
@@ -553,7 +553,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param Month $month the month-of-year to set in the returned month-day, not null
      * @return MonthDay a {@code MonthDay} based on this month-day with the requested month, not null
      */
-    public function with(Month $month)
+    public function with(Month $month) : MonthDay
     {
         if ($month->getValue() === $this->month) {
             return $this;
@@ -576,7 +576,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws DateTimeException if the day-of-month value is invalid,
      *  or if the day-of-month is invalid for the month
      */
-    public function withDayOfMonth($dayOfMonth)
+    public function withDayOfMonth(int $dayOfMonth) : MonthDay
     {
         if ($dayOfMonth === $this->day) {
             return $this;
@@ -640,7 +640,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         if (AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE()) == false) {
             throw new DateTimeException("Adjustment only supported on ISO date-time");
@@ -659,7 +659,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return string the formatted month-day string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -679,7 +679,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @return LocalDate the local date formed from this month-day and the specified year, not null
      * @throws DateTimeException if the year is outside the valid range of years
      */
-    public function atYear($year)
+    public function atYear(int $year) : LocalDate
     {
         return LocalDate::of($year, $this->month, self::isValidYear($year) ? $this->day : 28);
     }
@@ -694,7 +694,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param MonthDay $other the other month-day to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    public function compareTo(MonthDay $other)
+    public function compareTo(MonthDay $other) : int
     {
         $cmp = ($this->month - $other->month);
         if ($cmp === 0) {
@@ -710,7 +710,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param MonthDay $other the other month-day to compare to, not null
      * @return bool true if this is after the specified month-day
      */
-    public function isAfter(MonthDay $other)
+    public function isAfter(MonthDay $other) : bool
     {
         return $this->compareTo($other) > 0;
     }
@@ -721,7 +721,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param MonthDay $other the other month-day to compare to, not null
      * @return bool true if this point is before the specified month-day
      */
-    public function isBefore(MonthDay $other)
+    public function isBefore(MonthDay $other) : bool
     {
         return $this->compareTo($other) < 0;
     }
@@ -735,7 +735,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other month-day
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -756,7 +756,7 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
      *
      * @return string a string representation of this month-day, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "--"
         . ($this->month < 10 ? "0" : "") . $this->month

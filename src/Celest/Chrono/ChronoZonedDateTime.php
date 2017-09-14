@@ -77,6 +77,7 @@ use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
+use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
 
@@ -158,11 +159,11 @@ interface ChronoZonedDateTime extends Temporal
     static function from(TemporalAccessor $temporal);
 
     //-----------------------------------------------------------------------
-    function range(TemporalField $field);
+    function range(TemporalField $field) : ValueRange;
 
-    function get(TemporalField $field);
+    function get(TemporalField $field) : int;
 
-    function getLong(TemporalField $field);
+    function getLong(TemporalField $field) : int;
 
     /**
      * Gets the local date part of this date-time.
@@ -318,7 +319,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param TemporalField $field the field to check, null returns false
      * @return bool true if the field can be queried, false if not
      */
-    function isSupported(TemporalField $field);
+    function isSupported(TemporalField $field) : bool;
 
     /**
      * Checks if the specified unit is supported.
@@ -357,7 +358,7 @@ interface ChronoZonedDateTime extends Temporal
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoZonedDateTime
      */
-    function with(TemporalField $field, $newValue);
+    function with(TemporalField $field, int $newValue);
 
     /**
      * {@inheritDoc}
@@ -373,7 +374,7 @@ interface ChronoZonedDateTime extends Temporal
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoZonedDateTime
      */
-    function plus($amountToAdd, TemporalUnit $unit);
+    function plus(int $amountToAdd, TemporalUnit $unit);
 
     /**
      * {@inheritDoc}
@@ -389,7 +390,7 @@ interface ChronoZonedDateTime extends Temporal
      * @throws ArithmeticException {@inheritDoc}
      * @return ChronoZonedDateTime
      */
-    function minus($amountToSubtract, TemporalUnit $unit);
+    function minus(int $amountToSubtract, TemporalUnit $unit);
 
     //-----------------------------------------------------------------------
     /**
@@ -535,6 +536,6 @@ interface ChronoZonedDateTime extends Temporal
      *
      * @return string a string representation of this date-time, not null
      */
-    function __toString();
+    function __toString() :string;
 
 }

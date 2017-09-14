@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
@@ -75,39 +75,6 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
 use Celest\Zone\ZoneRules;
 use Celest\Zone\ZoneRulesException;
 use Celest\Zone\ZoneRulesProvider;
-
-class ZoneIdTemporalAccessor extends AbstractTemporalAccessor
-{
-    /**
-     * @var ZoneId
-     */
-    private $_this;
-
-    public function __construct(ZoneId $_this)
-    {
-        $this->_this = $_this;
-    }
-
-    public function isSupported(TemporalField $field)
-    {
-        return false;
-    }
-
-    public function getLong(TemporalField $field)
-    {
-        throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
-    }
-
-    public function query(TemporalQuery $query)
-    {
-        if ($query == TemporalQueries::zoneId()) {
-            return $this->_this;
-        }
-        return parent::query($query);
-    }
-}
-
-;
 
 /**
  * A time-zone ID, such as {@code Europe/Paris}.
@@ -213,7 +180,7 @@ abstract class ZoneId
      * @throws DateTimeException if the converted zone ID has an invalid format
      * @throws ZoneRulesException if the converted zone region ID cannot be found
      */
-    public static function systemDefault()
+    public static function systemDefault() : ZoneId
     {
         return ZoneId::_of(date_default_timezone_get(), true);
     }
@@ -230,7 +197,7 @@ abstract class ZoneId
      *
      * @return String[] a modifiable copy of the set of zone IDs, not null
      */
-    public static function getAvailableZoneIds()
+    public static function getAvailableZoneIds() : array
     {
         return ZoneRulesProvider::getAvailableZoneIds();
     }
@@ -251,7 +218,7 @@ abstract class ZoneId
      * @throws DateTimeException if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
      */
-    public static function ofMap($zoneId, $aliasMap)
+    public static function ofMap(string $zoneId, array $aliasMap) : ZoneId
     {
         $id = @$aliasMap[$zoneId];
         $id = ($id !== null ? $id : $zoneId);
@@ -298,7 +265,7 @@ abstract class ZoneId
      * @throws DateTimeException if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
      */
-    public static function of($zoneId)
+    public static function of(string $zoneId) : ZoneId
     {
         if (!is_string($zoneId))
             throw new \InvalidArgumentException();
@@ -319,7 +286,7 @@ abstract class ZoneId
      * @throws IllegalArgumentException if the prefix is not one of
      *     "GMT", "UTC", or "UT", or ""
      */
-    public static function ofOffset($prefix, ZoneOffset $offset)
+    public static function ofOffset(string $prefix, ZoneOffset $offset) : ZoneId
     {
         if (!is_string($prefix))
             throw new \InvalidArgumentException();
@@ -350,7 +317,7 @@ abstract class ZoneId
      * @throws DateTimeException if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
      */
-    public static function _of($zoneId, $checkAvailable)
+    public static function _of(string $zoneId, bool $checkAvailable) : ZoneId
     {
         if (strlen($zoneId) <= 1 || StringHelper::startsWith("+", $zoneId) || StringHelper::startsWith("-", $zoneId)) {
             return ZoneOffset::of($zoneId);
@@ -369,7 +336,7 @@ abstract class ZoneId
      * @param \DateTimeZone $dateTimeZone
      * @return ZoneId
      */
-    public static function ofNativeDateTimezone(\DateTimeZone $dateTimeZone)
+    public static function ofNativeDateTimezone(\DateTimeZone $dateTimeZone) : ZoneId
     {
         return ZoneId::of($dateTimeZone->getName());
     }
@@ -383,7 +350,7 @@ abstract class ZoneId
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if the zone ID has an invalid format
      */
-    private static function ofWithPrefix($zoneId, $prefixLength, $checkAvailable)
+    private static function ofWithPrefix(string $zoneId, int $prefixLength, bool $checkAvailable) : ZoneId
     {
         $prefix = substr($zoneId, 0, $prefixLength);
         if (strlen($zoneId) === $prefixLength) {
@@ -425,7 +392,7 @@ abstract class ZoneId
      * @return ZoneId the zone ID, not null
      * @throws DateTimeException if unable to convert to a {@code ZoneId}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : ZoneId
     {
         $obj = $temporal->query(TemporalQueries::zone());
         if ($obj === null) {
@@ -474,7 +441,7 @@ abstract class ZoneId
      * @param Locale $locale the locale to use, not null
      * @return string the text value of the zone, not null
      */
-    public function getDisplayName(TextStyle $style, Locale $locale)
+    public function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         return (new DateTimeFormatterBuilder())->appendZoneText($style)->toFormatter2($locale)->format($this->toTemporal());
     }
@@ -489,13 +456,39 @@ abstract class ZoneId
      * The returned temporal has no supported fields, with the query method
      * supporting the return of the zone using {@link TemporalQueries#zoneId()}.
      *
-     * TODO use PHP7 anonymous class
-     *
      * @return TemporalAccessor a temporal equivalent to this zone, not null
      */
-    private function toTemporal()
+    private function toTemporal() : TemporalAccessor
     {
-        return new ZoneIdTemporalAccessor($this);
+        return new class($this) extends AbstractTemporalAccessor {
+            /**
+             * @var ZoneId
+             */
+            private $_this;
+
+            public function __construct(ZoneId $_this)
+            {
+                $this->_this = $_this;
+            }
+
+            public function isSupported(TemporalField $field) : bool
+            {
+                return false;
+            }
+
+            public function getLong(TemporalField $field) : int
+            {
+                throw new UnsupportedTemporalTypeException("Unsupported field: " . $field);
+            }
+
+            public function query(TemporalQuery $query)
+            {
+                if ($query == TemporalQueries::zoneId()) {
+                    return $this->_this;
+                }
+                return parent::query($query);
+            }
+        };
     }
 
     //-----------------------------------------------------------------------
@@ -519,7 +512,7 @@ abstract class ZoneId
      * @return ZoneRules the rules, not null
      * @throws ZoneRulesException if no rules are available for this ID
      */
-    public abstract function getRules();
+    public abstract function getRules() : ZoneRules;
 
     /**
      * Normalizes the time-zone ID, returning a {@code ZoneOffset} where possible.
@@ -534,7 +527,7 @@ abstract class ZoneId
      *
      * @return ZoneId the time-zone unique ID, not null
      */
-    public function normalized()
+    public function normalized() : ZoneId
     {
         try {
             $rules = $this->getRules();
@@ -551,7 +544,7 @@ abstract class ZoneId
      * TODO doc
      * @return \DateTimeZone
      */
-    public function toNativeDateTimezone()
+    public function toNativeDateTimezone() : \DateTimeZone
     {
         return new \DateTimeZone($this->__toString());
     }
@@ -565,7 +558,7 @@ abstract class ZoneId
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other time-zone ID
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -583,7 +576,7 @@ abstract class ZoneId
      *
      * @return string a string representation of this time-zone ID, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->getId();
     }

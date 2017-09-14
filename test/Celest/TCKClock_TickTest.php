@@ -90,7 +90,7 @@ class TCKClock_Tick extends TestCase
     {
         for ($i = 0; $i < 1000; $i++) {
             $test = Clock::tick(Clock::fixed(self::ZDT()->withNano($i * 1000000)->toInstant(), self::PARIS()), Duration::ofMillis(250));
-            $this->assertEquals($test->instant(), self::ZDT()->withNano((Math::div($i, 250)) * 250000000)->toInstant());
+            $this->assertEquals($test->instant(), self::ZDT()->withNano((\intdiv($i, 250)) * 250000000)->toInstant());
             $this->assertEquals($test->getZone(), self::PARIS());
         }
     }
@@ -102,7 +102,7 @@ class TCKClock_Tick extends TestCase
     {
         for ($i = 0; $i < 1000; $i++) {
             $test = Clock::tick(Clock::fixed(self::ZDT()->withNano($i * 1000)->toInstant(), self::PARIS()), Duration::ofNanos(250000));
-            $this->assertEquals($test->instant(), self::ZDT()->withNano((Math::div($i, 250)) * 250000)->toInstant());
+            $this->assertEquals($test->instant(), self::ZDT()->withNano((\intdiv($i, 250)) * 250000)->toInstant());
             $this->assertEquals($test->getZone(), self::PARIS());
         }
     }
@@ -114,7 +114,7 @@ class TCKClock_Tick extends TestCase
     {
         for ($i = 0; $i < 1000; $i++) {
             $test = Clock::tick(Clock::fixed(self::ZDT()->withNano($i)->toInstant(), self::PARIS()), Duration::ofNanos(20));
-            $this->assertEquals($test->instant(), self::ZDT()->withNano(Math::div($i, 20) * 20)->toInstant());
+            $this->assertEquals($test->instant(), self::ZDT()->withNano(\intdiv($i, 20) * 20)->toInstant());
             $this->assertEquals($test->getZone(), self::PARIS());
         }
     }

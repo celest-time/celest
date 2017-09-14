@@ -64,6 +64,7 @@
 namespace Celest\Chrono;
 
 use Celest\Helper\Math;
+use Celest\LocalDate;
 use Celest\LocalTime;
 use Celest\Temporal\ChronoField;
 use Celest\Temporal\ChronoUnit;
@@ -71,6 +72,7 @@ use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAdjuster;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalUnit;
+use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
 
 /**
@@ -221,13 +223,13 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return $this->date;
     }
 
-    public function toLocalTime()
+    public function toLocalTime() : LocalTime
     {
         return $this->time;
     }
 
     //-----------------------------------------------------------------------
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -236,7 +238,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return $field !== null && $field->isSupportedBy($this);
     }
 
-    public function range(TemporalField $field)
+    public function range(TemporalField $field) : ValueRange
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -245,7 +247,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return $field->rangeRefinedBy($this);
     }
 
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -254,7 +256,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return $this->range($field)->checkValidIntValue($this->getLong($field), $field);
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -277,7 +279,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return ChronoLocalDateTimeImpl::ensureValid($this->date->getChronology(), $adjuster->adjustInto($this));
     }
 
-    public function with(TemporalField $field, $newValue)
+    public function with(TemporalField $field, int $newValue)
     {
         if ($field instanceof ChronoField) {
             $f = $field;
@@ -291,7 +293,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
     }
 
     //-----------------------------------------------------------------------
-    public function plus($amountToAdd, TemporalUnit $unit)
+    public function plus(int $amountToAdd, TemporalUnit $unit)
     {
         if ($unit instanceof ChronoUnit) {
             $f = $unit;
@@ -299,9 +301,9 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
                 case ChronoUnit::NANOS():
                     return $this->plusNanos($amountToAdd);
                 case ChronoUnit::MICROS():
-                    return $this->plusDays(Math::div($amountToAdd, self::MICROS_PER_DAY))->plusNanos(($amountToAdd % self::MICROS_PER_DAY) * 1000);
+                    return $this->plusDays(\intdiv($amountToAdd, self::MICROS_PER_DAY))->plusNanos(($amountToAdd % self::MICROS_PER_DAY) * 1000);
                 case ChronoUnit::MILLIS():
-                    return $this->plusDays(Math::div($amountToAdd, self::MILLIS_PER_DAY))->plusNanos(($amountToAdd % self::MILLIS_PER_DAY) * 1000000);
+                    return $this->plusDays(\intdiv($amountToAdd, self::MILLIS_PER_DAY))->plusNanos(($amountToAdd % self::MILLIS_PER_DAY) * 1000000);
                 case ChronoUnit::SECONDS():
                     return $this->plusSeconds($amountToAdd);
                 case ChronoUnit::MINUTES():
@@ -309,7 +311,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
                 case ChronoUnit::HOURS():
                     return $this->plusHours($amountToAdd);
                 case ChronoUnit::HALF_DAYS():
-                    return $this->plusDays(Math::div($amountToAdd, 256))->plusHours(($amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
+                    return $this->plusDays(\intdiv($amountToAdd, 256))->plusHours(($amountToAdd % 256) * 12);  // no overflow (256 is multiple of 2)
             }
             return $this->_with($this->date->plus($amountToAdd, $unit), $this->time);
         }
@@ -348,10 +350,10 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         if (($hours | $minutes | $seconds | $nanos) === 0) {
             return $this->_with($newDate, $this->time);
         }
-        $totDays = Math::div($nanos, self::NANOS_PER_DAY) +             //   max/24*60*60*1B
-            Math::div($seconds, self::SECONDS_PER_DAY) +                //   max/24*60*60
-            Math::div($minutes, self::MINUTES_PER_DAY) +                //   max/24*60
-            Math::div($hours, self::HOURS_PER_DAY);                     //   max/24
+        $totDays = \intdiv($nanos, self::NANOS_PER_DAY) +             //   max/24*60*60*1B
+            \intdiv($seconds, self::SECONDS_PER_DAY) +                //   max/24*60*60
+            \intdiv($minutes, self::MINUTES_PER_DAY) +                //   max/24*60
+            \intdiv($hours, self::HOURS_PER_DAY);                     //   max/24
         $totNanos = $$nanos % self::NANOS_PER_DAY +                    //   max  86400000000000
             ($seconds % self::SECONDS_PER_DAY) * self::NANOS_PER_SECOND +   //   max  86400000000000
             ($minutes % self::MINUTES_PER_DAY) * self::NANOS_PER_MINUTE +   //   max  86400000000000
@@ -371,7 +373,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
     }
 
     //-----------------------------------------------------------------------
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = $this->getChronology()->localDateTime($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -412,7 +414,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
     }
 
     //-----------------------------------------------------------------------
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -423,7 +425,7 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return false;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->toLocalDate()->__toString() . 'T' . $this->toLocalTime()->__toString();
     }

@@ -19,12 +19,12 @@ use PHPUnit\Framework\TestCase;
 class TemporalTest extends AbstractTemporalAccessor
 {
 
-    public function isSupported(TemporalField $field)
+    public function isSupported(TemporalField $field) : bool
     {
         return true;
     }
 
-    public function getLong(TemporalField $field)
+    public function getLong(TemporalField $field) : int
     {
         throw new DateTimeException("Mock");
     }
