@@ -1,7 +1,7 @@
 .PHONY: default all build test test-php56 test-php70
 
 TZVERSION=2016g
-PARATEST_PARAM=-p 20
+PARATEST_PARAM=-p 16 --group long
 
 default: all
 
@@ -36,22 +36,22 @@ build-php71: Dockerfile.php71
 	docker build -t phptime:7.1-cli -f Dockerfile.php71 .
 
 test-php56:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:5.6-cli vendor/bin/paratest $(PARATEST_PARAM)
+	docker run --rm -it -v $(PWD):/src -w /src phptime:5.6-cli vendor/bin/phpunit
 
 test-php56-long:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:5.6-cli vendor/bin/paratest $(PARATEST_PARAM) --group long
+	docker run --rm -it -v $(PWD):/src -w /src phptime:5.6-cli vendor/bin/paratest $(PARATEST_PARAM)
 
 test-php70:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/paratest $(PARATEST_PARAM)
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/phpunit
 
 test-php70-long:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/paratest $(PARATEST_PARAM) -f --group long
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.0-cli vendor/bin/paratest $(PARATEST_PARAM)
 
 test-php71:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:7.1-cli vendor/bin/paratest $(PARATEST_PARAM)
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.1-cli vendor/bin/phpunit
 
 test-php71-long:
-	docker run --rm -it -v $(PWD):/src -w /src phptime:7.1-cli vendor/bin/paratest $(PARATEST_PARAM) --group long
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.1-cli vendor/bin/paratest $(PARATEST_PARAM)
 
 tzdb-$(TZVERSION).tar.lz:
 	wget 'https://www.iana.org/time-zones/repository/releases/tzdb-$(TZVERSION).tar.lz' -O tzdb-$(TZVERSION).tar.lz

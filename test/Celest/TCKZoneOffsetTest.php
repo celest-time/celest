@@ -152,6 +152,7 @@ class TCKZoneOffsetTest extends AbstractDateTimeTest
                 $this->fail("Should have failed:" . $values[$i]);
             } catch (DateTimeException $ex) {
                 // expected
+                $this->assertTrue(true);
             }
         }
     }

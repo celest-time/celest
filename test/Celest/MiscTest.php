@@ -76,5 +76,6 @@ class MiscTest extends TestCase
 
         $formatter = \IntlDateFormatter::create('@calendar=japanese', \IntlDateFormatter::FULL, \IntlDateFormatter::FULL, "Europe/Berlin", \IntlDateFormatter::TRADITIONAL);
         //$this->assertEquals('Heisei 12 M02 3, Thu 05:05:00 GMT+01:00', $formatter->format($date), 'islamic-civil' .  self::INTLinfo('@calendar=japanese'));
+        $this->markTestIncomplete('investigate failure, probably because of different ICU version');
     }
 }

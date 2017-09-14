@@ -28,6 +28,8 @@ class TestHelper
 
         if (!$catched) {
             $_this->fail('Expected Null Exception');
+        } else {
+            $_this->assertTrue(true);
         }
     }
 

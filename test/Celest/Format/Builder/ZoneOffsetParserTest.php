@@ -76,8 +76,8 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
     public function data_error()
     {
         return [
-            ["+HH:MM:ss", "Z", "hello", -1, RuntimeException::class],
-            ["+HH:MM:ss", "Z", "hello", 6, RuntimeException ::class],
+            ["+HH:MM:ss", "Z", "hello", -1, \OutOfRangeException::class],
+            ["+HH:MM:ss", "Z", "hello", 6, \OutOfRangeException ::class],
         ];
     }
 
@@ -88,7 +88,7 @@ class TestZoneOffsetParser extends AbstractTestPrinterParser
     {
         try {
             $this->getFormatterPattern($pattern, $noOffsetText)->parseUnresolved($text, new ParsePosition($pos));
-        } catch (RuntimeException $ex) {
+        } catch (\OutOfRangeException $ex) {
             $this->assertInstanceOf($expected, $ex);
         }
     }

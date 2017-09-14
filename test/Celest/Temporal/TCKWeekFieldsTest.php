@@ -461,6 +461,7 @@ class TCKWeekFieldsTest extends TestCase
             $this->assertEquals($date->get(CF::DAY_OF_WEEK()), 1);
         } catch (DateTimeException $ex) {
             // expected
+            $this->assertTrue(true);
         }
     }
 
@@ -590,6 +591,7 @@ class TCKWeekFieldsTest extends TestCase
             $this->assertEquals($date->get(CF::DAY_OF_WEEK()), 1);
         } catch (DateTimeException $ex) {
             // expected
+            $this->assertTrue(true);
         }
     }
 
@@ -722,6 +724,7 @@ class TCKWeekFieldsTest extends TestCase
             $this->assertEquals($date->get(CF::DAY_OF_WEEK()), 1);
         } catch (DateTimeException $ex) {
             // expected
+            $this->assertTrue(true);
         }
     }
 

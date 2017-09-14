@@ -412,6 +412,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $expected = $this->createDate($year, $month, $day);
             // offset/zone not $expected to be $parsed
             $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -535,6 +537,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $expected = $this->createDate($year, $month, $day);
             $this->buildCalendrical($expected, $offsetId, null);  // zone not $expected to be $parsed
             $this->assertParseMatch(DateTimeFormatter::ISO_OFFSET_DATE()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -614,6 +618,8 @@ class TCKDateTimeFormattersTest extends TestCase
                 $expected->add(ZoneOffset::of($offsetId));
             }
             $this->assertParseMatch(DateTimeFormatter::ISO_DATE()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -713,6 +719,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $expected = $this->createTime($hour, $min, $sec, $nano);
             // offset/zone not $expected to be $parsed
             $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -812,6 +820,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $expected = $this->createTime($hour, $min, $sec, $nano);
             $this->buildCalendrical($expected, $offsetId, null);  // $zoneId is not $expected from parse
             $this->assertParseMatch(DateTimeFormatter::ISO_OFFSET_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -913,6 +923,8 @@ class TCKDateTimeFormattersTest extends TestCase
                 $expected->add(ZoneOffset::of($offsetId));
             }
             $this->assertParseMatch(DateTimeFormatter::ISO_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1029,6 +1041,8 @@ class TCKDateTimeFormattersTest extends TestCase
         if ($input !== null) {
             $expected = $this->createDateTime($year, $month, $day, $hour, $min, $sec, $nano);
             $this->assertParseMatch(DateTimeFormatter::ISO_LOCAL_DATE_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1145,6 +1159,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $expected = $this->createDateTime($year, $month, $day, $hour, $min, $sec, $nano);
             $this->buildCalendrical($expected, $offsetId, null);  // zone not $expected to be $parsed
             $this->assertParseMatch(DateTimeFormatter::ISO_OFFSET_DATE_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1278,6 +1294,8 @@ class TCKDateTimeFormattersTest extends TestCase
                 $this->buildCalendrical($expected, $offsetId, $zoneId);
             }
             $this->assertParseMatch(DateTimeFormatter::ISO_ZONED_DATE_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1400,6 +1418,8 @@ class TCKDateTimeFormattersTest extends TestCase
                 }
             }
             $this->assertParseMatch(DateTimeFormatter::ISO_DATE_TIME()->parseUnresolved($input, new ParsePosition(0)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1711,6 +1731,8 @@ class TCKDateTimeFormattersTest extends TestCase
             $parsed = DateTimeFormatter::ISO_INSTANT()->parseUnresolved($input, new ParsePosition(0));
             $this->assertEquals($parsed->getLong(ChronoField::INSTANT_SECONDS()), $instantSecs);
             $this->assertEquals($parsed->getLong(ChronoField::NANO_OF_SECOND()), ($nano == null ? 0 : $nano));
+        } else {
+            $this->assertTrue(true);
         }
     }
 

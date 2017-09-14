@@ -839,7 +839,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                     $f->withResolverStyle($style)->parse("");
                     $this->fail();
                 } catch (DateTimeParseException $ex) {
-                    // $expected
+                    // expected
+                    $this->assertTrue(true);
                 }
             }
         }
@@ -870,7 +871,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                     $f->withResolverStyle($style)->parse("");
                     $this->fail();
                 } catch (DateTimeParseException $ex) {
-                    // $expected
+                    // expected
+                    $this->assertTrue(true);
                 }
             }
         }
@@ -900,6 +902,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $this->assertEquals($accessor->query(TemporalQueries::localTime()), $expectedTime, "ResolverStyle: " . $s);
                 $this->assertEquals($accessor->query(DateTimeFormatter::parsedExcessDays()), Period::ZERO(), "ResolverStyle: " . $s);
             }
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -959,7 +963,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $f->withResolverStyle($style)->parse($str);
                 $this->fail();
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -1021,7 +1026,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $f->withResolverStyle($style)->parse($str);
                 $this->fail();
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -1083,7 +1089,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $f->withResolverStyle($style)->parse($str);
                 $this->fail();
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -1147,7 +1154,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $f->withResolverStyle($style)->parse($str);
                 $this->fail();
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -1204,7 +1212,8 @@ class TCKDateTimeParseResolverTest extends TestCase
                 $f->withResolverStyle($style)->parse($str);
                 $this->fail();
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

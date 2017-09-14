@@ -365,6 +365,8 @@ class TCKOffsetPrinterParser extends TestCase
             $this->builder->appendPattern($pattern);
             $output = $this->builder->toFormatter()->format($zdt);
             $this->assertEquals($output, $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -392,11 +394,13 @@ class TCKOffsetPrinterParser extends TestCase
                 $pattern = "xxxxx";
                 $zero = "+00:00";
             }
-        if ($pattern != null) {
+        if ($pattern !== null) {
             $zdt = $ldt->atZone($zone);
             $this->builder->appendPattern($pattern);
             $output = $this->builder->toFormatter()->format($zdt);
             $this->assertEquals($output, ($expected === "Z" ? $zero : $expected));
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -424,6 +428,8 @@ class TCKOffsetPrinterParser extends TestCase
             $f = (new DateTimeFormatterBuilder())->appendPattern("ZZZZZ")->toFormatter();
             $output = $f->format($zdt);
             $this->assertEquals($output, $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 

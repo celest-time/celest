@@ -128,6 +128,7 @@ class TCKYearMonth extends AbstractDateTimeTest
         $test = YearMonth::now();
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = YearMonth::nowOf(Clock::systemDefaultZone());
@@ -154,6 +155,7 @@ class TCKYearMonth extends AbstractDateTimeTest
         $test = YearMonth::nowIn($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = YearMonth::nowOf(Clock::system($zone));
@@ -1536,7 +1538,8 @@ class TCKYearMonth extends AbstractDateTimeTest
                 $test->atDay($day);
                 $this->fail();
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

@@ -117,6 +117,7 @@ class TCKMonthDayTest extends AbstractDateTimeTest
         $test = MonthDay::now();
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = MonthDay::nowOf(Clock::systemDefaultZone());
@@ -143,6 +144,7 @@ class TCKMonthDayTest extends AbstractDateTimeTest
         $test = MonthDay::nowIn($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = MonthDay::nowOf(Clock::system($zone));

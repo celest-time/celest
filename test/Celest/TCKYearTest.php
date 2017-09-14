@@ -57,6 +57,7 @@ class TCKYearTest extends AbstractDateTimeTest
         $test = Year::now();
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = Year::nowOf(Clock::systemDefaultZone());
@@ -82,6 +83,7 @@ class TCKYearTest extends AbstractDateTimeTest
         $test = Year::nowIn($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = Year::nowOf(Clock::system($zone));

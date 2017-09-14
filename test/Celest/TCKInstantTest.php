@@ -2134,8 +2134,10 @@ class TCKInstantTest extends AbstractDateTimeTest
     public function test_toDateTime_error(Instant $instant)
     {
         $instant->toDateTime();
-        if (version_compare(PHP_VERSION, "5.6.24", ">=") || version_compare(PHP_VERSION, "7.0.9", ">=")) {
-            $this->markTestSkipped('Negative timestamps  are supported #66836');
+        if (version_compare(PHP_VERSION, "5.6.24", ">=")
+            || version_compare(PHP_VERSION, "7.0.9", ">=")
+        ) {
+            $this->markTestSkipped('Negative timestamps are supported #66836');
         }
     }
     /**

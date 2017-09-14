@@ -181,6 +181,8 @@ class TCKDateTimeTextPrintingTest extends TestCase
             $dt = $dt->with($field, $value);
             $text = $f->format($dt);
             $this->assertEquals($text, $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 

@@ -357,7 +357,8 @@ class TestTextParser extends AbstractTestPrinterParser
     public function test_parse_strict_caseSensitive_parseUpper(TemporalField $field, TextStyle $style, $value, $input)
     {
         if ($input === TestHelper::toUpperMb($input)) {
-// Skip if the given $input is all upper case (e.g., "Q1")
+            // Skip if the given $input is all upper case (e.g., "Q1")
+            $this->assertTrue(true);
             return;
         }
 
@@ -385,7 +386,8 @@ class TestTextParser extends AbstractTestPrinterParser
     public function test_parse_strict_caseSensitive_parseLower(TemporalField $field, TextStyle $style, $value, $input)
     {
         if ($input === TestHelper::toLowerMb($input)) {
-// Skip if the given $input is all lower case (e.g., "1st quarter")
+            // Skip if the given $input is all lower case (e.g., "1st quarter")
+            $this->assertTrue(true);
             return;
         }
         $this->setCaseSensitive(true);

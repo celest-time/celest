@@ -239,7 +239,8 @@ class TCKIsoFieldsTest extends TestCase
                 LocalDate::parseWith($str, $f);
                 $this->fail("Should have failed");
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -464,7 +465,8 @@ class TCKIsoFieldsTest extends TestCase
                 LocalDate::parseWith($str, $f);
                 $this->fail("Should have failed");
             } catch (DateTimeParseException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

@@ -225,6 +225,7 @@ class TCKIsoChronologyTest extends TestCase
 
     public function test_localDateTime_TemporalAccessor()
     {
+        $this->markTestIncomplete();
         /*$this->assertEquals(IsoChronology::INSTANCE()->localDateTime(new TemporalAccessor() {
             @Override
             public isSupported(TemporalField $field) {
@@ -270,6 +271,7 @@ class TCKIsoChronologyTest extends TestCase
 
     public function test_zonedDateTime_TemporalAccessor()
     {
+        $this->markTestIncomplete();
         /*$this->assertEquals(IsoChronology::INSTANCE()->zonedDateTime(new TemporalAccessor() {
             @Override
             public isSupported(TemporalField $field) {
@@ -457,7 +459,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, $style);
                 $this->$this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -609,7 +612,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::SMART());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -632,7 +636,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::STRICT());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -718,7 +723,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::SMART());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -740,7 +746,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::STRICT());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -885,7 +892,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::SMART());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -909,7 +917,8 @@ class TCKIsoChronologyTest extends TestCase
                 IsoChronology::INSTANCE()->resolveDate($fieldValues, ResolverStyle::STRICT());
                 $this->fail("Should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

@@ -219,7 +219,8 @@ class TCKDateTimeFormatterTest extends TestCase
             $this->fail();
         } catch
         (DateTimeException $ex) {
-            // $expected, fails as it produces two different dates
+            // expected, fails as it produces two different dates
+            $this->assertTrue(true);
         }
         $parsed = $f->parseQuery("2012-6-30-321", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored day-of-year
         $this->assertEquals($parsed, LocalDate::of(2012, 6, 30));
@@ -239,7 +240,8 @@ class TCKDateTimeFormatterTest extends TestCase
             $base->parseQuery("2012-6-30-321", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // wrong month/day-of-month
             $this->fail();
         } catch (DateTimeException $ex) {
-            // $expected, fails as it produces two different dates
+            // expected, fails as it produces two different dates
+            $this->assertTrue(true);
         }
         $parsed = $f->parseQuery("2012-6-30-321", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored month/day-of-month
         $this->assertEquals($parsed, LocalDate::of(2012, 11, 16));
@@ -256,7 +258,8 @@ class TCKDateTimeFormatterTest extends TestCase
             $base->parseQuery("2012-321-1", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // wrong day-of-week
             $this->fail();
         } catch (DateTimeException $ex) {
-            // $expected, should $this->fail() in cross-check of day-of-week
+            // expected, should $this->fail() in cross-check of day-of-week
+            $this->assertTrue(true);
         }
         $parsed = $f->parseQuery("2012-321-1", TemporalQueries::fromCallable([LocalDate::class, 'from']));  // ignored wrong day-of-week
         $this->assertEquals($parsed, LocalDate::of(2012, 11, 16));
@@ -418,7 +421,8 @@ class TCKDateTimeFormatterTest extends TestCase
                 $test->format($temporal);
                 $this->fail("Formatting should have failed");
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

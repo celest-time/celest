@@ -326,7 +326,8 @@ class TCKInstantPrinterParserTest extends TestCase
                 $f->parseQuery($input, Instant::fromQuery());
                 $this->fail();
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

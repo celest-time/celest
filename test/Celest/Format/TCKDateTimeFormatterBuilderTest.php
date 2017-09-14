@@ -918,6 +918,7 @@ class TCKDateTimeFormatterBuilderTest extends TestCase
     public function test_appendPattern_valid($input)
     {
         $this->builder->appendPattern($input);  // test is for no error here
+        $this->assertTrue(true);
     }
 
     //-----------------------------------------------------------------------
@@ -1043,6 +1044,7 @@ class TCKDateTimeFormatterBuilderTest extends TestCase
     public function test_appendPattern_invalid($input)
     {
         $this->builder->appendPattern($input);  // test is for error here
+        $this->assertTrue(true);
     }
 
     //-----------------------------------------------------------------------

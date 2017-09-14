@@ -29,6 +29,7 @@ You need to install phpunit manually and a version of doctrine/instantiator that
 composer require --dev phpunit/phpunit:^5.7 rianium/paratest:~0.15.0 doctrine/instantiator:~1.0.5
 ```
 Then run `make test` for the full testsuite or `make test-short` for a testsuite that runs in under a minute.
+Warning: Paratest currently doesn't display skipped or incomplete tests in all cases.
 
 
 ## Interoperability with native \DateTime

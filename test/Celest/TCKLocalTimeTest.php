@@ -273,6 +273,7 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
         $test = LocalTime::nowIn($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = LocalTime::nowOf(Clock::system($zone));
@@ -1246,7 +1247,8 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
             $base->with($field, $newValue);
             $this->fail("Field should not be allowed " . $field);
         } catch (DateTimeException $ex) {
-// $expected
+            // expected
+            $this->assertTrue(true);
         }
     }
 
@@ -1629,7 +1631,8 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
                 self::TEST_123040987654321()->plus(1, $unit);
                 $this->fail("Unit should not be allowed " . $unit);
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }
@@ -2080,7 +2083,8 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
                 self::TEST_123040987654321()->minus(1, $unit);
                 $this->fail("Unit should not be allowed " . $unit);
             } catch (DateTimeException $ex) {
-                // $expected
+                // expected
+                $this->assertTrue(true);
             }
         }
     }

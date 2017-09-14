@@ -295,6 +295,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         $test = ZonedDateTime::nowIn($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = ZonedDateTime::nowOf(Clock::system($zone));
@@ -784,7 +785,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         });
     }
 
-    public function test_factory_ofNative_data()
+    public function factory_ofNative_data()
     {
         return [
             [new \DateTime('now')],
@@ -793,11 +794,12 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     }
 
     /**
-     * @dataProvider test_factory_ofNative_data
+     * @dataProvider factory_ofNative_data
      */
     public function test_factory_ofNative(\DateTimeInterface $dateTime)
     {
         $dt = ZonedDateTime::ofNativeDateTime($dateTime);
+        $this->markTestIncomplete('Test checks missing');
     }
 
     //-----------------------------------------------------------------------
@@ -1544,6 +1546,8 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     {
         if ($setField == CF::OFFSET_SECONDS()) {
             $this->assertEquals($base->adjust(ZoneOffset::ofTotalSeconds($setValue)), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -1555,6 +1559,8 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         if ($setField == CF::OFFSET_SECONDS()) {
             $odt = $base->toOffsetDateTime()->with($setField, $setValue);
             $this->assertEquals($base->adjust($odt), $expected);
+        } else {
+            $this->assertTrue(true);
         }
     }
 
@@ -2341,6 +2347,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     public function test_until_days(ZonedDateTime $base, $expected, ZonedDateTime $end)
     {
         if ($base->toLocalTime()->equals($end->toLocalTime()) == false) {
+            $this->assertTrue(true);
             return;  // avoid DST gap input values
         }
 
@@ -2465,7 +2472,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($this->TEST_DATE_TIME->toOffsetDateTime(), OffsetDateTime::ofDateTime($this->TEST_DATE_TIME->toLocalDateTime(), $this->TEST_DATE_TIME->getOffset()));
     }
 
-    public function test_toDateTime_data()
+    public function toDateTime_data()
     {
         return [
             [ZonedDateTime::of(2008, 6, 30, 11, 30, 39, 1337, self::ZONE_0100())],
@@ -2474,7 +2481,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     }
 
     /**
-     * @dataProvider test_toDateTime_data
+     * @dataProvider toDateTime_data
      */
     public function test_toDateTime(ZonedDateTime $zdt)
     {
@@ -2484,6 +2491,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         }
 
         $dt = $zdt->toNativeDateTime();
+        $this->markTestIncomplete('Need to implement cheks');
     }
 
     //-----------------------------------------------------------------------
@@ -2683,7 +2691,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
 
     }
 
-    public function test_datetime_conversion_data()
+    public function provider_datetime_conversion_data()
     {
         return [
             [ZonedDateTime::of(2008, 6, 30, 10, 12, 35, 12345000, self::ZONE_0100())],
@@ -2692,7 +2700,7 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
     }
 
     /**
-     * @dataProvider test_datetime_conversion_data
+     * @dataProvider provider_datetime_conversion_data
      */
     public function test_datetime_conversion(ZonedDateTime $zdt)
     {

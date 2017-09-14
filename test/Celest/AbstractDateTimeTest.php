@@ -42,6 +42,10 @@ abstract class AbstractDateTimeTest extends TestCase
 
     public function test_basicTest_isSupported_TemporalField_unsupported()
     {
+        if (empty($this->invalidFields())) {
+            $this->assertTrue(true);
+            return;
+        }
         foreach ($this->samples() as $sample) {
             foreach ($this->invalidFields() as $field) {
                 $this->assertEquals($sample->isSupported($field), false, "Failed on " . $sample . " " . $field);
@@ -65,12 +69,17 @@ abstract class AbstractDateTimeTest extends TestCase
         foreach ($this->samples() as $sample) {
             foreach ($this->validFields() as $field) {
                 $sample->range($field);  // no exception
+                $this->assertTrue(true);
             }
         }
     }
 
     public function test_basicTest_range_TemporalField_unsupported()
     {
+        if (empty($this->invalidFields())) {
+            $this->assertTrue(true);
+            return;
+        }
         foreach ($this->samples() as $sample) {
             foreach ($this->invalidFields() as $field) {
                 try {
@@ -78,6 +87,7 @@ abstract class AbstractDateTimeTest extends TestCase
                     $this->fail("Failed on " . $sample . " " . $field);
                 } catch (DateTimeException $ex) {
                     // expected
+                    $this->assertTrue(true);
                 }
             }
         }
@@ -101,12 +111,14 @@ abstract class AbstractDateTimeTest extends TestCase
             foreach ($this->validFields() as $field) {
                 if ($sample->range($field)->isIntValue()) {
                     $sample->get($field);  // no exception
+                    $this->assertTrue(true);
                 } else {
                     try {
                         $sample->get($field);
                         $this->fail("Failed on " . $sample . " " . $field);
                     } catch (DateTimeException $ex) {
                         // expected
+                        $this->assertTrue(true);
                     }
                 }
             }
@@ -115,6 +127,10 @@ abstract class AbstractDateTimeTest extends TestCase
 
     public function test_basicTest_get_TemporalField_unsupported()
     {
+        if (empty($this->invalidFields())) {
+            $this->assertTrue(true);
+            return;
+        }
         foreach ($this->samples() as $sample) {
             foreach ($this->invalidFields() as $field) {
                 try {
@@ -122,6 +138,7 @@ abstract class AbstractDateTimeTest extends TestCase
                     $this->fail("Failed on " . $sample . " " . $field);
                 } catch (DateTimeException $ex) {
                     // expected
+                    $this->assertTrue(true);
                 }
             }
         }
@@ -151,15 +168,21 @@ abstract class AbstractDateTimeTest extends TestCase
     //-----------------------------------------------------------------------
     public function test_basicTest_getLong_TemporalField_supported()
     {
+        $this->assertTrue(true);
         foreach ($this->samples() as $sample) {
             foreach ($this->validFields() as $field) {
                 $sample->getLong($field);  // no exception
+                $this->assertTrue(true);
             }
         }
     }
 
     public function test_basicTest_getLong_TemporalField_unsupported()
     {
+        if (empty($this->invalidFields())) {
+            $this->assertTrue(true);
+            return;
+        }
         foreach ($this->samples() as $sample) {
             foreach ($this->invalidFields() as $field) {
                 try {
@@ -167,6 +190,7 @@ abstract class AbstractDateTimeTest extends TestCase
                     $this->fail("Failed on " . $sample . " " . $field);
                 } catch (DateTimeException $ex) {
                     // expected
+                    $this->assertTrue(true);
                 }
             }
         }

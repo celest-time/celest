@@ -195,6 +195,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
         $test = LocalDate::now();
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = LocalDate::nowOf(Clock::systemDefaultZone());
@@ -221,6 +222,7 @@ class TCKLocalDateTest extends AbstractDateTimeTest
         $test = LocalDate::nowFrom($zone);
         for ($i = 0; $i < 100; $i++) {
             if ($expected->equals($test)) {
+                $this->assertTrue(true);
                 return;
             }
             $expected = LocalDate::nowOf(Clock::system($zone));

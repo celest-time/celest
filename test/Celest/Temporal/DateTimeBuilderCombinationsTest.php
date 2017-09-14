@@ -119,7 +119,8 @@ class DateTimeBuilderCombinationsTest extends TestCase
                     $parsed->query(LocalDate::fromQuery());
                     $this->fail();
                 } catch (DateTimeException $ex) {
-// expected
+                    // expected
+                    $this->assertTrue(true);
                 }
             }
         } else {
