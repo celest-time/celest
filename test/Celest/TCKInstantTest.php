@@ -322,7 +322,7 @@ class TCKInstantTest extends AbstractDateTimeTest
     {
         $t = Instant::ofDateTime($dateTime);
         $this->assertEquals($t->getEpochSecond(), $dateTime->getTimestamp());
-        $this->assertEquals($t->getNano(), 0);
+        $this->assertEquals($t->getNano(), $dateTime->format('u') * 1000);
     }
 
     //-----------------------------------------------------------------------

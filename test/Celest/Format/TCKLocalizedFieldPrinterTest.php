@@ -139,6 +139,6 @@ class TCKLocalizedFieldPrinterTest extends AbstractTestPrinterParser
         $dtf = DateTimeFormatter::ofPatternLocale($pattern, $this->locale);
         $result = $dtf->format($date);
         $weekDef = WeekFields::ofLocale($this->locale);
-        $this->assertEquals($result, $expectedText, "Incorrect formatting for " - $pattern - ", weekDef: " . $weekDef);
+        $this->assertEquals($result, $expectedText, "Incorrect formatting for " . $pattern . ", weekDef: " . $weekDef);
     }
 }

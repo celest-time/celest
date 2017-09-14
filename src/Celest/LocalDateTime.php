@@ -1948,8 +1948,8 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
     public function unserialize($serialized)
     {
         $v = explode(':', $serialized);
-        $this->date = LocalDate::of($v[0], $v[1], $v[2]);
-        $this->time = LocalTime::of($v[3], $v[4], $v[5]);
+        $this->date = LocalDate::of((int) $v[0], (int) $v[1], (int) $v[2]);
+        $this->time = LocalTime::of((int) $v[3], (int) $v[4], (int) $v[5]);
     }
 }
 
