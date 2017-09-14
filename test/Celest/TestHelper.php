@@ -3,12 +3,12 @@
 namespace Celest;
 
 
-use PHPUnit_Framework_Assert;
+use PHPUnit\Framework\TestCase;
 use ResourceBundle;
 
 class TestHelper
 {
-    public static function assertNullException(PHPUnit_Framework_Assert $_this, callable $func)
+    public static function assertNullException(TestCase $_this, callable $func)
     {
         $catched = false;
         try {
@@ -33,7 +33,7 @@ class TestHelper
         }
     }
 
-    public static function assertTypeError(PHPUnit_Framework_Assert $_this, callable $func)
+    public static function assertTypeError(TestCase $_this, callable $func)
     {
         $catched = false;
         try {

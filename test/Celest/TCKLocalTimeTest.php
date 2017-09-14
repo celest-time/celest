@@ -77,6 +77,7 @@ use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
 use Exception;
+use PHPUnit\Framework\TestCase;
 
 class TemporalField_notChronoField implements TemporalField
 {
@@ -84,7 +85,7 @@ class TemporalField_notChronoField implements TemporalField
     private $result;
     private $base;
 
-    public function __construct(\PHPUnit_Framework_Assert $_this, $base, $result)
+    public function __construct(TestCase $_this, $base, $result)
     {
         $this->_this = $_this;
         $this->result = $result;
