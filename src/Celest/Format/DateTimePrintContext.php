@@ -78,77 +78,6 @@ use Celest\Temporal\ValueRange;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
 
-class Test extends AbstractTemporalAccessor
-{
-    /** @var ChronoLocalDate */
-    private $effectiveDate;
-    /** @var TemporalAccessor */
-    private $temporal;
-    /** @var ZoneId|null */
-    private $effectiveZone;
-    /** @var Chronology */
-    private $effectiveChrono;
-
-    /**
-     * Test constructor.
-     * @param ChronoLocalDate $effectiveDate
-     * @param TemporalAccessor $temporal
-     * @param ZoneId|null $effectiveZone
-     * @param Chronology|null $effectiveChrono
-     */
-    public function __construct($effectiveDate, TemporalAccessor $temporal, $effectiveZone, $effectiveChrono)
-    {
-        $this->effectiveDate = $effectiveDate;
-        $this->temporal = $temporal;
-        $this->effectiveZone = $effectiveZone;
-        $this->effectiveChrono = $effectiveChrono;
-    }
-
-
-    public function isSupported(TemporalField $field) : bool
-    {
-        if ($this->effectiveDate !== null && $field->isDateBased()) {
-            return $this->effectiveDate->isSupported($field);
-        }
-
-        return $this->temporal->isSupported($field);
-    }
-
-    public function range(TemporalField $field) : ValueRange
-    {
-        if ($this->effectiveDate !== null && $field->isDateBased()) {
-            return $this->effectiveDate->range($field);
-        }
-
-        return $this->temporal->range($field);
-    }
-
-    public function getLong(TemporalField $field) : int
-    {
-        if ($this->effectiveDate !== null && $field->isDateBased()) {
-            return $this->effectiveDate->getLong($field);
-        }
-
-        return $this->temporal->getLong($field);
-    }
-
-    public function query(TemporalQuery $query)
-    {
-        if ($query == TemporalQueries::chronology()) {
-            return $this->effectiveChrono;
-        }
-
-        if ($query == TemporalQueries::zoneId()) {
-            return $this->effectiveZone;
-        }
-        if ($query == TemporalQueries::precision()) {
-            return $this->temporal->query($query);
-        }
-        return $query->queryFrom($this);
-    }
-}
-
-
 /**
  * Context object used during date and time printing.
  * <p>
@@ -257,7 +186,70 @@ final class DateTimePrintContext
         // combine available data
         // this is a non-standard temporal that is almost a pure delegate
         // this better handles map-like underlying temporal instances
-        return new Test($effectiveDate, $temporal, $effectiveZone, $effectiveChrono);
+        return new class($effectiveDate, $temporal, $effectiveZone, $effectiveChrono) extends AbstractTemporalAccessor {
+            /** @var ChronoLocalDate|null */
+            private $effectiveDate;
+            /** @var TemporalAccessor */
+            private $temporal;
+            /** @var ZoneId|null */
+            private $effectiveZone;
+            /** @var Chronology */
+            private $effectiveChrono;
+
+            public function __construct(?ChronoLocalDate $effectiveDate,
+                                        TemporalAccessor $temporal,
+                                        ?ZoneId $effectiveZone,
+                                        ?Chronology$effectiveChrono)
+            {
+                $this->effectiveDate = $effectiveDate;
+                $this->temporal = $temporal;
+                $this->effectiveZone = $effectiveZone;
+                $this->effectiveChrono = $effectiveChrono;
+            }
+
+
+            public function isSupported(TemporalField $field) : bool
+            {
+                if ($this->effectiveDate !== null && $field->isDateBased()) {
+                    return $this->effectiveDate->isSupported($field);
+                }
+
+                return $this->temporal->isSupported($field);
+            }
+
+            public function range(TemporalField $field) : ValueRange
+            {
+                if ($this->effectiveDate !== null && $field->isDateBased()) {
+                    return $this->effectiveDate->range($field);
+                }
+
+                return $this->temporal->range($field);
+            }
+
+            public function getLong(TemporalField $field) : int
+            {
+                if ($this->effectiveDate !== null && $field->isDateBased()) {
+                    return $this->effectiveDate->getLong($field);
+                }
+
+                return $this->temporal->getLong($field);
+            }
+
+            public function query(TemporalQuery $query)
+            {
+                if ($query == TemporalQueries::chronology()) {
+                    return $this->effectiveChrono;
+                }
+
+                if ($query == TemporalQueries::zoneId()) {
+                    return $this->effectiveZone;
+                }
+                if ($query == TemporalQueries::precision()) {
+                    return $this->temporal->query($query);
+                }
+                return $query->queryFrom($this);
+            }
+        };
     }
 
     //-----------------------------------------------------------------------
