@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
     * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -77,6 +77,7 @@ use Celest\Period;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\FieldValues;
 use Celest\Temporal\TemporalAccessor;
+use Celest\Temporal\ValueRange;
 use Celest\Year;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
@@ -144,7 +145,7 @@ final class IsoChronology extends AbstractChronology
      * @return string the chronology ID - 'ISO'
      * @see #getCalendarType()
      */
-    public function getId()
+    public function getId() : string
     {
         return "ISO";
     }
@@ -161,7 +162,7 @@ final class IsoChronology extends AbstractChronology
      * @return string the calendar system type - 'iso8601'
      * @see #getId()
      */
-    public function getCalendarType()
+    public function getCalendarType() : string
     {
         return "iso8601";
     }
@@ -181,7 +182,7 @@ final class IsoChronology extends AbstractChronology
      * @param Locale $locale the locale to use, not null
      * @return string the text value of the chronology, not null
      */
-    function getDisplayName(TextStyle $style, Locale $locale)
+    function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         return ChronologyDefaults::getDisplayName($this, $style, $locale);
     }
@@ -199,7 +200,7 @@ final class IsoChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the type of {@code era} is not {@code IsoEra}
      */
-    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, int $yearOfEra, int $month, int $dayOfMonth) : LocalDate
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -216,7 +217,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function date($prolepticYear, $month, $dayOfMonth)
+    public function date(int $prolepticYear, int $month, int $dayOfMonth) : LocalDate
     {
         return LocalDate::of($prolepticYear, $month, $dayOfMonth);
     }
@@ -230,7 +231,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, int $yearOfEra, int $dayOfYear) : LocalDate
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
@@ -245,7 +246,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateYearDay($prolepticYear, $dayOfYear)
+    public function dateYearDay(int $prolepticYear, int $dayOfYear) : LocalDate
     {
         return LocalDate::ofYearDay($prolepticYear, $dayOfYear);
     }
@@ -259,7 +260,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateEpochDay($epochDay)
+    public function dateEpochDay(int $epochDay) : LocalDate
     {
         return LocalDate::ofEpochDay($epochDay);
     }
@@ -274,7 +275,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateFrom(TemporalAccessor $temporal)
+    public function dateFrom(TemporalAccessor $temporal) : LocalDate
     {
         return LocalDate::from($temporal);
     }
@@ -288,7 +289,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDateTime the ISO local date-time, not null
      * @throws DateTimeException if unable to create the date-time
      */
-    public function localDateTime(TemporalAccessor $temporal)
+    public function localDateTime(TemporalAccessor $temporal) : LocalDateTime
     {
         return LocalDateTime::from($temporal);
     }
@@ -302,7 +303,7 @@ final class IsoChronology extends AbstractChronology
      * @return ZonedDateTime the ISO zoned date-time, not null
      * @throws DateTimeException if unable to create the date-time
      */
-    public function zonedDateTimeFrom(TemporalAccessor $temporal)
+    public function zonedDateTimeFrom(TemporalAccessor $temporal) : ZonedDateTime
     {
         return ZonedDateTime::from($temporal);
     }
@@ -317,7 +318,7 @@ final class IsoChronology extends AbstractChronology
      * @return ZonedDateTime the zoned date-time, not null
      * @throws DateTimeException if the result exceeds the supported range
      */
-    public function zonedDateTime(Instant $instant, ZoneId $zone)
+    public function zonedDateTime(Instant $instant, ZoneId $zone) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant($instant, $zone);
     }
@@ -335,7 +336,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the current ISO local date using the system clock and default time-zone, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateNow()
+    public function dateNow() : LocalDate
     {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
@@ -352,7 +353,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the current ISO local date using the system clock, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateNowIn(ZoneId $zone)
+    public function dateNowIn(ZoneId $zone) : LocalDate
     {
         return $this->dateNowOf(Clock::system($zone));
     }
@@ -368,7 +369,7 @@ final class IsoChronology extends AbstractChronology
      * @return LocalDate the current ISO local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateNowOf(Clock $clock)
+    public function dateNowOf(Clock $clock) : LocalDate
     {
         return $this->dateFrom(LocalDate::nowOf($clock));
     }
@@ -393,12 +394,12 @@ final class IsoChronology extends AbstractChronology
      * @param int $prolepticYear the ISO proleptic year to check
      * @return bool true if the year is leap, false otherwise
      */
-    public function isLeapYear($prolepticYear)
+    public function isLeapYear(int $prolepticYear) : bool
     {
         return (($prolepticYear & 3) === 0) && (($prolepticYear % 100) !== 0 || ($prolepticYear % 400) === 0);
     }
 
-    public function prolepticYear(Era $era, $yearOfEra)
+    public function prolepticYear(Era $era, int $yearOfEra) : int
     {
         if ($era instanceof IsoEra === false) {
             throw new \InvalidArgumentException("Era must be IsoEra");
@@ -407,12 +408,12 @@ final class IsoChronology extends AbstractChronology
         return ($era == IsoEra::CE() ? $yearOfEra : 1 - $yearOfEra);
     }
 
-    public function eraOf($eraValue)
+    public function eraOf(int $eraValue) : IsoEra
     {
         return IsoEra::of($eraValue);
     }
 
-    public function eras()
+    public function eras() : array
     {
         return [IsoEra::BCE(), IsoEra::CE()];
     }
@@ -503,13 +504,13 @@ final class IsoChronology extends AbstractChronology
      * @throws DateTimeException if the date cannot be resolved, typically
      *  because of a conflict in the input data
      */
-    public function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    public function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle) : ?LocalDate
     {
         return parent::resolveDate($fieldValues, $resolverStyle);
     }
 
 // override for better proleptic algorithm
-    protected function resolveProlepticMonth(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveProlepticMonth(FieldValues $fieldValues, ResolverStyle $resolverStyle) : void
     {
         $pMonth = $fieldValues->remove(CF::PROLEPTIC_MONTH());
         if ($pMonth !== null) {
@@ -523,7 +524,7 @@ final class IsoChronology extends AbstractChronology
     }
 
 // override for enhanced behaviour
-    protected function resolveYearOfEra(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    protected function resolveYearOfEra(FieldValues $fieldValues, ResolverStyle $resolverStyle) : ?LocalDate
     {
         $yoeLong = $fieldValues->remove(CF::YEAR_OF_ERA());
         if ($yoeLong !== null) {
@@ -560,7 +561,7 @@ final class IsoChronology extends AbstractChronology
     }
 
     // override for performance
-    function resolveYMD(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    function resolveYMD(FieldValues $fieldValues, ResolverStyle $resolverStyle) : LocalDate
     {
         $y = CF::YEAR()->checkValidIntValue($fieldValues->remove(CF::YEAR()));
         if ($resolverStyle == ResolverStyle::LENIENT()) {
@@ -583,7 +584,7 @@ final class IsoChronology extends AbstractChronology
     }
 
     //-----------------------------------------------------------------------
-    public function range(CF $field)
+    public function range(CF $field) : ValueRange
     {
         return $field->range();
     }
@@ -601,7 +602,7 @@ final class IsoChronology extends AbstractChronology
      * @return Period the ISO period, not null
      */
     // override with covariant return type
-    public function period($years, $months, $days)
+    public function period(int $years, int $months, int $days) : Period
     {
         return Period::of($years, $months, $days);
     }
@@ -623,7 +624,7 @@ final class IsoChronology extends AbstractChronology
      * @return Chronology the chronology, not null
      * @throws DateTimeException if unable to convert to an {@code Chronology}
      */
-    static function from(TemporalAccessor $temporal)
+    static function from(TemporalAccessor $temporal) : Chronology
     {
         // TODO: Implement from() method.
     }

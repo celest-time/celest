@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -116,7 +116,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      *
      * @return int the numeric era value
      */
-    function getValue();
+    function getValue() : int;
 
     //-----------------------------------------------------------------------
     /**
@@ -281,7 +281,7 @@ interface Era extends TemporalAccessor, TemporalAdjuster
      * @param Locale $locale the locale to use, not null
      * @return string the text value of the era, not null
      */
-    function getDisplayName(TextStyle $style, Locale $locale);
+    function getDisplayName(TextStyle $style, Locale $locale) : string;
 
 // NOTE: methods to convert year-of-era/proleptic-year cannot be here as they may depend on month/day (Japanese)
 }

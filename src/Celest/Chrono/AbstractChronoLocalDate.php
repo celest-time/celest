@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Chrono;
 
@@ -170,7 +170,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function adjustInto(Temporal $temporal)
+    public function adjustInto(Temporal $temporal) : Temporal
     {
         return $temporal->with(ChronoField::EPOCH_DAY(), $this->toEpochDay());
     }
@@ -178,7 +178,7 @@ abstract class AbstractChronoLocalDate extends AbstractTemporal implements Chron
     /**
      * @inheritdoc
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }

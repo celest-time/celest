@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -204,7 +204,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the years added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract function plusYears($yearsToAdd);
+    abstract function plusYears(int $yearsToAdd);
 
     /**
      * Returns a copy of this date with the specified number of months added.
@@ -220,7 +220,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the months added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract function plusMonths($monthsToAdd);
+    abstract function plusMonths(int $monthsToAdd);
 
     /**
      * Returns a copy of this date with the specified number of weeks added.
@@ -237,7 +237,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the weeks added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function plusWeeks($weeksToAdd)
+    function plusWeeks(int $weeksToAdd)
     {
         return $this->plusDays(Math::multiplyExact($weeksToAdd, 7));
     }
@@ -253,7 +253,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the days added, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    abstract function plusDays($daysToAdd);
+    abstract function plusDays(int $daysToAdd);
 
     //-----------------------------------------------------------------------
     /**
@@ -272,7 +272,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the years subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusYears($yearsToSubtract)
+    function minusYears(int $yearsToSubtract)
     {
         return ($yearsToSubtract === Long::MIN_VALUE ? $this->plusYears(Long::MAX_VALUE)->plusYears(1) : $this->plusYears(-$yearsToSubtract));
     }
@@ -293,7 +293,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the months subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusMonths($monthsToSubtract)
+    function minusMonths(int $monthsToSubtract)
     {
         return ($monthsToSubtract === Long::MIN_VALUE ? $this->plusMonths(Long::MAX_VALUE)->plusMonths(1) : $this->plusMonths(-$monthsToSubtract));
     }
@@ -313,7 +313,7 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the weeks subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusWeeks($weeksToSubtract)
+    function minusWeeks(int $weeksToSubtract)
     {
         return ($weeksToSubtract === Long::MIN_VALUE ? $this->plusWeeks(Long::MAX_VALUE)->plusWeeks(1) : $this->plusWeeks(-$weeksToSubtract));
     }
@@ -331,13 +331,13 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
      * @return static a date based on this one with the days subtracted, not null
      * @throws DateTimeException if the result exceeds the supported date range
      */
-    function minusDays($daysToSubtract)
+    function minusDays(int $daysToSubtract)
     {
         return ($daysToSubtract === Long::MIN_VALUE ? $this->plusDays(Long::MAX_VALUE)->plusDays(1) : $this->plusDays(-$daysToSubtract));
     }
 
     //-----------------------------------------------------------------------
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = $this->getChronology()->dateFrom($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -345,17 +345,17 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
                 case CU::DAYS():
                     return $this->daysUntil($end);
                 case CU::WEEKS():
-                    return $this->daysUntil($end) / 7;
+                    return \intdiv($this->daysUntil($end), 7);
                 case CU::MONTHS():
                     return $this->monthsUntil($end);
                 case CU::YEARS():
-                    return $this->monthsUntil($end) / 12;
+                    return \intdiv($this->monthsUntil($end),12);
                 case CU::DECADES():
-                    return $this->monthsUntil($end) / 120;
+                    return \intdiv($this->monthsUntil($end), 120);
                 case CU::CENTURIES():
-                    return $this->monthsUntil($end) / 1200;
+                    return \intdiv($this->monthsUntil($end), 1200);
                 case CU::MILLENNIA():
-                    return $this->monthsUntil($end) / 12000;
+                    return \intdiv($this->monthsUntil($end), 12000);
                 case CU::ERAS():
                     return $end->getLong(CF::ERA()) - $this->getLong(CF::ERA());
             }
@@ -364,12 +364,12 @@ abstract class ChronoLocalDateImpl extends AbstractChronoLocalDate implements Te
         return $unit->between($this, $end);
     }
 
-    private function daysUntil(ChronoLocalDate $end)
+    private function daysUntil(ChronoLocalDate $end) : int
     {
         return $end->toEpochDay() - $this->toEpochDay();  // no overflow
     }
 
-    private function monthsUntil(ChronoLocalDate $end)
+    private function monthsUntil(ChronoLocalDate $end) : int
     {
         $range = $this->getChronology()->range(CF::MONTH_OF_YEAR());
         if ($range->getMaximum() !== 12) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -158,7 +158,7 @@ abstract class AbstractChronology implements Chronology
      * @param null|string $id the ID to register the chronology
      * @return Chronology the already registered Chronology if any, may be null
      */
-    static function registerChrono(Chronology $chrono, $id = null)
+    static function registerChrono(Chronology $chrono, ?string $id = null)
     {
         if ($id === null) {
             $id = $chrono->getId();
@@ -270,7 +270,7 @@ abstract class AbstractChronology implements Chronology
      * @return Chronology the chronology with the identifier requested, not null
      * @throws DateTimeException if the chronology cannot be found
      */
-    static function of($id)
+    static function of(string $id)
     {
         do {
             $chrono = self::of0($id);
@@ -299,7 +299,7 @@ abstract class AbstractChronology implements Chronology
      * @param string $id the chronology ID or calendar system type, not null
      * @return string the chronology with the identifier requested, or {@code null} if not found
      */
-    private static function of0($id)
+    private static function of0(string $id) : string
     {
         $chrono = self::$CHRONOS_BY_ID->get($id);
         if ($chrono === null) {
@@ -319,7 +319,7 @@ abstract class AbstractChronology implements Chronology
      *
      * @return Chronology[] the independent, modifiable set of the available chronology IDs, not null
      */
-    static function getAvailableChronologies()
+    static function getAvailableChronologies() : array
     {
         return [IsoChronology::INSTANCE(), MinguoChronology::INSTANCE(), ThaiBuddhistChronology::INSTANCE()];
     }
@@ -631,7 +631,7 @@ abstract class AbstractChronology implements Chronology
         return $date;
     }
 
-    protected function resolveAligned(ChronoLocalDate $base, $months, $weeks, $dow)
+    protected function resolveAligned(ChronoLocalDate $base, int $months, int $weeks, int $dow)
     {
         $date = $base->plus($months, ChronoUnit::MONTHS())->plus($weeks, ChronoUnit::WEEKS());
         if ($dow > 7) {
@@ -657,7 +657,7 @@ abstract class AbstractChronology implements Chronology
      * @param int $value the value to add, not null
      * @throws DateTimeException
      */
-    protected static function addFieldValue(FieldValues $fieldValues, ChronoField $field, $value)
+    protected static function addFieldValue(FieldValues $fieldValues, ChronoField $field, int $value)
     {
         $old = $fieldValues->put($field, $value);  // check first for better error message
         if ($old !== null && $old !== $value) {
@@ -680,7 +680,7 @@ abstract class AbstractChronology implements Chronology
      * @param Chronology $other the other chronology to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    public function compareTo(Chronology $other)
+    public function compareTo(Chronology $other) : int
     {
         return strcmp($this->getId(), $other->getId());
     }
@@ -697,7 +697,7 @@ abstract class AbstractChronology implements Chronology
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other chronology
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -714,7 +714,7 @@ abstract class AbstractChronology implements Chronology
      *
      * @return string a string representation of this chronology, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->getId();
     }
@@ -722,7 +722,7 @@ abstract class AbstractChronology implements Chronology
     /**
      * @inheritdoc
      */
-    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, int $yearOfEra, int $month, int $dayOfMonth)
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -730,7 +730,7 @@ abstract class AbstractChronology implements Chronology
     /**
      * @inheritdoc
      */
-    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, int $yearOfEra, int $dayOfYear)
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
@@ -804,7 +804,7 @@ abstract class AbstractChronology implements Chronology
     /**
      * @inheritdoc
      */
-    public function getDisplayName(TextStyle $style, Locale $locale)
+    public function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         // TODO implement
         /*   $temporal = new TemporalAccessor()
@@ -835,7 +835,7 @@ abstract class AbstractChronology implements Chronology
     /**
      * @inheritdoc
      */
-    public function period($years, $months, $days)
+    public function period(int $years, int $months, int $days)
     {
         return new ChronoPeriodImpl($this, $years, $months, $days);
     }

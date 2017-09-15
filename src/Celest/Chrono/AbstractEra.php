@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Chrono;
 
@@ -87,7 +87,7 @@ abstract class AbstractEra extends AbstractTemporalAccessor implements Era
     /**
      * @inheritdoc
      */
-    public function getDisplayName(TextStyle $style, Locale $locale)
+    public function getDisplayName(TextStyle $style, Locale $locale) : string
     {
         return (new DateTimeFormatterBuilder())->appendText2(ChronoField::ERA(), $style)->toFormatter2($locale)->format($this);
     }

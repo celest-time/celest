@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -107,7 +107,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      *
      * @return MinguoDate the current date using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : MinguoDate
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -124,7 +124,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      * @param ZoneId $zone the zone ID to use, not null
      * @return MinguoDate the current date using the system clock, not null
      */
-    public static function nowIn(ZoneId $zone)
+    public static function nowIn(ZoneId $zone) : MinguoDate
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -140,7 +140,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      * @return MinguoDate the current date, not null
      * @throws DateTimeException if the current date cannot be obtained
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : MinguoDate
     {
         return new MinguoDate(LocalDate::nowOf($clock));
     }
@@ -159,7 +159,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public static function of($prolepticYear, $month, $dayOfMonth)
+    public static function of(int $prolepticYear, int $month, int $dayOfMonth) : MinguoDate
     {
         return new MinguoDate(LocalDate::of($prolepticYear + MinguoChronology::YEARS_DIFFERENCE, $month, $dayOfMonth));
     }
@@ -167,7 +167,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
     /**
      * @internal
      */
-    public static function ofIsoDate(LocalDate $isoDate)
+    public static function ofIsoDate(LocalDate $isoDate) : MinguoDate
     {
         return new MinguoDate($isoDate);
     }
@@ -189,7 +189,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      * @return MinguoDate the date in Minguo calendar system, not null
      * @throws DateTimeException if unable to convert to a {@code MinguoDate}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : MinguoDate
     {
         return MinguoChronology::INSTANCE()->dateFrom($temporal);
     }
@@ -214,7 +214,7 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
      *
      * @return MinguoChronology the Minguo chronology, not null
      */
-    public function getChronology()
+    public function getChronology() : MinguoChronology
     {
         return MinguoChronology::INSTANCE();
     }
@@ -288,12 +288,12 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
         return $field->getFrom($this);
     }
 
-    private function getProlepticMonth()
+    private function getProlepticMonth() : int
     {
         return $this->getProlepticYear() * 12 + $this->isoDate->getMonthValue() - 1;
     }
 
-    private function getProlepticYear()
+    private function getProlepticYear() : int
     {
         return $this->isoDate->getYear() - MinguoChronology::YEARS_DIFFERENCE;
     }
@@ -330,27 +330,27 @@ final class MinguoDate extends ChronoLocalDateImpl implements ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
-    function plusYears($years)
+    function plusYears(int $years) : MinguoDate
     {
         return $this->withDate($this->isoDate->plusYears($years));
     }
 
-    function plusMonths($months)
+    function plusMonths(int $months) : MinguoDate
     {
         return $this->withDate($this->isoDate->plusMonths($months));
     }
 
-    function plusDays($days)
+    function plusDays(int $days) : MinguoDate
     {
         return $this->withDate($this->isoDate->plusDays($days));
     }
 
-    private function withDate(LocalDate $newDate)
+    private function withDate(LocalDate $newDate) : MinguoDate
     {
         return ($newDate->equals($this->isoDate) ? $this : new MinguoDate($newDate));
     }
 
-    public function untilDate(ChronoLocalDate $endDate)
+    public function untilDate(ChronoLocalDate $endDate) : ChronoPeriod
     {
         $period = $this->isoDate->untilDate($endDate);
         return $this->getChronology()->period($period->getYears(), $period->getMonths(), $period->getDays());

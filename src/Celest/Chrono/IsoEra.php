@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -104,9 +104,9 @@ use Celest\Temporal\TemporalQuery;
  *
  * @since 1.8
  */
-class IsoEra extends AbstractEra implements Era
+final class IsoEra extends AbstractEra implements Era
 {
-    public static function init()
+    public static function init() : void
     {
         self::$BCE = new IsoEra(0);
         self::$CE = new IsoEra(1);
@@ -117,7 +117,7 @@ class IsoEra extends AbstractEra implements Era
      * which has the numeric value 0.
      * @return IsoEra
      */
-    public static function BCE()
+    public static function BCE() : IsoEra
     {
         return self::$BCE;
     }
@@ -129,7 +129,7 @@ class IsoEra extends AbstractEra implements Era
      * The singleton instance for the current era, 'Current Era',
      * which has the numeric value 1.
      */
-    public static function CE()
+    public static function CE() : IsoEra
     {
         return self::$CE;
     }
@@ -159,7 +159,7 @@ class IsoEra extends AbstractEra implements Era
      * @return IsoEra the era singleton, not null
      * @throws DateTimeException if the value is invalid
      */
-    public static function of($isoEra)
+    public static function of(int $isoEra) : IsoEra
     {
         switch ($isoEra) {
             case 0:
@@ -179,7 +179,7 @@ class IsoEra extends AbstractEra implements Era
      *
      * @return int the era value, from 0 (BCE) to 1 (CE)
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->val;
     }

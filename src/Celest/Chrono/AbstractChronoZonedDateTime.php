@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Chrono;
 
@@ -181,7 +181,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -189,7 +189,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function toInstant()
+    public function toInstant() : Instant
     {
         return Instant::ofEpochSecond($this->toEpochSecond(), $this->toLocalTime()->getNano());
     }
@@ -197,7 +197,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function toEpochSecond()
+    public function toEpochSecond() : int
     {
         $epochDay = $this->toLocalDate()->toEpochDay();
         $secs = $epochDay * 86400 + $this->toLocalTime()->toSecondOfDay();
@@ -208,7 +208,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function compareTo(ChronoZonedDateTime $other)
+    public function compareTo(ChronoZonedDateTime $other) : int
     {
         $cmp = Long::compare($this->toEpochSecond(), $other->toEpochSecond());
         if ($cmp === 0) {
@@ -229,7 +229,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isBefore(ChronoZonedDateTime $other)
+    public function isBefore(ChronoZonedDateTime $other) : bool
     {
         $thisEpochSec = $this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
@@ -240,7 +240,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isAfter(ChronoZonedDateTime $other)
+    public function isAfter(ChronoZonedDateTime $other) : bool
     {
         $thisEpochSec = $this->toEpochSecond();
         $otherEpochSec = $other->toEpochSecond();
@@ -251,7 +251,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isEqual(ChronoZonedDateTime $other)
+    public function isEqual(ChronoZonedDateTime $other) : bool
     {
         return $this->toEpochSecond() === $other->toEpochSecond() &&
         $this->toLocalTime()->getNano() === $other->toLocalTime()->getNano();

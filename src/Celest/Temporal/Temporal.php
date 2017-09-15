@@ -440,6 +440,6 @@ interface Temporal extends TemporalAccessor
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function until(Temporal $endExclusive, TemporalUnit $unit);
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int;
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -472,7 +472,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws DateTimeException if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal);
+    public function adjustInto(Temporal $temporal) : Temporal;
 
     /**
      * Calculates the amount of time until another date in terms of the specified unit.
@@ -520,7 +520,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function until(Temporal $endExclusive, TemporalUnit $unit);
+    function until(Temporal $endExclusive, TemporalUnit $unit) : int;
 
     /**
      * Calculates the period between this date and another date as a {@code ChronoPeriod}.
@@ -559,7 +559,7 @@ interface ChronoLocalDate extends Temporal, TemporalAdjuster
      * @return string the formatted date string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    function format(DateTimeFormatter $formatter);
+    function format(DateTimeFormatter $formatter) : string;
 
 //-----------------------------------------------------------------------
     /**

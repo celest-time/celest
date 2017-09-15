@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -92,7 +92,7 @@ use Celest\ZoneId;
  * @param <D> the concrete type for the date of this date-time
  * @since 1.8
  */
-final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implements ChronoLocalDateTime, Temporal, TemporalAdjuster
+final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implements ChronoLocalDateTime
 {
     /**
      * Hours per day.
@@ -318,33 +318,39 @@ final class ChronoLocalDateTimeImpl extends AbstractChronoLocalDateTime implemen
         return ChronoLocalDateTimeImpl::ensureValid($this->date->getChronology(), $unit->addTo($this, $amountToAdd));
     }
 
-    private function plusDays($days)
+    private function plusDays(int $days)
     {
         return $this->_with($this->date->plus($days, ChronoUnit::DAYS()), $this->time);
     }
 
-    private function plusHours($hours)
+    private function plusHours(int $hours)
     {
         return $this->plusWithOverflow($this->date, $hours, 0, 0, 0);
     }
 
-    private function plusMinutes($minutes)
+    private function plusMinutes(int $minutes)
     {
         return $this->plusWithOverflow($this->date, 0, $minutes, 0, 0);
     }
 
-    function plusSeconds($seconds)
+    // TODO package wide access
+    /**
+     * @internal
+     * @param int $seconds
+     * @return ChronoLocalDateTimeImpl
+     */
+    function plusSeconds(int $seconds)
     {
         return $this->plusWithOverflow($this->date, 0, 0, $seconds, 0);
     }
 
-    private function plusNanos($nanos)
+    private function plusNanos(int $nanos)
     {
         return $this->plusWithOverflow($this->date, 0, 0, 0, $nanos);
     }
 
     //-----------------------------------------------------------------------
-    private function plusWithOverflow(ChronoLocalDate $newDate, $hours, $minutes, $seconds, $nanos)
+    private function plusWithOverflow(ChronoLocalDate $newDate, int $hours, int $minutes, int $seconds, int $nanos)
     {
         // 9223372036854775808 long, 2147483648 int
         if (($hours | $minutes | $seconds | $nanos) === 0) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -99,7 +99,7 @@ final class MinguoChronology extends AbstractChronology
     /**
      * Singleton instance for the Minguo chronology.
      */
-    public static function INSTANCE()
+    public static function INSTANCE() : MinguoChronology
     {
         return new MinguoChronology();
     }
@@ -126,7 +126,7 @@ final class MinguoChronology extends AbstractChronology
      * @return string the chronology ID - 'Minguo'
      * @see #getCalendarType()
      */
-    public function getId()
+    public function getId() : string
     {
         return "Minguo";
     }
@@ -143,7 +143,7 @@ final class MinguoChronology extends AbstractChronology
      * @return string the calendar system type - 'roc'
      * @see #getId()
      */
-    public function getCalendarType()
+    public function getCalendarType() : string
     {
         return "roc";
     }
@@ -161,7 +161,7 @@ final class MinguoChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
-    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, int $yearOfEra, int $month, int $dayOfMonth) : MinguoDate
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -176,7 +176,7 @@ final class MinguoChronology extends AbstractChronology
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function date($prolepticYear, $month, $dayOfMonth)
+    public function date(int $prolepticYear, int $month, int $dayOfMonth) : MinguoDate
     {
         return MinguoDate::ofIsoDate(LocalDate::of($prolepticYear + self::YEARS_DIFFERENCE, $month, $dayOfMonth));
     }
@@ -192,7 +192,7 @@ final class MinguoChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
-    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, int $yearOfEra, int $dayOfYear) : MinguoDate
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
@@ -206,7 +206,7 @@ final class MinguoChronology extends AbstractChronology
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateYearDay($prolepticYear, $dayOfYear)
+    public function dateYearDay(int $prolepticYear, int $dayOfYear) : MinguoDate
     {
         return MinguoDate::ofIsoDate(LocalDate::ofYearDay($prolepticYear + self::YEARS_DIFFERENCE, $dayOfYear));
     }
@@ -218,27 +218,27 @@ final class MinguoChronology extends AbstractChronology
      * @return MinguoDate the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateEpochDay($epochDay)
+    public function dateEpochDay(int $epochDay) : MinguoDate
     {
         return MinguoDate::ofIsoDate(LocalDate::ofEpochDay($epochDay));
     }
 
-    public function dateNow()
+    public function dateNow() : MinguoDate
     {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
-    public function dateNowIn(ZoneId $zone)
+    public function dateNowIn(ZoneId $zone) : MinguoDate
     {
         return $this->dateNowOf(Clock::system($zone));
     }
 
-    public function dateNowOf(Clock $clock)
+    public function dateNowOf(Clock $clock) : MinguoDate
     {
         return $this->dateFrom(LocalDate::nowof($clock));
     }
 
-    public function dateFrom(TemporalAccessor $temporal)
+    public function dateFrom(TemporalAccessor $temporal) : MinguoDate
     {
         if ($temporal instanceof MinguoDate) {
             return $temporal;
@@ -257,12 +257,12 @@ final class MinguoChronology extends AbstractChronology
      * @param int $prolepticYear the proleptic-year to check, not validated for range
      * @return bool trueif the year is a leap year
      */
-    public function isLeapYear($prolepticYear)
+    public function isLeapYear(int $prolepticYear) : bool
     {
         return IsoChronology::INSTANCE()->isLeapYear($prolepticYear + self::YEARS_DIFFERENCE);
     }
 
-    public function prolepticYear(Era $era, $yearOfEra)
+    public function prolepticYear(Era $era, int $yearOfEra) : int
     {
         if ($era instanceof MinguoEra === false) {
             throw new ClassCastException("Era must be MinguoEra");
@@ -270,18 +270,18 @@ final class MinguoChronology extends AbstractChronology
         return ($era == MinguoEra::ROC() ? $yearOfEra : 1 - $yearOfEra);
     }
 
-    public function eraOf($eraValue)
+    public function eraOf(int $eraValue) : MinguoEra
     {
         return MinguoEra::of($eraValue);
     }
 
-    public function eras()
+    public function eras() : array
     {
         return MinguoEra::values();
     }
 
     //-----------------------------------------------------------------------
-    public function range(ChronoField $field)
+    public function range(ChronoField $field) : ValueRange
     {
         switch ($field) {
             case ChronoField::PROLEPTIC_MONTH(): {

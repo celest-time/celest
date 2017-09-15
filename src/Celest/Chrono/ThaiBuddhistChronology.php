@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -104,7 +104,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * Singleton instance of the Buddhist chronology.
      * @return ThaiBuddhistChronology
      */
-    public static function INSTANCE()
+    public static function INSTANCE() : ThaiBuddhistChronology
     {
         if (self::$INSTANCE === null) {
             self::$INSTANCE = new ThaiBuddhistChronology();
@@ -172,7 +172,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return string the chronology ID - 'ThaiBuddhist'
      * @see #getCalendarType()
      */
-    public function getId()
+    public function getId() : string
     {
         return "ThaiBuddhist";
     }
@@ -189,7 +189,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return string the calendar system type - 'buddhist'
      * @see #getId()
      */
-    public function getCalendarType()
+    public function getCalendarType() : string
     {
         return "buddhist";
     }
@@ -207,7 +207,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code ThaiBuddhistEra}
      */
-    public function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth)
+    public function dateEra(Era $era, int $yearOfEra, int $month, int $dayOfMonth) : ThaiBuddhistDate
     {
         return $this->date($this->prolepticYear($era, $yearOfEra), $month, $dayOfMonth);
     }
@@ -222,7 +222,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return ThaiBuddhistDate the Thai Buddhist local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function date($prolepticYear, $month, $dayOfMonth)
+    public function date(int $prolepticYear, int $month, int $dayOfMonth) : ThaiBuddhistDate
     {
         return ThaiBuddhistDate::ofIsoDate(LocalDate::of($prolepticYear - self::YEARS_DIFFERENCE, $month, $dayOfMonth));
     }
@@ -238,7 +238,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code ThaiBuddhistEra}
      */
-    public function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear)
+    public function dateEraYearDay(Era $era, int $yearOfEra, int $dayOfYear) : ThaiBuddhistDate
     {
         return $this->dateYearDay($this->prolepticYear($era, $yearOfEra), $dayOfYear);
     }
@@ -252,7 +252,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return ThaiBuddhistDate the Thai Buddhist local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateYearDay($prolepticYear, $dayOfYear)
+    public function dateYearDay(int $prolepticYear, int $dayOfYear) : ThaiBuddhistDate
     {
         return ThaiBuddhistDate::ofIsoDate(LocalDate::ofYearDay($prolepticYear - self::YEARS_DIFFERENCE, $dayOfYear));
     }
@@ -264,27 +264,27 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @return ThaiBuddhistDate the Thai Buddhist local date, not null
      * @throws DateTimeException if unable to create the date
      */
-    public function dateEpochDay($epochDay)
+    public function dateEpochDay(int $epochDay) : ThaiBuddhistDate
     {
         return ThaiBuddhistDate::ofIsoDate(LocalDate::ofEpochDay($epochDay));
     }
 
-    public function dateNow()
+    public function dateNow() : ThaiBuddhistDate
     {
         return $this->dateNowOf(Clock::systemDefaultZone());
     }
 
-    public function dateNowIn(ZoneId $zone)
+    public function dateNowIn(ZoneId $zone) : ThaiBuddhistDate
     {
         return $this->dateNowOf(Clock::system($zone));
     }
 
-    public function dateNowOf(Clock $clock)
+    public function dateNowOf(Clock $clock) : ThaiBuddhistDate
     {
         return $this->dateFrom(LocalDate::nowOf($clock));
     }
 
-    public function dateFrom(TemporalAccessor $temporal)
+    public function dateFrom(TemporalAccessor $temporal) : ThaiBuddhistDate
     {
         if ($temporal instanceof ThaiBuddhistDate) {
             return $temporal;
@@ -303,12 +303,12 @@ final class ThaiBuddhistChronology extends AbstractChronology
      * @param int $prolepticYear the proleptic-year to check, not validated for range
      * @return bool true if the year is a leap year
      */
-    public function isLeapYear($prolepticYear)
+    public function isLeapYear(int $prolepticYear) : bool
     {
         return IsoChronology::INSTANCE()->isLeapYear($prolepticYear - self::YEARS_DIFFERENCE);
     }
 
-    public function prolepticYear(Era $era, $yearOfEra)
+    public function prolepticYear(Era $era, int $yearOfEra) : int
     {
         if ($era instanceof ThaiBuddhistEra === false) {
             throw new ClassCastException("Era must be BuddhistEra");
@@ -316,18 +316,18 @@ final class ThaiBuddhistChronology extends AbstractChronology
         return ($era == ThaiBuddhistEra::BE() ? $yearOfEra : 1 - $yearOfEra);
     }
 
-    public function eraOf($eraValue)
+    public function eraOf(int $eraValue) : ThaiBuddhistEra
     {
         return ThaiBuddhistEra::of($eraValue);
     }
 
-    public function eras()
+    public function eras() : array
     {
         return ThaiBuddhistEra::values();
     }
 
     //-----------------------------------------------------------------------
-    public function range(ChronoField $field)
+    public function range(ChronoField $field) : ValueRange
     {
         switch ($field) {
             case CF::PROLEPTIC_MONTH(): {
@@ -350,7 +350,7 @@ final class ThaiBuddhistChronology extends AbstractChronology
     /**
      * @return ThaiBuddhistDate
      */
-    public function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle)
+    public function resolveDate(FieldValues $fieldValues, ResolverStyle $resolverStyle) : ThaiBuddhistDate
     {
         return parent::resolveDate($fieldValues, $resolverStyle);
     }

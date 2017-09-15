@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
@@ -91,8 +91,7 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  *
  * @since 1.8
  */
-interface ChronoPeriod
-    extends TemporalAmount
+interface ChronoPeriod extends TemporalAmount
 {
 
     /**
@@ -164,14 +163,14 @@ interface ChronoPeriod
      *
      * @return bool true if this period is zero-length
      */
-    function isZero();
+    function isZero() : bool;
 
     /**
      * Checks if any of the supported units of this period are negative.
      *
      * @return bool true if any unit of this period is negative
      */
-    function isNegative();
+    function isNegative() : bool;
 //-----------------------------------------------------------------------
     /**
      * Returns a copy of this period with the specified period added.
@@ -276,7 +275,7 @@ interface ChronoPeriod
      * @throws DateTimeException if unable to add
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function addTo(Temporal $temporal);
+    function addTo(Temporal $temporal) : Temporal;
 
     /**
      * Subtracts this period from the specified temporal object.
@@ -302,7 +301,7 @@ interface ChronoPeriod
      * @throws DateTimeException if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
-    function subtractFrom(Temporal $temporal);
+    function subtractFrom(Temporal $temporal) : Temporal;
 
     //-----------------------------------------------------------------------
     /**
@@ -316,7 +315,7 @@ interface ChronoPeriod
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other period
      */
-    function equals($obj);
+    function equals($obj) : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -326,6 +325,6 @@ interface ChronoPeriod
      *
      * @return string a string representation of this period, not null
      */
-    function __toString();
+    function __toString() : string;
 
 }

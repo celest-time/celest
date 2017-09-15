@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -118,7 +118,7 @@ class ThaiBuddhistEra extends AbstractEra implements Era
      * which has the numeric value 0.
      * @return ThaiBuddhistEra
      */
-    public static function BEFORE_BE()
+    public static function BEFORE_BE() : ThaiBuddhistEra
     {
         if (self::$BEFORE_BE === null) {
             self::$BEFORE_BE = new ThaiBuddhistEra(0);
@@ -134,7 +134,7 @@ class ThaiBuddhistEra extends AbstractEra implements Era
      * which has the numeric value 1.
      * @return ThaiBuddhistEra
      */
-    public static function BE()
+    public static function BE() : ThaiBuddhistEra
     {
         if (self::$BE === null) {
             self::$BE = new ThaiBuddhistEra(1);
@@ -149,7 +149,7 @@ class ThaiBuddhistEra extends AbstractEra implements Era
     /** @var int */
     private $ordinal;
 
-    private function __construct($ordinal)
+    private function __construct(int $ordinal)
     {
         $this->ordinal = $ordinal;
     }
@@ -166,7 +166,7 @@ class ThaiBuddhistEra extends AbstractEra implements Era
      * @return ThaiBuddhistEra the BuddhistEra singleton, never null
      * @throws DateTimeException if the era is invalid
      */
-    public static function of($thaiBuddhistEra)
+    public static function of(int $thaiBuddhistEra) : ThaiBuddhistEra
     {
         switch ($thaiBuddhistEra) {
             case 0:
@@ -186,12 +186,12 @@ class ThaiBuddhistEra extends AbstractEra implements Era
      *
      * @return int the era value, from 0 (BEFORE_BE) to 1 (BE)
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->ordinal;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->ordinal === 0 ? 'BCE' : 'CE';
     }

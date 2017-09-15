@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -118,7 +118,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
      * @param ZoneOffset $preferredOffset the zone offset, null if no preference
      * @return ChronoZonedDateTimeImpl the zoned date-time, not null
      */
-    static function ofBest(ChronoLocalDateTimeImpl $localDateTime, ZoneId $zone, $preferredOffset)
+    static function ofBest(ChronoLocalDateTimeImpl $localDateTime, ZoneId $zone, ?ZoneOffset $preferredOffset) : ChronoZonedDateTimeImpl
     {
         if ($zone instanceof ZoneOffset) {
             return new ChronoZonedDateTimeImpl($localDateTime, $zone, $zone);
@@ -152,7 +152,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
      * @param ZoneId $zone the zone identifier, not null
      * @return ChronoZonedDateTimeImpl the zoned date-time, not null
      */
-    static function ofInstant(Chronology $chrono, Instant $instant, ZoneId $zone)
+    static function ofInstant(Chronology $chrono, Instant $instant, ZoneId $zone) : ChronoZonedDateTimeImpl
     {
         $rules = $zone->getRules();
         $offset = $rules->getOffset($instant);
@@ -169,7 +169,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
      * @param ZoneId $zone the time-zone to use, validated not null
      * @return ChronoZonedDateTimeImpl the zoned date-time, validated not null
      */
-    private function create(Instant $instant, ZoneId $zone)
+    private function create(Instant $instant, ZoneId $zone) : ChronoZonedDateTimeImpl
     {
         return $this->ofInstant($this->getChronology(), $instant, $zone);
     }
@@ -183,7 +183,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
      * @throws ClassCastException if the date-time cannot be cast to ChronoZonedDateTimeImpl
      *  or the chronology is not equal this Chronology
      */
-    static function ensureValid(Chronology $chrono, Temporal $temporal)
+    static function ensureValid(Chronology $chrono, Temporal $temporal) : ChronoZonedDateTimeImpl
     {
         $other = $temporal; // TODO cast
         if ($chrono->equals($other->getChronology()) === false) {
@@ -198,11 +198,11 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
     /**
      * Constructor.
      *
-     * @param ChronoLocalDateTimeImpl $dateTime the date-time, not null
+     * @param ChronoLocalDateTime $dateTime the date-time, not null
      * @param ZoneOffset $offset the zone offset, not null
      * @param ZoneId $zone the zone ID, not null
      */
-    private function __construct(ChronoLocalDateTimeImpl $dateTime, ZoneOffset $offset, ZoneId $zone)
+    private function __construct(ChronoLocalDateTime $dateTime, ZoneOffset $offset, ZoneId $zone)
     {
         $this->dateTime = $dateTime;
         $this->offset = $offset;
@@ -210,7 +210,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
     }
 
 //-----------------------------------------------------------------------
-    public function getOffset()
+    public function getOffset() : ZoneOffset
     {
         return $this->offset;
     }
@@ -248,7 +248,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
     }
 
 
-    public function getZone()
+    public function getZone() : ZoneId
     {
         return $this->zone;
     }
@@ -303,7 +303,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
 
     //-----------------------------------------------------------------------
 
-    public function until(Temporal $endExclusive, TemporalUnit $unit)
+    public function until(Temporal $endExclusive, TemporalUnit $unit) : int
     {
         $end = $this->getChronology()->zonedDateTimeFrom($endExclusive);
         if ($unit instanceof ChronoUnit) {
@@ -315,7 +315,7 @@ final class ChronoZonedDateTimeImpl extends AbstractChronoZonedDateTime
 
     //-------------------------------------------------------------------------
 
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Chrono;
 
@@ -15,7 +15,7 @@ abstract class AbstractChronoPeriod implements ChronoPeriod
     /**
      * @inheritdoc
      */
-    public function isZero()
+    public function isZero() : bool
     {
         foreach ($this->getUnits() as $unit) {
             if ($this->get($unit) !== 0) {
@@ -28,7 +28,7 @@ abstract class AbstractChronoPeriod implements ChronoPeriod
     /**
      * @inheritdoc
      */
-    public function isNegative()
+    public function isNegative() : bool
     {
         foreach ($this->getUnits() as $unit) {
             if ($this->get($unit) < 0) {

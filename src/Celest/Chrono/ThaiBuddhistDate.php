@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -108,7 +108,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      *
      * @return ThaiBuddhistDate the current date using the system clock and default time-zone, not null
      */
-    public static function now()
+    public static function now() : ThaiBuddhistDate
     {
         return self::nowOf(Clock::systemDefaultZone());
     }
@@ -125,7 +125,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * @param ZoneId $zone the zone ID to use, not null
      * @return ThaiBuddhistDate the current date using the system clock, not null
      */
-    public static function nowFrom(ZoneId $zone)
+    public static function nowFrom(ZoneId $zone) : ThaiBuddhistDate
     {
         return self::nowOf(Clock::system($zone));
     }
@@ -141,7 +141,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * @return ThaiBuddhistDate the current date, not null
      * @throws DateTimeException if the current date cannot be obtained
      */
-    public static function nowOf(Clock $clock)
+    public static function nowOf(Clock $clock) : ThaiBuddhistDate
     {
         return new ThaiBuddhistDate(LocalDate::nowOf($clock));
     }
@@ -160,7 +160,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * @throws DateTimeException if the value of any field is out of range,
      *  or if the day-of-month is invalid for the month-year
      */
-    public static function of($prolepticYear, $month, $dayOfMonth)
+    public static function of(int $prolepticYear, int $month, int $dayOfMonth) : ThaiBuddhistDate
     {
         return new ThaiBuddhistDate(LocalDate::of($prolepticYear - ThaiBuddhistChronology::YEARS_DIFFERENCE, $month, $dayOfMonth));
     }
@@ -182,7 +182,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      * @return ThaiBuddhistDate the date in Thai Buddhist calendar system, not null
      * @throws DateTimeException if unable to convert to a {@code ThaiBuddhistDate}
      */
-    public static function from(TemporalAccessor $temporal)
+    public static function from(TemporalAccessor $temporal) : ThaiBuddhistDate
     {
         return ThaiBuddhistChronology::INSTANCE()->dateFrom($temporal);
     }
@@ -190,7 +190,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
     /**
      * @internal
      */
-    public static function ofIsoDate(LocalDate $isoDate)
+    public static function ofIsoDate(LocalDate $isoDate) : ThaiBuddhistDate
     {
         return new ThaiBuddhistDate($isoDate);
     }
@@ -215,7 +215,7 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
      *
      * @return ThaiBuddhistChronology the Thai Buddhist chronology, not null
      */
-    public function getChronology()
+    public function getChronology() : ThaiBuddhistChronology
     {
         return ThaiBuddhistChronology::INSTANCE();
     }
@@ -292,12 +292,12 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
         return $field->getFrom($this);
     }
 
-    private function getProlepticMonth()
+    private function getProlepticMonth() : int
     {
         return $this->getProlepticYear() * 12 + $this->isoDate->getMonthValue() - 1;
     }
 
-    private function getProlepticYear()
+    private function getProlepticYear() : int
     {
         return $this->isoDate->getYear() + ThaiBuddhistChronology::YEARS_DIFFERENCE;
     }
@@ -335,35 +335,35 @@ final class ThaiBuddhistDate extends ChronoLocalDateImpl implements ChronoLocalD
         return parent::with($field, $newValue);
     }
 
-    function plusYears($years)
+    function plusYears(int $years) : ThaiBuddhistDate
     {
         return $this->withDate($this->isoDate->plusYears($years));
     }
 
-    function plusMonths($months)
+    function plusMonths(int $months) : ThaiBuddhistDate
     {
         return $this->withDate($this->isoDate->plusMonths($months));
     }
 
 
-    function plusDays($days)
+    function plusDays(int $days) : ThaiBuddhistDate
     {
         return $this->withDate($this->isoDate->plusDays($days));
     }
 
-    private function withDate(LocalDate $newDate)
+    private function withDate(LocalDate $newDate) : ThaiBuddhistDate
     {
         return ($newDate->equals($this->isoDate) ? $this : new ThaiBuddhistDate($newDate));
     }
 
     // for javadoc and covariant return type
-    public final function atTime(LocalTime $localTime)
+    public final function atTime(LocalTime $localTime) : ChronoLocalDateTime
     {
         return parent::atTime($localTime);
     }
 
 
-    public function untilDate(ChronoLocalDate $endDate)
+    public function untilDate(ChronoLocalDate $endDate) : ChronoPeriod
     {
         $period = $this->isoDate->untilDate($endDate);
         return $this->getChronology()->period($period->getYears(), $period->getMonths(), $period->getDays());

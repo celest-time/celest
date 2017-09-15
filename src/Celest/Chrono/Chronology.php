@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -232,7 +232,7 @@ interface Chronology
      * @return Chronology the chronology with the identifier requested, not null
      * @throws DateTimeException if the chronology cannot be found
      */
-    static function of($id);
+    static function of(string $id);
 
     /**
      * Returns the available chronologies.
@@ -244,7 +244,7 @@ interface Chronology
      *
      * @return Chronology[] the independent, modifiable set of the available chronology IDs, not null
      */
-    static function getAvailableChronologies();
+    static function getAvailableChronologies() : array;
 
 //-----------------------------------------------------------------------
     /**
@@ -256,7 +256,7 @@ interface Chronology
      * @return string the chronology ID, not null
      * @see #getCalendarType()
      */
-    function getId();
+    function getId() : string;
 
     /**
      * Gets the calendar type of the calendar system.
@@ -271,7 +271,7 @@ interface Chronology
      * @return string the calendar system type, null if the calendar is not defined by CLDR/LDML
      * @see #getId()
      */
-    function getCalendarType();
+    function getCalendarType() : string;
 
     //-----------------------------------------------------------------------
     /**
@@ -290,7 +290,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
      */
-    function dateEra(Era $era, $yearOfEra, $month, $dayOfMonth);
+    function dateEra(Era $era, int $yearOfEra, int $month, int $dayOfMonth);
 
     /**
      * Obtains a local date in this chronology from the proleptic-year,
@@ -302,7 +302,7 @@ interface Chronology
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
-    function date($prolepticYear, $month, $dayOfMonth);
+    function date(int $prolepticYear, int $month, int $dayOfMonth);
 
     /**
      * Obtains a local date in this chronology from the era, year-of-era and
@@ -319,7 +319,7 @@ interface Chronology
      * @throws DateTimeException if unable to create the date
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
      */
-    function dateEraYearDay(Era $era, $yearOfEra, $dayOfYear);
+    function dateEraYearDay(Era $era, int $yearOfEra, int $dayOfYear);
 
     /**
      * Obtains a local date in this chronology from the proleptic-year and
@@ -330,7 +330,7 @@ interface Chronology
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
-    function dateYearDay($prolepticYear, $dayOfYear);
+    function dateYearDay(int $prolepticYear, int $dayOfYear);
 
     /**
      * Obtains a local date in this chronology from the epoch-day.
@@ -342,7 +342,7 @@ interface Chronology
      * @return ChronoLocalDate the local date in this chronology, not null
      * @throws DateTimeException if unable to create the date
      */
-    function dateEpochDay($epochDay);
+    function dateEpochDay(int $epochDay);
 
     //-----------------------------------------------------------------------
     /**
@@ -492,7 +492,7 @@ interface Chronology
      * @param int $prolepticYear the proleptic-year to check, not validated for range
      * @return bool true if the year is a leap year
      */
-    function isLeapYear($prolepticYear);
+    function isLeapYear(int $prolepticYear);
 
     /**
      * Calculates the proleptic-year given the era and year-of-era.
@@ -510,7 +510,7 @@ interface Chronology
      *  such as if the year is invalid for the era
      * @throws ClassCastException if the {@code era} is not of the correct type for the chronology
      */
-    function prolepticYear(Era $era, $yearOfEra);
+    function prolepticYear(Era $era, int $yearOfEra);
 
     /**
      * Creates the chronology era object from the numeric value.
@@ -531,7 +531,7 @@ interface Chronology
      * @return Era the calendar system era, not null
      * @throws DateTimeException if unable to create the era
      */
-    function eraOf($eraValue);
+    function eraOf(int $eraValue);
 
     /**
      * Gets the list of eras for the chronology.
@@ -542,7 +542,7 @@ interface Chronology
      *
      * @return Era[] the list of eras for the chronology, may be immutable, not null
      */
-    function eras();
+    function eras() : array;
 
     //-----------------------------------------------------------------------
     /**
@@ -630,7 +630,7 @@ interface Chronology
      * @param int $days the number of years, may be negative
      * @return ChronoPeriod the period in terms of this chronology, not null
      */
-    function period($years, $months, $days);
+    function period(int $years, int $months, int $days);
 
 //-----------------------------------------------------------------------
     /**
@@ -643,7 +643,7 @@ interface Chronology
      * @param Chronology $other the other chronology to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    function compareTo(Chronology $other);
+    function compareTo(Chronology $other) : int;
 
     /**
      * Checks if this chronology is equal to another chronology.
@@ -653,7 +653,7 @@ interface Chronology
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other chronology
      */
-    function equals($obj);
+    function equals($obj) : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -663,6 +663,6 @@ interface Chronology
      *
      * @return string a string representation of this chronology, not null
      */
-    function __toString();
+    function __toString() : string;
 
 }

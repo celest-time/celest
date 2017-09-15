@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -212,7 +212,7 @@ interface ChronoZonedDateTime extends Temporal
      *
      * @return ZoneOffset the zone offset, not null
      */
-    function getOffset();
+    function getOffset() : ZoneOffset;
 
     /**
      * Gets the zone ID, such as 'Europe/Paris'.
@@ -221,7 +221,7 @@ interface ChronoZonedDateTime extends Temporal
      *
      * @return ZoneId the zone ID, not null
      */
-    function getZone();
+    function getZone() : ZoneId;
 
     //-----------------------------------------------------------------------
     /**
@@ -439,7 +439,7 @@ interface ChronoZonedDateTime extends Temporal
      *
      * @return Instant an {@code Instant} representing the same instant, not null
      */
-    function toInstant();
+    function toInstant() : Instant;
 
     /**
      * Converts this date-time to the number of seconds from the epoch
@@ -452,7 +452,7 @@ interface ChronoZonedDateTime extends Temporal
      *
      * @return int the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
-    function toEpochSecond();
+    function toEpochSecond() : int;
     //-----------------------------------------------------------------------
     /**
      * Compares this date-time to another date-time, including the chronology.
@@ -469,7 +469,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    function compareTo(ChronoZonedDateTime $other);
+    function compareTo(ChronoZonedDateTime $other) : int;
 
     /**
      * Checks if the instant of this date-time is before that of the specified date-time.
@@ -484,7 +484,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return bool true if this point is before the specified date-time
      */
-    function isBefore(ChronoZonedDateTime $other);
+    function isBefore(ChronoZonedDateTime $other) : bool;
 
     /**
      * Checks if the instant of this date-time is after that of the specified date-time.
@@ -499,7 +499,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return bool true if this is after the specified date-time
      */
-    function isAfter(ChronoZonedDateTime $other);
+    function isAfter(ChronoZonedDateTime $other) : bool;
 
     /**
      * Checks if the instant of this date-time is equal to that of the specified date-time.
@@ -514,7 +514,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param ChronoZonedDateTime $other the other date-time to compare to, not null
      * @return bool true if the instant equals the instant of the specified date-time
      */
-    function isEqual(ChronoZonedDateTime $other);
+    function isEqual(ChronoZonedDateTime $other) : bool;
     //-----------------------------------------------------------------------
     /**
      * Checks if this date-time is equal to another date-time.
@@ -526,7 +526,7 @@ interface ChronoZonedDateTime extends Temporal
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date-time
      */
-    function equals($obj);
+    function equals($obj) : bool;
 
     //-----------------------------------------------------------------------
     /**

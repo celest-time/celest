@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -140,12 +140,12 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-----------------------------------------------------------------------
-    public function isZero()
+    public function isZero() : bool
     {
         return $this->years === 0 && $this->months === 0 && $this->days === 0;
     }
 
-    public function isNegative()
+    public function isNegative() : bool
     {
         return $this->years < 0 || $this->months < 0 || $this->days < 0;
     }
@@ -236,7 +236,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-------------------------------------------------------------------------
-    public function addTo(Temporal $temporal)
+    public function addTo(Temporal $temporal) : Temporal
     {
         $this->validateChrono($temporal);
         if ($this->months === 0) {
@@ -261,7 +261,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
 
-    public function subtractFrom(Temporal $temporal)
+    public function subtractFrom(Temporal $temporal) : Temporal
     {
         $this->validateChrono($temporal);
         if ($this->months === 0) {
@@ -288,7 +288,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     /**
      * Validates that the temporal has the correct chronology.
      */
-    private function validateChrono(TemporalAccessor $temporal)
+    private function validateChrono(TemporalAccessor $temporal) : void
     {
         $temporalChrono = $temporal->query(TemporalQueries::chronology());
         if ($temporalChrono !== null && $this->chrono->equals($temporalChrono) === false) {
@@ -297,7 +297,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-----------------------------------------------------------------------
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -310,7 +310,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-----------------------------------------------------------------------
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->isZero()) {
             return $this->getChronology()->__toString() . " P0D";
