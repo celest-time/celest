@@ -65,7 +65,6 @@ namespace Celest\Temporal;
 
 use Celest\DayOfWeek;
 use Celest\LocalDate;
-use Celest\Temporal\TemporalQuery\FuncTemporalAdjuster;
 
 /**
  * Common and useful TemporalAdjusters.
@@ -118,9 +117,21 @@ final class TemporalAdjusters
      * @param callable $func
      * @return TemporalAdjuster
      */
-    public static function fromCallable($func)
+    public static function fromCallable(callable $func) : TemporalAdjuster
     {
-        return new FuncTemporalAdjuster($func);
+        return new class($func) implements TemporalAdjuster {
+            private $func;
+
+            public function __construct($func)
+            {
+                $this->func = $func;
+            }
+
+            public function adjustInto(Temporal $temporal)
+            {
+                return call_user_func($this->func, $temporal);
+            }
+        };
     }
 
 //-----------------------------------------------------------------------
@@ -265,9 +276,12 @@ final class TemporalAdjusters
      */
     public static function lastDayOfYear()
     {
-        return self::fromCallable(function (Temporal $temporal) {
-            return $temporal->with(ChronoField::DAY_OF_YEAR(), $temporal->range(ChronoField::DAY_OF_YEAR())->getMaximum());
-        });
+        return new class() implements TemporalAdjuster {
+            public function adjustInto(Temporal $temporal)
+            {
+                return $temporal->with(ChronoField::DAY_OF_YEAR(), $temporal->range(ChronoField::DAY_OF_YEAR())->getMaximum());
+            }
+        };
     }
 
     /**
@@ -367,7 +381,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the day-of-week in month adjuster, not null
      */
-    public static function dayOfWeekInMonth($ordinal, DayOfWeek $dayOfWeek)
+    public static function dayOfWeekInMonth(int $ordinal, DayOfWeek $dayOfWeek)
     {
         $dowValue = $dayOfWeek->getValue();
         if ($ordinal >= 0) {

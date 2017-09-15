@@ -67,7 +67,6 @@ use Celest\Chrono\Chronology;
 use Celest\DateTimeException;
 use Celest\LocalDate;
 use Celest\LocalTime;
-use Celest\Temporal\TemporalQuery\FuncTemporalQuery;
 use Celest\ZoneId;
 use Celest\ZoneOffset;
 
@@ -135,7 +134,19 @@ final class TemporalQueries
      */
     public static function fromCallable($func)
     {
-        return new FuncTemporalQuery($func);
+        return new class($func) implements TemporalQuery {
+            private $func;
+
+            public function __construct(callable $func)
+            {
+                $this->func = $func;
+            }
+
+            function queryFrom(TemporalAccessor $temporal)
+            {
+                return \call_user_func($this->func, $temporal);
+            }
+        };
     }
 
     /**

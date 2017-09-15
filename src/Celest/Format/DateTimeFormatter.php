@@ -76,8 +76,8 @@ use Celest\Temporal\ChronoField;
 use Celest\Temporal\IsoFields;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
-use Celest\Temporal\TemporalQuery\FuncTemporalQuery;
 use Celest\ZoneId;
 
 /**
@@ -1342,7 +1342,7 @@ class DateTimeFormatter
      */
     public static function parsedExcessDays()
     {
-        return self::$PARSED_EXCESS_DAYS = new FuncTemporalQuery(function (TemporalAccessor $t) {
+        return self::$PARSED_EXCESS_DAYS = TemporalQueries::fromCallable(function (TemporalAccessor $t) {
             if ($t instanceof Parsed) {
                 return $t->excessDays;
             } else {
@@ -1386,7 +1386,7 @@ class DateTimeFormatter
      */
     public static function parsedLeapSecond()
     {
-        return self::$PARSED_LEAP_SECOND = new FuncTemporalQuery(function (TemporalAccessor $t) {
+        return self::$PARSED_LEAP_SECOND = TemporalQueries::fromCallable(function (TemporalAccessor $t) {
             if ($t instanceof Parsed) {
                 return $t->leapSecond;
             } else {
