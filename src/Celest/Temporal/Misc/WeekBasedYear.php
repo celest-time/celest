@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal\Misc;
 
@@ -14,31 +14,33 @@ use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
+use Celest\Temporal\ValueRange;
 
 class WeekBasedYear implements TemporalField
 {
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return IsoFields::WEEK_BASED_YEARS();
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return ChronoUnit::FOREVER();
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         return ChronoField::YEAR()->range();
     }
 
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return $temporal->isSupported(ChronoField::EPOCH_DAY()) && AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE());
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear");
@@ -46,7 +48,7 @@ class WeekBasedYear implements TemporalField
         return IsoFields::getWeekBasedYear(LocalDate::from($temporal));
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: WeekBasedYear");
@@ -64,28 +66,28 @@ class WeekBasedYear implements TemporalField
         return $temporal->adjust($resolved);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "WeekBasedYear";
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return $this->__toString();
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return true;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }
 
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         return $this->range();
     }
@@ -93,7 +95,7 @@ class WeekBasedYear implements TemporalField
     public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle)
+        ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         return null;
     }

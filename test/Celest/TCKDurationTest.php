@@ -71,7 +71,7 @@ use PHPUnit\Framework\TestCase;
 
 class TemporalAmount_DaysNanos implements TemporalAmount
 {
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         if ($unit == CU::DAYS()) {
             return 23;
@@ -80,7 +80,7 @@ class TemporalAmount_DaysNanos implements TemporalAmount
         }
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [
             CU::DAYS(),
@@ -101,12 +101,12 @@ class TemporalAmount_DaysNanos implements TemporalAmount
 
 class TemporalAmount_Minutes_tooBig implements TemporalAmount
 {
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         return \intdiv(Long::MAX_VALUE, 60) + 2;
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [CU::MINUTES()];
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal\Misc;
 
@@ -19,7 +19,7 @@ class IsoUnit implements TemporalUnit
      * Unit that represents the concept of a week-based-year.
      * @return IsoUnit
      */
-    public static function WEEK_BASED_YEARS()
+    public static function WEEK_BASED_YEARS() : IsoUnit
     {
         if (self::$WEEK_BASED_YEARS === null) {
             self::$WEEK_BASED_YEARS = new IsoUnit("WeekBasedYears", Duration::ofSeconds(31556952));
@@ -34,7 +34,7 @@ class IsoUnit implements TemporalUnit
      * Unit that represents the concept of a quarter-year.
      * @return IsoUnit
      */
-    public static function QUARTER_YEARS()
+    public static function QUARTER_YEARS() : IsoUnit
     {
         if (self::$QUARTER_YEARS === null) {
             self::$QUARTER_YEARS = new IsoUnit("QuarterYears", Duration::ofSeconds(31556952 / 4));
@@ -50,38 +50,38 @@ class IsoUnit implements TemporalUnit
     /** @var Duration */
     private $duration;
 
-    private function __construct($name, Duration $estimatedDuration)
+    private function __construct(string $name, Duration $estimatedDuration)
     {
         $this->name = $name;
         $this->duration = $estimatedDuration;
     }
 
-    public function getDuration()
+    public function getDuration() : Duration
     {
         return $this->duration;
     }
 
-    public function isDurationEstimated()
+    public function isDurationEstimated() : bool
     {
         return true;
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return true;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }
 
-    public function isSupportedBy(Temporal $temporal)
+    public function isSupportedBy(Temporal $temporal) : bool
     {
         return $temporal->isSupported(ChronoField::EPOCH_DAY());
     }
 
-    public function addTo(Temporal $temporal, $amount)
+    public function addTo(Temporal $temporal, int $amount)
     {
         switch ($this) {
             case IsoFields::WEEK_BASED_YEARS():
@@ -96,7 +96,7 @@ class IsoUnit implements TemporalUnit
         }
     }
 
-    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive)
+    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive) : int
     {
         if (get_class($temporal1Inclusive) !== get_class($temporal2Exclusive)) {
             return $temporal1Inclusive->until($temporal2Exclusive, $this);
@@ -113,7 +113,7 @@ class IsoUnit implements TemporalUnit
         }
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }

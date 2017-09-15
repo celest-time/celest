@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -120,7 +120,7 @@ final class ValueRange
      * @return ValueRange the ValueRange for min, max, not null
      * @throws IllegalArgumentException if the minimum is greater than the maximum
      */
-    public static function of($min, $max)
+    public static function of(int $min, int $max) : ValueRange
     {
         if ($min > $max) {
             throw new IllegalArgumentException("Minimum value must be less than maximum value");
@@ -143,7 +143,7 @@ final class ValueRange
      *     the minimum is greater than the smallest maximum,
      *  or the smallest maximum is greater than the largest maximum
      */
-    public static function ofVariable($min, $maxSmallest, $maxLargest)
+    public static function ofVariable(int $min, int $maxSmallest, int $maxLargest) : ValueRange
     {
         return self::ofFullyVariable($min, $min, $maxSmallest, $maxLargest);
     }
@@ -163,7 +163,7 @@ final class ValueRange
      *  or the smallest maximum is greater than the largest maximum
      *  or the largest minimum is greater than the largest maximum
      */
-    public static function ofFullyVariable($minSmallest, $minLargest, $maxSmallest, $maxLargest)
+    public static function ofFullyVariable(int $minSmallest, int $minLargest, int $maxSmallest, int $maxLargest)
     {
         if ($minSmallest > $minLargest) {
             throw new IllegalArgumentException("Smallest minimum value must be less than largest minimum value");
@@ -186,7 +186,7 @@ final class ValueRange
      * @param int $maxSmallest the smallest minimum value
      * @param int $maxLargest the largest minimum value
      */
-    private function __construct($minSmallest, $minLargest, $maxSmallest, $maxLargest)
+    private function __construct(int $minSmallest, int $minLargest, int $maxSmallest, int $maxLargest)
     {
         $this->minSmallest = $minSmallest;
         $this->minLargest = $minLargest;
@@ -204,7 +204,7 @@ final class ValueRange
      *
      * @return bool true if the set of values is fixed
      */
-    public function isFixed()
+    public function isFixed() : bool
     {
         return $this->minSmallest === $this->minLargest && $this->maxSmallest === $this->maxLargest;
     }
@@ -218,7 +218,7 @@ final class ValueRange
      *
      * @return int the minimum value for this field
      */
-    public function getMinimum()
+    public function getMinimum() : int
     {
         return $this->minSmallest;
     }
@@ -231,7 +231,7 @@ final class ValueRange
      *
      * @return int the largest possible minimum value for this field
      */
-    public function getLargestMinimum()
+    public function getLargestMinimum() : int
     {
         return $this->minLargest;
     }
@@ -244,7 +244,7 @@ final class ValueRange
      *
      * @return int the smallest possible maximum value for this field
      */
-    public function getSmallestMaximum()
+    public function getSmallestMaximum() : int
     {
         return $this->maxSmallest;
     }
@@ -257,7 +257,7 @@ final class ValueRange
      *
      * @return int the maximum value for this field
      */
-    public function getMaximum()
+    public function getMaximum() : int
     {
         return $this->maxLargest;
     }
@@ -275,7 +275,7 @@ final class ValueRange
      *
      * @return bool true if a valid value always fits in an {@code int}
      */
-    public function isIntValue()
+    public function isIntValue() : bool
     {
         return $this->getMinimum() >= Integer::MIN_VALUE && $this->getMaximum() <= Integer::MAX_VALUE;
     }
@@ -288,7 +288,7 @@ final class ValueRange
      * @param int $value the value to check
      * @return bool true if the value is valid
      */
-    public function isValidValue($value)
+    public function isValidValue($value) : bool
     {
         return ($value >= $this->getMinimum() && $value <= $this->getMaximum());
     }
@@ -302,7 +302,7 @@ final class ValueRange
      * @param int $value the value to check
      * @return bool true if the value is valid and fits in an {@code int}
      */
-    public function isValidIntValue($value)
+    public function isValidIntValue($value) : bool
     {
         return $this->isIntValue() && $this->isValidValue($value);
     }
@@ -319,7 +319,7 @@ final class ValueRange
      * @throws DateTimeException
      * @see #isValidValue(long)
      */
-    public function checkValidValue($value, TemporalField $field)
+    public function checkValidValue($value, TemporalField $field) : int
     {
         if ($this->isValidValue($value) === false) {
             throw new DateTimeException($this->genInvalidFieldMessage($field, $value));
@@ -342,16 +342,16 @@ final class ValueRange
      * @internal param TemporalField $field the field being checked, may be null
      * @see #isValidIntValue(long)
      */
-    public function checkValidIntValue($value, TemporalField $field)
+    public function checkValidIntValue($value, TemporalField $field) : int
     {
         if ($this->isValidIntValue($value) === false) {
             throw new DateTimeException($this->genInvalidFieldMessage($field, $value));
         }
 
-        return (int)$value;
+        return $value;
     }
 
-    private function genInvalidFieldMessage(TemporalField $field, $value)
+    private function genInvalidFieldMessage(TemporalField $field, $value) : string
     {
         if ($field !== null) {
             return "Invalid value for " . $field . " (valid values " . $this . "): " . $value;
@@ -371,7 +371,7 @@ final class ValueRange
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other range
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($obj === $this) {
             return true;
@@ -396,7 +396,7 @@ final class ValueRange
      *
      * @return string a string representation of this range, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         $buf = '';
         $buf .= $this->minSmallest;

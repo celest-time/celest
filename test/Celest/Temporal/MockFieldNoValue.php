@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -76,58 +76,58 @@ class MockFieldNoValue implements TemporalField
         return new MockFieldNoValue();
     }
 
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return ChronoUnit::WEEKS();
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return ChronoUnit::MONTHS();
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         return ValueRange::of(1, 20);
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return false;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }
 
     //-----------------------------------------------------------------------
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return true;
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         return ValueRange::of(1, 20);
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         throw new DateTimeException("Mock");
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         throw new DateTimeException("Mock");
     }
 
-    public function __toString()
+    public function __toString() : string
     {
-        return null;
+        return '';
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return '';
     }
@@ -135,7 +135,7 @@ class MockFieldNoValue implements TemporalField
     public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle)
+        ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         return null;
     }

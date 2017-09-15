@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -152,7 +152,7 @@ final class TemporalAdjusters
      * @param callable $dateBasedAdjuster callable the date-based adjuster, not null
      * @return TemporalAdjuster the temporal adjuster wrapping on the date adjuster, not null
      */
-    public static function ofDateAdjuster(callable $dateBasedAdjuster)
+    public static function ofDateAdjuster(callable $dateBasedAdjuster) : TemporalAdjuster
     {
         return TemporalAdjusters::fromCallable(function (Temporal $temporal) use ($dateBasedAdjuster) {
             $input = LocalDate::from($temporal);
@@ -177,7 +177,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the first day-of-month adjuster, not null
      */
-    public static function firstDayOfMonth()
+    public static function firstDayOfMonth() : TemporalAdjuster
     {
         return self::fromCallable(function (Temporal $temporal) {
             return $temporal->with(ChronoField::DAY_OF_MONTH(), 1);
@@ -203,7 +203,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the last day-of-month adjuster, not null
      */
-    public static function lastDayOfMonth()
+    public static function lastDayOfMonth() : TemporalAdjuster
     {
         return self::fromCallable(function (Temporal $temporal) {
             return $temporal->with(ChronoField::DAY_OF_MONTH(), $temporal->range(ChronoField::DAY_OF_MONTH())->getMaximum());
@@ -226,7 +226,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the first day of next month adjuster, not null
      */
-    public static function firstDayOfNextMonth()
+    public static function firstDayOfNextMonth() : TemporalAdjuster
     {
         return self::fromCallable(function (Temporal $temporal) {
             return $temporal->with(ChronoField::DAY_OF_MONTH(), 1)->plus(1, ChronoUnit::MONTHS());
@@ -250,7 +250,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the first day-of-year adjuster, not null
      */
-    public static function firstDayOfYear()
+    public static function firstDayOfYear() : TemporalAdjuster
     {
         return self::fromCallable(function (Temporal $temporal) {
             return $temporal->with(ChronoField::DAY_OF_YEAR(), 1);
@@ -274,7 +274,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the last day-of-year adjuster, not null
      */
-    public static function lastDayOfYear()
+    public static function lastDayOfYear() : TemporalAdjuster
     {
         return new class() implements TemporalAdjuster {
             public function adjustInto(Temporal $temporal)
@@ -299,7 +299,7 @@ final class TemporalAdjusters
      *
      * @return TemporalAdjuster the first day of next month adjuster, not null
      */
-    public static function firstDayOfNextYear()
+    public static function firstDayOfNextYear() : TemporalAdjuster
     {
         return self::fromCallable(function (Temporal $temporal) {
             return $temporal->with(ChronoField::DAY_OF_YEAR(), 1)->plus(1, ChronoUnit::YEARS());
@@ -323,7 +323,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the first in month adjuster, not null
      */
-    public static function firstInMonth(DayOfWeek $dayOfWeek)
+    public static function firstInMonth(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         return self::dayOfWeekInMonth(1, $dayOfWeek);
     }
@@ -344,7 +344,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the first in month adjuster, not null
      */
-    public static function lastInMonth(DayOfWeek $dayOfWeek)
+    public static function lastInMonth(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         return self::dayOfWeekInMonth(-1, $dayOfWeek);
     }
@@ -381,7 +381,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week, not null
      * @return TemporalAdjuster the day-of-week in month adjuster, not null
      */
-    public static function dayOfWeekInMonth(int $ordinal, DayOfWeek $dayOfWeek)
+    public static function dayOfWeekInMonth(int $ordinal, DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         $dowValue = $dayOfWeek->getValue();
         if ($ordinal >= 0) {
@@ -421,7 +421,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week to move the date to, not null
      * @return TemporalAdjuster the next day-of-week adjuster, not null
      */
-    public static function next(DayOfWeek $dayOfWeek)
+    public static function next(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {
@@ -448,7 +448,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week to check for or move the date to, not null
      * @return TemporalAdjuster the next-or-same day-of-week adjuster, not null
      */
-    public static function nextOrSame(DayOfWeek $dayOfWeek)
+    public static function nextOrSame(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {
@@ -478,7 +478,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week to move the date to, not null
      * @return TemporalAdjuster the previous day-of-week adjuster, not null
      */
-    public static function previous(DayOfWeek $dayOfWeek)
+    public static function previous(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {
@@ -505,7 +505,7 @@ final class TemporalAdjusters
      * @param DayOfWeek $dayOfWeek the day-of-week to check for or move the date to, not null
      * @return TemporalAdjuster the previous-or-same day-of-week adjuster, not null
      */
-    public static function previousOrSame(DayOfWeek $dayOfWeek)
+    public static function previousOrSame(DayOfWeek $dayOfWeek) : TemporalAdjuster
     {
         $dowValue = $dayOfWeek->getValue();
         return self::fromCallable(function (Temporal $temporal) use ($dowValue) {

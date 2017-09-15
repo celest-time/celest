@@ -73,12 +73,12 @@ use PHPUnit\Framework\TestCase;
 
 class TemporalAmount_Years_tooBig implements TemporalAmount
 {
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         return Integer::MAX_VALUE + 1;
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [CU::YEARS()];
     }
@@ -96,7 +96,7 @@ class TemporalAmount_Years_tooBig implements TemporalAmount
 
 class TemporalAmount_YearsDays implements TemporalAmount
 {
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         if ($unit == CU::YEARS()) {
             return 23;
@@ -105,7 +105,7 @@ class TemporalAmount_YearsDays implements TemporalAmount
         }
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [
             CU::YEARS(),
@@ -126,7 +126,7 @@ class TemporalAmount_YearsDays implements TemporalAmount
 
 class TemporalAmount_DaysHours implements TemporalAmount
 {
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         if ($unit == CU::DAYS()) {
             return 1;
@@ -135,7 +135,7 @@ class TemporalAmount_DaysHours implements TemporalAmount
         }
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [
             CU::DAYS(),

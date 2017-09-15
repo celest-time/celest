@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
@@ -110,7 +110,7 @@ interface TemporalUnit
      *
      * @return Duration the duration of this unit, which may be an estimate, not null
      */
-    public function getDuration();
+    public function getDuration() : Duration;
 
     /**
      * Checks if the duration of the unit is an estimate.
@@ -123,7 +123,7 @@ interface TemporalUnit
      *
      * @return bool true if the duration is estimated, false if accurate
      */
-    public function isDurationEstimated();
+    public function isDurationEstimated() : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -137,7 +137,7 @@ interface TemporalUnit
      *
      * @return bool true if this unit is a component of a date
      */
-    public function isDateBased();
+    public function isDateBased() : bool;
 
     /**
      * Checks if this unit represents a component of a time.
@@ -150,7 +150,7 @@ interface TemporalUnit
      *
      * @return bool true if this unit is a component of a time
      */
-    public function isTimeBased();
+    public function isTimeBased() : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -165,7 +165,7 @@ interface TemporalUnit
      * @param Temporal $temporal the temporal object to check, not null
      * @return bool true if the unit is supported
      */
-    public function isSupportedBy(Temporal $temporal);
+    public function isSupportedBy(Temporal $temporal) : bool;
 
     /**
      * Returns a copy of the specified temporal object with the specified period added.
@@ -201,7 +201,7 @@ interface TemporalUnit
      * @throws DateTimeException if the amount cannot be added
      * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal
      */
-    public function addTo(Temporal $temporal, $amount);
+    public function addTo(Temporal $temporal, int $amount);
 
     //-----------------------------------------------------------------------
     /**
@@ -258,7 +258,7 @@ interface TemporalUnit
      * @throws UnsupportedTemporalTypeException if the unit is not supported by the temporal
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive);
+    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive) : int;
 
     //-----------------------------------------------------------------------
     /**
@@ -268,6 +268,6 @@ interface TemporalUnit
      *
      * @return string the name of this unit, not null
      */
-    public function __toString();
+    public function __toString() : string;
 
 }

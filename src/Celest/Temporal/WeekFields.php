@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -181,7 +181,7 @@ final class WeekFields
      * week-based-year corresponding to the previous calendar year.
      * @return WeekFields
      */
-    public static function ISO()
+    public static function ISO() : WeekFields
     {
         if (self::$ISO === null) {
             self::$ISO = new WeekFields(DayOfWeek::MONDAY(), 4);
@@ -200,7 +200,7 @@ final class WeekFields
      * This week definition is in use in the US and other European countries.
      * @return WeekFields
      */
-    public static function SUNDAY_START()
+    public static function SUNDAY_START() : WeekFields
     {
         if (self::$SUNDAY_START === null) {
             self::$SUNDAY_START = new WeekFields(DayOfWeek::SUNDAY(), 1);
@@ -226,9 +226,9 @@ final class WeekFields
      * with the same day-of-week.
      * <p>
      * This unit is an immutable and thread-safe singleton.
-     * @return TemporalUnit
+     * @return TemporalField
      */
-    public static function WEEK_BASED_YEARS()
+    public static function WEEK_BASED_YEARS() : TemporalField
     {
         return IsoFields::WEEK_BASED_YEAR();
     }
@@ -286,7 +286,7 @@ final class WeekFields
      * @param Locale $locale the locale to use, not null
      * @return WeekFields the week-definition, not null
      */
-    public static function ofLocale(Locale $locale)
+    public static function ofLocale(Locale $locale) : WeekFields
     {
         // TODO $locale = Locale::of($locale->getLanguage(), $locale->getCountry());  // elminate variants
         $cal = IntlCalendar::createInstance(null, $locale->getLocale());
@@ -317,7 +317,7 @@ final class WeekFields
      * @throws IllegalArgumentException if the minimal days value is less than one
      *      or greater than 7
      */
-    public static function of(DayOfWeek $firstDayOfWeek, $minimalDaysInFirstWeek)
+    public static function of(DayOfWeek $firstDayOfWeek, int $minimalDaysInFirstWeek) : WeekFields
     {
         $key = $firstDayOfWeek->__toString() . $minimalDaysInFirstWeek;
         $rules = @self::$CACHE[$key];
@@ -338,7 +338,7 @@ final class WeekFields
      * @param int $minimalDaysInFirstWeek the minimal number of days in the first week, from 1 to 7
      * @throws IllegalArgumentException if the minimal days value is invalid
      */
-    private function __construct(DayOfWeek $firstDayOfWeek, $minimalDaysInFirstWeek)
+    private function __construct(DayOfWeek $firstDayOfWeek, int $minimalDaysInFirstWeek)
     {
         if ($minimalDaysInFirstWeek < 1 || $minimalDaysInFirstWeek > 7) {
             throw new IllegalArgumentException("Minimal number of days is invalid");
@@ -366,7 +366,7 @@ final class WeekFields
      *
      * @return DayOfWeek the first day-of-week, not null
      */
-    public function getFirstDayOfWeek()
+    public function getFirstDayOfWeek() : DayOfWeek
     {
         return $this->firstDayOfWeek;
     }
@@ -381,7 +381,7 @@ final class WeekFields
      *
      * @return int the minimal number of days in the first week of a month or year, from 1 to 7
      */
-    public function getMinimalDaysInFirstWeek()
+    public function getMinimalDaysInFirstWeek() : int
     {
         return $this->minimalDays;
     }
@@ -405,7 +405,7 @@ final class WeekFields
      *
      * @return TemporalField a field providing access to the day-of-week with localized numbering, not null
      */
-    public function dayOfWeek()
+    public function dayOfWeek() : TemporalField
     {
         return $this->dayOfWeek;
     }
@@ -452,7 +452,7 @@ final class WeekFields
      *
      * @return TemporalField a field providing access to the week-of-month, not null
      */
-    public function weekOfMonth()
+    public function weekOfMonth() : TemporalField
     {
         return $this->weekOfMonth;
     }
@@ -498,7 +498,7 @@ final class WeekFields
      *
      * @return TemporalField a field providing access to the week-of-year, not null
      */
-    public function weekOfYear()
+    public function weekOfYear() : TemporalField
     {
         return $this->weekOfYear;
     }
@@ -549,7 +549,7 @@ final class WeekFields
      *
      * @return TemporalField a field providing access to the week-of-week-based-year, not null
      */
-    public function weekOfWeekBasedYear()
+    public function weekOfWeekBasedYear() : TemporalField
     {
         return $this->weekOfWeekBasedYear;
     }
@@ -592,7 +592,7 @@ final class WeekFields
      *
      * @return TemporalField a field providing access to the week-based-year, not null
      */
-    public function weekBasedYear()
+    public function weekBasedYear() : TemporalField
     {
         return $this->weekBasedYear;
     }
@@ -607,7 +607,7 @@ final class WeekFields
      * @param mixed $object the other rules to compare to, null returns false
      * @return bool true if this is equal to the specified rules
      */
-    public function equals($object)
+    public function equals($object) : bool
     {
         if ($this === $object) {
             return true;
@@ -627,7 +627,7 @@ final class WeekFields
      *
      * @return string the string representation, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "WeekFields[" . $this->firstDayOfWeek . ',' . $this->minimalDays . ']';
     }

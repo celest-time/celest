@@ -107,7 +107,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
      * Creates an instance.
      * @internal
      */
-    public function __construct(Chronology $chrono, $years, $months, $days)
+    public function __construct(Chronology $chrono, int $years, int $months, int $days)
     {
         $this->chrono = $chrono;
         $this->years = $years;
@@ -116,7 +116,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
     }
 
     //-----------------------------------------------------------------------
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         if ($unit == ChronoUnit::YEARS()) {
             return $this->years;
@@ -129,7 +129,7 @@ final class ChronoPeriodImpl extends AbstractChronoPeriod implements ChronoPerio
         }
     }
 
-    public function getUnits()
+    public function getUnits() : array
     {
         return [ChronoUnit::YEARS(), ChronoUnit::MONTHS(), ChronoUnit::DAYS()];
     }

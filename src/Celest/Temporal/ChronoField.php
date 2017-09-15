@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -83,7 +83,7 @@ use Celest\Year;
  */
 class ChronoField implements TemporalField
 {
-    public static function init()
+    public static function init() : void
     {
         self::$NANO_OF_SECOND = new ChronoField(0, "NanoOfSecond", ChronoUnit::NANOS(), ChronoUnit::SECONDS(), ValueRange::of(0, 999999999));
         self::$NANO_OF_DAY = new ChronoField(1, "NanoOfDay", ChronoUnit::NANOS(), ChronoUnit::DAYS(), ValueRange::of(0, 86400 * 1000000000 - 1));
@@ -105,7 +105,7 @@ class ChronoField implements TemporalField
         self::$ALIGNED_DAY_OF_WEEK_IN_YEAR = new ChronoField(17, "AlignedDayOfWeekInYear", ChronoUnit::DAYS(), ChronoUnit::WEEKS(), ValueRange::of(1, 7));
         self::$DAY_OF_MONTH = new ChronoField(18, "DayOfMonth", ChronoUnit::DAYS(), ChronoUnit::MONTHS(), ValueRange::ofVariable(1, 28, 31), "day");
         self::$DAY_OF_YEAR = new ChronoField(19, "DayOfYear", ChronoUnit::DAYS(), ChronoUnit::YEARS(), ValueRange::ofVariable(1, 365, 366));
-        self::$EPOCH_DAY = new ChronoField(20, "EpochDay", ChronoUnit::DAYS(), ChronoUnit::FOREVER(), ValueRange::of((Year::MIN_VALUE * 365.25), (Year::MAX_VALUE * 365.25)));
+        self::$EPOCH_DAY = new ChronoField(20, "EpochDay", ChronoUnit::DAYS(), ChronoUnit::FOREVER(), ValueRange::of((int)(Year::MIN_VALUE * 365.25), (int)(Year::MAX_VALUE * 365.25)));
         self::$ALIGNED_WEEK_OF_MONTH = new ChronoField(21, "AlignedWeekOfMonth", ChronoUnit::WEEKS(), ChronoUnit::MONTHS(), ValueRange::ofVariable(1, 4, 5));
         self::$ALIGNED_WEEK_OF_YEAR = new ChronoField(22, "AlignedWeekOfYear", ChronoUnit::WEEKS(), ChronoUnit::YEARS(), ValueRange::of(1, 53));
         self::$MONTH_OF_YEAR = new ChronoField(23, "MonthOfYear", ChronoUnit::MONTHS(), ChronoUnit::YEARS(), ValueRange::of(1, 12), "month");
@@ -138,7 +138,7 @@ class ChronoField implements TemporalField
      * The field is resolved in combination with {@code MILLI_OF_SECOND} and {@code MICRO_OF_SECOND}.
      * @return ChronoField
      */
-    public static function NANO_OF_SECOND()
+    public static function NANO_OF_SECOND() : ChronoField
     {
         return self::$NANO_OF_SECOND;
     }
@@ -162,7 +162,7 @@ class ChronoField implements TemporalField
      * {@code MINUTE_OF_HOUR} and {@code HOUR_OF_DAY} fields.
      * @return ChronoField
      */
-    public static function NANO_OF_DAY()
+    public static function NANO_OF_DAY() : ChronoField
     {
         return self::$NANO_OF_DAY;
     }
@@ -190,7 +190,7 @@ class ChronoField implements TemporalField
      * {@code NANO_OF_SECOND}.
      * @return ChronoField
      */
-    public static function MICRO_OF_SECOND()
+    public static function MICRO_OF_SECOND() : ChronoField
     {
         return self::$MICRO_OF_SECOND;
     }
@@ -217,7 +217,7 @@ class ChronoField implements TemporalField
      * {@code MINUTE_OF_HOUR} and {@code HOUR_OF_DAY} fields.
      * @return ChronoField
      */
-    public static function MICRO_OF_DAY()
+    public static function MICRO_OF_DAY() : ChronoField
     {
         return self::$MICRO_OF_DAY;
     }
@@ -245,7 +245,7 @@ class ChronoField implements TemporalField
      * {@code NANO_OF_SECOND}.
      * @return ChronoField
      */
-    public static function MILLI_OF_SECOND()
+    public static function MILLI_OF_SECOND() : ChronoField
     {
         return self::$MILLI_OF_SECOND;
     }
@@ -272,7 +272,7 @@ class ChronoField implements TemporalField
      * {@code MINUTE_OF_HOUR} and {@code HOUR_OF_DAY} fields.
      * @return ChronoField
      */
-    public static function MILLI_OF_DAY()
+    public static function MILLI_OF_DAY() : ChronoField
     {
         return self::$MILLI_OF_DAY;
     }
@@ -290,7 +290,7 @@ class ChronoField implements TemporalField
      * The value is validated in strict and smart mode but not in lenient mode.
      * @return ChronoField
      */
-    public static function SECOND_OF_MINUTE()
+    public static function SECOND_OF_MINUTE() : ChronoField
     {
         return self::$SECOND_OF_MINUTE;
     }
@@ -310,7 +310,7 @@ class ChronoField implements TemporalField
      * and {@code HOUR_OF_DAY} fields.
      * @return ChronoField
      */
-    public static function SECOND_OF_DAY()
+    public static function SECOND_OF_DAY() : ChronoField
     {
         return self::$SECOND_OF_DAY;
     }
@@ -328,7 +328,7 @@ class ChronoField implements TemporalField
      * The value is validated in strict and smart mode but not in lenient mode.
      * @return ChronoField
      */
-    public static function MINUTE_OF_HOUR()
+    public static function MINUTE_OF_HOUR() : ChronoField
     {
         return self::$MINUTE_OF_HOUR;
     }
@@ -347,7 +347,7 @@ class ChronoField implements TemporalField
      * The value is split to form {@code MINUTE_OF_HOUR} and {@code HOUR_OF_DAY} fields.
      * @return ChronoField
      */
-    public static function MINUTE_OF_DAY()
+    public static function MINUTE_OF_DAY() : ChronoField
     {
         return self::$MINUTE_OF_DAY;
     }
@@ -369,7 +369,7 @@ class ChronoField implements TemporalField
      * the {AMPM_OF_DAY} value by 12.
      * @return ChronoField
      */
-    public static function HOUR_OF_AMPM()
+    public static function HOUR_OF_AMPM() : ChronoField
     {
         return self::$HOUR_OF_AMPM;
     }
@@ -391,7 +391,7 @@ class ChronoField implements TemporalField
      * unless the value is 12, in which case it is converted to 0.
      * @return ChronoField
      */
-    public static function CLOCK_HOUR_OF_AMPM()
+    public static function CLOCK_HOUR_OF_AMPM() : ChronoField
     {
         return self::$CLOCK_HOUR_OF_AMPM;
     }
@@ -414,7 +414,7 @@ class ChronoField implements TemporalField
      * made available via {@link java.time.format.DateTimeFormatter#parsedExcessDays()}.
      * @return ChronoField
      */
-    public static function HOUR_OF_DAY()
+    public static function HOUR_OF_DAY() : ChronoField
     {
         return self::$HOUR_OF_DAY;
     }
@@ -436,7 +436,7 @@ class ChronoField implements TemporalField
      * unless the value is 24, in which case it is converted to 0.
      * @return ChronoField
      */
-    public static function CLOCK_HOUR_OF_DAY()
+    public static function CLOCK_HOUR_OF_DAY() : ChronoField
     {
         return self::$CLOCK_HOUR_OF_DAY;
     }
@@ -457,7 +457,7 @@ class ChronoField implements TemporalField
      * the {AMPM_OF_DAY} value by 12.
      * @return ChronoField
      */
-    public static function AMPM_OF_DAY()
+    public static function AMPM_OF_DAY() : ChronoField
     {
         return self::$AMPM_OF_DAY;
     }
@@ -481,7 +481,7 @@ class ChronoField implements TemporalField
      * to a week. It is recommended that the numbering starts from 1.
      * @return ChronoField
      */
-    public static function DAY_OF_WEEK()
+    public static function DAY_OF_WEEK() : ChronoField
     {
         return self::$DAY_OF_WEEK;
     }
@@ -507,7 +507,7 @@ class ChronoField implements TemporalField
      * field in the same way, but using the alternate week length.
      * @return ChronoField
      */
-    public static function ALIGNED_DAY_OF_WEEK_IN_MONTH()
+    public static function ALIGNED_DAY_OF_WEEK_IN_MONTH() : ChronoField
     {
         return self::$ALIGNED_DAY_OF_WEEK_IN_MONTH;
     }
@@ -533,7 +533,7 @@ class ChronoField implements TemporalField
      * field in the same way, but using the alternate week length.
      * @return ChronoField
      */
-    public static function ALIGNED_DAY_OF_WEEK_IN_YEAR()
+    public static function ALIGNED_DAY_OF_WEEK_IN_YEAR() : ChronoField
     {
         return self::$ALIGNED_DAY_OF_WEEK_IN_YEAR;
     }
@@ -554,7 +554,7 @@ class ChronoField implements TemporalField
      * Normally, this is a count of days from 1 to the length of the month.
      * @return ChronoField
      */
-    public static function DAY_OF_MONTH()
+    public static function DAY_OF_MONTH() : ChronoField
     {
         return self::$DAY_OF_MONTH;
     }
@@ -580,7 +580,7 @@ class ChronoField implements TemporalField
      * the day-of-year to be reset to 1, but not the month-of-year or day-of-month.
      * @return ChronoField
      */
-    public static function DAY_OF_YEAR()
+    public static function DAY_OF_YEAR() : ChronoField
     {
         return self::$DAY_OF_YEAR;
     }
@@ -598,7 +598,7 @@ class ChronoField implements TemporalField
      * This is necessary to ensure interoperation between calendars.
      * @return ChronoField
      */
-    public static function EPOCH_DAY()
+    public static function EPOCH_DAY() : ChronoField
     {
         return self::$EPOCH_DAY;
     }
@@ -614,7 +614,7 @@ class ChronoField implements TemporalField
      * This field is typically used with {@link #ALIGNED_DAY_OF_WEEK_IN_MONTH}.
      * <p>
      * For example, in a calendar systems with a seven day week, the first aligned-week-of-month
-     * starts on day-of-month 1, the second aligned-week starts on day-of-month 8, and so on.
+     * starts on day-of-montfh 1, the second aligned-week starts on day-of-month 8, and so on.
      * Thus, day-of-month values 1 to 7 are in aligned-week 1, while day-of-month values
      * 8 to 14 are in aligned-week 2, and so on.
      * <p>
@@ -622,7 +622,7 @@ class ChronoField implements TemporalField
      * field in the same way, but using the alternate week length.
      * @return ChronoField
      */
-    public static function ALIGNED_WEEK_OF_MONTH()
+    public static function ALIGNED_WEEK_OF_MONTH() : ChronoField
     {
         return self::$ALIGNED_WEEK_OF_MONTH;
     }
@@ -646,7 +646,7 @@ class ChronoField implements TemporalField
      * field in the same way, but using the alternate week length.
      * @return ChronoField
      */
-    public static function ALIGNED_WEEK_OF_YEAR()
+    public static function ALIGNED_WEEK_OF_YEAR() : ChronoField
     {
         return self::$ALIGNED_WEEK_OF_YEAR;
     }
@@ -665,7 +665,7 @@ class ChronoField implements TemporalField
      * Normally, this is a count of months starting from 1.
      * @return ChronoField
      */
-    public static function MONTH_OF_YEAR()
+    public static function MONTH_OF_YEAR() : ChronoField
     {
         return self::$MONTH_OF_YEAR;
     }
@@ -693,7 +693,7 @@ class ChronoField implements TemporalField
      * be extrapolated in order for this method to be defined.
      * @return ChronoField
      */
-    public static function PROLEPTIC_MONTH()
+    public static function PROLEPTIC_MONTH() : ChronoField
     {
         return self::$PROLEPTIC_MONTH;
     }
@@ -736,7 +736,7 @@ class ChronoField implements TemporalField
      * The year-of-era value should typically always be positive, however this is not required.
      * @return ChronoField
      */
-    public static function YEAR_OF_ERA()
+    public static function YEAR_OF_ERA() : ChronoField
     {
         return self::$YEAR_OF_ERA;
     }
@@ -768,7 +768,7 @@ class ChronoField implements TemporalField
      * the best option.
      * @return ChronoField
      */
-    public static function YEAR()
+    public static function YEAR() : ChronoField
     {
         return self::$YEAR;
     }
@@ -793,7 +793,7 @@ class ChronoField implements TemporalField
      * Later eras must have sequentially larger values,
      * @return ChronoField
      */
-    public static function ERA()
+    public static function ERA() : ChronoField
     {
         return self::$ERA;
     }
@@ -816,7 +816,7 @@ class ChronoField implements TemporalField
      * This is necessary to ensure interoperation between calendars.
      * @return ChronoField
      */
-    public static function INSTANT_SECONDS()
+    public static function INSTANT_SECONDS() : ChronoField
     {
         return self::$INSTANT_SECONDS;
     }
@@ -838,7 +838,7 @@ class ChronoField implements TemporalField
      * This is necessary to ensure interoperation between calendars.
      * @return ChronoField
      */
-    public static function OFFSET_SECONDS()
+    public static function OFFSET_SECONDS() : ChronoField
     {
         return self::$OFFSET_SECONDS;
     }
@@ -859,7 +859,7 @@ class ChronoField implements TemporalField
     /** @var  string */
     private $displayNameKey;
 
-    private function __construct($ordinal, $name, TemporalUnit $baseUnit, TemporalUnit $rangeUnit, ValueRange $range, $displayNameKey = null)
+    private function __construct(int $ordinal, string $name, TemporalUnit $baseUnit, TemporalUnit $rangeUnit, ValueRange $range, ?string $displayNameKey = null)
     {
         $this->ordinal = $ordinal;
         $this->name = $name;
@@ -872,7 +872,7 @@ class ChronoField implements TemporalField
     /**
      * @return ChronoField[]
      */
-    public static function values()
+    public static function values() : array
     {
         return [
             self::$NANO_OF_SECOND,
@@ -908,7 +908,7 @@ class ChronoField implements TemporalField
         ];
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         if ($this->displayNameKey === null) {
             return $this->name;
@@ -921,7 +921,7 @@ class ChronoField implements TemporalField
     /**
      * @return TemporalUnit
      */
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return $this->baseUnit;
     }
@@ -929,7 +929,7 @@ class ChronoField implements TemporalField
     /**
      * @return TemporalUnit
      */
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return $this->rangeUnit;
     }
@@ -951,7 +951,7 @@ class ChronoField implements TemporalField
      *
      * @return ValueRange the range of valid values for the field, not null
      */
-    public function range()
+    public function range() : ValueRange
     {
         return $this->range;
     }
@@ -964,7 +964,7 @@ class ChronoField implements TemporalField
      *
      * @return bool true if it is a component of a date
      */
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return $this->ordinal >= self::$DAY_OF_WEEK->ordinal && $this->ordinal <= self::$ERA->ordinal;
     }
@@ -976,7 +976,7 @@ class ChronoField implements TemporalField
      *
      * @return bool true if it is a component of a time
      */
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return $this->ordinal < self::$DAY_OF_WEEK->ordinal;
     }
@@ -996,7 +996,7 @@ class ChronoField implements TemporalField
      * @param int $value the value to check
      * @return int the value that was passed in
      */
-    public function checkValidValue($value)
+    public function checkValidValue(int $value) : int
     {
         return $this->range()->checkValidValue($value, $this);
     }
@@ -1016,34 +1016,34 @@ class ChronoField implements TemporalField
      * @param int $value the value to check
      * @return int the value that was passed in
      */
-    public function checkValidIntValue($value)
+    public function checkValidIntValue($value) : int
     {
         return $this->range()->checkValidIntValue($value, $this);
     }
 
 //-----------------------------------------------------------------------
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return $temporal->isSupported($this);
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         return $temporal->range($this);
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         return $temporal->getLong($this);
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         return $temporal->with($this, $newValue);
     }
 
     //-----------------------------------------------------------------------
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
@@ -1117,7 +1117,7 @@ class ChronoField implements TemporalField
     public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle)
+        ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         return null;
     }

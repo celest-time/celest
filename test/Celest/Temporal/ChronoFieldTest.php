@@ -63,27 +63,6 @@ use PHPUnit\Framework\TestCase;
 
 class TestChronoField extends TestCase
 {
-    /** @var FieldValues */
-    private $fieldMap;
-
-
-    public function setUp()
-    {
-        // slight abuse of FieldValues
-        $this->fieldMap = new FieldValues();
-        $this->fieldMap->put(ChronoField::ERA(), "era");
-        $this->fieldMap->put(ChronoField::YEAR(), "year");
-        $this->fieldMap->put(ChronoField::MONTH_OF_YEAR(), "month");
-        $this->fieldMap->put(ChronoField::DAY_OF_MONTH(), "day");
-        $this->fieldMap->put(ChronoField::AMPM_OF_DAY(), "dayperiod");
-        $this->fieldMap->put(ChronoField::ALIGNED_WEEK_OF_YEAR(), "week");
-        $this->fieldMap->put(ChronoField::DAY_OF_WEEK(), "weekday");
-        $this->fieldMap->put(ChronoField::HOUR_OF_DAY(), "hour");
-        $this->fieldMap->put(ChronoField::MINUTE_OF_HOUR(), "minute");
-        $this->fieldMap->put(ChronoField::SECOND_OF_MINUTE(), "second");
-        $this->fieldMap->put(ChronoField::OFFSET_SECONDS(), "zone");
-    }
-
     function data_localeList()
     {
         return

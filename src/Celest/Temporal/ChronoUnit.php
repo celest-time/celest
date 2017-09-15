@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -78,7 +78,7 @@ use Celest\Helper\Long;
  */
 class ChronoUnit implements TemporalUnit
 {
-    public static function init()
+    public static function init() : void
     {
         self::$NANOS = new ChronoUnit("Nanos", Duration::ofNanos(1));
         self::$MICROS = new ChronoUnit("Micros", Duration::ofNanos(1000));
@@ -103,7 +103,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to the 1,000,000,000th part of the second unit.
      * @return ChronoUnit
      */
-    public static function NANOS()
+    public static function NANOS() : ChronoUnit
     {
         return self::$NANOS;
     }
@@ -116,7 +116,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to the 1,000,000th part of the second unit.
      * @return ChronoUnit
      */
-    public static function MICROS()
+    public static function MICROS() : ChronoUnit
     {
         return self::$MICROS;
     }
@@ -129,7 +129,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to the 1000th part of the second unit.
      * @return ChronoUnit
      */
-    public static function MILLIS()
+    public static function MILLIS() : ChronoUnit
     {
         return self::$MILLIS;
     }
@@ -143,7 +143,7 @@ class ChronoUnit implements TemporalUnit
      * of units, except around a leap-second.
      * @return ChronoUnit
      */
-    public static function SECONDS()
+    public static function SECONDS() : ChronoUnit
     {
         return self::$SECONDS;
     }
@@ -156,7 +156,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to 60 seconds.
      * @return ChronoUnit
      */
-    public static function MINUTES()
+    public static function MINUTES() : ChronoUnit
     {
         return self::$MINUTES;
     }
@@ -169,7 +169,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to 60 minutes.
      * @return ChronoUnit
      */
-    public static function HOURS()
+    public static function HOURS() : ChronoUnit
     {
         return self::$HOURS;
     }
@@ -182,7 +182,7 @@ class ChronoUnit implements TemporalUnit
      * For the ISO calendar system, it is equal to 12 hours.
      * @return ChronoUnit
      */
-    public static function HALF_DAYS()
+    public static function HALF_DAYS() : ChronoUnit
     {
         return self::$HALF_DAYS;
     }
@@ -201,7 +201,7 @@ class ChronoUnit implements TemporalUnit
      * equivalent at midday.
      * @return ChronoUnit
      */
-    public static function DAYS()
+    public static function DAYS() : ChronoUnit
     {
         return self::$DAYS;
     }
@@ -216,7 +216,7 @@ class ChronoUnit implements TemporalUnit
      * When used with other calendar systems it must correspond to an integral number of days.
      * @return ChronoUnit
      */
-    public static function WEEKS()
+    public static function WEEKS() : ChronoUnit
     {
         return self::$WEEKS;
     }
@@ -232,7 +232,7 @@ class ChronoUnit implements TemporalUnit
      * When used with other calendar systems it must correspond to an integral number of days.
      * @return ChronoUnit
      */
-    public static function MONTHS()
+    public static function MONTHS() : ChronoUnit
     {
         return self::$MONTHS;
     }
@@ -249,7 +249,7 @@ class ChronoUnit implements TemporalUnit
      * or months roughly equal to a year defined by the passage of the Earth around the Sun.
      * @return ChronoUnit
      */
-    public static function YEARS()
+    public static function YEARS() : ChronoUnit
     {
         return self::$YEARS;
     }
@@ -265,7 +265,7 @@ class ChronoUnit implements TemporalUnit
      * and is normally an integral number of years.
      * @return ChronoUnit
      */
-    public static function DECADES()
+    public static function DECADES() : ChronoUnit
     {
         return self::$DECADES;
     }
@@ -281,7 +281,7 @@ class ChronoUnit implements TemporalUnit
      * and is normally an integral number of years.
      * @return ChronoUnit
      */
-    public static function CENTURIES()
+    public static function CENTURIES() : ChronoUnit
     {
         return self::$CENTURIES;
     }
@@ -297,7 +297,7 @@ class ChronoUnit implements TemporalUnit
      * and is normally an integral number of years.
      * @return ChronoUnit
      */
-    public static function MILLENNIA()
+    public static function MILLENNIA() : ChronoUnit
     {
         return self::$MILLENNIA;
     }
@@ -314,7 +314,7 @@ class ChronoUnit implements TemporalUnit
      * When used with other calendar systems there are no restrictions on the unit.
      * @return ChronoUnit
      */
-    public static function ERAS()
+    public static function ERAS() : ChronoUnit
     {
         return self::$ERAS;
     }
@@ -330,7 +330,7 @@ class ChronoUnit implements TemporalUnit
      * supported by {@code Duration}.
      * @return ChronoUnit
      */
-    public static function FOREVER()
+    public static function FOREVER() : ChronoUnit
     {
         return self::$FOREVER;
     }
@@ -347,7 +347,7 @@ class ChronoUnit implements TemporalUnit
      * @param string $name
      * @param Duration $estimatedDuration
      */
-    private function __construct($name, Duration $estimatedDuration)
+    private function __construct(string $name, Duration $estimatedDuration)
     {
         $this->name = $name;
         $this->duration = $estimatedDuration;
@@ -362,7 +362,7 @@ class ChronoUnit implements TemporalUnit
      *
      * @return Duration the estimated duration of this unit, not null
      */
-    public function getDuration()
+    public function getDuration() : Duration
     {
         return $this->duration;
     }
@@ -378,7 +378,7 @@ class ChronoUnit implements TemporalUnit
      *
      * @return bool true if the duration is estimated, false if accurate
      */
-    public function isDurationEstimated()
+    public function isDurationEstimated() : bool
     {
         return $this->compareTo(self::$DAYS) >= 0;
     }
@@ -392,7 +392,7 @@ class ChronoUnit implements TemporalUnit
      *
      * @return bool true if a date unit, false if a time unit
      */
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return $this->compareTo(self::$DAYS) >= 0 && $this != self::$FOREVER;
     }
@@ -405,35 +405,35 @@ class ChronoUnit implements TemporalUnit
      *
      * @return bool true if a time unit, false if a date unit
      */
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return $this->compareTo(self::$DAYS) < 0;
     }
 
 //-----------------------------------------------------------------------
-    public function isSupportedBy(Temporal $temporal)
+    public function isSupportedBy(Temporal $temporal) : bool
     {
         return $temporal->isUnitSupported($this);
     }
 
-    public function addTo(Temporal $temporal, $amount)
+    public function addTo(Temporal $temporal, int $amount) : Temporal
     {
         return $temporal->plus($amount, $this);
     }
 
 //-----------------------------------------------------------------------
-    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive)
+    public function between(Temporal $temporal1Inclusive, Temporal $temporal2Exclusive) : int
     {
         return $temporal1Inclusive->until($temporal2Exclusive, $this);
     }
 
 //-----------------------------------------------------------------------
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
 
-    private function compareTo(ChronoUnit $other)
+    private function compareTo(ChronoUnit $other) : int
     {
         return $this->duration->compareTo($other->duration);
     }

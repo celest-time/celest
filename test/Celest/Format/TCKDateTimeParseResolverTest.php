@@ -78,6 +78,8 @@ use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
+use Celest\Temporal\TemporalUnit;
+use Celest\Temporal\ValueRange;
 use Celest\ZonedDateTime;
 use Celest\ZoneId;
 use PHPUnit\Framework\TestCase;
@@ -91,63 +93,63 @@ class ResolvingField implements TemporalField
         $this->resolvedValue = $resolvedValue;
     }
 
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         throw new UnsupportedOperationException();
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         throw new UnsupportedOperationException();
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         throw new UnsupportedOperationException();
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         throw new UnsupportedOperationException();
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         throw new UnsupportedOperationException();
     }
 
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         throw new UnsupportedOperationException();
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         throw new UnsupportedOperationException();
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         throw new UnsupportedOperationException();
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         throw new UnsupportedOperationException();
     }
 
-    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         $fieldValues->remove($this);
         return $this->resolvedValue;
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return $this->__toString();
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return 'ResolvingField';
     }

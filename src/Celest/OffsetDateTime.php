@@ -517,7 +517,7 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool if the unit can be added/subtracted, false if not
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit != ChronoUnit::FOREVER();

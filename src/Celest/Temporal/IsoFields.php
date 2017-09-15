@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -180,7 +180,7 @@ final class IsoFields
      * This unit is an immutable and thread-safe singleton.
      * @return TemporalField
      */
-    public static function DAY_OF_QUARTER()
+    public static function DAY_OF_QUARTER() : TemporalField
     {
         if (self::$DAY_OF_QUARTER === null) {
             self::$DAY_OF_QUARTER = new DayOfQuarter();
@@ -206,7 +206,7 @@ final class IsoFields
      * <p>
      * This unit is an immutable and thread-safe singleton.
      */
-    public static function QUARTER_OF_YEAR()
+    public static function QUARTER_OF_YEAR() : TemporalField
     {
         if (self::$QUARTER_OF_YEAR === null) {
             self::$QUARTER_OF_YEAR = new QuarterOfYear();
@@ -247,7 +247,7 @@ final class IsoFields
      * <p>
      * This unit is an immutable and thread-safe singleton.
      */
-    public static function WEEK_OF_WEEK_BASED_YEAR()
+    public static function WEEK_OF_WEEK_BASED_YEAR() : TemporalField
     {
         if (self::$WEEK_OF_WEEK_BASED_YEAR === null) {
             self::$WEEK_OF_WEEK_BASED_YEAR = new WeekOfWeekBasedYear();
@@ -272,7 +272,7 @@ final class IsoFields
      * <p>
      * This unit is an immutable and thread-safe singleton.
      */
-    public static function WEEK_BASED_YEAR()
+    public static function WEEK_BASED_YEAR() : TemporalField
     {
         if (self::$WEEK_BASED_YEAR === null) {
             self::$WEEK_BASED_YEAR = new WeekBasedYear();
@@ -298,7 +298,7 @@ final class IsoFields
      * <p>
      * This unit is an immutable and thread-safe singleton.
      */
-    public static function WEEK_BASED_YEARS()
+    public static function WEEK_BASED_YEARS() : TemporalUnit
     {
         return IsoUnit::WEEK_BASED_YEARS();
     }
@@ -310,7 +310,7 @@ final class IsoFields
      * <p>
      * This unit is an immutable and thread-safe singleton.
      */
-    public static function QUARTER_YEARS()
+    public static function QUARTER_YEARS() : TemporalUnit
     {
         return IsoUnit::QUARTER_YEARS();
     }
@@ -328,7 +328,7 @@ final class IsoFields
      * @param TemporalAccessor $temporal
      * @return bool
      */
-    public static function isIso(TemporalAccessor $temporal)
+    public static function isIso(TemporalAccessor $temporal) : bool
     {
         return AbstractChronology::from($temporal)->equals(IsoChronology::INSTANCE());
     }
@@ -338,7 +338,7 @@ final class IsoFields
      * @param TemporalAccessor $temporal
      * @throws DateTimeException
      */
-    public static function ensureIso(TemporalAccessor $temporal)
+    public static function ensureIso(TemporalAccessor $temporal) : void
     {
         if (self::isIso($temporal) === false) {
             throw new DateTimeException("Resolve requires IsoChronology");
@@ -350,7 +350,7 @@ final class IsoFields
      * @param LocalDate $date
      * @return ValueRange
      */
-    public static function getWeekRange(LocalDate $date)
+    public static function getWeekRange(LocalDate $date) : ValueRange
     {
         $wby = self::getWeekBasedYear($date);
         return ValueRange::of(1, self::getWeekRangeInt($wby));
@@ -361,7 +361,7 @@ final class IsoFields
      * @param int
      * @return int
      */
-    public static function getWeekRangeInt($wby)
+    public static function getWeekRangeInt(int $wby) : int
     {
         $date = LocalDate::of($wby, 1, 1);
         // 53 weeks if standard year starts on Thursday, or Wed in a leap year
@@ -375,9 +375,9 @@ final class IsoFields
     /**
      * @internal
      * @param LocalDate $date
-     * @return bool|int
+     * @return int
      */
-    public static function getWeek(LocalDate $date)
+    public static function getWeek(LocalDate $date) : int
     {
         $dow0 = $date->getDayOfWeek()->getValue() - 1;
         $doy0 = $date->getDayOfYear() - 1;
@@ -406,7 +406,7 @@ final class IsoFields
      * @param LocalDate $date
      * @return int
      */
-    public static function getWeekBasedYear(LocalDate $date)
+    public static function getWeekBasedYear(LocalDate $date) : int
     {
         $year = $date->getYear();
         $doy = $date->getDayOfYear();

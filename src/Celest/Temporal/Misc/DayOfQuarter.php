@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal\Misc;
 
@@ -14,33 +14,34 @@ use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
 use Celest\Temporal\ValueRange;
 
 class DayOfQuarter implements TemporalField
 {
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return ChronoUnit::DAYS();
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return IsoFields::QUARTER_YEARS();
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         return ValueRange::ofVariable(1, 90, 92);
     }
 
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return $temporal->isSupported(ChronoField::DAY_OF_YEAR()) && $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) &&
         $temporal->isSupported(ChronoField::YEAR()) && IsoFields::isIso($temporal);
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
@@ -57,7 +58,7 @@ class DayOfQuarter implements TemporalField
         return $this->range();
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: DayOfQuarter");
@@ -72,7 +73,7 @@ class DayOfQuarter implements TemporalField
         return $doy - $quarterDays[\intdiv(($moy - 1), 3) + (IsoChronology::INSTANCE()->isLeapYear($year) ? 4 : 0)];
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         // calls getFrom() to check if supported
         $curValue = $this->getFrom($temporal);
@@ -80,7 +81,7 @@ class DayOfQuarter implements TemporalField
         return $temporal->with(ChronoField::DAY_OF_YEAR(), $temporal->getLong(ChronoField::DAY_OF_YEAR()) + ($newValue - $curValue));
     }
 
-    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         $yearLong = $fieldValues->get(ChronoField::YEAR());
         $qoyLong = $fieldValues->get(IsoFields::QUARTER_OF_YEAR());
@@ -112,22 +113,22 @@ class DayOfQuarter implements TemporalField
         return $date->plusDays($doq);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "DayOfQuarter";
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return $this->__toString();
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return true;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }

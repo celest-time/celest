@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -129,7 +129,7 @@ final class JulianFields
      * regardless of the offset or time-zone.
      * @return TemporalField
      */
-    public static function JULIAN_DAY()
+    public static function JULIAN_DAY() : TemporalField
     {
         if (self::$JULIAN_DAY === null) {
             self::$JULIAN_DAY = new JulianField("JulianDay", CU::DAYS(), CU::FOREVER(), 2440588);
@@ -180,7 +180,7 @@ final class JulianFields
      * regardless of the offset or time-zone.
      * @return TemporalField
      */
-    public static function MODIFIED_JULIAN_DAY()
+    public static function MODIFIED_JULIAN_DAY() : TemporalField
     {
         if (self::$MODIFIED_JULIAN_DAY === null) {
             self::$MODIFIED_JULIAN_DAY = new JulianField("ModifiedJulianDay", CU::DAYS(), CU::FOREVER(), 40587);
@@ -210,7 +210,7 @@ final class JulianFields
      * In {@linkplain ResolverStyle#LENIENT lenient mode} no validation occurs.
      * @return TemporalField
      */
-    public static function RATA_DIE()
+    public static function RATA_DIE() : TemporalField
     {
         if (self::$RATA_DIE === null) {
             self::$RATA_DIE = new JulianField("RataDie", CU::DAYS(), CU::FOREVER(), 719163);

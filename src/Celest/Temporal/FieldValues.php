@@ -1,8 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal;
 
-
+/**
+ * Class FieldValues
+ * @package Celest\Temporal
+ */
 class FieldValues implements \Iterator
 {
     /** @var array */
@@ -13,7 +16,7 @@ class FieldValues implements \Iterator
      * @param int $value
      * @return int|null
      */
-    public function put(TemporalField $field, $value)
+    public function put(TemporalField $field, int $value) : ?int
     {
         $prev = @$this->fieldValues[$field->__toString()];
 
@@ -26,7 +29,7 @@ class FieldValues implements \Iterator
      * @param TemporalField $field
      * @return int
      */
-    public function remove(TemporalField $field)
+    public function remove(TemporalField $field) : ?int
     {
         $prev = @$this->fieldValues[$field->__toString()];
 
@@ -39,7 +42,7 @@ class FieldValues implements \Iterator
      * @param TemporalField $field
      * @return bool
      */
-    public function has(TemporalField $field)
+    public function has(TemporalField $field) : bool
     {
         return isset($this->fieldValues[$field->__toString()]);
     }
@@ -48,7 +51,7 @@ class FieldValues implements \Iterator
      * @param TemporalField $field
      * @return int|null
      */
-    public function get(TemporalField $field)
+    public function get(TemporalField $field) : ?int
     {
         $val = @$this->fieldValues[$field->__toString()];
         return $val !== null ? $val[1] : null;
@@ -57,12 +60,12 @@ class FieldValues implements \Iterator
     /**
      * @return int
      */
-    public function current()
+    public function current() : int
     {
         return current($this->fieldValues)[1];
     }
 
-    public function next()
+    public function next() : void
     {
         next($this->fieldValues);
     }
@@ -70,30 +73,30 @@ class FieldValues implements \Iterator
     /**
      * @return TemporalField
      */
-    public function key()
+    public function key() : TemporalField
     {
         return current($this->fieldValues)[0];
     }
 
-    public function valid()
+    public function valid() : bool
     {
         return current($this->fieldValues) !== false;
     }
 
-    public function rewind()
+    public function rewind() : void
     {
-        return reset($this->fieldValues);
+        reset($this->fieldValues);
     }
 
     /**
      * return bool
      */
-    public function isEmpty()
+    public function isEmpty() : bool
     {
         return count($this->fieldValues) === 0;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $buf = '[';
         $sep = '';
@@ -104,7 +107,7 @@ class FieldValues implements \Iterator
         return $buf . ']';
     }
 
-    public function size()
+    public function size() : int
     {
         return count($this->fieldValues);
     }
@@ -112,7 +115,7 @@ class FieldValues implements \Iterator
     /**
      * @param TemporalField[] $resolverFields
      */
-    public function filter(array $resolverFields)
+    public function filter(array $resolverFields) : void
     {
         $fields = [];
         foreach ($resolverFields as $field) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal;
 
@@ -12,7 +12,7 @@ class UnsupportedTemporalTypeException extends DateTimeException
      * @param string $message
      * @param \Exception $e
      */
-    public function __construct($message, \Exception $e = null)
+    public function __construct(string $message, \Exception $e = null)
     {
         parent::__construct($message, $e);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
@@ -132,7 +132,7 @@ final class TemporalQueries
      * @param callable $func
      * @return TemporalQuery
      */
-    public static function fromCallable($func)
+    public static function fromCallable(callable $func) : TemporalQuery
     {
         return new class($func) implements TemporalQuery {
             private $func;
@@ -154,7 +154,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return ZoneId
      */
-    public static function _zoneId(TemporalAccessor $temporal)
+    public static function _zoneId(TemporalAccessor $temporal) : ?ZoneId
     {
         return $temporal->query(TemporalQueries::$ZONE_ID);
     }
@@ -164,7 +164,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return Chronology
      */
-    public static function _chrono(TemporalAccessor $temporal)
+    public static function _chrono(TemporalAccessor $temporal) : ?Chronology
     {
         return $temporal->query(TemporalQueries::$CHRONO);
     }
@@ -174,7 +174,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return ChronoUnit
      */
-    public static function _precision(TemporalAccessor $temporal)
+    public static function _precision(TemporalAccessor $temporal) : ?ChronoUnit
     {
         return $temporal->query(TemporalQueries::$PRECISION);
     }
@@ -186,7 +186,7 @@ final class TemporalQueries
      * @return null|ZoneOffset
      * @throws DateTimeException
      */
-    public static function _offset(TemporalAccessor $temporal)
+    public static function _offset(TemporalAccessor $temporal) : ?ZoneOffset
     {
         if ($temporal->isSupported(ChronoField::OFFSET_SECONDS())) {
             return ZoneOffset::ofTotalSeconds($temporal->get(ChronoField::OFFSET_SECONDS()));
@@ -201,7 +201,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return ZoneId|ZoneOffset|null
      */
-    public static function _zone(TemporalAccessor $temporal)
+    public static function _zone(TemporalAccessor $temporal) : ?ZoneId
     {
         $zone = $temporal->query(TemporalQueries::$ZONE_ID);
         return ($zone !== null ? $zone : $temporal->query(TemporalQueries::$OFFSET));
@@ -212,7 +212,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return null|LocalDate
      */
-    public static function _localDate(TemporalAccessor $temporal)
+    public static function _localDate(TemporalAccessor $temporal) : ?LocalDate
     {
         if ($temporal->isSupported(ChronoField::EPOCH_DAY())) {
             return LocalDate::ofEpochDay($temporal->getLong(ChronoField::EPOCH_DAY()));
@@ -225,7 +225,7 @@ final class TemporalQueries
      * @param TemporalAccessor $temporal
      * @return null|LocalTime
      */
-    public static function _localTime(TemporalAccessor $temporal)
+    public static function _localTime(TemporalAccessor $temporal) : ?LocalTime
     {
         if ($temporal->isSupported(ChronoField::NANO_OF_DAY())) {
             return LocalTime::ofNanoOfDay($temporal->getLong(ChronoField::NANO_OF_DAY()));
@@ -234,7 +234,7 @@ final class TemporalQueries
         return null;
     }
 
-    public static function init()
+    public static function init() : void
     {
         self::$ZONE_ID = self::fromCallable([self::class, '_zoneId']);
         self::$CHRONO = self::fromCallable([self::class, '_chrono']);
@@ -282,7 +282,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the zone ID of a temporal, not null
      */
-    public static function zoneId()
+    public static function zoneId() : TemporalQuery
     {
         return self::$ZONE_ID;
     }
@@ -325,7 +325,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the chronology of a temporal, not null
      */
-    public static function chronology()
+    public static function chronology() : TemporalQuery
     {
         return self::$CHRONO;
     }
@@ -366,7 +366,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the precision of a temporal, not null
      */
-    public static function precision()
+    public static function precision() : TemporalQuery
     {
         return self::$PRECISION;
     }
@@ -394,7 +394,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the zone ID or offset of a temporal, not null
      */
-    public static function zone()
+    public static function zone() : TemporalQuery
     {
         return self::$ZONE;
     }
@@ -421,7 +421,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the offset of a temporal, not null
      */
-    public static function offset()
+    public static function offset() : TemporalQuery
     {
         return self::$OFFSET;
     }
@@ -448,7 +448,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the date of a temporal, not null
      */
-    public static function localDate()
+    public static function localDate() : TemporalQuery
     {
         return self::$LOCAL_DATE;
     }
@@ -475,7 +475,7 @@ final class TemporalQueries
      *
      * @return TemporalQuery a query that can obtain the time of a temporal, not null
      */
-    public static function localTime()
+    public static function localTime() : TemporalQuery
     {
         return self::$LOCAL_TIME;
     }

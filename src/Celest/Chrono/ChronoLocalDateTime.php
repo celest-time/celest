@@ -221,7 +221,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param TemporalUnit $unit the unit to check, null returns false
      * @return bool true if the unit can be added/subtracted, false if not
      */
-    function isUnitSupported(TemporalUnit $unit);
+    function isUnitSupported(TemporalUnit $unit) : bool;
 
 //-----------------------------------------------------------------------
 // override for covariant return type
@@ -334,7 +334,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @return string the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
-    function format(DateTimeFormatter $formatter);
+    function format(DateTimeFormatter $formatter) : string;
 
     //-----------------------------------------------------------------------
     /**
@@ -379,7 +379,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ZoneOffset $offset the offset to use for the conversion, not null
      * @return Instant an {@code Instant} representing the same instant, not null
      */
-    function toInstant(ZoneOffset $offset);
+    function toInstant(ZoneOffset $offset) : Instant;
 
     /**
      * Converts this date-time to the number of seconds from the epoch
@@ -395,7 +395,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ZoneOffset $offset the offset to use for the conversion, not null
      * @return int the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
-    function toEpochSecond(ZoneOffset $offset);
+    function toEpochSecond(ZoneOffset $offset) : int;
 
     //-----------------------------------------------------------------------
     /**
@@ -424,7 +424,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return int the comparator value, negative if less, positive if greater
      */
-    function compareTo(ChronoLocalDateTime $other);
+    function compareTo(ChronoLocalDateTime $other) : int;
 
     /**
      * Checks if this date-time is after the specified date-time ignoring the chronology.
@@ -440,7 +440,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if this is after the specified date-time
      */
-    function isAfter(ChronoLocalDateTime $other);
+    function isAfter(ChronoLocalDateTime $other) : bool;
 
     /**
      * Checks if this date-time is before the specified date-time ignoring the chronology.
@@ -456,7 +456,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if this is before the specified date-time
      */
-    function isBefore(ChronoLocalDateTime $other);
+    function isBefore(ChronoLocalDateTime $other) : bool;
 
     /**
      * Checks if this date-time is equal to the specified date-time ignoring the chronology.
@@ -472,7 +472,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param ChronoLocalDateTime $other the other date-time to compare to, not null
      * @return bool true if the underlying date-time is equal to the specified date-time on the timeline
      */
-    function isEqual(ChronoLocalDateTime $other);
+    function isEqual(ChronoLocalDateTime $other) : bool;
 
     /**
      * Checks if this date-time is equal to another date-time, including the chronology.
@@ -482,7 +482,7 @@ interface ChronoLocalDateTime extends Temporal, TemporalAdjuster
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
-    function equals($obj);
+    function equals($obj) : bool;
 
     //-----------------------------------------------------------------------
     /**

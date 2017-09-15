@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal;
 
@@ -12,7 +12,7 @@ abstract class AbstractTemporalUnit implements TemporalUnit
     /**
      * @inheritdoc
      */
-    public function isSupportedBy(Temporal $temporal)
+    public function isSupportedBy(Temporal $temporal) : bool
     {
         if ($temporal instanceof LocalTime) {
             return $this->isTimeBased();

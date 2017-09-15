@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal\Misc;
 
@@ -12,32 +12,33 @@ use Celest\Temporal\IsoFields;
 use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalField;
+use Celest\Temporal\TemporalUnit;
 use Celest\Temporal\UnsupportedTemporalTypeException;
 use Celest\Temporal\ValueRange;
 
 class QuarterOfYear implements TemporalField
 {
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return IsoFields::QUARTER_YEARS();
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return ChronoUnit::YEARS();
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         return ValueRange::of(1, 4);
     }
 
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return $temporal->isSupported(ChronoField::MONTH_OF_YEAR()) && IsoFields::isIso($temporal);
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new UnsupportedTemporalTypeException("Unsupported field: QuarterOfYear");
@@ -46,7 +47,7 @@ class QuarterOfYear implements TemporalField
         return \intdiv(($moy + 2), 3);
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         // calls getFrom() to check if supported
         $curValue = $this->getFrom($temporal);
@@ -54,28 +55,28 @@ class QuarterOfYear implements TemporalField
         return $temporal->with(ChronoField::MONTH_OF_YEAR(), $temporal->getLong(ChronoField::MONTH_OF_YEAR()) + ($newValue - $curValue) * 3);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "QuarterOfYear";
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return $this->__toString();
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return true;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }
 
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         return $this->range();
     }
@@ -83,7 +84,7 @@ class QuarterOfYear implements TemporalField
     public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle)
+        ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         return null;
     }

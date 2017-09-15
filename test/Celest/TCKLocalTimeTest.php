@@ -64,7 +64,6 @@ namespace Celest;
 use Celest\Format\DateTimeFormatter;
 use Celest\Format\ResolverStyle;
 use Celest\Helper\Long;
-use Celest\Helper\Math;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\FieldValues;
@@ -76,87 +75,9 @@ use Celest\Temporal\TemporalField;
 use Celest\Temporal\TemporalQueries;
 use Celest\Temporal\TemporalQuery;
 use Celest\Temporal\TemporalUnit;
+use Celest\Temporal\ValueRange;
 use Exception;
 use PHPUnit\Framework\TestCase;
-
-class TemporalField_notChronoField implements TemporalField
-{
-    private $_this;
-    private $result;
-    private $base;
-
-    public function __construct(TestCase $_this, $base, $result)
-    {
-        $this->_this = $_this;
-        $this->result = $result;
-        $this->base = $base;
-    }
-
-    public function rangeRefinedBy(TemporalAccessor $temporal)
-    {
-        throw new \LogicException();
-    }
-
-    public function range()
-    {
-        return null;
-    }
-
-    public function isTimeBased()
-    {
-        throw new \LogicException();
-    }
-
-    public function isSupportedBy(TemporalAccessor $temporal)
-    {
-        throw new \LogicException();
-    }
-
-    public function isDateBased()
-    {
-        throw new \LogicException();
-    }
-
-    public function getRangeUnit()
-    {
-        throw new \LogicException();
-    }
-
-    public function getFrom(TemporalAccessor $temporal)
-    {
-        throw new \LogicException();
-    }
-
-    public function getBaseUnit()
-    {
-        throw new \LogicException();
-    }
-
-    public function adjustInto(Temporal $temporal, $newValue)
-    {
-        $this->_this->assertEquals($temporal, $this->base);
-        $this->_this->assertEquals($newValue, 12);
-        return $this->result;
-    }
-
-    public function getDisplayName(Locale $locale)
-    {
-        throw new \LogicException();
-    }
-
-    public function resolve(
-        FieldValues $fieldValues,
-        TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle)
-    {
-        throw new \LogicException();
-    }
-
-    public function __toString()
-    {
-        throw new \LogicException();
-    }
-}
 
 class TCKLocalTimeTest extends AbstractDateTimeTest
 {
@@ -1270,7 +1191,84 @@ class TCKLocalTimeTest extends AbstractDateTimeTest
     {
         $result = LocalTime::of(12, 30);
         $base = LocalTime::of(15, 45);
-        $field = new TemporalField_notChronoField($this, $base, $result);
+        $field = new class($this, $base, $result) implements TemporalField
+        {
+            private $_this;
+            private $result;
+            private $base;
+
+            public function __construct(TestCase $_this, $base, $result)
+            {
+                $this->_this = $_this;
+                $this->result = $result;
+                $this->base = $base;
+            }
+
+            public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
+            {
+                throw new \LogicException();
+            }
+
+            public function range() : ValueRange
+            {
+                return null;
+            }
+
+            public function isTimeBased() : bool
+            {
+                throw new \LogicException();
+            }
+
+            public function isSupportedBy(TemporalAccessor $temporal) : bool
+            {
+                throw new \LogicException();
+            }
+
+            public function isDateBased() : bool
+            {
+                throw new \LogicException();
+            }
+
+            public function getRangeUnit() : TemporalUnit
+            {
+                throw new \LogicException();
+            }
+
+            public function getFrom(TemporalAccessor $temporal) : int
+            {
+                throw new \LogicException();
+            }
+
+            public function getBaseUnit() : TemporalUnit
+            {
+                throw new \LogicException();
+            }
+
+            public function adjustInto(Temporal $temporal, int $newValue) : Temporal
+            {
+                $this->_this->assertEquals($temporal, $this->base);
+                $this->_this->assertEquals($newValue, 12);
+                return $this->result;
+            }
+
+            public function getDisplayName(Locale $locale) : string
+            {
+                throw new \LogicException();
+            }
+
+            public function resolve(
+                FieldValues $fieldValues,
+                TemporalAccessor $partialTemporal,
+                ResolverStyle $resolverStyle) : ?TemporalAccessor
+            {
+                throw new \LogicException();
+            }
+
+            public function __toString() : string
+            {
+                throw new \LogicException();
+            }
+        };
         $test = $base->with($field, 12);
         $this->assertSame($test, $result);
     }

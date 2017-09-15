@@ -128,13 +128,13 @@ final class MockSimplePeriod implements TemporalAmount
     }
 
 
-    public function get(TemporalUnit $unit)
+    public function get(TemporalUnit $unit) : int
     {
         throw new \LogicException("Not supported yet.");
     }
 
 
-    public function getUnits()
+    public function getUnits() : array
     {
         throw new \LogicException("Not supported yet.");
     }

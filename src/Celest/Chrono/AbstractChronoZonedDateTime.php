@@ -116,7 +116,7 @@ abstract class AbstractChronoZonedDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit != ChronoUnit::FOREVER();

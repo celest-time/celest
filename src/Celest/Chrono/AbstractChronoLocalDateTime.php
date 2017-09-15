@@ -55,7 +55,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isUnitSupported(TemporalUnit $unit)
+    public function isUnitSupported(TemporalUnit $unit) : bool
     {
         if ($unit instanceof ChronoUnit) {
             return $unit !== ChronoUnit::FOREVER();
@@ -128,7 +128,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function format(DateTimeFormatter $formatter)
+    public function format(DateTimeFormatter $formatter) : string
     {
         return $formatter->format($this);
     }
@@ -136,7 +136,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function toInstant(ZoneOffset $offset)
+    public function toInstant(ZoneOffset $offset) : Instant
     {
         return Instant::ofEpochSecond($this->toEpochSecond($offset), $this->toLocalTime()->getNano());
     }
@@ -144,7 +144,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function toEpochSecond(ZoneOffset $offset)
+    public function toEpochSecond(ZoneOffset $offset) : int
     {
         $epochDay = $this->toLocalDate()->toEpochDay();
         $secs = $epochDay * 86400 + $this->toLocalTime()->toSecondOfDay();
@@ -155,7 +155,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function compareTo(ChronoLocalDateTime $other)
+    public function compareTo(ChronoLocalDateTime $other) : int
     {
         $cmp = $this->toLocalDate()->compareTo($other->toLocalDate());
         if ($cmp === 0) {
@@ -170,7 +170,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isAfter(ChronoLocalDateTime $other)
+    public function isAfter(ChronoLocalDateTime $other) : bool
     {
         $thisEpDay = $this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();
@@ -181,7 +181,7 @@ abstract class AbstractChronoLocalDateTime extends AbstractTemporal implements C
     /**
      * @inheritdoc
      */
-    public function isBefore(ChronoLocalDateTime $other)
+    public function isBefore(ChronoLocalDateTime $other) : bool
     {
         $thisEpDay = $this->toLocalDate()->toEpochDay();
         $otherEpDay = $other->toLocalDate()->toEpochDay();

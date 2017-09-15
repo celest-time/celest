@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -104,7 +104,7 @@ interface TemporalField
      * @param Locale $locale the locale to use, not null
      * @return String the display name for the locale or a suitable default, not null
      */
-    public function getDisplayName(Locale $locale);
+    public function getDisplayName(Locale $locale) : string;
 
     /**
      * Gets the unit that the field is measured in.
@@ -115,7 +115,7 @@ interface TemporalField
      *
      * @return TemporalUnit the unit defining the base unit of the field, not null
      */
-    public function getBaseUnit();
+    public function getBaseUnit() : TemporalUnit;
 
     /**
      * Gets the range that the field is bound by.
@@ -129,7 +129,7 @@ interface TemporalField
      *
      * @return TemporalUnit the unit defining the range of the field, not null
      */
-    public function getRangeUnit();
+    public function getRangeUnit() : TemporalUnit;
 
     /**
      * Gets the range of valid values for the field.
@@ -144,7 +144,7 @@ interface TemporalField
      *
      * @return ValueRange the range of valid values for the field, not null
      */
-    public function range();
+    public function range() : ValueRange;
 
     //-----------------------------------------------------------------------
     /**
@@ -157,7 +157,7 @@ interface TemporalField
      *
      * @return boolean true if this field is a component of a date
      */
-    public function isDateBased();
+    public function isDateBased() : bool;
 
     /**
      * Checks if this field represents a component of a time.
@@ -169,7 +169,7 @@ interface TemporalField
      *
      * @return boolean true if this field is a component of a time
      */
-    public function isTimeBased();
+    public function isTimeBased() : bool;
 
     //-----------------------------------------------------------------------
     /**
@@ -195,7 +195,7 @@ interface TemporalField
      * @param TemporalAccessor $temporal the temporal object to query, not null
      * @return boolean true if the date-time can be queried for this field, false if not
      */
-    public function isSupportedBy(TemporalAccessor $temporal);
+    public function isSupportedBy(TemporalAccessor $temporal) : bool;
 
     /**
      * Get the range of valid values for this field using the temporal object to
@@ -228,7 +228,7 @@ interface TemporalField
      * @throws DateTimeException if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
      */
-    public function rangeRefinedBy(TemporalAccessor $temporal);
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange;
 
     /**
      * Gets the value of this field from the specified temporal object.
@@ -257,7 +257,7 @@ interface TemporalField
      * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function getFrom(TemporalAccessor $temporal);
+    public function getFrom(TemporalAccessor $temporal) : int;
 
     /**
      * Returns a copy of the specified temporal object with the value of this field set.
@@ -293,14 +293,14 @@ interface TemporalField
      * This provides equivalent, safe behavior for immutable and mutable implementations.
      *
      * @param <R>  the type of the Temporal object
-     * @param mixed $temporal the temporal object to adjust, not null
+     * @param Temporal $temporal the temporal object to adjust, not null
      * @param int $newValue the new value of the field
      * @return Temporal the adjusted temporal object, not null
      * @throws DateTimeException if the field cannot be set
      * @throws UnsupportedTemporalTypeException if the field is not supported by the temporal
      * @throws ArithmeticException if numeric overflow occurs
      */
-    public function adjustInto(Temporal $temporal, $newValue);
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal;
 
     /**
      * Resolves this field to provide a simpler alternative or a date.
@@ -371,7 +371,7 @@ interface TemporalField
     public function resolve(
         FieldValues $fieldValues,
         TemporalAccessor $partialTemporal,
-        ResolverStyle $resolverStyle);
+        ResolverStyle $resolverStyle) : ?TemporalAccessor;
 
     /**
      * Gets a descriptive name for the field.
@@ -382,5 +382,5 @@ interface TemporalField
      *
      * @return string the name of the field, not null
      */
-    public function __toString();
+    public function __toString() : string;
 }

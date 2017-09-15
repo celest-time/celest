@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Temporal\Misc;
 
@@ -32,7 +32,7 @@ final class JulianField implements TemporalField
     /** @var int */
     private $offset;
 
-    public function __construct($name, TemporalUnit $baseUnit, TemporalUnit $rangeUnit, $offset)
+    public function __construct(string $name, TemporalUnit $baseUnit, TemporalUnit $rangeUnit, int $offset)
     {
         $this->name = $name;
         $this->baseUnit = $baseUnit;
@@ -42,38 +42,38 @@ final class JulianField implements TemporalField
     }
 
 //-----------------------------------------------------------------------
-    public function getBaseUnit()
+    public function getBaseUnit() : TemporalUnit
     {
         return $this->baseUnit;
     }
 
-    public function getRangeUnit()
+    public function getRangeUnit() : TemporalUnit
     {
         return $this->rangeUnit;
     }
 
-    public function isDateBased()
+    public function isDateBased() : bool
     {
         return true;
     }
 
-    public function isTimeBased()
+    public function isTimeBased() : bool
     {
         return false;
     }
 
-    public function range()
+    public function range() : ValueRange
     {
         return $this->range;
     }
 
     //-----------------------------------------------------------------------
-    public function isSupportedBy(TemporalAccessor $temporal)
+    public function isSupportedBy(TemporalAccessor $temporal) : bool
     {
         return $temporal->isSupported(CF::EPOCH_DAY());
     }
 
-    public function rangeRefinedBy(TemporalAccessor $temporal)
+    public function rangeRefinedBy(TemporalAccessor $temporal) : ValueRange
     {
         if ($this->isSupportedBy($temporal) === false) {
             throw new DateTimeException("Unsupported field: " . $this);
@@ -81,12 +81,12 @@ final class JulianField implements TemporalField
         return $this->range();
     }
 
-    public function getFrom(TemporalAccessor $temporal)
+    public function getFrom(TemporalAccessor $temporal) : int
     {
         return $temporal->getLong(CF::EPOCH_DAY()) + $this->offset;
     }
 
-    public function adjustInto(Temporal $temporal, $newValue)
+    public function adjustInto(Temporal $temporal, int $newValue) : Temporal
     {
         if ($this->range()->isValidValue($newValue) === false) {
             throw new DateTimeException("Invalid value: " . $this->name . " " . $newValue);
@@ -95,7 +95,7 @@ final class JulianField implements TemporalField
     }
 
     //-----------------------------------------------------------------------
-    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle)
+    public function resolve(FieldValues $fieldValues, TemporalAccessor $partialTemporal, ResolverStyle $resolverStyle) : ?TemporalAccessor
     {
         $value = $fieldValues->remove($this);
         $chrono = AbstractChronology::from($partialTemporal);
@@ -107,12 +107,12 @@ final class JulianField implements TemporalField
     }
 
     //-----------------------------------------------------------------------
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name;
     }
 
-    public function getDisplayName(Locale $locale)
+    public function getDisplayName(Locale $locale) : string
     {
         return $this->__toString();
     }

@@ -69,7 +69,7 @@ final class MockFieldValue extends AbstractTemporalAccessor
     private $field;
     private $value;
 
-    public function __construct(TemporalField $field, $value)
+    public function __construct(TemporalField $field, int $value)
     {
         $this->field = $field;
         $this->value = $value;

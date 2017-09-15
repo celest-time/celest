@@ -130,7 +130,7 @@ interface ChronoPeriod
      * @throws DateTimeException if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
-    function get(TemporalUnit $unit);
+    function get(TemporalUnit $unit) : int;
 
     /**
      * Gets the set of units supported by this period.
@@ -145,7 +145,7 @@ interface ChronoPeriod
      *
      * @return TemporalUnit[] a list containing the supported units, not null
      */
-    function getUnits();
+    function getUnits() : array;
 
     /**
      * Gets the chronology that defines the meaning of the supported units.

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
@@ -116,7 +116,7 @@ interface TemporalAmount
      * @throws DateTimeException if a value for the unit cannot be obtained
      * @throws UnsupportedTemporalTypeException if the {@code unit} is not supported
      */
-    public function get(TemporalUnit $unit);
+    public function get(TemporalUnit $unit) : int;
 
     /**
      * Returns the list of units uniquely defining the value of this TemporalAmount.
@@ -133,7 +133,7 @@ interface TemporalAmount
      *
      * @return TemporalUnit[] the List of {@code TemporalUnits}; not null
      */
-    public function getUnits();
+    public function getUnits() : array;
 
     /**
      * Adds to the specified temporal object.

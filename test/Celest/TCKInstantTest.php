@@ -65,6 +65,7 @@ use Celest\Helper\Math;
 use Celest\Temporal\ChronoField as CF;
 use Celest\Temporal\ChronoUnit as CU;
 use Celest\Temporal\JulianFields;
+use Celest\Temporal\Temporal;
 use Celest\Temporal\TemporalAccessor;
 use Celest\Temporal\TemporalAmount;
 use Celest\Temporal\TemporalField;
@@ -643,7 +644,48 @@ class TCKInstantTest extends AbstractDateTimeTest
     function data_truncatedToInvalid()
     {
         return [
-            [Instant::ofEpochSecond(1, 123456789), new NINETY_FIVE_MINS()],
+            [Instant::ofEpochSecond(1, 123456789), new class() implements TemporalUnit
+            {
+                public function getDuration() : Duration
+                {
+                    return Duration::ofMinutes(95);
+                }
+
+                public function isDurationEstimated() : bool
+                {
+                    return false;
+                }
+
+                public function isDateBased() : bool
+                {
+                    return false;
+                }
+
+                public function isTimeBased() : bool
+                {
+                    return false;
+                }
+
+                public function isSupportedBy(Temporal $temporal) : bool
+                {
+                    return false;
+                }
+
+                public function addTo(Temporal $temporal, int $amount)
+                {
+                    throw new \LogicException();
+                }
+
+                public function between(Temporal $temporal1, Temporal $temporal2) : int
+                {
+                    throw new \LogicException();
+                }
+
+                public function __toString() : string
+                {
+                    return "NinetyFiveMins";
+                }
+            }],
             [Instant::ofEpochSecond(1, 123456789), CU::WEEKS()],
             [Instant::ofEpochSecond(1, 123456789), CU::MONTHS()],
             [Instant::ofEpochSecond(1, 123456789), CU::YEARS()],
