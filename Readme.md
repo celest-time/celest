@@ -63,6 +63,7 @@ timesystems like TAI, UT or scientific uses of UTC
 - https://github.com/briannesbitt/Carbon
 - https://github.com/cakephp/chronos
 - https://packagist.org/packages/icecave/chrono
+- http://period.thephpleague.com/
 
 ### In other languages:
 - http://www.joda.org/joda-time/
