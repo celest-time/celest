@@ -267,9 +267,6 @@ abstract class ZoneId
      */
     public static function of(string $zoneId) : ZoneId
     {
-        if (!is_string($zoneId))
-            throw new \InvalidArgumentException();
-
         return self::_of($zoneId, true);
     }
 
@@ -288,9 +285,6 @@ abstract class ZoneId
      */
     public static function ofOffset(string $prefix, ZoneOffset $offset) : ZoneId
     {
-        if (!is_string($prefix))
-            throw new \InvalidArgumentException();
-
         if (strlen($prefix) === 0) {
             return $offset;
         }

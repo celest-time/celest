@@ -1791,15 +1791,11 @@ class DateTimeFormatter
      * Instead, any {@code IOException} is wrapped in a runtime exception.
      *
      * @param TemporalAccessor $temporal the temporal object to format, not null
-     * @param string $appendable the appendable to format to, not null
+     * @param string|null $appendable the appendable to format to
      * @throws DateTimeException if an error occurs during formatting
      */
-    public function formatTo(TemporalAccessor $temporal, &$appendable)
+    public function formatTo(TemporalAccessor $temporal, ?string &$appendable)
     {
-        if (!is_string($appendable) && !is_null($appendable)) {
-            throw new \InvalidArgumentException();
-        }
-
         $context = new DateTimePrintContext($temporal, $this);
         $this->printerParser->format($context, $appendable);
     }
@@ -1819,12 +1815,8 @@ class DateTimeFormatter
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public function parse($text)
+    public function parse(string $text)
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         try {
             return $this->parseResolved0($text, null);
         } catch
@@ -1864,12 +1856,8 @@ class DateTimeFormatter
      * @return TemporalAccessor the parsed temporal object, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public function parsePos($text, ParsePosition $position)
+    public function parsePos(string $text, ParsePosition $position)
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         try {
             return $this->parseResolved0($text, $position);
         } catch (DateTimeParseException $ex) {
@@ -1899,12 +1887,8 @@ class DateTimeFormatter
      * @return mixed the parsed date-time, not null
      * @throws DateTimeParseException if unable to parse the requested result
      */
-    public function parseQuery($text, TemporalQuery $query)
+    public function parseQuery(string $text, TemporalQuery $query)
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         try {
             return $this->parseResolved0($text, null)->query($query);
         } catch
@@ -1947,12 +1931,8 @@ class DateTimeFormatter
      * @throws DateTimeParseException if unable to parse the requested result
      * @throws IllegalArgumentException if less than 2 types are specified
      */
-    public function parseBest($text, ...$queries)
+    public function parseBest(string $text, TemporalQuery ...$queries)
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         if (count($queries) < 2) {
             throw new \InvalidArgumentException("At least two queries must be specified");
         }
@@ -2058,12 +2038,8 @@ class DateTimeFormatter
      * @throws DateTimeException if some problem occurs during parsing
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    public function parseUnresolved($text, ParsePosition $position)
+    public function parseUnresolved(string $text, ParsePosition $position)
     {
-        if (!is_string($text)) {
-            throw new \InvalidArgumentException();
-        }
-
         $context = $this->parseUnresolved0($text, $position);
         if ($context === null) {
             return null;

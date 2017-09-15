@@ -15,11 +15,8 @@ final class FuncTemporalQuery implements TemporalQuery
      * @param callable $func TemporalAccessor->mixed
      * @throws IllegalArgumentException
      */
-    public function __construct($func)
+    public function __construct(callable $func)
     {
-        if (!is_callable($func)) {
-            throw new IllegalArgumentException('The supplied function is not callable.' . var_export($func, true));
-        }
         $this->func = $func;
     }
 

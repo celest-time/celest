@@ -879,11 +879,8 @@ final class DateTimeFormatterBuilder
      * @param string $noOffsetText the text to use when the offset is zero, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendOffset($pattern, $noOffsetText)
+    public function appendOffset(string $pattern, string $noOffsetText) : DateTimeFormatterBuilder
     {
-        if (!is_string($pattern) || !is_string($noOffsetText)) {
-            throw new \InvalidArgumentException();
-        }
         $this->appendInternal(new OffsetIdPrinterParser($pattern, $noOffsetText));
         return $this;
     }
@@ -1548,16 +1545,13 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the pattern is invalid
      */
-    public function appendPattern($pattern)
+    public function appendPattern(string $pattern) : DateTimeFormatterBuilder
     {
-        if (!is_string($pattern)) {
-            throw new \InvalidArgumentException();
-        }
         $this->parsePattern($pattern);
         return $this;
     }
 
-    private function parsePattern($pattern)
+    private function parsePattern(string $pattern) : void
     {
         for ($pos = 0;
              $pos < strlen($pattern);

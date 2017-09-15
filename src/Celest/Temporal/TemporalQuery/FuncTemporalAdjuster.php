@@ -14,11 +14,8 @@ final class FuncTemporalAdjuster implements TemporalAdjuster
     /**
      * @param callable $func Temporal->Temporal
      */
-    public function __construct($func)
+    public function __construct(callable $func)
     {
-        if (!is_callable($func)) {
-            new IllegalArgumentException('The supplied function is not callable.' . $func);
-        }
         $this->func = $func;
     }
 

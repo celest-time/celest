@@ -223,9 +223,6 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
      */
     public static function of(string $offsetId) : ZoneID // TODO verify return type choice
     {
-        if (!is_string($offsetId))
-            throw new \InvalidArgumentException();
-
         // "Z" is always in the cache
         // TODO check not undefined
         $offset = @self::$ID_CACHE[$offsetId];
