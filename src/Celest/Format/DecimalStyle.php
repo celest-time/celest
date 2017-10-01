@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -82,7 +82,7 @@ final class DecimalStyle
      * <p>
      * This uses standard ASCII characters for zero, positive, negative and a dot for the decimal point.
      */
-    public static function STANDARD()
+    public static function STANDARD() : DecimalStyle
     {
         if (self::$STANDARD === null) {
             self::$STANDARD = new DecimalStyle('0', '+', '-', '.');
@@ -148,7 +148,7 @@ final class DecimalStyle
      * @see java.util.Locale.Category#FORMAT
      * @return DecimalStyle the decimal style, not null
      */
-    public static function ofDefaultLocale()
+    public static function ofDefaultLocale() : DecimalStyle
     {
         return self::of(Locale::getDefault());
     }
@@ -161,7 +161,7 @@ final class DecimalStyle
      * @param Locale $locale the locale, not null
      * @return DecimalStyle the decimal style, not null
      */
-    public static function of(Locale $locale)
+    public static function of(Locale $locale) : DecimalStyle
     {
         $info = @self::$CACHE[$locale->getLocale()];
         if ($info === null) {
@@ -173,7 +173,7 @@ final class DecimalStyle
         return $info;
     }
 
-    private static function create(Locale $locale)
+    private static function create(Locale $locale) : DecimalStyle
     {
         $formatter = \NumberFormatter::create($locale->getLocale(), \NumberFormatter::DEFAULT_STYLE);
         $zeroDigit = $formatter->getSymbol(\NumberFormatter::ZERO_DIGIT_SYMBOL);
@@ -196,7 +196,7 @@ final class DecimalStyle
      * @param string $negativeSignChar the character to use for the negative sign
      * @param string $decimalPointChar the character to use for the decimal point
      */
-    private function __construct($zeroChar, $positiveSignChar, $negativeSignChar, $decimalPointChar)
+    private function __construct(string $zeroChar, string $positiveSignChar, string $negativeSignChar, string $decimalPointChar)
     {
         $this->zeroDigit = $zeroChar;
         $this->positiveSign = $positiveSignChar;
@@ -213,7 +213,7 @@ final class DecimalStyle
      *
      * @return string the character for zero
      */
-    public function getZeroDigit()
+    public function getZeroDigit() : string
     {
         return $this->zeroDigit;
     }
@@ -227,7 +227,7 @@ final class DecimalStyle
      * @param string $zeroDigit the character for zero
      * @return DecimalStyle a copy with a new character that represents zero, not null
      */
-    public function withZeroDigit($zeroDigit)
+    public function withZeroDigit(string $zeroDigit) : DecimalStyle
     {
         if ($zeroDigit === $this->zeroDigit) {
             return $this;
@@ -245,7 +245,7 @@ final class DecimalStyle
      *
      * @return string the character for the positive sign
      */
-    public function getPositiveSign()
+    public function getPositiveSign() : string
     {
         return $this->positiveSign;
     }
@@ -259,7 +259,7 @@ final class DecimalStyle
      * @param string $positiveSign the character for the positive sign
      * @return DecimalStyle a copy with a new character that represents the positive sign, not null
      */
-    public function withPositiveSign($positiveSign)
+    public function withPositiveSign(string $positiveSign) : DecimalStyle
     {
         if ($positiveSign === $this->positiveSign) {
             return $this;
@@ -277,7 +277,7 @@ final class DecimalStyle
      *
      * @return string the character for the negative sign
      */
-    public function getNegativeSign()
+    public function getNegativeSign() : string
     {
         return $this->negativeSign;
     }
@@ -291,7 +291,7 @@ final class DecimalStyle
      * @param string $negativeSign the character for the negative sign
      * @return DecimalStyle a copy with a new character that represents the negative sign, not null
      */
-    public function withNegativeSign($negativeSign)
+    public function withNegativeSign(string $negativeSign) : DecimalStyle
     {
         if ($negativeSign === $this->negativeSign) {
             return $this;
@@ -309,7 +309,7 @@ final class DecimalStyle
      *
      * @return string the character for the decimal point
      */
-    public function getDecimalSeparator()
+    public function getDecimalSeparator() : string
     {
         return $this->decimalSeparator;
     }
@@ -323,7 +323,7 @@ final class DecimalStyle
      * @param string $decimalSeparator the character for the decimal point
      * @return DecimalStyle a copy with a new character that represents the decimal point, not null
      */
-    public function withDecimalSeparator($decimalSeparator)
+    public function withDecimalSeparator(string $decimalSeparator) : DecimalStyle
     {
         if ($decimalSeparator === $this->decimalSeparator) {
             return $this;
@@ -339,7 +339,7 @@ final class DecimalStyle
      * @param string $ch the character to check
      * @return int the value, 0 to 9, of the character, or -1 if not a digit
      */
-    public function convertToDigit($ch)
+    public function convertToDigit(string $ch) : int
     {
         $val = \ord($ch) - \ord($this->zeroDigit);
         return ($val >= 0 && $val <= 9) ? $val : -1;
@@ -351,7 +351,7 @@ final class DecimalStyle
      * @param string $numericText the text, consisting of digits 0 to 9, to convert, not null
      * @return string the internationalized text, not null
      */
-    public function convertNumberToI18N($numericText)
+    public function convertNumberToI18N(string $numericText) : string
     {
         if ($this->zeroDigit === '0') {
             return $numericText;
@@ -371,7 +371,7 @@ final class DecimalStyle
      * @param mixed $obj the object to check, null returns false
      * @return bool true if this is equal to the other date
      */
-    public function equals($obj)
+    public function equals($obj) : bool
     {
         if ($this === $obj) {
             return true;
@@ -390,7 +390,7 @@ final class DecimalStyle
      *
      * @return string a string description, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "DecimalStyle[" . $this->zeroDigit . $this->positiveSign . $this->negativeSign . $this->decimalSeparator . "]";
     }

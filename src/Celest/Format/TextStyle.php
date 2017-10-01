@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -88,7 +88,7 @@ class TextStyle
 {
     // ordered from large to small
     // ordered so that bit 0 of the ordinal indicates stand-alone.
-    public static function init()
+    public static function init() : void
     {
         self::$FULL = new TextStyle(0, \IntlDateFormatter::FULL, 'l');
         self::$FULL_STANDALONE = new TextStyle(1, \IntlDateFormatter::FULL, 'l');
@@ -98,7 +98,7 @@ class TextStyle
         self::$NARROW_STANDALONE = new TextStyle(5, \IntlDateFormatter::SHORT, 'S');
     }
 
-    public static function valueOf($name)
+    public static function valueOf(string $name) : TextStyle
     {
         switch ($name) {
             case 'FULL':
@@ -123,7 +123,7 @@ class TextStyle
      * For example, day-of-week Monday might output "Monday".
      * @return TextStyle
      */
-    public static function FULL()
+    public static function FULL() : TextStyle
     {
         return self::$FULL;
     }
@@ -136,7 +136,7 @@ class TextStyle
      * For example, day-of-week Monday might output "Monday".
      * @return TextStyle
      */
-    public static function FULL_STANDALONE()
+    public static function FULL_STANDALONE() : TextStyle
     {
         return self::$FULL_STANDALONE;
     }
@@ -149,7 +149,7 @@ class TextStyle
      * For example, day-of-week Monday might output "Mon".
      * @return TextStyle
      */
-    public static function SHORT()
+    public static function SHORT() : TextStyle
     {
         return self::$SHORT;
     }
@@ -162,7 +162,7 @@ class TextStyle
      * For example, day-of-week Monday might output "Mon".
      * @return TextStyle
      */
-    public static function SHORT_STANDALONE()
+    public static function SHORT_STANDALONE() : TextStyle
     {
         return self::$SHORT_STANDALONE;
     }
@@ -175,7 +175,7 @@ class TextStyle
      * For example, day-of-week Monday might output "M".
      * @return TextStyle
      */
-    public static function NARROW()
+    public static function NARROW() : TextStyle
     {
         return self::$NARROW;
     }
@@ -188,7 +188,7 @@ class TextStyle
      * For example, day-of-week Monday might output "M".
      * @return TextStyle
      */
-    public static function NARROW_STANDALONE()
+    public static function NARROW_STANDALONE() : TextStyle
     {
         return self::$NARROW_STANDALONE;
     }
@@ -198,19 +198,19 @@ class TextStyle
 
     /** @var int */
     private $ordinal;
-    /** @var int */
+    /** @var string */
     private $zoneNameStyleIndex;
     /** @var int */
     private $calendarStyle;
 
-    private function __construct($ordinal, $calendarStyle, $zoneNameStyleIndex)
+    private function __construct(int $ordinal, int $calendarStyle, string $zoneNameStyleIndex)
     {
         $this->ordinal = $ordinal;
         $this->zoneNameStyleIndex = $zoneNameStyleIndex;
         $this->calendarStyle = $calendarStyle;
     }
 
-    public static function values()
+    public static function values() : array
     {
         return [
             self::FULL(),
@@ -226,7 +226,7 @@ class TextStyle
      * Returns true if the Style is a stand-alone style.
      * @return bool true if the style is a stand-alone style.
      */
-    public function isStandalone()
+    public function isStandalone() : bool
     {
         return ($this->ordinal & 1) === 1;
     }
@@ -235,7 +235,7 @@ class TextStyle
      * Returns the stand-alone style with the same size.
      * @return TextStyle the stand-alone style with the same size
      */
-    public function asStandalone()
+    public function asStandalone() : TextStyle
     {
         return TextStyle::values()[$this->ordinal | 1];
     }
@@ -245,7 +245,7 @@ class TextStyle
      *
      * @return TextStyle the normal style with the same size
      */
-    public function asNormal()
+    public function asNormal() : TextStyle
     {
         return TextStyle::values()[$this->ordinal & ~1];
     }
@@ -255,7 +255,7 @@ class TextStyle
      *
      * @return int the corresponding {@code IntlDateFormatter} style
      */
-    public function toCalendarStyle()
+    public function toCalendarStyle() : int
     {
         return $this->calendarStyle;
     }
@@ -267,14 +267,14 @@ class TextStyle
      * do <em>not</em> correspond to the {@link java.util.TimeZone#LONG} and {@link
      * java.util.TimeZone#SHORT} values.
      *
-     * @return int the relative index value to time zone names array
+     * @return string the relative index value to time zone names array
      */
-    public function zoneNameStyleIndex()
+    public function zoneNameStyleIndex() : string
     {
         return $this->zoneNameStyleIndex;
     }
 
-    public function name()
+    public function name() : string
     {
         switch ($this->ordinal) {
             case 0:
@@ -293,7 +293,7 @@ class TextStyle
         return '';
     }
 
-    function __toString()
+    function __toString() : string
     {
         return $this->name();
 

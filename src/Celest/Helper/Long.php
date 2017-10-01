@@ -5,13 +5,15 @@ namespace Celest\Helper;
 
 use Celest\ArithmeticException;
 
-class Long
+final class Long
 {
     // See https://bugs.php.net/bug.php?id=53934 for -1
     const MIN_VALUE = -9223372036854775807 - 1;
     const MAX_VALUE = 9223372036854775807;
 
-    public static function compare($x, $y)
+    private function __construct() {}
+
+    public static function compare(int $x, int $y) : int
     {
         return ($x < $y) ? -1 : (($x === $y) ? 0 : 1);
     }
@@ -21,7 +23,7 @@ class Long
      * @return int
      * @throws ArithmeticException
      */
-    public static function parseLong($str)
+    public static function parseLong(string $str) : int
     {
         $val = intval($str, 10);
 

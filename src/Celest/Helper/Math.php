@@ -6,9 +6,7 @@ use Celest\ArithmeticException;
 
 final class Math
 {
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function binarySearch(array $a, $key) : int
     {

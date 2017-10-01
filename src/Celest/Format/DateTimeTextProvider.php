@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
@@ -96,12 +96,12 @@ class DateTimeTextProvider
      *
      * @return DateTimeTextProvider the provider, not null
      */
-    static function getInstance()
+    static function getInstance() : DateTimeTextProvider
     {
         return new DateTimeTextProvider();
     }
 
-    public static function tryField($field, Locale $locale)
+    public static function tryField(string $field, Locale $locale) : string
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);
         if (version_compare(INTL_ICU_DATA_VERSION, "51", "<")) {
@@ -111,7 +111,7 @@ class DateTimeTextProvider
         }
     }
 
-    public static function getZoneNames($zoneid, Locale $locale)
+    public static function getZoneNames(string $zoneid, Locale $locale) : ?array
     {
         if ($zoneid === "UTC") {
             // TODO remove hardcoded string
@@ -136,7 +136,7 @@ class DateTimeTextProvider
         return $names;
     }
 
-    public static function getMetaNames($zoneid)
+    public static function getMetaNames(string $zoneid) : ?array
     {
         if ($zoneid === 'GMT') {
             return [$zoneid];
@@ -160,7 +160,7 @@ class DateTimeTextProvider
         return $tmp;
     }
 
-    public static function tryFetch($field, $value, TextStyle $style, Locale $locale)
+    public static function tryFetch(string $field, int $value, TextStyle $style, Locale $locale) : ?string
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);
 
@@ -192,7 +192,7 @@ class DateTimeTextProvider
      * @param callable $transformer
      * @return array|null
      */
-    public static function tryFetchStyleValues($field, $style, Locale $locale, callable $transformer)
+    public static function tryFetchStyleValues(string $field, ?TextStyle $style, Locale $locale, callable $transformer) : ?array
     {
         $bundle = new ResourceBundle($locale->getLocale(), null);
 
@@ -238,12 +238,13 @@ class DateTimeTextProvider
         if (!$values)
             return null;
 
-        $tmp = [];
+        // force int keys to be string
+        $tmp = new \stdClass();
         foreach ($values as $key => $value) {
-            $tmp[$value] = $transformer($key);
+            $tmp->{$value} = $transformer($key);
         }
 
-        return $tmp;
+        return (array)$tmp;
     }
 
     /**
@@ -260,7 +261,7 @@ class DateTimeTextProvider
      * @param Locale $locale the locale to get text for, not null
      * @return string|null the text for the field value, null if no text found
      */
-    public function getText(TemporalField $field, $value, TextStyle $style, Locale $locale)
+    public function getText(TemporalField $field, int $value, TextStyle $style, Locale $locale) : ?string
     {
         if ($field == ChronoField::DAY_OF_WEEK()) {
             if ($value === 7)
@@ -304,8 +305,8 @@ class DateTimeTextProvider
      * @param Locale $locale the locale to get text for, not null
      * @return string|null the text for the field value, null if no text found
      */
-    public function getText2(Chronology $chrono, TemporalField $field, $value,
-                             TextStyle $style, Locale $locale)
+    public function getText2(Chronology $chrono, TemporalField $field, int $value,
+                             TextStyle $style, Locale $locale) : ?string
     {
         /*if ($chrono == IsoChronology::INSTANCE()
             || !($field instanceof ChronoField)
@@ -360,7 +361,7 @@ class DateTimeTextProvider
      * @return array the iterator of text to field pairs, in order from longest text to shortest text,
      *  null if the field or style is not parsable
      */
-    public function getTextIterator(TemporalField $field, $style, Locale $locale)
+    public function getTextIterator(TemporalField $field, ?TextStyle $style, Locale $locale) : ?array
     {
         $values = null;
 
@@ -415,7 +416,7 @@ class DateTimeTextProvider
      *  null if the field or style is not parsable
      */
     public function getTextIterator2(Chronology $chrono, TemporalField $field,
-                                     $style, Locale $locale)
+                                     ?TextStyle $style, Locale $locale) : ?array
     {
         return $this->getTextIterator($field, $style, $locale);
     }

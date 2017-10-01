@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -56,7 +56,7 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater,
      *  -1 if fixed width due to active adjacent parsing
      */
-    public function __construct(TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle, $subsequentWidth = 0)
+    public function __construct(TemporalField $field, int $minWidth, int $maxWidth, SignStyle $signStyle, int $subsequentWidth = 0)
     {
         // validated by caller
         $this->field = $field;
@@ -86,12 +86,12 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater
      * @return NumberPrinterParser a new updated printer-parser, not null
      */
-    public function withSubsequentWidth($subsequentWidth)
+    public function withSubsequentWidth(int $subsequentWidth)
     {
         return new NumberPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->signStyle, $this->subsequentWidth + $subsequentWidth);
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $valueLong = $context->getValueField($this->field);
         if ($valueLong === null) {
@@ -146,7 +146,7 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @param int $value the value of the field, not null
      * @return int the value
      */
-    public function getValue(DateTimePrintContext $context, $value)
+    public function getValue(DateTimePrintContext $context, int $value) : int
     {
         return $value;
     }
@@ -158,13 +158,13 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @return bool true if the field is fixed width
      * @see DateTimeFormatterBuilder#appendValue(java.time.temporal.TemporalField, int)
      */
-    public function isFixedWidth(DateTimeParseContext $context)
+    public function isFixedWidth(DateTimeParseContext $context) : bool
     {
         return $this->subsequentWidth === -1 ||
         ($this->subsequentWidth > 0 && $this->minWidth === $this->maxWidth && $this->signStyle == SignStyle::NOT_NEGATIVE());
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $length = strlen($text);
         if ($position === $length) {
@@ -277,12 +277,12 @@ class NumberPrinterParser implements DateTimePrinterParser
      * @param int $successPos the position after the field being parsed
      * @return int the new position
      */
-    public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)
+    public function setValue(DateTimeParseContext $context, int $value, int $errorPos, int $successPos) : int
     {
         return $context->setParsedField($this->field, $value, $errorPos, $successPos);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->minWidth === 1 && $this->maxWidth === 19 && $this->signStyle == SignStyle::NORMAL()) {
             return "Value(" . $this->field . ")";

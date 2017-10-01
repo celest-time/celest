@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -16,18 +16,18 @@ class DefaultValueParser implements DateTimePrinterParser
     /** @var int */
     private $value;
 
-    public function __construct(TemporalField $field, $value)
+    public function __construct(TemporalField $field, int $value)
     {
         $this->field = $field;
         $this->value = $value;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         if ($context->getParsed($this->field) === null) {
             $context->setParsedField($this->field, $this->value, $position, $position);
@@ -36,7 +36,7 @@ class DefaultValueParser implements DateTimePrinterParser
         return $position;
     }
 
-    function __toString()
+    function __toString() : string
     {
         return 'Default(' . $this->field . ':' . $this->value . ')';
     }

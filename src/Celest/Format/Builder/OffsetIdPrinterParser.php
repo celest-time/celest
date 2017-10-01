@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -40,7 +40,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
      * @param string $pattern the pattern
      * @param string $noOffsetText the text to use for UTC, not null
      */
-    public function __construct($pattern, $noOffsetText)
+    public function __construct(string $pattern, string $noOffsetText)
     {
         //Objects->requireNonNull(pattern, "pattern");
 //Objects->requireNonNull(noOffsetText, "noOffsetText");
@@ -48,7 +48,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         $this->noOffsetText = $noOffsetText;
     }
 
-    private function checkPattern($pattern)
+    private function checkPattern(string $pattern)
     {
         $i = array_search($pattern, self::$PATTERNS);
         if ($i === false)
@@ -56,7 +56,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         return $i;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $offsetSecs = $context->getValueField(ChronoField::OFFSET_SECONDS());
         if ($offsetSecs === null) {
@@ -92,7 +92,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $length = strlen($text);
         $noOffsetLen = strlen($this->noOffsetText);
@@ -144,7 +144,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
      * @param bool $required whether this number is required
      * @return bool true if an error occurred
      */
-    private function parseNumber(array &$array, $arrayIndex, $parseText, $required)
+    private function parseNumber(array &$array, int $arrayIndex, string $parseText, bool $required) : bool
     {
         if (($this->type + 3) / 2 < $arrayIndex) {
             return false;  // ignore seconds/minutes
@@ -173,7 +173,7 @@ final class OffsetIdPrinterParser implements DateTimePrinterParser
         return false;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $converted = str_replace("'", "''", $this->noOffsetText);
         return "Offset(" . self::$PATTERNS[$this->type] . ",'" . $converted . "')";

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -25,7 +25,7 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
      * @param int $padWidth the width to pad to, 1 or greater
      * @param string $padChar the pad character
      */
-    public function __construct(DateTimePrinterParser $printerParser, $padWidth, $padChar)
+    public function __construct(DateTimePrinterParser $printerParser, int $padWidth, string $padChar)
     {
         // input checked by DateTimeFormatterBuilder
         $this->printerParser = $printerParser;
@@ -33,7 +33,7 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
         $this->padChar = $padChar;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $preLen = strlen($buf);
         if ($this->printerParser->format($context, $buf) === false) {
@@ -51,7 +51,7 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         // cache context before changed by decorated parser
         $strict = $context->isStrict();
@@ -82,7 +82,7 @@ final class PadPrinterParserDecorator implements DateTimePrinterParser
         return $resultPos;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "Pad(" . $this->printerParser . "," . $this->padWidth . ($this->padChar === ' ' ? ")" : ",'" . $this->padChar . "')");
     }

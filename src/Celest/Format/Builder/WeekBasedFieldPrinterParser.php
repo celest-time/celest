@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -29,18 +29,18 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
      * @param string $chr the pattern format letter that added this PrinterParser.
      * @param int $count the repeat count of the format letter
      */
-    public function __construct($chr, $count)
+    public function __construct(string $chr, int $count)
     {
         $this->chr = $chr;
         $this->count = $count;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         return $this->printerParser($context->getLocale())->format($context, $buf);
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         return $this->printerParser($context->getLocale())->parse($context, $text, $position);
     }
@@ -52,7 +52,7 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
      * @return DateTimePrinterParser the formatter, not null
      * @throws IllegalArgumentException if the formatter cannot be found
      */
-    private function printerParser(Locale $locale)
+    private function printerParser(Locale $locale) : DateTimePrinterParser
     {
         $weekDef = WeekFields::ofLocale($locale);
         $field = null;
@@ -82,7 +82,7 @@ final class WeekBasedFieldPrinterParser implements DateTimePrinterParser
         return new NumberPrinterParser($field, ($this->count === 2 ? 2 : 1), 2, SignStyle::NOT_NEGATIVE());
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $sb = "Localized(";
         if ($this->chr === 'Y') {

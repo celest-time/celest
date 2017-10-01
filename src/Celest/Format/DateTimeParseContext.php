@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -131,7 +131,7 @@ final class DateTimeParseContext
      * This retains the case sensitive and strict flags.
      * @return DateTimeParseContext
      */
-    public function copy()
+    public function copy() : DateTimeParseContext
     {
         $newContext = new DateTimeParseContext($this->formatter);
         $newContext->caseSensitive = $this->caseSensitive;
@@ -148,7 +148,7 @@ final class DateTimeParseContext
      *
      * @return Locale the locale, not null
      */
-    public function getLocale()
+    public function getLocale() : Locale
     {
         return $this->formatter->getLocale();
     }
@@ -160,7 +160,7 @@ final class DateTimeParseContext
      *
      * @return DecimalStyle the DecimalStyle, not null
      */
-    public function getDecimalStyle()
+    public function getDecimalStyle() : DecimalStyle
     {
         return $this->formatter->getDecimalStyle();
     }
@@ -170,7 +170,7 @@ final class DateTimeParseContext
      *
      * @return Chronology the effective parsing chronology, not null
      */
-    public function getEffectiveChronology()
+    public function getEffectiveChronology() : Chronology
     {
         $chrono = $this->currentParsed()->chrono;
         if ($chrono === null) {
@@ -188,7 +188,7 @@ final class DateTimeParseContext
      *
      * @return bool true if parsing is case sensitive, false if case insensitive
      */
-    public function isCaseSensitive()
+    public function isCaseSensitive() : bool
     {
         return $this->caseSensitive;
     }
@@ -198,7 +198,7 @@ final class DateTimeParseContext
      *
      * @param bool $caseSensitive changes the parsing to be case sensitive or not from now on
      */
-    public function setCaseSensitive($caseSensitive)
+    public function setCaseSensitive(bool $caseSensitive) : void
     {
         $this->caseSensitive = $caseSensitive;
     }
@@ -207,7 +207,7 @@ final class DateTimeParseContext
     /** @var \Transliterator */
     private static $to_upper;
 
-    private static function toUpperMb($str)
+    private static function toUpperMb(string $str) : string
     {
         if (self::$to_upper === null)
             self::$to_upper = \Transliterator::create('Any-Upper');
@@ -217,7 +217,7 @@ final class DateTimeParseContext
     /** @var \Transliterator */
     private static $to_lower;
 
-    private static function toLowerMb($str)
+    private static function toLowerMb(string $str) : string
     {
         if (self::$to_lower === null)
             self::$to_lower = \Transliterator::create('Any-Lower');
@@ -236,7 +236,7 @@ final class DateTimeParseContext
      * @param int $length the length to check, valid
      * @return bool true if equal
      */
-    public function subSequenceEquals($cs1, $offset1, $cs2, $offset2, $length)
+    public function subSequenceEquals(string $cs1, int $offset1, string $cs2, int $offset2, int $length) : bool
     {
         // TODO improve multibyte compatibility
         if ($offset1 + $length > strlen($cs1) || $offset2 + $length > strlen($cs2)) {
@@ -266,7 +266,7 @@ final class DateTimeParseContext
      * @param string $ch2 the second character
      * @return bool true if equal
      */
-    public function charEquals($ch1, $ch2)
+    public function charEquals(string $ch1, string $ch2) : bool
     {
         if ($this->isCaseSensitive()) {
             return $ch1 === $ch2;
@@ -282,7 +282,7 @@ final class DateTimeParseContext
      * @param string $c2 the second
      * @return bool true if equal
      */
-    public static function charEqualsIgnoreCase($c1, $c2)
+    public static function charEqualsIgnoreCase(string $c1, string $c2) : bool
     {
         return $c1 === $c2 ||
         strtoupper($c1) === strtoupper($c2) ||
@@ -297,7 +297,7 @@ final class DateTimeParseContext
      *
      * @return bool true if parsing is strict, false if lenient
      */
-    public function isStrict()
+    public function isStrict() : bool
     {
         return $this->strict;
     }
@@ -307,7 +307,7 @@ final class DateTimeParseContext
      *
      * @param bool $strict changes the parsing to be strict or lenient from now on
      */
-    public function setStrict($strict)
+    public function setStrict(bool $strict)
     {
         $this->strict = $strict;
     }
@@ -316,7 +316,7 @@ final class DateTimeParseContext
     /**
      * Starts the parsing of an optional segment of the input.
      */
-    public function startOptional()
+    public function startOptional() : void
     {
         $this->parsed[] = $this->currentParsed()->copy();
     }
@@ -326,7 +326,7 @@ final class DateTimeParseContext
      *
      * @param bool $successful whether the optional segment was successfully parsed
      */
-    public function endOptional($successful)
+    public function endOptional(bool $successful) : void
     {
         if ($successful) {
             unset($this->parsed[count($this->parsed) - 2]);
@@ -341,7 +341,7 @@ final class DateTimeParseContext
      *
      * @return Parsed the current temporal objects, not null
      */
-    private function currentParsed()
+    private function currentParsed() : Parsed
     {
         return end($this->parsed);
     }
@@ -351,7 +351,7 @@ final class DateTimeParseContext
      *
      * @return Parsed the result of the parse, not null
      */
-    public function toUnresolved()
+    public function toUnresolved() : Parsed
     {
         return $this->currentParsed();
     }
@@ -363,7 +363,7 @@ final class DateTimeParseContext
      * @param array $resolverFields
      * @return TemporalAccessor the result of the parse, not null
      */
-    public function toResolved(ResolverStyle $resolverStyle, $resolverFields)
+    public function toResolved(ResolverStyle $resolverStyle, ?array $resolverFields) : TemporalAccessor
     {
         $parsed = $this->currentParsed();
         $parsed->chrono = $this->getEffectiveChronology();
@@ -384,7 +384,7 @@ final class DateTimeParseContext
      * @param TemporalField $field the field to query from the map, null returns null
      * @return int the value mapped to the specified field, null if field was not parsed
      */
-    public function getParsed(TemporalField $field)
+    public function getParsed(TemporalField $field) : ?int
     {
         return $this->currentParsed()->fieldValues->get($field);
     }
@@ -401,7 +401,7 @@ final class DateTimeParseContext
      * @param int $successPos the position after the field being parsed
      * @return int the new position
      */
-    public function setParsedField(TemporalField $field, $value, $errorPos, $successPos)
+    public function setParsedField(TemporalField $field, int $value, int $errorPos, int $successPos) : int
     {
         $fieldValues = $this->currentParsed()->fieldValues;
         $old = $fieldValues->put($field, $value);
@@ -420,7 +420,7 @@ final class DateTimeParseContext
      *
      * @param Chronology $chrono the parsed chronology, not null
      */
-    public function setParsed(Chronology $chrono)
+    public function setParsed(Chronology $chrono) : void
     {
         $this->currentParsed()->chrono = $chrono;
         if ($this->chronoListeners !== null && !empty($this->chronoListeners)) {
@@ -438,7 +438,7 @@ final class DateTimeParseContext
      * if the Chronology changes.
      * @param callable $listener a Consumer<Chronology> to be called when Chronology changes
      */
-    public function addChronoChangedListener($listener)
+    public function addChronoChangedListener(callable $listener) : void
     {
         if ($this->chronoListeners === null) {
             $this->chronoListeners = [];
@@ -455,7 +455,7 @@ final class DateTimeParseContext
      *
      * @param ZoneId $zone the parsed zone, not null
      */
-    public function setParsedZone(ZoneId $zone)
+    public function setParsedZone(ZoneId $zone) : void
     {
         $this->currentParsed()->zone = $zone;
     }
@@ -463,7 +463,7 @@ final class DateTimeParseContext
     /**
      * Stores the parsed leap second.
      */
-    public function setParsedLeapSecond()
+    public function setParsedLeapSecond() : void
     {
         $this->currentParsed()->leapSecond = true;
     }
@@ -474,7 +474,7 @@ final class DateTimeParseContext
      *
      * @return string a string representation of the context data, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->currentParsed()->__toString();
     }

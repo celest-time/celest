@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -175,7 +175,7 @@ final class DateTimeFormatterBuilder
      * @return string the locale and Chronology specific formatting pattern
      * @throws IllegalArgumentException if both dateStyle and timeStyle are null
      */
-    public static function getLocalizedDateTimePattern($dateStyle, $timeStyle, Chronology $chrono, Locale $locale)
+    public static function getLocalizedDateTimePattern(?FormatStyle $dateStyle, ?FormatStyle $timeStyle, Chronology $chrono, Locale $locale)
     {
         if ($dateStyle === null && $timeStyle === null) {
             throw new IllegalArgumentException("Either dateStyle or timeStyle must be non-null");
@@ -193,7 +193,7 @@ final class DateTimeFormatterBuilder
      * @param FormatStyle|null $style the FormatStyle style
      * @return int the int style, or \IntlDateFormatter::NONE if style is null, indicating un-required
      */
-    private static function convertStyle($style)
+    private static function convertStyle(?FormatStyle $style) : int
     {
         if ($style === null) {
             return \IntlDateFormatter::NONE;
@@ -208,7 +208,7 @@ final class DateTimeFormatterBuilder
      * @param DateTimeFormatterBuilder $parent the parent builder, not null
      * @param bool $optional whether the formatter is optional, not null
      */
-    public function __construct(DateTimeFormatterBuilder $parent = null, $optional = false)
+    public function __construct(DateTimeFormatterBuilder $parent = null, bool $optional = false)
     {
         $this->parent = $parent;
         $this->optional = $optional;
@@ -235,8 +235,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function
-    parseCaseSensitive()
+    public function parseCaseSensitive() : DateTimeFormatterBuilder
     {
         $this->appendInternal(SettingsParser::SENSITIVE());
         return $this;
@@ -257,7 +256,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function parseCaseInsensitive()
+    public function parseCaseInsensitive() : DateTimeFormatterBuilder
     {
         $this->appendInternal(SettingsParser::INSENSITIVE());
         return $this;
@@ -277,7 +276,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function parseStrict()
+    public function parseStrict() : DateTimeFormatterBuilder
     {
         $this->appendInternal(SettingsParser::STRICT());
         return $this;
@@ -297,7 +296,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function parseLenient()
+    public function parseLenient() : DateTimeFormatterBuilder
     {
         $this->appendInternal(SettingsParser::LENIENT());
         return $this;
@@ -331,7 +330,7 @@ final class DateTimeFormatterBuilder
      * @param int $value the value to default the field to
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function parseDefaulting(TemporalField $field, $value)
+    public function parseDefaulting(TemporalField $field, int $value) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new DefaultValueParser($field, $value));
         return $this;
@@ -356,7 +355,7 @@ final class DateTimeFormatterBuilder
      * @param TemporalField $field the field to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendValue(TemporalField $field)
+    public function appendValue(TemporalField $field) : DateTimeFormatterBuilder
     {
         $this->appendValue4(new NumberPrinterParser($field, 1, 19, SignStyle::NORMAL()));
         return $this;
@@ -410,7 +409,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the width is invalid
      */
-    public function appendValue2(TemporalField $field, $width)
+    public function appendValue2(TemporalField $field, int $width) : DateTimeFormatterBuilder
     {
         if ($width < 1 || $width > 19) {
             throw new IllegalArgumentException("The width must be from 1 to 19 inclusive but was " . $width);
@@ -452,8 +451,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if the widths are invalid
      */
-    public function appendValue3(
-        TemporalField $field, $minWidth, $maxWidth, SignStyle $signStyle)
+    public function appendValue3(TemporalField $field, int $minWidth, int $maxWidth, SignStyle $signStyle) : DateTimeFormatterBuilder
     {
         if ($minWidth === $maxWidth && $signStyle == SignStyle::NOT_NEGATIVE()) {
             return $this->appendValue2($field, $maxWidth);
@@ -514,7 +512,7 @@ final class DateTimeFormatterBuilder
      * @throws IllegalArgumentException if the width or base value is invalid
      */
     public function appendValueReduced(TemporalField $field,
-                                       $width, $maxWidth, $baseValue)
+                                       int $width, int $maxWidth, int $baseValue) : DateTimeFormatterBuilder
     {
         $pp = new ReducedPrinterParser($field, $width, $maxWidth, $baseValue, null);
         $this->appendValue4($pp);
@@ -574,7 +572,7 @@ final class DateTimeFormatterBuilder
      * @throws IllegalArgumentException if the width or base value is invalid
      */
     public function appendValueReduced2(
-        TemporalField $field, $width, $maxWidth, ChronoLocalDate $baseDate)
+        TemporalField $field, int $width, int $maxWidth, ChronoLocalDate $baseDate) : DateTimeFormatterBuilder
     {
         $pp = new ReducedPrinterParser($field, $width, $maxWidth, 0, $baseDate);
         $this->appendValue4($pp);
@@ -595,7 +593,7 @@ final class DateTimeFormatterBuilder
      * @param NumberPrinterParser $pp the printer-parser, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    private function appendValue4(NumberPrinterParser $pp)
+    private function appendValue4(NumberPrinterParser $pp) : DateTimeFormatterBuilder
     {
         if ($this->active->valueParserIndex >= 0) {
             $activeValueParser = $this->active->valueParserIndex;
@@ -658,7 +656,7 @@ final class DateTimeFormatterBuilder
      *  either width is invalid
      */
     public function appendFraction(
-        TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
+        TemporalField $field, int $minWidth, int $maxWidth, bool $decimalPoint) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new FractionPrinterParser($field, $minWidth, $maxWidth, $decimalPoint));
         return $this;
@@ -680,7 +678,7 @@ final class DateTimeFormatterBuilder
      * @param TemporalField $field the field to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendText(TemporalField $field)
+    public function appendText(TemporalField $field) : DateTimeFormatterBuilder
     {
         return $this->appendText2($field, TextStyle::FULL());
     }
@@ -700,7 +698,7 @@ final class DateTimeFormatterBuilder
      * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendText2(TemporalField $field, TextStyle $textStyle)
+    public function appendText2(TemporalField $field, TextStyle $textStyle) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new TextPrinterParser($field, $textStyle, DateTimeTextProvider::getInstance()));
         return $this;
@@ -740,7 +738,7 @@ final class DateTimeFormatterBuilder
      * @param string[] $textLookup the map from the value to the text
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendText3(TemporalField $field, array $textLookup)
+    public function appendText3(TemporalField $field, array $textLookup) : DateTimeFormatterBuilder
     {
         $provider = new SimpleDateTimeTextProvider($textLookup);
 
@@ -774,7 +772,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendInstant()
+    public function appendInstant() : DateTimeFormatterBuilder
     {
         $this->appendInternal(new InstantPrinterParser(-2));
         return $this;
@@ -816,7 +814,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException
      */
-    public function appendInstant4($fractionalDigits)
+    public function appendInstant4(int $fractionalDigits) : DateTimeFormatterBuilder
     {
         if ($fractionalDigits < -1 || $fractionalDigits > 9) {
             throw new IllegalArgumentException("The fractional digits must be from -1 to 9 inclusive but was " . $fractionalDigits);
@@ -835,7 +833,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendOffsetId()
+    public function appendOffsetId() : DateTimeFormatterBuilder
     {
         $this->appendInternal(OffsetIdPrinterParser::INSTANCE_ID_Z());
         return $this;
@@ -914,7 +912,7 @@ final class DateTimeFormatterBuilder
      * @throws IllegalArgumentException if style is neither {@link TextStyle#FULL
      * full} nor {@link TextStyle#SHORT short}
      */
-    public function appendLocalizedOffset(TextStyle $style)
+    public function appendLocalizedOffset(TextStyle $style) : DateTimeFormatterBuilder
     {
         if ($style != TextStyle::FULL() && $style != TextStyle::SHORT()) {
             throw new IllegalArgumentException("Style must be either full or short");
@@ -970,7 +968,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @see #appendZoneRegionId()
      */
-    public function appendZoneId()
+    public function appendZoneId() : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ZoneIdPrinterParser(TemporalQueries::zoneId(), "ZoneId()"));
         return $this;
@@ -1027,7 +1025,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @see #appendZoneId()
      */
-    public function appendZoneRegionId()
+    public function appendZoneRegionId() : DateTimeFormatterBuilder
     {
         $query = TemporalQueries::fromCallable(function (TemporalAccessor $temporal) {
             $zone = $temporal->query(TemporalQueries::zoneId());
@@ -1088,7 +1086,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @see #appendZoneId()
      */
-    public function appendZoneOrOffsetId()
+    public function appendZoneOrOffsetId() : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ZoneIdPrinterParser(TemporalQueries::zone(), "ZoneOrOffsetId()"));
         return $this;
@@ -1125,7 +1123,7 @@ final class DateTimeFormatterBuilder
      * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendZoneText(TextStyle $textStyle)
+    public function appendZoneText(TextStyle $textStyle) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ZoneTextPrinterParser($textStyle, null));
         return $this;
@@ -1167,7 +1165,7 @@ final class DateTimeFormatterBuilder
      * @param ZoneId[] $preferredZones the set of preferred zone ids, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendZoneText2(TextStyle $textStyle, $preferredZones)
+    public function appendZoneText2(TextStyle $textStyle, array $preferredZones) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ZoneTextPrinterParser($textStyle, $preferredZones));
         return $this;
@@ -1193,7 +1191,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendChronologyId()
+    public function appendChronologyId() : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ChronoPrinterParser(null));
         return $this;
@@ -1208,7 +1206,7 @@ final class DateTimeFormatterBuilder
      * @param TextStyle $textStyle the text style to use, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendChronologyText(TextStyle $textStyle)
+    public function appendChronologyText(TextStyle $textStyle) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new ChronoPrinterParser($textStyle));
         return $this;
@@ -1243,7 +1241,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if both the date and time styles are null
      */
-    public function appendLocalized($dateStyle, $timeStyle)
+    public function appendLocalized(?FormatStyle $dateStyle, ?FormatStyle $timeStyle) : DateTimeFormatterBuilder
     {
         if ($dateStyle === null && $timeStyle === null) {
             throw new IllegalArgumentException("Either the date or time style must be non-null");
@@ -1261,7 +1259,7 @@ final class DateTimeFormatterBuilder
      * @param string $literal the literal to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendLiteral($literal)
+    public function appendLiteral(string $literal) : DateTimeFormatterBuilder
     {
         $this->appendInternal(new CharLiteralPrinterParser($literal));
         return $this;
@@ -1277,7 +1275,7 @@ final class DateTimeFormatterBuilder
      * @param string $literal the literal to append, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendLiteral2($literal)
+    public function appendLiteral2(string $literal) : DateTimeFormatterBuilder
     {
         if (strlen($literal)) {
             if (strlen($literal) === 1) {
@@ -1299,7 +1297,7 @@ final class DateTimeFormatterBuilder
      * @param DateTimeFormatter $formatter the formatter to add, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function append(DateTimeFormatter $formatter)
+    public function append(DateTimeFormatter $formatter) : DateTimeFormatterBuilder
     {
         $this->appendInternal($formatter->toPrinterParser(false));
         return $this;
@@ -1318,7 +1316,7 @@ final class DateTimeFormatterBuilder
      * @param DateTimeFormatter $formatter the formatter to add, not null
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function appendOptional(DateTimeFormatter $formatter)
+    public function appendOptional(DateTimeFormatter $formatter) : DateTimeFormatterBuilder
     {
         $this->appendInternal($formatter->toPrinterParser(true));
         return $this;
@@ -1689,7 +1687,7 @@ final class DateTimeFormatterBuilder
         }
     }
 
-    private function parseField($cur, $count, TemporalField $field)
+    private function parseField($cur, $count, TemporalField $field) : void
     {
         $standalone = false;
         switch ($cur) {
@@ -1815,7 +1813,7 @@ final class DateTimeFormatterBuilder
         }
     }
 
-    public static function init()
+    public static function init() : void
     {
         self::$FIELD_MAP = [
             // SDF = SimpleDateFormat
@@ -1880,7 +1878,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if pad width is too small
      */
-    public function padNext($padWidth)
+    public function padNext(int $padWidth) : DateTimeFormatterBuilder
     {
         return $this->padNext2($padWidth, ' ');
     }
@@ -1906,7 +1904,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws IllegalArgumentException if pad width is too small
      */
-    public function padNext2($padWidth, $padChar)
+    public function padNext2(int $padWidth, string $padChar) : DateTimeFormatterBuilder
     {
         if ($padWidth < 1) {
             throw new IllegalArgumentException("The pad width must be at least one but was " . $padWidth);
@@ -1939,7 +1937,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatterBuilder this, for chaining, not null
      */
-    public function optionalStart()
+    public function optionalStart() : DateTimeFormatterBuilder
     {
         $this->active->valueParserIndex = -1;
         $this->active = new DateTimeFormatterBuilder($this->active, true);
@@ -1971,7 +1969,7 @@ final class DateTimeFormatterBuilder
      * @return DateTimeFormatterBuilder this, for chaining, not null
      * @throws \LogicException if there was no previous call to {@code optionalStart}
      */
-    public function optionalEnd()
+    public function optionalEnd() : DateTimeFormatterBuilder
     {
         if ($this->active->parent === null) {
             throw new \LogicException("Cannot call optionalEnd() as there was no previous call to optionalStart()");
@@ -1994,7 +1992,7 @@ final class DateTimeFormatterBuilder
      * @param DateTimePrinterParser $pp the printer-parser to add, not null
      * @return int the index into the active parsers list
      */
-    private function appendInternal(DateTimePrinterParser $pp)
+    private function appendInternal(DateTimePrinterParser $pp) : int
     {
         if ($this->active->padNextWidth > 0) {
             if ($pp !== null) {
@@ -2025,7 +2023,7 @@ final class DateTimeFormatterBuilder
      *
      * @return DateTimeFormatter the created formatter, not null
      */
-    public function toFormatter()
+    public function toFormatter() : DateTimeFormatter
     {
         return $this->toFormatter2(Locale::getDefault());
     }
@@ -2047,7 +2045,7 @@ final class DateTimeFormatterBuilder
      * @param Locale $locale the locale to use for formatting, not null
      * @return DateTimeFormatter the created formatter, not null
      */
-    public function toFormatter2(Locale $locale)
+    public function toFormatter2(Locale $locale) : DateTimeFormatter
     {
         return $this->toFormatter4($locale, ResolverStyle::SMART(), null);
     }
@@ -2057,9 +2055,10 @@ final class DateTimeFormatterBuilder
      * This uses the default locale.
      *
      * @param ResolverStyle $resolverStyle the resolver style to use, not null
+     * @param Chronology|null $chrono the chronology to use, may be null
      * @return DateTimeFormatter the created formatter, not null
      */
-    public function toFormatter3(ResolverStyle $resolverStyle, $chrono)
+    public function toFormatter3(ResolverStyle $resolverStyle, ?Chronology $chrono) : DateTimeFormatter
     {
         // TODO fix Locale use
         return $this->toFormatter4(Locale::getDefault(), $resolverStyle, $chrono);
@@ -2072,7 +2071,7 @@ final class DateTimeFormatterBuilder
      * @param Chronology|null $chrono the chronology to use, may be null
      * @return DateTimeFormatter the created formatter, not null
      */
-    private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, $chrono)
+    private function toFormatter4(Locale $locale, ResolverStyle $resolverStyle, ?Chronology $chrono) : DateTimeFormatter
     {
         while ($this->active->parent !== null) {
             $this->optionalEnd();

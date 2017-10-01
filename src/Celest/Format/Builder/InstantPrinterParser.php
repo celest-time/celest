@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -27,12 +27,12 @@ final class InstantPrinterParser implements DateTimePrinterParser
     /** @var int */
     private $fractionalDigits;
 
-    function __construct($fractionalDigits)
+    function __construct(int $fractionalDigits)
     {
         $this->fractionalDigits = $fractionalDigits;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         // use INSTANT_SECONDS, thus this code is not bound by Instant.MAX
         $inSecs = $context->getValueField(ChronoField::INSTANT_SECONDS());
@@ -98,7 +98,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         // TODO cache formatter
         // new context to avoid overwriting fields like year/month/day
@@ -151,7 +151,7 @@ final class InstantPrinterParser implements DateTimePrinterParser
         return $context->setParsedField(ChronoField::NANO_OF_SECOND(), $nano, $position, $successPos);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "Instant()";
     }

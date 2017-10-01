@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -36,7 +36,7 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
      * @param TextStyle $textStyle
      * @param ZoneId[] $preferredZones
      */
-    public function __construct(TextStyle $textStyle, $preferredZones)
+    public function __construct(TextStyle $textStyle, ?array $preferredZones)
     {
         parent::__construct(TemporalQueries::zone(), "ZoneText(" . $textStyle . ")");
         $this->textStyle = $textStyle;
@@ -48,11 +48,11 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
         }
     }
 
-    private static $STD = 0;
-    private static $DST = 1;
-    private static $GENERIC = 2;
+    private const STD = 0;
+    private const DST = 1;
+    private const GENERIC = 2;
 
-    private function getDisplayName($id, $type, Locale $locale)
+    private function getDisplayName(string $id, int $type, Locale $locale) : ?string
     {
         if ($this->textStyle == TextStyle::NARROW()) {
             return null;
@@ -61,15 +61,15 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
         $names = DateTimeTextProvider::getZoneNames($id, $locale);
 
         switch ($type) {
-            case self::$STD:
+            case self::STD:
                 return $names[$this->textStyle->zoneNameStyleIndex() . 'g'];
-            case self::$DST:
+            case self::DST:
                 return $names[$this->textStyle->zoneNameStyleIndex() . 'd'];
         }
         return $names[$this->textStyle->zoneNameStyleIndex() . 's'];
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         /** @var ZoneID $zone */
         $zone = $context->getValue(TemporalQueries::zoneId());
@@ -82,8 +82,8 @@ final class ZoneTextPrinterParser extends ZoneIdPrinterParser
             $dt = $context->getTemporal();
             $name = $this->getDisplayName($zname,
                 $dt->isSupported(ChronoField::INSTANT_SECONDS())
-                    ? ($zone->getRules()->isDaylightSavings(Instant::from($dt)) ? self::$DST : self::$STD)
-                    : self::$GENERIC,
+                    ? ($zone->getRules()->isDaylightSavings(Instant::from($dt)) ? self::DST : self::STD)
+                    : self::GENERIC,
                 $context->getLocale());
             if ($name !== null) {
                 $zname = $name;

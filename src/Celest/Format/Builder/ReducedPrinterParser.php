@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -27,7 +27,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      * The base date for reduced value parsing.
      * @return LocalDate
      */
-    public static function BASE_DATE()
+    public static function BASE_DATE() : LocalDate
     {
         if (self::$BASE_DATE === null) {
             self::$BASE_DATE = LocalDate::of(2000, 1, 1);
@@ -53,8 +53,8 @@ final class ReducedPrinterParser extends NumberPrinterParser
      * @throws DateTimeException
      * @throws IllegalArgumentException
      */
-    public function __construct(TemporalField $field, $minWidth, $maxWidth,
-                                $baseValue, $baseDate, $subsequentWidth = 0)
+    public function __construct(TemporalField $field, int $minWidth, int $maxWidth,
+                                int $baseValue, ?ChronoLocalDate $baseDate, int $subsequentWidth = 0)
     {
         parent::__construct($field, $minWidth, $maxWidth, SignStyle::NOT_NEGATIVE(), $subsequentWidth);
 
@@ -83,7 +83,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
         }
     }
 
-    public function getValue(DateTimePrintContext $context, $value)
+    public function getValue(DateTimePrintContext $context, int $value) : int
     {
         $absValue = Math::abs($value);
         $baseValue = $this->baseValue;
@@ -100,7 +100,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
         return $absValue % self::$EXCEED_POINTS[$this->maxWidth];
     }
 
-    public function setValue(DateTimeParseContext $context, $value, $errorPos, $successPos)
+    public function setValue(DateTimeParseContext $context, int $value, int $errorPos, int $successPos) : int
     {
         $baseValue = $this->baseValue;
         if ($this->baseDate !== null) {
@@ -140,7 +140,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      *
      * @return ReducedPrinterParser a new updated printer-parser, not null
      */
-    public function withFixedWidth()
+    public function withFixedWidth() : ReducedPrinterParser
     {
         if ($this->subsequentWidth === -1) {
             return $this;
@@ -155,7 +155,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      * @param int $subsequentWidth the width of subsequent non-negative numbers, 0 or greater
      * @return ReducedPrinterParser a new updated printer-parser, not null
      */
-    public function withSubsequentWidth($subsequentWidth)
+    public function withSubsequentWidth(int $subsequentWidth) : ReducedPrinterParser
     {
         return new ReducedPrinterParser($this->field, $this->minWidth, $this->maxWidth, $this->baseValue, $this->baseDate,
             $this->subsequentWidth + $subsequentWidth);
@@ -168,7 +168,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
      * @return bool if the field is fixed width
      * @see DateTimeFormatterBuilder#appendValueReduced(java.time.temporal.TemporalField, int, int, int)
      */
-    public function isFixedWidth(DateTimeParseContext $context)
+    public function isFixedWidth(DateTimeParseContext $context) : bool
     {
         if ($context->isStrict() === false) {
             return false;
@@ -177,7 +177,7 @@ final class ReducedPrinterParser extends NumberPrinterParser
         return parent::isFixedWidth($context);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "ReducedValue(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . "," . ($this->baseDate !== null ? $this->baseDate : $this->baseValue) . ")";
     }

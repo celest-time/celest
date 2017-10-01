@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Enumeration of the style of a localized date, time or date-time formatter.
  * <p>
@@ -15,9 +15,9 @@ namespace Celest\Format;
 
 use Celest\IllegalArgumentException;
 
-class FormatStyle
+final class FormatStyle
 {
-    public static function init()
+    public static function init() : void
     {
         self::$FULL = new FormatStyle(0);
         self::$LONG = new FormatStyle(1);
@@ -31,7 +31,7 @@ class FormatStyle
      * For example, the format might be 'Tuesday, April 12, 1952 AD' or '3:30:42pm PST'.
      * @return FormatStyle
      */
-    public static function FULL()
+    public static function FULL() : FormatStyle
     {
         return self::$FULL;
     }
@@ -44,7 +44,7 @@ class FormatStyle
      * For example, the format might be 'January 12, 1952'.
      * @return FormatStyle
      */
-    public static function LONG()
+    public static function LONG() : FormatStyle
     {
         return self::$LONG;
     }
@@ -57,7 +57,7 @@ class FormatStyle
      * For example, the format might be 'Jan 12, 1952'.
      * @return FormatStyle
      */
-    public static function MEDIUM()
+    public static function MEDIUM() : FormatStyle
     {
         return self::$MEDIUM;
     }
@@ -70,7 +70,7 @@ class FormatStyle
      * For example, the format might be '12.13.52' or '3:30pm'.
      * @return FormatStyle
      */
-    public static function SHORT()
+    public static function SHORT() : FormatStyle
     {
         return self::$SHORT;
     }
@@ -84,7 +84,7 @@ class FormatStyle
     /**
      * @param int $val
      */
-    private function __construct($val)
+    private function __construct(int $val)
     {
         $this->val = $val;
     }
@@ -92,7 +92,7 @@ class FormatStyle
     /**
      * @return FormatStyle[]
      */
-    public static function values()
+    public static function values() : array
     {
         return [self::FULL(), self::LONG(), self::MEDIUM(), self::SHORT()];
     }
@@ -102,7 +102,7 @@ class FormatStyle
      * @return FormatStyle
      * @throws IllegalArgumentException
      */
-    public static function valueOf($name)
+    public static function valueOf(string $name): FormatStyle
     {
         switch ($name) {
             case 'FULL':
@@ -117,7 +117,7 @@ class FormatStyle
         throw new IllegalArgumentException();
     }
 
-    function ordinal()
+    function ordinal() : int
     {
         return $this->val;
     }
@@ -125,7 +125,7 @@ class FormatStyle
     /**
      * @return string
      */
-    function name()
+    function name() : string
     {
         switch ($this->val) {
             case 0:
@@ -140,7 +140,7 @@ class FormatStyle
         return '';
     }
 
-    function __toString()
+    function __toString() : string
     {
         return $this->name();
     }

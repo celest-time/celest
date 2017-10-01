@@ -9,14 +9,16 @@
 namespace Celest\Helper;
 
 
-class StringHelper
+final class StringHelper
 {
+    private function __construct() {}
+
     /**
      * @param string $needle
      * @param string $haystack
      * @return bool
      */
-    public static function startsWith($needle, $haystack)
+    public static function startsWith(string $needle, string $haystack) : bool
     {
         return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
     }

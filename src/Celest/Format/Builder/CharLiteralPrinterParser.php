@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -14,7 +14,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
     /** @var string */
     private $literal;
 
-    public function __construct($literal)
+    public function __construct(string $literal)
     {
         if (strlen($literal) !== 1) {
             throw new IllegalArgumentException();
@@ -22,15 +22,16 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
         $this->literal = $literal;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, ?string &$buf) : bool
     {
         $buf .= $this->literal;
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $length = strlen($text);
+
         if ($position === $length) {
             return ~$position;
         }
@@ -48,7 +49,7 @@ final class CharLiteralPrinterParser implements DateTimePrinterParser
         return $position + 1;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->literal === '\'') {
             return "''";

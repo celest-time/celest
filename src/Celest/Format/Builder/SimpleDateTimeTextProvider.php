@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -8,7 +8,7 @@ use Celest\Format\TextStyle;
 use Celest\Locale;
 use Celest\Temporal\TemporalField;
 
-class SimpleDateTimeTextProvider extends DateTimeTextProvider
+final class SimpleDateTimeTextProvider extends DateTimeTextProvider
 {
     private $data;
     private $parse_data;
@@ -19,12 +19,12 @@ class SimpleDateTimeTextProvider extends DateTimeTextProvider
         $this->parse_data = array_flip($data);
     }
 
-    public function getText(TemporalField $field, $value, TextStyle $style, Locale $locale)
+    public function getText(TemporalField $field, int $value, TextStyle $style, Locale $locale) : ?string
     {
         return @$this->data[$value];
     }
 
-    public function getTextIterator(TemporalField $field, $style, Locale $locale)
+    public function getTextIterator(TemporalField $field, ?TextStyle $style, Locale $locale) : array
     {
         return $this->parse_data;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -8,11 +8,11 @@ use Celest\Format\DateTimePrintContext;
 /**
  * Enumeration to apply simple parse settings.
  */
-class SettingsParser implements DateTimePrinterParser
+final class SettingsParser implements DateTimePrinterParser
 {
     public static $SENSITIVE;
 
-    public static function SENSITIVE()
+    public static function SENSITIVE() : SettingsParser
     {
         if (self::$SENSITIVE === null)
             self::$SENSITIVE = new SettingsParser(0);
@@ -22,7 +22,7 @@ class SettingsParser implements DateTimePrinterParser
 
     public static $INSENSITIVE;
 
-    public static function INSENSITIVE()
+    public static function INSENSITIVE() : SettingsParser
     {
         if (self::$INSENSITIVE === null)
             self::$INSENSITIVE = new SettingsParser(1);
@@ -32,7 +32,7 @@ class SettingsParser implements DateTimePrinterParser
 
     public static $STRICT;
 
-    public static function STRICT()
+    public static function STRICT() : SettingsParser
     {
         if (self::$STRICT === null)
             self::$STRICT = new SettingsParser(2);
@@ -42,7 +42,7 @@ class SettingsParser implements DateTimePrinterParser
 
     public static $LENIENT;
 
-    public static function LENIENT()
+    public static function LENIENT() : SettingsParser
     {
         if (self::$LENIENT === null)
             self::$LENIENT = new SettingsParser(3);
@@ -52,17 +52,17 @@ class SettingsParser implements DateTimePrinterParser
 
     private $ordinal;
 
-    private function __construct($ordinal)
+    private function __construct(int $ordinal)
     {
         $this->ordinal = $ordinal;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         return true;  // nothing to do here
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         // using ordinals to avoid javac synthetic inner class
         switch ($this->ordinal) {
@@ -83,7 +83,7 @@ class SettingsParser implements DateTimePrinterParser
         return $position;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         // using ordinals to avoid javac synthetic inner class
         switch ($this->ordinal) {

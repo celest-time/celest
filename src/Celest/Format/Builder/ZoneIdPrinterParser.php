@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -23,13 +23,13 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
     /** @var string */
     private $description;
 
-    public function __construct(TemporalQuery $query, $description)
+    public function __construct(TemporalQuery $query, string $description)
     {
         $this->query = $query;
         $this->description = $description;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         /** @var ZoneID $zone */
         $zone = $context->getValue($this->query);
@@ -75,7 +75,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      * For example, parsing Etc/GMT-2 will return Etc/GMC-2 rather than just
      * Etc/GMC although both are valid.
      */
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $length = strlen($text);
         if ($position > $length) {
@@ -136,7 +136,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      * @param OffsetIdPrinterParser $parser parser for the value after the prefix
      * @return int the position after the parse
      */
-    private function parseOffsetBased(DateTimeParseContext $context, $text, $prefixPos, $position, OffsetIdPrinterParser $parser)
+    private function parseOffsetBased(DateTimeParseContext $context, string $text, int $prefixPos, int $position, OffsetIdPrinterParser $parser) : int
     {
         $prefix = strtoupper(substr($text, $prefixPos, $position - $prefixPos));
         if ($position >= strlen($text)) {
@@ -171,7 +171,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
         }
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->description;
     }
@@ -185,7 +185,7 @@ class ZoneIdPrinterParser implements DateTimePrinterParser
      * @param bool $isCaseSensitive
      * @return null|string
      */
-    private function match($text, ParsePosition $ppos, $isCaseSensitive)
+    private function match(string $text, ParsePosition $ppos, bool $isCaseSensitive) : ?string
     {
         $ids = ZoneId::getAvailableZoneIds();
 

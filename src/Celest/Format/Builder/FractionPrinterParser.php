@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -30,8 +30,9 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * @param int $minWidth the minimum width to output, from 0 to 9
      * @param int $maxWidth the maximum width to output, from 0 to 9
      * @param bool $decimalPoint whether to output the localized decimal point symbol
+     * @throws IllegalArgumentException
      */
-    public function __construct(TemporalField $field, $minWidth, $maxWidth, $decimalPoint)
+    public function __construct(TemporalField $field, int $minWidth, int $maxWidth, bool $decimalPoint)
     {
         if ($field->range()->isFixed() === false) {
             throw new IllegalArgumentException("Field must have a fixed set of values: " . $field);
@@ -53,7 +54,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
         $this->decimalPoint = $decimalPoint;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $value = $context->getValueField($this->field);
         if ($value === null) {
@@ -97,7 +98,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $effectiveMin = ($context->isStrict() ? $this->minWidth : 0);
         $effectiveMax = ($context->isStrict() ? $this->maxWidth : 9);
@@ -152,10 +153,10 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * assuming the standard definition of 60 seconds in a minute.
      *
      * @param int $value the value to convert, must be valid for this rule
-     * @return BigDecimal TODO the value as a fraction within the range, from 0 to 1, not null
+     * @return \GMP TODO the value as a fraction within the range, from 0 to 1, not null
      * @throws DateTimeException if the value cannot be converted to a fraction
      */
-    private function convertToFraction($value)
+    private function convertToFraction(int $value) : \GMP
     {
         $range = $this->field->range();
         $range->checkValidValue($value, $this->field);
@@ -178,11 +179,11 @@ final class FractionPrinterParser implements DateTimePrinterParser
      * For example, the fractional second-of-minute of 0.25 would be converted to 15,
      * assuming the standard definition of 60 seconds in a minute.
      *
-     * @param mixed $fraction TODO the fraction to convert, not null
+     * @param \GMP $fraction TODO the fraction to convert, not null
      * @return int the value of the field, valid for this rule
      * @throws DateTimeException if the value cannot be converted
      */
-    private function convertFromFraction($fraction)
+    private function convertFromFraction(\GMP $fraction)
     {
         $range = $this->field->range();
         $minBD = gmp_init($range->getMinimum());
@@ -191,7 +192,7 @@ final class FractionPrinterParser implements DateTimePrinterParser
         return gmp_intval($valueBD);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $decimal = ($this->decimalPoint ? ",DecimalPoint" : "");
         return "Fraction(" . $this->field . "," . $this->minWidth . "," . $this->maxWidth . $decimal . ")";

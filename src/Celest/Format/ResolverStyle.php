@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -77,9 +77,9 @@ use Celest\IllegalArgumentException;
  *
  * @since 1.8
  */
-class ResolverStyle
+final class ResolverStyle
 {
-    public static function init()
+    public static function init() : void
     {
         self::$STRICT = new ResolverStyle(0);
         self::$SMART = new ResolverStyle(1);
@@ -97,7 +97,7 @@ class ResolverStyle
      * system using strict mode will ensure that the day-of-month is valid
      * for the year-month, rejecting invalid values.
      */
-    public static function STRICT()
+    public static function STRICT() : ResolverStyle
     {
         return self::$STRICT;
     }
@@ -117,7 +117,7 @@ class ResolverStyle
      * 1 to 31, converting any value beyond the last valid day-of-month to be
      * the last valid day-of-month.
      */
-    public static function SMART()
+    public static function SMART() : ResolverStyle
     {
         return self::$SMART;
     }
@@ -135,7 +135,7 @@ class ResolverStyle
      * to be outside the range 1 to 12.
      * For example, month 15 is treated as being 3 months after month 12.
      */
-    public static function LENIENT()
+    public static function LENIENT() : ResolverStyle
     {
         return self::$LENIENT;
     }
@@ -150,7 +150,7 @@ class ResolverStyle
      * ResolverStyle constructor.
      * @param int $val
      */
-    private function __construct($val)
+    private function __construct(int $val)
     {
         $this->ordinal = $val;
     }
@@ -158,7 +158,7 @@ class ResolverStyle
     /**
      * @return ResolverStyle[]
      */
-    public static function values()
+    public static function values() : array
     {
         return [self::STRICT(), self::SMART(), self::LENIENT()];
     }
@@ -168,7 +168,7 @@ class ResolverStyle
      * @return ResolverStyle
      * @throws IllegalArgumentException
      */
-    public static function valueOf($name)
+    public static function valueOf(string $name) : ResolverStyle
     {
         switch ($name) {
             case 'STRICT':
@@ -185,7 +185,7 @@ class ResolverStyle
     /**
      * @return string
      */
-    public function name()
+    public function name() : string
     {
         switch ($this->ordinal) {
             case 0:
@@ -198,7 +198,7 @@ class ResolverStyle
         return '';
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return $this->name();
     }

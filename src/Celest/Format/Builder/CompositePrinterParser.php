@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -15,7 +15,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
     /** @var bool */
     private $optional;
 
-    public function __construct($printerParsers, $optional)
+    public function __construct(array $printerParsers, bool $optional)
     {
         $this->printerParsers = $printerParsers;
         $this->optional = $optional;
@@ -27,7 +27,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
      * @param bool $optional the optional flag to set in the copy
      * @return CompositePrinterParser the new printer-parser, not null
      */
-    public function withOptional($optional)
+    public function withOptional(bool $optional) : CompositePrinterParser
     {
         if ($optional === $this->optional) {
             return $this;
@@ -36,7 +36,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
         return new CompositePrinterParser($this->printerParsers, $optional);
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $length = strlen($buf);
         if ($this->optional) {
@@ -58,7 +58,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         if ($this->optional) {
             $context->startOptional();
@@ -83,7 +83,7 @@ final class CompositePrinterParser implements DateTimePrinterParser
         }
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         $buf = '';
         if ($this->printerParsers !== null) {

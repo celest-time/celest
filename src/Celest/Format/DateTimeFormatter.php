@@ -1797,6 +1797,8 @@ class DateTimeFormatter
     public function formatTo(TemporalAccessor $temporal, ?string &$appendable)
     {
         $context = new DateTimePrintContext($temporal, $this);
+        // force appendable to become a string when null is passed
+        $appendable .= '';
         $this->printerParser->format($context, $appendable);
     }
 //-----------------------------------------------------------------------

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -45,7 +45,7 @@ final class TextPrinterParser implements DateTimePrinterParser
         $this->provider = $provider;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $value = $context->getValueField($this->field);
         if ($value === null) {
@@ -66,7 +66,7 @@ final class TextPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $parseText, $position)
+    public function parse(DateTimeParseContext $context, string $parseText, int $position) : int
     {
         $length = strlen($parseText);
         if ($position < 0 || $position > $length) {
@@ -100,7 +100,7 @@ final class TextPrinterParser implements DateTimePrinterParser
      * Create and cache a number printer parser.
      * @return NumberPrinterParser the number printer parser for this field, not null
      */
-    private function numberPrinterParser()
+    private function numberPrinterParser() : NumberPrinterParser
     {
         if ($this->numberPrinterParser === null) {
             $this->numberPrinterParser = new NumberPrinterParser($this->field, 1, 19, SignStyle::NORMAL());
@@ -108,7 +108,7 @@ final class TextPrinterParser implements DateTimePrinterParser
         return $this->numberPrinterParser;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->textStyle == TextStyle::FULL()) {
             return "Text(" . $this->field . ")";

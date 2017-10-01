@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -121,7 +121,7 @@ final class DateTimePrintContext
         $this->formatter = $formatter;
     }
 
-    private static function adjust(TemporalAccessor $temporal, DateTimeFormatter $formatter)
+    private static function adjust(TemporalAccessor $temporal, DateTimeFormatter $formatter) : TemporalAccessor
     {
         // normal case first (early return is an optimization)
         $overrideChrono = $formatter->getChronology();
@@ -258,7 +258,7 @@ final class DateTimePrintContext
      *
      * @return TemporalAccessor the temporal object, not null
      */
-    public function getTemporal()
+    public function getTemporal() : TemporalAccessor
     {
         return $this->temporal;
     }
@@ -271,7 +271,7 @@ final class DateTimePrintContext
      *
      * @return Locale the locale, not null
      */
-    public function getLocale()
+    public function getLocale() : Locale
     {
         return $this->formatter->getLocale();
     }
@@ -283,7 +283,7 @@ final class DateTimePrintContext
      *
      * @return DecimalStyle the DecimalStyle, not null
      */
-    public function getDecimalStyle()
+    public function getDecimalStyle() : DecimalStyle
     {
         return $this->formatter->getDecimalStyle();
     }
@@ -292,7 +292,7 @@ final class DateTimePrintContext
     /**
      * Starts the printing of an optional segment of the input.
      */
-    public function startOptional()
+    public function startOptional() : void
     {
         $this->optional++;
     }
@@ -300,7 +300,7 @@ final class DateTimePrintContext
     /**
      * Ends the printing of an optional segment of the input.
      */
-    public function endOptional()
+    public function endOptional() : void
     {
         $this->optional--;
     }
@@ -331,7 +331,7 @@ final class DateTimePrintContext
      * @return int the value, null if not found and optional is true
      * @throws DateTimeException if the field is not available and the section is not optional
      */
-    public function getValueField(TemporalField $field)
+    public function getValueField(TemporalField $field) : ?int
     {
         try {
             return $this->temporal->getLong($field);
@@ -349,7 +349,7 @@ final class DateTimePrintContext
      *
      * @return string a string representation of the context, not null
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->temporal->toString();
     }

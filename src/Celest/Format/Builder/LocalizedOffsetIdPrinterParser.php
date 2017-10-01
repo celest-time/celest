@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -26,12 +26,12 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         $this->style = $style;
     }
 
-    private static function appendHMS(&$buf, $t)
+    private static function appendHMS(&$buf, int $t) : void
     {
         $buf .= \intdiv($t, 10) . ($t % 10);
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $offsetSecs = $context->getValueField(ChronoField::OFFSET_SECONDS());
         if ($offsetSecs === null) {
@@ -74,7 +74,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    private function getDigit($text, $position)
+    private function getDigit(string $text, int $position) : int
     {
         $c = $text[$position];
         if ($c < '0' || $c > '9') {
@@ -84,7 +84,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         return $c - '0';
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $pos = $position;
         $end = $pos + strlen($text);
@@ -167,7 +167,7 @@ final class LocalizedOffsetIdPrinterParser implements DateTimePrinterParser
         return $context->setParsedField(ChronoField::OFFSET_SECONDS(), $offsetSecs, $position, $pos);
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "LocalizedOffset(" . $this->style . ")";
     }

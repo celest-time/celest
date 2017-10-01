@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -48,7 +48,7 @@ interface DateTimePrinterParser
      * @return bool false if unable to query the value from the date-time, true otherwise
      * @throws DateTimeException if the date-time cannot be printed successfully
      */
-    function format(DateTimePrintContext $context, &$buf);
+    function format(DateTimePrintContext $context, string &$buf) : bool;
 
     /**
      * Parses text into date-time information.
@@ -64,7 +64,7 @@ interface DateTimePrinterParser
      * @throws NullPointerException if the context or text is null
      * @throws IndexOutOfBoundsException if the position is invalid
      */
-    function parse(DateTimeParseContext $context, $text, $position);
+    function parse(DateTimeParseContext $context, string $text, int $position) : int;
 
-    function __toString();
+    function __toString() : string;
 }

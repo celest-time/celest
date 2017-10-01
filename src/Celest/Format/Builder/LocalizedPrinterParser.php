@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -34,20 +34,20 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
      * @param FormatStyle|null $dateStyle the date style to use, may be null
      * @param FormatStyle|null $timeStyle the time style to use, may be null
      */
-    public function __construct($dateStyle, $timeStyle)
+    public function __construct(?FormatStyle $dateStyle, ?FormatStyle $timeStyle)
     {
         // validated by caller
         $this->dateStyle = $dateStyle;
         $this->timeStyle = $timeStyle;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $chrono = AbstractChronology::from($context->getTemporal());
         return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->format($context, $buf);
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         $chrono = $context->getEffectiveChronology();
         return $this->formatter($context->getLocale(), $chrono)->toPrinterParser(false)->parse($context, $text, $position);
@@ -64,7 +64,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
      * @return DateTimeFormatter the formatter, not null
      * @throws IllegalArgumentException if the formatter cannot be found
      */
-    private function formatter(Locale $locale, Chronology $chrono)
+    private function formatter(Locale $locale, Chronology $chrono) : DateTimeFormatter
     {
         $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . '|' . $this->timeStyle;
         $formatter = @self::$FORMATTER_CACHE[$key];
@@ -79,7 +79,7 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
         return $formatter;
     }
 
-    public function __toString()
+    public function __toString() : string
     {
         return "Localized(" . ($this->dateStyle !== null ? $this->dateStyle : "") . "," .
         ($this->timeStyle !== null ? $this->timeStyle : "") . ")";

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Celest\Format\Builder;
 
@@ -25,13 +25,13 @@ final class ChronoPrinterParser implements DateTimePrinterParser
      * ChronoPrinterParser constructor.
      * @param TextStyle|null $textStyle
      */
-    public function __construct($textStyle)
+    public function __construct(?TextStyle $textStyle)
     {
         // validated by caller
         $this->textStyle = $textStyle;
     }
 
-    public function format(DateTimePrintContext $context, &$buf)
+    public function format(DateTimePrintContext $context, string &$buf) : bool
     {
         $chrono = $context->getValue(TemporalQueries::chronology());
         if ($chrono === null) {
@@ -46,7 +46,7 @@ final class ChronoPrinterParser implements DateTimePrinterParser
         return true;
     }
 
-    public function parse(DateTimeParseContext $context, $text, $position)
+    public function parse(DateTimeParseContext $context, string $text, int $position) : int
     {
         // simple looping parser to find the chronology
         if ($position < 0 || $position > strlen($text)) {
@@ -85,14 +85,14 @@ final class ChronoPrinterParser implements DateTimePrinterParser
      * @return string the chronology name of chrono in locale, or the id if no name is available
      * @throws NullPointerException if chrono or locale is null
      */
-    private function getChronologyName(Chronology $chrono, Locale $locale)
+    private function getChronologyName(Chronology $chrono, Locale $locale) : string
     {
         $key = "calendarname." . $chrono->getCalendarType();
         $name = DateTimeTextProvider::getLocalizedResource($key, $locale);
         return $name !== null ? $name : $chrono->getId();
     }
 
-    function __toString()
+    function __toString() : string
     {
         return (string)$this->textStyle;
     }

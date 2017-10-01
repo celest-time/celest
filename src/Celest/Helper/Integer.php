@@ -1,18 +1,14 @@
-<?php
-/**
- * Created by IntelliJ IDEA.
- * User: hanikel
- * Date: 17.08.15
- * Time: 17:53
- */
+<?php declare(strict_types=1);
 
 namespace Celest\Helper;
 
 
-class Integer
+final class Integer
 {
     const MIN_VALUE = -2147483648;
     const MAX_VALUE = 2147483647;
+
+    private function __construct() {}
 
     /**
      * @param int $x

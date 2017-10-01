@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -76,9 +76,9 @@ use Celest\IllegalArgumentException;
  *
  * @since 1.8
  */
-class SignStyle
+final class SignStyle
 {
-    public static function init()
+    public static function init() : void
     {
         self::$NORMAL = new SignStyle(0);
         self::$ALWAYS = new SignStyle(1);
@@ -94,7 +94,7 @@ class SignStyle
      * In lenient parsing, any sign will be accepted.
      * @return SignStyle
      */
-    public static function NORMAL()
+    public static function NORMAL() : SignStyle
     {
         return self::$NORMAL;
     }
@@ -110,7 +110,7 @@ class SignStyle
      * of a sign treated as a positive number.
      * @return SignStyle
      */
-    public static function ALWAYS()
+    public static function ALWAYS() : SignStyle
     {
         return self::$ALWAYS;
     }
@@ -125,7 +125,7 @@ class SignStyle
      * In lenient parsing, any sign will be accepted unless the width is fixed.
      * @return SignStyle
      */
-    public static function NEVER()
+    public static function NEVER() : SignStyle
     {
         return self::$NEVER;
     }
@@ -140,7 +140,7 @@ class SignStyle
      * In lenient parsing, any sign will be accepted unless the width is fixed.
      * @return SignStyle
      */
-    public static function NOT_NEGATIVE()
+    public static function NOT_NEGATIVE() : SignStyle
     {
         return self::$NOT_NEGATIVE;
     }
@@ -157,7 +157,7 @@ class SignStyle
      * of a sign treated as a positive number.
      * @return SignStyle
      */
-    public static function EXCEEDS_PAD()
+    public static function EXCEEDS_PAD() : SignStyle
     {
         return self::$EXCEEDS_PAD;
     }
@@ -167,7 +167,7 @@ class SignStyle
 
     private $ordinal;
 
-    private function __construct($ordinal)
+    private function __construct(int $ordinal)
     {
         $this->ordinal = $ordinal;
     }
@@ -176,7 +176,7 @@ class SignStyle
     /**
      * @return SignStyle[]
      */
-    public static function values()
+    public static function values() : array
     {
         return [
             self::$NORMAL,
@@ -192,7 +192,7 @@ class SignStyle
      * @return SignStyle
      * @throws IllegalArgumentException
      */
-    public static function valueOf($name)
+    public static function valueOf(string $name) : SignStyle
     {
         switch ($name) {
             case 'NORMAL':
@@ -218,7 +218,7 @@ class SignStyle
      * @param bool $fixedWidth true if fixed width, false if not
      * @return bool
      */
-    public function parse($positive, $strict, $fixedWidth)
+    public function parse(bool $positive, bool $strict, bool $fixedWidth) : bool
     {
         switch ($this->ordinal) {
             case 0: // NORMAL
@@ -233,7 +233,7 @@ class SignStyle
         }
     }
 
-    function __toString()
+    function __toString() : string
     {
         switch ($this->ordinal) {
             case 0:
@@ -251,7 +251,7 @@ class SignStyle
         return '';
     }
 
-    function name()
+    function name() : string
     {
         return $this->__toString();
     }
