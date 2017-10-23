@@ -208,15 +208,14 @@ abstract class ZoneRulesProvider
      */
     private static function getProvider($zoneId)
     {
-        $provider = @self::$ZONES[$zoneId];
-        if ($provider === null) {
+        if (!isset(self::$ZONES[$zoneId])) {
             if (empty(self::$ZONES)) {
                 throw new ZoneRulesException("No time-zone data files registered");
             }
 
             throw new ZoneRulesException("Unknown time-zone ID: " . $zoneId);
         }
-        return $provider;
+        return self::$ZONES[$zoneId];
     }
 
 //-------------------------------------------------------------------------
@@ -250,13 +249,13 @@ abstract class ZoneRulesProvider
     private static function registerProvider0(ZoneRulesProvider $provider)
     {
         foreach ($provider->provideZoneIds() as $zoneId) {
-            $old = @self::$ZONES[$zoneId];
-            self::$ZONES[$zoneId] = $provider;
-            if ($old !== null) {
+            if(isset(self::$ZONES[$zoneId])) {
                 throw new ZoneRulesException(
                     "Unable to register zone as one already registered with that ID: " . $zoneId .
                     ", currently loading from provider: " . $provider);
             }
+
+            self::$ZONES[$zoneId] = $provider;
         }
     }
 

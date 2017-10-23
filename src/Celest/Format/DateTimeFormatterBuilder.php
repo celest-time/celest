@@ -1584,9 +1584,8 @@ final class DateTimeFormatterBuilder
                     $this->padNext($pad); // pad and continue parsing
                 }
 // main rules
-                $field = @self::$FIELD_MAP[$cur];
-                if ($field !== null) {
-                    $this->parseField($cur, $count, $field);
+                if (isset(self::$FIELD_MAP[$cur])) {
+                    $this->parseField($cur, $count, self::$FIELD_MAP[$cur]);
                 } else if ($cur === 'z') {
                     if ($count > 4) {
                         throw new IllegalArgumentException("Too many pattern letters: " . $cur);

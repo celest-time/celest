@@ -535,9 +535,8 @@ final class ZoneRules
     private function findTransitionArray($year)
     {
         /** @var ZoneOffsetTransition[] $transArray */
-        $transArray = @$this->lastRulesCache[$year];
-        if ($transArray !== null) {
-            return $transArray;
+        if(isset($this->lastRulesCache[$year])) {
+            return $this->lastRulesCache[$year];
         }
 
         /** @var ZoneOffsetTransitionRule[] $ruleArray */

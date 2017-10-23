@@ -18,9 +18,15 @@ class FieldValues implements \Iterator
      */
     public function put(TemporalField $field, int $value) : ?int
     {
-        $prev = @$this->fieldValues[$field->__toString()];
+        $field_str = $field->__toString();
 
-        $this->fieldValues[$field->__toString()] = [$field, $value];
+        if(isset($this->fieldValues[$field_str])) {
+            $prev = $this->fieldValues[$field_str];
+        } else {
+            $prev = null;
+        }
+
+        $this->fieldValues[$field_str] = [$field, $value];
 
         return $prev !== null ? $prev[1] : null;
     }
@@ -31,7 +37,13 @@ class FieldValues implements \Iterator
      */
     public function remove(TemporalField $field) : ?int
     {
-        $prev = @$this->fieldValues[$field->__toString()];
+        $field_str = $field->__toString();
+
+        if(isset($this->fieldValues[$field_str])) {
+            $prev = $this->fieldValues[$field_str];
+        } else {
+            $prev = null;
+        }
 
         unset($this->fieldValues[$field->__toString()]);
 
@@ -53,8 +65,13 @@ class FieldValues implements \Iterator
      */
     public function get(TemporalField $field) : ?int
     {
-        $val = @$this->fieldValues[$field->__toString()];
-        return $val !== null ? $val[1] : null;
+        $field_str = $field->__toString();
+
+        if(isset($this->fieldValues[$field_str])) {
+            return $this->fieldValues[$field_str][1];
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -41,8 +41,9 @@ final class TZDBZone extends TZDBMonthDayTime
         if ($this->fixedSavingsSecs !== null) {
             $bld->setFixedSavingsToWindow($this->fixedSavingsSecs);
         } else {
-            $tzdbRules = @$rules[$this->savingsRule];
-            if ($tzdbRules === null) {
+            if (isset($rules[$this->savingsRule])) {
+                $tzdbRules = @$rules[$this->savingsRule];
+            } else {
                 throw new IllegalArgumentException("Rule not found: " . $this->savingsRule);
             }
             foreach ($tzdbRules as $tzdbRule) {

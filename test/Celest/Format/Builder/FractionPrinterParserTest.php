@@ -262,7 +262,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals((@$result[0] === "." ? substr($result, 1) : $result), $buf);
+        $this->assertEquals(((isset($result[0]) && $result[0] === ".") ? substr($result, 1) : $result), $buf);
     }
 
 //-----------------------------------------------------------------------
@@ -331,7 +331,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
             $this->fail("Expected exception");
         }
 
-        $this->assertEquals((@$result[0] === "." ? substr($result, 1) : $result), $buf);
+        $this->assertEquals((isset($result[0]) && $result[0] === "." ? substr($result, 1) : $result), $buf);
     }
 
 //-----------------------------------------------------------------------
@@ -354,7 +354,7 @@ class TestFractionPrinterParser extends AbstractTestPrinterParser
      */
     public function test_reverseParse_noDecimalPoint($minWidth, $maxWidth, $value, $result)
     {
-        $pos = new ParsePosition(@$result[0] === "." ? 1 : 0);
+        $pos = new ParsePosition(isset($result[0]) && $result[0] === "." ? 1 : 0);
         $parsed = $this->getFormatterFraction(ChronoField::NANO_OF_SECOND(), $minWidth, $maxWidth, false)->parseUnresolved($result, $pos);
         $this->assertEquals(strlen($result), $pos->getIndex());
         $expectedValue = $this->fixParsedValue($maxWidth, $value);
