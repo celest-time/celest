@@ -375,13 +375,13 @@ final class Duration implements TemporalAmount
         $m = preg_match(self::$PATTERN, $text, $matches);
         if ($m === 1) {
             // check for letter T but no time sections
-            if ("T" !== (@$matches[3])) {
-                $negate = "-" === @$matches[1];
-                $dayMatch = @$matches[2];
-                $hourMatch = @$matches[4];
-                $minuteMatch = @$matches[5];
-                $secondMatch = @$matches[6];
-                $fractionMatch = @$matches[7];
+            if (!isset($matches[3]) || "T" !== $matches[3]) {
+                $negate = isset($matches[1]) ? $matches[1] === "-" : false;
+                $dayMatch = isset($matches[2]) ? $matches[2] : null;
+                $hourMatch = isset($matches[4]) ? $matches[4] : null;
+                $minuteMatch = isset($matches[5]) ? $matches[5] : null;
+                $secondMatch = isset($matches[6]) ? $matches[6] : null;
+                $fractionMatch = isset($matches[7]) ? $matches[7] : null;
                 if ($dayMatch !== null || $hourMatch !== null || $minuteMatch !== null || $secondMatch !== null) {
                     $daysAsSecs = self::parseNumber($text, $dayMatch, LocalTime::SECONDS_PER_DAY, "days");
                     $hoursAsSecs = self::parseNumber($text, $hourMatch, LocalTime::SECONDS_PER_HOUR, "hours");

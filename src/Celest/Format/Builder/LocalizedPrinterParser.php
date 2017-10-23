@@ -67,15 +67,12 @@ final class LocalizedPrinterParser implements DateTimePrinterParser
     private function formatter(Locale $locale, Chronology $chrono)
     {
         $key = $chrono->getId() . '|' . $locale . '|' . $this->dateStyle . '|' . $this->timeStyle;
-        $formatter = @self::$FORMATTER_CACHE[$key];
-        if ($formatter === null) {
-            $pattern = DateTimeFormatterBuilder::getLocalizedDateTimePattern($this->dateStyle, $this->timeStyle, $chrono, $locale);
-            $formatter = (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter2($locale);
-            $old = self::$FORMATTER_CACHE[$key] = $formatter;
-            if ($old !== null) {
-                $formatter = $old;
-            }
+        if (isset(self::$FORMATTER_CACHE[$key])) {
+            return self::$FORMATTER_CACHE[$key];
         }
+        $pattern = DateTimeFormatterBuilder::getLocalizedDateTimePattern($this->dateStyle, $this->timeStyle, $chrono, $locale);
+        $formatter = (new DateTimeFormatterBuilder())->appendPattern($pattern)->toFormatter2($locale);
+        self::$FORMATTER_CACHE[$key] = $formatter;
         return $formatter;
     }
 

@@ -163,13 +163,11 @@ final class DecimalStyle
      */
     public static function of(Locale $locale)
     {
-        $info = @self::$CACHE[$locale->getLocale()];
-        if ($info === null) {
-            $info = self::create($locale);
-            self::$CACHE[$locale->getLocale()] = $info;
-            $info = self::$CACHE[$locale->getLocale()];
+        if (isset(self::$CACHE[$locale->getLocale()])) {
+            return self::$CACHE[$locale->getLocale()];
         }
-
+        $info = self::create($locale);
+        self::$CACHE[$locale->getLocale()] = $info;
         return $info;
     }
 

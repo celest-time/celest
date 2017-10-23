@@ -320,13 +320,12 @@ final class WeekFields
     public static function of(DayOfWeek $firstDayOfWeek, $minimalDaysInFirstWeek)
     {
         $key = $firstDayOfWeek->__toString() . $minimalDaysInFirstWeek;
-        $rules = @self::$CACHE[$key];
-        if ($rules === null) {
-            $rules = new WeekFields($firstDayOfWeek, $minimalDaysInFirstWeek);
-            self::$CACHE[$key] = $rules;
-            $rules = self::$CACHE[$key];
+        if(isset(self::$CACHE[$key])) {
+            return self::$CACHE[$key];
         }
 
+        $rules = new WeekFields($firstDayOfWeek, $minimalDaysInFirstWeek);
+        self::$CACHE[$key] = $rules;
         return $rules;
     }
 

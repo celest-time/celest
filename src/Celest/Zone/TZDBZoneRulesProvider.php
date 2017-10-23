@@ -63,12 +63,12 @@ class TZDBZoneRulesProvider extends ZoneRulesProvider
      */
     protected function provideRules($zoneId, $forCaching)
     {
-        if (!array_key_exists($zoneId, self::$rulesCache)) {
+        if (!isset(self::$rulesCache[$zoneId])) {
             if (self::$links === null) {
                 self::$links = TzData::load('links.php');
             }
 
-            if (array_key_exists($zoneId, self::$links)) {
+            if (isset(self::$links[$zoneId])) {
                 $this->loadFromFile(self::$links[$zoneId]);
                 self::$rulesCache[$zoneId] = self::$rulesCache[self::$links[$zoneId]];
             } else {

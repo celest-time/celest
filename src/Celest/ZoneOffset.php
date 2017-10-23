@@ -228,9 +228,8 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
 
         // "Z" is always in the cache
         // TODO check not undefined
-        $offset = @self::$ID_CACHE[$offsetId];
-        if ($offset !== null) {
-            return $offset;
+        if(isset(self::$ID_CACHE[$offsetId])) {
+            return self::$ID_CACHE[$offsetId];
         }
 
         // parse - +h, +hh, +hhmm, +hh:mm, +hhmmss, +hh:mm:ss
@@ -455,13 +454,15 @@ final class ZoneOffset extends ZoneId implements TemporalAccessor, TemporalAdjus
 
         if ($totalSeconds % (15 * LocalTime::SECONDS_PER_MINUTE) === 0) {
             $totalSecs = $totalSeconds;
-            $result = @self::$SECONDS_CACHE[$totalSecs];
-            if ($result === null) {
-                $result = new ZoneOffset($totalSeconds);
-                self::$SECONDS_CACHE[$totalSecs] = $result;
-                $result = self::$SECONDS_CACHE[$totalSecs];
-                self::$ID_CACHE[$result->getId()] = $result;
+            if(isset(self::$SECONDS_CACHE[$totalSecs])) {
+                return self::$SECONDS_CACHE[$totalSecs];
             }
+
+            $result = new ZoneOffset($totalSeconds);
+            self::$SECONDS_CACHE[$totalSecs] = $result;
+            $result = self::$SECONDS_CACHE[$totalSecs];
+            self::$ID_CACHE[$result->getId()] = $result;
+
             return $result;
         } else {
             return new ZoneOffset($totalSeconds);

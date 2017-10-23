@@ -337,11 +337,11 @@ final class Period implements ChronoPeriod
 
         $m = preg_match(self::$PATTERN, $text, $matches);
         if ($m === 1) {
-            $negate = ("-" === @$matches[1] ? -1 : 1);
-            $yearMatch = @$matches[2];
-            $monthMatch = @$matches[3];
-            $weekMatch = @$matches[4];
-            $dayMatch = @$matches[5];
+            $negate = isset($matches[1]) && "-" === $matches[1] ? -1 : 1;
+            $yearMatch = isset($matches[2]) ? $matches[2] : null;
+            $monthMatch = isset($matches[3]) ? $matches[3] : null;
+            $weekMatch = isset($matches[4]) ? $matches[4] : null;
+            $dayMatch = isset($matches[5]) ? $matches[5] : null;
             if ($yearMatch !== null || $monthMatch !== null || $dayMatch !== null || $weekMatch !== null) {
                 try {
                     $years = self::parseNumber($text, $yearMatch, $negate);

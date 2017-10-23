@@ -253,9 +253,11 @@ abstract class ZoneId
      */
     public static function ofMap($zoneId, $aliasMap)
     {
-        $id = @$aliasMap[$zoneId];
-        $id = ($id !== null ? $id : $zoneId);
-        return self::of($id);
+        if (isset($aliasMap[$zoneId])) {
+            return self::of($aliasMap[$zoneId]);
+        } else {
+            return self::of($zoneId);
+        }
     }
 
     /**
