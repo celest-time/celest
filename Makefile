@@ -9,13 +9,13 @@ all: build test
 
 test: test-short test-long
 
-test-short: test-php56 test-php70 test-php71
+test-short: test-php56 test-php70 test-php71 test-php72
 
-test-long: test-php56-long test-php70-long test-php71-long
+test-long: test-php56-long test-php70-long test-php71-long test-php72-long
 
-build: build-php56 build-php70 build-php71
+build: build-php56 build-php70 build-php71 build-php72
 
-update: update-php56 update-php70 update-php71
+update: update-php56 update-php70 update-php71 update-php72
 
 update-php56:
 	docker pull php:5.6-cli
@@ -26,6 +26,9 @@ update-php70:
 update-php71:
 	docker pull php:7.1-cli
 
+update-php72:
+	docker pull php:7.2-rc-cli
+
 build-php56: Dockerfile.php56
 	docker build -t phptime:5.6-cli -f Dockerfile.php56 .
 
@@ -34,6 +37,9 @@ build-php70: Dockerfile.php70
 
 build-php71: Dockerfile.php71
 	docker build -t phptime:7.1-cli -f Dockerfile.php71 .
+
+build-php72: Dockerfile.php72
+	docker build -t phptime:7.2-cli -f Dockerfile.php72 .
 
 test-php56:
 	docker run --rm -it -v $(PWD):/src -w /src phptime:5.6-cli vendor/bin/phpunit
@@ -52,6 +58,12 @@ test-php71:
 
 test-php71-long:
 	docker run --rm -it -v $(PWD):/src -w /src phptime:7.1-cli vendor/bin/paratest $(PARATEST_PARAM)
+
+test-php72:
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.2-cli vendor/bin/phpunit
+
+test-php72-long:
+	docker run --rm -it -v $(PWD):/src -w /src phptime:7.2-cli vendor/bin/paratest $(PARATEST_PARAM)
 
 tzdb-$(TZVERSION).tar.lz:
 	wget 'https://www.iana.org/time-zones/repository/releases/tzdb-$(TZVERSION).tar.lz' -O tzdb-$(TZVERSION).tar.lz
