@@ -239,12 +239,12 @@ class DateTimeTextProvider
             return null;
 
         // force int keys to be string
-        $tmp = new \stdClass();
+        $tmp = [];
         foreach ($values as $key => $value) {
-            $tmp->{$value} = $transformer($key);
+            $tmp[$value] = $transformer($key);
         }
 
-        return (array)$tmp;
+        return $tmp;
     }
 
     /**
@@ -392,7 +392,7 @@ class DateTimeTextProvider
             return null;
 
         \uksort($values, function ($a, $b) {
-            return strlen($b) - strlen($a);
+            return strlen(strval($b)) - strlen(strval($a));
         });
 
         return $values;
