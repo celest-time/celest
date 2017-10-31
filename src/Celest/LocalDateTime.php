@@ -116,7 +116,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDateTime extends AbstractChronoLocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime, \Serializable
+final class LocalDateTime extends AbstractChronoLocalDateTime implements Temporal, TemporalAdjuster, ChronoLocalDateTime, \Serializable, \JsonSerializable
 {
 
     public static function init()
@@ -1950,6 +1950,18 @@ final class LocalDateTime extends AbstractChronoLocalDateTime implements Tempora
         $v = explode(':', $serialized);
         $this->date = LocalDate::of((int) $v[0], (int) $v[1], (int) $v[2]);
         $this->time = LocalTime::of((int) $v[3], (int) $v[4], (int) $v[5]);
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4.0
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 
