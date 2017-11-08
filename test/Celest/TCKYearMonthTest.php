@@ -1718,6 +1718,15 @@ class TCKYearMonth extends AbstractDateTimeTest
         $this->assertEquals($str, $expected);
     }
 
+    /**
+     * @dataProvider provider_sampleToString
+     */
+    public function test_jsonSerializable($y, $m, $expected)
+    {
+        $test = YearMonth::of($y, $m);
+        $this->assertEquals(json_decode(json_encode($test)), $expected);
+    }
+
     private function ym($year, $month)
     {
         return YearMonth::of($year, $month);

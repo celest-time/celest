@@ -2382,6 +2382,14 @@ class TCKInstantTest extends AbstractDateTimeTest
     /**
      * @dataProvider  data_toString
      */
+    public function test_jsonSerialize(Instant $instant, $expected)
+    {
+        $this->assertEquals($expected, json_decode(json_encode($instant)));
+    }
+
+    /**
+     * @dataProvider  data_toString
+     */
 
     public function test_parse(Instant $instant, $text)
     {

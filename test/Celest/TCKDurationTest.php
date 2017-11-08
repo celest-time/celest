@@ -2998,6 +2998,15 @@ class TCKDurationTest extends TestCase
         $this->assertEquals($t->__toString(), $expected);
     }
 
+    /**
+     * @dataProvider provider_toString
+     */
+    public function test_jsonSerialize($seconds, $nanos, $expected)
+    {
+        $t = Duration::ofSeconds($seconds, $nanos);
+        $this->assertEquals(json_decode(json_encode($t)), $expected);
+    }
+
     //-----------------------------------------------------------------------
     public function test_duration_getUnits()
     {

@@ -902,4 +902,13 @@ class TCKMonthDayTest extends AbstractDateTimeTest
         $this->assertEquals($expected, $str);
     }
 
+    /**
+     * @dataProvider provider_sampleToString
+     */
+    public function test_jsonSerialize($m, $d, $expected)
+    {
+        $test = MonthDay::of($m, $d);
+        $this->assertEquals($expected, json_decode(json_encode($test)));
+    }
+
 }

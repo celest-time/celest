@@ -1796,4 +1796,13 @@ class TCKOffsetDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($str, $expected);
     }
 
+    /**
+     * @dataProvider provider_sampleToString
+     */
+    public function test_jsonSerialize($y, $o, $d, $h, $m, $s, $n, $offsetId, $expected)
+    {
+        $t = OffsetDateTime::of($y, $o, $d, $h, $m, $s, $n, ZoneOffset::of($offsetId));
+        $this->assertEquals(json_decode(json_encode($t)), $expected);
+    }
+
 }
