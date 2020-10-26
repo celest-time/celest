@@ -340,7 +340,7 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
      * <p>
      * The year returned by this method is proleptic as per {@code get(YEAR)}.
      *
-     * @return Year the year, {@code MIN_VALUE} to {@code MAX_VALUE}
+     * @return int the year, {@code MIN_VALUE} to {@code MAX_VALUE}
      */
     public function getValue()
     {
