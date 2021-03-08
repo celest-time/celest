@@ -102,7 +102,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Month extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
+final class Month extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster, \JsonSerializable
 {
     /**
      * @internal
@@ -821,6 +821,15 @@ final class Month extends AbstractTemporalAccessor implements TemporalAccessor, 
     public function name()
     {
         return $this->__toString();
+    }
+
+    /**
+     * Serialize into an ISO integer for JSON representation
+     * @return int
+     */
+    public function jsonSerialize()
+    {
+        return $this->val;
     }
 }
 

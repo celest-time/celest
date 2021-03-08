@@ -119,7 +119,7 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  *
  * @since 1.8
  */
-final class Period implements ChronoPeriod
+final class Period implements ChronoPeriod, \JsonSerializable
 {
     public static function init()
     {
@@ -1064,6 +1064,16 @@ final class Period implements ChronoPeriod
             }
             return $buf;
         }
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

@@ -190,7 +190,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Instant extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
+final class Instant extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster, \JsonSerializable
 {
     public static function init()
     {
@@ -1422,6 +1422,16 @@ final class Instant extends AbstractTemporalAccessor implements Temporal, Tempor
     }
 
 // -----------------------------------------------------------------------
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
+    }
 }
 
 Instant::init();

@@ -1301,4 +1301,13 @@ class TCKYearTest extends AbstractDateTimeTest
         }
     }
 
+    public function test_jsonSerializable()
+    {
+        for ($i = -4; $i <= 2104;
+             $i++) {
+            $a = Year::of($i);
+            $this->assertEquals(json_decode(json_encode($a)), $i);
+        }
+    }
+
 }

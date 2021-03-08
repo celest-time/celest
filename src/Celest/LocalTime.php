@@ -112,7 +112,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdjuster
+final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdjuster, \JsonSerializable
 {
     /**
      * Hours per day.
@@ -1668,6 +1668,16 @@ final class LocalTime extends AbstractTemporal implements Temporal, TemporalAdju
             }
         }
         return $buf;
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

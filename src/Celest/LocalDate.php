@@ -117,7 +117,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class LocalDate extends AbstractChronoLocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate
+final class LocalDate extends AbstractChronoLocalDate implements Temporal, TemporalAdjuster, ChronoLocalDate, \JsonSerializable
 {
     public static function init()
     {
@@ -2131,6 +2131,16 @@ final class LocalDate extends AbstractChronoLocalDate implements Temporal, Tempo
     static function timeLineOrder()
     {
         return AbstractChronoLocalDate::timeLineOrder();
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

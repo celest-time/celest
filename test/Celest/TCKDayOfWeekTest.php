@@ -379,6 +379,17 @@ class TCKDayOfWeekTest extends AbstractDateTimeTest
         $this->assertEquals(DayOfWeek::SUNDAY()->__toString(), "SUNDAY");
     }
 
+    public function test_jsonSerialize()
+    {
+        $this->assertEquals(json_encode(DayOfWeek::MONDAY()), 1);
+        $this->assertEquals(json_encode(DayOfWeek::TUESDAY()), 2);
+        $this->assertEquals(json_encode(DayOfWeek::WEDNESDAY()), 3);
+        $this->assertEquals(json_encode(DayOfWeek::THURSDAY()), 4);
+        $this->assertEquals(json_encode(DayOfWeek::FRIDAY()), 5);
+        $this->assertEquals(json_encode(DayOfWeek::SATURDAY()), 6);
+        $this->assertEquals(json_encode(DayOfWeek::SUNDAY()), 7);
+    }
+
     //-----------------------------------------------------------------------
     // generated methods
     //-----------------------------------------------------------------------
@@ -388,5 +399,4 @@ class TCKDayOfWeekTest extends AbstractDateTimeTest
         $this->assertEquals(DayOfWeek::valueOf("MONDAY"), DayOfWeek::MONDAY());
         $this->assertEquals(DayOfWeek::values()[0], DayOfWeek::MONDAY());
     }
-
 }

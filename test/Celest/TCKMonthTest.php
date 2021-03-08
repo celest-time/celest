@@ -611,6 +611,22 @@ class TCKMonthTest extends AbstractDateTimeTest
         $this->assertEquals(Month::DECEMBER()->__toString(), "DECEMBER");
     }
 
+    public function test_jsonSerialize()
+    {
+        $this->assertEquals(json_encode(Month::JANUARY()), 1);
+        $this->assertEquals(json_encode(Month::FEBRUARY()), 2);
+        $this->assertEquals(json_encode(Month::MARCH()), 3);
+        $this->assertEquals(json_encode(Month::APRIL()), 4);
+        $this->assertEquals(json_encode(Month::MAY()), 5);
+        $this->assertEquals(json_encode(Month::JUNE()), 6);
+        $this->assertEquals(json_encode(Month::JULY()), 7);
+        $this->assertEquals(json_encode(Month::AUGUST()), 8);
+        $this->assertEquals(json_encode(Month::SEPTEMBER()), 9);
+        $this->assertEquals(json_encode(Month::OCTOBER()), 10);
+        $this->assertEquals(json_encode(Month::NOVEMBER()), 11);
+        $this->assertEquals(json_encode(Month::DECEMBER()), 12);
+    }
+
     //-----------------------------------------------------------------------
     // generated methods
     //-----------------------------------------------------------------------

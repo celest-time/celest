@@ -106,7 +106,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
+final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster, \JsonSerializable
 {
     /**
      * @internal
@@ -585,6 +585,15 @@ final class DayOfWeek extends AbstractTemporalAccessor implements TemporalAccess
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * Serialize into an ISO integer for JSON representation
+     * @return int
+     */
+    public function jsonSerialize()
+    {
+        return $this->getValue();
     }
 }
 

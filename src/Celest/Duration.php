@@ -109,7 +109,7 @@ use Celest\Temporal\UnsupportedTemporalTypeException;
  *
  * @since 1.8
  */
-final class Duration implements TemporalAmount
+final class Duration implements TemporalAmount, \JsonSerializable
 {
     /** @var Duration $ZERO */
     private static $ZERO;
@@ -1332,6 +1332,16 @@ final class Duration implements TemporalAmount
         }
         $buf .= 'S';
         return $buf;
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

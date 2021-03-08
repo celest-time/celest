@@ -3834,6 +3834,15 @@ class TCKLocalDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($str, $expected);
     }
 
+    /**
+     * @dataProvider provider_sampleToString
+     */
+    public function test_jsonSerialize($y, $m, $d, $h, $mi, $s, $n, $expected)
+    {
+        $t = LocalDateTime::of($y, $m, $d, $h, $mi, $s, $n);
+        $this->assertEquals(json_decode(json_encode($t)), $expected);
+    }
+
     private function dtNoon($year, $month, $day)
     {
         return LocalDateTime::of($year, $month, $day, 12, 0);

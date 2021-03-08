@@ -120,7 +120,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class Year extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster
+final class Year extends AbstractTemporalAccessor implements Temporal, TemporalAdjuster, \JsonSerializable
 {
 
     /**
@@ -1121,4 +1121,12 @@ final class Year extends AbstractTemporalAccessor implements Temporal, TemporalA
         return Integer::toString($this->year);
     }
 
+    /**
+     * Serialize into an ISO integer for JSON representation
+     * @return int
+     */
+    public function jsonSerialize()
+    {
+        return $this->year;
+    }
 }

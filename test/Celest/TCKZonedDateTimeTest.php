@@ -2901,6 +2901,15 @@ class TCKZonedDateTimeTest extends AbstractDateTimeTest
         $this->assertEquals($str, $expected);
     }
 
+    /**
+     * @dataProvider provider_sampleToString
+     */
+    public function test_jsonSerializable($y, $o, $d, $h, $m, $s, $n, $zoneId, $expected)
+    {
+        $z = ZonedDateTime::ofDateTime($this->dateTime($y, $o, $d, $h, $m, $s, $n), ZoneId::of($zoneId));
+        $this->assertEquals(json_decode(json_encode($z)), $expected);
+    }
+
     private static function dateTime(
         $year, $month, $dayOfMonth,
         $hour, $minute, $second = 0, $nanoOfSecond = 0)

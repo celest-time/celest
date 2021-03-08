@@ -1366,6 +1366,14 @@ class TCKPeriod extends TestCase
     /**
      * @dataProvider data_toString
      */
+    public function test_jsonSerializable(Period $input, $expected)
+    {
+        $this->assertEquals(json_decode(json_encode($input)), $expected);
+    }
+
+    /**
+     * @dataProvider data_toString
+     */
     public function test_parse(Period $test, $expected)
     {
         $this->assertEquals(Period::parse($expected), $test);

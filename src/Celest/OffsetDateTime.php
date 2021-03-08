@@ -111,7 +111,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class OffsetDateTime extends AbstractTemporal implements Temporal, TemporalAdjuster
+final class OffsetDateTime extends AbstractTemporal implements Temporal, TemporalAdjuster, \JsonSerializable
 {
 
     public static function init()
@@ -1958,6 +1958,16 @@ final class OffsetDateTime extends AbstractTemporal implements Temporal, Tempora
     public function __toString()
     {
         return $this->dateTime->__toString() . $this->offset->__toString();
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

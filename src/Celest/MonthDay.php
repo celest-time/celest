@@ -116,7 +116,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class MonthDay extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster
+final class MonthDay extends AbstractTemporalAccessor implements TemporalAccessor, TemporalAdjuster, \JsonSerializable
 {
     public static function init()
     {
@@ -761,6 +761,16 @@ final class MonthDay extends AbstractTemporalAccessor implements TemporalAccesso
         return "--"
         . ($this->month < 10 ? "0" : "") . $this->month
         . ($this->day < 10 ? "-0" : "-") . $this->day;
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
 

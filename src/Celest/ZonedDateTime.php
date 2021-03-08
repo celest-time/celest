@@ -150,7 +150,7 @@ use Celest\Temporal\ValueRange;
  *
  * @since 1.8
  */
-final class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, ChronoZonedDateTime
+final class ZonedDateTime extends AbstractChronoZonedDateTime implements Temporal, ChronoZonedDateTime, \JsonSerializable
 {
     /**
      * The local date-time.
@@ -2273,5 +2273,15 @@ final class ZonedDateTime extends AbstractChronoZonedDateTime implements Tempora
             $str .= '[' . $this->zone->__toString() . ']';
         }
         return $str;
+    }
+
+    /**
+     * Serialize into an ISO string for JSON representation
+     * @see __toString()
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 }
